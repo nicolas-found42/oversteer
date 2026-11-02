@@ -881,6 +881,19 @@ int main(int argc, char **argv)
     const bool capture = (options.captureScene != NULL);
     const bool gallery = (options.galleryPage > 0);
 
+    const char *title = "Oversteer";
+    if (smoke_test) title = "Oversteer - smoke test";
+    if (capture) title = "Oversteer - scene capture";
+    if (gallery) title = "Oversteer - vehicle gallery";
+
+    InitWindow(options.width, options.height, title);
+    if (!IsWindowReady()) {
+        fprintf(stderr, "FATAL: InitWindow failed (%dx%d)\n", options.width, options.height);
+        Game_UnloadModule();
+        free(game);
+        return 1;
+    }
+
     /*
      * Bounded capture modes are offline renders, not playback: the frame limiter would pace
      * them to real time for no benefit, so a 60 s lap would take 60 s to encode and the
