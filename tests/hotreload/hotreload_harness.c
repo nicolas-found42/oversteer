@@ -12,10 +12,10 @@
  *
  * Failed-compile preservation of build/dev/game.dll is exercised by
  * tools/setup/validate_hotreload.sh (the harness itself must not depend on a live
- * interactive drifty.exe).
+ * interactive oversteer.exe).
  */
 #ifndef _WIN32
-#error Drifty currently supports Windows only.
+#error Oversteer currently supports Windows only.
 #endif
 
 #include <stdio.h>

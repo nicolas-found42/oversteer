@@ -381,7 +381,7 @@ Start #94 after both the grid/start and basic live-AI requirements are complete.
 - [ ] All cars and tracks load from versioned external content.
 - [ ] Content validators pass for every shipped car and track.
 - [ ] Physics documentation identifies modeled, approximated, inactive, and out-of-scope behavior.
-- [ ] No obsolete Drifty or drift-scoring identity remains.
+- [ ] No obsolete Oversteer or drift-scoring identity remains.
 - [ ] Windows and Linux release packages pass clean-install smoke tests.
 - [ ] Performance meets the documented 120 Hz entrant budget.
 - [ ] Issue #100 is closed.

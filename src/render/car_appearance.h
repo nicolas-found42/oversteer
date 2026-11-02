@@ -5,8 +5,8 @@
  * not physics inputs and must not affect simulation validation, checksums, replays, or solver
  * behavior. A zero seed is valid, so `hasSeed` is the explicit presence bit.
  */
-#ifndef DRIFTY_CAR_APPEARANCE_H
-#define DRIFTY_CAR_APPEARANCE_H
+#ifndef OVERSTEER_CAR_APPEARANCE_H
+#define OVERSTEER_CAR_APPEARANCE_H
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -16,4 +16,4 @@ typedef struct {
     uint32_t seed;
 } CarAppearanceSpec;
 
-#endif /* DRIFTY_CAR_APPEARANCE_H */
+#endif /* OVERSTEER_CAR_APPEARANCE_H */

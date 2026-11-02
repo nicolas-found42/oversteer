@@ -2,7 +2,7 @@
  * main.c — platform layer (Windows only).
  *
  * Owns the window, the raylib context, the Game allocation, and the fixed-timestep loop.
- * It is not hot-reloadable: editing this file requires restarting drifty.exe.
+ * It is not hot-reloadable: editing this file requires restarting oversteer.exe.
  *
  * The Game block is allocated here, once, and handed to the game module by pointer on every
  * entry point. That is what lets the module be swapped while the game keeps its state.
@@ -24,11 +24,21 @@
  *
  * Both terminate on their own. Nothing in this file ever waits for a developer.
  */
-#ifndef _WIN32
-#error Drifty currently supports Windows only.
+#if !defined(_WIN32) && !defined(__APPLE__)
+#error Oversteer currently supports Windows and macOS only.
 #endif
 
+#if defined(_WIN32)
 #include <direct.h>
+#define OVERSTEER_MKDIR(path) _mkdir(path)
+#define OVERSTEER_POPEN(command, mode) _popen((command), (mode))
+#define OVERSTEER_PCLOSE(pipe) OVERSTEER_PCLOSE(pipe)
+#else
+#include <sys/stat.h>
+#define OVERSTEER_MKDIR(path) mkdir(path, 0755)
+#define OVERSTEER_POPEN(command, mode) popen((command), (mode))
+#define OVERSTEER_PCLOSE(pipe) pclose(pipe)
+#endif
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -119,7 +129,7 @@ static void ensure_parent_directory(const char *path)
 
         const char saved = *c;
         *c = '\0';
-        if (buffer[0] != '\0' && _mkdir(buffer) != 0 && errno != EEXIST) {
+        if (buffer[0] != '\0' && OVERSTEER_MKDIR(buffer) != 0 && errno != EEXIST) {
             fprintf(stderr, "CAPTURE: could not create directory '%s': %s\n", buffer,
                     strerror(errno));
         }
@@ -382,7 +392,7 @@ static int run_capture_video(Game *game, const Options *options)
 
     /* "wb" is not optional on Windows: text mode would translate every 0x0A byte in the
      * pixel stream into 0x0D 0x0A and corrupt the video. */
-    FILE *pipe = _popen(command, "wb");
+    FILE *pipe = OVERSTEER_POPEN(command, "wb");
     if (pipe == NULL) {
         fprintf(stderr, "error: could not start ffmpeg. Is it on PATH?\n");
         return 3;
@@ -398,7 +408,7 @@ static int run_capture_video(Game *game, const Options *options)
     game->state = STATE_PLAYING;
 
     if (!apply_run_options(game, options)) {
-        _pclose(pipe);
+        OVERSTEER_PCLOSE(pipe);
         return 2;
     }
 
@@ -450,7 +460,7 @@ static int run_capture_video(Game *game, const Options *options)
         framesWritten++;
     }
 
-    const int status = _pclose(pipe);
+    const int status = OVERSTEER_PCLOSE(pipe);
     const double elapsed = (double)(clock() - started) / CLOCKS_PER_SEC;
 
     if (writeFailed) return 3;
@@ -545,7 +555,7 @@ static int run_validate_lap(Game *game, const Options *options)
                  "ffmpeg -y -loglevel error -f rawvideo -pix_fmt rgba -s %dx%d -r %d -i - "
                  "-an -c:v libx264 -preset veryfast -crf 20 -pix_fmt yuv420p \"%s\"",
                  options->width, options->height, VIDEO_FPS, videoPath);
-        pipe = _popen(command, "wb");
+        pipe = OVERSTEER_POPEN(command, "wb");
         if (pipe == NULL) {
             fprintf(stderr, "error: could not start ffmpeg for video encoding\n");
             RunReportInput rep;
@@ -703,7 +713,7 @@ static int run_validate_lap(Game *game, const Options *options)
 
     int ffmpegStatus = 0;
     if (pipe != NULL) {
-        ffmpegStatus = _pclose(pipe);
+        ffmpegStatus = OVERSTEER_PCLOSE(pipe);
     }
 
     ValidationMetrics metrics;
@@ -757,9 +767,9 @@ static int run_validate_lap(Game *game, const Options *options)
     rep.fixedHz = FIXED_HZ;
     rep.telemetryHz = VIDEO_FPS;
     rep.videoFps = VIDEO_FPS;
-    rep.buildCommit = DRIFTY_BUILD_COMMIT;
-    rep.buildDirty =
-        (strcmp(DRIFTY_BUILD_DIRTY, "clean") != 0 && strcmp(DRIFTY_BUILD_DIRTY, "false") != 0);
+    rep.buildCommit = OVERSTEER_BUILD_COMMIT;
+    rep.buildDirty = (strcmp(OVERSTEER_BUILD_DIRTY, "clean") != 0 &&
+                      strcmp(OVERSTEER_BUILD_DIRTY, "false") != 0);
     rep.finalStateChecksum = checksumHex;
     rep.tickBudget = budgetTicks;
     rep.ticksRun = ticksRun;
@@ -847,7 +857,7 @@ int main(int argc, char **argv)
 
     if (options.validateLap) {
         if (!options.noVideo) {
-            InitWindow(options.width, options.height, "Drifty - lap validation");
+            InitWindow(options.width, options.height, "Oversteer - lap validation");
             if (!IsWindowReady()) {
                 fprintf(stderr, "FATAL: InitWindow failed (%dx%d)\n", options.width,
                         options.height);

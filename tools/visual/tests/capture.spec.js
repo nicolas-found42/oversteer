@@ -81,7 +81,7 @@ test("diagnostics panel", async ({ page }) => {
 
   // Also emit the verdicts as text, so a diff between two runs is readable without opening
   // an image viewer.
-  const diag = await page.evaluate(() => window.DRIFTY_DIAGNOSTICS);
+  const diag = await page.evaluate(() => window.OVERSTEER_DIAGNOSTICS);
   fs.writeFileSync(
     path.join(OUT, "diagnostics.txt"),
     diag.map((d) => `[${d.cls.toUpperCase().padEnd(4)}] ${d.k}: ${d.v}`).join("\n") + "\n"
@@ -104,7 +104,7 @@ test("per-sweep strips isolate one parameter at a time", async ({ page }) => {
   await page.setViewportSize({ width: 1500, height: 1400 });
   await configure(page, { zoom: 7, labels: false, overlay: false });
 
-  const data = await page.evaluate(() => window.DRIFTY_DATA);
+  const data = await page.evaluate(() => window.OVERSTEER_DATA);
   const sweeps = [
     ...new Set(
       data.cars

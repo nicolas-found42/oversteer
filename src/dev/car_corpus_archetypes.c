@@ -65,7 +65,7 @@
 /* ----------------------------------------------------------------- 0: Stock Baseline --
  * The config.h defaults with no overrides. Always index 0. */
 static const char *const kArchName0 = "Stock Baseline";
-static const char *const kArchDesc0 = "the Drifty defaults; identical to a fresh spec";
+static const char *const kArchDesc0 = "the Oversteer defaults; identical to a fresh spec";
 
 /* --------------------------------------------------------------------- 1: Kei Car ----
  * Honda Beat spirit: 660 cc, 760 kg, mid-engine, narrow, tall-ish. */

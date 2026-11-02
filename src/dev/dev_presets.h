@@ -19,8 +19,8 @@
  * rodata. Nothing here is ever stored in Game, so a module swap cannot leave a stale
  * pointer behind (see the invariant in hotreload.h).
  */
-#ifndef DRIFTY_DEV_PRESETS_H
-#define DRIFTY_DEV_PRESETS_H
+#ifndef OVERSTEER_DEV_PRESETS_H
+#define OVERSTEER_DEV_PRESETS_H
 
 #include "physics/vehicle.h"
 
@@ -39,4 +39,4 @@ const DevPreset *dev_preset_at(int index);
  * half_width are requiresRestart), so the caller should hint "press R to reset". */
 int dev_preset_apply(VehicleSpec *spec, int presetIndex);
 
-#endif /* DRIFTY_DEV_PRESETS_H */
+#endif /* OVERSTEER_DEV_PRESETS_H */

@@ -1,4 +1,4 @@
-# Drifty Validation Pipeline Schema (`run.json` & `suite.json`)
+# Oversteer Validation Pipeline Schema (`run.json` & `suite.json`)
 
 ## Overview
 

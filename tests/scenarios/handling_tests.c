@@ -1857,7 +1857,7 @@ typedef struct {
  * Reference: Yang, Lu, Yang & Mo, "A Hierarchical Control Framework for Drift Maneuvering of
  * Autonomous Vehicles" (arXiv:2109.06730) — constant-radius drift with a fixed center is
  * used there as the canonical drift-control benchmark ("common training task for drift
- * enthusiasts"). Drifty is a *drift* simulator and currently has no scenario that grades
+ * enthusiasts"). Oversteer is a *drift* simulator and currently has no scenario that grades
  * "can the model sustain a steady drift", only entry (catchable-drift) and cornering
  * (skidpad) at non-saturated slip.
  *
@@ -1877,7 +1877,7 @@ typedef struct {
  * value. The handbrake entry is a pure transient — by 5 s the state is indistinguishable from
  * a run that never touched the handbrake (steady sideslip agrees to better than 1e-3 rad).
  *
- * So Drifty does NOT sustain a held opposite-lock drift, and this scenario does not pretend
+ * So Oversteer does NOT sustain a held opposite-lock drift, and this scenario does not pretend
  * otherwise. It grades the two properties the reference's benchmark actually rests on and that
  * this model does exhibit — a fixed trajectory centre and a steady (zero-derivative) sideslip
  * and yaw rate — plus the entry-path independence above, which is the sharper invariant: it
@@ -2094,7 +2094,7 @@ static void scenario_constant_radius_drift(void)
  * states from which the vehicle can still be brought back to controlled driving. Gan, Song,
  * Yang et al., "Dual-Envelope Constrained Nonlinear MPC for ... Drifting" (arXiv:2604.07342)
  * extends this to a *dual* envelope: an outer recoverable set and an inner non-drifting
- * stability region, both reshaped by steering and yaw-moment coupling. No existing Drifty
+ * stability region, both reshaped by steering and yaw-moment coupling. No existing Oversteer
  * scenario has a phase-plane oracle; check_run_invariants checks scalar bounds (friction
  * budget, max speed) but never the joint (sideslip, yaw rate) state.
  *
@@ -2109,7 +2109,7 @@ static void scenario_constant_radius_drift(void)
  * tested, out to 1.5 rad of sideslip and 12 rad/s of yaw rate. Both a hands-off policy (steer
  * centred) and a countersteer policy return every one of the 36 seeded states to near-zero
  * sideslip and yaw. The inner "non-drifting stability region" and the outer recoverable set of
- * Gan et al.'s dual envelope therefore coincide here: Drifty self-stabilises, and countersteer
+ * Gan et al.'s dual envelope therefore coincide here: Oversteer self-stabilises, and countersteer
  * buys no additional territory because there is none left to buy.
  *
  * WHY THAT IS NOT A VACUOUS TEST. A third policy steers *into* the spin, and most of the same
@@ -2337,7 +2337,7 @@ static void scenario_understeer_gradient_sweep(void)
  * Integrated Active Front Wheel Steering and Individual Braking" (arXiv:2210.10225) —
  * defines lateral stability as keeping yaw rate near a friction-aware reference and sideslip
  * near zero; the controller in that paper needs exactly the "how far off, how fast does it
- * grow, how long to recover" numbers this scenario is meant to produce. Drifty has no such
+ * grow, how long to recover" numbers this scenario is meant to produce. Oversteer has no such
  * controller (by design, arcade physics), so this scenario's role is to record the *current*
  * open-loop margin as a committed baseline other scenarios and any future assist feature can
  * be compared against, not to assert the vehicle self-corrects.
@@ -2411,7 +2411,7 @@ static void scenario_yaw_stability_recovery_margin(void)
  * Reference: Zhao, Wu, Zhou, Zhao & Wu, "Steeringless Drifting: Differential-Torque Control
  * of a Four-Wheel Independently Driven Vehicle" (arXiv:2607.24863) — the paper's validation
  * explicitly includes "figure-eight drift tracking" as the maneuver that proves a drift
- * controller generalises past a single steady-state circle. Drifty's steering-based model
+ * controller generalises past a single steady-state circle. Oversteer's steering-based model
  * differs from the paper's differential-torque actuation, but the maneuver shape (and the
  * reason it matters: a controller/model that only holds one steady drift may not handle the
  * reversal) transfers directly.

@@ -1,8 +1,8 @@
 /*
  * render_world.c — everything the camera sees: the track, the tire smoke, and the debug
- * vector overlay. Compiled to an empty translation unit under DRIFTY_HEADLESS.
+ * vector overlay. Compiled to an empty translation unit under OVERSTEER_HEADLESS.
  */
-#if !defined(DRIFTY_HEADLESS)
+#if !defined(OVERSTEER_HEADLESS)
 
 #include "render/render_internal.h"
 
@@ -338,4 +338,4 @@ void render_world_draw_particles(const Game *game)
     }
 }
 
-#endif /* !DRIFTY_HEADLESS */
+#endif /* !OVERSTEER_HEADLESS */

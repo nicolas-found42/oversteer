@@ -445,7 +445,7 @@ static const PresetOverride kTimeMachine[] = {
 /* --------------------------------------------------------------------------- table -- */
 
 static const DevPreset kPresets[] = {
-    { "Stock Baseline", "the Drifty defaults" },
+    { "Stock Baseline", "the Oversteer defaults" },
     { "Touge Hero", "950 kg AE86 grip-drift" },
     { "Pro D1GP", "1320 kg Formula Drift V8" },
     { "Arcade God", "exaggerated arcade drift" },

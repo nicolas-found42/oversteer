@@ -1,4 +1,4 @@
-# Drifty documentation
+# Oversteer documentation
 
 Two kinds of document, split by tense.
 
@@ -9,7 +9,7 @@ Two kinds of document, split by tense.
   work intended, not behaviour shipped, so it is the one document here you should *expect* to
   disagree with the code.
 
-Start elsewhere for the basics: [README](../README.md) for what Drifty is and how to build it,
+Start elsewhere for the basics: [README](../README.md) for what Oversteer is and how to build it,
 [CONTRIBUTING](../CONTRIBUTING.md) for setup and what must be green before pushing, and
 [AGENTS.md](../AGENTS.md) for agent workflow rules.
 

@@ -2,7 +2,7 @@
  * input.h — held controls and one-shot commands.
  *
  * This header is raylib-free so the headless harness can build and drive Input timelines
- * without a window. Keyboard polling lives in input.c behind !DRIFTY_HEADLESS.
+ * without a window. Keyboard polling lives in input.c behind !OVERSTEER_HEADLESS.
  *
  * Lifetime contract:
  *
@@ -21,8 +21,8 @@
  *
  * Steering follows the left-positive convention: left key -> +1, right key -> -1.
  */
-#ifndef DRIFTY_INPUT_H
-#define DRIFTY_INPUT_H
+#ifndef OVERSTEER_INPUT_H
+#define OVERSTEER_INPUT_H
 
 #include <stdbool.h>
 
@@ -53,7 +53,7 @@ bool input_has_oneshot(const Input *in);
 
 /* Poll the keyboard for one render frame. Held controls are overwritten; one-shot
  * commands are latched on top of whatever is still pending.
- * Defined only in builds that link raylib (not in DRIFTY_HEADLESS builds). */
+ * Defined only in builds that link raylib (not in OVERSTEER_HEADLESS builds). */
 void input_sample(Input *in);
 
-#endif /* DRIFTY_INPUT_H */
+#endif /* OVERSTEER_INPUT_H */
