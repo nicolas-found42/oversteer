@@ -3308,7 +3308,9 @@ impl OversteerApp {
             .count()
             == 0;
         parent.add_child(&button);
-        if key == "confirm_no" || (first && self.confirmation.is_none()) {
+        if button.is_inside_tree()
+            && (key == "confirm_no" || (first && self.confirmation.is_none()))
+        {
             button.grab_focus();
         }
     }

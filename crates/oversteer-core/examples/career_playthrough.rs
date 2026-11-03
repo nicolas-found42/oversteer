@@ -52,8 +52,13 @@ fn main() {
         game.command(GameCommand::Checkout).unwrap();
     }
     let mut wager_amount = 2500;
+    let mut stock_nos = false;
     loop {
         match args.first().map(String::as_str) {
+            Some("--stock-nos") => {
+                args.remove(0);
+                stock_nos = true;
+            }
             Some("--select") => {
                 let car_id = args.remove(1);
                 args.remove(0);
@@ -155,9 +160,11 @@ fn main() {
                 } else {
                     0.
                 };
-            if game.frame_snapshot().selected_customization.nitrous > 0
-                && input.steering.abs() < 0.1
-                && input.throttle > 0.5
+            if stock_nos
+                && tick % 600 < 120
+                && game.frame_snapshot().race.as_ref().unwrap().racers[0].speed_kph > 60.
+                && input.steering.abs() < 0.02
+                && input.throttle > 0.9
             {
                 input.nitrous = 1.;
             }
@@ -201,7 +208,7 @@ fn main() {
         );
         let prefix = format!(
             "artifacts/juiced2-build/career-{event}{}",
-            if predictive { "-predict" } else { "" }
+            if stock_nos { "-stock-nos" } else if predictive { "-predict" } else { "" }
         );
         std::fs::write(format!("{prefix}-initial-save.json"), initial).unwrap();
         std::fs::write(
