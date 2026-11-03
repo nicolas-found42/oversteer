@@ -7,9 +7,12 @@ accepted 30 donor vehicles. Implementation and acceptance work are in progress
 under [the specification](https://github.com/nicolas-found42/oversteer/issues/1).
 
 ```sh
-python3 tools/game/bootstrap.py
-python3 tools/game/build.py run
-python3 tools/game/build.py export --skip-build
+uv run --frozen python tools/game/dev.py check
+
+# After preparing the local game assets:
+uv run --frozen python tools/game/bootstrap.py
+uv run --frozen python tools/game/build.py run
+uv run --frozen python tools/game/build.py export --skip-build
 ```
 
 See [the native game workflow](docs/game/README.md) for asset preparation,

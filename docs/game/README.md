@@ -1,7 +1,8 @@
 # Native Rust game
 
 The current target is Apple Silicon macOS, using Godot **4.7.2** and the Rust
-`godot` crate **0.5.5** (`api-4-7`). Rust 1.94 or later is required by gdext.
+`godot` crate **0.5.5** (`api-4-7`). The workspace pins Rust **1.99.0**;
+gdext itself declares a lower minimum, which is not this project's tested toolchain.
 The authoritative simulation and career rules live in `crates/oversteer-core`;
 Godot presentation, input, audio and native UI integration live in
 `crates/oversteer-godot`. Gameplay does not use a Godot vehicle controller.
@@ -14,19 +15,55 @@ verification captures and packages are local build outputs.
 For the exact paused source/runtime boundary and pending work, read
 [the implementation handoff](HANDOFF.md) before resuming.
 
+## Check sources in a fresh clone
+
+Install rustup, uv, and Apple command-line developer tools on Apple Silicon.
+Repository pins select Rust 1.99.0 with rustfmt/Clippy and Python 3.13.16.
+No Godot or original game assets are needed for the source gate:
+
+```sh
+uv run --frozen python tools/game/dev.py doctor
+uv run --frozen python tools/game/dev.py check
+```
+
+`tools/game/dev.py` is the authoritative developer command entry point. Use
+`format` for explicit formatting edits, `lint` for source diagnostics, `test`
+for existing Rust/Python tests, and `reference-tests` for the source reference
+checks. `test` runs 27 Rust library tests and the Python unit suites; the 89
+core integration cases remain in `reference-tests` and require local recovery
+evidence. Missing reference fixtures fail explicitly. A successful source gate
+does not establish rendered or release behavior.
+The native CI job runs this same gate on an ARM64 Mac; it does not prepare assets
+or measure GPU performance.
+
 ## Prepare and run
+
+The runtime tier requires the accepted local inputs described below. After
+preparing them, `uv run --frozen python tools/game/dev.py doctor --runtime`
+checks the prepared workspace. A fresh clone alone cannot reproduce it.
 
 From the repository root:
 
 ```sh
-python3 tools/game/bootstrap.py
-python3 tools/game/build.py run
+uv run --frozen python tools/game/bootstrap.py
+uv run --frozen python tools/game/build.py run
 ```
 
 Bootstrap downloads the exact official editor and export templates, verifies
 them against the release's SHA512 checksums, and prepares an ARM64 template by
 thinning the official universal binaries with Apple's `lipo`. It writes its
-manifest in `build/tools/godot-4.7.2/`. Building compiles the ARM64 Rust extension,
+manifest in `build/tools/godot-4.7.2/`. For Rust debugging without importing assets, use
+`uv run --frozen python tools/game/build.py build --profile dev --skip-import`.
+This compiles/copies the dev extension only; it does not prepare a runnable game.
+The VS Code native LLDB profile launches the pinned Godot executable with this
+extension and already imported assets. Breakpoints have not been verified; local
+macOS debugger permissions/signing may need setup.
+
+Close Godot before rebuilding: the build command refuses to replace an open
+extension. Dev builds update only the debug-path library; the release-path
+library remains unchanged. Export requires the release profile.
+
+The default release build compiles the ARM64 Rust extension,
 copies it into the project and imports its assets.
 Asset import uses the native renderer and rejects logged import errors even
 when Godot exits successfully. A dummy-renderer import previously produced
@@ -127,3 +164,23 @@ input and compare their Mach-O sections when verifying provenance.
 No older Apple Silicon performance or minimum-macOS support is claimed before
 testing it. The agreed initial performance target is actual 1920×1080 rendering
 at 60 FPS on the current M5 Pro.
+
+## Formatting and lint adoption
+
+Rust uses the pinned rustfmt and strict Clippy on all workspace targets, including
+examples. Documented allowances preserve recovered numeric literals, max/min NaN
+behavior, and deliberate source-indexed equations. No automatic math rewrite is
+part of the gate. Python uses the pinned Ruff: normal host tools enforce style
+and correctness, while all recovery workers enforce fatal correctness rules and
+syntax without a bulk formatting migration. To inspect remaining worker style debt:
+
+```sh
+uv run --frozen ruff check tools/game/assets --select E,F,W,I,B --ignore B905 --statistics
+```
+
+This advisory command currently fails on known style debt; it is separate from
+the passing source gate. No import-all check, paid Jev request, asset publication,
+Blender render or native launch occurs during source validation.
+
+The three primary-source research reports and implementation decisions are linked
+in [the developer-tooling audit](../references/juiced2/devtools-implementation.md).

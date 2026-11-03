@@ -47,7 +47,18 @@ The `origin` remote is `https://github.com/nicolas-found42/oversteer.git`;
 `--repo nicolas-found42/oversteer` for the agreed issue tracker.
 Never expose configured API credentials.
 
-## Exact current source/runtime boundary
+## Developer tooling update after the pause
+
+Source-only developer tooling and configuration were updated after this gameplay
+checkpoint: a pinned Rust/Python source gate, ARM64 CI, editor tasks, and a dev
+extension build option. This does not resume gameplay implementation or validate
+the runtime. The DLL `16a65` and its historical results below remain the recorded
+checkpoint; current tooling/source changes are not a new compiled/rendered
+checkpoint. No native scenario was run as part of the tooling update. Use
+`uv run --frozen python tools/game/dev.py check` for source checks; retain the
+explicit resume and native evidence requirements below.
+
+## Historical compiled source/runtime boundary
 
 Current debug AND release DLL:
 `16a65c105ffbff23ded469d7f53dce7c0c8a5df2b8b5077c496ce880a6c175cf`.
@@ -112,7 +123,9 @@ Do not publish partial stock corrections while a native suite is running.
 
 ## Immediate verification after an explicit resume
 
-Do not recompile current matching source just to begin. First exercise16a65:
+The deployed16a65 DLL remains available for diagnosis. Current source now has
+tooling/style changes; record a new exact compile boundary before producing
+evidence for a new runtime. To exercise the retained16a65 deployment first:
 
 ```sh
 python3 tools/game/verify.py --suite all30 --output build/verification/checkpoint-16a65-all30
