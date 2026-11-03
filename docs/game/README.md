@@ -29,7 +29,8 @@ uv run --frozen python tools/game/dev.py check
 `tools/game/dev.py` is the authoritative developer command entry point. Use
 `format` for explicit formatting edits, `lint` for source diagnostics, `test`
 for existing Rust/Python tests, and `reference-tests` for the source reference
-checks. `test` runs 27 Rust library tests and the Python unit suites; the 89
+checks. `test` runs 27 Rust library tests and the Python game-tool, carmodel and
+reference-review unit suites; the 89
 core integration cases remain in `reference-tests` and require local recovery
 evidence. Missing reference fixtures fail explicitly. A successful source gate
 does not establish rendered or release behavior.

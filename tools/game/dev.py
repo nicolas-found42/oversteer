@@ -44,18 +44,18 @@ def check_syntax(root=ROOT):
 
 def format_sources(check=True):
     run(["cargo", "fmt", "--all", *(["--", "--check"] if check else [])])
-    run([sys.executable, "-m", "ruff", "format", *(["--check"] if check else []), "tools"])
+    run([sys.executable, "-m", "ruff", "format", *(["--check"] if check else []), "."])
 
 
 def lint():
     check_syntax()
     run(["cargo", "clippy", "--workspace", "--all-targets", "--locked", "--", "-D", "warnings"])
-    run([sys.executable, "-m", "ruff", "check", "tools"])
+    run([sys.executable, "-m", "ruff", "check", "."])
 
 
 def test():
     run(["cargo", "test", "--workspace", "--lib", "--locked"])
-    for folder in ["tools/game", "tools/carmodels"]:
+    for folder in ["tools/game", "tools/carmodels", "tools/references"]:
         run([sys.executable, "-B", "-m", "unittest", "discover", "-s", folder, "-p", "test_*.py"])
 
 

@@ -82,3 +82,19 @@ be a separately pinned RustSec task; that does not validate original-asset right
 No blanket type-check exclusion, paid classification, extraction, publication,
 asset regeneration, native scenario, debugger entitlement change or release
 performance run is part of the default developer gate.
+
+## Hosted-CI follow-up
+
+The first push exposed one repository-scope mismatch: the native gate linted
+`tools/`, while the legacy CI linted the repository root and found nine style
+findings in `crates/oversteer-core/tools/recover_gameplay_config.py`. The gate now
+uses `ruff check .` and `ruff format --check .`. That script was formatted and
+its imports sorted; its non-import AST was verified unchanged.
+
+The concurrently added blind-review pilot was included after its ten Python
+tests and prepared Playwright UI test passed. Its Python tests now participate
+in the shared gate, bringing the current Python total to46. The browser test
+remains opt-in because it needs the local prepared pilot and Playwright install.
+It passed blind-payload checks, image loading, validation, persistence, annotation
+export/import, wrong-pilot rejection and desktop/mobile layout without browser
+errors. No gold human judgments or classification acceptance are inferred.
