@@ -16,7 +16,7 @@ from jev_catalog_v2 import SCREEN_STATES
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_VAULT = ROOT / "artifacts/juiced2-vault"
 DEFAULT_OUTPUT = DEFAULT_VAULT / "review-pilot"
-OUTCOMES = {"label", "unreadable", "insufficient_context", "not_in_catalog"}
+OUTCOMES = {"label", "category", "unreadable", "insufficient_context", "not_in_catalog"}
 MIN_PRECISION = 0.95
 CONFIDENCE = 0.95
 
@@ -212,12 +212,20 @@ def evaluate(pilot, annotations):
     by_id = {x["review_id"]: x for x in pilot["items"]}
     if not isinstance(answers, dict) or set(answers) - set(by_id):
         raise ValueError("Unknown review identifier")
+    category_paths = {
+        "/".join(parts[:level])
+        for label in pilot["catalog"]
+        for parts in [label.split("/")]
+        for level in range(1, len(parts))
+    }
     for answer in answers.values():
         if answer.get("outcome") not in OUTCOMES:
             raise ValueError("Unknown annotation outcome")
         if answer["outcome"] == "label" and answer.get("label") not in pilot["catalog"]:
             raise ValueError("Unknown gold label")
-        if answer["outcome"] != "label" and answer.get("label"):
+        if answer["outcome"] == "category" and answer.get("label") not in category_paths:
+            raise ValueError("Unknown broad category")
+        if answer["outcome"] not in {"label", "category"} and answer.get("label"):
             raise ValueError("Unresolved answers cannot carry a gold label")
     complete = len(answers) == len(by_id)
     categories = {}
@@ -310,6 +318,7 @@ def evaluate(pilot, annotations):
         "answered": len(answers),
         "missing_annotations": len(by_id) - len(answers),
         "unresolved_annotations": sum(x["outcome"] != "label" for x in answers.values()),
+        "broad_category_annotations": sum(x["outcome"] == "category" for x in answers.values()),
         "automatic_acceptance_enabled": False,
         "scope": "Frozen unique-image corpus; eligibility is diagnostic, no production flags change.",
         "interval_method": "Exact finite-population hypergeometric; one-sided 95%; Bonferroni across category cells.",
@@ -319,6 +328,7 @@ def evaluate(pilot, annotations):
             "Sampling without replacement handles dependence within this fixed corpus by design.",
             "Precision includes unresolved and missing answers as non-successes; incomplete pilots cannot qualify.",
             "Recall is a weighted estimate among resolved gold labels, not full-corpus recall.",
+            "Broad category answers retain the chosen path but are not exact-label successes.",
             "Declared platform metadata is not independent platform verification.",
             "The 200-example pilot may leave every category ineligible.",
         ],

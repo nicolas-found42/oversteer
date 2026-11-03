@@ -14,12 +14,18 @@
   #frame { display: block; width: 100%; height: 64vh; object-fit: contain; }
   figcaption { text-align: center; margin: 8px 0 0; color: #adb9ca; }
   label { display: block; margin: 12px 0 4px; font-weight: 600; }
-  select, textarea, input, button { font: inherit; border: 1px solid #52627a; border-radius: 6px; background: #1c2738; color: inherit; padding: 9px 12px; }
-  select, textarea, #search { width: 100%; box-sizing: border-box; }
+  textarea, input, button { font: inherit; border: 1px solid #52627a; border-radius: 6px; background: #1c2738; color: inherit; padding: 9px 12px; }
+  textarea, #search { width: 100%; box-sizing: border-box; }
   textarea { min-height: 88px; resize: vertical; }
   button { cursor: pointer; } button:hover { background: #2d405c; }
   button:disabled { opacity: .45; cursor: default; } #save-next { background: #235751; }
   #definition { min-height: 72px; padding: 12px; border-left: 3px solid #80cfc0; background: #172332; }
+  #label-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin: 12px 0; }
+  #label-options button { text-align: left; }
+  #label-breadcrumb { gap: 6px; margin: 12px 0; }
+  #label-breadcrumb button { padding: 5px 9px; }
+  button[aria-pressed="true"], button[aria-current="step"] { border-color: #99e2d3; background: #235751; }
+  #uncertainty { display: flex; gap: 8px; flex-wrap: wrap; }
   #status { min-height: 24px; color: #99e2d3; } #status.error { color: #ffb1a8; }
   footer { border-top: 1px solid #394659; padding-top: 16px; }
   [hidden] { display: none !important; }
@@ -30,18 +36,17 @@
 <main>
   <figure><img id="frame" alt="Reference frame for independent screen classification"><figcaption><span id="position"></span> · <a id="fullsize" target="_blank" rel="noopener" style="color: #99e2d3">Open full-size image</a></figcaption></figure>
   <section aria-label="Your annotation">
-    <label for="outcome">Your judgment</label>
-    <select id="outcome">
-      <option value="">Choose a judgment…</option>
-      <option value="label">A catalog label is supported</option>
-      <option value="unreadable">Unreadable / obscured</option>
-      <option value="insufficient_context">Insufficient context</option>
-      <option value="not_in_catalog">Readable, but no catalog label fits</option>
-    </select>
-    <div id="label-controls" hidden>
-      <label for="search">Find a screen label</label><input id="search" type="search" placeholder="Search labels and definitions…">
-      <label for="label">Screen label</label><select id="label"></select>
-      <p id="definition"></p>
+    <h2>Your judgment</h2>
+    <nav id="label-breadcrumb" aria-label="Selected label path"></nav>
+    <label for="search">Find a label (optional)</label><input id="search" type="search" placeholder="Search labels and definitions…">
+    <div id="label-options" aria-label="Label choices"></div>
+    <strong id="selected-label"></strong>
+    <p id="definition"></p>
+    <p class="muted">Choose a button to reveal more specific options. You can save at any level if no child label fits.</p>
+    <div id="uncertainty" aria-label="Unable to identify a label">
+      <button data-outcome="unreadable">Unreadable / obscured</button>
+      <button data-outcome="insufficient_context">Insufficient context</button>
+      <button data-outcome="not_in_catalog">No label fits</button>
     </div>
     <label for="notes">Evidence or uncertainty (optional)</label><textarea id="notes" placeholder="Describe the visible cue or why this cannot be settled."></textarea>
     <p id="status" role="status" aria-live="polite"></p>
@@ -59,7 +64,13 @@
   const pilot = JSON.parse(document.querySelector('#pilot-data').textContent);
   const el = id => document.getElementById(id);
   const storageKey = `juiced2-blind-review:${pilot.pilot_id}`;
-  const outcomes = new Set(['label', 'unreadable', 'insufficient_context', 'not_in_catalog']);
+  const outcomes = new Set(['label', 'category', 'unreadable', 'insufficient_context', 'not_in_catalog']);
+  const names = Object.keys(pilot.catalog);
+  const categories = new Set(names.flatMap(name => {
+    const parts = name.split('/');
+    return parts.slice(0, -1).map((_, i) => parts.slice(0, i + 1).join('/'));
+  }));
+  let selectedPath = '', selectedOutcome = '';
   let state = {schema_version: 1, pilot_id: pilot.pilot_id, reviewer: '', answers: {}, position: 0};
   let storageFailed = false;
   function message(text, error = false) { el('status').textContent = text; el('status').classList.toggle('error', error); }
@@ -68,7 +79,9 @@
     const ids = new Set(pilot.items.map(x => x.id));
     for (const [id, answer] of Object.entries(value.answers)) {
       if (!ids.has(id) || !answer || !outcomes.has(answer.outcome)) throw Error('Unknown example or judgment in the backup.');
-      if (answer.outcome === 'label' ? !Object.hasOwn(pilot.catalog, answer.label) : Boolean(answer.label)) throw Error('Invalid screen label in the backup.');
+      if (answer.outcome === 'label' && !Object.hasOwn(pilot.catalog, answer.label)) throw Error('Invalid screen label in the backup.');
+      if (answer.outcome === 'category' && !categories.has(answer.label)) throw Error('Invalid category in the backup.');
+      if (!['label', 'category'].includes(answer.outcome) && answer.label) throw Error('Uncertain answers cannot include a label.');
       if (typeof answer.notes !== 'string') throw Error('Invalid notes in the backup.');
     }
     if (typeof value.reviewer !== 'string') throw Error('Invalid reviewer in the backup.');
@@ -78,14 +91,54 @@
     try { localStorage.setItem(storageKey, JSON.stringify(state)); storageFailed = false; return true; }
     catch { storageFailed = true; message('Browser storage is unavailable. Export a backup to keep your answers.', true); return false; }
   }
-  function labels(selected = '') {
+  function friendly(path) {
+    return path.split('/').map(part => part.replaceAll('-', ' ').replaceAll('_', ' ').replace(/^./, x => x.toUpperCase())).join(' › ');
+  }
+  function pathButton(text, path) {
+    const button = document.createElement('button');
+    button.textContent = text; button.dataset.path = path;
+    button.onclick = () => {
+      selectedPath = path;
+      selectedOutcome = path ? (Object.hasOwn(pilot.catalog, path) ? 'label' : 'category') : '';
+      el('search').value = '';
+      renderChoices();
+      (el('label-options').querySelector('button') || el('label-breadcrumb').querySelector('[aria-current="step"]'))?.focus({preventScroll: true});
+      if (!storageFailed) message('');
+    };
+    return button;
+  }
+  function renderChoices() {
+    const breadcrumb = el('label-breadcrumb');
+    breadcrumb.replaceChildren(pathButton('All categories', ''));
+    const parts = selectedPath ? selectedPath.split('/') : [];
+    parts.forEach((part, i) => {
+      const path = parts.slice(0, i + 1).join('/');
+      const button = pathButton(friendly(part), path);
+      if (path === selectedPath) button.setAttribute('aria-current', 'step');
+      breadcrumb.append(button);
+    });
     const query = el('search').value.trim().toLowerCase();
-    el('label').replaceChildren(new Option('Choose a screen label…', ''));
-    for (const [name, definition] of Object.entries(pilot.catalog)) {
-      if (name === selected || `${name} ${definition}`.toLowerCase().includes(query)) el('label').add(new Option(name, name));
+    const prefix = selectedPath ? selectedPath + '/' : '';
+    const choices = query
+      ? names.filter(name => `${name} ${pilot.catalog[name]}`.toLowerCase().includes(query))
+      : [...new Set(names.filter(name => name.startsWith(prefix)).map(name => prefix + name.slice(prefix.length).split('/')[0]))];
+    el('label-options').replaceChildren(...choices.map(path => {
+      const button = pathButton(friendly(query ? path : path.split('/').at(-1)), path);
+      button.title = pilot.catalog[path] || 'Choose to see more specific labels';
+      return button;
+    }));
+    el('selected-label').dataset.path = selectedPath;
+    el('selected-label').textContent = selectedPath ? `Selected: ${friendly(selectedPath)}` : 'Choose a category to begin';
+    el('definition').textContent = pilot.catalog[selectedPath] || (selectedPath ? 'You can save this broader category, or choose a more specific option above.' : 'Choose the category that best describes the visible screen.');
+    for (const button of el('uncertainty').querySelectorAll('button')) {
+      const active = button.dataset.outcome === selectedOutcome;
+      button.setAttribute('aria-pressed', String(active));
+      if (active) {
+        el('selected-label').textContent = button.textContent;
+        el('definition').textContent = 'This answer will be saved without a screen label.';
+      }
     }
-    el('label').value = selected;
-    el('definition').textContent = pilot.catalog[selected] || 'Select a label to read its definition.';
+    el('save-next').textContent = selectedOutcome === 'category' ? 'Save category & next' : 'Save & next';
   }
   function progress() { el('progress').textContent = `${Object.keys(state.answers).length} / ${pilot.items.length} reviewed`; }
   function render() {
@@ -93,22 +146,21 @@
     el('frame').src = item.image;
     el('fullsize').href = item.image;
     el('position').textContent = `Example ${state.position + 1} of ${pilot.items.length}`;
-    el('outcome').value = answer?.outcome || '';
+    selectedOutcome = answer?.outcome || '';
+    selectedPath = ['label', 'category'].includes(selectedOutcome) ? answer.label : '';
     el('notes').value = answer?.notes || '';
     el('search').value = '';
-    labels(answer?.label || '');
-    el('label-controls').hidden = el('outcome').value !== 'label';
+    renderChoices();
     el('previous').disabled = state.position === 0;
     el('next').disabled = state.position === pilot.items.length - 1;
     progress();
   }
   function save(required = false) {
-    const outcome = el('outcome').value, label = outcome === 'label' ? el('label').value : '';
+    const outcome = selectedOutcome, label = ['label', 'category'].includes(outcome) ? selectedPath : '';
     if (!outcome) {
-      if (required) message('Choose a judgment before saving.', true);
+      if (required) message('Choose a category or an uncertainty option before saving.', true);
       return !required;
     }
-    if (outcome === 'label' && !label) { message('Choose a screen label before saving.', true); return false; }
     state.answers[pilot.items[state.position].id] = {outcome, label, notes: el('notes').value, updated_at: new Date().toISOString()};
     persist(); progress(); return true;
   }
@@ -118,9 +170,13 @@
     persist(); render();
     if (!storageFailed) message(required ? 'Answer saved.' : '');
   }
-  el('outcome').onchange = () => { el('label-controls').hidden = el('outcome').value !== 'label'; };
-  el('search').oninput = () => labels(el('label').value);
-  el('label').onchange = () => { el('definition').textContent = pilot.catalog[el('label').value] || ''; };
+  el('search').oninput = renderChoices;
+  for (const button of el('uncertainty').querySelectorAll('button')) {
+    button.onclick = () => {
+      selectedOutcome = button.dataset.outcome; selectedPath = ''; el('search').value = '';
+      renderChoices(); if (!storageFailed) message('');
+    };
+  }
   el('previous').onclick = () => move(-1);
   el('next').onclick = () => move(1);
   el('save-next').onclick = () => move(1, true);

@@ -43,6 +43,35 @@ def corpus():
 
 
 class PilotTests(unittest.TestCase):
+    def test_broad_category_is_saved_without_becoming_an_exact_label_success(self):
+        assets, predictions = corpus()
+        pilot = review_pilot.make_pilot(assets, predictions, 40, "test")
+        answers = {
+            x["review_id"]: {"outcome": "label", "label": x["screen_state"], "notes": ""}
+            for x in pilot["items"]
+        }
+        item = next(x for x in pilot["items"] if x["split"] == "heldout" and not x["screen_review"])
+        answers[item["review_id"]] = {
+            "outcome": "category",
+            "label": item["screen_state"].split("/")[0],
+            "notes": "No child fits",
+        }
+        report = review_pilot.evaluate(pilot, {"pilot_id": pilot["pilot_id"], "answers": answers})
+        self.assertEqual(report["missing_annotations"], 0)
+        self.assertEqual(report["broad_category_annotations"], 1)
+        self.assertEqual(report["unresolved_annotations"], 1)
+        self.assertEqual(
+            report["categories"][item["screen_state"]]["heldout_auto_sample_unresolved"], 1
+        )
+        self.assertLess(
+            report["categories"][item["screen_state"]]["heldout_auto_precision_estimate"], 1
+        )
+        self.assertFalse(report["automatic_acceptance_enabled"])
+        for invalid in ("made/up", "menu/main"):
+            answers[item["review_id"]]["label"] = invalid
+            with self.assertRaisesRegex(ValueError, "category"):
+                review_pilot.evaluate(pilot, {"pilot_id": pilot["pilot_id"], "answers": answers})
+
     @unittest.skipUnless(
         shutil.which("node")
         and (review_pilot.ROOT / "tools/visual/node_modules/playwright").exists()

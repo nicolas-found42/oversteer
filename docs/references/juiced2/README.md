@@ -182,8 +182,14 @@ open artifacts/juiced2-vault/review-pilot/index.html
 ```
 
 The review page hides model answers, confidence, review flags, source titles, and
-tuning/test assignments. Classify the visible frame using the frozen catalog's
-definitions. Use unreadable, insufficient context, or no matching catalog label
+tuning/test assignments. Click category buttons to reveal the next level of labels;
+the breadcrumb buttons return to a broader level. Search also returns clickable
+labels. Read the selected label's definition, then Save & next. If no child fits,
+Save category & next retains the selected broader category without forcing a leaf.
+Broad categories survive reload and export/import, and count as unresolved for
+exact-label precision rather than automatically supporting descendant labels.
+Existing exact-label backups and saved progress remain compatible.
+Use unreadable, insufficient context, or no matching catalog label
 when appropriate; these are unresolved outcomes, not accepted model answers.
 The full-size link opens only the source image. Save & next stores the answer;
 navigation also saves a valid answer. Browser storage retains progress. Export
@@ -217,7 +223,7 @@ identity and labels. Output files are created exclusively: an existing report,
 annotation backup, manifest, or other evidence file is never overwritten. Choose
 a new output filename for each scoring run. It reports weighted per-category precision and recall
 estimates separately for tuning and held-out sources. Recall is conditional on
-resolved gold labels; unreadable examples leave true categories unknown. Neither
+resolved gold labels; unreadable and broad-category answers leave exact categories unknown. Neither
 an aggregate agreement rate nor resolved-only recall establishes corpus accuracy.
 
 For existing automatically accepted predictions, category eligibility requires a
