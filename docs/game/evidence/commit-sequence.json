@@ -1,0 +1,146 @@
+{
+  "base_commit": "8dd1fdf",
+  "method": "Retrospective milestone grouping and exact preserved source snapshot replay. Commit timestamps are recording times, not invented original development times. Intermediate partial milestones are not guaranteed buildable.",
+  "commits": [
+    {
+      "commit": "ebb86248afd11fcdbf20377d80d74af297057d91",
+      "subject": "chore(git): ignore Rust and Godot build outputs and local credentials",
+      "basis": "First commit, as requested."
+    },
+    {
+      "commit": "97ca1f9f9393abf74b6cd03175f8bae8ed7309f2",
+      "subject": "docs(plan): record reconstruction scope and accepted thirty-car roster",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "561cee259f399c0d91f06630bc8374af4d78accc",
+      "subject": "feat(vault): acquire reference footage and classify initial screen states",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "aace729c26ff90aba3d0872b8c36c7b2210318f0",
+      "subject": "feat(vault): expand granular Jev taxonomy and reference coverage",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "add0dffa152bbd88ba8d43c3e63960dfe5227036",
+      "subject": "docs(research): compare five Rust engine stacks",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "ef634976d2133a5afff49ecea635b246c20998c6",
+      "subject": "docs(architecture): select pinned Godot and independent Rust simulation",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "38220a21c6d797ff6890ec145707fb3a59d9cc50",
+      "subject": "build(godot): bootstrap pinned editor and ARM64 export tooling",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "74c1985e1cb91ee29ee0089856a10b343dbcee11",
+      "subject": "feat(assets): inventory source archives and prepare pinned donor vehicles",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "65f29c24dc1e5b2d4341fa309798e1f835c7543f",
+      "subject": "feat(content): recover native courses career events and league goals",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "e32356a362f6016a2254a931c848f8daeabe0e17",
+      "subject": "feat(world): recover collision surfaces starts and body geometry bindings",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "f040aa6a308ca1ef2ebdc358535c258cb6950421",
+      "subject": "feat(core): preserve recovered driving and career checkpoint",
+      "basis": "Exact retained core80-e418 source checkpoint, restored to the Git index without changing current working-tree files. Historical checkpoint coverage is documented separately; this partial repository milestone is not claimed independently buildable."
+    },
+    {
+      "commit": "a86e2c82c779db3a1105b60b43fb20c91c2d8c71",
+      "subject": "feat(presentation): recover UI artwork venues audio and customization assets",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "f68a7eda071858353a4b4253ed90ec28a26f335a",
+      "subject": "feat(avatar): recover modular characters morphs presets and animations",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "5fd32e408d56f42a5dfc4fccab5ffebc197b172d",
+      "subject": "fix(core): bind native goal routes and discipline metadata",
+      "basis": "Exact retained core81-route-disc-d5f6 source checkpoint. Recorded retrospectively; original source hashes are verified before staging."
+    },
+    {
+      "commit": "b1240efedd0fff5aa3fab7763e7bc76a7f0f71f3",
+      "subject": "fix(core): recover NOS forces and preserve exact save floats",
+      "basis": "Exact retained core89-native-nos-save-d5f6 source checkpoint. Recorded retrospectively; original source hashes are verified before staging."
+    },
+    {
+      "commit": "353683956a6be2b50d035712e3869617c422ae9b",
+      "subject": "feat(godot): preserve native UI driving audio and avatar frontend",
+      "basis": "Exact before-compiler source archive precompile-20261103T201440Z. This history was reconstructed from preserved bytes, not original Git commits. The final camera/creator checkpoint compiled with 94 core and 22 frontend checks but native GPU validation remains pending."
+    },
+    {
+      "commit": "ce1aa1731541dc524317895d6d5d49c095fc435e",
+      "subject": "fix(paint): preserve drafts through each source Back stage",
+      "basis": "Exact before-compiler source archive precompile-20261103T201733Z. This history was reconstructed from preserved bytes, not original Git commits. The final camera/creator checkpoint compiled with 94 core and 22 frontend checks but native GPU validation remains pending."
+    },
+    {
+      "commit": "bf2b9d323608b8d1a199b08b35d5a675b8460c12",
+      "subject": "fix(ui): defer focus until controls enter the scene tree",
+      "basis": "Exact before-compiler source archive precompile-20261103T202254Z. This history was reconstructed from preserved bytes, not original Git commits. The final camera/creator checkpoint compiled with 94 core and 22 frontend checks but native GPU validation remains pending."
+    },
+    {
+      "commit": "ed4437c1b882ba6c25ce3e228f19a60ae6839f39",
+      "subject": "fix(paint): charge repeated native paint acceptance once per checkout",
+      "basis": "Exact before-compiler source archive precompile-20261103T210344Z. This history was reconstructed from preserved bytes, not original Git commits. The final camera/creator checkpoint compiled with 94 core and 22 frontend checks but native GPU validation remains pending."
+    },
+    {
+      "commit": "91c7ed4512fd163439e1ccfd9f2d5650e9fa3b8a",
+      "subject": "fix(presentation): separate creator phases and repair inspection cameras",
+      "basis": "Exact before-compiler source archive precompile-20261103T214358Z. This history was reconstructed from preserved bytes, not original Git commits. The final camera/creator checkpoint compiled with 94 core and 22 frontend checks but native GPU validation remains pending."
+    },
+    {
+      "commit": "4e2ca511ca8f7e8e02cfedb67c6734dcfe8cd6de",
+      "subject": "test(core): retain driving exploration and career replay scenarios",
+      "basis": "Current paused examples and tests. Prepared scenario seeds are not a claim of a complete legal career."
+    },
+    {
+      "commit": "b314492c8e2452ec67fbaa340af0de3436618c5d",
+      "subject": "test(input): verify native controls replay identity and save recovery",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "fcc3a140c21e5e981c62f130d3d3dec520617616",
+      "subject": "test(ui): retain visible control plans and historical fixture variants",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "f0771b94be2eeb689531193a2e312e98b4bede41",
+      "subject": "test(render): reject stale car captures and retain visual judgments",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "f8517819f28fefd9d15d495a7490faa0f14175f3",
+      "subject": "feat(recovery): retain shader kernels material bindings and performance audits",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "00949d59c63bd8ea405e8d20a0f469c6ff6c07c7",
+      "subject": "docs(evidence): retain checkpoint manifests contracts and staged stock audits",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "2c3a776e28e10c1a09270926b2f43e5a3451abf4",
+      "subject": "docs(handoff): record paused build boundaries and outstanding release work",
+      "basis": "Recorded retrospectively from the paused working tree. Grouped by implementation milestone; this commit does not claim a new runtime validation."
+    },
+    {
+      "commit": "f7395c0f6d430659d5595c2fa763a7a4e3ad46ff",
+      "subject": "docs(readme): document the native Rust and Godot workflow",
+      "basis": "Preserve the current project entry point and link the native implementation documentation."
+    }
+  ]
+}

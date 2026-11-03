@@ -9,7 +9,8 @@ running at the pause check. The previously started compilation had already ended
 
 1. Root `AGENTS.md`, `docs/agents/domain.md`, `GLOSSARY.md`, and `docs/adr/`.
 2. Canonical specification: https://github.com/nicolas-found42/oversteer/issues/1.
-   Local matching body: `artifacts/juiced2-build/spec-issue.md` (verified at pause).
+   Versioned matching body: `docs/game/SPEC.md`. The original local mirror remains
+   `artifacts/juiced2-build/spec-issue.md` (verified at pause).
 3. `docs/design/JUICED2_REBUILD_INTERVIEW.md`, `docs/game/README.md`,
    `docs/references/juiced2/README.md`, and `tools/game/assets/README.md`.
 4. This handoff and the exact checkpoint manifests below. The specification gives
@@ -25,17 +26,25 @@ release evidence groups in issue1 remain open; technical passes are not completi
 ## Workspace and portability
 
 Workspace: `/Users/nicolas/Documents/github/oversteer`.
-Latest committed HEAD at pause: `8dd1fdf`. Most new implementation is UNTRACKED:
-`crates/`, `godot/`, `data/juiced2/`, `tools/game/`, and associated documentation.
-Tracked README/.gitignore also have local modifications. No task commit/push was made.
-Do not discard, clean, reset, or replace this working tree.
+The implementation pause originally left HEAD at `8dd1fdf` with untracked source.
+The user subsequently requested committing and pushing all current work. Source,
+configuration, reviewed metadata, specification and this handoff are now versioned
+in a retrospective Conventional Commit series. Exact retained source snapshots
+were staged in their original checkpoint order without changing live source bytes.
+See `COMMIT_HISTORY.md` for the recorded sequence and its limits.
+Do not discard the ignored local asset/evidence directories.
 
 A fresh agent IN THIS WORKSPACE can continue after reading these records and
-checking the code. A fresh clone cannot reproduce this state from Git alone.
+checking the code. A fresh clone now contains the implementation source, but cannot
+reproduce the complete runnable state from Git alone.
 The ignored local vault, original-image/recompiled-source intake, converted assets,
 checkpoints and tooling caches must also remain available or be transferred.
-`gh repo view` currently resolves the checkout default to `nickth3man/drift-c`;
-use explicit `--repo nicolas-found42/oversteer` for the agreed issue tracker.
+Lightweight checkpoint manifests, source-authored contracts and donor-stock audit
+summaries are versioned under `docs/game/evidence/`; their referenced raw files
+remain local. They do not make all original recovery inputs available in a clone.
+The `origin` remote is `https://github.com/nicolas-found42/oversteer.git`;
+`upstream` is the legacy `nickth3man/drift-c` repository. Use explicit
+`--repo nicolas-found42/oversteer` for the agreed issue tracker.
 Never expose configured API credentials.
 
 ## Exact current source/runtime boundary
