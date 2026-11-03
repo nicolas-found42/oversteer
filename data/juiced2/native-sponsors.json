@@ -1,0 +1,2799 @@
+[
+  {
+    "id": "sponsor_c877b475_00",
+    "source_key": "c877b475",
+    "source_member": 860,
+    "source_sha256": "76ea27872d0c34528505fd62a362258c1fcb522d24cde3dc1265fc7282abb2fa",
+    "source_field_index": 0,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "LapTimeChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        60.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonCircuit1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L8_Rookie_Sponsor.txt",
+    "league": 0,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_c877b475_01",
+    "source_key": "c877b475",
+    "source_member": 860,
+    "source_sha256": "76ea27872d0c34528505fd62a362258c1fcb522d24cde3dc1265fc7282abb2fa",
+    "source_field_index": 7,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        7.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "M3_GTR"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L8_Rookie_Sponsor.txt",
+    "league": 0,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_c877b475_02",
+    "source_key": "c877b475",
+    "source_member": 860,
+    "source_sha256": "76ea27872d0c34528505fd62a362258c1fcb522d24cde3dc1265fc7282abb2fa",
+    "source_field_index": 15,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "SpeedChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        18.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "TokyoCircuit2",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L8_Rookie_Sponsor.txt",
+    "league": 0,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_c877b475_03",
+    "source_key": "c877b475",
+    "source_member": 860,
+    "source_sha256": "76ea27872d0c34528505fd62a362258c1fcb522d24cde3dc1265fc7282abb2fa",
+    "source_field_index": 22,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        9.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "ASTON_DB9"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonCircuit1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L8_Rookie_Sponsor.txt",
+    "league": 0,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_c877b475_04",
+    "source_key": "c877b475",
+    "source_member": 860,
+    "source_sha256": "76ea27872d0c34528505fd62a362258c1fcb522d24cde3dc1265fc7282abb2fa",
+    "source_field_index": 30,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "PerfectLapChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        50.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L8_Rookie_Sponsor.txt",
+    "league": 0,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_c877b475_05",
+    "source_key": "c877b475",
+    "source_member": 860,
+    "source_sha256": "76ea27872d0c34528505fd62a362258c1fcb522d24cde3dc1265fc7282abb2fa",
+    "source_field_index": 37,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        9.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "Z51"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit2",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L8_Rookie_Sponsor.txt",
+    "league": 0,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_a0d08aa3_00",
+    "source_key": "a0d08aa3",
+    "source_member": 699,
+    "source_sha256": "5538ee60f7d6172ddff52484831df5b958346c6d032e9361c006102b0c381acc",
+    "source_field_index": 0,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "PerfectLapChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        71.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "TokyoCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L7_Sponsor.txt",
+    "league": 1,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_a0d08aa3_01",
+    "source_key": "a0d08aa3",
+    "source_member": 699,
+    "source_sha256": "5538ee60f7d6172ddff52484831df5b958346c6d032e9361c006102b0c381acc",
+    "source_field_index": 7,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        7.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "ASTON_VANQ"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "TokyoCircuit2",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L7_Sponsor.txt",
+    "league": 1,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_a0d08aa3_02",
+    "source_key": "a0d08aa3",
+    "source_member": 699,
+    "source_sha256": "5538ee60f7d6172ddff52484831df5b958346c6d032e9361c006102b0c381acc",
+    "source_field_index": 15,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "SpeedChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        24.700000762939453
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonCircuit3",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L7_Sponsor.txt",
+    "league": 1,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_a0d08aa3_03",
+    "source_key": "a0d08aa3",
+    "source_member": 699,
+    "source_sha256": "5538ee60f7d6172ddff52484831df5b958346c6d032e9361c006102b0c381acc",
+    "source_field_index": 22,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        6.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "VIPER_SRT"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L7_Sponsor.txt",
+    "league": 1,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_a0d08aa3_04",
+    "source_key": "a0d08aa3",
+    "source_member": 699,
+    "source_sha256": "5538ee60f7d6172ddff52484831df5b958346c6d032e9361c006102b0c381acc",
+    "source_field_index": 30,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "LapTimeChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        53.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "TokyoCircuit2",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L7_Sponsor.txt",
+    "league": 1,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_a0d08aa3_05",
+    "source_key": "a0d08aa3",
+    "source_member": 699,
+    "source_sha256": "5538ee60f7d6172ddff52484831df5b958346c6d032e9361c006102b0c381acc",
+    "source_field_index": 37,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        8.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "Z06"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit3",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L7_Sponsor.txt",
+    "league": 1,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9f0a5321_00",
+    "source_key": "9f0a5321",
+    "source_member": 694,
+    "source_sha256": "3f3dfa717ba27655d5c8ee910224047540deb95e97e9766dee65309832d64f34",
+    "source_field_index": 0,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "SpeedChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        31.5
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "AlpsCircuit1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L6_Sponsor.txt",
+    "league": 2,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9f0a5321_01",
+    "source_key": "9f0a5321",
+    "source_member": 694,
+    "source_sha256": "3f3dfa717ba27655d5c8ee910224047540deb95e97e9766dee65309832d64f34",
+    "source_field_index": 7,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        6.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "SAGARIS"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonCircuit2",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L6_Sponsor.txt",
+    "league": 2,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9f0a5321_02",
+    "source_key": "9f0a5321",
+    "source_member": 694,
+    "source_sha256": "3f3dfa717ba27655d5c8ee910224047540deb95e97e9766dee65309832d64f34",
+    "source_field_index": 15,
+    "native_header": {
+      "Discipline": "Drift",
+      "Type": "None",
+      "SubType": "DriftEnduro",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        150000
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonDrift1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L6_Sponsor.txt",
+    "league": 2,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9f0a5321_03",
+    "source_key": "9f0a5321",
+    "source_member": 694,
+    "source_sha256": "3f3dfa717ba27655d5c8ee910224047540deb95e97e9766dee65309832d64f34",
+    "source_field_index": 22,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        8.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "ASCARI"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit5",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L6_Sponsor.txt",
+    "league": 2,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9f0a5321_04",
+    "source_key": "9f0a5321",
+    "source_member": 694,
+    "source_sha256": "3f3dfa717ba27655d5c8ee910224047540deb95e97e9766dee65309832d64f34",
+    "source_field_index": 30,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "LapTimeChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        40.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit2",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L6_Sponsor.txt",
+    "league": 2,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9f0a5321_05",
+    "source_key": "9f0a5321",
+    "source_member": 694,
+    "source_sha256": "3f3dfa717ba27655d5c8ee910224047540deb95e97e9766dee65309832d64f34",
+    "source_field_index": 37,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        5.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "Viper"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "TokyoCircuit5",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L6_Sponsor.txt",
+    "league": 2,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9d4b6ae3_00",
+    "source_key": "9d4b6ae3",
+    "source_member": 684,
+    "source_sha256": "f77d070d0fa72dcff58095c6702464341ca9c9a95a09573ed8524fbb69756de0",
+    "source_field_index": 0,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "LapTimeChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        87.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L5_Sponsor.txt",
+    "league": 3,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9d4b6ae3_01",
+    "source_key": "9d4b6ae3",
+    "source_member": 684,
+    "source_sha256": "f77d070d0fa72dcff58095c6702464341ca9c9a95a09573ed8524fbb69756de0",
+    "source_field_index": 7,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        3.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "HELLCAT"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonCircuit3",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L5_Sponsor.txt",
+    "league": 3,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9d4b6ae3_02",
+    "source_key": "9d4b6ae3",
+    "source_member": 684,
+    "source_sha256": "f77d070d0fa72dcff58095c6702464341ca9c9a95a09573ed8524fbb69756de0",
+    "source_field_index": 15,
+    "native_header": {
+      "Discipline": "Drift",
+      "Type": "None",
+      "SubType": "DriftEnduro",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        150000
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "RomeDrift1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L5_Sponsor.txt",
+    "league": 3,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9d4b6ae3_03",
+    "source_key": "9d4b6ae3",
+    "source_member": 684,
+    "source_sha256": "f77d070d0fa72dcff58095c6702464341ca9c9a95a09573ed8524fbb69756de0",
+    "source_field_index": 22,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        4.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "KOENIGSEGG"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "RomeCircuit1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L5_Sponsor.txt",
+    "league": 3,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9d4b6ae3_04",
+    "source_key": "9d4b6ae3",
+    "source_member": 684,
+    "source_sha256": "f77d070d0fa72dcff58095c6702464341ca9c9a95a09573ed8524fbb69756de0",
+    "source_field_index": 30,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "PerfectLapChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        95
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "RomeCircuit3",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L5_Sponsor.txt",
+    "league": 3,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9d4b6ae3_05",
+    "source_key": "9d4b6ae3",
+    "source_member": 684,
+    "source_sha256": "f77d070d0fa72dcff58095c6702464341ca9c9a95a09573ed8524fbb69756de0",
+    "source_field_index": 37,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        6.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "SALEEN_S7"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "RomeCircuit2",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L5_Sponsor.txt",
+    "league": 3,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9b93cbad_00",
+    "source_key": "9b93cbad",
+    "source_member": 674,
+    "source_sha256": "76ee6b03007288a6b0550d6a479d7097ae016236d3cc9af2d8229f8f9aca2cc1",
+    "source_field_index": 0,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "LapTimeChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        62.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "TokyoCircuit5",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L4_Sponsor.txt",
+    "league": 4,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9b93cbad_01",
+    "source_key": "9b93cbad",
+    "source_member": 674,
+    "source_sha256": "76ee6b03007288a6b0550d6a479d7097ae016236d3cc9af2d8229f8f9aca2cc1",
+    "source_field_index": 7,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        6.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "Zonda",
+        "F",
+        "Roadster"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "TokyoCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L4_Sponsor.txt",
+    "league": 4,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9b93cbad_02",
+    "source_key": "9b93cbad",
+    "source_member": 674,
+    "source_sha256": "76ee6b03007288a6b0550d6a479d7097ae016236d3cc9af2d8229f8f9aca2cc1",
+    "source_field_index": 15,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "SpeedChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        40.29999923706055
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L4_Sponsor.txt",
+    "league": 4,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9b93cbad_03",
+    "source_key": "9b93cbad",
+    "source_member": 674,
+    "source_sha256": "76ee6b03007288a6b0550d6a479d7097ae016236d3cc9af2d8229f8f9aca2cc1",
+    "source_field_index": 22,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        3.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "ASTON_VANQ"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "AlpsCircuit1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L4_Sponsor.txt",
+    "league": 4,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9b93cbad_04",
+    "source_key": "9b93cbad",
+    "source_member": 674,
+    "source_sha256": "76ee6b03007288a6b0550d6a479d7097ae016236d3cc9af2d8229f8f9aca2cc1",
+    "source_field_index": 30,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "PerfectLapChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        83.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "AlpsCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L4_Sponsor.txt",
+    "league": 4,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9b93cbad_05",
+    "source_key": "9b93cbad",
+    "source_member": 674,
+    "source_sha256": "76ee6b03007288a6b0550d6a479d7097ae016236d3cc9af2d8229f8f9aca2cc1",
+    "source_field_index": 37,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        3.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "ASCARI"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "AlpsCircuit3",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L4_Sponsor.txt",
+    "league": 4,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_99e36f5b_00",
+    "source_key": "99e36f5b",
+    "source_member": 671,
+    "source_sha256": "c0bdae9062be8579d0656b167b96e5366c2db8d7444a28948044c833f6a16ea4",
+    "source_field_index": 0,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "SpeedChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        31.5
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L3_Sponsor.txt",
+    "league": 5,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_99e36f5b_01",
+    "source_key": "99e36f5b",
+    "source_member": 671,
+    "source_sha256": "c0bdae9062be8579d0656b167b96e5366c2db8d7444a28948044c833f6a16ea4",
+    "source_field_index": 7,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        7.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "Z51"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "AlpsCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L3_Sponsor.txt",
+    "league": 5,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_99e36f5b_02",
+    "source_key": "99e36f5b",
+    "source_member": 671,
+    "source_sha256": "c0bdae9062be8579d0656b167b96e5366c2db8d7444a28948044c833f6a16ea4",
+    "source_field_index": 15,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "PerfectLapChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        85.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "RomeCircuit3",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L3_Sponsor.txt",
+    "league": 5,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_99e36f5b_03",
+    "source_key": "99e36f5b",
+    "source_member": 671,
+    "source_sha256": "c0bdae9062be8579d0656b167b96e5366c2db8d7444a28948044c833f6a16ea4",
+    "source_field_index": 22,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        4.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "HELLCAT"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit6",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L3_Sponsor.txt",
+    "league": 5,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_99e36f5b_04",
+    "source_key": "99e36f5b",
+    "source_member": 671,
+    "source_sha256": "c0bdae9062be8579d0656b167b96e5366c2db8d7444a28948044c833f6a16ea4",
+    "source_field_index": 30,
+    "native_header": {
+      "Discipline": "Drift",
+      "Type": "None",
+      "SubType": "DriftEnduro",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        100000
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "TokyoDrift2",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L3_Sponsor.txt",
+    "league": 5,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_99e36f5b_05",
+    "source_key": "99e36f5b",
+    "source_member": 671,
+    "source_sha256": "c0bdae9062be8579d0656b167b96e5366c2db8d7444a28948044c833f6a16ea4",
+    "source_field_index": 37,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        4.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "VIPER_SRT"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "RomeCircuit3",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L3_Sponsor.txt",
+    "league": 5,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_983a4fe1_00",
+    "source_key": "983a4fe1",
+    "source_member": 662,
+    "source_sha256": "aad6f5002af28ebddfd39055661dbac110a6e2cdc715fbea9effda0d54ae4f27",
+    "source_field_index": 0,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "LapTimeChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        58.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "AlpsCircuit1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L2_Sponsor.txt",
+    "league": 6,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_983a4fe1_01",
+    "source_key": "983a4fe1",
+    "source_member": 662,
+    "source_sha256": "aad6f5002af28ebddfd39055661dbac110a6e2cdc715fbea9effda0d54ae4f27",
+    "source_field_index": 7,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        1.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "ASTON_DB9"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L2_Sponsor.txt",
+    "league": 6,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_983a4fe1_02",
+    "source_key": "983a4fe1",
+    "source_member": 662,
+    "source_sha256": "aad6f5002af28ebddfd39055661dbac110a6e2cdc715fbea9effda0d54ae4f27",
+    "source_field_index": 15,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "SpeedChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        27
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonCircuit5",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L2_Sponsor.txt",
+    "league": 6,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_983a4fe1_03",
+    "source_key": "983a4fe1",
+    "source_member": 662,
+    "source_sha256": "aad6f5002af28ebddfd39055661dbac110a6e2cdc715fbea9effda0d54ae4f27",
+    "source_field_index": 22,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        2.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "KOENIGSEGG"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "TokyoCircuit3",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L2_Sponsor.txt",
+    "league": 6,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_983a4fe1_04",
+    "source_key": "983a4fe1",
+    "source_member": 662,
+    "source_sha256": "aad6f5002af28ebddfd39055661dbac110a6e2cdc715fbea9effda0d54ae4f27",
+    "source_field_index": 30,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "PerfectLapChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        65.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit6",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L2_Sponsor.txt",
+    "league": 6,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_983a4fe1_05",
+    "source_key": "983a4fe1",
+    "source_member": 662,
+    "source_sha256": "aad6f5002af28ebddfd39055661dbac110a6e2cdc715fbea9effda0d54ae4f27",
+    "source_field_index": 37,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        2.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "SAGARIS"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "RomeCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L2_Sponsor.txt",
+    "league": 6,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9698674b_00",
+    "source_key": "9698674b",
+    "source_member": 656,
+    "source_sha256": "6a8e6d61903a1863dbc60cf3f3eb1c42c2d39ded1c65fd5c9fb108256fed33e1",
+    "source_field_index": 0,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "LapTimeChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        50.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L1_Sponsor.txt",
+    "league": 7,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9698674b_01",
+    "source_key": "9698674b",
+    "source_member": 656,
+    "source_sha256": "6a8e6d61903a1863dbc60cf3f3eb1c42c2d39ded1c65fd5c9fb108256fed33e1",
+    "source_field_index": 7,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        4.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "SALEEN_S7"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "AlpsCircuit2",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L1_Sponsor.txt",
+    "league": 7,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9698674b_02",
+    "source_key": "9698674b",
+    "source_member": 656,
+    "source_sha256": "6a8e6d61903a1863dbc60cf3f3eb1c42c2d39ded1c65fd5c9fb108256fed33e1",
+    "source_field_index": 15,
+    "native_header": {
+      "Discipline": "Drift",
+      "Type": "None",
+      "SubType": "DriftEnduro",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        250000
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SydneyDrift1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L1_Sponsor.txt",
+    "league": 7,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9698674b_03",
+    "source_key": "9698674b",
+    "source_member": 656,
+    "source_sha256": "6a8e6d61903a1863dbc60cf3f3eb1c42c2d39ded1c65fd5c9fb108256fed33e1",
+    "source_field_index": 22,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        3.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "Viper"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonCircuit5",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L1_Sponsor.txt",
+    "league": 7,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9698674b_04",
+    "source_key": "9698674b",
+    "source_member": 656,
+    "source_sha256": "6a8e6d61903a1863dbc60cf3f3eb1c42c2d39ded1c65fd5c9fb108256fed33e1",
+    "source_field_index": 30,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "PerfectLapChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        104
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "AlpsCircuit5",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L1_Sponsor.txt",
+    "league": 7,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_9698674b_05",
+    "source_key": "9698674b",
+    "source_member": 656,
+    "source_sha256": "6a8e6d61903a1863dbc60cf3f3eb1c42c2d39ded1c65fd5c9fb108256fed33e1",
+    "source_field_index": 37,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        4.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "KOENIGSEGG"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "AlpsCircuit5",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L1_Sponsor.txt",
+    "league": 7,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_5656942f_00",
+    "source_key": "5656942f",
+    "source_member": 376,
+    "source_sha256": "9c4ec728c63e12eda179b04896229bbbf5083b2ef38665312b44350b4b6f4576",
+    "source_field_index": 0,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "LapTimeChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        45.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonCircuit2",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L0_WC_Sponsor.txt",
+    "league": 8,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_5656942f_01",
+    "source_key": "5656942f",
+    "source_member": 376,
+    "source_sha256": "9c4ec728c63e12eda179b04896229bbbf5083b2ef38665312b44350b4b6f4576",
+    "source_field_index": 7,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        1.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "ASCARI"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L0_WC_Sponsor.txt",
+    "league": 8,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_5656942f_02",
+    "source_key": "5656942f",
+    "source_member": 376,
+    "source_sha256": "9c4ec728c63e12eda179b04896229bbbf5083b2ef38665312b44350b4b6f4576",
+    "source_field_index": 15,
+    "native_header": {
+      "Discipline": "Drift",
+      "Type": "None",
+      "SubType": "DriftEnduro",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        500000
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonDrift1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L0_WC_Sponsor.txt",
+    "league": 8,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_5656942f_03",
+    "source_key": "5656942f",
+    "source_member": 376,
+    "source_sha256": "9c4ec728c63e12eda179b04896229bbbf5083b2ef38665312b44350b4b6f4576",
+    "source_field_index": 22,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        2.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "HELLCAT"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "TokyoCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L0_WC_Sponsor.txt",
+    "league": 8,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_5656942f_04",
+    "source_key": "5656942f",
+    "source_member": 376,
+    "source_sha256": "9c4ec728c63e12eda179b04896229bbbf5083b2ef38665312b44350b4b6f4576",
+    "source_field_index": 30,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "SpeedChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        29.200000762939453
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "TokyoCircuit5",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L0_WC_Sponsor.txt",
+    "league": 8,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_5656942f_05",
+    "source_key": "5656942f",
+    "source_member": 376,
+    "source_sha256": "9c4ec728c63e12eda179b04896229bbbf5083b2ef38665312b44350b4b6f4576",
+    "source_field_index": 37,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        1.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "SALEEN_S7"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit4",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L0_WC_Sponsor.txt",
+    "league": 8,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_4fe10fd6_00",
+    "source_key": "4fe10fd6",
+    "source_member": 344,
+    "source_sha256": "813193c382657687a64cfd9139980fe1ea10ec5dfc447c518cc21e396618e069",
+    "source_field_index": 0,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        1.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "KOENIGSEGG"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "RomeCircuit2",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L00_Elite_Sponsor.txt",
+    "league": 9,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_4fe10fd6_01",
+    "source_key": "4fe10fd6",
+    "source_member": 344,
+    "source_sha256": "813193c382657687a64cfd9139980fe1ea10ec5dfc447c518cc21e396618e069",
+    "source_field_index": 8,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "SpeedChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Power"
+      ],
+      [
+        "SponsorData",
+        44.79999923706055
+      ],
+      [
+        "(100mph)"
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L00_Elite_Sponsor.txt",
+    "league": 9,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_4fe10fd6_02",
+    "source_key": "4fe10fd6",
+    "source_member": 344,
+    "source_sha256": "813193c382657687a64cfd9139980fe1ea10ec5dfc447c518cc21e396618e069",
+    "source_field_index": 16,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        0.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "SAGARIS"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "SanFranCircuit6",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L00_Elite_Sponsor.txt",
+    "league": 9,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_4fe10fd6_03",
+    "source_key": "4fe10fd6",
+    "source_member": 344,
+    "source_sha256": "813193c382657687a64cfd9139980fe1ea10ec5dfc447c518cc21e396618e069",
+    "source_field_index": 24,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "PerfectLapChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Handling"
+      ],
+      [
+        "SponsorData",
+        70.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "AlpsCircuit3",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L00_Elite_Sponsor.txt",
+    "league": 9,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_4fe10fd6_04",
+    "source_key": "4fe10fd6",
+    "source_member": 344,
+    "source_sha256": "813193c382657687a64cfd9139980fe1ea10ec5dfc447c518cc21e396618e069",
+    "source_field_index": 31,
+    "native_header": {
+      "Discipline": "Circuit",
+      "Type": "None",
+      "SubType": "BeatCarChallenge",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        0.0
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "Contestant",
+        "Stig",
+        "Zonda",
+        "F",
+        "Roadster"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "TokyoCircuit2",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L00_Elite_Sponsor.txt",
+    "league": 9,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  },
+  {
+    "id": "sponsor_4fe10fd6_05",
+    "source_key": "4fe10fd6",
+    "source_member": 344,
+    "source_sha256": "813193c382657687a64cfd9139980fe1ea10ec5dfc447c518cc21e396618e069",
+    "source_field_index": 39,
+    "native_header": {
+      "Discipline": "Drift",
+      "Type": "None",
+      "SubType": "DriftEnduro",
+      "DriversPerCrew": 1,
+      "Difficulty": 1.0
+    },
+    "native_rows": [
+      [
+        "MinDrivers",
+        1
+      ],
+      [
+        "SponsorType",
+        "Weight"
+      ],
+      [
+        "SponsorData",
+        1000000
+      ],
+      [
+        "Contestant",
+        "Player0",
+        "PreferredCar"
+      ],
+      [
+        "[Event]",
+        "Route",
+        "LondonDrift1",
+        "Laps",
+        1
+      ]
+    ],
+    "source_duplicates": [],
+    "source_filename": "Goals\\Goals\\L00_Elite_Sponsor.txt",
+    "league": 9,
+    "unlock_status": "exact native league association via filename hash and mastercatalog903ab5c5"
+  }
+]
