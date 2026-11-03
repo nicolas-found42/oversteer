@@ -42,7 +42,8 @@ impl RuntimeAudio {
         root.add_child(&speech);
         root.add_child(&sfx);
         music.set_volume_db(-20.);
-        let audio = Self {
+
+        Self {
             root,
             data,
             voices: vec![],
@@ -59,8 +60,7 @@ impl RuntimeAudio {
             previous_nitrous: false,
             previous_spook: false,
             music_path: String::new(),
-        };
-        audio
+        }
     }
     pub fn shutdown(&mut self) {
         self.music.stop();

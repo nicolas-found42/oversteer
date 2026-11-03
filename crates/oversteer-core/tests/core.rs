@@ -120,16 +120,33 @@ fn native_prototype_currency_migrates_only_absent_fields_without_installing_part
 fn all_thirty_raw_endpoint_algorithms_match_independent_f32_fixtures() {
     let read = |path: &str| std::fs::read_to_string(format!("../../{path}")).unwrap();
     let production: GameContent = serde_json::from_str(&read("data/juiced2/content.json")).unwrap();
-    let mapping: serde_json::Value = serde_json::from_str(&read("artifacts/juiced2-build/native-performance/donor-mapping.json")).unwrap();
-    let fixture: serde_json::Value = serde_json::from_str(&read("artifacts/juiced2-build/native-performance/relative-endpoint-fixtures.json")).unwrap();
+    let mapping: serde_json::Value = serde_json::from_str(&read(
+        "artifacts/juiced2-build/native-performance/donor-mapping.json",
+    ))
+    .unwrap();
+    let fixture: serde_json::Value = serde_json::from_str(&read(
+        "artifacts/juiced2-build/native-performance/relative-endpoint-fixtures.json",
+    ))
+    .unwrap();
     let catalog = NativePerformanceCatalog::default();
     let rows = fixture["cars"].as_array().unwrap();
     assert_eq!(rows.len(), 30);
     for row in rows {
         let id = row["car_id"].as_str().unwrap();
-        let baseline = &production.cars.iter().find(|car| car.id == id).unwrap().handling;
-        let raw = mapping["cars"].as_array().unwrap().iter().find(|car| car["car_id"] == id).unwrap();
-        let mut definition: NativePerformanceDefinition = serde_json::from_value(raw.clone()).unwrap();
+        let baseline = &production
+            .cars
+            .iter()
+            .find(|car| car.id == id)
+            .unwrap()
+            .handling;
+        let raw = mapping["cars"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|car| car["car_id"] == id)
+            .unwrap();
+        let mut definition: NativePerformanceDefinition =
+            serde_json::from_value(raw.clone()).unwrap();
         // This retained RAW counterpart fixture checks instruction arithmetic only,
         // not the separately audited ADR0007 gameplay capacity mapping.
         definition.authoritative_base.peak_bhp = definition.native_fields.stock_power;
@@ -137,7 +154,10 @@ fn all_thirty_raw_endpoint_algorithms_match_independent_f32_fixtures() {
         definition.adapted_endpoints.maximum_power = definition.native_fields.max_power;
         definition.adapted_endpoints.minimum_mass = definition.native_fields.min_weight;
         let league = catalog.maximum_potential_league(&definition.native_fields);
-        assert_eq!(u64::from(league), row["max_potential_league"].as_u64().unwrap());
+        assert_eq!(
+            u64::from(league),
+            row["max_potential_league"].as_u64().unwrap()
+        );
         let prototype = catalog.installed_package(league, 3).unwrap();
         for case in row["cases"].as_array().unwrap() {
             let parts = match case["case"].as_str().unwrap() {
@@ -147,11 +167,25 @@ fn all_thirty_raw_endpoint_algorithms_match_independent_f32_fixtures() {
                 "combined_prototype" => [prototype, 0, prototype],
                 _ => unreachable!(),
             };
-            let tuned = catalog.apply_relative(&definition, parts, baseline, false).unwrap();
+            let tuned = catalog
+                .apply_relative(&definition, parts, baseline, false)
+                .unwrap();
             let expected = &case["endpoints"];
-            for (field, value) in [("peak_torque", tuned.peak_torque), ("peak_torque_rpm", tuned.peak_torque_rpm), ("peak_bhp", tuned.peak_bhp), ("peak_bhp_rpm", tuned.peak_bhp_rpm), ("redline", tuned.redline), ("mass", tuned.mass)] {
+            for (field, value) in [
+                ("peak_torque", tuned.peak_torque),
+                ("peak_torque_rpm", tuned.peak_torque_rpm),
+                ("peak_bhp", tuned.peak_bhp),
+                ("peak_bhp_rpm", tuned.peak_bhp_rpm),
+                ("redline", tuned.redline),
+                ("mass", tuned.mass),
+            ] {
                 let wanted = expected[field]["adapted_tuned"].as_f64().unwrap() as f32;
-                assert_eq!(value.to_bits(), wanted.to_bits(), "{id} {} {field}", case["case"]);
+                assert_eq!(
+                    value.to_bits(),
+                    wanted.to_bits(),
+                    "{id} {} {field}",
+                    case["case"]
+                );
             }
             assert_eq!(tuned.layout, baseline.layout);
             assert_eq!(tuned.gears, baseline.gears);
@@ -160,9 +194,15 @@ fn all_thirty_raw_endpoint_algorithms_match_independent_f32_fixtures() {
             assert_eq!(tuned.body_width, baseline.body_width);
             assert_eq!(tuned.body_height, baseline.body_height);
             assert_eq!(tuned.body_min_y, baseline.body_min_y);
-            assert_eq!(tuned.nitrous_power_factor.to_bits(), (case["power_factor"].as_f64().unwrap() as f32).to_bits());
+            assert_eq!(
+                tuned.nitrous_power_factor.to_bits(),
+                (case["power_factor"].as_f64().unwrap() as f32).to_bits()
+            );
             if parts == [0; 3] {
-                assert_eq!(serde_json::to_value(&tuned).unwrap(), serde_json::to_value(baseline).unwrap());
+                assert_eq!(
+                    serde_json::to_value(&tuned).unwrap(),
+                    serde_json::to_value(baseline).unwrap()
+                );
             }
             if parts[0] == 0 && parts[2] != 0 {
                 assert_eq!(tuned.nitrous_power_factor, 1.);
@@ -170,8 +210,12 @@ fn all_thirty_raw_endpoint_algorithms_match_independent_f32_fixtures() {
             }
         }
         let handling_parts = [0, prototype, 0];
-        let circuit = catalog.apply_relative(&definition, handling_parts, baseline, false).unwrap();
-        let drift = catalog.apply_relative(&definition, handling_parts, baseline, true).unwrap();
+        let circuit = catalog
+            .apply_relative(&definition, handling_parts, baseline, false)
+            .unwrap();
+        let drift = catalog
+            .apply_relative(&definition, handling_parts, baseline, true)
+            .unwrap();
         assert!(circuit.footbrake_mu > baseline.footbrake_mu);
         assert_eq!(drift.footbrake_mu, circuit.footbrake_mu);
         assert!(circuit.damping_ratio > baseline.damping_ratio);
@@ -2536,7 +2580,7 @@ fn recorded_binary_controls_complete_native_endurance_targets_and_persist_reward
         assert!(result.won && result.score >= target, "{result:?}");
         let reloaded = Game::load_json(game.content.clone(), &game.save_json().unwrap()).unwrap();
         let career = reloaded.snapshot().career;
-        assert_eq!(career.cash, cash + i64::from(result.reward));
+        assert_eq!(career.cash, cash + result.reward);
         assert!(career.completed_events.contains(&event_id.into()));
         assert!(career.goal_progress[goal_id].complete);
     }
@@ -3229,6 +3273,8 @@ fn native_route_goals_filter_selection_and_observation_by_exact_course() {
 }
 
 #[test]
+// Keep staged setup explicit so fixture overrides and input sampling order remain visible.
+#[allow(clippy::field_reassign_with_default)]
 fn native_nitrous_pressure_capacity_and_activation_snapshot() {
     assert_eq!(native_nitrous_capacity(-2.), 5.);
     assert_eq!(native_nitrous_capacity(0.5), 3.5);
@@ -3259,6 +3305,8 @@ fn native_nitrous_pressure_capacity_and_activation_snapshot() {
     assert!(!state.active);
 }
 #[test]
+// Keep staged setup explicit so fixture overrides and input sampling order remain visible.
+#[allow(clippy::field_reassign_with_default)]
 fn native_nitrous_contact_gear_double_metric_and_refill_gates() {
     let mut state = NativeNitrousState::default();
     state.request(true);
@@ -3455,6 +3503,8 @@ fn save_roundtrip_preserves_real_accumulated_mileage_bits() {
 }
 
 #[test]
+// Keep staged setup explicit so fixture overrides and input sampling order remain visible.
+#[allow(clippy::field_reassign_with_default)]
 fn native_nitrous_uses_mutable_force_refill_and_drain_parameters() {
     let p = Handling::default();
     let g = PhysicsGlobals::recovered_script_settings();

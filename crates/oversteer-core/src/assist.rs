@@ -41,6 +41,8 @@ pub struct HumanDriftMotion {
 }
 impl HumanDriftState {
     /// Exact scalar/vector sequence from 82114BD8; caller owns the native motion setters.
+    // Keep source component indices and accumulation order visible in recovered equations.
+    #[allow(clippy::needless_range_loop)]
     pub fn advance(
         &mut self,
         globals: &mut HumanDriftGlobals,

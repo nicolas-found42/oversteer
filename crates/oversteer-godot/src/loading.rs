@@ -22,12 +22,12 @@ impl SceneLoad {
         let mut done = vec![];
         let mut resources = vec![];
         for path in &paths {
-            if loader.has_cached(path) {
-                if let Some(resource) = loader.load(path) {
-                    resources.push(resource);
-                    done.push(true);
-                    continue;
-                }
+            if loader.has_cached(path)
+                && let Some(resource) = loader.load(path)
+            {
+                resources.push(resource);
+                done.push(true);
+                continue;
             }
             let error = loader.load_threaded_request(path);
             if error != godot::global::Error::OK {

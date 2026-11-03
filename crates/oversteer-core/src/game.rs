@@ -3298,7 +3298,7 @@ fn wrap_angle(mut a: f32) -> f32 {
     a
 }
 fn motion_handling(base: &Handling, r: &Racer, mode: RaceMode, human: bool) -> Handling {
-    let mut handling = customized_handling(&base, &r.customization);
+    let mut handling = customized_handling(base, &r.customization);
     if mode.is_drift() {
         if human {
             handling.gears.truncate(4);

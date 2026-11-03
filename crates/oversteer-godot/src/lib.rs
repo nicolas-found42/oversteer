@@ -501,12 +501,12 @@ impl INode3D for OversteerApp {
             self.video_queue = vec!["THQLogo".into(), "JuiceLogo".into(), "Intro".into()];
             self.next_movie();
         }
-        if !self.scenario.is_empty() {
-            if let Some(viewport) = self.base().get_viewport() {
-                let rid = viewport.get_viewport_rid();
-                RenderingServer::singleton().viewport_set_measure_render_time(rid, true);
-                self.viewport_rid = Some(rid);
-            }
+        if !self.scenario.is_empty()
+            && let Some(viewport) = self.base().get_viewport()
+        {
+            let rid = viewport.get_viewport_rid();
+            RenderingServer::singleton().viewport_set_measure_render_time(rid, true);
+            self.viewport_rid = Some(rid);
         }
         let server = RenderingServer::singleton();
         godot_print!(
@@ -515,6 +515,8 @@ impl INode3D for OversteerApp {
             server.get_current_rendering_driver_name()
         );
     }
+    // Keep staged setup explicit so fixture overrides and input sampling order remain visible.
+    #[allow(clippy::field_reassign_with_default)]
     fn process(&mut self, dt: f64) {
         if self.game.is_none() {
             return;
@@ -533,13 +535,13 @@ impl INode3D for OversteerApp {
         self.scenario_frame += 1;
         self.advance_ui_actions();
         self.replay_native_inputs();
-        if self.credits {
-            if let Some(label) = &mut self.credits_label {
-                label.set_position(Vector2::new(
-                    0.,
-                    self.credits_clip_height - ((self.clock - self.credits_start) * 36.) as f32,
-                ));
-            }
+        if self.credits
+            && let Some(label) = &mut self.credits_label
+        {
+            label.set_position(Vector2::new(
+                0.,
+                self.credits_clip_height - ((self.clock - self.credits_start) * 36.) as f32,
+            ));
         }
         let now = std::time::Instant::now();
         let wall = self
@@ -725,10 +727,10 @@ impl INode3D for OversteerApp {
             } else if accept {
                 self.advance_paint_stage();
             }
-            if cancel || accept {
-                if let Some(mut viewport) = self.base().get_viewport() {
-                    viewport.set_input_as_handled();
-                }
+            if (cancel || accept)
+                && let Some(mut viewport) = self.base().get_viewport()
+            {
+                viewport.set_input_as_handled();
             }
             return;
         }
@@ -739,81 +741,76 @@ impl INode3D for OversteerApp {
         if let Ok(motion) = event
             .clone()
             .try_cast::<godot::classes::InputEventJoypadMotion>()
+            && motion.get_axis_value().abs() > 0.6
+            && let Some(action) = self
+                .rebind
+                .clone()
+                .and_then(|s| s.strip_prefix("axis:").map(str::to_owned))
         {
-            if motion.get_axis_value().abs() > 0.6 {
-                if let Some(action) = self
-                    .rebind
-                    .clone()
-                    .and_then(|s| s.strip_prefix("axis:").map(str::to_owned))
-                {
-                    swap_binding(&mut self.joy_axes, action, motion.get_axis().ord());
-                    self.rebind = None;
-                    if let Some(mut viewport) = self.base().get_viewport() {
-                        viewport.set_input_as_handled();
-                    }
-                    self.save_settings();
-                    self.rebuild_menu();
-                    return;
-                }
+            swap_binding(&mut self.joy_axes, action, motion.get_axis().ord());
+            self.rebind = None;
+            if let Some(mut viewport) = self.base().get_viewport() {
+                viewport.set_input_as_handled();
             }
+            self.save_settings();
+            self.rebuild_menu();
+            return;
         }
         if let Ok(button) = event
             .clone()
             .try_cast::<godot::classes::InputEventJoypadButton>()
+            && button.is_pressed()
         {
-            if button.is_pressed() {
-                if self.rebind.is_none()
-                    && button.get_button_index() == godot::global::JoyButton::B
-                    && self
-                        .game
-                        .as_ref()
-                        .is_some_and(|game| game.frame_snapshot().screen == GameScreen::Avatar)
-                {
-                    self.action(
-                        if self.avatar_editing {
-                            "avatar:back"
-                        } else {
-                            "nav:main"
-                        }
-                        .into(),
-                    );
-                    return;
-                }
-                if self.title && button.get_button_index() == godot::global::JoyButton::START {
-                    self.action("title_start".into());
-                    return;
-                }
-                if button.get_button_index() == godot::global::JoyButton::START
-                    && self.rebind.is_none()
-                {
-                    if let Some(game) = &mut self.game {
-                        let paused = game.frame_snapshot().screen == GameScreen::Paused;
-                        let _ = game.command(if paused {
-                            GameCommand::Resume
-                        } else {
-                            GameCommand::Pause
-                        });
+            if self.rebind.is_none()
+                && button.get_button_index() == godot::global::JoyButton::B
+                && self
+                    .game
+                    .as_ref()
+                    .is_some_and(|game| game.frame_snapshot().screen == GameScreen::Avatar)
+            {
+                self.action(
+                    if self.avatar_editing {
+                        "avatar:back"
+                    } else {
+                        "nav:main"
                     }
-                    return;
+                    .into(),
+                );
+                return;
+            }
+            if self.title && button.get_button_index() == godot::global::JoyButton::START {
+                self.action("title_start".into());
+                return;
+            }
+            if button.get_button_index() == godot::global::JoyButton::START && self.rebind.is_none()
+            {
+                if let Some(game) = &mut self.game {
+                    let paused = game.frame_snapshot().screen == GameScreen::Paused;
+                    let _ = game.command(if paused {
+                        GameCommand::Resume
+                    } else {
+                        GameCommand::Pause
+                    });
                 }
-                if let Some(action) = self
-                    .rebind
-                    .clone()
-                    .and_then(|s| s.strip_prefix("button:").map(str::to_owned))
-                {
-                    swap_binding(
-                        &mut self.joy_buttons,
-                        action,
-                        button.get_button_index().ord(),
-                    );
-                    self.rebind = None;
-                    if let Some(mut viewport) = self.base().get_viewport() {
-                        viewport.set_input_as_handled();
-                    }
-                    self.save_settings();
-                    self.rebuild_menu();
-                    return;
+                return;
+            }
+            if let Some(action) = self
+                .rebind
+                .clone()
+                .and_then(|s| s.strip_prefix("button:").map(str::to_owned))
+            {
+                swap_binding(
+                    &mut self.joy_buttons,
+                    action,
+                    button.get_button_index().ord(),
+                );
+                self.rebind = None;
+                if let Some(mut viewport) = self.base().get_viewport() {
+                    viewport.set_input_as_handled();
                 }
+                self.save_settings();
+                self.rebuild_menu();
+                return;
             }
         }
         if let Ok(key) = event.try_cast::<InputEventKey>() {
@@ -897,18 +894,18 @@ impl OversteerApp {
         }
         if let Some(menu) = &self.menu {
             for child in menu.get_children().iter_shared() {
-                if let Ok(mut button) = child.try_cast::<Button>() {
-                    if button.has_meta("main_index") {
-                        let selected = button.get_meta("main_index").to::<i64>() == index;
-                        let font = if selected {
-                            godot::tools::load::<godot::classes::Font>(
-                                "res://assets/ui/native/fonts/menu-selected.fnt",
-                            )
-                        } else {
-                            native_font()
-                        };
-                        button.add_theme_font_override("font", &font);
-                    }
+                if let Ok(mut button) = child.try_cast::<Button>()
+                    && button.has_meta("main_index")
+                {
+                    let selected = button.get_meta("main_index").to::<i64>() == index;
+                    let font = if selected {
+                        godot::tools::load::<godot::classes::Font>(
+                            "res://assets/ui/native/fonts/menu-selected.fnt",
+                        )
+                    } else {
+                        native_font()
+                    };
+                    button.add_theme_font_override("font", &font);
                 }
             }
         }
@@ -1045,22 +1042,22 @@ impl OversteerApp {
         }
         self.palette_target.clear();
         self.palette_original = None;
-        if let Some(session) = self.paint_session.as_mut() {
-            if session.back() {
-                match session.stage() {
-                    Some(paint::Stage::Color(channel)) => self.palette_opened(
-                        match channel {
-                            0 => "body",
-                            1 => "secondary",
-                            _ => "fleck",
-                        }
-                        .into(),
-                    ),
-                    Some(paint::Stage::Scalar(channel)) => self.open_paint_scalar_stage(channel),
-                    None => unreachable!("verified paint stage order"),
-                }
-                return;
+        if let Some(session) = self.paint_session.as_mut()
+            && session.back()
+        {
+            match session.stage() {
+                Some(paint::Stage::Color(channel)) => self.palette_opened(
+                    match channel {
+                        0 => "body",
+                        1 => "secondary",
+                        _ => "fleck",
+                    }
+                    .into(),
+                ),
+                Some(paint::Stage::Scalar(channel)) => self.open_paint_scalar_stage(channel),
+                None => unreachable!("verified paint stage order"),
             }
+            return;
         }
         if let Some(session) = self.paint_session.take() {
             self.customization = session.original;
@@ -1367,12 +1364,12 @@ impl OversteerApp {
     #[func]
     fn decal_design_selected(&mut self, index: i64) {
         let ids = &self.decal_catalog["categories"][self.decal_category]["design_ids"];
-        if let Some(id) = ids[index.max(0) as usize].as_str() {
-            if let Some(layer) = self.customization.vinyls.get_mut(self.vinyl_layer) {
-                layer.design_id = id.into();
-                layer.color = [1.; 4];
-                self.apply_custom();
-            }
+        if let Some(id) = ids[index.max(0) as usize].as_str()
+            && let Some(layer) = self.customization.vinyls.get_mut(self.vinyl_layer)
+        {
+            layer.design_id = id.into();
+            layer.color = [1.; 4];
+            self.apply_custom();
         }
     }
     #[func]
@@ -1408,6 +1405,8 @@ impl OversteerApp {
         }
     }
     #[func]
+    // Keep staged setup explicit so fixture overrides and input sampling order remain visible.
+    #[allow(clippy::field_reassign_with_default)]
     fn action(&mut self, key: GString) {
         let key = key.to_string();
         self.notice.clear();
@@ -2576,10 +2575,10 @@ impl OversteerApp {
                     serde_json::from_value::<BTreeMap<String, i32>>(value["keyboard"].clone())
                 {
                     for (action, ordinal) in bindings {
-                        if self.bindings.contains_key(&action) {
-                            if let Some(key) = Key::try_from_ord(ordinal) {
-                                self.bindings.insert(action, key);
-                            }
+                        if self.bindings.contains_key(&action)
+                            && let Some(key) = Key::try_from_ord(ordinal)
+                        {
+                            self.bindings.insert(action, key);
                         }
                     }
                 }
@@ -2732,58 +2731,51 @@ impl OversteerApp {
             if let Some(values) = self.ui_steps[self.ui_step]["color"]
                 .as_array()
                 .filter(|values| values.len() == 4 && self.ui_palette_phase < 3)
+                && let Some(palette) = &self.palette_control
             {
-                if let Some(palette) = &self.palette_control {
-                    if self.ui_palette_phase == 0 {
-                        let picker = palette.bind().picker();
-                        if let Some(mut picker) = picker {
-                            if !picker.is_visible() {
-                                for child in palette.get_children().iter_shared() {
-                                    if let Ok(mut button) = child.try_cast::<Button>() {
-                                        if button.has_meta("ui_action")
-                                            && button.get_meta("ui_action").to::<String>()
-                                                == "palette_precision"
-                                        {
-                                            button.call_deferred(
-                                                "emit_signal",
-                                                &["pressed".to_variant()],
-                                            );
-                                            return;
-                                        }
-                                    }
-                                }
-                            }
-                            let color = Color::from_rgba(
-                                values[0].as_f64().unwrap_or(1.) as f32,
-                                values[1].as_f64().unwrap_or(1.) as f32,
-                                values[2].as_f64().unwrap_or(1.) as f32,
-                                values[3].as_f64().unwrap_or(1.) as f32,
-                            );
-                            picker.call_deferred("set_pick_color", &[color.to_variant()]);
-                            picker.call_deferred(
-                                "emit_signal",
-                                &["color_changed".to_variant(), color.to_variant()],
-                            );
-                            self.ui_palette_phase = 1;
-                            return;
-                        }
-                    }
-                    if self.ui_palette_phase == 1
-                        && self.ui_steps[self.ui_step]["close_palette"]
-                            .as_bool()
-                            .unwrap_or(true)
-                    {
-                        for child in palette.get_children().iter_shared() {
-                            if let Ok(mut button) = child.try_cast::<Button>() {
-                                if button.has_meta("ui_action")
+                if self.ui_palette_phase == 0 {
+                    let picker = palette.bind().picker();
+                    if let Some(mut picker) = picker {
+                        if !picker.is_visible() {
+                            for child in palette.get_children().iter_shared() {
+                                if let Ok(mut button) = child.try_cast::<Button>()
+                                    && button.has_meta("ui_action")
                                     && button.get_meta("ui_action").to::<String>()
-                                        == "palette_accept"
+                                        == "palette_precision"
                                 {
                                     button.call_deferred("emit_signal", &["pressed".to_variant()]);
-                                    self.ui_palette_phase = 2;
                                     return;
                                 }
                             }
+                        }
+                        let color = Color::from_rgba(
+                            values[0].as_f64().unwrap_or(1.) as f32,
+                            values[1].as_f64().unwrap_or(1.) as f32,
+                            values[2].as_f64().unwrap_or(1.) as f32,
+                            values[3].as_f64().unwrap_or(1.) as f32,
+                        );
+                        picker.call_deferred("set_pick_color", &[color.to_variant()]);
+                        picker.call_deferred(
+                            "emit_signal",
+                            &["color_changed".to_variant(), color.to_variant()],
+                        );
+                        self.ui_palette_phase = 1;
+                        return;
+                    }
+                }
+                if self.ui_palette_phase == 1
+                    && self.ui_steps[self.ui_step]["close_palette"]
+                        .as_bool()
+                        .unwrap_or(true)
+                {
+                    for child in palette.get_children().iter_shared() {
+                        if let Ok(mut button) = child.try_cast::<Button>()
+                            && button.has_meta("ui_action")
+                            && button.get_meta("ui_action").to::<String>() == "palette_accept"
+                        {
+                            button.call_deferred("emit_signal", &["pressed".to_variant()]);
+                            self.ui_palette_phase = 2;
+                            return;
                         }
                     }
                 }
@@ -2878,23 +2870,22 @@ impl OversteerApp {
             }
         }
         for child in controls {
-            if let Ok(mut slider) = child.clone().try_cast::<godot::classes::HSlider>() {
-                if slider.is_visible_in_tree()
-                    && slider.has_meta("ui_action")
-                    && slider.get_meta("ui_action").to::<String>() == action
-                {
-                    let Some(value) = step["value"].as_f64() else {
-                        return;
-                    };
-                    self.ui_action_log.push(serde_json::json!({"action":action,"value":value,"frame":self.scenario_frame,"screen_before":format!("{:?}",self.game.as_ref().unwrap().frame_snapshot().screen),"via":"visible-HSlider.value_changed","substate_before":self.ui_substate()}));
-                    slider.call_deferred("set_value_no_signal", &[value.to_variant()]);
-                    slider.call_deferred(
-                        "emit_signal",
-                        &["value_changed".to_variant(), value.to_variant()],
-                    );
-                    self.ui_pending = true;
+            if let Ok(mut slider) = child.clone().try_cast::<godot::classes::HSlider>()
+                && slider.is_visible_in_tree()
+                && slider.has_meta("ui_action")
+                && slider.get_meta("ui_action").to::<String>() == action
+            {
+                let Some(value) = step["value"].as_f64() else {
                     return;
-                }
+                };
+                self.ui_action_log.push(serde_json::json!({"action":action,"value":value,"frame":self.scenario_frame,"screen_before":format!("{:?}",self.game.as_ref().unwrap().frame_snapshot().screen),"via":"visible-HSlider.value_changed","substate_before":self.ui_substate()}));
+                slider.call_deferred("set_value_no_signal", &[value.to_variant()]);
+                slider.call_deferred(
+                    "emit_signal",
+                    &["value_changed".to_variant(), value.to_variant()],
+                );
+                self.ui_pending = true;
+                return;
             }
             if let Ok(mut button) = child.try_cast::<Button>() {
                 if !button.is_visible_in_tree()
@@ -2913,12 +2904,12 @@ impl OversteerApp {
         }
     }
     fn send(&mut self, command: GameCommand) {
-        if let Some(game) = &mut self.game {
-            if let Err(error) = game.command(command) {
-                self.notice = error.clone();
-                self.error_dialog = Some(error);
-                self.previous_screen.clear();
-            }
+        if let Some(game) = &mut self.game
+            && let Err(error) = game.command(command)
+        {
+            self.notice = error.clone();
+            self.error_dialog = Some(error);
+            self.previous_screen.clear();
         }
     }
     fn apply_custom(&mut self) {
@@ -3273,6 +3264,8 @@ impl OversteerApp {
         parent.add_child(&label);
         label
     }
+    // Keep the existing presentation helper interface during tooling-only adoption.
+    #[allow(clippy::too_many_arguments)]
     fn palette(
         &self,
         parent: &mut Gd<Control>,
@@ -3299,6 +3292,8 @@ impl OversteerApp {
         );
         parent.add_child(&button);
     }
+    // Keep the existing presentation helper interface during tooling-only adoption.
+    #[allow(clippy::too_many_arguments)]
     fn button(
         &self,
         parent: &mut Gd<Control>,
@@ -3630,12 +3625,11 @@ impl OversteerApp {
                         size,
                         size,
                     );
-                    if selected {
-                        if let Some(child) = menu.get_children().iter_shared().last() {
-                            if let Ok(mut button) = child.try_cast::<Button>() {
-                                button.grab_focus();
-                            }
-                        }
+                    if selected
+                        && let Some(child) = menu.get_children().iter_shared().last()
+                        && let Ok(mut button) = child.try_cast::<Button>()
+                    {
+                        button.grab_focus();
                     }
                 }
             }
@@ -3671,12 +3665,11 @@ impl OversteerApp {
                     190.,
                     190.,
                 );
-                if self.goal_page == index {
-                    if let Some(child) = menu.get_children().iter_shared().last() {
-                        if let Ok(mut button) = child.try_cast::<Button>() {
-                            button.grab_focus();
-                        }
-                    }
+                if self.goal_page == index
+                    && let Some(child) = menu.get_children().iter_shared().last()
+                    && let Ok(mut button) = child.try_cast::<Button>()
+                {
+                    button.grab_focus();
                 }
             }
             self.button(&mut menu, "PREVIOUS", "goals_prev", 110., 990., 270., 60.);
@@ -4604,10 +4597,10 @@ impl OversteerApp {
             .enumerate()
             {
                 self.button(menu, label, key, 1160., 510. + i as f32 * 92., 650., 72.);
-                if let Some(child) = menu.get_child(menu.get_child_count() - 1) {
-                    if let Ok(mut b) = child.try_cast::<Button>() {
-                        b.add_theme_font_size_override("font_size", 42);
-                    }
+                if let Some(child) = menu.get_child(menu.get_child_count() - 1)
+                    && let Ok(mut b) = child.try_cast::<Button>()
+                {
+                    b.add_theme_font_size_override("font_size", 42);
                 }
             }
             return;
@@ -4641,25 +4634,25 @@ impl OversteerApp {
         .enumerate()
         {
             self.button(menu, label, key, 1160., 510. + i as f32 * 92., 650., 72.);
-            if let Some(child) = menu.get_child(menu.get_child_count() - 1) {
-                if let Ok(mut b) = child.try_cast::<Button>() {
-                    b.add_theme_font_size_override("font_size", 42);
-                    b.set_meta("main_index", &(i as i64).to_variant());
-                    if i == 0 {
-                        b.add_theme_font_override(
-                            "font",
-                            &godot::tools::load::<godot::classes::Font>(
-                                "res://assets/ui/native/fonts/menu-selected.fnt",
-                            ),
-                        );
-                    }
-                    let focus = self
-                        .base()
-                        .callable("menu_focus")
-                        .bind(&[(i as i64).to_variant()]);
-                    b.connect("focus_entered", &focus);
-                    b.connect("mouse_entered", &focus);
+            if let Some(child) = menu.get_child(menu.get_child_count() - 1)
+                && let Ok(mut b) = child.try_cast::<Button>()
+            {
+                b.add_theme_font_size_override("font_size", 42);
+                b.set_meta("main_index", &(i as i64).to_variant());
+                if i == 0 {
+                    b.add_theme_font_override(
+                        "font",
+                        &godot::tools::load::<godot::classes::Font>(
+                            "res://assets/ui/native/fonts/menu-selected.fnt",
+                        ),
+                    );
                 }
+                let focus = self
+                    .base()
+                    .callable("menu_focus")
+                    .bind(&[(i as i64).to_variant()]);
+                b.connect("focus_entered", &focus);
+                b.connect("mouse_entered", &focus);
             }
         }
         Self::native_texture(
@@ -4885,11 +4878,11 @@ impl OversteerApp {
                 part_size.x,
                 height,
             );
-            if let Some(child) = menu.get_child(menu.get_child_count() - 1) {
-                if let Ok(mut button) = child.try_cast::<Button>() {
-                    button.add_theme_font_override("font", &part_font);
-                    button.add_theme_font_size_override("font_size", part_font_size);
-                }
+            if let Some(child) = menu.get_child(menu.get_child_count() - 1)
+                && let Ok(mut button) = child.try_cast::<Button>()
+            {
+                button.add_theme_font_override("font", &part_font);
+                button.add_theme_font_size_override("font_size", part_font_size);
             }
             let mut price = Self::text(
                 menu,
@@ -5376,40 +5369,40 @@ impl OversteerApp {
             hud.add_child(&needle);
             self.gauge_needle = Some(needle);
         }
-        if let Some(race) = self.game.as_ref().unwrap().frame_snapshot().race {
-            if let Some(track) = self.content.tracks.iter().find(|t| t.id == race.track_id) {
-                let (center, scale) = map_transform(&track.points);
-                let mut line = godot::classes::Line2D::new_alloc();
-                let mut points: Vec<Vector2> = track
-                    .points
-                    .iter()
-                    .map(|p| {
-                        Vector2::new(219.5, 839.5) + (Vector2::new(p[0], p[2]) - center) * scale
-                    })
-                    .collect();
-                if let Some(first) = points.first().copied() {
-                    points.push(first);
-                }
-                line.set_points(&PackedVector2Array::from(points));
-                line.set_default_color(Color::from_rgb(0.5, 0.7, 1.));
-                line.set_width(3.);
-                hud.add_child(&line);
-                let dot = Self::text(
-                    &mut hud,
-                    "●",
-                    170.,
-                    910.,
-                    18,
-                    Color::from_rgb(1., 0.2, 0.15),
-                );
-                self.labels.insert("map_player".into(), dot);
+        if let Some(race) = self.game.as_ref().unwrap().frame_snapshot().race
+            && let Some(track) = self.content.tracks.iter().find(|t| t.id == race.track_id)
+        {
+            let (center, scale) = map_transform(&track.points);
+            let mut line = godot::classes::Line2D::new_alloc();
+            let mut points: Vec<Vector2> = track
+                .points
+                .iter()
+                .map(|p| Vector2::new(219.5, 839.5) + (Vector2::new(p[0], p[2]) - center) * scale)
+                .collect();
+            if let Some(first) = points.first().copied() {
+                points.push(first);
             }
+            line.set_points(&PackedVector2Array::from(points));
+            line.set_default_color(Color::from_rgb(0.5, 0.7, 1.));
+            line.set_width(3.);
+            hud.add_child(&line);
+            let dot = Self::text(
+                &mut hud,
+                "●",
+                170.,
+                910.,
+                18,
+                Color::from_rgb(1., 0.2, 0.15),
+            );
+            self.labels.insert("map_player".into(), dot);
         }
         for label in self.labels.values_mut() {
             label.move_to_front();
         }
         self.hud = Some(hud);
     }
+    // Keep staged setup explicit so fixture overrides and input sampling order remain visible.
+    #[allow(clippy::field_reassign_with_default)]
     fn showdown_avatar(&mut self, snap: &GameSnapshot, visible: bool) {
         if !visible {
             if self.avatar_key.starts_with("showdown:") {
@@ -5470,25 +5463,26 @@ impl OversteerApp {
                         .iter()
                         .find(|character| character["gender"].as_str() == Some(&profile.gender))
                 })
-        }) {
-            if let Some(path) = character["model_path"].as_str() {
-                let mut actor = Self::load_scene(path);
-                color_avatar(&mut actor, character, &profile);
-                actor.set_position(Vector3::new(3.4, 0., -0.8));
-                actor.set_rotation(Vector3::new(0., std::f32::consts::PI, 0.));
-                self.base_mut().add_child(&actor);
-                // Native Tyrone/Keiko bet clips retargeted by source bone names to the
-                // two common actor assemblies; these remain explicit character proxies.
-                play_source_animation(
-                    &mut actor.clone().upcast::<godot::classes::Node>(),
-                    character["animation_roles"][role].as_str().unwrap_or(""),
-                    role == "crew_idle",
-                );
-                self.avatar = Some(actor);
-            }
+        }) && let Some(path) = character["model_path"].as_str()
+        {
+            let mut actor = Self::load_scene(path);
+            color_avatar(&mut actor, character, &profile);
+            actor.set_position(Vector3::new(3.4, 0., -0.8));
+            actor.set_rotation(Vector3::new(0., std::f32::consts::PI, 0.));
+            self.base_mut().add_child(&actor);
+            // Native Tyrone/Keiko bet clips retargeted by source bone names to the
+            // two common actor assemblies; these remain explicit character proxies.
+            play_source_animation(
+                &mut actor.clone().upcast::<godot::classes::Node>(),
+                character["animation_roles"][role].as_str().unwrap_or(""),
+                role == "crew_idle",
+            );
+            self.avatar = Some(actor);
         }
         self.avatar_key = key;
     }
+    // Keep the existing explicit presentation branches during tooling-only adoption.
+    #[allow(clippy::if_same_then_else)]
     fn refresh(&mut self) {
         let mut snap = self.game.as_ref().unwrap().frame_snapshot();
         if self.replay {
@@ -5497,18 +5491,19 @@ impl OversteerApp {
                     self.replay_frames[self.replay_cursor.min(self.replay_frames.len() - 1)]
                         .clone(),
                 );
-                if self.scenario_frame % 3 == 0 {
+                if self.scenario_frame.is_multiple_of(3) {
                     self.replay_cursor = (self.replay_cursor + 1) % self.replay_frames.len();
                 }
             }
-        } else if snap.screen == GameScreen::Race && self.scenario_frame % 3 == 0 {
-            if let Some(race) = &snap.race {
-                if race.elapsed < 0.05 {
-                    self.replay_frames.clear();
-                }
-                if self.replay_frames.len() < 12000 {
-                    self.replay_frames.push(race.clone());
-                }
+        } else if snap.screen == GameScreen::Race
+            && self.scenario_frame.is_multiple_of(3)
+            && let Some(race) = &snap.race
+        {
+            if race.elapsed < 0.05 {
+                self.replay_frames.clear();
+            }
+            if self.replay_frames.len() < 12000 {
+                self.replay_frames.push(race.clone());
             }
         }
         let presentation_role = if snap.screen == GameScreen::Avatar {
@@ -6004,51 +5999,50 @@ impl OversteerApp {
                                     .iter()
                                     .find(|c| c["gender"].as_str() == Some(&snap.profile.gender))
                             })
-                    }) {
-                        if let Some(path) = character["model_path"].as_str() {
-                            let mut actor = Self::load_scene(path);
-                            if snap.profile.native_components.is_empty() {
-                                color_avatar(&mut actor, character, &snap.profile);
-                            } else {
-                                match avatar::catalog().and_then(|data| {
-                                    avatar::attach(&mut actor, &data, &snap.profile)
-                                }) {
-                                    Ok(report) => self.avatar_report = report,
-                                    Err(error) => {
-                                        self.notice = error.clone();
-                                        self.avatar_report = serde_json::json!({"error":error});
-                                    }
+                    }) && let Some(path) = character["model_path"].as_str()
+                    {
+                        let mut actor = Self::load_scene(path);
+                        if snap.profile.native_components.is_empty() {
+                            color_avatar(&mut actor, character, &snap.profile);
+                        } else {
+                            match avatar::catalog()
+                                .and_then(|data| avatar::attach(&mut actor, &data, &snap.profile))
+                            {
+                                Ok(report) => self.avatar_report = report,
+                                Err(error) => {
+                                    self.notice = error.clone();
+                                    self.avatar_report = serde_json::json!({"error":error});
                                 }
                             }
-                            actor.set_position(if snap.screen == GameScreen::Podium {
-                                Vector3::new(2.3, 0., 0.)
-                            } else {
-                                // Original CreateAvatar marker, with the venue translated
-                                // into actor-relative world coordinates above.
-                                Vector3::ZERO
-                            });
-                            self.base_mut().add_child(&actor);
-                            let podium = snap.screen == GameScreen::Podium;
-                            let role = if podium {
-                                if snap
-                                    .result
-                                    .as_ref()
-                                    .is_some_and(|result| result.position == 1)
-                                {
-                                    "podium_happy"
-                                } else {
-                                    "podium_disappointed"
-                                }
-                            } else {
-                                "idle"
-                            };
-                            play_source_animation(
-                                &mut actor.clone().upcast::<godot::classes::Node>(),
-                                character["animation_roles"][role].as_str().unwrap_or(""),
-                                !podium,
-                            );
-                            self.avatar = Some(actor);
                         }
+                        actor.set_position(if snap.screen == GameScreen::Podium {
+                            Vector3::new(2.3, 0., 0.)
+                        } else {
+                            // Original CreateAvatar marker, with the venue translated
+                            // into actor-relative world coordinates above.
+                            Vector3::ZERO
+                        });
+                        self.base_mut().add_child(&actor);
+                        let podium = snap.screen == GameScreen::Podium;
+                        let role = if podium {
+                            if snap
+                                .result
+                                .as_ref()
+                                .is_some_and(|result| result.position == 1)
+                            {
+                                "podium_happy"
+                            } else {
+                                "podium_disappointed"
+                            }
+                        } else {
+                            "idle"
+                        };
+                        play_source_animation(
+                            &mut actor.clone().upcast::<godot::classes::Node>(),
+                            character["animation_roles"][role].as_str().unwrap_or(""),
+                            !podium,
+                        );
+                        self.avatar = Some(actor);
                     }
                     self.avatar_key = key;
                 }
@@ -6183,8 +6177,8 @@ impl OversteerApp {
                     return;
                 }
                 if snap.screen == GameScreen::Avatar {
-                    if let Some(actor) = &self.avatar {
-                        if let Some((position, target, fov, roll)) = avatar::camera_pose(
+                    if let Some(actor) = &self.avatar
+                        && let Some((position, target, fov, roll)) = avatar::camera_pose(
                             actor,
                             if self.avatar_editing {
                                 &self.avatar_category
@@ -6193,13 +6187,13 @@ impl OversteerApp {
                             } else {
                                 "categories"
                             },
-                        ) {
-                            cam.set_position(position);
-                            cam.look_at(target);
-                            cam.rotate_object_local(Vector3::BACK, roll.to_radians());
-                            cam.set_fov(script_camera_fov(fov));
-                            return;
-                        }
+                        )
+                    {
+                        cam.set_position(position);
+                        cam.look_at(target);
+                        cam.rotate_object_local(Vector3::BACK, roll.to_radians());
+                        cam.set_fov(script_camera_fov(fov));
+                        return;
                     }
                     let anchor = self
                         .avatar
@@ -6369,65 +6363,66 @@ impl OversteerApp {
         let paint = custom.paint;
         let finish = custom.finish.as_str();
         for child in node.get_children().iter_shared() {
-            if let Ok(mut mesh) = child.clone().try_cast::<MeshInstance3D>() {
-                if let Some(resource) = mesh.get_mesh() {
-                    for i in 0..resource.get_surface_count() {
-                        if let Some(material) = mesh.get_active_material(i) {
-                            let name = material.get_name().to_string();
-                            if names.contains(&name)
-                                || (names.is_empty()
-                                    && name.contains("paint")
-                                    && !name.contains("wheel")
-                                    && !name.contains("tire"))
-                            {
-                                let decal_paths = custom
-                                    .vinyls
-                                    .iter()
-                                    .take(16)
-                                    .map(|layer| {
-                                        self.decal_catalog["designs"]
-                                            .as_array()
-                                            .and_then(|designs| {
-                                                designs.iter().find(|design| {
-                                                    design["id"].as_str() == Some(&layer.design_id)
-                                                })
+            if let Ok(mut mesh) = child.clone().try_cast::<MeshInstance3D>()
+                && let Some(resource) = mesh.get_mesh()
+            {
+                for i in 0..resource.get_surface_count() {
+                    if let Some(material) = mesh.get_active_material(i) {
+                        let name = material.get_name().to_string();
+                        if names.contains(&name)
+                            || (names.is_empty()
+                                && name.contains("paint")
+                                && !name.contains("wheel")
+                                && !name.contains("tire"))
+                        {
+                            let decal_paths = custom
+                                .vinyls
+                                .iter()
+                                .take(16)
+                                .map(|layer| {
+                                    self.decal_catalog["designs"]
+                                        .as_array()
+                                        .and_then(|designs| {
+                                            designs.iter().find(|design| {
+                                                design["id"].as_str() == Some(&layer.design_id)
                                             })
-                                            .and_then(|design| design["texture_path"].as_str())
-                                            .map(str::to_owned)
-                                    })
-                                    .collect::<Vec<_>>();
-                                let source_material =
-                                    material.clone().try_cast::<StandardMaterial3D>().ok();
-                                let mut shader = godot::classes::Shader::new_gd();
-                                let mut code = String::from(
-                                    "shader_type spatial; uniform sampler2D base_texture:source_color; uniform bool has_texture=false; uniform bool decal_repeat_uv=false; uniform sampler2D paint_mask; uniform bool has_mask=false; uniform float factory_luma=0.5; uniform vec4 original_albedo:source_color=vec4(1.0); uniform float original_roughness=0.5; uniform float original_metallic=0.0; uniform vec4 paint:source_color=vec4(1.0);uniform vec4 paint_secondary:source_color=vec4(1.0);uniform vec4 paint_fleck:source_color=vec4(1.0);uniform float paint_balance=0.5;uniform float paint_flakie=0.52;uniform float paint_focus=100.0;uniform float paint_film=0.011; uniform vec3 uv1_scale=vec3(1.0);uniform vec3 uv1_offset=vec3(0.0);uniform bool use_vertex_color=false;uniform bool srgb_vertex_color=false;vec3 linear_vertex(vec3 c){return mix(c/12.92,pow((c+vec3(0.055))/1.055,vec3(2.4)),step(vec3(0.04045),c));} void fragment(){vec2 base_uv=UV*uv1_scale.xy+uv1_offset.xy;vec4 vertex_base=use_vertex_color?COLOR:vec4(1.0);if(srgb_vertex_color){vertex_base.rgb=linear_vertex(vertex_base.rgb);}vec4 base=has_texture?texture(base_texture,base_uv):vec4(1.0);vec3 original=base.rgb*original_albedo.rgb*vertex_base.rgb;float coverage=(has_mask?texture(paint_mask,base_uv).r:1.0)*paint.a;ALBEDO=mix(original,paint.rgb*dot(original,vec3(0.2126,0.7152,0.0722))/factory_luma,coverage);",
+                                        })
+                                        .and_then(|design| design["texture_path"].as_str())
+                                        .map(str::to_owned)
+                                })
+                                .collect::<Vec<_>>();
+                            let source_material =
+                                material.clone().try_cast::<StandardMaterial3D>().ok();
+                            let mut shader = godot::classes::Shader::new_gd();
+                            let mut code = String::from(
+                                "shader_type spatial; uniform sampler2D base_texture:source_color; uniform bool has_texture=false; uniform bool decal_repeat_uv=false; uniform sampler2D paint_mask; uniform bool has_mask=false; uniform float factory_luma=0.5; uniform vec4 original_albedo:source_color=vec4(1.0); uniform float original_roughness=0.5; uniform float original_metallic=0.0; uniform vec4 paint:source_color=vec4(1.0);uniform vec4 paint_secondary:source_color=vec4(1.0);uniform vec4 paint_fleck:source_color=vec4(1.0);uniform float paint_balance=0.5;uniform float paint_flakie=0.52;uniform float paint_focus=100.0;uniform float paint_film=0.011; uniform vec3 uv1_scale=vec3(1.0);uniform vec3 uv1_offset=vec3(0.0);uniform bool use_vertex_color=false;uniform bool srgb_vertex_color=false;vec3 linear_vertex(vec3 c){return mix(c/12.92,pow((c+vec3(0.055))/1.055,vec3(2.4)),step(vec3(0.04045),c));} void fragment(){vec2 base_uv=UV*uv1_scale.xy+uv1_offset.xy;vec4 vertex_base=use_vertex_color?COLOR:vec4(1.0);if(srgb_vertex_color){vertex_base.rgb=linear_vertex(vertex_base.rgb);}vec4 base=has_texture?texture(base_texture,base_uv):vec4(1.0);vec3 original=base.rgb*original_albedo.rgb*vertex_base.rgb;float coverage=(has_mask?texture(paint_mask,base_uv).r:1.0)*paint.a;ALBEDO=mix(original,paint.rgb*dot(original,vec3(0.2126,0.7152,0.0722))/factory_luma,coverage);",
+                            );
+                            if let Some(source) = &source_material {
+                                let cull = match source.get_cull_mode() {
+                                    godot::classes::base_material_3d::CullMode::FRONT => {
+                                        "render_mode cull_front;"
+                                    }
+                                    godot::classes::base_material_3d::CullMode::DISABLED => {
+                                        "render_mode cull_disabled;"
+                                    }
+                                    _ => "",
+                                };
+                                code = code.replacen(
+                                    "shader_type spatial;",
+                                    &format!("shader_type spatial;{cull}"),
+                                    1,
                                 );
-                                if let Some(source) = &source_material {
-                                    let cull = match source.get_cull_mode() {
-                                        godot::classes::base_material_3d::CullMode::FRONT => {
-                                            "render_mode cull_front;"
-                                        }
-                                        godot::classes::base_material_3d::CullMode::DISABLED => {
-                                            "render_mode cull_disabled;"
-                                        }
-                                        _ => "",
-                                    };
-                                    code = code.replacen(
-                                        "shader_type spatial;",
-                                        &format!("shader_type spatial;{cull}"),
-                                        1,
-                                    );
-                                }
-                                let uniforms = custom.vinyls.iter().take(16).enumerate().map(|(index,_)| {
+                            }
+                            let uniforms = custom.vinyls.iter().take(16).enumerate().map(|(index,_)| {
                                     let texture = if decal_paths[index].is_some() {format!("uniform sampler2D decal_{index}:source_color;uniform bool decal_{index}_alpha_mask=false;")}else{String::new()};
                                     format!("{texture}uniform vec4 vinyl_tint_{index}:source_color=vec4(1.0);")
                                 }).collect::<String>();
-                                code = code.replacen(
-                                    "void fragment()",
-                                    &format!("{uniforms}void fragment()"),
-                                    1,
-                                );
-                                code.push_str(&format!(
+                            code = code.replacen(
+                                "void fragment()",
+                                &format!("{uniforms}void fragment()"),
+                                1,
+                            );
+                            code.push_str(&format!(
                                     "ROUGHNESS=mix(original_roughness,{:.3},coverage);METALLIC=mix(original_metallic,{:.3},coverage);",
                                     if matches!(finish, "matt" | "matte") { 0.85 } else { 0.19 },
                                     if finish == "chrome" {
@@ -6438,242 +6433,217 @@ impl OversteerApp {
                                         0.3
                                     }
                                 ));
-                                code.push_str(
-                                    "vec2 decal_uv=decal_repeat_uv?fract(base_uv):base_uv;",
+                            code.push_str("vec2 decal_uv=decal_repeat_uv?fract(base_uv):base_uv;");
+                            for (layer_index, layer) in custom.vinyls.iter().take(16).enumerate() {
+                                if !layer.design_id.is_empty() && decal_paths[layer_index].is_none()
+                                {
+                                    godot_warn!("Native decal unavailable: {}", layer.design_id);
+                                    continue;
+                                }
+                                let c = layer.rotation.cos();
+                                let sn = layer.rotation.sin();
+                                let sx = layer.scale[0].max(0.01);
+                                let sy = layer.scale[1].max(0.01);
+                                code.push_str(&format!("{{vec2 p=mat2(vec2({c:.4},{sn:.4}),vec2({neg:.4},{c:.4}))*(decal_uv-vec2({x:.4},{y:.4})-vec2(0.5));p/=vec2({sx:.4},{sy:.4});float mask=",neg=-sn,x=layer.position[0],y=layer.position[1]));
+                                if decal_paths[layer_index].is_some() {
+                                    code.push_str(&format!("step(abs(p.x),0.5)*step(abs(p.y),0.5);vec4 decal=texture(decal_{layer_index},p+vec2(0.5));mask*=decal.a;"));
+                                } else {
+                                    code.push_str(if layer.shape=="flame"{"step(abs(p.x+sin(p.y*28.0)*0.04),0.045)*(1.0-step(0.43,abs(p.y)));"}else{"(1.0-step(0.045,abs(p.x)))*(1.0-step(0.48,abs(p.y)));"});
+                                }
+                                let artwork = if decal_paths[layer_index].is_some() {
+                                    format!("(decal_{layer_index}_alpha_mask?vec3(1.0):decal.rgb)*")
+                                } else {
+                                    String::new()
+                                };
+                                code.push_str(&format!("mask*=has_mask?texture(paint_mask,base_uv).r:1.0;ALBEDO=mix(ALBEDO,{artwork}vinyl_tint_{layer_index}.rgb,mask*vinyl_tint_{layer_index}.a);}}"));
+                            }
+                            // PBR translations distinguish the recovered families; the
+                            // original uniform bindings are known, but its GPU BRDF is not.
+                            if finish == "flake" {
+                                code.push_str("float fleck=step(1.0-paint_flakie*0.03,fract(sin(dot(floor(base_uv*(1000.0+paint_focus*8.0)),vec2(12.9898,78.233)))*43758.5453));ROUGHNESS=mix(ROUGHNESS,0.07,fleck*coverage);ALBEDO=mix(ALBEDO,paint_fleck.rgb,fleck*coverage*0.55);");
+                            }
+                            if matches!(finish, "pearl" | "pearlescent") {
+                                code.push_str("ALBEDO=mix(ALBEDO,paint_secondary.rgb,pow(1.0-abs(dot(NORMAL,VIEW)),0.5+paint_balance*5.0)*0.65*coverage);");
+                            }
+                            if finish == "thinfilm" {
+                                code.push_str("float film_angle=1.0-abs(dot(normalize(NORMAL),normalize(VIEW)));vec3 film=0.5+0.5*cos(vec3(0.0,2.094395,4.18879)+film_angle*(paint_film*1142.3973));ALBEDO=mix(ALBEDO,ALBEDO*(0.35+film*1.3),coverage*0.75);CLEARCOAT=coverage;CLEARCOAT_ROUGHNESS=0.1;");
+                            }
+                            if let Some(source) = &source_material
+                                && source.get_transparency()
+                                    == godot::classes::base_material_3d::Transparency::ALPHA_SCISSOR
+                            {
+                                code.push_str(&format!("ALPHA=base.a*original_albedo.a*vertex_base.a;ALPHA_SCISSOR_THRESHOLD={:.7};", source.get_alpha_scissor_threshold()));
+                            }
+                            code.push('}');
+                            shader.set_code(&code);
+                            let mut mat = godot::classes::ShaderMaterial::new_gd();
+                            mat.set_shader(&shader);
+                            // These controls preserve the recovered material record;
+                            // their mapping into Godot PBR remains an explicit adapter.
+                            let mut record = paint::donor_seed(custom);
+                            if custom.native_paint.is_none() && !paint::stages(finish).is_empty() {
+                                // Legacy saves have no72-byte record. Translate the
+                                // selected donor color through the same recovered writer.
+                                let _ = paint::color(
+                                    &mut record,
+                                    finish,
+                                    0,
+                                    [paint[0], paint[1], paint[2]],
                                 );
-                                for (layer_index, layer) in
-                                    custom.vinyls.iter().take(16).enumerate()
-                                {
-                                    if !layer.design_id.is_empty()
-                                        && decal_paths[layer_index].is_none()
-                                    {
-                                        godot_warn!(
-                                            "Native decal unavailable: {}",
-                                            layer.design_id
-                                        );
-                                        continue;
-                                    }
-                                    let c = layer.rotation.cos();
-                                    let sn = layer.rotation.sin();
-                                    let sx = layer.scale[0].max(0.01);
-                                    let sy = layer.scale[1].max(0.01);
-                                    code.push_str(&format!("{{vec2 p=mat2(vec2({c:.4},{sn:.4}),vec2({neg:.4},{c:.4}))*(decal_uv-vec2({x:.4},{y:.4})-vec2(0.5));p/=vec2({sx:.4},{sy:.4});float mask=",neg=-sn,x=layer.position[0],y=layer.position[1]));
-                                    if decal_paths[layer_index].is_some() {
-                                        code.push_str(&format!("step(abs(p.x),0.5)*step(abs(p.y),0.5);vec4 decal=texture(decal_{layer_index},p+vec2(0.5));mask*=decal.a;"));
-                                    } else {
-                                        code.push_str(if layer.shape=="flame"{"step(abs(p.x+sin(p.y*28.0)*0.04),0.045)*(1.0-step(0.43,abs(p.y)));"}else{"(1.0-step(0.045,abs(p.x)))*(1.0-step(0.48,abs(p.y)));"});
-                                    }
-                                    let artwork = if decal_paths[layer_index].is_some() {
-                                        format!(
-                                            "(decal_{layer_index}_alpha_mask?vec3(1.0):decal.rgb)*"
-                                        )
-                                    } else {
-                                        String::new()
-                                    };
-                                    code.push_str(&format!("mask*=has_mask?texture(paint_mask,base_uv).r:1.0;ALBEDO=mix(ALBEDO,{artwork}vinyl_tint_{layer_index}.rgb,mask*vinyl_tint_{layer_index}.a);}}"));
-                                }
-                                // PBR translations distinguish the recovered families; the
-                                // original uniform bindings are known, but its GPU BRDF is not.
-                                if finish == "flake" {
-                                    code.push_str("float fleck=step(1.0-paint_flakie*0.03,fract(sin(dot(floor(base_uv*(1000.0+paint_focus*8.0)),vec2(12.9898,78.233)))*43758.5453));ROUGHNESS=mix(ROUGHNESS,0.07,fleck*coverage);ALBEDO=mix(ALBEDO,paint_fleck.rgb,fleck*coverage*0.55);");
-                                }
-                                if matches!(finish, "pearl" | "pearlescent") {
-                                    code.push_str("ALBEDO=mix(ALBEDO,paint_secondary.rgb,pow(1.0-abs(dot(NORMAL,VIEW)),0.5+paint_balance*5.0)*0.65*coverage);");
-                                }
-                                if finish == "thinfilm" {
-                                    code.push_str("float film_angle=1.0-abs(dot(normalize(NORMAL),normalize(VIEW)));vec3 film=0.5+0.5*cos(vec3(0.0,2.094395,4.18879)+film_angle*(paint_film*1142.3973));ALBEDO=mix(ALBEDO,ALBEDO*(0.35+film*1.3),coverage*0.75);CLEARCOAT=coverage;CLEARCOAT_ROUGHNESS=0.1;");
-                                }
-                                if let Some(source) = &source_material {
-                                    if source.get_transparency()==godot::classes::base_material_3d::Transparency::ALPHA_SCISSOR {
-                                        code.push_str(&format!("ALPHA=base.a*original_albedo.a*vertex_base.a;ALPHA_SCISSOR_THRESHOLD={:.7};", source.get_alpha_scissor_threshold()));
-                                    }
-                                }
-                                code.push('}');
-                                shader.set_code(&code);
-                                let mut mat = godot::classes::ShaderMaterial::new_gd();
-                                mat.set_shader(&shader);
-                                // These controls preserve the recovered material record;
-                                // their mapping into Godot PBR remains an explicit adapter.
-                                let mut record = paint::donor_seed(custom);
-                                if custom.native_paint.is_none()
-                                    && !paint::stages(finish).is_empty()
-                                {
-                                    // Legacy saves have no72-byte record. Translate the
-                                    // selected donor color through the same recovered writer.
-                                    let _ = paint::color(
-                                        &mut record,
-                                        finish,
-                                        0,
-                                        [paint[0], paint[1], paint[2]],
-                                    );
-                                }
-                                for (name, rgb) in [
-                                    ("paint_secondary", record.secondary_rgb),
-                                    ("paint_fleck", record.fleck_rgb),
-                                ] {
-                                    mat.set_shader_parameter(
-                                        name,
-                                        &Color::from_rgba(rgb[0], rgb[1], rgb[2], 1.).to_variant(),
-                                    );
-                                }
-                                for (name, value) in [
-                                    ("paint_balance", record.two_tone_exp),
-                                    ("paint_flakie", record.flakie),
-                                    ("paint_focus", record.fleck_power),
-                                    ("paint_film", record.film_thickness),
-                                ] {
-                                    mat.set_shader_parameter(name, &value.to_variant());
-                                }
-                                if let Some(source) = &source_material {
-                                    mat.set_shader_parameter(
-                                        "uv1_scale",
-                                        &source.get_uv1_scale().to_variant(),
-                                    );
-                                    mat.set_shader_parameter(
-                                        "uv1_offset",
-                                        &source.get_uv1_offset().to_variant(),
-                                    );
-                                    mat.set_shader_parameter("use_vertex_color", &source.get_flag(godot::classes::base_material_3d::Flags::ALBEDO_FROM_VERTEX_COLOR).to_variant());
-                                    mat.set_shader_parameter("srgb_vertex_color", &source.get_flag(godot::classes::base_material_3d::Flags::SRGB_VERTEX_COLOR).to_variant());
-                                }
-                                for (index, layer) in custom.vinyls.iter().take(16).enumerate() {
-                                    mat.set_shader_parameter(
-                                        &format!("vinyl_tint_{index}"),
-                                        &Color::from_rgba(
-                                            layer.color[0],
-                                            layer.color[1],
-                                            layer.color[2],
-                                            layer.color[3],
-                                        )
-                                        .to_variant(),
-                                    );
-                                }
-                                for (index, path) in decal_paths.iter().enumerate() {
-                                    if let Some(path) = path {
-                                        let alpha_mask = self.decal_catalog["designs"]
-                                            .as_array()
-                                            .is_some_and(|designs| {
-                                                designs.iter().any(|design| {
-                                                    design["id"].as_str()
-                                                        == Some(&custom.vinyls[index].design_id)
-                                                        && design["color_mode"].as_str()
-                                                            == Some("alpha_mask")
-                                                })
-                                            });
-                                        mat.set_shader_parameter(
-                                            &format!("decal_{index}_alpha_mask"),
-                                            &alpha_mask.to_variant(),
-                                        );
-                                        mat.set_shader_parameter(
-                                            &format!("decal_{index}"),
-                                            &godot::tools::load::<godot::classes::Texture2D>(path)
-                                                .to_variant(),
-                                        );
-                                    }
-                                }
+                            }
+                            for (name, rgb) in [
+                                ("paint_secondary", record.secondary_rgb),
+                                ("paint_fleck", record.fleck_rgb),
+                            ] {
                                 mat.set_shader_parameter(
-                                    "paint",
-                                    &Color::from_rgba(paint[0], paint[1], paint[2], paint[3])
+                                    name,
+                                    &Color::from_rgba(rgb[0], rgb[1], rgb[2], 1.).to_variant(),
+                                );
+                            }
+                            for (name, value) in [
+                                ("paint_balance", record.two_tone_exp),
+                                ("paint_flakie", record.flakie),
+                                ("paint_focus", record.fleck_power),
+                                ("paint_film", record.film_thickness),
+                            ] {
+                                mat.set_shader_parameter(name, &value.to_variant());
+                            }
+                            if let Some(source) = &source_material {
+                                mat.set_shader_parameter(
+                                    "uv1_scale",
+                                    &source.get_uv1_scale().to_variant(),
+                                );
+                                mat.set_shader_parameter(
+                                    "uv1_offset",
+                                    &source.get_uv1_offset().to_variant(),
+                                );
+                                mat.set_shader_parameter("use_vertex_color", &source.get_flag(godot::classes::base_material_3d::Flags::ALBEDO_FROM_VERTEX_COLOR).to_variant());
+                                mat.set_shader_parameter("srgb_vertex_color", &source.get_flag(godot::classes::base_material_3d::Flags::SRGB_VERTEX_COLOR).to_variant());
+                            }
+                            for (index, layer) in custom.vinyls.iter().take(16).enumerate() {
+                                mat.set_shader_parameter(
+                                    &format!("vinyl_tint_{index}"),
+                                    &Color::from_rgba(
+                                        layer.color[0],
+                                        layer.color[1],
+                                        layer.color[2],
+                                        layer.color[3],
+                                    )
+                                    .to_variant(),
+                                );
+                            }
+                            for (index, path) in decal_paths.iter().enumerate() {
+                                if let Some(path) = path {
+                                    let alpha_mask = self.decal_catalog["designs"]
+                                        .as_array()
+                                        .is_some_and(|designs| {
+                                            designs.iter().any(|design| {
+                                                design["id"].as_str()
+                                                    == Some(&custom.vinyls[index].design_id)
+                                                    && design["color_mode"].as_str()
+                                                        == Some("alpha_mask")
+                                            })
+                                        });
+                                    mat.set_shader_parameter(
+                                        &format!("decal_{index}_alpha_mask"),
+                                        &alpha_mask.to_variant(),
+                                    );
+                                    mat.set_shader_parameter(
+                                        &format!("decal_{index}"),
+                                        &godot::tools::load::<godot::classes::Texture2D>(path)
+                                            .to_variant(),
+                                    );
+                                }
+                            }
+                            mat.set_shader_parameter(
+                                "paint",
+                                &Color::from_rgba(paint[0], paint[1], paint[2], paint[3])
+                                    .to_variant(),
+                            );
+                            if let Ok(base) = material.try_cast::<StandardMaterial3D>() {
+                                mat.set_shader_parameter(
+                                    "original_albedo",
+                                    &base.get_albedo().to_variant(),
+                                );
+                                mat.set_shader_parameter(
+                                    "original_roughness",
+                                    &base.get_roughness().to_variant(),
+                                );
+                                mat.set_shader_parameter(
+                                    "original_metallic",
+                                    &base.get_metallic().to_variant(),
+                                );
+                                let a = base.get_albedo().srgb_to_linear();
+                                mat.set_shader_parameter(
+                                    "factory_luma",
+                                    &(a.r * 0.2126 + a.g * 0.7152 + a.b * 0.0722)
+                                        .max(0.01)
                                         .to_variant(),
                                 );
-                                if let Ok(base) = material.try_cast::<StandardMaterial3D>() {
-                                    mat.set_shader_parameter(
-                                        "original_albedo",
-                                        &base.get_albedo().to_variant(),
+                                if let Some(texture) = base.get_texture(
+                                    godot::classes::base_material_3d::TextureParam::ALBEDO,
+                                ) {
+                                    mat.set_shader_parameter("base_texture", &texture.to_variant());
+                                    mat.set_shader_parameter("has_texture", &true.to_variant());
+                                }
+                            }
+                            let metadata: serde_json::Value = serde_json::from_str(
+                                &FileAccess::get_file_as_string("res://assets/cars.json")
+                                    .to_string(),
+                            )
+                            .unwrap_or_default();
+                            if let Some(entry) = metadata["cars"]
+                                .as_array()
+                                .and_then(|cars| {
+                                    cars.iter().find(|c| c["code"].as_str() == Some(car_id))
+                                })
+                                .and_then(|c| c["paint_materials"].as_array())
+                                .and_then(|materials| {
+                                    materials.iter().find(|m| m["name"].as_str() == Some(&name))
+                                })
+                            {
+                                mat.set_shader_parameter(
+                                    "decal_repeat_uv",
+                                    &entry["decal_repeat_uv"]
+                                        .as_bool()
+                                        .unwrap_or(false)
+                                        .to_variant(),
+                                );
+                                if let Some(path) = entry["mask_path"].as_str()
+                                    && let Some(texture) = ResourceLoader::singleton().load(path)
+                                {
+                                    mat.set_shader_parameter("paint_mask", &texture.to_variant());
+                                    mat.set_shader_parameter("has_mask", &true.to_variant());
+                                    let rgb = &entry["factory_rgb"];
+                                    let values = [
+                                        rgb[0].as_f64().unwrap_or(0.5),
+                                        rgb[1].as_f64().unwrap_or(0.5),
+                                        rgb[2].as_f64().unwrap_or(0.5),
+                                    ];
+                                    let denominator = if values.iter().any(|value| *value > 1.) {
+                                        255.
+                                    } else {
+                                        1.
+                                    };
+                                    let reference = Color::from_rgb(
+                                        (values[0] / denominator) as f32,
+                                        (values[1] / denominator) as f32,
+                                        (values[2] / denominator) as f32,
+                                    )
+                                    .srgb_to_linear();
+                                    let luma = entry["factory_luma_linear"].as_f64().unwrap_or(
+                                        (reference.r * 0.2126
+                                            + reference.g * 0.7152
+                                            + reference.b * 0.0722)
+                                            as f64,
                                     );
-                                    mat.set_shader_parameter(
-                                        "original_roughness",
-                                        &base.get_roughness().to_variant(),
-                                    );
-                                    mat.set_shader_parameter(
-                                        "original_metallic",
-                                        &base.get_metallic().to_variant(),
-                                    );
-                                    let a = base.get_albedo().srgb_to_linear();
                                     mat.set_shader_parameter(
                                         "factory_luma",
-                                        &(a.r * 0.2126 + a.g * 0.7152 + a.b * 0.0722)
-                                            .max(0.01)
-                                            .to_variant(),
+                                        &(luma.max(0.01) as f32).to_variant(),
                                     );
-                                    if let Some(texture) = base.get_texture(
-                                        godot::classes::base_material_3d::TextureParam::ALBEDO,
-                                    ) {
-                                        mat.set_shader_parameter(
-                                            "base_texture",
-                                            &texture.to_variant(),
-                                        );
-                                        mat.set_shader_parameter("has_texture", &true.to_variant());
-                                    }
                                 }
-                                let metadata: serde_json::Value = serde_json::from_str(
-                                    &FileAccess::get_file_as_string("res://assets/cars.json")
-                                        .to_string(),
-                                )
-                                .unwrap_or_default();
-                                if let Some(entry) = metadata["cars"]
-                                    .as_array()
-                                    .and_then(|cars| {
-                                        cars.iter().find(|c| c["code"].as_str() == Some(car_id))
-                                    })
-                                    .and_then(|c| c["paint_materials"].as_array())
-                                    .and_then(|materials| {
-                                        materials.iter().find(|m| m["name"].as_str() == Some(&name))
-                                    })
-                                {
-                                    mat.set_shader_parameter(
-                                        "decal_repeat_uv",
-                                        &entry["decal_repeat_uv"]
-                                            .as_bool()
-                                            .unwrap_or(false)
-                                            .to_variant(),
-                                    );
-                                    if let Some(path) = entry["mask_path"].as_str() {
-                                        if let Some(texture) =
-                                            ResourceLoader::singleton().load(path)
-                                        {
-                                            mat.set_shader_parameter(
-                                                "paint_mask",
-                                                &texture.to_variant(),
-                                            );
-                                            mat.set_shader_parameter(
-                                                "has_mask",
-                                                &true.to_variant(),
-                                            );
-                                            let rgb = &entry["factory_rgb"];
-                                            let values = [
-                                                rgb[0].as_f64().unwrap_or(0.5),
-                                                rgb[1].as_f64().unwrap_or(0.5),
-                                                rgb[2].as_f64().unwrap_or(0.5),
-                                            ];
-                                            let denominator =
-                                                if values.iter().any(|value| *value > 1.) {
-                                                    255.
-                                                } else {
-                                                    1.
-                                                };
-                                            let reference = Color::from_rgb(
-                                                (values[0] / denominator) as f32,
-                                                (values[1] / denominator) as f32,
-                                                (values[2] / denominator) as f32,
-                                            )
-                                            .srgb_to_linear();
-                                            let luma =
-                                                entry["factory_luma_linear"].as_f64().unwrap_or(
-                                                    (reference.r * 0.2126
-                                                        + reference.g * 0.7152
-                                                        + reference.b * 0.0722)
-                                                        as f64,
-                                                );
-                                            mat.set_shader_parameter(
-                                                "factory_luma",
-                                                &(luma.max(0.01) as f32).to_variant(),
-                                            );
-                                        }
-                                    }
-                                }
-                                mesh.set_surface_override_material(i, &mat);
                             }
+                            mesh.set_surface_override_material(i, &mat);
                         }
                     }
                 }
@@ -7106,19 +7076,18 @@ impl OversteerApp {
                 if let Some(car) = metadata["cars"]
                     .as_array()
                     .and_then(|cars| cars.iter().find(|car| car["code"].as_str() == Some(car_id)))
+                    && let Some(sockets) = car["wheel_sockets"].as_array()
                 {
-                    if let Some(sockets) = car["wheel_sockets"].as_array() {
-                        let names = car["stock_rim_materials"]
-                            .as_array()
-                            .map(|names| {
-                                names
-                                    .iter()
-                                    .filter_map(|name| name.as_str().map(str::to_owned))
-                                    .collect::<Vec<_>>()
-                            })
-                            .unwrap_or_default();
-                        paint_stock_rims(node, sockets, &names, custom.wheel_paint);
-                    }
+                    let names = car["stock_rim_materials"]
+                        .as_array()
+                        .map(|names| {
+                            names
+                                .iter()
+                                .filter_map(|name| name.as_str().map(str::to_owned))
+                                .collect::<Vec<_>>()
+                        })
+                        .unwrap_or_default();
+                    paint_stock_rims(node, sockets, &names, custom.wheel_paint);
                 }
             }
             return;
@@ -7188,12 +7157,11 @@ impl OversteerApp {
     }
     fn capture(&self, name: &str) {
         let _ = std::fs::create_dir_all(&self.capture_dir);
-        if let Some(viewport) = self.base().get_viewport() {
-            if let Some(texture) = viewport.get_texture() {
-                if let Some(image) = texture.get_image() {
-                    let _ = image.save_png(&format!("{}/{name}.png", self.capture_dir));
-                }
-            }
+        if let Some(viewport) = self.base().get_viewport()
+            && let Some(texture) = viewport.get_texture()
+            && let Some(image) = texture.get_image()
+        {
+            let _ = image.save_png(&format!("{}/{name}.png", self.capture_dir));
         }
     }
 }
@@ -7202,17 +7170,16 @@ fn preview_paint(node: &mut Gd<Node3D>, color: Color) {
     preview_paint_uniform(node, "paint", color);
 }
 fn preview_paint_uniform(node: &mut Gd<Node3D>, uniform: &str, color: Color) {
-    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for surface in 0..resource.get_surface_count() {
-                if let Some(mut shader) = mesh
-                    .get_active_material(surface)
-                    .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
-                {
-                    if !shader.get_shader_parameter("paint").is_nil() {
-                        shader.set_shader_parameter(uniform, &color.to_variant());
-                    }
-                }
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for surface in 0..resource.get_surface_count() {
+            if let Some(mut shader) = mesh
+                .get_active_material(surface)
+                .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+                && !shader.get_shader_parameter("paint").is_nil()
+            {
+                shader.set_shader_parameter(uniform, &color.to_variant());
             }
         }
     }
@@ -7224,17 +7191,16 @@ fn preview_paint_uniform(node: &mut Gd<Node3D>, uniform: &str, color: Color) {
 }
 
 fn preview_paint_scalar(node: &mut Gd<Node3D>, uniform: &str, value: f64) {
-    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for surface in 0..resource.get_surface_count() {
-                if let Some(mut shader) = mesh
-                    .get_active_material(surface)
-                    .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
-                {
-                    if !shader.get_shader_parameter("paint").is_nil() {
-                        shader.set_shader_parameter(uniform, &value.to_variant());
-                    }
-                }
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for surface in 0..resource.get_surface_count() {
+            if let Some(mut shader) = mesh
+                .get_active_material(surface)
+                .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+                && !shader.get_shader_parameter("paint").is_nil()
+            {
+                shader.set_shader_parameter(uniform, &value.to_variant());
             }
         }
     }
@@ -7320,53 +7286,53 @@ fn inspection_camera_fov(bounds: [Vector3; 2], camera: Transform3D, aspect: f32)
 
 fn world_mesh_bounds(node: &Gd<Node3D>) -> Option<[Vector3; 2]> {
     let mut bounds: Option<[Vector3; 2]> = None;
-    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if mesh.get_mesh().is_some() {
-            let aabb = mesh.get_aabb();
-            let transform = mesh.get_global_transform();
-            for corner in 0..8 {
-                let point = transform
-                    * (aabb.position
-                        + aabb.size
-                            * Vector3::new(
-                                (corner & 1) as f32,
-                                ((corner >> 1) & 1) as f32,
-                                ((corner >> 2) & 1) as f32,
-                            ));
-                if let Some(pair) = &mut bounds {
-                    pair[0] = Vector3::new(
-                        pair[0].x.min(point.x),
-                        pair[0].y.min(point.y),
-                        pair[0].z.min(point.z),
-                    );
-                    pair[1] = Vector3::new(
-                        pair[1].x.max(point.x),
-                        pair[1].y.max(point.y),
-                        pair[1].z.max(point.z),
-                    );
-                } else {
-                    bounds = Some([point, point]);
-                }
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && mesh.get_mesh().is_some()
+    {
+        let aabb = mesh.get_aabb();
+        let transform = mesh.get_global_transform();
+        for corner in 0..8 {
+            let point = transform
+                * (aabb.position
+                    + aabb.size
+                        * Vector3::new(
+                            (corner & 1) as f32,
+                            ((corner >> 1) & 1) as f32,
+                            ((corner >> 2) & 1) as f32,
+                        ));
+            if let Some(pair) = &mut bounds {
+                pair[0] = Vector3::new(
+                    pair[0].x.min(point.x),
+                    pair[0].y.min(point.y),
+                    pair[0].z.min(point.z),
+                );
+                pair[1] = Vector3::new(
+                    pair[1].x.max(point.x),
+                    pair[1].y.max(point.y),
+                    pair[1].z.max(point.z),
+                );
+            } else {
+                bounds = Some([point, point]);
             }
         }
     }
     for child in node.get_children().iter_shared() {
-        if let Ok(child) = child.try_cast::<Node3D>() {
-            if let Some(pair) = world_mesh_bounds(&child) {
-                if let Some(current) = &mut bounds {
-                    current[0] = Vector3::new(
-                        current[0].x.min(pair[0].x),
-                        current[0].y.min(pair[0].y),
-                        current[0].z.min(pair[0].z),
-                    );
-                    current[1] = Vector3::new(
-                        current[1].x.max(pair[1].x),
-                        current[1].y.max(pair[1].y),
-                        current[1].z.max(pair[1].z),
-                    );
-                } else {
-                    bounds = Some(pair);
-                }
+        if let Ok(child) = child.try_cast::<Node3D>()
+            && let Some(pair) = world_mesh_bounds(&child)
+        {
+            if let Some(current) = &mut bounds {
+                current[0] = Vector3::new(
+                    current[0].x.min(pair[0].x),
+                    current[0].y.min(pair[0].y),
+                    current[0].z.min(pair[0].z),
+                );
+                current[1] = Vector3::new(
+                    current[1].x.max(pair[1].x),
+                    current[1].y.max(pair[1].y),
+                    current[1].z.max(pair[1].z),
+                );
+            } else {
+                bounds = Some(pair);
             }
         }
     }
@@ -7375,16 +7341,16 @@ fn world_mesh_bounds(node: &Gd<Node3D>) -> Option<[Vector3; 2]> {
 
 fn world_layer_states(node: &Gd<Node3D>) -> Vec<serde_json::Value> {
     let mut states = vec![];
-    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for surface in 0..resource.get_surface_count() {
-                if let Some(material) = mesh
-                    .get_active_material(surface)
-                    .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
-                    .filter(|material| material.has_meta("native_tarmac_uv"))
-                {
-                    states.push(serde_json::json!({"node":mesh.get_name().to_string(),"surface":surface,"base_uv_native":0,"markings_uv_native":2,"base_texture":material.get_shader_parameter("native_tarmac").try_to::<Gd<godot::classes::Texture2D>>().ok().map(|texture|texture.get_path().to_string()),"markings_texture":material.get_shader_parameter("native_markings").try_to::<Gd<godot::classes::Texture2D>>().ok().map(|texture|texture.get_path().to_string())}));
-                }
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for surface in 0..resource.get_surface_count() {
+            if let Some(material) = mesh
+                .get_active_material(surface)
+                .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+                .filter(|material| material.has_meta("native_tarmac_uv"))
+            {
+                states.push(serde_json::json!({"node":mesh.get_name().to_string(),"surface":surface,"base_uv_native":0,"markings_uv_native":2,"base_texture":material.get_shader_parameter("native_tarmac").try_to::<Gd<godot::classes::Texture2D>>().ok().map(|texture|texture.get_path().to_string()),"markings_texture":material.get_shader_parameter("native_markings").try_to::<Gd<godot::classes::Texture2D>>().ok().map(|texture|texture.get_path().to_string())}));
             }
         }
     }
@@ -7511,19 +7477,20 @@ fn host_steering(left: f32, right: f32, axis: f32) -> f32 {
 }
 
 fn swap_binding(bindings: &mut BTreeMap<String, i32>, action: String, value: i32) {
-    if let Some(previous) = bindings.get(&action).copied() {
-        if let Some(conflict) = bindings
+    if let Some(previous) = bindings.get(&action).copied()
+        && let Some(conflict) = bindings
             .iter()
             .find(|(name, binding)| **name != action && **binding == value)
             .map(|(name, _)| name.clone())
-        {
-            bindings.insert(conflict, previous);
-        }
+    {
+        bindings.insert(conflict, previous);
     }
     bindings.insert(action, value);
 }
 
 #[cfg(test)]
+// Keep colocated regression tests beside the helpers they cover.
+#[allow(clippy::items_after_test_module)]
 mod binding_tests {
     use super::swap_binding;
     use std::collections::BTreeMap;
@@ -7727,32 +7694,30 @@ fn character_manifest() -> serde_json::Value {
     }
 }
 
+// Retain the current Godot Resource duplication semantics during tooling-only adoption.
+#[allow(deprecated)]
 fn color_avatar(node: &mut Gd<Node3D>, definition: &serde_json::Value, profile: &PlayerProfile) {
-    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for i in 0..resource.get_surface_count() {
-                if let Some(material) = mesh.get_active_material(i) {
-                    let name = material.get_name().to_string();
-                    for (key, color) in [
-                        ("skin_materials", profile.skin_color),
-                        ("hair_materials", profile.hair_color),
-                        ("top_materials", profile.top_color),
-                        ("bottom_materials", profile.bottom_color),
-                    ] {
-                        if definition[key]
-                            .as_array()
-                            .is_some_and(|names| names.iter().any(|n| n.as_str() == Some(&name)))
-                        {
-                            if let Some(mut copy) = material
-                                .duplicate()
-                                .and_then(|m| m.try_cast::<StandardMaterial3D>().ok())
-                            {
-                                copy.set_albedo(Color::from_rgba(
-                                    color[0], color[1], color[2], color[3],
-                                ));
-                                mesh.set_surface_override_material(i, &copy);
-                            }
-                        }
+    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for i in 0..resource.get_surface_count() {
+            if let Some(material) = mesh.get_active_material(i) {
+                let name = material.get_name().to_string();
+                for (key, color) in [
+                    ("skin_materials", profile.skin_color),
+                    ("hair_materials", profile.hair_color),
+                    ("top_materials", profile.top_color),
+                    ("bottom_materials", profile.bottom_color),
+                ] {
+                    if definition[key]
+                        .as_array()
+                        .is_some_and(|names| names.iter().any(|n| n.as_str() == Some(&name)))
+                        && let Some(mut copy) = material
+                            .duplicate()
+                            .and_then(|m| m.try_cast::<StandardMaterial3D>().ok())
+                    {
+                        copy.set_albedo(Color::from_rgba(color[0], color[1], color[2], color[3]));
+                        mesh.set_surface_override_material(i, &copy);
                     }
                 }
             }
@@ -7828,23 +7793,23 @@ fn paint_stock_rims(
     }
 }
 
+// Retain the current Godot Resource duplication semantics during tooling-only adoption.
+#[allow(deprecated)]
 fn color_named_meshes(node: &mut Gd<Node3D>, names: &[String], color: [f32; 4]) {
-    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for surface in 0..resource.get_surface_count() {
-                if let Some(material) = mesh
-                    .get_active_material(surface)
-                    .filter(|material| names.contains(&material.get_name().to_string()))
-                {
-                    if let Some(mut copy) = material
-                        .duplicate()
-                        .and_then(|material| material.try_cast::<StandardMaterial3D>().ok())
-                    {
-                        copy.set_meta("wheel_tint", &true.to_variant());
-                        copy.set_albedo(Color::from_rgba(color[0], color[1], color[2], color[3]));
-                        mesh.set_surface_override_material(surface, &copy);
-                    }
-                }
+    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for surface in 0..resource.get_surface_count() {
+            if let Some(material) = mesh
+                .get_active_material(surface)
+                .filter(|material| names.contains(&material.get_name().to_string()))
+                && let Some(mut copy) = material
+                    .duplicate()
+                    .and_then(|material| material.try_cast::<StandardMaterial3D>().ok())
+            {
+                copy.set_meta("wheel_tint", &true.to_variant());
+                copy.set_albedo(Color::from_rgba(color[0], color[1], color[2], color[3]));
+                mesh.set_surface_override_material(surface, &copy);
             }
         }
     }
@@ -7856,20 +7821,20 @@ fn color_named_meshes(node: &mut Gd<Node3D>, names: &[String], color: [f32; 4]) 
 }
 
 fn preview_vinyl_tint(node: &mut Gd<Node3D>, index: usize, color: Color) {
-    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for surface in 0..resource.get_surface_count() {
-                if let Some(mut material) = mesh
-                    .get_active_material(surface)
-                    .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for surface in 0..resource.get_surface_count() {
+            if let Some(mut material) = mesh
+                .get_active_material(surface)
+                .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+            {
+                let parameter = format!("vinyl_tint_{index}");
+                if material
+                    .get_shader()
+                    .is_some_and(|shader| shader.get_code().to_string().contains(&parameter))
                 {
-                    let parameter = format!("vinyl_tint_{index}");
-                    if material
-                        .get_shader()
-                        .is_some_and(|shader| shader.get_code().to_string().contains(&parameter))
-                    {
-                        material.set_shader_parameter(&parameter, &color.to_variant());
-                    }
+                    material.set_shader_parameter(&parameter, &color.to_variant());
                 }
             }
         }
@@ -7882,18 +7847,17 @@ fn preview_vinyl_tint(node: &mut Gd<Node3D>, index: usize, color: Color) {
 }
 fn preview_rim_tint(node: &mut Gd<Node3D>, color: Color) -> bool {
     let mut changed = false;
-    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for surface in 0..resource.get_surface_count() {
-                if let Some(mut material) = mesh
-                    .get_active_material(surface)
-                    .and_then(|material| material.try_cast::<StandardMaterial3D>().ok())
-                {
-                    if material.has_meta("wheel_tint") {
-                        material.set_albedo(color);
-                        changed = true;
-                    }
-                }
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for surface in 0..resource.get_surface_count() {
+            if let Some(mut material) = mesh
+                .get_active_material(surface)
+                .and_then(|material| material.try_cast::<StandardMaterial3D>().ok())
+                && material.has_meta("wheel_tint")
+            {
+                material.set_albedo(color);
+                changed = true;
             }
         }
     }
@@ -7904,20 +7868,21 @@ fn preview_rim_tint(node: &mut Gd<Node3D>, color: Color) -> bool {
     }
     changed
 }
+// Retain the current Godot Resource duplication semantics during tooling-only adoption.
+#[allow(deprecated)]
 fn color_meshes(node: &mut Gd<Node3D>, color: [f32; 4]) {
-    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for i in 0..resource.get_surface_count() {
-                if let Some(material) = mesh.get_active_material(i) {
-                    if let Some(mut copy) = material
-                        .duplicate()
-                        .and_then(|m| m.try_cast::<StandardMaterial3D>().ok())
-                    {
-                        copy.set_meta("wheel_tint", &true.to_variant());
-                        copy.set_albedo(Color::from_rgba(color[0], color[1], color[2], color[3]));
-                        mesh.set_surface_override_material(i, &copy);
-                    }
-                }
+    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for i in 0..resource.get_surface_count() {
+            if let Some(material) = mesh.get_active_material(i)
+                && let Some(mut copy) = material
+                    .duplicate()
+                    .and_then(|m| m.try_cast::<StandardMaterial3D>().ok())
+            {
+                copy.set_meta("wheel_tint", &true.to_variant());
+                copy.set_albedo(Color::from_rgba(color[0], color[1], color[2], color[3]));
+                mesh.set_surface_override_material(i, &copy);
             }
         }
     }
@@ -8006,15 +7971,15 @@ fn apply_named_world_materials(
     node: &mut Gd<Node3D>,
     materials: &BTreeMap<String, Gd<godot::classes::ShaderMaterial>>,
 ) {
-    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for surface in 0..resource.get_surface_count() {
-                if let Some(material) = mesh
-                    .get_active_material(surface)
-                    .and_then(|material| materials.get(&material.get_name().to_string()))
-                {
-                    mesh.set_surface_override_material(surface, material);
-                }
+    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for surface in 0..resource.get_surface_count() {
+            if let Some(material) = mesh
+                .get_active_material(surface)
+                .and_then(|material| materials.get(&material.get_name().to_string()))
+            {
+                mesh.set_surface_override_material(surface, material);
             }
         }
     }
@@ -8059,35 +8024,34 @@ fn source_bone_anchor(node: &Gd<godot::classes::Node>, name: &str) -> Option<Vec
         .find_map(|child| source_bone_anchor(&child, name))
 }
 fn set_tunnel_palette(node: &mut Gd<Node3D>, palette: [[u8; 3]; 3], exposure: f32) {
-    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for surface in 0..resource.get_surface_count() {
-                if let Some(mut material) = mesh
-                    .get_active_material(surface)
-                    .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
-                {
-                    let code = material
-                        .get_shader()
-                        .map(|shader| shader.get_code().to_string())
-                        .unwrap_or_default();
-                    for (index, rgb) in palette.iter().enumerate() {
-                        let name = format!("tunnel_col{}", index + 1);
-                        if code.contains(&format!("uniform vec3 {name}")) {
-                            let color = Color::from_rgb(
-                                rgb[0] as f32 * f32::from_bits(0x3b808081),
-                                rgb[1] as f32 * f32::from_bits(0x3b808081),
-                                rgb[2] as f32 * f32::from_bits(0x3b808081),
-                            );
-                            material.set_shader_parameter(
-                                &name,
-                                &Vector3::new(color.r, color.g, color.b).to_variant(),
-                            );
-                        }
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for surface in 0..resource.get_surface_count() {
+            if let Some(mut material) = mesh
+                .get_active_material(surface)
+                .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+            {
+                let code = material
+                    .get_shader()
+                    .map(|shader| shader.get_code().to_string())
+                    .unwrap_or_default();
+                for (index, rgb) in palette.iter().enumerate() {
+                    let name = format!("tunnel_col{}", index + 1);
+                    if code.contains(&format!("uniform vec3 {name}")) {
+                        let color = Color::from_rgb(
+                            rgb[0] as f32 * f32::from_bits(0x3b808081),
+                            rgb[1] as f32 * f32::from_bits(0x3b808081),
+                            rgb[2] as f32 * f32::from_bits(0x3b808081),
+                        );
+                        material.set_shader_parameter(
+                            &name,
+                            &Vector3::new(color.r, color.g, color.b).to_variant(),
+                        );
                     }
-                    if code.contains("uniform float presentation_exposure") {
-                        material
-                            .set_shader_parameter("presentation_exposure", &exposure.to_variant());
-                    }
+                }
+                if code.contains("uniform float presentation_exposure") {
+                    material.set_shader_parameter("presentation_exposure", &exposure.to_variant());
                 }
             }
         }
@@ -8119,6 +8083,8 @@ fn prepare_tunnel(node: &mut Gd<Node3D>) {
     .unwrap_or_default();
     prepare_tunnel_nodes(node, &materials);
 }
+// Retain the current Godot Resource duplication semantics during tooling-only adoption.
+#[allow(deprecated)]
 fn prepare_tunnel_nodes(node: &mut Gd<Node3D>, materials: &serde_json::Value) {
     // Native palette upload is raw/255 linear and PS694 uses UV0 RGB weights.
     // Shared g_exp grading, sampler transfer and blend-variant selection remain
@@ -8138,117 +8104,114 @@ fn prepare_tunnel_nodes(node: &mut Gd<Node3D>, materials: &serde_json::Value) {
         // Visibility is chosen by presentation role later. Still translate child
         // luminous passes: leaving their imported MASK material discards low-alpha art.
     }
-    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for i in 0..resource.get_surface_count() {
-                if let Some(material) = mesh.get_active_material(i) {
-                    let definition = materials.as_array().and_then(|materials| {
-                        materials.iter().find(|definition| {
-                            definition["name"].as_str() == Some(&material.get_name().to_string())
-                        })
-                    });
-                    if let Some(definition) = definition.filter(|definition| {
-                        definition["nativeShader"].as_str() == Some("simpleGradient")
-                    }) {
-                        let mut shader = godot::classes::Shader::new_gd();
-                        shader.set_code("shader_type spatial;render_mode unshaded,cull_disabled;uniform sampler2D gradient_weights:repeat_enable;uniform vec3 tunnel_col1=vec3(0.14117647,0.02352941,0.11372549);uniform vec3 tunnel_col2=vec3(0.32156863,0.08627451,0.12941176);uniform vec3 tunnel_col3=vec3(0.0);uniform float brightness=2.5;uniform float presentation_exposure=0.15;void fragment(){vec3 weights=texture(gradient_weights,UV).rgb;vec3 tint=tunnel_col1*weights.r+tunnel_col2*weights.g+tunnel_col3*weights.b;ALBEDO=tint*brightness*presentation_exposure;}");
-                        let mut translated = godot::classes::ShaderMaterial::new_gd();
-                        translated.set_shader(&shader);
-                        translated.set_shader_parameter(
-                            "gradient_weights",
-                            &godot::tools::load::<godot::classes::Texture2D>(
-                                "res://assets/worlds/textures/tunnel/12.png",
-                            )
-                            .to_variant(),
-                        );
-                        translated.set_shader_parameter(
-                            "brightness",
-                            &(definition["nativeScalars"]["brightness"]
-                                .as_f64()
-                                .unwrap_or(2.5) as f32)
-                                .to_variant(),
-                        );
-                        mesh.set_surface_override_material(i, &translated);
-                        continue;
-                    }
-                    if let Some(definition) = definition.filter(|definition| {
-                        matches!(
-                            definition["nativeShader"].as_str(),
-                            Some("luminousScroll" | "backLightScroll")
+    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for i in 0..resource.get_surface_count() {
+            if let Some(material) = mesh.get_active_material(i) {
+                let definition = materials.as_array().and_then(|materials| {
+                    materials.iter().find(|definition| {
+                        definition["name"].as_str() == Some(&material.get_name().to_string())
+                    })
+                });
+                if let Some(definition) = definition.filter(|definition| {
+                    definition["nativeShader"].as_str() == Some("simpleGradient")
+                }) {
+                    let mut shader = godot::classes::Shader::new_gd();
+                    shader.set_code("shader_type spatial;render_mode unshaded,cull_disabled;uniform sampler2D gradient_weights:repeat_enable;uniform vec3 tunnel_col1=vec3(0.14117647,0.02352941,0.11372549);uniform vec3 tunnel_col2=vec3(0.32156863,0.08627451,0.12941176);uniform vec3 tunnel_col3=vec3(0.0);uniform float brightness=2.5;uniform float presentation_exposure=0.15;void fragment(){vec3 weights=texture(gradient_weights,UV).rgb;vec3 tint=tunnel_col1*weights.r+tunnel_col2*weights.g+tunnel_col3*weights.b;ALBEDO=tint*brightness*presentation_exposure;}");
+                    let mut translated = godot::classes::ShaderMaterial::new_gd();
+                    translated.set_shader(&shader);
+                    translated.set_shader_parameter(
+                        "gradient_weights",
+                        &godot::tools::load::<godot::classes::Texture2D>(
+                            "res://assets/worlds/textures/tunnel/12.png",
                         )
-                    }) {
-                        let mut shader = godot::classes::Shader::new_gd();
-                        shader.set_code("shader_type spatial;render_mode unshaded,cull_disabled,blend_add,depth_draw_never;uniform sampler2D base_texture:source_color,repeat_enable;uniform sampler2D lum_texture:source_color,repeat_enable;uniform vec2 native_scroll=vec2(0.0);uniform float multiplier=1.0;uniform float lum_strength=1.0;uniform bool authored_color=false;void fragment(){vec2 uv=UV+TIME*native_scroll;vec4 base=texture(base_texture,uv);vec3 lum=texture(lum_texture,uv).rgb;ALBEDO=authored_color?lum*lum_strength*base.rgb:vec3(1.0);ALPHA=base.a*(authored_color?1.0:multiplier);}");
-                        let mut translated = godot::classes::ShaderMaterial::new_gd();
-                        translated.set_shader(&shader);
-                        for (uniform, binding) in [
-                            ("base_texture", "baseTexture"),
-                            ("lum_texture", "lumTexture"),
-                        ] {
-                            if let Some(index) =
-                                definition["nativeTextureBindings"][binding].as_u64()
-                            {
-                                translated.set_shader_parameter(
-                                    uniform,
-                                    &godot::tools::load::<godot::classes::Texture2D>(&format!(
-                                        "res://assets/worlds/textures/tunnel/{index}.png"
-                                    ))
-                                    .to_variant(),
-                                );
-                            }
-                        }
-                        translated.set_shader_parameter(
-                            "authored_color",
-                            &(definition["nativeShader"].as_str() == Some("luminousScroll"))
-                                .to_variant(),
-                        );
-                        let scalars = &definition["nativeScalars"];
-                        translated.set_shader_parameter(
-                            "native_scroll",
-                            &Vector2::new(
-                                scalars["uScroll"].as_f64().unwrap_or(0.) as f32,
-                                scalars["vScroll"].as_f64().unwrap_or(0.) as f32,
-                            )
+                        .to_variant(),
+                    );
+                    translated.set_shader_parameter(
+                        "brightness",
+                        &(definition["nativeScalars"]["brightness"]
+                            .as_f64()
+                            .unwrap_or(2.5) as f32)
                             .to_variant(),
-                        );
-                        translated.set_shader_parameter(
-                            "multiplier",
-                            &(scalars["multiplier"].as_f64().unwrap_or(1.) as f32).to_variant(),
-                        );
-                        translated.set_shader_parameter(
-                            "lum_strength",
-                            &(scalars["lumStrength"].as_f64().unwrap_or(1.) as f32).to_variant(),
-                        );
-                        mesh.set_surface_override_material(i, &translated);
-                        continue;
-                    }
-                    if let Some(mut material) = material
-                        .duplicate()
-                        .and_then(|m| m.try_cast::<StandardMaterial3D>().ok())
-                    {
-                        if definition.is_some_and(|definition| {
-                            definition["nativeShader"].as_str() == Some("building_reflect")
-                        }) {
-                            // Keep original floor artwork until its reflection pass is ported.
-                            continue;
-                        }
-                        material.set_albedo(Color::from_rgb(36. / 255., 6. / 255., 29. / 255.));
-                        material.set_roughness(0.8);
-                        material.set_metallic(0.);
-                        material
-                            .set_feature(godot::classes::base_material_3d::Feature::EMISSION, true);
-                        material.set_emission(Color::from_rgb(82. / 255., 22. / 255., 33. / 255.));
-                        material.set_emission_energy_multiplier(0.25);
-                        if let Some(texture) = material
-                            .get_texture(godot::classes::base_material_3d::TextureParam::ALBEDO)
-                        {
-                            material.set_texture(
-                                godot::classes::base_material_3d::TextureParam::EMISSION,
-                                &texture,
+                    );
+                    mesh.set_surface_override_material(i, &translated);
+                    continue;
+                }
+                if let Some(definition) = definition.filter(|definition| {
+                    matches!(
+                        definition["nativeShader"].as_str(),
+                        Some("luminousScroll" | "backLightScroll")
+                    )
+                }) {
+                    let mut shader = godot::classes::Shader::new_gd();
+                    shader.set_code("shader_type spatial;render_mode unshaded,cull_disabled,blend_add,depth_draw_never;uniform sampler2D base_texture:source_color,repeat_enable;uniform sampler2D lum_texture:source_color,repeat_enable;uniform vec2 native_scroll=vec2(0.0);uniform float multiplier=1.0;uniform float lum_strength=1.0;uniform bool authored_color=false;void fragment(){vec2 uv=UV+TIME*native_scroll;vec4 base=texture(base_texture,uv);vec3 lum=texture(lum_texture,uv).rgb;ALBEDO=authored_color?lum*lum_strength*base.rgb:vec3(1.0);ALPHA=base.a*(authored_color?1.0:multiplier);}");
+                    let mut translated = godot::classes::ShaderMaterial::new_gd();
+                    translated.set_shader(&shader);
+                    for (uniform, binding) in [
+                        ("base_texture", "baseTexture"),
+                        ("lum_texture", "lumTexture"),
+                    ] {
+                        if let Some(index) = definition["nativeTextureBindings"][binding].as_u64() {
+                            translated.set_shader_parameter(
+                                uniform,
+                                &godot::tools::load::<godot::classes::Texture2D>(&format!(
+                                    "res://assets/worlds/textures/tunnel/{index}.png"
+                                ))
+                                .to_variant(),
                             );
                         }
-                        mesh.set_surface_override_material(i, &material);
                     }
+                    translated.set_shader_parameter(
+                        "authored_color",
+                        &(definition["nativeShader"].as_str() == Some("luminousScroll"))
+                            .to_variant(),
+                    );
+                    let scalars = &definition["nativeScalars"];
+                    translated.set_shader_parameter(
+                        "native_scroll",
+                        &Vector2::new(
+                            scalars["uScroll"].as_f64().unwrap_or(0.) as f32,
+                            scalars["vScroll"].as_f64().unwrap_or(0.) as f32,
+                        )
+                        .to_variant(),
+                    );
+                    translated.set_shader_parameter(
+                        "multiplier",
+                        &(scalars["multiplier"].as_f64().unwrap_or(1.) as f32).to_variant(),
+                    );
+                    translated.set_shader_parameter(
+                        "lum_strength",
+                        &(scalars["lumStrength"].as_f64().unwrap_or(1.) as f32).to_variant(),
+                    );
+                    mesh.set_surface_override_material(i, &translated);
+                    continue;
+                }
+                if let Some(mut material) = material
+                    .duplicate()
+                    .and_then(|m| m.try_cast::<StandardMaterial3D>().ok())
+                {
+                    if definition.is_some_and(|definition| {
+                        definition["nativeShader"].as_str() == Some("building_reflect")
+                    }) {
+                        // Keep original floor artwork until its reflection pass is ported.
+                        continue;
+                    }
+                    material.set_albedo(Color::from_rgb(36. / 255., 6. / 255., 29. / 255.));
+                    material.set_roughness(0.8);
+                    material.set_metallic(0.);
+                    material.set_feature(godot::classes::base_material_3d::Feature::EMISSION, true);
+                    material.set_emission(Color::from_rgb(82. / 255., 22. / 255., 33. / 255.));
+                    material.set_emission_energy_multiplier(0.25);
+                    if let Some(texture) =
+                        material.get_texture(godot::classes::base_material_3d::TextureParam::ALBEDO)
+                    {
+                        material.set_texture(
+                            godot::classes::base_material_3d::TextureParam::EMISSION,
+                            &texture,
+                        );
+                    }
+                    mesh.set_surface_override_material(i, &material);
                 }
             }
         }
@@ -8261,25 +8224,24 @@ fn prepare_tunnel_nodes(node: &mut Gd<Node3D>, materials: &serde_json::Value) {
 }
 
 fn set_creator_tunnel_culling(node: &mut Gd<Node3D>, creator: bool) {
-    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for surface in 0..resource.get_surface_count() {
-                if let Some(material) = mesh
-                    .get_active_material(surface)
-                    .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
-                {
-                    if let Some(mut shader) = material.get_shader() {
-                        let code = shader.get_code().to_string();
-                        if code.contains("gradient_weights") || code.contains("lum_strength") {
-                            let revised = if creator {
-                                code.replace("cull_disabled", "cull_back")
-                            } else {
-                                code.replace("cull_back", "cull_disabled")
-                            };
-                            if revised != code {
-                                shader.set_code(&revised);
-                            }
-                        }
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for surface in 0..resource.get_surface_count() {
+            if let Some(material) = mesh
+                .get_active_material(surface)
+                .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+                && let Some(mut shader) = material.get_shader()
+            {
+                let code = shader.get_code().to_string();
+                if code.contains("gradient_weights") || code.contains("lum_strength") {
+                    let revised = if creator {
+                        code.replace("cull_disabled", "cull_back")
+                    } else {
+                        code.replace("cull_back", "cull_disabled")
+                    };
+                    if revised != code {
+                        shader.set_code(&revised);
                     }
                 }
             }

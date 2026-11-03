@@ -57,6 +57,8 @@ pub struct NativeCollisionWorld {
 impl NativeCollisionDefinition {
     /// 8230AAA0: recovered cubic Bernstein basis; native iterative intersections
     /// are approximated separately by a triangle tessellation for Parry queries.
+    // Keep source component indices and accumulation order visible in recovered equations.
+    #[allow(clippy::needless_range_loop)]
     pub fn patch_point(&self, patch: &NativePatch, u: f32, v: f32) -> [f32; 3] {
         let b = |t: f32| {
             let t2 = t * t;
@@ -83,6 +85,8 @@ impl NativeCollisionDefinition {
     }
 }
 impl NativeCollisionWorld {
+    // Keep source component indices and accumulation order visible in recovered equations.
+    #[allow(clippy::needless_range_loop)]
     pub fn new(def: &NativeCollisionDefinition) -> Result<Self, String> {
         let mut vertices: Vec<Vector> = def.points.iter().map(|p| Vector::from_array(*p)).collect();
         let mut indices = Vec::new();

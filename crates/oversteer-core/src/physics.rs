@@ -819,6 +819,8 @@ impl VehicleState {
             momentum[0],
         ]
     }
+    // Keep source component indices and accumulation order visible in recovered equations.
+    #[allow(clippy::needless_range_loop)]
     fn commit(&mut self, s: [f32; 18], p: &Handling) {
         self.position = [s[0], s[1], s[2]];
         self.velocity = [s[3], s[4], s[5]];
@@ -1375,6 +1377,8 @@ mod contact_frame_regressions {
         assert!((derivative[5] + g.gravity * normal[2]).abs() < 1e-4);
     }
     #[test]
+    // Keep staged setup explicit so fixture overrides and input sampling order remain visible.
+    #[allow(clippy::field_reassign_with_default)]
     fn low_speed_contact_force_rotates_with_full_body_and_plane_frame() {
         let p = Handling {
             drag: 0.,
@@ -1446,6 +1450,8 @@ mod angular_momentum_regressions {
         )
     }
     #[test]
+    // Keep staged setup explicit so fixture overrides and input sampling order remain visible.
+    #[allow(clippy::field_reassign_with_default)]
     fn torque_free_anisotropic_body_preserves_world_momentum_and_precesses() {
         let p = Handling {
             drag: 0.,

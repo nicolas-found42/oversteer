@@ -4,6 +4,12 @@ resolver = "3"
 
 [workspace.package]
 edition = "2024"
+rust-version = "1.99"
+
+[workspace.lints.clippy]
+# Preserve recovered IEEE-754 constants and max/min NaN behavior.
+excessive_precision = "allow"
+manual_clamp = "allow"
 
 [profile.dev]
 opt-level = 1

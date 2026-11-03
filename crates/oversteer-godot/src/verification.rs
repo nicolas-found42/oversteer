@@ -33,55 +33,55 @@ fn walk(
     let name = node.get_name().to_string();
     let path = format!("{path}/{name}");
     let wheel = wheel || name.starts_with("wheel_") || name.starts_with("tire_");
-    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
-        if let Some(resource) = mesh.get_mesh() {
-            for i in 0..resource.get_surface_count() {
-                let Some(base) = resource.surface_get_material(i) else {
-                    continue;
-                };
-                let base_name = base.get_name().to_string();
-                let active = mesh.get_active_material(i).unwrap_or(base.clone());
-                let mut row = json!({"node":path,"surface":i,"base_name":base_name,"paint_target":targets.contains(base_name.as_str()),"wheel":wheel,"override":mesh.get_surface_override_material(i).is_some(),"instance_id":active.instance_id().to_i64()});
-                if let Ok(base) = base.try_cast::<StandardMaterial3D>() {
-                    let c = base.get_albedo();
-                    row["factory_state"] = json!({"rgba":[c.r,c.g,c.b,c.a],"roughness":base.get_roughness(),"metallic":base.get_metallic(),"transparency":base.get_transparency().ord()});
-                }
-                if let Ok(standard) = active.clone().try_cast::<StandardMaterial3D>() {
-                    let color = standard.get_albedo();
-                    row["runtime_standard_rgba"] = json!([color.r, color.g, color.b, color.a]);
-                }
-                if let Ok(shader) = active.try_cast::<ShaderMaterial>() {
-                    let paint = shader
-                        .get_shader_parameter("paint")
-                        .try_to::<Color>()
-                        .ok()
-                        .map(|c| [c.r, c.g, c.b, c.a]);
-                    let mask = shader
-                        .get_shader_parameter("paint_mask")
-                        .try_to::<Gd<Texture2D>>()
-                        .ok()
-                        .map(|t| t.get_path().to_string());
-                    let code = shader
-                        .get_shader()
-                        .map(|shader| shader.get_code().to_string())
-                        .unwrap_or_default();
-                    row["runtime_render_state"] = json!({"alpha_scissor":code.contains("ALPHA_SCISSOR_THRESHOLD"),"cull_front":code.contains("cull_front"),"cull_disabled":code.contains("cull_disabled"),"factory_luma_linear":shader.get_shader_parameter("factory_luma").try_to::<f32>().ok(),"use_vertex_color":shader.get_shader_parameter("use_vertex_color").try_to::<bool>().ok()});
-                    row["native_decal_textures"] = json!(
-                        (0..16)
-                            .filter_map(|index| shader
-                                .get_shader_parameter(&format!("decal_{index}"))
-                                .try_to::<Gd<Texture2D>>()
-                                .ok()
-                                .map(|texture| texture.get_path().to_string()))
-                            .collect::<Vec<_>>()
-                    );
-                    row["native_decal_color_modes"] = json!((0..16).filter_map(|index| {
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && let Some(resource) = mesh.get_mesh()
+    {
+        for i in 0..resource.get_surface_count() {
+            let Some(base) = resource.surface_get_material(i) else {
+                continue;
+            };
+            let base_name = base.get_name().to_string();
+            let active = mesh.get_active_material(i).unwrap_or(base.clone());
+            let mut row = json!({"node":path,"surface":i,"base_name":base_name,"paint_target":targets.contains(base_name.as_str()),"wheel":wheel,"override":mesh.get_surface_override_material(i).is_some(),"instance_id":active.instance_id().to_i64()});
+            if let Ok(base) = base.try_cast::<StandardMaterial3D>() {
+                let c = base.get_albedo();
+                row["factory_state"] = json!({"rgba":[c.r,c.g,c.b,c.a],"roughness":base.get_roughness(),"metallic":base.get_metallic(),"transparency":base.get_transparency().ord()});
+            }
+            if let Ok(standard) = active.clone().try_cast::<StandardMaterial3D>() {
+                let color = standard.get_albedo();
+                row["runtime_standard_rgba"] = json!([color.r, color.g, color.b, color.a]);
+            }
+            if let Ok(shader) = active.try_cast::<ShaderMaterial>() {
+                let paint = shader
+                    .get_shader_parameter("paint")
+                    .try_to::<Color>()
+                    .ok()
+                    .map(|c| [c.r, c.g, c.b, c.a]);
+                let mask = shader
+                    .get_shader_parameter("paint_mask")
+                    .try_to::<Gd<Texture2D>>()
+                    .ok()
+                    .map(|t| t.get_path().to_string());
+                let code = shader
+                    .get_shader()
+                    .map(|shader| shader.get_code().to_string())
+                    .unwrap_or_default();
+                row["runtime_render_state"] = json!({"alpha_scissor":code.contains("ALPHA_SCISSOR_THRESHOLD"),"cull_front":code.contains("cull_front"),"cull_disabled":code.contains("cull_disabled"),"factory_luma_linear":shader.get_shader_parameter("factory_luma").try_to::<f32>().ok(),"use_vertex_color":shader.get_shader_parameter("use_vertex_color").try_to::<bool>().ok()});
+                row["native_decal_textures"] = json!(
+                    (0..16)
+                        .filter_map(|index| shader
+                            .get_shader_parameter(&format!("decal_{index}"))
+                            .try_to::<Gd<Texture2D>>()
+                            .ok()
+                            .map(|texture| texture.get_path().to_string()))
+                        .collect::<Vec<_>>()
+                );
+                row["native_decal_color_modes"] = json!((0..16).filter_map(|index| {
                         shader.get_shader_parameter(&format!("decal_{index}")).try_to::<Gd<Texture2D>>().ok().map(|texture| json!({"layer":index,"texture":texture.get_path().to_string(),"alpha_mask":shader.get_shader_parameter(&format!("decal_{index}_alpha_mask")).try_to::<bool>().unwrap_or(false)}))
                     }).collect::<Vec<_>>());
-                    row["runtime_paint"] = json!({"rgba":paint,"has_mask":shader.get_shader_parameter("has_mask").try_to::<bool>().unwrap_or(false),"decal_repeat_uv":shader.get_shader_parameter("decal_repeat_uv").try_to::<bool>().unwrap_or(false),"mask":mask,"unpainted_finish_preserved":"roughness and metallic lerp by paint-mask coverage"});
-                }
-                rows.push(row);
+                row["runtime_paint"] = json!({"rgba":paint,"has_mask":shader.get_shader_parameter("has_mask").try_to::<bool>().unwrap_or(false),"decal_repeat_uv":shader.get_shader_parameter("decal_repeat_uv").try_to::<bool>().unwrap_or(false),"mask":mask,"unpainted_finish_preserved":"roughness and metallic lerp by paint-mask coverage"});
             }
+            rows.push(row);
         }
     }
     for child in node.get_children().iter_shared() {
@@ -124,11 +124,11 @@ pub fn nitrous_observations(samples: &[Value], initial: Option<f32>) -> Value {
         requested += usize::from(sample["controls"]["nitrous"].as_f64().unwrap_or(0.) > 0.);
         active += usize::from(sample["nitrous"]["active"].as_bool() == Some(true));
         minimum = minimum.min(fraction);
-        if let Some(before) = previous {
-            if fraction > before {
-                recharge += 1;
-                recharged_fraction += (fraction - before) as f64;
-            }
+        if let Some(before) = previous
+            && fraction > before
+        {
+            recharge += 1;
+            recharged_fraction += (fraction - before) as f64;
         }
         previous = Some(fraction);
     }

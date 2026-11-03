@@ -112,20 +112,20 @@ fn main() {
         }
         if game.frame_snapshot().screen == GameScreen::Grid {
             let n = game.frame_snapshot().race.unwrap().racers.len();
-            if n > 1 && game.frame_snapshot().career.cash >= 5000 {
-                if game
+            if n > 1
+                && game.frame_snapshot().career.cash >= 5000
+                && game
                     .command(GameCommand::OfferDriverBet {
                         racer: n - 1,
                         amount: wager_amount,
                     })
                     .is_ok()
-                {
-                    println!(
-                        "Offer{:?}",
-                        game.frame_snapshot().race.as_ref().unwrap().bet_offer
-                    );
-                    game.command(GameCommand::AcceptBetOffer).unwrap();
-                }
+            {
+                println!(
+                    "Offer{:?}",
+                    game.frame_snapshot().race.as_ref().unwrap().bet_offer
+                );
+                game.command(GameCommand::AcceptBetOffer).unwrap();
             }
             game.command(GameCommand::LaunchRace).unwrap();
         }

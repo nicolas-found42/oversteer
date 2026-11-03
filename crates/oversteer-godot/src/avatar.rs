@@ -139,7 +139,7 @@ pub fn attach(
 ) -> Result<Value, String> {
     let mut actor_root = descendants::<Node3D>(&actor.clone().upcast())
         .into_iter()
-        .find(|node| node.get_name().to_string() == "NativeAvatar")
+        .find(|node| node.get_name() == "NativeAvatar")
         .ok_or("Native actor normalization root is missing")?;
     let base_skeleton = descendants::<Skeleton3D>(&actor.clone().upcast())
         .into_iter()
@@ -202,7 +202,7 @@ pub fn attach(
         let result = (|| -> Result<(), String> {
             let component_root = descendants::<Node3D>(&root.clone().upcast())
                 .into_iter()
-                .find(|node| node.get_name().to_string() == "NativeAvatar")
+                .find(|node| node.get_name() == "NativeAvatar")
                 .ok_or("Native component normalization root is missing")?;
             let source_skeleton = descendants::<Skeleton3D>(&root.clone().upcast())
                 .into_iter()
@@ -275,11 +275,10 @@ pub fn attach(
                         let replacement = selected
                             .iter()
                             .flat_map(|c| c["replacement_slots"].as_array().into_iter().flatten())
-                            .filter(|r| {
+                            .rfind(|r| {
                                 r["skin_key"].as_str() == Some(key)
                                     && r["native_jtd"] == slot["native_jtd"]
-                            })
-                            .last();
+                            });
                         if let Some(path) = replacement.and_then(|r| r["texture_path"].as_str()) {
                             if let Some(texture) = ResourceLoader::singleton()
                                 .load(path)
@@ -321,13 +320,15 @@ pub fn attach(
 }
 
 #[cfg(test)]
+// Keep colocated regression tests beside the helpers they cover.
+#[allow(clippy::items_after_test_module)]
 mod tests {
     use super::*;
     fn source_catalog() -> Value {
         serde_json::from_str(
             &std::fs::read_to_string(concat!(
                 env!("CARGO_MANIFEST_DIR"),
-                "/../../godot/assets/characters/components.json"
+                "/../../data/juiced2/native-avatar-components.json"
             ))
             .unwrap(),
         )
@@ -347,6 +348,8 @@ mod tests {
         assert_eq!(profile.native_attributes["SKIN_DARK"], 100.);
     }
     #[test]
+    // Keep staged setup explicit so fixture overrides and input sampling order remain visible.
+    #[allow(clippy::field_reassign_with_default)]
     fn source_partial_ramp_does_not_normalize_or_modify_inactive_channel() {
         let data = source_catalog();
         let mut profile = PlayerProfile::default();
