@@ -1,0 +1,17 @@
+[workspace]
+members = ["crates/oversteer-core", "crates/oversteer-godot"]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 2
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+debug = 1
