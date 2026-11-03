@@ -169,3 +169,79 @@ ID `ev_0ede2a00180a8c274f6fe1f65faa2813478f819e7d4852d2a8da8f47279c1481`.
 At that acquisition stage, no game executable had been supplied or decompiled.
 Subsequent original-code and supplied-image findings are linked above. Recorded
 footage remains historical visual evidence, rather than a controlled runtime experiment.
+
+## Blind human review pilot
+
+The accepted [evidence-audit decisions](../../design/JUICED2_REBUILD_INTERVIEW.md#evidence-audit-follow-up-accepted-november-3-2026)
+use a 200-example human benchmark, with the user as adjudicator. Build it locally
+from cached assets and predictions; this command makes no provider calls:
+
+```sh
+python3 tools/references/review_pilot.py build
+open artifacts/juiced2-vault/review-pilot/index.html
+```
+
+The review page hides model answers, confidence, review flags, source titles, and
+tuning/test assignments. Classify the visible frame using the frozen catalog's
+definitions. Use unreadable, insufficient context, or no matching catalog label
+when appropriate; these are unresolved outcomes, not accepted model answers.
+The full-size link opens only the source image. Save & next stores the answer;
+navigation also saves a valid answer. Browser storage retains progress. Export
+annotations for a portable backup; import replaces answers only after confirming
+when local answers already exist. Nothing is written into original classifications.
+
+Do not inspect `audit-manifest.json` or `claim-evidence.json` before adjudicating:
+these separate audit files contain model predictions and source evidence. The
+page is blind by presentation, not an access-control boundary. Rebuilding refuses
+an existing output directory to preserve frozen reviews; use `--output` for a
+separate pilot.
+
+Sampling is without replacement within split/review-status/frequency/platform
+strata, with balanced allocation across strata and retained inclusion weights.
+Rare means fewer than 50 unique images for the predicted state. Deduplication is
+by image SHA-256, retaining a deterministic representative. Whole recordings and
+press galleries are assigned to a source-disjoint split; duplicate images join
+their source groups before splitting. This prevents exact leakage, not all visual
+similarity between independently recorded scenes. Declared platforms remain
+metadata, not independent verification.
+
+After human adjudication, score the exported backup:
+
+```sh
+python3 tools/references/review_pilot.py score /path/to/annotations.json \
+  --output artifacts/juiced2-vault/review-pilot/evaluation.json
+```
+
+Scoring checks the frozen manifest identity, selected image bytes, annotation
+identity and labels. It reports weighted per-category precision and recall
+estimates separately for tuning and held-out sources. Recall is conditional on
+resolved gold labels; unreadable examples leave true categories unknown. Neither
+an aggregate agreement rate nor resolved-only recall establishes corpus accuracy.
+
+For existing automatically accepted predictions, category eligibility requires a
+95% precision lower bound at 95% confidence, a category present in both source
+splits, and a fully annotated pilot. The bound uses exact finite-population
+hypergeometric intervals, combined across each category's strata with Bonferroni
+coverage. This design-based bound does not assume adjacent frames are independent:
+its scope is the fixed held-out unique-image population, not future captures.
+Unresolved/missing answers are non-successes for precision; an unsampled category
+stratum contributes a zero lower bound. The pilot can leave every category
+ineligible. Eligibility is reported only; the scorer never enables automatic
+acceptance or changes classifier flags.
+
+`claim-evidence.json` initializes the agreed release checks and candidate state
+leads separately from benchmark correctness. All remain unverified in this audit;
+it requires timestamped transitions, verified reference provenance, applicable
+failure/recovery cases, native or controlled evidence for hidden rules, and
+matched implementation checks before promoting a fidelity claim.
+
+Verification:
+
+```sh
+python3 -m unittest discover -s tools/references -p test_review_pilot.py
+node tools/references/test_review_pilot.cjs
+```
+
+The browser check uses the existing Playwright install under `tools/visual` and
+isolated temporary browser contexts. Its synthetic answers are never human gold
+labels and are not saved into the pilot.

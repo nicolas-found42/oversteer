@@ -229,3 +229,36 @@ The question ordering and factual verification are retained in the local vault a
 `judgments/interview-round-01.json`. Jev's relevance scores are advisory. Dependency
 checks keep handling and engine choices out of this first round even when they
 rank highly.
+
+## Evidence audit follow-up: accepted November 3, 2026
+
+The user accepted both initial evidence-policy questions, both benchmark questions,
+and the final shared-understanding check. These decisions extend evidence validation;
+they do not reopen the existing implementation authorization.
+
+- Audit evidence supporting the agreed rebuild acceptance claims. Clearing every
+  corpus review flag is not a completion requirement.
+- Establish semantic accuracy against an independently human-adjudicated benchmark.
+  Agreement between models remains corroboration, not independent ground truth.
+- Prepare an initial 200-example blind pilot for the user to adjudicate. Include
+  flagged and accepted predictions, common and rare states, and varied sources.
+  Hide proposed answers until review; allow unreadable and insufficient-context
+  judgments without forcing a label.
+- Freeze source-recording-disjoint tuning/test assignments. Keep press galleries
+  and exact duplicate images together. Preserve hashes, predictions and sampling
+  probabilities in a separate audit manifest.
+- A category can qualify only when its held-out precision has a one-sided 95%
+  lower confidence bound of at least 95%. Report recall separately. Insufficient
+  evidence leaves a category ineligible; the pilot does not guarantee category
+  coverage or eligibility.
+- Prepare and score the pilot from cached inputs without new classification calls.
+  Any later experiments or additional human-review batches must be scoped from
+  its results. Preserve existing raw judgments and review flags.
+- Temporal rules still require appropriate sequences/native evidence. A visible
+  transition alone does not establish causation or hidden timing/scoring rules.
+- Track required release checks and candidate state/transition evidence, retaining
+  explicit estimates, contradictions, and unresolved gaps. Empty candidate lists
+  do not establish absence or exhaustive coverage.
+
+The implementation and local review workflow are documented in the
+[vault reference guide](../references/juiced2/README.md#blind-human-review-pilot).

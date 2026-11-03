@@ -1,0 +1,80 @@
+// Run after review_pilot.py build. Uses the repository's existing Playwright install.
+const assert = require('node:assert/strict');
+const fs = require('node:fs/promises');
+const os = require('node:os');
+const path = require('node:path');
+const {pathToFileURL} = require('node:url');
+const {chromium} = require('../visual/node_modules/playwright');
+
+(async () => {
+  const root = path.resolve(__dirname, '../..');
+  const directory = path.join(root, 'artifacts/juiced2-vault/review-pilot');
+  const url = pathToFileURL(path.join(directory, 'index.html')).href;
+  const browser = await chromium.launch({headless: true});
+  const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'juiced2-blind-review-'));
+  const errors = [];
+  try {
+    const context = await browser.newContext({viewport: {width: 1440, height: 1000}});
+    const page = await context.newPage();
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto(url);
+    await page.locator('#frame').evaluate(image => image.decode());
+    assert.equal(await page.locator('#progress').textContent(), '0 / 200 reviewed');
+    const publicItems = await page.locator('#pilot-data').evaluate(node => JSON.parse(node.textContent).items);
+    assert.equal(publicItems.length, 200);
+    for (const item of publicItems) assert.deepEqual(Object.keys(item).sort(), ['id', 'image']);
+    await page.screenshot({path: path.join(directory, 'preview-desktop.png'), fullPage: true});
+    await page.locator('#save-next').click();
+    assert.match(await page.locator('#status').textContent(), /Choose a judgment/);
+    await page.locator('#outcome').selectOption('label');
+    await page.locator('#save-next').click();
+    assert.match(await page.locator('#status').textContent(), /Choose a screen label/);
+    await page.locator('#search').fill('menu/main');
+    await page.locator('#label').selectOption('menu/main');
+    await page.locator('#notes').fill('Synthetic browser test; not a human gold annotation.');
+    await page.locator('#reviewer').fill('UI test only');
+    await page.locator('#save-next').click();
+    assert.equal(await page.locator('#progress').textContent(), '1 / 200 reviewed');
+    await page.reload();
+    assert.match(await page.locator('#position').textContent(), /Example 2 of 200/);
+    await page.locator('#previous').click();
+    assert.equal(await page.locator('#label').inputValue(), 'menu/main');
+    assert.match(await page.locator('#notes').inputValue(), /Synthetic browser test/);
+    await page.locator('#outcome').selectOption('unreadable');
+    await page.locator('#save-next').click();
+    const downloaded = page.waitForEvent('download');
+    await page.locator('#export').click();
+    const exported = path.join(temporary, 'annotations.json');
+    await (await downloaded).saveAs(exported);
+    const answers = JSON.parse(await fs.readFile(exported, 'utf8'));
+    assert.equal(answers.reviewer, 'UI test only');
+    assert.deepEqual(Object.keys(answers.answers), ['0001']);
+    assert.equal(answers.answers['0001'].outcome, 'unreadable');
+    assert.equal(answers.answers['0001'].label, '');
+
+    const second = await browser.newContext({viewport: {width: 390, height: 844}});
+    const restored = await second.newPage();
+    restored.on('pageerror', error => errors.push(error.message));
+    await restored.goto(url);
+    await restored.locator('#frame').evaluate(image => image.decode());
+    await restored.screenshot({path: path.join(directory, 'preview-mobile.png'), fullPage: true});
+    assert.equal(await restored.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
+    await restored.locator('#import').setInputFiles(exported);
+    await restored.waitForFunction(() => document.querySelector('#status').textContent === 'Annotations imported.');
+    await restored.reload();
+    assert.equal(await restored.locator('#progress').textContent(), '1 / 200 reviewed');
+    await restored.locator('#previous').click();
+    assert.equal(await restored.locator('#outcome').inputValue(), 'unreadable');
+    const invalid = path.join(temporary, 'wrong-pilot.json');
+    await fs.writeFile(invalid, JSON.stringify({...answers, pilot_id: 'another-pilot'}));
+    await restored.locator('#import').setInputFiles(invalid);
+    await restored.waitForFunction(() => document.querySelector('#status').classList.contains('error'));
+    assert.match(await restored.locator('#status').textContent(), /not an annotation backup/);
+    assert.equal(await restored.locator('#progress').textContent(), '1 / 200 reviewed');
+    assert.deepEqual(errors, []);
+    console.log('PASS: blind payload, image loading, input guards, reload persistence, export/import, wrong-pilot rejection, desktop/mobile layout; no browser errors.');
+  } finally {
+    await browser.close();
+    await fs.rm(temporary, {recursive: true, force: true});
+  }
+})().catch(error => { console.error(error); process.exitCode = 1; });
