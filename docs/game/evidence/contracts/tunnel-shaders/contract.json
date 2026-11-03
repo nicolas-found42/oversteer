@@ -1,0 +1,8368 @@
+{
+  "schema_version": 2,
+  "source": {
+    "path": "artifacts/juiced2-build/world-uv/Juiced2.fxl",
+    "sha256": "51891269f7ff3bf42706465ed97e5d927096748f911beb23b5cb27d565417489"
+  },
+  "techniques": [
+    {
+      "effect": "simpleGradient",
+      "effect_name_offset": 3761700,
+      "name": "shadowbuffering",
+      "descriptor_offset": 3762816,
+      "pass_offset": 3762904,
+      "vertex_index": 616,
+      "pixel_index": 693,
+      "annotation_raw": "534841444f5742554646455247454e00000000000000000000000000000000000000000300000001"
+    },
+    {
+      "effect": "simpleGradient",
+      "effect_name_offset": 3761700,
+      "name": "Simple_3",
+      "descriptor_offset": 3763124,
+      "pass_offset": 3763332,
+      "vertex_index": 617,
+      "pixel_index": 694,
+      "annotation_raw": "434c415353494649434154494f4e00000000000000000000000000000000000000000001000400004e4f524d414c52454e444552494e4700000000000000000000000000000000000000000300000001494e54455245464c454354494f4e47454e0000000000000000000000000000000000000300000001455850454e5349564552454e444552494e4700000000000000000000000000000000000300000001"
+    },
+    {
+      "effect": "luminousScroll",
+      "effect_name_offset": 3718736,
+      "name": "Luminous_2b",
+      "descriptor_offset": 3720112,
+      "pass_offset": 3720280,
+      "vertex_index": 586,
+      "pixel_index": 660,
+      "annotation_raw": "434c415353494649434154494f4e00000000000000000000000000000000000000000001000400004e4f524d414c52454e444552494e4700000000000000000000000000000000000000000300000001494e54455245464c454354494f4e47454e0000000000000000000000000000000000000300000001"
+    },
+    {
+      "effect": "luminousScroll",
+      "effect_name_offset": 3718736,
+      "name": "Luminous_2a",
+      "descriptor_offset": 3720516,
+      "pass_offset": 3720684,
+      "vertex_index": 586,
+      "pixel_index": 660,
+      "annotation_raw": "434c415353494649434154494f4e00000000000000000000000000000000000000000001000400004e4f524d414c52454e444552494e4700000000000000000000000000000000000000000300000001494e54455245464c454354494f4e47454e0000000000000000000000000000000000000300000001"
+    },
+    {
+      "effect": "luminousScroll",
+      "effect_name_offset": 3718736,
+      "name": "Luminous_2",
+      "descriptor_offset": 3720920,
+      "pass_offset": 3721088,
+      "vertex_index": 586,
+      "pixel_index": 660,
+      "annotation_raw": "434c415353494649434154494f4e00000000000000000000000000000000000000000001000400004e4f524d414c52454e444552494e4700000000000000000000000000000000000000000300000001494e54455245464c454354494f4e47454e0000000000000000000000000000000000000300000001"
+    },
+    {
+      "effect": "luminousScroll",
+      "effect_name_offset": 3718736,
+      "name": "Luminous_NoTexturing",
+      "descriptor_offset": 3721324,
+      "pass_offset": 3721452,
+      "vertex_index": 586,
+      "pixel_index": 661,
+      "annotation_raw": "434c415353494649434154494f4e00000000000000000000000000000000000000000001000400004e4f544558545552494e470000000000000000000000000000000000000000000000000300000001"
+    },
+    {
+      "effect": "backLightScroll",
+      "effect_name_offset": 3560164,
+      "name": "Normal_3",
+      "descriptor_offset": 3561408,
+      "pass_offset": 3561616,
+      "vertex_index": 58,
+      "pixel_index": 82,
+      "annotation_raw": "434c415353494649434154494f4e00000000000000000000000000000000000000000001000800004e4f524d414c52454e444552494e4700000000000000000000000000000000000000000300000001494e54455245464c454354494f4e47454e0000000000000000000000000000000000000300000001455850454e5349564552454e444552494e4700000000000000000000000000000000000300000001"
+    },
+    {
+      "effect": "backLightScroll",
+      "effect_name_offset": 3560164,
+      "name": "nullshadowbuffer",
+      "descriptor_offset": 3561836,
+      "pass_count": 0
+    }
+  ],
+  "program_bindings": [
+    {
+      "id": "simpleGradient-shadowbuffering-vertex-616",
+      "kind": "vertex",
+      "record": {
+        "index": 616,
+        "offset": 644272,
+        "size": 324,
+        "metadata_size": 192,
+        "code_size": 132
+      },
+      "sha256": "7bbfcf210326f7af6ea1f7c36a8e83dd3c11fec029da639fa7eb66ea2805a1e1",
+      "bindings": [
+        {
+          "name": "g_model2Clip",
+          "register_set": 2,
+          "register_index": 3,
+          "register_count": 4
+        }
+      ],
+      "literal_constants": {}
+    },
+    {
+      "id": "simpleGradient-shadowbuffering-pixel-693",
+      "kind": "pixel",
+      "record": {
+        "index": 693,
+        "offset": 2915184,
+        "size": 172,
+        "metadata_size": 124,
+        "code_size": 48
+      },
+      "sha256": "33e3f899634ffc1d22b07518f97b6e5a643834a52118e83603716b1e0b013df2",
+      "bindings": [],
+      "literal_constants": {}
+    },
+    {
+      "id": "simpleGradient-Simple_3-vertex-617",
+      "kind": "vertex",
+      "record": {
+        "index": 617,
+        "offset": 644600,
+        "size": 328,
+        "metadata_size": 196,
+        "code_size": 132
+      },
+      "sha256": "c14aa29e5dc6a9975b9bb4d3a8ddd9706f0722fcf9373c4cbb467eb0fbb7209d",
+      "bindings": [
+        {
+          "name": "g_model2Clip",
+          "register_set": 2,
+          "register_index": 3,
+          "register_count": 4
+        }
+      ],
+      "literal_constants": {}
+    },
+    {
+      "id": "simpleGradient-Simple_3-pixel-694",
+      "kind": "pixel",
+      "record": {
+        "index": 694,
+        "offset": 2915360,
+        "size": 736,
+        "metadata_size": 444,
+        "code_size": 292
+      },
+      "sha256": "8b9fae324a7516263a9fe0033a96f07fcccb51d3f136e864b6f47ad9b8d38336",
+      "bindings": [
+        {
+          "name": "baseTexture",
+          "register_set": 3,
+          "register_index": 4,
+          "register_count": 1
+        },
+        {
+          "name": "brightness",
+          "register_set": 2,
+          "register_index": 58,
+          "register_count": 1
+        },
+        {
+          "name": "colour1",
+          "register_set": 2,
+          "register_index": 57,
+          "register_count": 1
+        },
+        {
+          "name": "colour2",
+          "register_set": 2,
+          "register_index": 59,
+          "register_count": 1
+        },
+        {
+          "name": "colour3",
+          "register_set": 2,
+          "register_index": 56,
+          "register_count": 1
+        },
+        {
+          "name": "g_expParams1",
+          "register_set": 2,
+          "register_index": 17,
+          "register_count": 1
+        },
+        {
+          "name": "g_expParams2",
+          "register_set": 2,
+          "register_index": 15,
+          "register_count": 1
+        }
+      ],
+      "literal_constants": {
+        "252": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "253": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "254": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "255": [
+          0.0,
+          1.0,
+          0.33000001311302185,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "luminousScroll-Luminous_2b-vertex-586",
+      "kind": "vertex",
+      "record": {
+        "index": 586,
+        "offset": 619284,
+        "size": 476,
+        "metadata_size": 320,
+        "code_size": 156
+      },
+      "sha256": "39159d58dd52e3182903264b5378a4a436c560634e12c37f1fbc656bb70788f6",
+      "bindings": [
+        {
+          "name": "g_Focus_Time",
+          "register_set": 2,
+          "register_index": 40,
+          "register_count": 1
+        },
+        {
+          "name": "g_model2Clip",
+          "register_set": 2,
+          "register_index": 3,
+          "register_count": 4
+        },
+        {
+          "name": "uScroll",
+          "register_set": 2,
+          "register_index": 48,
+          "register_count": 1
+        },
+        {
+          "name": "vScroll",
+          "register_set": 2,
+          "register_index": 49,
+          "register_count": 1
+        }
+      ],
+      "literal_constants": {}
+    },
+    {
+      "id": "luminousScroll-Luminous_2b-pixel-660",
+      "kind": "pixel",
+      "record": {
+        "index": 660,
+        "offset": 2881956,
+        "size": 636,
+        "metadata_size": 380,
+        "code_size": 256
+      },
+      "sha256": "3da665b02e5ddab8ff8d950bcd5549ad4a8cb025cddab739d7159b72f3a461c5",
+      "bindings": [
+        {
+          "name": "baseTexture",
+          "register_set": 3,
+          "register_index": 5,
+          "register_count": 1
+        },
+        {
+          "name": "g_expParams1",
+          "register_set": 2,
+          "register_index": 17,
+          "register_count": 1
+        },
+        {
+          "name": "g_expParams2",
+          "register_set": 2,
+          "register_index": 15,
+          "register_count": 1
+        },
+        {
+          "name": "lumStrength",
+          "register_set": 2,
+          "register_index": 56,
+          "register_count": 1
+        },
+        {
+          "name": "lumTexture",
+          "register_set": 3,
+          "register_index": 4,
+          "register_count": 1
+        }
+      ],
+      "literal_constants": {
+        "252": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "253": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "254": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "255": [
+          0.33000001311302185,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "luminousScroll-Luminous_2a-vertex-586",
+      "kind": "vertex",
+      "record": {
+        "index": 586,
+        "offset": 619284,
+        "size": 476,
+        "metadata_size": 320,
+        "code_size": 156
+      },
+      "sha256": "39159d58dd52e3182903264b5378a4a436c560634e12c37f1fbc656bb70788f6",
+      "bindings": [
+        {
+          "name": "g_Focus_Time",
+          "register_set": 2,
+          "register_index": 40,
+          "register_count": 1
+        },
+        {
+          "name": "g_model2Clip",
+          "register_set": 2,
+          "register_index": 3,
+          "register_count": 4
+        },
+        {
+          "name": "uScroll",
+          "register_set": 2,
+          "register_index": 48,
+          "register_count": 1
+        },
+        {
+          "name": "vScroll",
+          "register_set": 2,
+          "register_index": 49,
+          "register_count": 1
+        }
+      ],
+      "literal_constants": {}
+    },
+    {
+      "id": "luminousScroll-Luminous_2a-pixel-660",
+      "kind": "pixel",
+      "record": {
+        "index": 660,
+        "offset": 2881956,
+        "size": 636,
+        "metadata_size": 380,
+        "code_size": 256
+      },
+      "sha256": "3da665b02e5ddab8ff8d950bcd5549ad4a8cb025cddab739d7159b72f3a461c5",
+      "bindings": [
+        {
+          "name": "baseTexture",
+          "register_set": 3,
+          "register_index": 5,
+          "register_count": 1
+        },
+        {
+          "name": "g_expParams1",
+          "register_set": 2,
+          "register_index": 17,
+          "register_count": 1
+        },
+        {
+          "name": "g_expParams2",
+          "register_set": 2,
+          "register_index": 15,
+          "register_count": 1
+        },
+        {
+          "name": "lumStrength",
+          "register_set": 2,
+          "register_index": 56,
+          "register_count": 1
+        },
+        {
+          "name": "lumTexture",
+          "register_set": 3,
+          "register_index": 4,
+          "register_count": 1
+        }
+      ],
+      "literal_constants": {
+        "252": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "253": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "254": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "255": [
+          0.33000001311302185,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "luminousScroll-Luminous_2-vertex-586",
+      "kind": "vertex",
+      "record": {
+        "index": 586,
+        "offset": 619284,
+        "size": 476,
+        "metadata_size": 320,
+        "code_size": 156
+      },
+      "sha256": "39159d58dd52e3182903264b5378a4a436c560634e12c37f1fbc656bb70788f6",
+      "bindings": [
+        {
+          "name": "g_Focus_Time",
+          "register_set": 2,
+          "register_index": 40,
+          "register_count": 1
+        },
+        {
+          "name": "g_model2Clip",
+          "register_set": 2,
+          "register_index": 3,
+          "register_count": 4
+        },
+        {
+          "name": "uScroll",
+          "register_set": 2,
+          "register_index": 48,
+          "register_count": 1
+        },
+        {
+          "name": "vScroll",
+          "register_set": 2,
+          "register_index": 49,
+          "register_count": 1
+        }
+      ],
+      "literal_constants": {}
+    },
+    {
+      "id": "luminousScroll-Luminous_2-pixel-660",
+      "kind": "pixel",
+      "record": {
+        "index": 660,
+        "offset": 2881956,
+        "size": 636,
+        "metadata_size": 380,
+        "code_size": 256
+      },
+      "sha256": "3da665b02e5ddab8ff8d950bcd5549ad4a8cb025cddab739d7159b72f3a461c5",
+      "bindings": [
+        {
+          "name": "baseTexture",
+          "register_set": 3,
+          "register_index": 5,
+          "register_count": 1
+        },
+        {
+          "name": "g_expParams1",
+          "register_set": 2,
+          "register_index": 17,
+          "register_count": 1
+        },
+        {
+          "name": "g_expParams2",
+          "register_set": 2,
+          "register_index": 15,
+          "register_count": 1
+        },
+        {
+          "name": "lumStrength",
+          "register_set": 2,
+          "register_index": 56,
+          "register_count": 1
+        },
+        {
+          "name": "lumTexture",
+          "register_set": 3,
+          "register_index": 4,
+          "register_count": 1
+        }
+      ],
+      "literal_constants": {
+        "252": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "253": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "254": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "255": [
+          0.33000001311302185,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "luminousScroll-Luminous_NoTexturing-vertex-586",
+      "kind": "vertex",
+      "record": {
+        "index": 586,
+        "offset": 619284,
+        "size": 476,
+        "metadata_size": 320,
+        "code_size": 156
+      },
+      "sha256": "39159d58dd52e3182903264b5378a4a436c560634e12c37f1fbc656bb70788f6",
+      "bindings": [
+        {
+          "name": "g_Focus_Time",
+          "register_set": 2,
+          "register_index": 40,
+          "register_count": 1
+        },
+        {
+          "name": "g_model2Clip",
+          "register_set": 2,
+          "register_index": 3,
+          "register_count": 4
+        },
+        {
+          "name": "uScroll",
+          "register_set": 2,
+          "register_index": 48,
+          "register_count": 1
+        },
+        {
+          "name": "vScroll",
+          "register_set": 2,
+          "register_index": 49,
+          "register_count": 1
+        }
+      ],
+      "literal_constants": {}
+    },
+    {
+      "id": "luminousScroll-Luminous_NoTexturing-pixel-661",
+      "kind": "pixel",
+      "record": {
+        "index": 661,
+        "offset": 2882596,
+        "size": 636,
+        "metadata_size": 380,
+        "code_size": 256
+      },
+      "sha256": "3da665b02e5ddab8ff8d950bcd5549ad4a8cb025cddab739d7159b72f3a461c5",
+      "bindings": [
+        {
+          "name": "baseTexture",
+          "register_set": 3,
+          "register_index": 5,
+          "register_count": 1
+        },
+        {
+          "name": "g_expParams1",
+          "register_set": 2,
+          "register_index": 17,
+          "register_count": 1
+        },
+        {
+          "name": "g_expParams2",
+          "register_set": 2,
+          "register_index": 15,
+          "register_count": 1
+        },
+        {
+          "name": "lumStrength",
+          "register_set": 2,
+          "register_index": 56,
+          "register_count": 1
+        },
+        {
+          "name": "lumTexture",
+          "register_set": 3,
+          "register_index": 4,
+          "register_count": 1
+        }
+      ],
+      "literal_constants": {
+        "252": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "253": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "254": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "255": [
+          0.33000001311302185,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "backLightScroll-Normal_3-vertex-58",
+      "kind": "vertex",
+      "record": {
+        "index": 58,
+        "offset": 37024,
+        "size": 476,
+        "metadata_size": 320,
+        "code_size": 156
+      },
+      "sha256": "e9d67ca15c8842daf53735a287739f28d167bafb972e93620445482cf199aaf0",
+      "bindings": [
+        {
+          "name": "g_Focus_Time",
+          "register_set": 2,
+          "register_index": 40,
+          "register_count": 1
+        },
+        {
+          "name": "g_model2Clip",
+          "register_set": 2,
+          "register_index": 3,
+          "register_count": 4
+        },
+        {
+          "name": "uScroll",
+          "register_set": 2,
+          "register_index": 49,
+          "register_count": 1
+        },
+        {
+          "name": "vScroll",
+          "register_set": 2,
+          "register_index": 48,
+          "register_count": 1
+        }
+      ],
+      "literal_constants": {}
+    },
+    {
+      "id": "backLightScroll-Normal_3-pixel-82",
+      "kind": "pixel",
+      "record": {
+        "index": 82,
+        "offset": 938184,
+        "size": 280,
+        "metadata_size": 220,
+        "code_size": 60
+      },
+      "sha256": "3a9909891646769d18c990209ece1d8a0fe09765df3abaf1541440e206d74a06",
+      "bindings": [
+        {
+          "name": "baseTexture",
+          "register_set": 3,
+          "register_index": 4,
+          "register_count": 1
+        },
+        {
+          "name": "multiplier",
+          "register_set": 2,
+          "register_index": 56,
+          "register_count": 1
+        }
+      ],
+      "literal_constants": {}
+    }
+  ],
+  "equations": {
+    "simpleGradient": "rgb=brightness*(T.r*colour1+T.g*colour2+T.b*colour3);out.rgb=grade(rgb);out.a=1",
+    "luminousScroll": "out.rgb=grade(lumTexture.rgb*lumStrength*baseTexture.rgb);out.a=baseTexture.a",
+    "backLightScroll": "out.rgb=(1,1,1);out.a=baseTexture.a*multiplier",
+    "grade": "l=.33000001311302185*(R+G+B);q=(l+(rgb-l)*exp2.x)*exp2.w+exp2.z;out=q/(max(q.r,q.g,q.b,exp1.y)*exp1.z+exp1.w)"
+  },
+  "grade_channels": {
+    "g_expParams1": {
+      "register": 17,
+      "x": "unusedbythesepixelprograms",
+      "y": "minimuminputtomax(R,G,B,y)",
+      "z": "maxRGBdenominatorslope",
+      "w": "denominatorbias"
+    },
+    "g_expParams2": {
+      "register": 15,
+      "x": "saturationfactorabout0.3300000131*sumRGB",
+      "y": "unusedbythesepixelprograms",
+      "z": "post-saturationadditivebias",
+      "w": "post-saturationmultiplicativegain"
+    }
+  },
+  "vertex": {
+    "simpleGradient": "VS617:clip=MVP*POSITION;TEXCOORD0=inputUV.xy.Noangularpositionprojection.",
+    "luminousScroll": "VS586:TEXCOORD0=inputUV.xy+g_Focus_Time.w*(uScroll,vScroll)",
+    "backLightScroll": "VS58:sameUVformula;uScrollc49/vScrollc48vsVS586uScrollc48/vScrollc49"
+  },
+  "palette_upload": {
+    "consumer": "8219B9C8",
+    "cached_handles": "8219C568 cachescolour1/2/3through822CFCA0\u21928228D128atcontroller196/200/204",
+    "packed_input": "822CF670 queuesARGBvalue;822CF638dispatchesmaterialvirtual40",
+    "virtual_binding": "82048638+40\u2192822D4340",
+    "conversion": "ARGB8\u2192RGBAf32 usingliteral8204D090bits3b808081(f32 1/255);NOsRGBtransfer",
+    "uniform_write": "822D67D0memcopiesfloatvectortoeffectuniforms;nomath/gammaconversion",
+    "example": {
+      "native_rgb": [
+        5,
+        0,
+        6
+      ],
+      "uploaded_rgb": [
+        0.0196078431372549,
+        0,
+        0.023529411764705882
+      ]
+    },
+    "limits": "Scriptcolour\u2192packedARGBchannelstoremustremainconsistentwithoriginalscenecontroller; paletteuniformconversionitselfisproven."
+  },
+  "global_upload": {
+    "initializer": "822CDEA8 resolves original names8202B448/8202B458 to singleton handles236/240",
+    "writer": "822FEBF8 uploads via822CF278",
+    "state_mapping": {
+      "76": "Contrast",
+      "80": "Saturation",
+      "180": "SceneManualExposure",
+      "184": "SceneMinBloom",
+      "188": "SceneMaxBloom"
+    },
+    "atmosphere_copy": "822FD9A8 copies atmosphere1000/1004/1012/1016/1020 to those state fields; optional scene override may replace them",
+    "equations": {
+      "g_expParams1": [
+        "E",
+        "Bmin",
+        "(Bmax-1)/(Bmax-Bmin)",
+        "1-z*Bmin"
+      ],
+      "g_expParams2": [
+        "S",
+        "C",
+        "0.5*(1-C)",
+        "C*E"
+      ]
+    },
+    "arithmetic": "Native fsubs/fdivs/fmuls round f32; bias paths use fnmsubs fused arithmetic. No denominator guard or clamp in this writer.",
+    "constants": {
+      "0x8201a8e4": {
+        "value": 0.5,
+        "bits": "3f000000"
+      },
+      "0x8204cb10": {
+        "value": 1.0,
+        "bits": "3f800000"
+      }
+    }
+  },
+  "atmospheres": [
+    {
+      "member": "tunnel-0-0289380d.bin",
+      "native_key": "0289380d",
+      "verified_filename": null,
+      "sha256": "294fd1f39c4dcb967533f9085ca55f30e4dc750469c46993722cb293b936d049",
+      "rows": [
+        {
+          "name": "AmbientColour",
+          "values": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        {
+          "name": "LightColour1",
+          "values": [
+            747.723145,
+            759.096985,
+            695.845886
+          ]
+        },
+        {
+          "name": "LightColour2",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightColour3",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightDirection1",
+          "values": [
+            -0.822493,
+            -0.483052,
+            -0.300275
+          ]
+        },
+        {
+          "name": "LightDirection2",
+          "values": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "LightDirection3",
+          "values": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "SkyColour",
+          "values": [
+            170.0,
+            196.0,
+            221.0
+          ]
+        },
+        {
+          "name": "FogColourFront",
+          "values": [
+            141.0,
+            188.0,
+            222.0
+          ]
+        },
+        {
+          "name": "FogColourBack",
+          "values": [
+            121.0,
+            168.0,
+            202.0
+          ]
+        },
+        {
+          "name": "FogMin",
+          "values": [
+            27.0
+          ]
+        },
+        {
+          "name": "FogMax",
+          "values": [
+            207.0
+          ]
+        },
+        {
+          "name": "FogNear",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogFar",
+          "values": [
+            60000.0
+          ]
+        },
+        {
+          "name": "SkyAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "HorizonColourFront",
+          "values": [
+            247.0,
+            247.0,
+            247.0
+          ]
+        },
+        {
+          "name": "HorizonColourBack",
+          "values": [
+            247.0,
+            247.0,
+            247.0
+          ]
+        },
+        {
+          "name": "SkyColourFront",
+          "values": [
+            163.0,
+            212.0,
+            212.0
+          ]
+        },
+        {
+          "name": "SkyColourBack",
+          "values": [
+            163.0,
+            212.0,
+            212.0
+          ]
+        },
+        {
+          "name": "ZenithColour",
+          "values": [
+            63.0,
+            101.0,
+            139.0
+          ]
+        },
+        {
+          "name": "SkyHeightFactor",
+          "values": [
+            12.0
+          ]
+        },
+        {
+          "name": "SkyHeightManual",
+          "values": [
+            500.0
+          ]
+        },
+        {
+          "name": "SunSize",
+          "values": [
+            8.0
+          ]
+        },
+        {
+          "name": "SunFlareSize",
+          "values": [
+            52.0
+          ]
+        },
+        {
+          "name": "SunReflectionSize",
+          "values": [
+            20.0
+          ]
+        },
+        {
+          "name": "SkyLuminosity",
+          "values": [
+            0.3
+          ]
+        },
+        {
+          "name": "SunAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "ExposureBias",
+          "values": [
+            -30.0
+          ]
+        },
+        {
+          "name": "ExposureLimits",
+          "values": [
+            -128.0,
+            128.0
+          ]
+        },
+        {
+          "name": "ShadowSet",
+          "values": [
+            -1.0
+          ]
+        },
+        {
+          "name": "LightBlur",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "WorldShadowColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0,
+            200.0
+          ]
+        },
+        {
+          "name": "NightRoadShininess",
+          "values": [
+            0.25
+          ]
+        },
+        {
+          "name": "MinRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MaxRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "RoadWetnessTime",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MinRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MinRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "PuddleColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0
+          ]
+        },
+        {
+          "name": "PS2BuildingGlassColour",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "TestMipmapBias",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            0.0,
+            0.92002,
+            0.974709,
+            0.936193
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            1.0,
+            -0.746026,
+            -0.732418,
+            -0.644568
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            2.0,
+            0.976303,
+            1.007476,
+            0.941973
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            3.0,
+            0.418289,
+            0.409829,
+            0.358608
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            4.0,
+            -0.580462,
+            -0.563691,
+            -0.489363
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            5.0,
+            -1.132548,
+            -1.100308,
+            -0.956478
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            6.0,
+            0.26891,
+            0.239966,
+            0.18733
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            7.0,
+            0.659273,
+            0.638843,
+            0.552761
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            8.0,
+            -0.315462,
+            -0.307713,
+            -0.268559
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            9.0,
+            -0.822493,
+            -0.483052,
+            -0.300275
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            10.0,
+            2.932248,
+            2.976851,
+            2.728807
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            11.0,
+            0.039216,
+            0.039216,
+            0.039216
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            12.0,
+            0.92002,
+            0.974709,
+            0.936193
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            13.0,
+            -0.004164,
+            -0.003362,
+            -0.001153
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            14.0,
+            0.976303,
+            1.007476,
+            0.941973
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            15.0,
+            -0.85528,
+            -0.839276,
+            -0.737608
+          ]
+        },
+        {
+          "name": "Exposure",
+          "values": [
+            5.0
+          ]
+        },
+        {
+          "name": "Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "IntereflectionFactor",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "name": "SkyRotation",
+          "values": [
+            4.206244
+          ]
+        },
+        {
+          "name": "Exposure_Lda",
+          "values": [
+            0.14
+          ]
+        },
+        {
+          "name": "Exposure_LWhite",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Exposure_FadeSpeed",
+          "values": [
+            0.76
+          ]
+        },
+        {
+          "name": "Exposure_Gamma",
+          "values": [
+            0.88
+          ]
+        },
+        {
+          "name": "Exposure_MinLuminance",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_MaxLuminance",
+          "values": [
+            2.0
+          ]
+        },
+        {
+          "name": "Contrast",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Saturation",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Bloom_Threshold",
+          "values": [
+            9.7
+          ]
+        },
+        {
+          "name": "Bloom_Offset",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Scale",
+          "values": [
+            1.32
+          ]
+        },
+        {
+          "name": "Bloom_Amplitude",
+          "values": [
+            0.35
+          ]
+        },
+        {
+          "name": "SceneManualExposure",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "SceneMinBloom",
+          "values": [
+            0.9
+          ]
+        },
+        {
+          "name": "SceneMaxBloom",
+          "values": [
+            1000.0
+          ]
+        }
+      ],
+      "effective_numeric_fields": {
+        "AmbientColour": [
+          10.0,
+          10.0,
+          10.0
+        ],
+        "LightColour1": [
+          747.723145,
+          759.096985,
+          695.845886
+        ],
+        "LightColour2": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightColour3": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightDirection1": [
+          -0.822493,
+          -0.483052,
+          -0.300275
+        ],
+        "LightDirection2": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "LightDirection3": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "SkyColour": [
+          170.0,
+          196.0,
+          221.0
+        ],
+        "FogColourFront": [
+          141.0,
+          188.0,
+          222.0
+        ],
+        "FogColourBack": [
+          121.0,
+          168.0,
+          202.0
+        ],
+        "FogMin": [
+          27.0
+        ],
+        "FogMax": [
+          207.0
+        ],
+        "FogNear": [
+          0.0
+        ],
+        "FogFar": [
+          60000.0
+        ],
+        "SkyAngle": [
+          0.0
+        ],
+        "HorizonColourFront": [
+          247.0,
+          247.0,
+          247.0
+        ],
+        "HorizonColourBack": [
+          247.0,
+          247.0,
+          247.0
+        ],
+        "SkyColourFront": [
+          163.0,
+          212.0,
+          212.0
+        ],
+        "SkyColourBack": [
+          163.0,
+          212.0,
+          212.0
+        ],
+        "ZenithColour": [
+          63.0,
+          101.0,
+          139.0
+        ],
+        "SkyHeightFactor": [
+          12.0
+        ],
+        "SkyHeightManual": [
+          500.0
+        ],
+        "SunSize": [
+          8.0
+        ],
+        "SunFlareSize": [
+          52.0
+        ],
+        "SunReflectionSize": [
+          20.0
+        ],
+        "SkyLuminosity": [
+          0.3
+        ],
+        "SunAngle": [
+          0.0
+        ],
+        "ExposureBias": [
+          -30.0
+        ],
+        "ExposureLimits": [
+          -128.0,
+          128.0
+        ],
+        "ShadowSet": [
+          -1.0
+        ],
+        "LightBlur": [
+          0.0
+        ],
+        "WorldShadowColour": [
+          255.0,
+          255.0,
+          255.0,
+          200.0
+        ],
+        "NightRoadShininess": [
+          0.25
+        ],
+        "MinRoadWetness": [
+          1.0
+        ],
+        "MaxRoadWetness": [
+          1.0
+        ],
+        "RoadWetnessTime": [
+          1.0
+        ],
+        "MinRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MinRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "PuddleColour": [
+          255.0,
+          255.0,
+          255.0
+        ],
+        "PS2BuildingGlassColour": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "TestMipmapBias": [
+          0.0
+        ],
+        "SHCoeff": [
+          15.0,
+          -0.85528,
+          -0.839276,
+          -0.737608
+        ],
+        "Exposure": [
+          5.0
+        ],
+        "Gamma": [
+          1.0
+        ],
+        "IntereflectionFactor": [
+          0.8
+        ],
+        "SkyRotation": [
+          4.206244
+        ],
+        "Exposure_Lda": [
+          0.14
+        ],
+        "Exposure_LWhite": [
+          1.0
+        ],
+        "Exposure_FadeSpeed": [
+          0.76
+        ],
+        "Exposure_Gamma": [
+          0.88
+        ],
+        "Exposure_MinLuminance": [
+          0.0
+        ],
+        "Exposure_MaxLuminance": [
+          2.0
+        ],
+        "Contrast": [
+          1.0
+        ],
+        "Saturation": [
+          1.0
+        ],
+        "Bloom_Threshold": [
+          9.7
+        ],
+        "Bloom_Offset": [
+          0.0
+        ],
+        "Bloom_Scale": [
+          1.32
+        ],
+        "Bloom_Amplitude": [
+          0.35
+        ],
+        "SceneManualExposure": [
+          1.0
+        ],
+        "SceneMinBloom": [
+          0.9
+        ],
+        "SceneMaxBloom": [
+          1000.0
+        ]
+      },
+      "candidate_uniforms_from_explicit_fields": {
+        "g_expParams1": [
+          1.0,
+          0.9,
+          0.999899909918927,
+          0.10009008107296569
+        ],
+        "g_expParams2": [
+          1.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        "precision": "Real-number equation illustration; native instructions round f32 and use fused negative multiply-add. Not an active-phase/default claim."
+      }
+    },
+    {
+      "member": "tunnel-1-18493bd2.bin",
+      "native_key": "18493bd2",
+      "verified_filename": null,
+      "sha256": "04e8010c15abe96414ff4d6165271f2072c46d798e27888700a6974c01c9edd1",
+      "rows": [
+        {
+          "name": "AmbientColour",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightColour1",
+          "values": [
+            625.443726,
+            621.030762,
+            625.159241
+          ]
+        },
+        {
+          "name": "LightColour2",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightColour3",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightDirection1",
+          "values": [
+            -0.212764,
+            0.507166,
+            0.835173
+          ]
+        },
+        {
+          "name": "LightDirection2",
+          "values": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "LightDirection3",
+          "values": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "SkyColour",
+          "values": [
+            170.0,
+            196.0,
+            221.0
+          ]
+        },
+        {
+          "name": "FogColourFront",
+          "values": [
+            141.0,
+            188.0,
+            222.0
+          ]
+        },
+        {
+          "name": "FogColourBack",
+          "values": [
+            121.0,
+            168.0,
+            202.0
+          ]
+        },
+        {
+          "name": "FogMin",
+          "values": [
+            27.0
+          ]
+        },
+        {
+          "name": "FogMax",
+          "values": [
+            207.0
+          ]
+        },
+        {
+          "name": "FogNear",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogFar",
+          "values": [
+            60000.0
+          ]
+        },
+        {
+          "name": "SkyAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "HorizonColourFront",
+          "values": [
+            247.0,
+            247.0,
+            251.0
+          ]
+        },
+        {
+          "name": "HorizonColourBack",
+          "values": [
+            247.0,
+            247.0,
+            251.0
+          ]
+        },
+        {
+          "name": "SkyColourFront",
+          "values": [
+            163.0,
+            212.0,
+            218.0
+          ]
+        },
+        {
+          "name": "SkyColourBack",
+          "values": [
+            163.0,
+            212.0,
+            228.0
+          ]
+        },
+        {
+          "name": "ZenithColour",
+          "values": [
+            63.0,
+            101.0,
+            139.0
+          ]
+        },
+        {
+          "name": "SkyHeightFactor",
+          "values": [
+            12.0
+          ]
+        },
+        {
+          "name": "SkyHeightManual",
+          "values": [
+            500.0
+          ]
+        },
+        {
+          "name": "SunSize",
+          "values": [
+            8.0
+          ]
+        },
+        {
+          "name": "SunFlareSize",
+          "values": [
+            52.0
+          ]
+        },
+        {
+          "name": "SunReflectionSize",
+          "values": [
+            20.0
+          ]
+        },
+        {
+          "name": "SkyLuminosity",
+          "values": [
+            0.3
+          ]
+        },
+        {
+          "name": "SunAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "ExposureBias",
+          "values": [
+            -30.0
+          ]
+        },
+        {
+          "name": "ExposureLimits",
+          "values": [
+            -128.0,
+            128.0
+          ]
+        },
+        {
+          "name": "ShadowSet",
+          "values": [
+            -1.0
+          ]
+        },
+        {
+          "name": "LightBlur",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "WorldShadowColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0,
+            200.0
+          ]
+        },
+        {
+          "name": "NightRoadShininess",
+          "values": [
+            0.25
+          ]
+        },
+        {
+          "name": "MinRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MaxRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "RoadWetnessTime",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MinRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MinRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "PuddleColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0
+          ]
+        },
+        {
+          "name": "PS2BuildingGlassColour",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "TestMipmapBias",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            0.0,
+            16.65798,
+            12.912192,
+            10.18646
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            1.0,
+            1.022012,
+            0.883134,
+            0.688645
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            2.0,
+            -0.706589,
+            -0.483329,
+            -0.38523
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            3.0,
+            -0.250918,
+            -0.223756,
+            -0.186085
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            4.0,
+            -0.091937,
+            -0.080372,
+            -0.064541
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            5.0,
+            -0.343151,
+            -0.246927,
+            -0.195388
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            6.0,
+            -2.047944,
+            -1.968751,
+            -1.549387
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            7.0,
+            0.652586,
+            0.485579,
+            0.38315
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            8.0,
+            -3.401126,
+            -3.302761,
+            -2.593046
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            9.0,
+            0.810181,
+            0.559874,
+            0.443314
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            10.0,
+            0.096217,
+            0.072755,
+            0.057066
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            11.0,
+            0.744452,
+            0.522185,
+            0.412222
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            12.0,
+            0.855374,
+            0.580085,
+            0.461736
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            13.0,
+            -0.363366,
+            -0.245493,
+            -0.184596
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            14.0,
+            -0.328555,
+            -0.325107,
+            -0.251384
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            15.0,
+            0.271141,
+            0.302472,
+            0.272149
+          ]
+        },
+        {
+          "name": "Exposure",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Gamma",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "name": "IntereflectionFactor",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "name": "SkyRotation",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_Lda",
+          "values": [
+            0.03
+          ]
+        },
+        {
+          "name": "Exposure_LWhite",
+          "values": [
+            1.8
+          ]
+        },
+        {
+          "name": "Exposure_FadeSpeed",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_Gamma",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "name": "Bloom_Threshold",
+          "values": [
+            0.9
+          ]
+        },
+        {
+          "name": "Bloom_Offset",
+          "values": [
+            1.3
+          ]
+        },
+        {
+          "name": "Bloom_Scale",
+          "values": [
+            0.66
+          ]
+        },
+        {
+          "name": "Bloom_Amplitude",
+          "values": [
+            0.6
+          ]
+        }
+      ],
+      "effective_numeric_fields": {
+        "AmbientColour": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightColour1": [
+          625.443726,
+          621.030762,
+          625.159241
+        ],
+        "LightColour2": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightColour3": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightDirection1": [
+          -0.212764,
+          0.507166,
+          0.835173
+        ],
+        "LightDirection2": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "LightDirection3": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "SkyColour": [
+          170.0,
+          196.0,
+          221.0
+        ],
+        "FogColourFront": [
+          141.0,
+          188.0,
+          222.0
+        ],
+        "FogColourBack": [
+          121.0,
+          168.0,
+          202.0
+        ],
+        "FogMin": [
+          27.0
+        ],
+        "FogMax": [
+          207.0
+        ],
+        "FogNear": [
+          0.0
+        ],
+        "FogFar": [
+          60000.0
+        ],
+        "SkyAngle": [
+          0.0
+        ],
+        "HorizonColourFront": [
+          247.0,
+          247.0,
+          251.0
+        ],
+        "HorizonColourBack": [
+          247.0,
+          247.0,
+          251.0
+        ],
+        "SkyColourFront": [
+          163.0,
+          212.0,
+          218.0
+        ],
+        "SkyColourBack": [
+          163.0,
+          212.0,
+          228.0
+        ],
+        "ZenithColour": [
+          63.0,
+          101.0,
+          139.0
+        ],
+        "SkyHeightFactor": [
+          12.0
+        ],
+        "SkyHeightManual": [
+          500.0
+        ],
+        "SunSize": [
+          8.0
+        ],
+        "SunFlareSize": [
+          52.0
+        ],
+        "SunReflectionSize": [
+          20.0
+        ],
+        "SkyLuminosity": [
+          0.3
+        ],
+        "SunAngle": [
+          0.0
+        ],
+        "ExposureBias": [
+          -30.0
+        ],
+        "ExposureLimits": [
+          -128.0,
+          128.0
+        ],
+        "ShadowSet": [
+          -1.0
+        ],
+        "LightBlur": [
+          0.0
+        ],
+        "WorldShadowColour": [
+          255.0,
+          255.0,
+          255.0,
+          200.0
+        ],
+        "NightRoadShininess": [
+          0.25
+        ],
+        "MinRoadWetness": [
+          1.0
+        ],
+        "MaxRoadWetness": [
+          1.0
+        ],
+        "RoadWetnessTime": [
+          1.0
+        ],
+        "MinRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MinRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "PuddleColour": [
+          255.0,
+          255.0,
+          255.0
+        ],
+        "PS2BuildingGlassColour": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "TestMipmapBias": [
+          0.0
+        ],
+        "SHCoeff": [
+          15.0,
+          0.271141,
+          0.302472,
+          0.272149
+        ],
+        "Exposure": [
+          1.0
+        ],
+        "Gamma": [
+          0.8
+        ],
+        "IntereflectionFactor": [
+          0.8
+        ],
+        "SkyRotation": [
+          0.0
+        ],
+        "Exposure_Lda": [
+          0.03
+        ],
+        "Exposure_LWhite": [
+          1.8
+        ],
+        "Exposure_FadeSpeed": [
+          0.0
+        ],
+        "Exposure_Gamma": [
+          0.8
+        ],
+        "Bloom_Threshold": [
+          0.9
+        ],
+        "Bloom_Offset": [
+          1.3
+        ],
+        "Bloom_Scale": [
+          0.66
+        ],
+        "Bloom_Amplitude": [
+          0.6
+        ]
+      }
+    },
+    {
+      "member": "tunnel-2-38228722.bin",
+      "native_key": "38228722",
+      "verified_filename": null,
+      "sha256": "e4c2f87855f8792fdc20c7166a1607a8d98f5d7ca3b4b02cda84ed4a6f95358e",
+      "rows": [
+        {
+          "name": "AmbientColour",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightColour1",
+          "values": [
+            625.443726,
+            621.030762,
+            625.159241
+          ]
+        },
+        {
+          "name": "LightColour2",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightColour3",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightDirection1",
+          "values": [
+            -0.212764,
+            0.507166,
+            0.835173
+          ]
+        },
+        {
+          "name": "LightDirection2",
+          "values": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "LightDirection3",
+          "values": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "SkyColour",
+          "values": [
+            170.0,
+            196.0,
+            221.0
+          ]
+        },
+        {
+          "name": "FogColourFront",
+          "values": [
+            141.0,
+            188.0,
+            222.0
+          ]
+        },
+        {
+          "name": "FogColourBack",
+          "values": [
+            121.0,
+            168.0,
+            202.0
+          ]
+        },
+        {
+          "name": "FogMin",
+          "values": [
+            27.0
+          ]
+        },
+        {
+          "name": "FogMax",
+          "values": [
+            207.0
+          ]
+        },
+        {
+          "name": "FogNear",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogFar",
+          "values": [
+            60000.0
+          ]
+        },
+        {
+          "name": "SkyAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "HorizonColourFront",
+          "values": [
+            247.0,
+            247.0,
+            251.0
+          ]
+        },
+        {
+          "name": "HorizonColourBack",
+          "values": [
+            247.0,
+            247.0,
+            251.0
+          ]
+        },
+        {
+          "name": "SkyColourFront",
+          "values": [
+            163.0,
+            212.0,
+            218.0
+          ]
+        },
+        {
+          "name": "SkyColourBack",
+          "values": [
+            163.0,
+            212.0,
+            228.0
+          ]
+        },
+        {
+          "name": "ZenithColour",
+          "values": [
+            63.0,
+            101.0,
+            139.0
+          ]
+        },
+        {
+          "name": "SkyHeightFactor",
+          "values": [
+            12.0
+          ]
+        },
+        {
+          "name": "SkyHeightManual",
+          "values": [
+            500.0
+          ]
+        },
+        {
+          "name": "SunSize",
+          "values": [
+            8.0
+          ]
+        },
+        {
+          "name": "SunFlareSize",
+          "values": [
+            52.0
+          ]
+        },
+        {
+          "name": "SunReflectionSize",
+          "values": [
+            20.0
+          ]
+        },
+        {
+          "name": "SkyLuminosity",
+          "values": [
+            0.3
+          ]
+        },
+        {
+          "name": "SunAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "ExposureBias",
+          "values": [
+            -30.0
+          ]
+        },
+        {
+          "name": "ExposureLimits",
+          "values": [
+            -128.0,
+            128.0
+          ]
+        },
+        {
+          "name": "ShadowSet",
+          "values": [
+            -1.0
+          ]
+        },
+        {
+          "name": "LightBlur",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "WorldShadowColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0,
+            200.0
+          ]
+        },
+        {
+          "name": "NightRoadShininess",
+          "values": [
+            0.25
+          ]
+        },
+        {
+          "name": "MinRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MaxRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "RoadWetnessTime",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MinRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MinRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "PuddleColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0
+          ]
+        },
+        {
+          "name": "PS2BuildingGlassColour",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "TestMipmapBias",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            0.0,
+            16.65798,
+            12.912192,
+            10.18646
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            1.0,
+            1.022012,
+            0.883134,
+            0.688645
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            2.0,
+            -0.706589,
+            -0.483329,
+            -0.38523
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            3.0,
+            -0.250918,
+            -0.223756,
+            -0.186085
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            4.0,
+            -0.091937,
+            -0.080372,
+            -0.064541
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            5.0,
+            -0.343151,
+            -0.246927,
+            -0.195388
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            6.0,
+            -2.047944,
+            -1.968751,
+            -1.549387
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            7.0,
+            0.652586,
+            0.485579,
+            0.38315
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            8.0,
+            -3.401126,
+            -3.302761,
+            -2.593046
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            9.0,
+            0.810181,
+            0.559874,
+            0.443314
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            10.0,
+            0.096217,
+            0.072755,
+            0.057066
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            11.0,
+            0.744452,
+            0.522185,
+            0.412222
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            12.0,
+            0.855374,
+            0.580085,
+            0.461736
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            13.0,
+            -0.363366,
+            -0.245493,
+            -0.184596
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            14.0,
+            -0.328555,
+            -0.325107,
+            -0.251384
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            15.0,
+            0.271141,
+            0.302472,
+            0.272149
+          ]
+        },
+        {
+          "name": "Exposure",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "IntereflectionFactor",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "name": "SkyRotation",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_Lda",
+          "values": [
+            0.3
+          ]
+        },
+        {
+          "name": "Exposure_LWhite",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Exposure_FadeSpeed",
+          "values": [
+            0.9
+          ]
+        },
+        {
+          "name": "Exposure_Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Bloom_Threshold",
+          "values": [
+            0.9
+          ]
+        },
+        {
+          "name": "Bloom_Offset",
+          "values": [
+            1.3
+          ]
+        },
+        {
+          "name": "Bloom_Scale",
+          "values": [
+            0.66
+          ]
+        },
+        {
+          "name": "Bloom_Amplitude",
+          "values": [
+            0.6
+          ]
+        }
+      ],
+      "effective_numeric_fields": {
+        "AmbientColour": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightColour1": [
+          625.443726,
+          621.030762,
+          625.159241
+        ],
+        "LightColour2": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightColour3": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightDirection1": [
+          -0.212764,
+          0.507166,
+          0.835173
+        ],
+        "LightDirection2": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "LightDirection3": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "SkyColour": [
+          170.0,
+          196.0,
+          221.0
+        ],
+        "FogColourFront": [
+          141.0,
+          188.0,
+          222.0
+        ],
+        "FogColourBack": [
+          121.0,
+          168.0,
+          202.0
+        ],
+        "FogMin": [
+          27.0
+        ],
+        "FogMax": [
+          207.0
+        ],
+        "FogNear": [
+          0.0
+        ],
+        "FogFar": [
+          60000.0
+        ],
+        "SkyAngle": [
+          0.0
+        ],
+        "HorizonColourFront": [
+          247.0,
+          247.0,
+          251.0
+        ],
+        "HorizonColourBack": [
+          247.0,
+          247.0,
+          251.0
+        ],
+        "SkyColourFront": [
+          163.0,
+          212.0,
+          218.0
+        ],
+        "SkyColourBack": [
+          163.0,
+          212.0,
+          228.0
+        ],
+        "ZenithColour": [
+          63.0,
+          101.0,
+          139.0
+        ],
+        "SkyHeightFactor": [
+          12.0
+        ],
+        "SkyHeightManual": [
+          500.0
+        ],
+        "SunSize": [
+          8.0
+        ],
+        "SunFlareSize": [
+          52.0
+        ],
+        "SunReflectionSize": [
+          20.0
+        ],
+        "SkyLuminosity": [
+          0.3
+        ],
+        "SunAngle": [
+          0.0
+        ],
+        "ExposureBias": [
+          -30.0
+        ],
+        "ExposureLimits": [
+          -128.0,
+          128.0
+        ],
+        "ShadowSet": [
+          -1.0
+        ],
+        "LightBlur": [
+          0.0
+        ],
+        "WorldShadowColour": [
+          255.0,
+          255.0,
+          255.0,
+          200.0
+        ],
+        "NightRoadShininess": [
+          0.25
+        ],
+        "MinRoadWetness": [
+          1.0
+        ],
+        "MaxRoadWetness": [
+          1.0
+        ],
+        "RoadWetnessTime": [
+          1.0
+        ],
+        "MinRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MinRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "PuddleColour": [
+          255.0,
+          255.0,
+          255.0
+        ],
+        "PS2BuildingGlassColour": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "TestMipmapBias": [
+          0.0
+        ],
+        "SHCoeff": [
+          15.0,
+          0.271141,
+          0.302472,
+          0.272149
+        ],
+        "Exposure": [
+          1.0
+        ],
+        "Gamma": [
+          1.0
+        ],
+        "IntereflectionFactor": [
+          0.8
+        ],
+        "SkyRotation": [
+          0.0
+        ],
+        "Exposure_Lda": [
+          0.3
+        ],
+        "Exposure_LWhite": [
+          1.0
+        ],
+        "Exposure_FadeSpeed": [
+          0.9
+        ],
+        "Exposure_Gamma": [
+          1.0
+        ],
+        "Bloom_Threshold": [
+          0.9
+        ],
+        "Bloom_Offset": [
+          1.3
+        ],
+        "Bloom_Scale": [
+          0.66
+        ],
+        "Bloom_Amplitude": [
+          0.6
+        ]
+      }
+    },
+    {
+      "member": "tunnel-3-a04f5dc6.bin",
+      "native_key": "a04f5dc6",
+      "verified_filename": null,
+      "sha256": "9625f1df7bb99291f9741dfbea42ae2ba8b7f000aaf89d0453be75b294224040",
+      "rows": [
+        {
+          "name": "AmbientColour",
+          "values": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        {
+          "name": "LightColour1",
+          "values": [
+            747.723145,
+            759.096985,
+            695.845886
+          ]
+        },
+        {
+          "name": "LightColour2",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightColour3",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightDirection1",
+          "values": [
+            -0.822493,
+            -0.483052,
+            -0.300275
+          ]
+        },
+        {
+          "name": "LightDirection2",
+          "values": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "LightDirection3",
+          "values": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "SkyColour",
+          "values": [
+            170.0,
+            196.0,
+            221.0
+          ]
+        },
+        {
+          "name": "FogColourFront",
+          "values": [
+            141.0,
+            188.0,
+            222.0
+          ]
+        },
+        {
+          "name": "FogColourBack",
+          "values": [
+            121.0,
+            168.0,
+            202.0
+          ]
+        },
+        {
+          "name": "FogMin",
+          "values": [
+            27.0
+          ]
+        },
+        {
+          "name": "FogMax",
+          "values": [
+            207.0
+          ]
+        },
+        {
+          "name": "FogNear",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogFar",
+          "values": [
+            60000.0
+          ]
+        },
+        {
+          "name": "SkyAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "HorizonColourFront",
+          "values": [
+            247.0,
+            247.0,
+            247.0
+          ]
+        },
+        {
+          "name": "HorizonColourBack",
+          "values": [
+            247.0,
+            247.0,
+            247.0
+          ]
+        },
+        {
+          "name": "SkyColourFront",
+          "values": [
+            163.0,
+            212.0,
+            212.0
+          ]
+        },
+        {
+          "name": "SkyColourBack",
+          "values": [
+            163.0,
+            212.0,
+            212.0
+          ]
+        },
+        {
+          "name": "ZenithColour",
+          "values": [
+            63.0,
+            101.0,
+            139.0
+          ]
+        },
+        {
+          "name": "SkyHeightFactor",
+          "values": [
+            12.0
+          ]
+        },
+        {
+          "name": "SkyHeightManual",
+          "values": [
+            500.0
+          ]
+        },
+        {
+          "name": "SunSize",
+          "values": [
+            8.0
+          ]
+        },
+        {
+          "name": "SunFlareSize",
+          "values": [
+            52.0
+          ]
+        },
+        {
+          "name": "SunReflectionSize",
+          "values": [
+            20.0
+          ]
+        },
+        {
+          "name": "SkyLuminosity",
+          "values": [
+            0.3
+          ]
+        },
+        {
+          "name": "SunAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "ExposureBias",
+          "values": [
+            -30.0
+          ]
+        },
+        {
+          "name": "ExposureLimits",
+          "values": [
+            -128.0,
+            128.0
+          ]
+        },
+        {
+          "name": "ShadowSet",
+          "values": [
+            -1.0
+          ]
+        },
+        {
+          "name": "LightBlur",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "WorldShadowColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0,
+            200.0
+          ]
+        },
+        {
+          "name": "NightRoadShininess",
+          "values": [
+            0.25
+          ]
+        },
+        {
+          "name": "MinRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MaxRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "RoadWetnessTime",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MinRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MinRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "PuddleColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0
+          ]
+        },
+        {
+          "name": "PS2BuildingGlassColour",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "TestMipmapBias",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            0.0,
+            0.92002,
+            0.974709,
+            0.936193
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            1.0,
+            -0.746026,
+            -0.732418,
+            -0.644568
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            2.0,
+            0.976303,
+            1.007476,
+            0.941973
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            3.0,
+            0.418289,
+            0.409829,
+            0.358608
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            4.0,
+            -0.580462,
+            -0.563691,
+            -0.489363
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            5.0,
+            -1.132548,
+            -1.100308,
+            -0.956478
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            6.0,
+            0.26891,
+            0.239966,
+            0.18733
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            7.0,
+            0.659273,
+            0.638843,
+            0.552761
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            8.0,
+            -0.315462,
+            -0.307713,
+            -0.268559
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            9.0,
+            -0.822493,
+            -0.483052,
+            -0.300275
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            10.0,
+            2.932248,
+            2.976851,
+            2.728807
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            11.0,
+            0.039216,
+            0.039216,
+            0.039216
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            12.0,
+            0.92002,
+            0.974709,
+            0.936193
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            13.0,
+            -0.004164,
+            -0.003362,
+            -0.001153
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            14.0,
+            0.976303,
+            1.007476,
+            0.941973
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            15.0,
+            -0.85528,
+            -0.839276,
+            -0.737608
+          ]
+        },
+        {
+          "name": "Exposure",
+          "values": [
+            5.0
+          ]
+        },
+        {
+          "name": "Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "IntereflectionFactor",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "name": "SkyRotation",
+          "values": [
+            4.206244
+          ]
+        },
+        {
+          "name": "Exposure_Lda",
+          "values": [
+            0.14
+          ]
+        },
+        {
+          "name": "Exposure_LWhite",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Exposure_FadeSpeed",
+          "values": [
+            0.76
+          ]
+        },
+        {
+          "name": "Exposure_Gamma",
+          "values": [
+            0.88
+          ]
+        },
+        {
+          "name": "Exposure_MinLuminance",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_MaxLuminance",
+          "values": [
+            2.0
+          ]
+        },
+        {
+          "name": "Contrast",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Saturation",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Bloom_Threshold",
+          "values": [
+            9.7
+          ]
+        },
+        {
+          "name": "Bloom_Offset",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Scale",
+          "values": [
+            1.32
+          ]
+        },
+        {
+          "name": "Bloom_Amplitude",
+          "values": [
+            0.35
+          ]
+        }
+      ],
+      "effective_numeric_fields": {
+        "AmbientColour": [
+          10.0,
+          10.0,
+          10.0
+        ],
+        "LightColour1": [
+          747.723145,
+          759.096985,
+          695.845886
+        ],
+        "LightColour2": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightColour3": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightDirection1": [
+          -0.822493,
+          -0.483052,
+          -0.300275
+        ],
+        "LightDirection2": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "LightDirection3": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "SkyColour": [
+          170.0,
+          196.0,
+          221.0
+        ],
+        "FogColourFront": [
+          141.0,
+          188.0,
+          222.0
+        ],
+        "FogColourBack": [
+          121.0,
+          168.0,
+          202.0
+        ],
+        "FogMin": [
+          27.0
+        ],
+        "FogMax": [
+          207.0
+        ],
+        "FogNear": [
+          0.0
+        ],
+        "FogFar": [
+          60000.0
+        ],
+        "SkyAngle": [
+          0.0
+        ],
+        "HorizonColourFront": [
+          247.0,
+          247.0,
+          247.0
+        ],
+        "HorizonColourBack": [
+          247.0,
+          247.0,
+          247.0
+        ],
+        "SkyColourFront": [
+          163.0,
+          212.0,
+          212.0
+        ],
+        "SkyColourBack": [
+          163.0,
+          212.0,
+          212.0
+        ],
+        "ZenithColour": [
+          63.0,
+          101.0,
+          139.0
+        ],
+        "SkyHeightFactor": [
+          12.0
+        ],
+        "SkyHeightManual": [
+          500.0
+        ],
+        "SunSize": [
+          8.0
+        ],
+        "SunFlareSize": [
+          52.0
+        ],
+        "SunReflectionSize": [
+          20.0
+        ],
+        "SkyLuminosity": [
+          0.3
+        ],
+        "SunAngle": [
+          0.0
+        ],
+        "ExposureBias": [
+          -30.0
+        ],
+        "ExposureLimits": [
+          -128.0,
+          128.0
+        ],
+        "ShadowSet": [
+          -1.0
+        ],
+        "LightBlur": [
+          0.0
+        ],
+        "WorldShadowColour": [
+          255.0,
+          255.0,
+          255.0,
+          200.0
+        ],
+        "NightRoadShininess": [
+          0.25
+        ],
+        "MinRoadWetness": [
+          1.0
+        ],
+        "MaxRoadWetness": [
+          1.0
+        ],
+        "RoadWetnessTime": [
+          1.0
+        ],
+        "MinRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MinRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "PuddleColour": [
+          255.0,
+          255.0,
+          255.0
+        ],
+        "PS2BuildingGlassColour": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "TestMipmapBias": [
+          0.0
+        ],
+        "SHCoeff": [
+          15.0,
+          -0.85528,
+          -0.839276,
+          -0.737608
+        ],
+        "Exposure": [
+          5.0
+        ],
+        "Gamma": [
+          1.0
+        ],
+        "IntereflectionFactor": [
+          0.8
+        ],
+        "SkyRotation": [
+          4.206244
+        ],
+        "Exposure_Lda": [
+          0.14
+        ],
+        "Exposure_LWhite": [
+          1.0
+        ],
+        "Exposure_FadeSpeed": [
+          0.76
+        ],
+        "Exposure_Gamma": [
+          0.88
+        ],
+        "Exposure_MinLuminance": [
+          0.0
+        ],
+        "Exposure_MaxLuminance": [
+          2.0
+        ],
+        "Contrast": [
+          1.0
+        ],
+        "Saturation": [
+          1.0
+        ],
+        "Bloom_Threshold": [
+          9.7
+        ],
+        "Bloom_Offset": [
+          0.0
+        ],
+        "Bloom_Scale": [
+          1.32
+        ],
+        "Bloom_Amplitude": [
+          0.35
+        ]
+      }
+    },
+    {
+      "member": "tunnel-4-a78974c6.bin",
+      "native_key": "a78974c6",
+      "verified_filename": "DNA_LAB.atm",
+      "sha256": "90b645d1a73e91b2177bd54837b5f20cd34471bb3b7e4764276b78a4f3ec6d8f",
+      "rows": [
+        {
+          "name": "AmbientColour",
+          "values": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        {
+          "name": "LightColour1",
+          "values": [
+            747.723145,
+            759.096985,
+            695.845886
+          ]
+        },
+        {
+          "name": "LightColour2",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightColour3",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightDirection1",
+          "values": [
+            -0.822493,
+            -0.483052,
+            -0.300275
+          ]
+        },
+        {
+          "name": "LightDirection2",
+          "values": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "LightDirection3",
+          "values": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "SkyColour",
+          "values": [
+            170.0,
+            196.0,
+            221.0
+          ]
+        },
+        {
+          "name": "FogColourFront",
+          "values": [
+            141.0,
+            188.0,
+            222.0
+          ]
+        },
+        {
+          "name": "FogColourBack",
+          "values": [
+            121.0,
+            168.0,
+            202.0
+          ]
+        },
+        {
+          "name": "FogMin",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogMax",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogNear",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogFar",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SkyAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "HorizonColourFront",
+          "values": [
+            247.0,
+            247.0,
+            247.0
+          ]
+        },
+        {
+          "name": "HorizonColourBack",
+          "values": [
+            247.0,
+            247.0,
+            247.0
+          ]
+        },
+        {
+          "name": "SkyColourFront",
+          "values": [
+            163.0,
+            212.0,
+            212.0
+          ]
+        },
+        {
+          "name": "SkyColourBack",
+          "values": [
+            163.0,
+            212.0,
+            212.0
+          ]
+        },
+        {
+          "name": "ZenithColour",
+          "values": [
+            63.0,
+            101.0,
+            139.0
+          ]
+        },
+        {
+          "name": "SkyHeightFactor",
+          "values": [
+            12.0
+          ]
+        },
+        {
+          "name": "SkyHeightManual",
+          "values": [
+            500.0
+          ]
+        },
+        {
+          "name": "SunSize",
+          "values": [
+            8.0
+          ]
+        },
+        {
+          "name": "SunFlareSize",
+          "values": [
+            52.0
+          ]
+        },
+        {
+          "name": "SunReflectionSize",
+          "values": [
+            20.0
+          ]
+        },
+        {
+          "name": "SkyLuminosity",
+          "values": [
+            0.3
+          ]
+        },
+        {
+          "name": "SunAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "ExposureBias",
+          "values": [
+            -30.0
+          ]
+        },
+        {
+          "name": "ExposureLimits",
+          "values": [
+            -128.0,
+            128.0
+          ]
+        },
+        {
+          "name": "ShadowSet",
+          "values": [
+            -1.0
+          ]
+        },
+        {
+          "name": "LightBlur",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "WorldShadowColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0,
+            200.0
+          ]
+        },
+        {
+          "name": "NightRoadShininess",
+          "values": [
+            0.25
+          ]
+        },
+        {
+          "name": "MinRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MaxRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "RoadWetnessTime",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MinRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MinRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "PuddleColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0
+          ]
+        },
+        {
+          "name": "PS2BuildingGlassColour",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "TestMipmapBias",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            0.0,
+            0.92002,
+            0.974709,
+            0.936193
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            1.0,
+            -0.746026,
+            -0.732418,
+            -0.644568
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            2.0,
+            0.976303,
+            1.007476,
+            0.941973
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            3.0,
+            0.418289,
+            0.409829,
+            0.358608
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            4.0,
+            -0.580462,
+            -0.563691,
+            -0.489363
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            5.0,
+            -1.132548,
+            -1.100308,
+            -0.956478
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            6.0,
+            0.26891,
+            0.239966,
+            0.18733
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            7.0,
+            0.659273,
+            0.638843,
+            0.552761
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            8.0,
+            -0.315462,
+            -0.307713,
+            -0.268559
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            9.0,
+            -0.822493,
+            -0.483052,
+            -0.300275
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            10.0,
+            2.932248,
+            2.976851,
+            2.728807
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            11.0,
+            0.039216,
+            0.039216,
+            0.039216
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            12.0,
+            0.92002,
+            0.974709,
+            0.936193
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            13.0,
+            -0.004164,
+            -0.003362,
+            -0.001153
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            14.0,
+            0.976303,
+            1.007476,
+            0.941973
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            15.0,
+            -0.85528,
+            -0.839276,
+            -0.737608
+          ]
+        },
+        {
+          "name": "Exposure",
+          "values": [
+            5.0
+          ]
+        },
+        {
+          "name": "Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "IntereflectionFactor",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "name": "SkyRotation",
+          "values": [
+            4.206244
+          ]
+        },
+        {
+          "name": "Exposure_Lda",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_LWhite",
+          "values": [
+            2.0
+          ]
+        },
+        {
+          "name": "Exposure_FadeSpeed",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Exposure_MinLuminance",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_MaxLuminance",
+          "values": [
+            2.0
+          ]
+        },
+        {
+          "name": "SceneManualExposure",
+          "values": [
+            3.0
+          ]
+        },
+        {
+          "name": "Contrast",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Saturation",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Bloom_Threshold",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Offset",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Scale",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Amplitude",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SceneManualExposure",
+          "values": [
+            2.5
+          ]
+        },
+        {
+          "name": "SceneMinBloom",
+          "values": [
+            0.5
+          ]
+        },
+        {
+          "name": "SceneMaxBloom",
+          "values": [
+            1.25
+          ]
+        },
+        {
+          "name": "LPCBrightness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "LPCOffset",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "LPCSaturation",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "LPCSpecMultiplier",
+          "values": [
+            3.5
+          ]
+        }
+      ],
+      "effective_numeric_fields": {
+        "AmbientColour": [
+          10.0,
+          10.0,
+          10.0
+        ],
+        "LightColour1": [
+          747.723145,
+          759.096985,
+          695.845886
+        ],
+        "LightColour2": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightColour3": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightDirection1": [
+          -0.822493,
+          -0.483052,
+          -0.300275
+        ],
+        "LightDirection2": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "LightDirection3": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "SkyColour": [
+          170.0,
+          196.0,
+          221.0
+        ],
+        "FogColourFront": [
+          141.0,
+          188.0,
+          222.0
+        ],
+        "FogColourBack": [
+          121.0,
+          168.0,
+          202.0
+        ],
+        "FogMin": [
+          0.0
+        ],
+        "FogMax": [
+          0.0
+        ],
+        "FogNear": [
+          0.0
+        ],
+        "FogFar": [
+          0.0
+        ],
+        "SkyAngle": [
+          0.0
+        ],
+        "HorizonColourFront": [
+          247.0,
+          247.0,
+          247.0
+        ],
+        "HorizonColourBack": [
+          247.0,
+          247.0,
+          247.0
+        ],
+        "SkyColourFront": [
+          163.0,
+          212.0,
+          212.0
+        ],
+        "SkyColourBack": [
+          163.0,
+          212.0,
+          212.0
+        ],
+        "ZenithColour": [
+          63.0,
+          101.0,
+          139.0
+        ],
+        "SkyHeightFactor": [
+          12.0
+        ],
+        "SkyHeightManual": [
+          500.0
+        ],
+        "SunSize": [
+          8.0
+        ],
+        "SunFlareSize": [
+          52.0
+        ],
+        "SunReflectionSize": [
+          20.0
+        ],
+        "SkyLuminosity": [
+          0.3
+        ],
+        "SunAngle": [
+          0.0
+        ],
+        "ExposureBias": [
+          -30.0
+        ],
+        "ExposureLimits": [
+          -128.0,
+          128.0
+        ],
+        "ShadowSet": [
+          -1.0
+        ],
+        "LightBlur": [
+          0.0
+        ],
+        "WorldShadowColour": [
+          255.0,
+          255.0,
+          255.0,
+          200.0
+        ],
+        "NightRoadShininess": [
+          0.25
+        ],
+        "MinRoadWetness": [
+          1.0
+        ],
+        "MaxRoadWetness": [
+          1.0
+        ],
+        "RoadWetnessTime": [
+          1.0
+        ],
+        "MinRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MinRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "PuddleColour": [
+          255.0,
+          255.0,
+          255.0
+        ],
+        "PS2BuildingGlassColour": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "TestMipmapBias": [
+          0.0
+        ],
+        "SHCoeff": [
+          15.0,
+          -0.85528,
+          -0.839276,
+          -0.737608
+        ],
+        "Exposure": [
+          5.0
+        ],
+        "Gamma": [
+          1.0
+        ],
+        "IntereflectionFactor": [
+          0.8
+        ],
+        "SkyRotation": [
+          4.206244
+        ],
+        "Exposure_Lda": [
+          0.0
+        ],
+        "Exposure_LWhite": [
+          2.0
+        ],
+        "Exposure_FadeSpeed": [
+          0.0
+        ],
+        "Exposure_Gamma": [
+          1.0
+        ],
+        "Exposure_MinLuminance": [
+          0.0
+        ],
+        "Exposure_MaxLuminance": [
+          2.0
+        ],
+        "SceneManualExposure": [
+          2.5
+        ],
+        "Contrast": [
+          1.0
+        ],
+        "Saturation": [
+          1.0
+        ],
+        "Bloom_Threshold": [
+          0.0
+        ],
+        "Bloom_Offset": [
+          0.0
+        ],
+        "Bloom_Scale": [
+          0.0
+        ],
+        "Bloom_Amplitude": [
+          0.0
+        ],
+        "SceneMinBloom": [
+          0.5
+        ],
+        "SceneMaxBloom": [
+          1.25
+        ],
+        "LPCBrightness": [
+          1.0
+        ],
+        "LPCOffset": [
+          0.0
+        ],
+        "LPCSaturation": [
+          1.0
+        ],
+        "LPCSpecMultiplier": [
+          3.5
+        ]
+      },
+      "candidate_uniforms_from_explicit_fields": {
+        "g_expParams1": [
+          2.5,
+          0.5,
+          0.3333333333333333,
+          0.8333333333333334
+        ],
+        "g_expParams2": [
+          1.0,
+          1.0,
+          0.0,
+          2.5
+        ],
+        "precision": "Real-number equation illustration; native instructions round f32 and use fused negative multiply-add. Not an active-phase/default claim."
+      }
+    },
+    {
+      "member": "tunnel-5-b0edf839.bin",
+      "native_key": "b0edf839",
+      "verified_filename": "profile.atm",
+      "sha256": "dd87a2a0098889c7e3b30ead7572b44b4b44c99347b13e37b1d38428f55af836",
+      "rows": [
+        {
+          "name": "AmbientColour",
+          "values": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        {
+          "name": "LightColour1",
+          "values": [
+            747.723145,
+            759.096985,
+            695.845886
+          ]
+        },
+        {
+          "name": "LightColour2",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightColour3",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightDirection1",
+          "values": [
+            -0.822493,
+            -0.483052,
+            -0.300275
+          ]
+        },
+        {
+          "name": "LightDirection2",
+          "values": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "LightDirection3",
+          "values": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "SkyColour",
+          "values": [
+            170.0,
+            196.0,
+            221.0
+          ]
+        },
+        {
+          "name": "FogColourFront",
+          "values": [
+            141.0,
+            188.0,
+            222.0
+          ]
+        },
+        {
+          "name": "FogColourBack",
+          "values": [
+            121.0,
+            168.0,
+            202.0
+          ]
+        },
+        {
+          "name": "FogMin",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogMax",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogNear",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogFar",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SkyAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "HorizonColourFront",
+          "values": [
+            247.0,
+            247.0,
+            247.0
+          ]
+        },
+        {
+          "name": "HorizonColourBack",
+          "values": [
+            247.0,
+            247.0,
+            247.0
+          ]
+        },
+        {
+          "name": "SkyColourFront",
+          "values": [
+            163.0,
+            212.0,
+            212.0
+          ]
+        },
+        {
+          "name": "SkyColourBack",
+          "values": [
+            163.0,
+            212.0,
+            212.0
+          ]
+        },
+        {
+          "name": "ZenithColour",
+          "values": [
+            63.0,
+            101.0,
+            139.0
+          ]
+        },
+        {
+          "name": "SkyHeightFactor",
+          "values": [
+            12.0
+          ]
+        },
+        {
+          "name": "SkyHeightManual",
+          "values": [
+            500.0
+          ]
+        },
+        {
+          "name": "SunSize",
+          "values": [
+            8.0
+          ]
+        },
+        {
+          "name": "SunFlareSize",
+          "values": [
+            52.0
+          ]
+        },
+        {
+          "name": "SunReflectionSize",
+          "values": [
+            20.0
+          ]
+        },
+        {
+          "name": "SkyLuminosity",
+          "values": [
+            0.3
+          ]
+        },
+        {
+          "name": "SunAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "ExposureBias",
+          "values": [
+            -30.0
+          ]
+        },
+        {
+          "name": "ExposureLimits",
+          "values": [
+            -128.0,
+            128.0
+          ]
+        },
+        {
+          "name": "ShadowSet",
+          "values": [
+            -1.0
+          ]
+        },
+        {
+          "name": "LightBlur",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "WorldShadowColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0,
+            200.0
+          ]
+        },
+        {
+          "name": "NightRoadShininess",
+          "values": [
+            0.25
+          ]
+        },
+        {
+          "name": "MinRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MaxRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "RoadWetnessTime",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MinRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MinRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "PuddleColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0
+          ]
+        },
+        {
+          "name": "PS2BuildingGlassColour",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "TestMipmapBias",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            0.0,
+            0.92002,
+            0.974709,
+            0.936193
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            1.0,
+            -0.746026,
+            -0.732418,
+            -0.644568
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            2.0,
+            0.976303,
+            1.007476,
+            0.941973
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            3.0,
+            0.418289,
+            0.409829,
+            0.358608
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            4.0,
+            -0.580462,
+            -0.563691,
+            -0.489363
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            5.0,
+            -1.132548,
+            -1.100308,
+            -0.956478
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            6.0,
+            0.26891,
+            0.239966,
+            0.18733
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            7.0,
+            0.659273,
+            0.638843,
+            0.552761
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            8.0,
+            -0.315462,
+            -0.307713,
+            -0.268559
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            9.0,
+            -0.822493,
+            -0.483052,
+            -0.300275
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            10.0,
+            2.932248,
+            2.976851,
+            2.728807
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            11.0,
+            0.039216,
+            0.039216,
+            0.039216
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            12.0,
+            0.92002,
+            0.974709,
+            0.936193
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            13.0,
+            -0.004164,
+            -0.003362,
+            -0.001153
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            14.0,
+            0.976303,
+            1.007476,
+            0.941973
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            15.0,
+            -0.85528,
+            -0.839276,
+            -0.737608
+          ]
+        },
+        {
+          "name": "Exposure",
+          "values": [
+            5.0
+          ]
+        },
+        {
+          "name": "Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "IntereflectionFactor",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "name": "SkyRotation",
+          "values": [
+            4.206244
+          ]
+        },
+        {
+          "name": "Exposure_Lda",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_LWhite",
+          "values": [
+            2.0
+          ]
+        },
+        {
+          "name": "Exposure_FadeSpeed",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Exposure_MinLuminance",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_MaxLuminance",
+          "values": [
+            2.0
+          ]
+        },
+        {
+          "name": "SceneManualExposure",
+          "values": [
+            3.0
+          ]
+        },
+        {
+          "name": "Contrast",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Saturation",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Bloom_Threshold",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Offset",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Scale",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Amplitude",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SceneManualExposure",
+          "values": [
+            2.5
+          ]
+        },
+        {
+          "name": "SceneMinBloom",
+          "values": [
+            0.5
+          ]
+        },
+        {
+          "name": "SceneMaxBloom",
+          "values": [
+            1.25
+          ]
+        },
+        {
+          "name": "LPCSaturation",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "LPCBrightness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "LPCOffset",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "LPCSpecMultiplier",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "GlobalScale",
+          "values": [
+            1.0
+          ]
+        }
+      ],
+      "effective_numeric_fields": {
+        "AmbientColour": [
+          10.0,
+          10.0,
+          10.0
+        ],
+        "LightColour1": [
+          747.723145,
+          759.096985,
+          695.845886
+        ],
+        "LightColour2": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightColour3": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightDirection1": [
+          -0.822493,
+          -0.483052,
+          -0.300275
+        ],
+        "LightDirection2": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "LightDirection3": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "SkyColour": [
+          170.0,
+          196.0,
+          221.0
+        ],
+        "FogColourFront": [
+          141.0,
+          188.0,
+          222.0
+        ],
+        "FogColourBack": [
+          121.0,
+          168.0,
+          202.0
+        ],
+        "FogMin": [
+          0.0
+        ],
+        "FogMax": [
+          0.0
+        ],
+        "FogNear": [
+          0.0
+        ],
+        "FogFar": [
+          0.0
+        ],
+        "SkyAngle": [
+          0.0
+        ],
+        "HorizonColourFront": [
+          247.0,
+          247.0,
+          247.0
+        ],
+        "HorizonColourBack": [
+          247.0,
+          247.0,
+          247.0
+        ],
+        "SkyColourFront": [
+          163.0,
+          212.0,
+          212.0
+        ],
+        "SkyColourBack": [
+          163.0,
+          212.0,
+          212.0
+        ],
+        "ZenithColour": [
+          63.0,
+          101.0,
+          139.0
+        ],
+        "SkyHeightFactor": [
+          12.0
+        ],
+        "SkyHeightManual": [
+          500.0
+        ],
+        "SunSize": [
+          8.0
+        ],
+        "SunFlareSize": [
+          52.0
+        ],
+        "SunReflectionSize": [
+          20.0
+        ],
+        "SkyLuminosity": [
+          0.3
+        ],
+        "SunAngle": [
+          0.0
+        ],
+        "ExposureBias": [
+          -30.0
+        ],
+        "ExposureLimits": [
+          -128.0,
+          128.0
+        ],
+        "ShadowSet": [
+          -1.0
+        ],
+        "LightBlur": [
+          0.0
+        ],
+        "WorldShadowColour": [
+          255.0,
+          255.0,
+          255.0,
+          200.0
+        ],
+        "NightRoadShininess": [
+          0.25
+        ],
+        "MinRoadWetness": [
+          1.0
+        ],
+        "MaxRoadWetness": [
+          1.0
+        ],
+        "RoadWetnessTime": [
+          1.0
+        ],
+        "MinRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MinRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "PuddleColour": [
+          255.0,
+          255.0,
+          255.0
+        ],
+        "PS2BuildingGlassColour": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "TestMipmapBias": [
+          0.0
+        ],
+        "SHCoeff": [
+          15.0,
+          -0.85528,
+          -0.839276,
+          -0.737608
+        ],
+        "Exposure": [
+          5.0
+        ],
+        "Gamma": [
+          1.0
+        ],
+        "IntereflectionFactor": [
+          0.8
+        ],
+        "SkyRotation": [
+          4.206244
+        ],
+        "Exposure_Lda": [
+          0.0
+        ],
+        "Exposure_LWhite": [
+          2.0
+        ],
+        "Exposure_FadeSpeed": [
+          0.0
+        ],
+        "Exposure_Gamma": [
+          1.0
+        ],
+        "Exposure_MinLuminance": [
+          0.0
+        ],
+        "Exposure_MaxLuminance": [
+          2.0
+        ],
+        "SceneManualExposure": [
+          2.5
+        ],
+        "Contrast": [
+          1.0
+        ],
+        "Saturation": [
+          1.0
+        ],
+        "Bloom_Threshold": [
+          0.0
+        ],
+        "Bloom_Offset": [
+          0.0
+        ],
+        "Bloom_Scale": [
+          0.0
+        ],
+        "Bloom_Amplitude": [
+          0.0
+        ],
+        "SceneMinBloom": [
+          0.5
+        ],
+        "SceneMaxBloom": [
+          1.25
+        ],
+        "LPCSaturation": [
+          1.0
+        ],
+        "LPCBrightness": [
+          1.0
+        ],
+        "LPCOffset": [
+          0.0
+        ],
+        "LPCSpecMultiplier": [
+          1.0
+        ],
+        "GlobalScale": [
+          1.0
+        ]
+      },
+      "candidate_uniforms_from_explicit_fields": {
+        "g_expParams1": [
+          2.5,
+          0.5,
+          0.3333333333333333,
+          0.8333333333333334
+        ],
+        "g_expParams2": [
+          1.0,
+          1.0,
+          0.0,
+          2.5
+        ],
+        "precision": "Real-number equation illustration; native instructions round f32 and use fused negative multiply-add. Not an active-phase/default claim."
+      }
+    },
+    {
+      "member": "tunnel-6-c161e275.bin",
+      "native_key": "c161e275",
+      "verified_filename": "split_screen.atm",
+      "sha256": "5879de7c8ca7149e292a7dbc7e953bbb4405243263ce7f01e6ed9d5a3b9a6106",
+      "rows": [
+        {
+          "name": "AmbientColour",
+          "values": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        {
+          "name": "LightColour1",
+          "values": [
+            747.723145,
+            759.096985,
+            695.845886
+          ]
+        },
+        {
+          "name": "LightColour2",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightColour3",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightDirection1",
+          "values": [
+            -0.822493,
+            -0.483052,
+            -0.300275
+          ]
+        },
+        {
+          "name": "LightDirection2",
+          "values": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "LightDirection3",
+          "values": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "SkyColour",
+          "values": [
+            170.0,
+            196.0,
+            221.0
+          ]
+        },
+        {
+          "name": "FogColourFront",
+          "values": [
+            141.0,
+            188.0,
+            222.0
+          ]
+        },
+        {
+          "name": "FogColourBack",
+          "values": [
+            121.0,
+            168.0,
+            202.0
+          ]
+        },
+        {
+          "name": "FogMin",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogMax",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogNear",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogFar",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SkyAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "HorizonColourFront",
+          "values": [
+            247.0,
+            247.0,
+            247.0
+          ]
+        },
+        {
+          "name": "HorizonColourBack",
+          "values": [
+            247.0,
+            247.0,
+            247.0
+          ]
+        },
+        {
+          "name": "SkyColourFront",
+          "values": [
+            163.0,
+            212.0,
+            212.0
+          ]
+        },
+        {
+          "name": "SkyColourBack",
+          "values": [
+            163.0,
+            212.0,
+            212.0
+          ]
+        },
+        {
+          "name": "ZenithColour",
+          "values": [
+            63.0,
+            101.0,
+            139.0
+          ]
+        },
+        {
+          "name": "SkyHeightFactor",
+          "values": [
+            12.0
+          ]
+        },
+        {
+          "name": "SkyHeightManual",
+          "values": [
+            500.0
+          ]
+        },
+        {
+          "name": "SunSize",
+          "values": [
+            8.0
+          ]
+        },
+        {
+          "name": "SunFlareSize",
+          "values": [
+            52.0
+          ]
+        },
+        {
+          "name": "SunReflectionSize",
+          "values": [
+            20.0
+          ]
+        },
+        {
+          "name": "SkyLuminosity",
+          "values": [
+            0.3
+          ]
+        },
+        {
+          "name": "SunAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "ExposureBias",
+          "values": [
+            -30.0
+          ]
+        },
+        {
+          "name": "ExposureLimits",
+          "values": [
+            -128.0,
+            128.0
+          ]
+        },
+        {
+          "name": "ShadowSet",
+          "values": [
+            -1.0
+          ]
+        },
+        {
+          "name": "LightBlur",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "WorldShadowColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0,
+            200.0
+          ]
+        },
+        {
+          "name": "NightRoadShininess",
+          "values": [
+            0.25
+          ]
+        },
+        {
+          "name": "MinRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MaxRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "RoadWetnessTime",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MinRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MinRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "PuddleColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0
+          ]
+        },
+        {
+          "name": "PS2BuildingGlassColour",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "TestMipmapBias",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            0.0,
+            0.92002,
+            0.974709,
+            0.936193
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            1.0,
+            -0.746026,
+            -0.732418,
+            -0.644568
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            2.0,
+            0.976303,
+            1.007476,
+            0.941973
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            3.0,
+            0.418289,
+            0.409829,
+            0.358608
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            4.0,
+            -0.580462,
+            -0.563691,
+            -0.489363
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            5.0,
+            -1.132548,
+            -1.100308,
+            -0.956478
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            6.0,
+            0.26891,
+            0.239966,
+            0.18733
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            7.0,
+            0.659273,
+            0.638843,
+            0.552761
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            8.0,
+            -0.315462,
+            -0.307713,
+            -0.268559
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            9.0,
+            -0.822493,
+            -0.483052,
+            -0.300275
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            10.0,
+            2.932248,
+            2.976851,
+            2.728807
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            11.0,
+            0.039216,
+            0.039216,
+            0.039216
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            12.0,
+            0.92002,
+            0.974709,
+            0.936193
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            13.0,
+            -0.004164,
+            -0.003362,
+            -0.001153
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            14.0,
+            0.976303,
+            1.007476,
+            0.941973
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            15.0,
+            -0.85528,
+            -0.839276,
+            -0.737608
+          ]
+        },
+        {
+          "name": "Exposure",
+          "values": [
+            5.0
+          ]
+        },
+        {
+          "name": "Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "IntereflectionFactor",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "name": "SkyRotation",
+          "values": [
+            4.206244
+          ]
+        },
+        {
+          "name": "Exposure_Lda",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_LWhite",
+          "values": [
+            2.0
+          ]
+        },
+        {
+          "name": "Exposure_FadeSpeed",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Exposure_MinLuminance",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_MaxLuminance",
+          "values": [
+            2.0
+          ]
+        },
+        {
+          "name": "SceneManualExposure",
+          "values": [
+            3.0
+          ]
+        },
+        {
+          "name": "Contrast",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Saturation",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Bloom_Threshold",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Offset",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Scale",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Amplitude",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SceneManualExposure",
+          "values": [
+            2.5
+          ]
+        },
+        {
+          "name": "SceneMinBloom",
+          "values": [
+            0.5
+          ]
+        },
+        {
+          "name": "SceneMaxBloom",
+          "values": [
+            1.25
+          ]
+        }
+      ],
+      "effective_numeric_fields": {
+        "AmbientColour": [
+          10.0,
+          10.0,
+          10.0
+        ],
+        "LightColour1": [
+          747.723145,
+          759.096985,
+          695.845886
+        ],
+        "LightColour2": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightColour3": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightDirection1": [
+          -0.822493,
+          -0.483052,
+          -0.300275
+        ],
+        "LightDirection2": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "LightDirection3": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "SkyColour": [
+          170.0,
+          196.0,
+          221.0
+        ],
+        "FogColourFront": [
+          141.0,
+          188.0,
+          222.0
+        ],
+        "FogColourBack": [
+          121.0,
+          168.0,
+          202.0
+        ],
+        "FogMin": [
+          0.0
+        ],
+        "FogMax": [
+          0.0
+        ],
+        "FogNear": [
+          0.0
+        ],
+        "FogFar": [
+          0.0
+        ],
+        "SkyAngle": [
+          0.0
+        ],
+        "HorizonColourFront": [
+          247.0,
+          247.0,
+          247.0
+        ],
+        "HorizonColourBack": [
+          247.0,
+          247.0,
+          247.0
+        ],
+        "SkyColourFront": [
+          163.0,
+          212.0,
+          212.0
+        ],
+        "SkyColourBack": [
+          163.0,
+          212.0,
+          212.0
+        ],
+        "ZenithColour": [
+          63.0,
+          101.0,
+          139.0
+        ],
+        "SkyHeightFactor": [
+          12.0
+        ],
+        "SkyHeightManual": [
+          500.0
+        ],
+        "SunSize": [
+          8.0
+        ],
+        "SunFlareSize": [
+          52.0
+        ],
+        "SunReflectionSize": [
+          20.0
+        ],
+        "SkyLuminosity": [
+          0.3
+        ],
+        "SunAngle": [
+          0.0
+        ],
+        "ExposureBias": [
+          -30.0
+        ],
+        "ExposureLimits": [
+          -128.0,
+          128.0
+        ],
+        "ShadowSet": [
+          -1.0
+        ],
+        "LightBlur": [
+          0.0
+        ],
+        "WorldShadowColour": [
+          255.0,
+          255.0,
+          255.0,
+          200.0
+        ],
+        "NightRoadShininess": [
+          0.25
+        ],
+        "MinRoadWetness": [
+          1.0
+        ],
+        "MaxRoadWetness": [
+          1.0
+        ],
+        "RoadWetnessTime": [
+          1.0
+        ],
+        "MinRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MinRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "PuddleColour": [
+          255.0,
+          255.0,
+          255.0
+        ],
+        "PS2BuildingGlassColour": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "TestMipmapBias": [
+          0.0
+        ],
+        "SHCoeff": [
+          15.0,
+          -0.85528,
+          -0.839276,
+          -0.737608
+        ],
+        "Exposure": [
+          5.0
+        ],
+        "Gamma": [
+          1.0
+        ],
+        "IntereflectionFactor": [
+          0.8
+        ],
+        "SkyRotation": [
+          4.206244
+        ],
+        "Exposure_Lda": [
+          0.0
+        ],
+        "Exposure_LWhite": [
+          2.0
+        ],
+        "Exposure_FadeSpeed": [
+          0.0
+        ],
+        "Exposure_Gamma": [
+          1.0
+        ],
+        "Exposure_MinLuminance": [
+          0.0
+        ],
+        "Exposure_MaxLuminance": [
+          2.0
+        ],
+        "SceneManualExposure": [
+          2.5
+        ],
+        "Contrast": [
+          1.0
+        ],
+        "Saturation": [
+          1.0
+        ],
+        "Bloom_Threshold": [
+          0.0
+        ],
+        "Bloom_Offset": [
+          0.0
+        ],
+        "Bloom_Scale": [
+          0.0
+        ],
+        "Bloom_Amplitude": [
+          0.0
+        ],
+        "SceneMinBloom": [
+          0.5
+        ],
+        "SceneMaxBloom": [
+          1.25
+        ]
+      },
+      "candidate_uniforms_from_explicit_fields": {
+        "g_expParams1": [
+          2.5,
+          0.5,
+          0.3333333333333333,
+          0.8333333333333334
+        ],
+        "g_expParams2": [
+          1.0,
+          1.0,
+          0.0,
+          2.5
+        ],
+        "precision": "Real-number equation illustration; native instructions round f32 and use fused negative multiply-add. Not an active-phase/default claim."
+      }
+    },
+    {
+      "member": "tunnel-7-d6c60593.bin",
+      "native_key": "d6c60593",
+      "verified_filename": "profile22.atm",
+      "sha256": "57072a0146e5298a2ddceecb418be639bb720015fb3f740dd07b2cbce924ce57",
+      "rows": [
+        {
+          "name": "AmbientColour",
+          "values": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        {
+          "name": "LightColour1",
+          "values": [
+            747.723145,
+            759.096985,
+            695.845886
+          ]
+        },
+        {
+          "name": "LightColour2",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightColour3",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightDirection1",
+          "values": [
+            -0.822493,
+            -0.483052,
+            -0.300275
+          ]
+        },
+        {
+          "name": "LightDirection2",
+          "values": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "LightDirection3",
+          "values": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "SkyColour",
+          "values": [
+            170.0,
+            196.0,
+            221.0
+          ]
+        },
+        {
+          "name": "FogColourFront",
+          "values": [
+            141.0,
+            188.0,
+            222.0
+          ]
+        },
+        {
+          "name": "FogColourBack",
+          "values": [
+            121.0,
+            168.0,
+            202.0
+          ]
+        },
+        {
+          "name": "FogMin",
+          "values": [
+            27.0
+          ]
+        },
+        {
+          "name": "FogMax",
+          "values": [
+            207.0
+          ]
+        },
+        {
+          "name": "FogNear",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogFar",
+          "values": [
+            60000.0
+          ]
+        },
+        {
+          "name": "SkyAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "HorizonColourFront",
+          "values": [
+            247.0,
+            247.0,
+            247.0
+          ]
+        },
+        {
+          "name": "HorizonColourBack",
+          "values": [
+            247.0,
+            247.0,
+            247.0
+          ]
+        },
+        {
+          "name": "SkyColourFront",
+          "values": [
+            163.0,
+            212.0,
+            212.0
+          ]
+        },
+        {
+          "name": "SkyColourBack",
+          "values": [
+            163.0,
+            212.0,
+            212.0
+          ]
+        },
+        {
+          "name": "ZenithColour",
+          "values": [
+            63.0,
+            101.0,
+            139.0
+          ]
+        },
+        {
+          "name": "SkyHeightFactor",
+          "values": [
+            12.0
+          ]
+        },
+        {
+          "name": "SkyHeightManual",
+          "values": [
+            500.0
+          ]
+        },
+        {
+          "name": "SunSize",
+          "values": [
+            8.0
+          ]
+        },
+        {
+          "name": "SunFlareSize",
+          "values": [
+            52.0
+          ]
+        },
+        {
+          "name": "SunReflectionSize",
+          "values": [
+            20.0
+          ]
+        },
+        {
+          "name": "SkyLuminosity",
+          "values": [
+            0.3
+          ]
+        },
+        {
+          "name": "SunAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "ExposureBias",
+          "values": [
+            -30.0
+          ]
+        },
+        {
+          "name": "ExposureLimits",
+          "values": [
+            -128.0,
+            128.0
+          ]
+        },
+        {
+          "name": "ShadowSet",
+          "values": [
+            -1.0
+          ]
+        },
+        {
+          "name": "LightBlur",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "WorldShadowColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0,
+            200.0
+          ]
+        },
+        {
+          "name": "NightRoadShininess",
+          "values": [
+            0.25
+          ]
+        },
+        {
+          "name": "MinRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MaxRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "RoadWetnessTime",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MinRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MinRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "PuddleColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0
+          ]
+        },
+        {
+          "name": "PS2BuildingGlassColour",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "TestMipmapBias",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            0.0,
+            0.92002,
+            0.974709,
+            0.936193
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            1.0,
+            -0.746026,
+            -0.732418,
+            -0.644568
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            2.0,
+            0.976303,
+            1.007476,
+            0.941973
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            3.0,
+            0.418289,
+            0.409829,
+            0.358608
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            4.0,
+            -0.580462,
+            -0.563691,
+            -0.489363
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            5.0,
+            -1.132548,
+            -1.100308,
+            -0.956478
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            6.0,
+            0.26891,
+            0.239966,
+            0.18733
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            7.0,
+            0.659273,
+            0.638843,
+            0.552761
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            8.0,
+            -0.315462,
+            -0.307713,
+            -0.268559
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            9.0,
+            -0.822493,
+            -0.483052,
+            -0.300275
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            10.0,
+            2.932248,
+            2.976851,
+            2.728807
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            11.0,
+            0.039216,
+            0.039216,
+            0.039216
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            12.0,
+            0.92002,
+            0.974709,
+            0.936193
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            13.0,
+            -0.004164,
+            -0.003362,
+            -0.001153
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            14.0,
+            0.976303,
+            1.007476,
+            0.941973
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            15.0,
+            -0.85528,
+            -0.839276,
+            -0.737608
+          ]
+        },
+        {
+          "name": "Exposure",
+          "values": [
+            5.0
+          ]
+        },
+        {
+          "name": "Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "IntereflectionFactor",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "name": "SkyRotation",
+          "values": [
+            4.206244
+          ]
+        },
+        {
+          "name": "Exposure_Lda",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_LWhite",
+          "values": [
+            2.0
+          ]
+        },
+        {
+          "name": "Exposure_FadeSpeed",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Exposure_MinLuminance",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_MaxLuminance",
+          "values": [
+            2.0
+          ]
+        },
+        {
+          "name": "SceneManualExposure",
+          "values": [
+            3.0
+          ]
+        },
+        {
+          "name": "Contrast",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Saturation",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Bloom_Threshold",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Offset",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Scale",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Bloom_Amplitude",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SceneManualExposure",
+          "values": [
+            2.5
+          ]
+        },
+        {
+          "name": "SceneMinBloom",
+          "values": [
+            0.5
+          ]
+        },
+        {
+          "name": "SceneMaxBloom",
+          "values": [
+            1.25
+          ]
+        }
+      ],
+      "effective_numeric_fields": {
+        "AmbientColour": [
+          10.0,
+          10.0,
+          10.0
+        ],
+        "LightColour1": [
+          747.723145,
+          759.096985,
+          695.845886
+        ],
+        "LightColour2": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightColour3": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightDirection1": [
+          -0.822493,
+          -0.483052,
+          -0.300275
+        ],
+        "LightDirection2": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "LightDirection3": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "SkyColour": [
+          170.0,
+          196.0,
+          221.0
+        ],
+        "FogColourFront": [
+          141.0,
+          188.0,
+          222.0
+        ],
+        "FogColourBack": [
+          121.0,
+          168.0,
+          202.0
+        ],
+        "FogMin": [
+          27.0
+        ],
+        "FogMax": [
+          207.0
+        ],
+        "FogNear": [
+          0.0
+        ],
+        "FogFar": [
+          60000.0
+        ],
+        "SkyAngle": [
+          0.0
+        ],
+        "HorizonColourFront": [
+          247.0,
+          247.0,
+          247.0
+        ],
+        "HorizonColourBack": [
+          247.0,
+          247.0,
+          247.0
+        ],
+        "SkyColourFront": [
+          163.0,
+          212.0,
+          212.0
+        ],
+        "SkyColourBack": [
+          163.0,
+          212.0,
+          212.0
+        ],
+        "ZenithColour": [
+          63.0,
+          101.0,
+          139.0
+        ],
+        "SkyHeightFactor": [
+          12.0
+        ],
+        "SkyHeightManual": [
+          500.0
+        ],
+        "SunSize": [
+          8.0
+        ],
+        "SunFlareSize": [
+          52.0
+        ],
+        "SunReflectionSize": [
+          20.0
+        ],
+        "SkyLuminosity": [
+          0.3
+        ],
+        "SunAngle": [
+          0.0
+        ],
+        "ExposureBias": [
+          -30.0
+        ],
+        "ExposureLimits": [
+          -128.0,
+          128.0
+        ],
+        "ShadowSet": [
+          -1.0
+        ],
+        "LightBlur": [
+          0.0
+        ],
+        "WorldShadowColour": [
+          255.0,
+          255.0,
+          255.0,
+          200.0
+        ],
+        "NightRoadShininess": [
+          0.25
+        ],
+        "MinRoadWetness": [
+          1.0
+        ],
+        "MaxRoadWetness": [
+          1.0
+        ],
+        "RoadWetnessTime": [
+          1.0
+        ],
+        "MinRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MinRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "PuddleColour": [
+          255.0,
+          255.0,
+          255.0
+        ],
+        "PS2BuildingGlassColour": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "TestMipmapBias": [
+          0.0
+        ],
+        "SHCoeff": [
+          15.0,
+          -0.85528,
+          -0.839276,
+          -0.737608
+        ],
+        "Exposure": [
+          5.0
+        ],
+        "Gamma": [
+          1.0
+        ],
+        "IntereflectionFactor": [
+          0.8
+        ],
+        "SkyRotation": [
+          4.206244
+        ],
+        "Exposure_Lda": [
+          0.0
+        ],
+        "Exposure_LWhite": [
+          2.0
+        ],
+        "Exposure_FadeSpeed": [
+          0.0
+        ],
+        "Exposure_Gamma": [
+          1.0
+        ],
+        "Exposure_MinLuminance": [
+          0.0
+        ],
+        "Exposure_MaxLuminance": [
+          2.0
+        ],
+        "SceneManualExposure": [
+          2.5
+        ],
+        "Contrast": [
+          1.0
+        ],
+        "Saturation": [
+          1.0
+        ],
+        "Bloom_Threshold": [
+          0.0
+        ],
+        "Bloom_Offset": [
+          0.0
+        ],
+        "Bloom_Scale": [
+          0.0
+        ],
+        "Bloom_Amplitude": [
+          0.0
+        ],
+        "SceneMinBloom": [
+          0.5
+        ],
+        "SceneMaxBloom": [
+          1.25
+        ]
+      },
+      "candidate_uniforms_from_explicit_fields": {
+        "g_expParams1": [
+          2.5,
+          0.5,
+          0.3333333333333333,
+          0.8333333333333334
+        ],
+        "g_expParams2": [
+          1.0,
+          1.0,
+          0.0,
+          2.5
+        ],
+        "precision": "Real-number equation illustration; native instructions round f32 and use fused negative multiply-add. Not an active-phase/default claim."
+      }
+    },
+    {
+      "member": "tunnel-8-d908d6e2.bin",
+      "native_key": "d908d6e2",
+      "verified_filename": null,
+      "sha256": "cb12eac15bbe9219adeafc60b49f666b3aec5568894e19134be624c4aff984b6",
+      "rows": [
+        {
+          "name": "AmbientColour",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "PatchColour",
+          "values": [
+            128.0,
+            128.0,
+            128.0
+          ]
+        },
+        {
+          "name": "LightColour1",
+          "values": [
+            200.0,
+            200.0,
+            200.0
+          ]
+        },
+        {
+          "name": "LightColour2",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightColour3",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "LightDirection1",
+          "values": [
+            -0.046594,
+            -0.953466,
+            0.297878
+          ]
+        },
+        {
+          "name": "LightDirection2",
+          "values": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "LightDirection3",
+          "values": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "SkyColour",
+          "values": [
+            170.0,
+            196.0,
+            221.0
+          ]
+        },
+        {
+          "name": "FogColourFront",
+          "values": [
+            141.0,
+            188.0,
+            222.0
+          ]
+        },
+        {
+          "name": "FogColourBack",
+          "values": [
+            121.0,
+            168.0,
+            202.0
+          ]
+        },
+        {
+          "name": "FogMin",
+          "values": [
+            27.0
+          ]
+        },
+        {
+          "name": "FogMax",
+          "values": [
+            207.0
+          ]
+        },
+        {
+          "name": "FogNear",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "FogFar",
+          "values": [
+            60000.0
+          ]
+        },
+        {
+          "name": "SkyAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "HorizonColourFront",
+          "values": [
+            247.0,
+            247.0,
+            251.0
+          ]
+        },
+        {
+          "name": "HorizonColourBack",
+          "values": [
+            247.0,
+            247.0,
+            251.0
+          ]
+        },
+        {
+          "name": "SkyColourFront",
+          "values": [
+            163.0,
+            212.0,
+            218.0
+          ]
+        },
+        {
+          "name": "SkyColourBack",
+          "values": [
+            163.0,
+            212.0,
+            228.0
+          ]
+        },
+        {
+          "name": "ZenithColour",
+          "values": [
+            63.0,
+            101.0,
+            139.0
+          ]
+        },
+        {
+          "name": "SkyHeightFactor",
+          "values": [
+            12.0
+          ]
+        },
+        {
+          "name": "SkyHeightManual",
+          "values": [
+            500.0
+          ]
+        },
+        {
+          "name": "SunSize",
+          "values": [
+            8.0
+          ]
+        },
+        {
+          "name": "SunFlareSize",
+          "values": [
+            52.0
+          ]
+        },
+        {
+          "name": "SunReflectionSize",
+          "values": [
+            20.0
+          ]
+        },
+        {
+          "name": "SkyLuminosity",
+          "values": [
+            0.3
+          ]
+        },
+        {
+          "name": "SunAngle",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "ExposureBias",
+          "values": [
+            -30.0
+          ]
+        },
+        {
+          "name": "ExposureLimits",
+          "values": [
+            128.0,
+            -128.0
+          ]
+        },
+        {
+          "name": "ShadowSet",
+          "values": [
+            -1.0
+          ]
+        },
+        {
+          "name": "LightBlur",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "WorldShadowColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0,
+            200.0
+          ]
+        },
+        {
+          "name": "NightRoadShininess",
+          "values": [
+            0.25
+          ]
+        },
+        {
+          "name": "MinRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MaxRoadWetness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "RoadWetnessTime",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "MinRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOnTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MinRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "MaxRainOffTime",
+          "values": [
+            3.4028234663852886e+38
+          ]
+        },
+        {
+          "name": "PuddleColour",
+          "values": [
+            255.0,
+            255.0,
+            255.0
+          ]
+        },
+        {
+          "name": "PS2BuildingGlassColour",
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "TestMipmapBias",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            0.0,
+            0.869136,
+            0.846284,
+            0.773054
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            1.0,
+            0.157422,
+            0.155641,
+            0.141352
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            2.0,
+            0.454379,
+            0.481008,
+            0.519149
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            3.0,
+            -0.033079,
+            -0.023521,
+            -0.01448
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            4.0,
+            -0.033619,
+            -0.031437,
+            -0.032346
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            5.0,
+            0.049528,
+            0.060525,
+            0.070611
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            6.0,
+            0.270692,
+            0.289365,
+            0.311594
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            7.0,
+            -0.002011,
+            0.002079,
+            -0.001035
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            8.0,
+            0.01491,
+            0.024033,
+            0.028452
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            9.0,
+            -0.046594,
+            -0.953466,
+            0.297878
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            10.0,
+            0.784314,
+            0.784314,
+            0.784314
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            11.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            12.0,
+            0.869136,
+            0.846284,
+            0.773054
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            13.0,
+            0.157422,
+            0.155641,
+            0.141352
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            14.0,
+            0.454379,
+            0.481008,
+            0.519149
+          ]
+        },
+        {
+          "name": "SHCoeff",
+          "values": [
+            15.0,
+            -0.033079,
+            -0.023521,
+            -0.01448
+          ]
+        },
+        {
+          "name": "Exposure",
+          "values": [
+            1.5
+          ]
+        },
+        {
+          "name": "Gamma",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "IntereflectionFactor",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "name": "SkyRotation",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_Lda",
+          "values": [
+            0.33
+          ]
+        },
+        {
+          "name": "Exposure_LWhite",
+          "values": [
+            5.3
+          ]
+        },
+        {
+          "name": "Exposure_FadeSpeed",
+          "values": [
+            0.9
+          ]
+        },
+        {
+          "name": "Exposure_Gamma",
+          "values": [
+            0.86
+          ]
+        },
+        {
+          "name": "Exposure_MinLuminance",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "Exposure_MaxLuminance",
+          "values": [
+            2.0
+          ]
+        },
+        {
+          "name": "FadeUpFactor",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "name": "SceneManualExposure",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "SceneMinBloom",
+          "values": [
+            0.9
+          ]
+        },
+        {
+          "name": "SceneMaxBloom",
+          "values": [
+            1000.0
+          ]
+        },
+        {
+          "name": "Contrast",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Saturation",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "Bloom_Threshold",
+          "values": [
+            0.9
+          ]
+        },
+        {
+          "name": "Bloom_Offset",
+          "values": [
+            0.7
+          ]
+        },
+        {
+          "name": "Bloom_Scale",
+          "values": [
+            0.66
+          ]
+        },
+        {
+          "name": "Bloom_Amplitude",
+          "values": [
+            0.6
+          ]
+        },
+        {
+          "name": "LPCSaturation",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "LPCBrightness",
+          "values": [
+            1.0
+          ]
+        },
+        {
+          "name": "LPCOffset",
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "name": "GlobalScale",
+          "values": [
+            1.0
+          ]
+        }
+      ],
+      "effective_numeric_fields": {
+        "AmbientColour": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "PatchColour": [
+          128.0,
+          128.0,
+          128.0
+        ],
+        "LightColour1": [
+          200.0,
+          200.0,
+          200.0
+        ],
+        "LightColour2": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightColour3": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "LightDirection1": [
+          -0.046594,
+          -0.953466,
+          0.297878
+        ],
+        "LightDirection2": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "LightDirection3": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "SkyColour": [
+          170.0,
+          196.0,
+          221.0
+        ],
+        "FogColourFront": [
+          141.0,
+          188.0,
+          222.0
+        ],
+        "FogColourBack": [
+          121.0,
+          168.0,
+          202.0
+        ],
+        "FogMin": [
+          27.0
+        ],
+        "FogMax": [
+          207.0
+        ],
+        "FogNear": [
+          0.0
+        ],
+        "FogFar": [
+          60000.0
+        ],
+        "SkyAngle": [
+          0.0
+        ],
+        "HorizonColourFront": [
+          247.0,
+          247.0,
+          251.0
+        ],
+        "HorizonColourBack": [
+          247.0,
+          247.0,
+          251.0
+        ],
+        "SkyColourFront": [
+          163.0,
+          212.0,
+          218.0
+        ],
+        "SkyColourBack": [
+          163.0,
+          212.0,
+          228.0
+        ],
+        "ZenithColour": [
+          63.0,
+          101.0,
+          139.0
+        ],
+        "SkyHeightFactor": [
+          12.0
+        ],
+        "SkyHeightManual": [
+          500.0
+        ],
+        "SunSize": [
+          8.0
+        ],
+        "SunFlareSize": [
+          52.0
+        ],
+        "SunReflectionSize": [
+          20.0
+        ],
+        "SkyLuminosity": [
+          0.3
+        ],
+        "SunAngle": [
+          0.0
+        ],
+        "ExposureBias": [
+          -30.0
+        ],
+        "ExposureLimits": [
+          128.0,
+          -128.0
+        ],
+        "ShadowSet": [
+          -1.0
+        ],
+        "LightBlur": [
+          0.0
+        ],
+        "WorldShadowColour": [
+          255.0,
+          255.0,
+          255.0,
+          200.0
+        ],
+        "NightRoadShininess": [
+          0.25
+        ],
+        "MinRoadWetness": [
+          1.0
+        ],
+        "MaxRoadWetness": [
+          1.0
+        ],
+        "RoadWetnessTime": [
+          1.0
+        ],
+        "MinRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOnTime": [
+          3.4028234663852886e+38
+        ],
+        "MinRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "MaxRainOffTime": [
+          3.4028234663852886e+38
+        ],
+        "PuddleColour": [
+          255.0,
+          255.0,
+          255.0
+        ],
+        "PS2BuildingGlassColour": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "TestMipmapBias": [
+          0.0
+        ],
+        "SHCoeff": [
+          15.0,
+          -0.033079,
+          -0.023521,
+          -0.01448
+        ],
+        "Exposure": [
+          1.5
+        ],
+        "Gamma": [
+          1.0
+        ],
+        "IntereflectionFactor": [
+          0.8
+        ],
+        "SkyRotation": [
+          0.0
+        ],
+        "Exposure_Lda": [
+          0.33
+        ],
+        "Exposure_LWhite": [
+          5.3
+        ],
+        "Exposure_FadeSpeed": [
+          0.9
+        ],
+        "Exposure_Gamma": [
+          0.86
+        ],
+        "Exposure_MinLuminance": [
+          0.0
+        ],
+        "Exposure_MaxLuminance": [
+          2.0
+        ],
+        "FadeUpFactor": [
+          0.8
+        ],
+        "SceneManualExposure": [
+          1.0
+        ],
+        "SceneMinBloom": [
+          0.9
+        ],
+        "SceneMaxBloom": [
+          1000.0
+        ],
+        "Contrast": [
+          1.0
+        ],
+        "Saturation": [
+          1.0
+        ],
+        "Bloom_Threshold": [
+          0.9
+        ],
+        "Bloom_Offset": [
+          0.7
+        ],
+        "Bloom_Scale": [
+          0.66
+        ],
+        "Bloom_Amplitude": [
+          0.6
+        ],
+        "LPCSaturation": [
+          1.0
+        ],
+        "LPCBrightness": [
+          1.0
+        ],
+        "LPCOffset": [
+          0.0
+        ],
+        "GlobalScale": [
+          1.0
+        ]
+      },
+      "candidate_uniforms_from_explicit_fields": {
+        "g_expParams1": [
+          1.0,
+          0.9,
+          0.999899909918927,
+          0.10009008107296569
+        ],
+        "g_expParams2": [
+          1.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        "precision": "Real-number equation illustration; native instructions round f32 and use fused negative multiply-add. Not an active-phase/default claim."
+      }
+    }
+  ],
+  "functions": {
+    "822FD9A8": {
+      "sha256": "adb35be562bf7c34a15fafb5d3cae5e125834626966456e2058f82741fe42c6e",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.37.cpp"
+    },
+    "822D67D0": {
+      "sha256": "5e1f896ec7c3666171eb38f638f00085b8a3fb703ef8b78994bccaf956f3415c",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.27.cpp"
+    },
+    "822FEBF8": {
+      "sha256": "f46b628f5489402e93706de7404e33efd8686870a0d20633bbbbcdeccc393bdc",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.18.cpp"
+    },
+    "8228D128": {
+      "sha256": "52b8360b5a060a82f2bf3025fa67c0f3963d0eec60fade289a0b8b8eab35921b",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.2.cpp"
+    },
+    "822CF638": {
+      "sha256": "64808b21a729bb4bf51ed85c58216df84cb8e21b44618f35edfd129f5ef0df6c",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.2.cpp"
+    },
+    "8219C3D0": {
+      "sha256": "963bbe5e0f2bc2b70a3f7f1965d6e08eac0ed1652407d5bc6d8773c182be0a40",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.57.cpp"
+    },
+    "822E5AE8": {
+      "sha256": "62f7aeb80a2a89e9676fab15576bb4814499942a060eaf070c211198af396792",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.1.cpp"
+    },
+    "822CDEA8": {
+      "sha256": "dc6fce41338ae6196efeed619dd0f820580a3b685672085236b59e9d28c41424",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.7.cpp"
+    },
+    "822D4340": {
+      "sha256": "e248f038618daf9ade9973b12d0febca2dc2e45329b3698f0f2e1e4519ca1422",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.48.cpp"
+    },
+    "822E5BD8": {
+      "sha256": "96e8da15a4ae241cf79eaeb1bd21794f330e0df13617ffe04f79bf76474a531e",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.60.cpp"
+    },
+    "822CF670": {
+      "sha256": "6a56fb4b3163d3d315584538d874a5e099653cc7ef1f09cdbf1d482f21bf4a3a",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.58.cpp"
+    },
+    "822CF718": {
+      "sha256": "42d49314bd2df9c6bc2ac6a1aab77b74c980fd7539b6422c7cb1319547a13928",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.16.cpp"
+    },
+    "8219B9C8": {
+      "sha256": "69520617872b5fff8d8469975b593be9f06af81406148b48dc957f6ee1b39e11",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.12.cpp"
+    },
+    "8219C568": {
+      "sha256": "fd92186103d8b217e338e5afdcac130014adab32dcbeea33b7205131643ed6d6",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.13.cpp"
+    },
+    "822CF6E0": {
+      "sha256": "3e710e7d75c186419e7be6036842078cb225562555f652f4336f367570a6ed30",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.11.cpp"
+    },
+    "822E5C28": {
+      "sha256": "ef1d1a411d696285601b5079bd5484aa4dcbb4977622b1e8d7d866c41773dbb5",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.39.cpp"
+    }
+  },
+  "verification": {
+    "cases": 15000,
+    "max_abs_error": {
+      "simpleGradient-Simple_3-pixel-694": 4.711632684006872e-06,
+      "luminousScroll-Luminous_2-pixel-660": 1.122098193917509e-06,
+      "backLightScroll-Normal_3-pixel-82": 2.0171091064113966e-07
+    },
+    "fixtures": [
+      {
+        "texture": [
+          0.8186137834157717,
+          0.7384484828206336,
+          0.9197495713916716,
+          0.9636422817720178
+        ],
+        "base": [
+          0.10230781107074993,
+          0.5697090542480124,
+          0.04034873381582782,
+          0.6694533250629355
+        ],
+        "palette": [
+          [
+            0.91583388172788,
+            1.2799551542663896,
+            0.19225234621085008,
+            0
+          ],
+          [
+            0.5628721086216814,
+            2.586629737552988,
+            1.1838793572549715,
+            0
+          ],
+          [
+            2.3459934352104765,
+            0.5306424146679494,
+            1.2314723211478553,
+            0
+          ]
+        ],
+        "brightness": 4.144910855375007,
+        "lum_strength": 0.8256255791679956,
+        "multiplier": 0.5384541325376654,
+        "exp1": [
+          0,
+          0.01,
+          0.18439514480285496,
+          0.8538730561255998
+        ],
+        "exp2": [
+          1.7798208140062244,
+          0,
+          0.05185344962028215,
+          0.285926039175892
+        ],
+        "outputs": [
+          [
+            2.549065351486206,
+            2.701371431350708,
+            1.1123437881469727,
+            1.0
+          ],
+          [
+            0.06083644926548004,
+            0.21991346776485443,
+            0.0388173833489418,
+            0.6694533228874207
+          ],
+          [
+            1.0,
+            1.0,
+            1.0,
+            0.5188771486282349
+          ]
+        ]
+      },
+      {
+        "texture": [
+          0.7525631576770653,
+          0.41783804066493,
+          0.38411568410148444,
+          0.7509834233901552
+        ],
+        "base": [
+          0.06378402898424229,
+          0.4818251563642245,
+          0.4022317377624405,
+          0.17989244020714146
+        ],
+        "palette": [
+          [
+            1.4146153570408053,
+            1.3077994948647245,
+            0.8672877244400968,
+            0
+          ],
+          [
+            1.1097774905219782,
+            2.7797467294384406,
+            1.5724227606230614,
+            0
+          ],
+          [
+            1.0618687077000357,
+            1.1554573838472493,
+            0.2587142240580682,
+            0
+          ]
+        ],
+        "brightness": 2.575021350872805,
+        "lum_strength": 2.063263730069889,
+        "multiplier": 0.6200065615009382,
+        "exp1": [
+          0,
+          0.01,
+          0.25796775958337914,
+          0.8011793644456078
+        ],
+        "exp2": [
+          1.9369279215393094,
+          0,
+          0.07662359454156682,
+          1.438627835335725
+        ],
+        "outputs": [
+          [
+            1.8576830625534058,
+            3.0719850063323975,
+            0.8780263066291809,
+            1.0
+          ],
+          [
+            -0.01759323850274086,
+            0.8433089256286621,
+            0.5804096460342407,
+            0.179892435669899
+          ],
+          [
+            1.0,
+            1.0,
+            1.0,
+            0.4656146466732025
+          ]
+        ]
+      },
+      {
+        "texture": [
+          0.3263586047481013,
+          0.683193035366046,
+          0.0947332645836455,
+          0.49217063008914286
+        ],
+        "base": [
+          0.5667273604473677,
+          0.19219677919574396,
+          0.6046711877106586,
+          0.5634257822529666
+        ],
+        "palette": [
+          [
+            1.5811282085379945,
+            0.40332175686866256,
+            1.649453018309805,
+            0
+          ],
+          [
+            1.8846753600608825,
+            0.7843720842842375,
+            0.2744562286325488,
+            0
+          ],
+          [
+            1.883868802635137,
+            2.1225535665631816,
+            1.494769984295091,
+            0
+          ]
+        ],
+        "brightness": 0.5046435650626004,
+        "lum_strength": 0.510108390128643,
+        "multiplier": 0.7555251171384049,
+        "exp1": [
+          0,
+          0.01,
+          0.3965738198774524,
+          0.801281851936607
+        ],
+        "exp2": [
+          1.7546808530320597,
+          0,
+          0.0847235786345692,
+          0.33732106232888115
+        ],
+        "outputs": [
+          [
+            0.5154443383216858,
+            0.18521332740783691,
+            0.18487009406089783,
+            1.0
+          ],
+          [
+            0.14642365276813507,
+            0.12738224864006042,
+            0.10110881179571152,
+            0.5634257793426514
+          ],
+          [
+            1.0,
+            1.0,
+            1.0,
+            0.3718472719192505
+          ]
+        ]
+      }
+    ],
+    "equations": {
+      "simpleGradient": "rgb=brightness*(T.r*colour1+T.g*colour2+T.b*colour3);out.rgb=grade(rgb);out.a=1",
+      "luminousScroll": "out.rgb=grade(lumTexture.rgb*lumStrength*baseTexture.rgb);out.a=baseTexture.a",
+      "backLightScroll": "out.rgb=(1,1,1);out.a=baseTexture.a*multiplier",
+      "grade": "l=.33000001311302185*(R+G+B);q=(l+(rgb-l)*exp2.x)*exp2.w+exp2.z;out=q/(max(q.r,q.g,q.b,exp1.y)*exp1.z+exp1.w)"
+    },
+    "limits": [
+      "Explicitfixtureconstants\u2014notnativeexposuredefaults.",
+      "CPUf32approximationvsindependenthighlevelequations,notnativeGPUprecision.",
+      "TextureinputsareSHADER-SAMPLEDvalues;samplertransfer/formatclampsremainseparate."
+    ]
+  },
+  "remaining": {
+    "exposure_globals": "Namedglobalwriter and atmosphere field mapping are proven; active creator/main phase atmosphere and later camera overrides remain unbound. Explicit fixture values are not defaults.",
+    "texture_transfer": "EquationsconsumeGPU-sampledRGBA; originalsamplergamma/filter/addressingandtextureformattransferremainseparate.",
+    "time_units": "Shaderusesg_Focus_Time.w; writer/unitsnotyetbound.DonotsilentlyequatewithGodotTIMEseconds.",
+    "blend": "Luminous_2b/2a/2shareVS586/PS660butdifferinserializedpassstate; originalstateenum/blendselectionnotyetdecoded.OpaquePBRisnotprovenequivalent.",
+    "luminous_effect": "Effectname38a3b0known;itsdynamicVS/PSselectorrecordsneedseparateparser.Notclaimeddecodedbythestaticscrollprograms.",
+    "normal_boundary": "Original111normal/windingbatchissource-correct,butnativefacecreasepersisted; separatefrontendGodotarrayprobeexcludeslargeimportnormalerrors."
+  },
+  "limits": [
+    "No runtimeassetschangedbythesehelpers.",
+    "No guessedexposure,angularpaletteweights,opacitymaterialorRGBtintsubstitute.",
+    "Float32CPUfixturesarenotahardwareGPUprecisionclaim."
+  ]
+}

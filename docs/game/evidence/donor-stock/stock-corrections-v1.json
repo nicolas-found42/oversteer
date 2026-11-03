@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "input_content_sha256": "d5f6fabc4a921551f3b583e0229f1bbe7fee2bae2f2196b2671d353920d65ebe",
+  "corrections": [
+    {
+      "car_id": "GT4_MITS0001",
+      "field": "handling.mass",
+      "old": 320,
+      "new": 1410,
+      "units": "kg",
+      "identity": "2003JapanGSRGH-CT9A-SJGFZ nonsunroofclassification075",
+      "source": {
+        "url": "https://www.tuningevo.club/manuals/EVO_8/2003_Lancer_Evo_8_Technical_Infomation_Manual.pdf",
+        "retrieved_on": "2026-11-03",
+        "publisher": "Mitsubishi Motors Corporation",
+        "document_date": "January2003",
+        "distribution": "third-party mirror of manufacturer-authored manual",
+        "path": "artifacts/juiced2-build/donor-stock-audit/sources/mitsubishi-evo-viii-technical.pdf",
+        "sha256": "81756ed984fced944e08b5035241858bddd19f2ccc851105d192880c864b1a23",
+        "anchors": [
+          "PDFpage73 OutlineSpecification:SNDFZ/SJDFZ/SJGFZ classification035..058/059..074/075..076",
+          "PDFpage75 weighttable:0751410kg,0761430kg;076includesS(sunroof)",
+          "PDFpage4:GH-CT9A/SJGFZGSR4WD6MT"
+        ],
+        "limitation": "Mirrored/translated manual includes OCR/translation defects inothercells; selectedGSRweight cross-checked with manufacturerbrochure indexedtable and exactclassification binding."
+      },
+      "quality_flags": [
+        "upstream_secondary_curbweight_corrupt",
+        "matched_secondary_5MT_not_GSR6MT",
+        "manufacturer_authored_primary_correction"
+      ],
+      "not_changed": "Otherhandlingfields,meshgeometry,nativeCarModInfo and counterpartstock/max remain untouched."
+    }
+  ],
+  "publication": "STAGEDONLY; canonicalmergeddataset publication requires coordination"
+}

@@ -1,0 +1,435 @@
+{
+  "schema_version": 1,
+  "evidence_type": "Static translated PPC and decoded original executable bytes",
+  "constants": {
+    "pressure_full": {
+      "address": "8204D3F0",
+      "bits_be": "3fb33333",
+      "value": 1.399999976158142,
+      "function": "820F82D0",
+      "address_operands": {
+        "lis": -32251,
+        "addi": 0,
+        "lfs": -11280
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "pressure_upper_boundary": {
+      "address": "8204D3C4",
+      "bits_be": "3f28f5c3",
+      "value": 0.6600000262260437,
+      "function": "820F82D0",
+      "address_operands": {
+        "lis": -32251,
+        "addi": 0,
+        "lfs": -11324
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "pressure_lower_boundary": {
+      "address": "8204D598",
+      "bits_be": "3ea8f5c3",
+      "value": 0.33000001311302185,
+      "function": "820F82D0",
+      "address_operands": {
+        "lis": -32251,
+        "addi": 0,
+        "lfs": -10856
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "pressure_middle": {
+      "address": "8201158C",
+      "bits_be": "3f333333",
+      "value": 0.699999988079071,
+      "function": "820F82D0",
+      "address_operands": {
+        "lis": -32255,
+        "addi": 0,
+        "lfs": 5516
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "pressure_low_and_refill_delay": {
+      "address": "8201A664",
+      "bits_be": "3e99999a",
+      "value": 0.30000001192092896,
+      "function": "820F82D0",
+      "address_operands": {
+        "lis": -32254,
+        "addi": -16,
+        "lfs": -22924
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "refill_coefficient_common": {
+      "address": "8201FFF0",
+      "bits_be": "41400000",
+      "value": 12.0,
+      "function": "820F82D0",
+      "address_operands": {
+        "lis": -32254,
+        "addi": -16,
+        "lfs": 0
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "refill_coefficient_control_mode_2": {
+      "address": "8204D110",
+      "bits_be": "41c80000",
+      "value": 25.0,
+      "function": "820F82D0",
+      "address_operands": {
+        "lis": -32251,
+        "addi": 0,
+        "lfs": -12016
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "refill_scale": {
+      "address": "824CBF20",
+      "bits_be": "3d23d70a",
+      "value": 0.03999999910593033,
+      "function": "820F82D0",
+      "address_operands": {
+        "lis": -32179,
+        "addi": 0,
+        "lfs": -16608
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "section_sha256": "4ea82ad309cc99eeb597e665e6c03725043e215a03a600080c2bf1a394d2050a",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "extra_refill_delta_cap": {
+      "address": "8202FF68",
+      "bits_be": "3d888889",
+      "value": 0.06666667014360428,
+      "function": "820F82D0",
+      "address_operands": {
+        "lis": -32253,
+        "addi": 0,
+        "lfs": -152
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "forward_force_gain": {
+      "address": "824CBEB0",
+      "bits_be": "46548000",
+      "value": 13600.0,
+      "function": "820F82D0",
+      "address_operands": {
+        "lis": -32179,
+        "addi": 0,
+        "lfs": -16720
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "section_sha256": "4ea82ad309cc99eeb597e665e6c03725043e215a03a600080c2bf1a394d2050a",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "drain_rate": {
+      "address": "8202F718",
+      "bits_be": "3ecccccd",
+      "value": 0.4000000059604645,
+      "function": "8225FDE0",
+      "address_operands": {
+        "lis": -32253,
+        "addi": 0,
+        "lfs": -2280
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "refill_metric_gate": {
+      "address": "8202F6AC",
+      "bits_be": "3e4ccccd",
+      "value": 0.20000000298023224,
+      "function": "820F82D0",
+      "address_operands": {
+        "lis": -32253,
+        "addi": 0,
+        "lfs": -2388
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "wheel_point_speed_gate": {
+      "address": "8202F6D4",
+      "bits_be": "40800000",
+      "value": 4.0,
+      "function": "82111E50",
+      "address_operands": {
+        "lis": -32253,
+        "addi": 0,
+        "lfs": -2348
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "four_wheel_aggregation_scale": {
+      "address": "824B6A88",
+      "bits_be": "3e800000",
+      "value": 0.25,
+      "function": "820F5480",
+      "address_operands": {
+        "lis": -32181,
+        "addi": 0,
+        "lfs": 27272
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "section_sha256": "4ea82ad309cc99eeb597e665e6c03725043e215a03a600080c2bf1a394d2050a",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "capacity_override_sentinel": {
+      "address": "8202F598",
+      "bits_be": "c0000000",
+      "value": -2.0,
+      "function": "8210D0E8",
+      "address_operands": {
+        "lis": -32253,
+        "addi": 0,
+        "lfs": -2664
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "capacity_override_scale": {
+      "address": "8202F628",
+      "bits_be": "40400000",
+      "value": 3.0,
+      "function": "8210D0E8",
+      "address_operands": {
+        "lis": -32253,
+        "addi": 0,
+        "lfs": -2520
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "capacity_override_bias": {
+      "address": "8202F76C",
+      "bits_be": "40000000",
+      "value": 2.0,
+      "function": "8210D0E8",
+      "address_operands": {
+        "lis": -32253,
+        "addi": 0,
+        "lfs": -2196
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "capacity_default": {
+      "address": "8202F148",
+      "bits_be": "40a00000",
+      "value": 5.0,
+      "function": "8210D0E8",
+      "address_operands": {
+        "lis": -32253,
+        "addi": 0,
+        "lfs": -3768
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    },
+    "instance_capacity_control_default": {
+      "address": "8201A8E4",
+      "bits_be": "3f000000",
+      "value": 0.5,
+      "function": "82109860",
+      "address_operands": {
+        "lis": -32254,
+        "addi": 0,
+        "lfs": -22300
+      },
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "section_sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c",
+      "status": "decoded executable initial value; original runtime changes not observed"
+    }
+  },
+  "functions": [
+    {
+      "address": "820F82D0",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/820F82D0.cpp",
+      "sha256": "578e3a700f02fad56f40dd90edbdca13b24ffe9cb79a8fd7762ad4632aeea622"
+    },
+    {
+      "address": "820F69F8",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/820F69F8.cpp",
+      "sha256": "b6c6346aad190974618aff6d0b2d7732c57eaf613e5057383e65e98718790e15"
+    },
+    {
+      "address": "820F39E0",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/820F39E0.cpp",
+      "sha256": "88d7f679c4dfc32ab166732c437e731734cbb94707d17362de11edf8659221ad"
+    },
+    {
+      "address": "820F5480",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/820F5480.cpp",
+      "sha256": "69ab63fcc12d4166f5c04752c9e57bbe794565cf56bc59378587a01d67605063"
+    },
+    {
+      "address": "82111E50",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/82111E50.cpp",
+      "sha256": "8a2b7ba33d558749dfde1723a25cb7b8e51af15b154033de1982c6828b5afb4b"
+    },
+    {
+      "address": "8226DA48",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/8226DA48.cpp",
+      "sha256": "04808ca200bb931c9f3ceb7b15c8c74e3e717b8b79453433f50b8ccffb2cedf3"
+    },
+    {
+      "address": "8225DB98",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/8225DB98.cpp",
+      "sha256": "066b25ca2fcfffb88b05e43bb6858a26e049271186a91ca86a77a9ccced92cde"
+    },
+    {
+      "address": "8225FDE0",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/8225FDE0.cpp",
+      "sha256": "ea3cc08cbf9a4a7d3f3829aa4b3e565a91bccde033caaef02b46026202681911"
+    },
+    {
+      "address": "82260108",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/82260108.cpp",
+      "sha256": "b506e225cc73d1e1f9d15482e16e1729e9b0abe5d2d74692a8a8205cfd52fe4c"
+    },
+    {
+      "address": "8225E3B8",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/8225E3B8.cpp",
+      "sha256": "420e903f4897cd6e2743c674c7f678f6d55ad934d5647c277b24573f6371b0d8"
+    },
+    {
+      "address": "8210D0E8",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/8210D0E8.cpp",
+      "sha256": "a1c92ae05f3c125c48053e9f358cb4a8828a537a14b619d448d6ef87c6e0b000"
+    },
+    {
+      "address": "821064C8",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/821064C8.cpp",
+      "sha256": "486ab7c255e940c5c55c81f3eb5e5fda8423ed9f0af9015d878bb4b0a922af69"
+    },
+    {
+      "address": "8225EB58",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/8225EB58.cpp",
+      "sha256": "429de338bba9e80e0dd7d78984985dc3f9d4f8c49b7c878c214883bcad0b6f09"
+    },
+    {
+      "address": "82266218",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/82266218.cpp",
+      "sha256": "a2f43d7f75ea3b4ee0e5c29ba690b1f08470ed040dcba3257d0c40d0bddbaedd"
+    },
+    {
+      "address": "82265FF8",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/82265FF8.cpp",
+      "sha256": "4726dac37067ef65a344850fda9a9e54cb2e9d915fca47905bdc293d5f2b601e"
+    },
+    {
+      "address": "8226B088",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/8226B088.cpp",
+      "sha256": "8ac4a8755a4ede8b489c9b5bbcdb4667a75da3c374108ad82c329acf3a24f7e6"
+    },
+    {
+      "address": "820F7F78",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/820F7F78.cpp",
+      "sha256": "b6081b46d381f6fdf86737c6404cf4f2bb851a780b38a3f553cc27cec64740d5"
+    },
+    {
+      "address": "820F3028",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/820F3028.cpp",
+      "sha256": "0cd5a63cd969280d7a33d606ace442036f95939c15025d2738b6398ab7de70b9"
+    },
+    {
+      "address": "82109860",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/82109860.cpp",
+      "sha256": "a7ba9109c1d4339ebc9d8698b3bd93368d3450efe6d3cd03b234f0e84a09dc55"
+    },
+    {
+      "address": "82109BE8",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/82109BE8.cpp",
+      "sha256": "949a68f8c42fc73ee67a2d94e6f070cca4720f130361ddaddbbdbea179cc5e92"
+    },
+    {
+      "address": "8210A330",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/8210A330.cpp",
+      "sha256": "5f0d99c7166bb57b7bd73a0767269a5c167b930d9e69a7d0da4d2a20cff536f1"
+    },
+    {
+      "address": "8210B510",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/8210B510.cpp",
+      "sha256": "3797c406b96ec28cbb192b86ccd99ee3ec9e27a86fcc0b27ba012ff7fd6b6e03"
+    },
+    {
+      "address": "8210B058",
+      "source": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/8210B058.cpp",
+      "sha256": "a836aef4ad093266a24c7ea28617c1bb0f0a6d7cf5db8abf98a6c0bbe8cde624"
+    }
+  ],
+  "force": {
+    "gates": [
+      "car96 != 0",
+      "V4336 & 0x00400000",
+      "V4300 > 0",
+      "car528 > 1 contact wheels",
+      "encoded physical gear not 0 or 1"
+    ],
+    "pressure_input": "activation snapshot car112 / capacity V4304",
+    "bands": [
+      "ratio == 1: 1.4",
+      "ratio > .66: 1",
+      "ratio > .33: .7",
+      "else: .3"
+    ],
+    "ordered_f32_expression": "V3820 += ((V4236 * pressure) * tuningPower) * 13600",
+    "tuning_power": "821064C8(global132, car684, 0)",
+    "frame": "BODY +Z external force3812/3816/3820, copied to3764/3768/3772",
+    "integration": "R rotates BODY force to WORLD RK momentum derivative; no extra dt here"
+  },
+  "drain": "if active flag: V4300=max(0,fma(-V4308,dt,V4300)); initialized V4308=.4",
+  "capacity": {
+    "spawn_writer": "8210D0E8: if car9640 != -2: fma(car9640,3,2), else5",
+    "instance_default": "82109860 initializes car9640=.5, giving live capacity3.5",
+    "stored": "P416=1; P420=P424=capacity; init V4300=P420,V4304=P424",
+    "persistence": "8210B510/8210B058 stream9636, then+4(9640), as four-byte values",
+    "limit": "UI setter for car9640 and complete start/reset lifecycle unresolved"
+  },
+  "refill": {
+    "wheel_metric": "speed=length(physicalWheel136/140/144); speed>4 ? clamp(abs(residual368X*(1/speed)),0,1) : 0",
+    "aggregation": "Child82111E50 adds ratio to owner512; caller820F5480 adds it AGAIN, then *.25: metric=.5*sum4(ratios)",
+    "gates": "metric>.2, inactive NOS, tank<capacity; accumulating timer must exceed.3",
+    "normal": "tank=min(capacity,fma((metric*(controlMode156==2?25:12))*dt,.04,tank))",
+    "extra": "activeConfig12!=0 && inactive: tank=min(capacity,fma(min(globalDelta,.06666667),.3,tank))",
+    "control_mode": "156==1 active human;156==2 autonomous/common; distinct from drift field788"
+  },
+  "independent_review": [
+    "Core owner independently traced BODY-force copy and RK frame/lifecycle.",
+    "Core owner independently confirmed double wheel-metric accumulation and mode156 boundary."
+  ],
+  "limits": [
+    "Source observations are not original executable runtime traces.",
+    "Active config12 ExtremeNOS binding is retained separately in native-performance.",
+    "Force/tuning adaptation for accepted donor vehicles still requires a coherent core port.",
+    "Original world scheduler/control handoff and exact step ordering remain separate boundaries."
+  ]
+}

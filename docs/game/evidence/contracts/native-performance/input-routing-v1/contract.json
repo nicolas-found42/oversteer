@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "functions": {
+    "821C9138": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.30.cpp",
+      "sha256": "47660167ac17376be689676457f81a74a48cc00d231411c7d5e8030ff9349193"
+    },
+    "821CA168": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.42.cpp",
+      "sha256": "2b45321278a0f535f6c3ce8d9bbebbe582261cb66bafb4e92578d0d11648cd3d"
+    },
+    "82217870": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.55.cpp",
+      "sha256": "b4238020c460e33252b83ed8b51b26a16cf6df39bcc15534d04d1148a42d2a28"
+    },
+    "821CA528": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.12.cpp",
+      "sha256": "fdafdb836c7f1c4aa9779a46393dc0200283ccf41e1105ae114cc92b35ccab4c"
+    }
+  },
+  "addressed_strings": {
+    "8203ef48": "CarChallengeSelect",
+    "8203ef5c": "mod_tuning_challenge",
+    "8203ef10": "click",
+    "8203e5dc": "no"
+  },
+  "input": {
+    "function": "821C9138",
+    "anchor": "821C9AF8..821C9C24",
+    "event_guard": "r22==5",
+    "state_field": 244,
+    "routes": {
+      "1": "confirmation output state240; value1 calls821CA168 at821C9A90",
+      "2": "821C9C14 calls821CA528; no cash purchase/installation call in this branch",
+      "4": "confirmation output state236; value1 calls821CA168 (direct apply)",
+      "3": "confirmation output state236; value1 calls821CA448 (remove)"
+    }
+  },
+  "challenge": {
+    "function": "821CA528",
+    "ordinary": "Writes category260/item256/league248 into profile2124/2128/2132; calls8234BAE8 with mod_tuning_challenge",
+    "scene_lookup": "CarChallengeSelect at821CA6D8",
+    "prototype_or_nitro": "If264!=0 or268!=0, checks8221ACB8(league248,category260+flag268); zero result displays no/dialog and returns without normal transition",
+    "limits": "Transition payload does not prove sponsor event ordering or the reward bit writer."
+  },
+  "ordinary_license_constructor": {
+    "function": "82217870",
+    "anchor": "Retained82217870 loop initializesr11=6, setsr11-6/r11-3/r11, increments9 until96",
+    "clear": "Clears90 bits in profile base528*4=2112",
+    "set_indices": [
+      0,
+      3,
+      6,
+      9,
+      12,
+      15,
+      18,
+      21,
+      24,
+      27,
+      30,
+      33,
+      36,
+      39,
+      42,
+      45,
+      48,
+      51,
+      54,
+      57,
+      60,
+      63,
+      66,
+      69,
+      72,
+      75,
+      78,
+      81,
+      84,
+      87
+    ],
+    "words_hex": [
+      "49249249",
+      "92492492",
+      "00924924"
+    ],
+    "meaning": "Every third/item0 default-owned, items1/2 not set by this constructor loop; no sponsor reward mapping inferred."
+  },
+  "limits": [
+    "Source-only contract; no runtime data, DLL or prior versioned contract changed.",
+    "No inferred cash eligibility for state2.",
+    "Input event r22 numeric5 retained without inventing controller button name."
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "schema_version": 2,
+  "supersedes": "Earlier abbreviated category3=NOS label; precise original English label is EXTREME NITRO. Earlier operand contracts remain retained and are not silently rewritten.",
+  "identity": {
+    "column_index": 3,
+    "caption_id": 41,
+    "english_label": "EXTREME NITRO",
+    "layout": {
+      "path": "artifacts/juiced2-build/ui/layout-fields/ui-949143e7.json",
+      "sha256": "8712a7faff7a3bdc7c319bde3645ce9f97f070c013e2646aa8084cb0a36bcab0",
+      "bank": "ui",
+      "member": 3401,
+      "columns": [
+        {
+          "name": "DESCRIPTION",
+          "rectangle": [
+            0.2898299992084503,
+            0.17759999632835388,
+            0.16909000277519226,
+            0.049789998680353165
+          ],
+          "local_caption": 38
+        },
+        {
+          "name": "DESCRIPTION(C)",
+          "rectangle": [
+            0.4445900022983551,
+            0.17823000252246857,
+            0.16909000277519226,
+            0.049789998680353165
+          ],
+          "local_caption": 39
+        },
+        {
+          "name": "DESCRIPTION(C)(C)",
+          "rectangle": [
+            0.6004499793052673,
+            0.17739999294281006,
+            0.16909000277519226,
+            0.049789998680353165
+          ],
+          "local_caption": 40
+        },
+        {
+          "name": "DESCRIPTION(C)(C)(C)",
+          "rectangle": [
+            0.7541300058364868,
+            0.17802000045776367,
+            0.16909000277519226,
+            0.049789998680353165
+          ],
+          "local_caption": 41
+        }
+      ]
+    },
+    "english_table": {
+      "path": "artifacts/juiced2-build/ui/text-catalog/ui-2381f47b.txt",
+      "sha256": "b053060944c44dd0c8a22ba93e950fa9db7d70aa35ad47561ab08f0329dd0c36",
+      "title": "PROTOTYPE MOD UNLOCK",
+      "columns": {
+        "38": "POWER",
+        "39": "HANDLING",
+        "40": "WEIGHT",
+        "41": "EXTREME NITRO"
+      }
+    }
+  },
+  "query": {
+    "caller": "821CAA18",
+    "anchor": "821CAB44..821CAB98",
+    "callee": "8221ACB8",
+    "args": {
+      "r3": "active player profile",
+      "r4": "league row r30",
+      "r5": 3
+    },
+    "meaning": "Tests prototype unlock bit league*4+3 inprofile2040/2044,with explicit global unlock-all branch incallee",
+    "installed_row_match": "Immediately preceding821CAB44 loads selectedcar9644 andcompareswithleague r30; profile-session override usesprofile0 instead."
+  },
+  "installed_value": {
+    "field_offset": 9644,
+    "type": "u32/integer league identifier; notpackedPower/Handling/Weight andnotfloatcapacity",
+    "constructor": "82109860 writes0",
+    "preview_setter": "821CA168 state244==4 and268!=0 writesstateleague248 toselectedcar9644",
+    "remove": "821CA448 whenstate268!=0 writes0",
+    "ai_setter": "8210D988 whenincomingr7flagsetwritesgeneratedleague r26 to9644",
+    "ui_bounds": "Prototype unlock rows selection144+3\u2192league3..9; performancecardnavigation league248 isbounded by source stock/maxpotentialrange304..308 andspecialNOS transitionatleague3; notlegacy0..3",
+    "getter": "8210AB20 returns9644 outsideexplicitprofile-session override",
+    "serialization": "821944D0 copies9644\u2192serialized9684;82194718 restores9684\u21929644"
+  },
+  "separate_capacity": {
+    "field_offset": 9640,
+    "type": "f32 materialized NOS-capacity input",
+    "constructor": {
+      "function": "82109860",
+      "value": 0.5,
+      "literal_address": "8201a8e4",
+      "raw_bits": "3f000000"
+    },
+    "consumer": "8210D0E8 reads9640 andcomputescapacity throughits ownscalar/sentinelbranch; itdoesnot directlyread9644",
+    "relation": "No9644\u21929640 conversion or9644\u2192physicscapacity/torquemultiplier proven bythistrace. Do notreplace9640 withleague orport3tiercapacityfromthiscolumn."
+  },
+  "limits": [
+    "Englishcaption/localCaptiongeometry are original recovered resources; active locale/table-selection consumer remains separate.",
+    "Prototype unlock choice andperformancecardpurchase/license flow are separate state machines; categorylabel isnotproof of casheligibility,boostforce,refillpolicy orcapacityrange.",
+    "Installedleague0default/removal isknown; no universalvalidationrange orlower-tier0..3schema inferred fromallpossiblewriters.",
+    "No runtime assets, DLLs, core/frontend files or priorversionedcontracts modified."
+  ],
+  "functions": {
+    "8210AB20": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.20.cpp",
+      "sha256": "8040014c3af0f74d7017c1577d4e41a160c1a122ecdd728fe67be6a5322279e9"
+    },
+    "821CAA18": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.22.cpp",
+      "sha256": "64da64fe77e97d7282af7c3dd602356b5b709b79fc13c4c2c3e5b0ac629b01d5"
+    },
+    "8210D988": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.37.cpp",
+      "sha256": "23fef86bb35f8afbd3bdb3a29771ebb335faba9ace370c5b676b1d8afd649526"
+    },
+    "821C9138": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.30.cpp",
+      "sha256": "47660167ac17376be689676457f81a74a48cc00d231411c7d5e8030ff9349193"
+    },
+    "821CA168": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.42.cpp",
+      "sha256": "2b45321278a0f535f6c3ce8d9bbebbe582261cb66bafb4e92578d0d11648cd3d"
+    },
+    "82194718": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.56.cpp",
+      "sha256": "98a068756484b850b0ae8e8878c998bb29c59878ebc1de083c20480ba892ce63"
+    },
+    "82109860": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.43.cpp",
+      "sha256": "487bb09816f3f2af170a48a7ee713663d39eecfe379f721e19dc4cc4fb405e91"
+    },
+    "8220E8A0": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.3.cpp",
+      "sha256": "9c287bafe47ddd1753604bca731f2bf3a7e453f986e187d05e4468b1b2c27ea1"
+    },
+    "8210D0E8": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.68.cpp",
+      "sha256": "35bccde399cc094cee90e6da9ab78c7033f73d82d0cb9242661a52644db368dd"
+    },
+    "821CA448": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.44.cpp",
+      "sha256": "a7434dc61785c7eb4e9c2c938b3bf42ac9c5a7344c78b17493b6cf9da4b2c3b8"
+    },
+    "8220EED0": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.49.cpp",
+      "sha256": "8531f7bee610a417b3b6b44bc5c38a58e899f62b6495dcaf41ced7358c3c3361"
+    },
+    "821944D0": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.59.cpp",
+      "sha256": "bb5c0ec13f17e05d848fa8bfadb390eafe856980ec7750914a30f682d773f09f"
+    },
+    "8221ACB8": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.28.cpp",
+      "sha256": "b961d4728879405717e41f9cdccdde5bcdd900f635015d6d1df14c094a21e2f1"
+    }
+  }
+}

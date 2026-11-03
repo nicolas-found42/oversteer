@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "functions": {
+    "8210AB20": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.20.cpp",
+      "sha256": "8040014c3af0f74d7017c1577d4e41a160c1a122ecdd728fe67be6a5322279e9"
+    },
+    "821DAA98": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.36.cpp",
+      "sha256": "88b3be7ac43b9eaf3c5ed86f0f282c1989530937ad6627b7fcfd8f9ab0e7c5ae"
+    },
+    "8210D988": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.37.cpp",
+      "sha256": "23fef86bb35f8afbd3bdb3a29771ebb335faba9ace370c5b676b1d8afd649526"
+    },
+    "821DCB68": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.26.cpp",
+      "sha256": "a4a5184ad29cbe3b203f482fa5015eda809d0a2f44a1ac477500ab2e9ffc551d"
+    },
+    "82223B58": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.1.cpp",
+      "sha256": "d02d01a6cb2d2174b9d87aeb706a02ae24fd5e1a63f68e36a4a15f2cbe3a8cef"
+    },
+    "8221AB58": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.0.cpp",
+      "sha256": "2b0408ad36e95691a938139c10c1aea32626940555856dd14b5c48932ac86d81"
+    },
+    "8210D0E8": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.68.cpp",
+      "sha256": "35bccde399cc094cee90e6da9ab78c7033f73d82d0cb9242661a52644db368dd"
+    },
+    "82202B10": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.4.cpp",
+      "sha256": "74e7dd2bd3a78a0a48cf0861999697879a105a0bb91f91254e1cb33d02ea0bf6"
+    },
+    "821D64B0": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.16.cpp",
+      "sha256": "617b9cf7e76bcc62d190bc90df3777f4f7187b443175a4025d4bbc1fbfe8cd55"
+    },
+    "82223A78": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.10.cpp",
+      "sha256": "cae61b75663b5ea774b36cf1340ef7f879e1af9c1e360d2ce2f0b669f3b258f6"
+    }
+  },
+  "global_pointer": {
+    "address": "824cf0a4",
+    "address_arithmetic": "u32((\u221232179<<16)\u22123932)",
+    "role": "active race config pointer; same alias as activation821DAA98 retained below"
+  },
+  "event_flag_provenance": {
+    "existing_contract": "artifacts/juiced2-build/native-performance/catalog.json active_race_flag_binding",
+    "path": "82225350 parser scratch48 \u219282225BB0 scratch+32 \u219282186A48 264byte copy \u219282223A78/82223B58 stored+4 \u2192821DAA98 72byte copy",
+    "equation": "48\u221232\u22124=12",
+    "token": "ExtremeNos"
+  },
+  "eligibility": [
+    {
+      "function": "821DCB68",
+      "anchor": "821DCBB4..821DCC0C",
+      "guards": [
+        "caller r5!=0",
+        "activeconfig12!=0"
+      ],
+      "predicate": "8210AB20(car)==activeconfig0 league",
+      "failure": "return0 via821DCBD4",
+      "notes": "Other source checks include car/league membership, prototype and class; this is not a replacement for those checks."
+    },
+    {
+      "function": "82202B10",
+      "anchor": "82202B90..82202BCC",
+      "predicate": "When activeconfig12!=0, keep candidate only if8210AB20(candidate)==activeconfig0 league",
+      "failure": "candidate rejected via82202CD0",
+      "guards": "Existing source UI/session alternate branches retained; no universal predicate claim outside normal branch."
+    },
+    {
+      "function": "821D64B0",
+      "anchor": "821D6BB0..821D6BD4",
+      "predicate": "Candidate branch uses same config12\u2192AB20==config0 test"
+    }
+  ],
+  "getter": {
+    "function": "8210AB20",
+    "normal": "returns car9644",
+    "override": "Ifsession manager+36\u2192+76 nonzero, returns selected profile field0, selection controlledbyglobalmanager1076",
+    "meaning": "Comparison is active event league, NOT a direct maxpotential comparison"
+  },
+  "ai_setup": {
+    "function": "8210D988",
+    "entry_args": {
+      "r3": "car",
+      "r4": "selectedleague copiedr26",
+      "r7": "enableflag copiedr18"
+    },
+    "anchor": "8210DCB0..8210DCBC",
+    "operation": "if r18!=0, car9644=r26",
+    "caller_example": "821D64B0 loc821D72D8 passesr7=config12,r4=config0",
+    "no_capacity_write": "Entirefunction contains no9640 read/write; doesnot itself set9640=\u22122"
+  },
+  "separate_capacity": {
+    "reader": "8210D0E8 reads9640, not9644",
+    "limits": "No9644\u21929640 conversion, capacity multiplier, force or refill policy inferred here."
+  },
+  "independent_review_leads": [
+    "Read full821DCB68 normalbranch, verifyr7loadedconfig0 andreturn0 mismatch.",
+    "Read full8210AB20 tocheck volatile r7 remains unchanged across leaf getter.",
+    "Check all8210D988 stores andcall args; no9640 occurrence."
+  ],
+  "limits": [
+    "Static source-only recovery; no PowerPC runtime claim.",
+    "Caller filter may disable entry restrictions; alternate session branches preserved.",
+    "Do not equate eventleague with carmaxpotential merely because UI availability may constrain selections.",
+    "No runtime assets/DLL/core/frontend files changed."
+  ]
+}

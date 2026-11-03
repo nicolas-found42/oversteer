@@ -1,0 +1,402 @@
+{
+  "schema_version": 1,
+  "globals": [
+    {
+      "address": "8257797c",
+      "disc_bits": "00000000",
+      "disc_value": 0.0,
+      "references": [
+        {
+          "function": "sub_820F8F78",
+          "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.21.cpp",
+          "line": 4561,
+          "instruction": "// lfs f13,-12(r11)",
+          "candidate": true
+        },
+        {
+          "function": "sub_820F8F78",
+          "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.21.cpp",
+          "line": 4813,
+          "instruction": "// lfs f12,-12(r11)",
+          "candidate": true
+        },
+        {
+          "function": "sub_820F8F78",
+          "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.21.cpp",
+          "line": 5045,
+          "instruction": "// lfs f11,-12(r10)",
+          "candidate": true
+        }
+      ],
+      "initialized_value": null,
+      "status": "No nonzero initializer proven; do not substitute an invented default."
+    },
+    {
+      "address": "82577980",
+      "disc_bits": "00000000",
+      "disc_value": 0.0,
+      "references": [
+        {
+          "function": "sub_820F8DB8",
+          "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.11.cpp",
+          "line": 4496,
+          "instruction": "// lfs f8,31104(r11)",
+          "candidate": true
+        },
+        {
+          "function": "sub_820F8F78",
+          "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.21.cpp",
+          "line": 4567,
+          "instruction": "// lfs f13,-8(r11)",
+          "candidate": true
+        },
+        {
+          "function": "sub_820F8F78",
+          "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.21.cpp",
+          "line": 4816,
+          "instruction": "// lfs f13,-8(r11)",
+          "candidate": true
+        },
+        {
+          "function": "sub_820F8F78",
+          "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.21.cpp",
+          "line": 5048,
+          "instruction": "// lfs f9,-8(r10)",
+          "candidate": true
+        }
+      ],
+      "initialized_value": null,
+      "status": "No nonzero initializer proven; do not substitute an invented default."
+    },
+    {
+      "address": "82577984",
+      "disc_bits": "00000000",
+      "disc_value": 0.0,
+      "references": [
+        {
+          "function": "sub_820F8F78",
+          "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.21.cpp",
+          "line": 4671,
+          "instruction": "// lfs f13,-4(r11)",
+          "candidate": true
+        }
+      ],
+      "initialized_value": null,
+      "status": "No nonzero initializer proven; do not substitute an invented default."
+    },
+    {
+      "address": "82577988",
+      "disc_bits": "00000000",
+      "disc_value": 0.0,
+      "references": [
+        {
+          "function": "sub_820F8F78",
+          "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.21.cpp",
+          "line": 4677,
+          "instruction": "// lfs f11,0(r11)",
+          "candidate": true
+        }
+      ],
+      "initialized_value": null,
+      "status": "No nonzero initializer proven; do not substitute an invented default."
+    }
+  ],
+  "sections": [
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "sha256": "4ea82ad309cc99eeb597e665e6c03725043e215a03a600080c2bf1a394d2050a"
+    }
+  ],
+  "scanned_files": [
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.0.cpp",
+      "sha256": "3ace004511a6d69c38a77904e431f0e64e9f4da063a71506b41a09fe53486d44"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.1.cpp",
+      "sha256": "aa0b79bf9934d680ab37016ba086f7459b20ad1cf81493ee0eb3245867b099dd"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.10.cpp",
+      "sha256": "ecf0dd245a764c115de95c7acda1fb7131d7cd6f4a2bdb9a2c3cdcbd74fcdcc3"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.11.cpp",
+      "sha256": "fc1c5d37bbd0acdbe6273cae5a6525e766d3bbff44a09086e7c1a45c2ce2b00a"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.12.cpp",
+      "sha256": "9be96779f322f21b2e82cba8aaff695180707f05d4ccdcb9a87764da27db4893"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.13.cpp",
+      "sha256": "590059d3fa39401e54d6f2b464a612c17739ed4ba41c5bcf1d3d4f3bb81889dc"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.14.cpp",
+      "sha256": "09b192ded84a0ed2e84af0ac1272ba0541f54179193c57bb048935ad3c431f60"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.15.cpp",
+      "sha256": "0159f54a5e57de47e47e8f1fbb7eb02b087f4610457749cb078092cf238db81a"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.16.cpp",
+      "sha256": "91a069f8e7a1f5a76a772cacb489121657fbd2ec513ac98e72bd64fea94deebe"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.17.cpp",
+      "sha256": "e4c3f2d9ef893a1a59c14cee84bab3a5a6ccfa54a4694aa60aca7d7f36b8bcd7"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.18.cpp",
+      "sha256": "1b4dba7172ece570fa2430ad7be0798960b6186723ece4dd3b76546612f91c08"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.19.cpp",
+      "sha256": "cc8eb5ebb8cb66cdd5f5770a40cab903d8e91c2a993e447987900924ad7d8a60"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.2.cpp",
+      "sha256": "4e8fab0441b2ecba858c268d28694ebdc3c8fdef7d116974051346a9928524d5"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.20.cpp",
+      "sha256": "4a30bd0fd9a6247d3e6aa45fb3f55d945cec8e97089d4358b9c0e5360506de62"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.21.cpp",
+      "sha256": "f0795edb34afed1364ef6be8ea5b1c4789c9903266565d915735ebd21cf42a69"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.22.cpp",
+      "sha256": "3caa406b072c616cc4f02fb2242b9272cdb3a95c10e1d84c44d4ac5ced8027ad"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.23.cpp",
+      "sha256": "9bf9711da63cb370c42ced5ffd8484b0d5cb5eacb0092c99986619325a9881da"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.24.cpp",
+      "sha256": "c206a56ad9b05ee802031794cecb96f5edc4a9cb3f125100cdb0e3483a9fa50c"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.25.cpp",
+      "sha256": "e6b26bdb58af1b33c49c8f012ed66dbde7b38c71002dfbc75d47af055a856463"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.26.cpp",
+      "sha256": "b5b52d2d90640796c51a8b73a69c83d60e511fa5c504c6a2e65127269925ab50"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.27.cpp",
+      "sha256": "721e4e00469b3eafdfc003b26026300637c91b2c668723fbf20537aad5e80673"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.28.cpp",
+      "sha256": "f1a71a714863af43d67d787be671e0a8b543a7ec4bcd8035926c1c597836da6e"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.29.cpp",
+      "sha256": "b1a090a9d4b5cef21c52fb2d0d6ea2eaefc3f533a8aeaa38363e7c7743960e77"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.3.cpp",
+      "sha256": "90eece0d835934cf9f1662eb4fe9d605544adf650037f8b615b0b087c7f29bef"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.30.cpp",
+      "sha256": "42c6a1ed2800964cca7e64c4597b9097ed3bee7f421493a80e4e7d7f0dc7db61"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.31.cpp",
+      "sha256": "7bb0891a1e9e9ed59fba85f5d690546bd2b644f64bb35ff5be6b1f1b9dbf1869"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.32.cpp",
+      "sha256": "d0667aa331f6bea07eae35f59540ed17ba7d1543f28a76134849baef22f9f1bd"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.33.cpp",
+      "sha256": "01f420cb1912b328e216d7f453ba8229caf68fdd705728e34afd9eb6c4e48b6a"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.34.cpp",
+      "sha256": "196221d42b33a1421b62b5bb75c817cdf04952c9beb6f05120fc5fda21c66576"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.35.cpp",
+      "sha256": "bcdcfe9edee620ea86f3cd15187d215840ecce6d979b642fd37a222a141a6834"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.36.cpp",
+      "sha256": "c7b93b4bb2ab30caef9bb7fca2d0d986af665d86faaec79b2f9251e0c7785923"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.37.cpp",
+      "sha256": "91ede9983527c99762fe37084b0e750c96362f7da92f128708ffddb593403550"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.38.cpp",
+      "sha256": "f61c698c162f1215ad51298952cdf12187d72902f2ec1ea544c9f76582cddc3f"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.39.cpp",
+      "sha256": "d73e48babfc3d7a04e2509c8230de672784abbe72ebe6e68a0fe6f0b5221c8fb"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.4.cpp",
+      "sha256": "70a1bb04a865b80e0f0b66bfea83cdde5a04cc18c6fd760f236b9b3217d90a80"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.40.cpp",
+      "sha256": "ec661ba61e28080c1f9a0e95038defe6aba3cca60ab5c20dfae36d4873de1ab0"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.41.cpp",
+      "sha256": "b0c7a80bc2ca6a141a6b201f312e4115e44e0cb156df0e259e0ed51ae0feed47"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.42.cpp",
+      "sha256": "ccfaa5600781174d087d929b6e197264dfbbb3bb6e3a1c540f06f2cfe47b2348"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.43.cpp",
+      "sha256": "38c556f52ce971b9fb68b48016a113af8473a147d3e57c34c0d9a835c92edc8d"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.44.cpp",
+      "sha256": "47da957099cd8f2210944aa24fc0a8796dd25d5f65d30f5c57b218b6fc2075ed"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.45.cpp",
+      "sha256": "85b545eb2dd4fe4764273bf18b5a20808677196626598fec17a634ca1e9aa615"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.46.cpp",
+      "sha256": "cf5865bfcef619db837b09233ffd5fd776dede47ad77f5b59f9065e27ba54f91"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.47.cpp",
+      "sha256": "b1d1b07ed6388f0578ac71120d80561a9c861427ad8add0337cdfaf3c5138ef8"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.48.cpp",
+      "sha256": "314d0f2b8c85aac237d8edbfc1fe86a8142cb34d42735b61e7f06ec3c518608a"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.49.cpp",
+      "sha256": "a425164462071592d530de3a1249c9264f0474189dc40739fef9dad1ce0d5fe0"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.5.cpp",
+      "sha256": "fd91e4098fece8ae27702f1d29e01240b4bf9cd6a42a53ab435a2daf478adfc7"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.50.cpp",
+      "sha256": "35d0797b959d9efa9883fe0b3c49816f187f0760c72e61a5de8c9899331806a5"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.51.cpp",
+      "sha256": "ac56a2dc105b81f34f6c746395f53bfec89deaa16a999c698f28d25399b2d49d"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.52.cpp",
+      "sha256": "39d055de16794a69f08509f4ee3c4f5cd2edf7fb91d61340daf0be5093df2800"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.53.cpp",
+      "sha256": "d5c6cc18907eedda318f4c2ca788e518bf077a62f59890fe304cf72bb5f17b5e"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.54.cpp",
+      "sha256": "da64445772b5f812fdab1d263fb9ddcd8b7eea7dd20c31621d935bac941c651e"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.55.cpp",
+      "sha256": "78c32a91770c036e0355930989bcd7a0deed46d8732e46613abb4f97788577f9"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.56.cpp",
+      "sha256": "3cf90b94beee13efc352ee296068202c3b211dd612090f12081c87ff4b59fa5b"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.57.cpp",
+      "sha256": "0617e39409866b047da650950271619d392305ebb0283b6e19af9720a895a7b0"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.58.cpp",
+      "sha256": "91be7ab25d25721a2026c924038ff2364069ff24104417855bd7c61bc3443835"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.59.cpp",
+      "sha256": "87020c18ae43b99f3715b4ad8e814331f774a0f8a9bdacbb3b4ddf1481b2727c"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.6.cpp",
+      "sha256": "5ad0ad13e4d7386e6e8200dca1ba4ca86d41ffe660591923aef98744590ece12"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.60.cpp",
+      "sha256": "f28f3a7ae29cef9a6275e32616f7e3706bbc04ad74977ade948793f0c50b09c1"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.61.cpp",
+      "sha256": "b88bdec2f4dadb1ff1b07a60dd21c013aa0b96a9c46985e2ba43670eb0a7a9b4"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.62.cpp",
+      "sha256": "a1d6dd209a41bb71b6fb6a4283ec4f2c84d61e447bc503e4560430f96c97f56a"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.63.cpp",
+      "sha256": "5614c3dab7dcdfa83f41847343840c8918bf112b0f843167fa7a774d0d0e1e21"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.64.cpp",
+      "sha256": "35752a18f3793e87b007e773a71805c8a669ed0377e1cde93d1f20655b3f0ba8"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.65.cpp",
+      "sha256": "f293c5b434088afb09091a73d8b6489c5b2fa3bea3a01d6dac5bcdac01ec48e5"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.66.cpp",
+      "sha256": "a8038902c8f602b824837fdd51b69ec053bfb8b882fa29891c544cf11748c016"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.67.cpp",
+      "sha256": "122939bc6cf05594069c7637d8d562ea62269f091e903f1e85f3d98972027da7"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.68.cpp",
+      "sha256": "33c0a4d13b9e71c95a14951ee6edcd4596d61e620297580ebfadc1827b3c46bf"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.69.cpp",
+      "sha256": "9b7b30ac99f21681dedd152061d8b9c214d5d5b6eac6d58042ae75a0e4770f03"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.7.cpp",
+      "sha256": "2a8b4f16571e78c0e586ede64960b143f82a19af950037718ec8c40c88478d6a"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.8.cpp",
+      "sha256": "5afce5e6b3984878a42758092a9e117afcc52b59d555d25aee752f4dc261ccf4"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.9.cpp",
+      "sha256": "fbc39e6c3b5eb90864be7949bbbb5dc25df78af8e7c85ae89f05bc22536edd36"
+    }
+  ],
+  "reader_bodies": {
+    "sub_820F8DB8": "bb14480a6ec5e98583d682e2ca4d7311600ffffd2b0565b4165690f2cbadd971",
+    "sub_820F8F78": "d3cf0d64e7247a71fa61edaf827053f357bc1e939be3be29541f9c6cd6bff32f"
+  },
+  "limits": [
+    "Static instruction-comment scan, not runtime observation.",
+    "Tracks only local lis/li/addi/ori address construction and conservative GPR load invalidation; branches, interprocedural pointers, register-indexed stores and copies are not fully analyzed.",
+    "Reference candidates require source reading; absence of a direct writer does not exclude indirect writes.",
+    "Pearl span has a separately proven CRT writer; this report does not extend that proof to unrelated globals."
+  ]
+}

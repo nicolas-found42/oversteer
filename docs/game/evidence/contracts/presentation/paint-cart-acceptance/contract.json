@@ -1,0 +1,253 @@
+{
+  "schema_version": 3,
+  "conclusion": "For a valid paint family reaching the terminal821C5E20 accept branch, unchanged72byte/currentfamily/currentcolor does NOT suppress the paint cart entry. The same single paint slot is overwritten with full family price.",
+  "scope": "Static bounded callback and checkout proof; not a PowerPC runtime transaction trace.",
+  "vtable": {
+    "address": "8203f94c",
+    "words": [
+      "821fdf38",
+      "821c5a68",
+      "821c6650",
+      "820ddc28",
+      "821c5dd8",
+      "820ddc20",
+      "821c5e20",
+      "820ddc28",
+      "820ddc28",
+      "821c6280"
+    ],
+    "accept_function_offset": 24,
+    "back_function_offset": 36
+  },
+  "back_navigation": {
+    "consumer": "821C6280",
+    "family_state_offset": 32,
+    "session_step_offset": 36,
+    "transitions": [
+      {
+        "family": "pearl",
+        "native_family": 3,
+        "from_step": 2,
+        "to_step": 1,
+        "anchor": "821C6314..821C6388",
+        "restore_original": false,
+        "exit": false
+      },
+      {
+        "family": "pearl",
+        "native_family": 3,
+        "from_step": 1,
+        "to_step": 0,
+        "anchor": "821C6388..821C661C",
+        "restore_original": false,
+        "exit": false
+      },
+      {
+        "family": "flake",
+        "native_family": 2,
+        "from_step": 5,
+        "to_step": 4,
+        "anchor": "821C63EC\u2192821C6480",
+        "restore_original": false,
+        "exit": false
+      },
+      {
+        "family": "flake",
+        "native_family": 2,
+        "from_step": 4,
+        "to_step": 3,
+        "anchor": "821C63EC\u2192821C64F0",
+        "restore_original": false,
+        "exit": false
+      },
+      {
+        "family": "flake",
+        "native_family": 2,
+        "from_step": 3,
+        "to_step": 0,
+        "anchor": "821C63EC\u2192821C65AC",
+        "restore_original": false,
+        "exit": false
+      },
+      {
+        "family": "thinfilm",
+        "native_family": 5,
+        "from_step": 6,
+        "to_step": 0,
+        "anchor": "821C6280..821C6314",
+        "restore_original": false,
+        "exit": false
+      },
+      {
+        "family": "gloss",
+        "native_family": 0,
+        "from_step": 0,
+        "to_step": null,
+        "anchor": "821C6408..821C6474",
+        "restore_original": true,
+        "exit": true
+      },
+      {
+        "family": "metallic",
+        "native_family": 1,
+        "from_step": 0,
+        "to_step": null,
+        "anchor": "821C6408..821C6474",
+        "restore_original": true,
+        "exit": true
+      },
+      {
+        "family": "flake",
+        "native_family": 2,
+        "from_step": 0,
+        "to_step": null,
+        "anchor": "821C6408..821C6474",
+        "restore_original": true,
+        "exit": true
+      },
+      {
+        "family": "pearl",
+        "native_family": 3,
+        "from_step": 0,
+        "to_step": null,
+        "anchor": "821C6408..821C6474",
+        "restore_original": true,
+        "exit": true
+      },
+      {
+        "family": "matt",
+        "native_family": 4,
+        "from_step": 0,
+        "to_step": null,
+        "anchor": "821C6408..821C6474",
+        "restore_original": true,
+        "exit": true
+      },
+      {
+        "family": "thinfilm",
+        "native_family": 5,
+        "from_step": 0,
+        "to_step": null,
+        "anchor": "821C6408..821C6474",
+        "restore_original": true,
+        "exit": true
+      }
+    ],
+    "rule": "Back traverses prior color/scalar steps; only Back from base step0 restores the session snapshot and exits.",
+    "cart_policy": "IntermediateBack changes page controls/sessionstep but doesnot modify acceptedcartslot; finalbaseBack restoresonlysessionpaint; earlier acceptedcartslot survives.",
+    "preview_policy": "Transitions rebuild picker/scalar controls from CURRENT paint coefficients via820F94D8/sourceRGB getters; they do not apply the base72byte snapshot untilterminal6408."
+  },
+  "cart": {
+    "base": "82581670",
+    "paint_slot": {
+      "selected_offset": 4,
+      "selected_value": 0,
+      "price_offset": 8,
+      "aux_offset": 12,
+      "aux_value": 0
+    },
+    "dirty_flags": [
+      680,
+      564
+    ],
+    "prices_by_native_family": {
+      "0": 3000,
+      "1": 5000,
+      "2": 12000,
+      "3": 12000,
+      "4": 7500,
+      "5": 20000
+    },
+    "replacement": "A second accepted paint overwrites the same slot; it is not a second accumulating line item.",
+    "cancel": "Cancelling an in-progress paint session restores that session snapshot; no terminal cancel write removes a previously accepted paint slot.",
+    "abandon": "Main-shop restore/reset uses a separate snapshot and resets cart through821C4DF8."
+  },
+  "anchors": [
+    {
+      "function": "821C5A68",
+      "anchor": "allocation/copy before821C5B38",
+      "meaning": "Clones current72byte vehicle paint via820EFCD0 into page state+28; preserved for cancellation."
+    },
+    {
+      "function": "821C5E20",
+      "anchor": "821C5E20\u2192family32 switch;session36 branches",
+      "meaning": "Some families require additional color/scalar pages before terminal acceptance. These are session-state branches, not comparison with original material."
+    },
+    {
+      "function": "821C5E20",
+      "anchor": "loc821C6210..821C6274",
+      "meaning": "Terminal acceptance overwrites SAMEcartslot+4=0,+8=familyprice,+12=0;sets680=1and564=1,closes page. Does not read page snapshot+28."
+    },
+    {
+      "function": "821C6280",
+      "anchor": "loc821C6408..821C6474",
+      "meaning": "Terminalback/cancel copies state+28 snapshot tovehiclepaint via820EFCD0 andrefreshes820FAC50; returns without changing cartslot."
+    },
+    {
+      "function": "821C4F00",
+      "anchor": "loc821C5040..821C50C0",
+      "meaning": "Main shop state+20==1 restores shop-entry snapshot state+12 then821C4DF8 resetsallcartslots; this is abandon/reset, not recorddifference suppression."
+    },
+    {
+      "function": "821C4F00",
+      "anchor": "loc821C50D0..821C513C",
+      "meaning": "Main shop state+24==1 obtains wallet+20; subtracts821C83E8(cart,-1);writesbalance through822191A0."
+    },
+    {
+      "function": "821C83E8",
+      "anchor": "loc821C84B4..821C84E4",
+      "meaning": "Normalcart branch684==0 iterates16byteslots; includes price+8 when slot+4!=-1, then excludes caller-specified index ifr4!=-1; checkoutpassesr4=-1. Does not inspect72bytepaint or equality. Other684branch is separate auxiliarycost policy."
+    },
+    {
+      "function": "821C4DF8",
+      "anchor": "loc821C4E78",
+      "meaning": "Resets every16bytecartslot selectedindex\u22121,price\u22121,aux0; clears flags680/564 atshop teardown/reset."
+    }
+  ],
+  "functions": {
+    "821C4F00": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.32.cpp",
+      "sha256": "8deb4513f5170bcd1cff485af23500f53de4055eb8e67203f607c6b6450b81c9"
+    },
+    "821C83E8": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.19.cpp",
+      "sha256": "3707f6ad4913cebb3bc8a207683131026e8a2499b866b4e779e83d92a94da8d3"
+    },
+    "821C4DF8": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.42.cpp",
+      "sha256": "37e5f6e06e8aff8518230ca3463fa9c92928b3d1c8a6094b1e80047794b48774"
+    },
+    "820EFCD0": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.43.cpp",
+      "sha256": "9c01f9405c16787251ceb3d6ca1be6f052cdb275a3ccf8d45a447f253a6545ff"
+    },
+    "821C6280": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.40.cpp",
+      "sha256": "d23650103774174010747c11143f9e3326cfccae4221c1d8b55347bdd21a73ea"
+    },
+    "822191A0": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.52.cpp",
+      "sha256": "d4272dba1b489df4e0556a6361ce7fe5a489e787382474459e4ce7ee4c208d55"
+    },
+    "821C5A68": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.8.cpp",
+      "sha256": "18c06b82555c49f27db8d1345bef53335565ed31980e52ffb53197db5193a43a"
+    },
+    "821C5E20": {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.11.cpp",
+      "sha256": "9301d2432fb98e859de48449266966598236b404ceabd5a2dd92b50ee394bb72"
+    }
+  },
+  "verification": {
+    "terminal_writes_asserted": true,
+    "snapshot_not_read_in_accept_callback": true,
+    "original_vtable_words_asserted": true
+  },
+  "limits": [
+    "Back is not synonymous with cancelling the entire multistep session; intermediate steps remain open.",
+    "This does not claim merely opening a family always queues a purchase; multistep families return before the terminalcart branch until their sequence completes.",
+    "No claim that unrelatedcheckout UI permits unaffordable purchase; this contract identifies the wallet debit after its confirmation state is reached.",
+    "No native72byte dirty comparator was found in these complete callbacks; future separate upstream interception would require new source evidence.",
+    "No source material/shader math, runtime assets, core or frontend code changed."
+  ]
+}

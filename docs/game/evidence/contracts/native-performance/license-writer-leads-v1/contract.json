@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "functions": {
+    "820D8F00": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.65.cpp",
+      "sha256": "342344944c187601f3309aac7582c23cd35372e87438213e9401a205d2bb0bfa"
+    },
+    "820D9970": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.20.cpp",
+      "sha256": "2bd01bb27ea6ce88f1bc188b8bc42588bebc922f9750bd3b3d1884f930ee7e86"
+    }
+  },
+  "observed_writer": {
+    "fields": {
+      "2124": "category",
+      "2128": "item",
+      "2132": "league"
+    },
+    "bit_index": "((league*3+category)*3)+item",
+    "destination": "profile2112+4*(bit_index>>5)",
+    "operation": "OR 1<<(bit_index&31)",
+    "anchors": [
+      "820D8F00 loc820D8FF0",
+      "820D9970 loc820D9C3C"
+    ]
+  },
+  "limits": [
+    "Result predicate and mode/caller semantics require independent full-function review; not claimed as universal win-only reward.",
+    "No fixed sponsor event order or source event reward fields inferred.",
+    "Staged only, no runtime mutation."
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "correction": {
+    "superseded_claim": "823DC190 is case-sensitive strcmp",
+    "verdict": "Contradicted by original PPC and translated source",
+    "history": "Earlier source contracts/messages used the wrong description. Those generated contracts were regenerated before an immutable old-file backup existed; this audit retains the exact superseded claim, not a fabricated original-file hash."
+  },
+  "semantics": "Return0 iff both NUL-terminated strings are equal under ASCII A..Z folding. No prefix match. Non-ASCII byte behavior is not Unicode casefold.",
+  "original_code": {
+    "path": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82070000-.text.bin",
+    "section_sha256": "ae1a20c5e5fa142ec06dede90fd15dfd4e349010321f6321475d777d59021344",
+    "function_start": "823dc190",
+    "function_end_exclusive": "823dc1e4",
+    "function_bytes_sha256": "b3dfa227da3c88d1e3bddb7c5fb4918191eb76db1b3c3efbd6085f07b4d8871e",
+    "checked_instructions": [
+      {
+        "address": "823dc1c0",
+        "word": "60c60020",
+        "opcode": 24,
+        "RS": 6,
+        "RA": 6,
+        "immediate": 32,
+        "meaning": "ori r6,r6,32"
+      },
+      {
+        "address": "823dc1d4",
+        "word": "60a50020",
+        "opcode": 24,
+        "RS": 5,
+        "RA": 5,
+        "immediate": 32,
+        "meaning": "ori r5,r5,32"
+      }
+    ]
+  },
+  "functions": {
+    "823DC190": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.35.cpp",
+      "sha256": "0bcdfe3b13038f6b86020da6f9d77793c84f17e4c142dec2de1d982540f74019"
+    },
+    "82239FC0": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.33.cpp",
+      "sha256": "2af2ea97bca83ca00f77343b948195a239fc23f56940485704f795669bd30c2e"
+    },
+    "82243540": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.26.cpp",
+      "sha256": "826b03cc980d77ba94a8f519ebe2fc820e07c063220be73972fe80598acf7dcf"
+    },
+    "82243B70": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.57.cpp",
+      "sha256": "3fa48377bff5b200f02af87e0616c98efbd7cf7adddffe63390c8a5dcbce6672"
+    },
+    "823DCB18": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.69.cpp",
+      "sha256": "0738fd52486a66adf95c2b0c93ce8152d936d1cc30bd929533b190564900a99c"
+    }
+  },
+  "caller_branches": {
+    "component": "82239FC0:cmpwi r3,0;beq8223A054 returns1-based component index",
+    "replacement": "82243540:cmpwi r3,0;bne skipsreplacement;zero executescopy",
+    "modifier": "82243B70:cmpwi r3,0;bne82243F20 skipsnamedoperation;zero matches"
+  },
+  "verification": {
+    "cases": 16136,
+    "all_equalities_match_independent_ASCII_fold": true,
+    "examples": [
+      {
+        "left": "Combats",
+        "right": "combats",
+        "result": 0,
+        "equal": true
+      },
+      {
+        "left": "dancer01",
+        "right": "Dancer01",
+        "result": 0,
+        "equal": true
+      },
+      {
+        "left": "eye",
+        "right": "eyes",
+        "result": -115,
+        "equal": false
+      },
+      {
+        "left": "eyes",
+        "right": "eye",
+        "result": 115,
+        "equal": false
+      },
+      {
+        "left": "",
+        "right": "",
+        "result": 0,
+        "equal": true
+      },
+      {
+        "left": "",
+        "right": "A",
+        "result": -97,
+        "equal": false
+      },
+      {
+        "left": "A",
+        "right": "",
+        "result": 65,
+        "equal": false
+      }
+    ]
+  },
+  "separate_semantics": "823DCB18 substring function performs bytewise matching without uppercase folding; constructor substring classification remains case-sensitive.",
+  "limits": [
+    "Static source/machinebyte proof, not PowerPC runtime execution.",
+    "Filename hashing has its own independently recovered ASCII uppercase algorithm; equality correction does not change hash inputs."
+  ]
+}

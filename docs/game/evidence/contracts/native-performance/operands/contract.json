@@ -1,0 +1,1602 @@
+{
+  "schema_version": 1,
+  "functions": {
+    "821C7510": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.34.cpp",
+      "sha256": "8dabb86976b44e29cf0d80be0604e8d07a9ed6d995a83157dc6432ade5f3908b"
+    },
+    "8210A968": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.34.cpp",
+      "sha256": "4a144d9786a008f37bccacbe23254b50b14b2c0478859aed9738dc5525efdec6"
+    },
+    "8210C558": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.20.cpp",
+      "sha256": "6c971000c3de87bfd1e2a5ac15c6194b7b485437139dea93d4bd09fb577bf39f"
+    },
+    "8210CFA0": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.36.cpp",
+      "sha256": "98f3a2c9f64ffcf523439b1be6d5a0bade2d8dfb9651f1adf58b293e51fb310f"
+    },
+    "821CAA18": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.22.cpp",
+      "sha256": "64da64fe77e97d7282af7c3dd602356b5b709b79fc13c4c2c3e5b0ac629b01d5"
+    },
+    "8221AF00": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.27.cpp",
+      "sha256": "f9d5b8f9df9395b51e3dfcdbb58866682cb55bc799dfcef629f4f6dfce20f815"
+    },
+    "821C9138": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.30.cpp",
+      "sha256": "47660167ac17376be689676457f81a74a48cc00d231411c7d5e8030ff9349193"
+    },
+    "8210AAA8": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.25.cpp",
+      "sha256": "c61311c9559b1d0e2772fe4f29709c32b92ec12ada1586521ad42311e876ac31"
+    },
+    "821CA168": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.42.cpp",
+      "sha256": "2b45321278a0f535f6c3ce8d9bbebbe582261cb66bafb4e92578d0d11648cd3d"
+    },
+    "821CB9D0": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.1.cpp",
+      "sha256": "6a56de7220f54d6d29595ff12220068224b5fcdf712acfbf68983ac802ce0dac"
+    },
+    "82217870": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.55.cpp",
+      "sha256": "b4238020c460e33252b83ed8b51b26a16cf6df39bcc15534d04d1148a42d2a28"
+    },
+    "821C9E28": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.5.cpp",
+      "sha256": "ad10bf6a83cdfaad8477617955638a01ca0676c7bee67358198ee9df49571251"
+    },
+    "821C8608": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.46.cpp",
+      "sha256": "ccbf3a1347dde88c0aac36aafe27a480dd6ea3315498411c6361785130f4d342"
+    },
+    "8220EED0": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.49.cpp",
+      "sha256": "8531f7bee610a417b3b6b44bc5c38a58e899f62b6495dcaf41ced7358c3c3361"
+    },
+    "821064C8": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.65.cpp",
+      "sha256": "ebb74ad69e504c2c0941efe1c4d03ec93aa3b29d10ae249437db3fe57d4193ee"
+    },
+    "8220F488": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.64.cpp",
+      "sha256": "a49102990f987257df60d9b36c195d92739f5f56ded5e8a410d60d0b8b5f57fc"
+    },
+    "8221ACB8": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.28.cpp",
+      "sha256": "b961d4728879405717e41f9cdccdde5bcdd900f635015d6d1df14c094a21e2f1"
+    },
+    "822177D8": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.28.cpp",
+      "sha256": "191f8648d50145415cd6471e32817f1828a9627759eceaec961e9d53c3f9ff6d"
+    },
+    "821CA528": {
+      "source": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.12.cpp",
+      "sha256": "fdafdb836c7f1c4aa9779a46393dc0200283ccf41e1105ae114cc92b35ccab4c"
+    }
+  },
+  "operands": [
+    {
+      "function": "821C7510",
+      "instruction": "lfs f0,636(r30)",
+      "address_arithmetic": [
+        "lis r11,-32168",
+        "addi r30,r11,5744",
+        "base+(636)"
+      ],
+      "address": "825818ec",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "821C7510",
+      "instruction": "lfs f13,1176(r11)",
+      "address_arithmetic": [
+        "lis r11,-32254",
+        "base+(1176)"
+      ],
+      "address": "82020498",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "bf800000",
+      "decoded_disc_value": -1.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821C7510",
+      "instruction": "lfs f0,648(r30)",
+      "address_arithmetic": [
+        "lis r11,-32168",
+        "addi r30,r11,5744",
+        "base+(648)"
+      ],
+      "address": "825818f8",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "821C7510",
+      "instruction": "lfs f0,652(r30)",
+      "address_arithmetic": [
+        "lis r11,-32168",
+        "addi r30,r11,5744",
+        "base+(652)"
+      ],
+      "address": "825818fc",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "821C7510",
+      "instruction": "lfs f0,656(r30)",
+      "address_arithmetic": [
+        "lis r11,-32168",
+        "addi r30,r11,5744",
+        "base+(656)"
+      ],
+      "address": "82581900",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "821C7510",
+      "instruction": "lfs f0,660(r30)",
+      "address_arithmetic": [
+        "lis r11,-32168",
+        "addi r30,r11,5744",
+        "base+(660)"
+      ],
+      "address": "82581904",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "821C7510",
+      "instruction": "lfs f1,632(r30)",
+      "address_arithmetic": [
+        "lis r11,-32168",
+        "addi r30,r11,5744",
+        "base+(632)"
+      ],
+      "address": "825818e8",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "821C7510",
+      "instruction": "lfs f0,640(r30)",
+      "address_arithmetic": [
+        "lis r11,-32168",
+        "addi r30,r11,5744",
+        "base+(640)"
+      ],
+      "address": "825818f0",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "8210A968",
+      "instruction": "lfs f12,-2104(r11)",
+      "address_arithmetic": [
+        "lis r11,-32253",
+        "base+(-2104)"
+      ],
+      "address": "8202f7c8",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3c23d70a",
+      "decoded_disc_value": 0.009999999776482582,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f28,-13568(r9)",
+      "address_arithmetic": [
+        "lis r9,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f29,-13552(r10)",
+      "address_arithmetic": [
+        "lis r10,-32251",
+        "base+(-13552)"
+      ],
+      "address": "8204cb10",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f800000",
+      "decoded_disc_value": 1.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f30,-2352(r11)",
+      "address_arithmetic": [
+        "lis r11,-32253",
+        "base+(-2352)"
+      ],
+      "address": "8202f6d0",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3dcccccd",
+      "decoded_disc_value": 0.10000000149011612,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f0,-2104(r11)",
+      "address_arithmetic": [
+        "lis r11,-32253",
+        "base+(-2104)"
+      ],
+      "address": "8202f7c8",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3c23d70a",
+      "decoded_disc_value": 0.009999999776482582,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f13,-16552(r10)",
+      "address_arithmetic": [
+        "lis r10,-32179",
+        "base+(-16552)"
+      ],
+      "address": "824cbf58",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "455ac000",
+      "decoded_disc_value": 3500.0,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f12,11952(r26)",
+      "address_arithmetic": [
+        "lis r10,-32181",
+        "addi r26,r10,-15968",
+        "base+(11952)"
+      ],
+      "address": "824af050",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "3983126f",
+      "decoded_disc_value": 0.0002500000118743628,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f0,27216(r10)",
+      "address_arithmetic": [
+        "lis r10,-32181",
+        "base+(27216)"
+      ],
+      "address": "824b6a50",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "41800000",
+      "decoded_disc_value": 16.0,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f0,-11868(r10)",
+      "address_arithmetic": [
+        "lis r10,-32251",
+        "base+(-11868)"
+      ],
+      "address": "8204d1a4",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3c5013a9",
+      "decoded_disc_value": 0.01269999984651804,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f13,-11864(r10)",
+      "address_arithmetic": [
+        "lis r10,-32251",
+        "base+(-11864)"
+      ],
+      "address": "8204d1a8",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3dfbe76d",
+      "decoded_disc_value": 0.12300000339746475,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f0,-22940(r10)",
+      "address_arithmetic": [
+        "lis r10,-32254",
+        "base+(-22940)"
+      ],
+      "address": "8201a664",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3e99999a",
+      "decoded_disc_value": 0.30000001192092896,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f13,-2360(r10)",
+      "address_arithmetic": [
+        "lis r10,-32253",
+        "base+(-2360)"
+      ],
+      "address": "8202f6c8",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3e19999a",
+      "decoded_disc_value": 0.15000000596046448,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f0,-10912(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-10912)"
+      ],
+      "address": "8204d560",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "bf400000",
+      "decoded_disc_value": -0.75,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f0,-10088(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-10088)"
+      ],
+      "address": "8204d898",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f80a3d7",
+      "decoded_disc_value": 1.0049999952316284,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f13,0(r26)",
+      "address_arithmetic": [
+        "lis r10,-32181",
+        "addi r26,r10,-15968",
+        "base+(0)"
+      ],
+      "address": "824ac1a0",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "3fa66666",
+      "decoded_disc_value": 1.2999999523162842,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f0,-22188(r10)",
+      "address_arithmetic": [
+        "lis r10,-32252",
+        "base+(-22188)"
+      ],
+      "address": "8203a954",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f400000",
+      "decoded_disc_value": 0.75,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f13,-16292(r11)",
+      "address_arithmetic": [
+        "lis r11,-32179",
+        "base+(-16292)"
+      ],
+      "address": "824cc05c",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "3ccccccd",
+      "decoded_disc_value": 0.02500000037252903,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f13,0(r26)",
+      "address_arithmetic": [
+        "lis r10,-32181",
+        "addi r26,r10,-15968",
+        "base+(0)"
+      ],
+      "address": "824ac1a0",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "3fa66666",
+      "decoded_disc_value": 1.2999999523162842,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f0,-11004(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-11004)"
+      ],
+      "address": "8204d504",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "35cccccd",
+      "decoded_disc_value": 1.5258789289873675e-06,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f12,-2280(r8)",
+      "address_arithmetic": [
+        "lis r8,-32253",
+        "base+(-2280)"
+      ],
+      "address": "8202f718",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3ecccccd",
+      "decoded_disc_value": 0.4000000059604645,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f13,-2196(r8)",
+      "address_arithmetic": [
+        "lis r8,-32253",
+        "base+(-2196)"
+      ],
+      "address": "8202f76c",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "40000000",
+      "decoded_disc_value": 2.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f13,-22300(r8)",
+      "address_arithmetic": [
+        "lis r8,-32254",
+        "base+(-22300)"
+      ],
+      "address": "8201a8e4",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f000000",
+      "decoded_disc_value": 0.5,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f12,-16784(r8)",
+      "address_arithmetic": [
+        "lis r8,-32179",
+        "base+(-16784)"
+      ],
+      "address": "824cbe70",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "3f866666",
+      "decoded_disc_value": 1.0499999523162842,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "8210C558",
+      "instruction": "lfs f0,-6340(r11)",
+      "address_arithmetic": [
+        "lis r11,-32253",
+        "base+(-6340)"
+      ],
+      "address": "8202e73c",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f733333",
+      "decoded_disc_value": 0.949999988079071,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821CAA18",
+      "instruction": "lfs f31,-12144(r10)",
+      "address_arithmetic": [
+        "lis r10,-32251",
+        "base+(-12144)"
+      ],
+      "address": "8204d090",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3b808081",
+      "decoded_disc_value": 0.003921568859368563,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821C9138",
+      "instruction": "lfs f29,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821C9138",
+      "instruction": "lfs f0,-22300(r11)",
+      "address_arithmetic": [
+        "lis r11,-32254",
+        "base+(-22300)"
+      ],
+      "address": "8201a8e4",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f000000",
+      "decoded_disc_value": 0.5,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821C9138",
+      "instruction": "lfs f0,-13552(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13552)"
+      ],
+      "address": "8204cb10",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f800000",
+      "decoded_disc_value": 1.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821C9138",
+      "instruction": "lfs f30,-152(r11)",
+      "address_arithmetic": [
+        "lis r11,-32253",
+        "base+(-152)"
+      ],
+      "address": "8202ff68",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3d888889",
+      "decoded_disc_value": 0.06666667014360428,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821C9138",
+      "instruction": "lfs f13,-31248(r11)",
+      "address_arithmetic": [
+        "lis r11,-32165",
+        "base+(-31248)"
+      ],
+      "address": "825a85f0",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "821C9138",
+      "instruction": "lfs f0,-2388(r10)",
+      "address_arithmetic": [
+        "lis r10,-32253",
+        "base+(-2388)"
+      ],
+      "address": "8202f6ac",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3e4ccccd",
+      "decoded_disc_value": 0.20000000298023224,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821C9138",
+      "instruction": "lfs f0,-22184(r11)",
+      "address_arithmetic": [
+        "lis r11,-32252",
+        "base+(-22184)"
+      ],
+      "address": "8203a958",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3da3d70a",
+      "decoded_disc_value": 0.07999999821186066,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8210AAA8",
+      "instruction": "lfs f12,-2104(r11)",
+      "address_arithmetic": [
+        "lis r11,-32253",
+        "base+(-2104)"
+      ],
+      "address": "8202f7c8",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3c23d70a",
+      "decoded_disc_value": 0.009999999776482582,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821CA168",
+      "instruction": "lfs f1,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821CA168",
+      "instruction": "lfs f1,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821CB9D0",
+      "instruction": "lfs f0,-13552(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13552)"
+      ],
+      "address": "8204cb10",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f800000",
+      "decoded_disc_value": 1.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821CB9D0",
+      "instruction": "lfs f0,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821CB9D0",
+      "instruction": "lfs f0,-16592(r11)",
+      "address_arithmetic": [
+        "lis r11,-32179",
+        "base+(-16592)"
+      ],
+      "address": "824cbf30",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "400f0a3d",
+      "decoded_disc_value": 2.234999895095825,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "821CB9D0",
+      "instruction": "lfs f0,-10612(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-10612)"
+      ],
+      "address": "8204d68c",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "40666666",
+      "decoded_disc_value": 3.5999999046325684,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "82217870",
+      "instruction": "lfs f0,-13568(r10)",
+      "address_arithmetic": [
+        "lis r10,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821C8608",
+      "instruction": "lfd f0,-12040(r9)",
+      "address_arithmetic": [
+        "lis r9,-32251",
+        "base+(-12040)"
+      ],
+      "address": "8204d0f8",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3ff0000000000000",
+      "decoded_disc_value": 1.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821C8608",
+      "instruction": "lfs f0,-13552(r10)",
+      "address_arithmetic": [
+        "lis r10,-32251",
+        "base+(-13552)"
+      ],
+      "address": "8204cb10",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f800000",
+      "decoded_disc_value": 1.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821C8608",
+      "instruction": "lfs f0,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8220EED0",
+      "instruction": "lfs f30,-13552(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13552)"
+      ],
+      "address": "8204cb10",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f800000",
+      "decoded_disc_value": 1.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8220EED0",
+      "instruction": "lfs f1,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8220EED0",
+      "instruction": "lfs f31,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8220EED0",
+      "instruction": "lfs f1,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8220EED0",
+      "instruction": "lfs f31,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8220EED0",
+      "instruction": "lfs f31,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8220EED0",
+      "instruction": "lfs f1,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8220EED0",
+      "instruction": "lfs f1,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821064C8",
+      "instruction": "lfs f1,-13552(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13552)"
+      ],
+      "address": "8204cb10",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f800000",
+      "decoded_disc_value": 1.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821064C8",
+      "instruction": "lfs f0,-22188(r11)",
+      "address_arithmetic": [
+        "lis r11,-32252",
+        "base+(-22188)"
+      ],
+      "address": "8203a954",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f400000",
+      "decoded_disc_value": 0.75,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821064C8",
+      "instruction": "lfs f13,-16292(r11)",
+      "address_arithmetic": [
+        "lis r11,-32179",
+        "base+(-16292)"
+      ],
+      "address": "824cc05c",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "bits": "3ccccccd",
+      "decoded_disc_value": 0.02500000037252903,
+      "kind": "mutable_global_disc_value_only",
+      "initialized_runtime_value_unbound": true
+    },
+    {
+      "function": "821064C8",
+      "instruction": "lfs f13,-13552(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13552)"
+      ],
+      "address": "8204cb10",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f800000",
+      "decoded_disc_value": 1.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821064C8",
+      "instruction": "lfs f11,-2104(r8)",
+      "address_arithmetic": [
+        "lis r8,-32253",
+        "base+(-2104)"
+      ],
+      "address": "8202f7c8",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3c23d70a",
+      "decoded_disc_value": 0.009999999776482582,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821064C8",
+      "instruction": "lfs f0,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821064C8",
+      "instruction": "lfs f13,-13552(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13552)"
+      ],
+      "address": "8204cb10",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3f800000",
+      "decoded_disc_value": 1.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821064C8",
+      "instruction": "lfs f10,96(r11)",
+      "address_arithmetic": [
+        "lis r11,-32254",
+        "base+(96)"
+      ],
+      "address": "82020060",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3a83126f",
+      "decoded_disc_value": 0.0010000000474974513,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8220F488",
+      "instruction": "lfs f0,-12144(r8)",
+      "address_arithmetic": [
+        "lis r8,-32251",
+        "base+(-12144)"
+      ],
+      "address": "8204d090",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3b808081",
+      "decoded_disc_value": 0.003921568859368563,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "8220F488",
+      "instruction": "lfs f0,-12144(r9)",
+      "address_arithmetic": [
+        "lis r9,-32251",
+        "base+(-12144)"
+      ],
+      "address": "8204d090",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "3b808081",
+      "decoded_disc_value": 0.003921568859368563,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821CA528",
+      "instruction": "lfs f1,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    },
+    {
+      "function": "821CA528",
+      "instruction": "lfs f1,-13568(r11)",
+      "address_arithmetic": [
+        "lis r11,-32251",
+        "base+(-13568)"
+      ],
+      "address": "8204cb00",
+      "section": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "bits": "00000000",
+      "decoded_disc_value": 0.0,
+      "kind": "literal_read_only",
+      "initialized_runtime_value_unbound": false
+    }
+  ],
+  "price": {
+    "consumer": "821CB9D0",
+    "anchor": "821CBADC..821CBB6C",
+    "inputs": {
+      "248": "league",
+      "256": "zero-based item index",
+      "260": "category",
+      "264": "prototype/special fixed-price flag"
+    },
+    "ordinary": "low=PackData[league]+12+4*category;high=+24+4*category;steps=+8;integerTerm=trunc_signed_i32(((high-low)*item)/steps);price=trunc_i32(f32(f32(integerTerm)+f32(low))). Denominator is steps, NOTsteps\u22121.",
+    "rows": [
+      {
+        "league": 0,
+        "category": 0,
+        "name": "Power",
+        "minimum": 7500,
+        "maximum": 9500,
+        "steps": 3,
+        "prices": [
+          7500,
+          8166,
+          8833
+        ]
+      },
+      {
+        "league": 0,
+        "category": 1,
+        "name": "Handling",
+        "minimum": 3000,
+        "maximum": 5000,
+        "steps": 3,
+        "prices": [
+          3000,
+          3666,
+          4333
+        ]
+      },
+      {
+        "league": 0,
+        "category": 2,
+        "name": "Weight",
+        "minimum": 5500,
+        "maximum": 7500,
+        "steps": 3,
+        "prices": [
+          5500,
+          6166,
+          6833
+        ]
+      },
+      {
+        "league": 1,
+        "category": 0,
+        "name": "Power",
+        "minimum": 8500,
+        "maximum": 10500,
+        "steps": 3,
+        "prices": [
+          8500,
+          9166,
+          9833
+        ]
+      },
+      {
+        "league": 1,
+        "category": 1,
+        "name": "Handling",
+        "minimum": 4000,
+        "maximum": 6000,
+        "steps": 3,
+        "prices": [
+          4000,
+          4666,
+          5333
+        ]
+      },
+      {
+        "league": 1,
+        "category": 2,
+        "name": "Weight",
+        "minimum": 6500,
+        "maximum": 8500,
+        "steps": 3,
+        "prices": [
+          6500,
+          7166,
+          7833
+        ]
+      },
+      {
+        "league": 2,
+        "category": 0,
+        "name": "Power",
+        "minimum": 11000,
+        "maximum": 13000,
+        "steps": 3,
+        "prices": [
+          11000,
+          11666,
+          12333
+        ]
+      },
+      {
+        "league": 2,
+        "category": 1,
+        "name": "Handling",
+        "minimum": 7000,
+        "maximum": 9000,
+        "steps": 3,
+        "prices": [
+          7000,
+          7666,
+          8333
+        ]
+      },
+      {
+        "league": 2,
+        "category": 2,
+        "name": "Weight",
+        "minimum": 9000,
+        "maximum": 11000,
+        "steps": 3,
+        "prices": [
+          9000,
+          9666,
+          10333
+        ]
+      },
+      {
+        "league": 3,
+        "category": 0,
+        "name": "Power",
+        "minimum": 12000,
+        "maximum": 15000,
+        "steps": 4,
+        "prices": [
+          12000,
+          12750,
+          13500,
+          14250
+        ]
+      },
+      {
+        "league": 3,
+        "category": 1,
+        "name": "Handling",
+        "minimum": 8000,
+        "maximum": 10000,
+        "steps": 4,
+        "prices": [
+          8000,
+          8500,
+          9000,
+          9500
+        ]
+      },
+      {
+        "league": 3,
+        "category": 2,
+        "name": "Weight",
+        "minimum": 10000,
+        "maximum": 12000,
+        "steps": 4,
+        "prices": [
+          10000,
+          10500,
+          11000,
+          11500
+        ]
+      },
+      {
+        "league": 4,
+        "category": 0,
+        "name": "Power",
+        "minimum": 16000,
+        "maximum": 18000,
+        "steps": 4,
+        "prices": [
+          16000,
+          16500,
+          17000,
+          17500
+        ]
+      },
+      {
+        "league": 4,
+        "category": 1,
+        "name": "Handling",
+        "minimum": 12000,
+        "maximum": 14000,
+        "steps": 4,
+        "prices": [
+          12000,
+          12500,
+          13000,
+          13500
+        ]
+      },
+      {
+        "league": 4,
+        "category": 2,
+        "name": "Weight",
+        "minimum": 14000,
+        "maximum": 16000,
+        "steps": 4,
+        "prices": [
+          14000,
+          14500,
+          15000,
+          15500
+        ]
+      },
+      {
+        "league": 5,
+        "category": 0,
+        "name": "Power",
+        "minimum": 18000,
+        "maximum": 20000,
+        "steps": 4,
+        "prices": [
+          18000,
+          18500,
+          19000,
+          19500
+        ]
+      },
+      {
+        "league": 5,
+        "category": 1,
+        "name": "Handling",
+        "minimum": 14000,
+        "maximum": 16000,
+        "steps": 4,
+        "prices": [
+          14000,
+          14500,
+          15000,
+          15500
+        ]
+      },
+      {
+        "league": 5,
+        "category": 2,
+        "name": "Weight",
+        "minimum": 16000,
+        "maximum": 18000,
+        "steps": 4,
+        "prices": [
+          16000,
+          16500,
+          17000,
+          17500
+        ]
+      },
+      {
+        "league": 6,
+        "category": 0,
+        "name": "Power",
+        "minimum": 21000,
+        "maximum": 23000,
+        "steps": 4,
+        "prices": [
+          21000,
+          21500,
+          22000,
+          22500
+        ]
+      },
+      {
+        "league": 6,
+        "category": 1,
+        "name": "Handling",
+        "minimum": 17000,
+        "maximum": 19000,
+        "steps": 4,
+        "prices": [
+          17000,
+          17500,
+          18000,
+          18500
+        ]
+      },
+      {
+        "league": 6,
+        "category": 2,
+        "name": "Weight",
+        "minimum": 19000,
+        "maximum": 21000,
+        "steps": 4,
+        "prices": [
+          19000,
+          19500,
+          20000,
+          20500
+        ]
+      },
+      {
+        "league": 7,
+        "category": 0,
+        "name": "Power",
+        "minimum": 24000,
+        "maximum": 26000,
+        "steps": 4,
+        "prices": [
+          24000,
+          24500,
+          25000,
+          25500
+        ]
+      },
+      {
+        "league": 7,
+        "category": 1,
+        "name": "Handling",
+        "minimum": 20000,
+        "maximum": 22000,
+        "steps": 4,
+        "prices": [
+          20000,
+          20500,
+          21000,
+          21500
+        ]
+      },
+      {
+        "league": 7,
+        "category": 2,
+        "name": "Weight",
+        "minimum": 22000,
+        "maximum": 24000,
+        "steps": 4,
+        "prices": [
+          22000,
+          22500,
+          23000,
+          23500
+        ]
+      },
+      {
+        "league": 8,
+        "category": 0,
+        "name": "Power",
+        "minimum": 28000,
+        "maximum": 30000,
+        "steps": 4,
+        "prices": [
+          28000,
+          28500,
+          29000,
+          29500
+        ]
+      },
+      {
+        "league": 8,
+        "category": 1,
+        "name": "Handling",
+        "minimum": 24000,
+        "maximum": 26000,
+        "steps": 4,
+        "prices": [
+          24000,
+          24500,
+          25000,
+          25500
+        ]
+      },
+      {
+        "league": 8,
+        "category": 2,
+        "name": "Weight",
+        "minimum": 26000,
+        "maximum": 28000,
+        "steps": 4,
+        "prices": [
+          26000,
+          26500,
+          27000,
+          27500
+        ]
+      },
+      {
+        "league": 9,
+        "category": 0,
+        "name": "Power",
+        "minimum": 38000,
+        "maximum": 40000,
+        "steps": 4,
+        "prices": [
+          38000,
+          38500,
+          39000,
+          39500
+        ]
+      },
+      {
+        "league": 9,
+        "category": 1,
+        "name": "Handling",
+        "minimum": 32000,
+        "maximum": 34000,
+        "steps": 4,
+        "prices": [
+          32000,
+          32500,
+          33000,
+          33500
+        ]
+      },
+      {
+        "league": 9,
+        "category": 2,
+        "name": "Weight",
+        "minimum": 36000,
+        "maximum": 38000,
+        "steps": 4,
+        "prices": [
+          36000,
+          36500,
+          37000,
+          37500
+        ]
+      }
+    ],
+    "prototype_fixed_by_league": {
+      "3": 12000,
+      "4": 20000,
+      "5": 26000,
+      "6": 40000,
+      "7": 56000,
+      "8": 82000,
+      "9": 150000
+    },
+    "special_default": 12000,
+    "cost_modifier": "CarModInfo+148 is not read in the ordinary price calculation block; do not silently multiply it into this quote."
+  },
+  "packed_install": {
+    "writer": "8210CFA0",
+    "args": {
+      "r3": "car",
+      "r4": "category",
+      "r5": "league",
+      "r6": "item"
+    },
+    "destination": "car+4*(category+19): categories0/1/2\u219276/80/84",
+    "upper_clamp": "item=min(item,PackData[league].steps\u22121)",
+    "remove": "If item==\u22121,write0",
+    "installed": "otherwise0x40000000|((league<<25)&0x3e000000)|(item&0x01ffffff)"
+  },
+  "accept": {
+    "consumer": "821CA168",
+    "anchor": "821CA2E0..821CA420",
+    "wallet_guard": "Checks wallet20>=state272 before selection accept",
+    "preview": "state244==4 applies directly; state268nonzero writescar9644=league248; otherwise8210CFA0(category260,league248,item256)",
+    "queued_request": "Othermode writes selectedcategory/item/league/price/NOSflag tosharedrequest824C1EAC,exceptWeightcategory2\u2192824C1F70; purchaseconfirmationconsumer remains separate."
+  },
+  "availability": {
+    "minimum_league": {
+      "writer": "821C8608 loc821C8DC0..821C8DE0",
+      "state_offset": 304,
+      "helper": "8210AAA8",
+      "inputs": "nativecar116stockPower/120stockWeight; f32division; originalstrictthresholdintervalscan;fallback0"
+    },
+    "maximum_league": {
+      "state_offset": 308,
+      "helper": "8210A968",
+      "inputs": "nativecar124maxPower/128minWeight; originalthresholdscan;fallback9"
+    },
+    "player_league": "821C9E28: selectedleague248 mustnotexceedactiveprofileleague+4 beforeownership/unlock classification",
+    "ordinary_owned": {
+      "index": "((league*3+category)*3)+item",
+      "word_base_offset": 2112,
+      "scope": "Activeplayerprofile; global acrosscars, not percarinventory"
+    },
+    "prototype_owned": "8221ACB8 profilebitmask2040/2044 category0..3",
+    "currently_installed": "821C9E28 comparespackedleague/item andinstalledhighbits; exactcurrentselection\u2192UIstate244=3",
+    "reinstall": "OwnedselectioncanUIstate244=4;821CA168 state4 installsdirectly withoutqueuedpurchase/debit; not blanketfreeupgrades.",
+    "prototype_item": "821C9138 loc821C9838..821C9888 sets264=1,item256=3 atmaxpotentialleaguewhenadvancedfromordinaryitem2; ordinarythreeitems0..2 distinctfromprototype3"
+  },
+  "remove": {
+    "consumer": "821C7510",
+    "meaning": "Startsbyclearingcartselectedslot(index/price\u22121,aux0),thenrestoresbackedupcarfields. It is NOT package quote calculation."
+  },
+  "prototype_unlock": {
+    "consumer": "8220EED0",
+    "bit": "((selectedRow144+3)*4)+category140",
+    "category_range": [
+      0,
+      3
+    ],
+    "categories": {
+      "0": "Power",
+      "1": "Handling",
+      "2": "Weight",
+      "3": "NOS"
+    },
+    "fourth_category_proof": "821CAA18 loc821CAB44 reads car9644(NOSleague);loc821CAB8C passesr5=3 to8221ACB8, tyingfourthunlockcolumn toNOS.",
+    "initial_profile": {
+      "constructor": "822177D8 clearswords2040/2044 then calls82217870;82217870 clears40bits frombase2040 andbyte2036=0",
+      "mask_words": [
+        0,
+        0
+      ],
+      "tokens": 0,
+      "promotion": "8221AF00 when league increases to3 sets2036=1 anddirty2048=1,unlessall40bitsalreadyunlocked",
+      "boundary": "No first12preunlock found; UIselectedrow+3 addressesleague3..9,while8221ADF0 checksall40bits. Do not manufacture first12unlocked to reconcilethis."
+    },
+    "token": "Successfulselectedunlock setsprofile2040/2044 bit anddecrementsbyte2036 by1; dirty/persistencefields separate."
+  },
+  "limits": [
+    "Address decoder follows local literal register construction, clears recognized load/ALU destinations and volatile GPRs at calls; it does not claim exhaustive control-flow/global-write analysis.",
+    "Mutable.data operands are disc values, not proven initialized runtime constants.",
+    "Exact native float operation ordering is retained in full source bodies; decoder values do not authorize algebraic reordering.",
+    "Price tables are ordinarynative catalog quantities, not automatic donor stock tune identity.",
+    "No runtime/core/frontend changes."
+  ]
+}

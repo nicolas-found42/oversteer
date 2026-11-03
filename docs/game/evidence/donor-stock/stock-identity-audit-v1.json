@@ -1,0 +1,978 @@
+{
+  "schema_version": 1,
+  "cars": [
+    {
+      "car_id": "GT4_HOND0018",
+      "accepted_identity": "Honda CIVIC TYPE R (EK) '98",
+      "accepted_year": 1998,
+      "prior_match": {
+        "code": "GT4_HOND0018",
+        "sourceId": "gor3a:59:0:15:6:0",
+        "sourceLabel": "Honda Civic Type-R | Civic Type-R (2001) | 2.0L 6MT (200 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_documented_period_trim_rule",
+        "rationale": "No post-catalog/post-game generation when a period reference exists. Original game tune is not asserted. Production trim selected within exact family/nearest-date candidates; published numbers describe that labeled reference only.",
+        "previous_match_correction": {
+          "sourceId": "gor3a:59:0:15:6:0",
+          "sourceLabel": "Honda Civic Type-R | Civic Type-R (2001) | 2001-2005 | 2.0L 6MT (200 HP)"
+        },
+        "selection_exists_verdict": "answered",
+        "selection_probability": 1,
+        "selection_review_resolution": "Exact competition/modified trim may be absent; user explicitly permits closest production trim. Family restriction and chronology are deterministic; uncertainty retained."
+      },
+      "current_stock": {
+        "mass": 1170,
+        "peak_bhp": 197.0,
+        "peak_torque": 196,
+        "engine_size": 1998,
+        "layout": "Fwd",
+        "body_length": 4.14,
+        "body_width": 1.699,
+        "body_height": 1.42
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Different generation: acceptedEK1998, matched2001EP3 2.0L. OfficialHondaEK9 proves1595cc185PS; equipment-dependent1040..1090kg. Exactequipment/year specification still needs bounded choice; do not label197bhp/1998cc/1170kg authoritative.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_MINI0001",
+      "accepted_identity": "MINI COOPER-S '02",
+      "accepted_year": 2002,
+      "prior_match": {
+        "code": "GT4_MINI0001",
+        "sourceId": "gor3a:99:0:7:8:1",
+        "sourceLabel": "MINI Hatch | Hatch (2001) | 2001-2006 | Cooper S 1.6L Turbo 5MT FWD (163 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_reviewed_family_rule",
+        "rationale": "Separate reviewed broad-family judgment >=0.7 resolves original-variant uncertainty. Nearest available year chosen in code; trim is an explicitly labeled representative production variant."
+      },
+      "current_stock": {
+        "mass": 1140,
+        "peak_bhp": 161.0,
+        "peak_torque": 210,
+        "engine_size": 1598,
+        "layout": "Fwd",
+        "body_length": 3.6550000000000002,
+        "body_width": 1.689,
+        "body_height": 1.407
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "PeriodCooperS163PS reference plausibly matches output/mass; rawsourcecalls itTurbo5MT, whileR53is supercharged6MT. Manufacturer exactyear/weightconvention still pending.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "FOCUS_SVT",
+      "accepted_identity": "SVT FOCUS",
+      "accepted_year": 2002,
+      "prior_match": {
+        "code": "FOCUS_SVT",
+        "sourceId": "corrected:ford-focus-svt-2002",
+        "sourceLabel": "Ford Focus SVT 3-door (2002; 2003 engine/tire continuity) | 2.0 L Zetec DOHC inline-four",
+        "match_kind": "nearest_trim",
+        "source_confidence": "manufacturer document mirrored by third party",
+        "qualityFlags": [],
+        "review_status": "accepted_source_and_unit_review",
+        "rationale": "Independent inspection of original evidence and exact SI conversions. Source rawSpec audit passed; low-confidence normalized judgment reviewed by agent, not retried.",
+        "source_url": "https://xr793.com/wp-content/uploads/2024/01/2002-Ford-Focus-SVT.pdf",
+        "source_limits": [
+          "One common final-drive plus raw six ratios would be wrong; use per-output final drive or equivalent normalized ratios."
+        ],
+        "source_notes": [
+          "nearest year2003 training data vs2002 catalog"
+        ],
+        "previous_match_correction": {
+          "sourceId": "benchmark:focus2003",
+          "sourceLabel": "2003 Ford SVT Focus Getrag twin-output transmission"
+        }
+      },
+      "current_stock": {
+        "mass": 1256,
+        "peak_bhp": 170,
+        "peak_torque": 145,
+        "engine_size": 2000,
+        "layout": "Fwd",
+        "body_length": 4.26974,
+        "body_width": 1.69926,
+        "body_height": 1.43002
+      },
+      "qualification": "native_game_tune_not_manufacturer_spec",
+      "findings": "Existingidentity-specific originalJuiced2handling bound; distinguish nativegame tune1256kg from manufacturercurbmass. ExistingFordprimarysource retained elsewhere; not newly reverified here.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "MCLA_VP_VW_GOLF_83",
+      "accepted_identity": "1983 GOLF/GTI",
+      "accepted_year": 1983,
+      "prior_match": {
+        "code": "MCLA_VP_VW_GOLF_83",
+        "sourceId": "gor3a:152:0:18:18:4",
+        "sourceLabel": "Volkswagen Golf | Golf 3 Doors (1983) | 1983-1992 | 1.8L 5MT FWD (90 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_canonical_family_rule",
+        "rationale": "Exact normalized source model occurs in canonical model/family key with identical make. Broad-family rule explicitly resolves stricter original-variant Noul disagreement; trim/year remain labeled nearest production substitution."
+      },
+      "current_stock": {
+        "mass": 913,
+        "peak_bhp": 89.0,
+        "peak_torque": 145,
+        "engine_size": 1781,
+        "layout": "Fwd",
+        "body_length": 3.9800000000000004,
+        "body_width": 1.661,
+        "body_height": 1.42
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Market/engine ambiguity: accepted1983GTI, matched90HP Golf generation. US1.8GTI vsEU112PS must not be conflated; exact donor market unverified.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_RE__0001",
+      "accepted_identity": "Renault Clio Renault Sport 2.0 16V '02",
+      "accepted_year": 2002,
+      "prior_match": {
+        "code": "GT4_RE__0001",
+        "sourceId": "gor3a:121:0:23:17:1",
+        "sourceLabel": "Renault Clio | Clio 3 Doors (2001) | 2001-2005 | 2.0L 16V 5MT (182 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_canonical_family_rule",
+        "rationale": "Exact normalized source model occurs in canonical model/family key with identical make. Broad-family rule explicitly resolves stricter original-variant Noul disagreement; trim/year remain labeled nearest production substitution."
+      },
+      "current_stock": {
+        "mass": 1010,
+        "peak_bhp": 177.0,
+        "peak_torque": 199,
+        "engine_size": 1998,
+        "layout": "Fwd",
+        "body_length": 3.813,
+        "body_width": 1.638,
+        "body_height": 1.417
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Accepted2002ClioRS; matched182HP variant is later trim. Stockoutput/mass requires172vs182 model-year audit.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_HOND0019",
+      "accepted_identity": "Honda INTEGRA TYPE R (DC2) '98",
+      "accepted_year": 1998,
+      "prior_match": {
+        "code": "GT4_HOND0019",
+        "sourceId": "gor3a:1:0:5:5:0",
+        "sourceLabel": "Acura Integra | Integra Coupe (1994) | 1994-2001 | 1.8L 5MT FWD (196 HP)",
+        "match_kind": "proxy",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_explicit_donor_rule",
+        "rationale": "Honda/Acura Integra regional badge-family approximation; labeled substitute."
+      },
+      "current_stock": {
+        "mass": 1120,
+        "peak_bhp": 193.0,
+        "peak_torque": 178,
+        "engine_size": 1797,
+        "layout": "Fwd",
+        "body_length": 4.379,
+        "body_width": 1.709,
+        "body_height": 1.29
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "AcceptedJDMDC2TypeR1998; currentAcura196HP proxy differsJDM200PS. Mass/equipment/gear spec still unverified.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_MAZD0012",
+      "accepted_identity": "Mazda MX-5 (NA) '89",
+      "accepted_year": 1989,
+      "prior_match": {
+        "code": "GT4_MAZD0012",
+        "sourceId": "gor3a:93:0:31:7:1",
+        "sourceLabel": "Mazda MX-5 / Miata | MX-5 / Miata (1989) | 1989-1998 | 1.6i 5MT (90 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_nearest_trim_rule",
+        "rationale": "Distinct same-model family selected; nearest available catalog-year generation selected in code; uncertain trim resolved as explicitly labeled representative production trim."
+      },
+      "current_stock": {
+        "mass": 965,
+        "peak_bhp": 89.0,
+        "peak_torque": 129,
+        "engine_size": 1598,
+        "layout": "Rwd",
+        "body_length": 3.975,
+        "body_width": 1.674,
+        "body_height": 1.229
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Accepted1989NA;90HP reference is not originalJDM120PS trim. Exactmarket and curbmass need primary table.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_NISS0056",
+      "accepted_identity": "Nissan SILVIA Spec R AERO (S15) '99",
+      "accepted_year": 1999,
+      "prior_match": {
+        "code": "GT4_NISS0056",
+        "sourceId": "gor3a:104:0:1:0:1",
+        "sourceLabel": "Nissan 200 SX | 200 SX (1994) | 1994-2000 | 2.0L Turbo 5MT RWD (200 HP)",
+        "match_kind": "proxy",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_explicit_donor_rule",
+        "rationale": "Nissan Silvia/180SX/200SX regional platform approximation; labeled substitute."
+      },
+      "current_stock": {
+        "mass": 1240,
+        "peak_bhp": 197.0,
+        "peak_torque": 265,
+        "engine_size": 1998,
+        "layout": "Rwd",
+        "body_length": 4.521,
+        "body_width": 1.73,
+        "body_height": 1.295
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Accepted1999S15SpecR6MT vs matched1994S14/200SX200HP5MT. Nissan1999primary table proves250PS/1240kg/1998cc/RWD; correction source-ready.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_HOND0030",
+      "accepted_identity": "Honda HONDA S2000 '03",
+      "accepted_year": 2003,
+      "prior_match": {
+        "code": "GT4_HOND0030",
+        "sourceId": "gor3a:59:0:43:0:1",
+        "sourceLabel": "Honda S2000 | S2000 (1999) | 1999-2009 | 2.0L 6MT RWD (250 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_nearest_trim_rule",
+        "rationale": "Distinct same-model family selected; nearest available catalog-year generation selected in code; uncertain trim resolved as explicitly labeled representative production trim."
+      },
+      "current_stock": {
+        "mass": 1260,
+        "peak_bhp": 247.0,
+        "peak_torque": 208,
+        "engine_size": 1997,
+        "layout": "Rwd",
+        "body_length": 4.135,
+        "body_width": 1.75,
+        "body_height": 1.27
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "JDM2003S2000 reference output250PS plausible; market-specificweight/year still not independently primary-verified in this pass.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_MAZD0007",
+      "accepted_identity": "Mazda RX-7 Spirit R Type A (FD) '02",
+      "accepted_year": 2002,
+      "prior_match": {
+        "code": "GT4_MAZD0007",
+        "sourceId": "gor3a:93:0:33:0:2",
+        "sourceLabel": "Mazda RX-7 | RX-7 (1992) | 1992-2002 | 2.6L Rotary TT RWD (276 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_nearest_trim_rule",
+        "rationale": "Distinct same-model family selected; nearest available catalog-year generation selected in code; uncertain trim resolved as explicitly labeled representative production trim."
+      },
+      "current_stock": {
+        "mass": 1300,
+        "peak_bhp": 272.0,
+        "peak_torque": 296,
+        "engine_size": 2616,
+        "layout": "Rwd",
+        "body_length": 4.295,
+        "body_width": 1.75,
+        "body_height": 1.229
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Mazda2002primary confirmsSpiritRTypeA280PS5MT2seats. Existing2616cc is doubled rotary equivalence, not physical1308cc; mass1300kg not independently verified.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_TOYT0006",
+      "accepted_identity": "Toyota SUPRA RZ '97",
+      "accepted_year": 1997,
+      "prior_match": {
+        "code": "GT4_TOYT0006",
+        "sourceId": "benchmark:supra1993",
+        "sourceLabel": "1993 Toyota Supra RZ JDM E-JZA80-ALFQZ",
+        "match_kind": "nearest_trim",
+        "source_confidence": "manufacturer",
+        "qualityFlags": [],
+        "review_status": "accepted_primary_benchmark_rule",
+        "rationale": "Explicit catalog mapping already supplied by independent primary-source benchmark research: nearest earlier production year; catalog1997 RZ",
+        "source_url": "https://www.toyota-global.com/company/history_of_toyota/75years/vehicle_lineage/car/id60006850/index.html",
+        "source_limits": [
+          "Do not mix UK326bhp or US320hp power/test performance with JDM280PS trim."
+        ],
+        "source_notes": [
+          "nearest earlier production year; catalog1997 RZ"
+        ]
+      },
+      "current_stock": {
+        "mass": 1565.0,
+        "peak_bhp": 266.87305328426186,
+        "peak_torque": 395.744505,
+        "engine_size": 2997.0,
+        "layout": "Rwd",
+        "body_length": 4.52,
+        "body_width": 1.81,
+        "body_height": 1.275
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Existing1993RZJDMsource is same-family earlier-year proxy to1997. Current266.87bhp derives torque rather than advertised280PS; exact stock power convention needs correction.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_NISS0004",
+      "accepted_identity": "Nissan 350Z (Z33) '03",
+      "accepted_year": 2003,
+      "prior_match": {
+        "code": "GT4_NISS0004",
+        "sourceId": "gor3a:104:0:3:1:1",
+        "sourceLabel": "Nissan 350Z | 350Z (2002) | 2002-2005 | 3.5L V6 6MT RWD (300 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_nearest_trim_rule",
+        "rationale": "Distinct same-model family selected; nearest available catalog-year generation selected in code; uncertain trim resolved as explicitly labeled representative production trim."
+      },
+      "current_stock": {
+        "mass": 1545,
+        "peak_bhp": 296.0,
+        "peak_torque": 353,
+        "engine_size": 3498,
+        "layout": "Rwd",
+        "body_length": 4.31,
+        "body_width": 1.819,
+        "body_height": 1.321
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Accepted2003Z33; matched300HP output is laterrev. Need2003market-specific280PS/287SAE table, no silent substitution.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_SUBR0017",
+      "accepted_identity": "Subaru IMPREZA Sport Wagon WRX STi Version VI (GF) '99",
+      "accepted_year": 1999,
+      "prior_match": {
+        "code": "GT4_SUBR0017",
+        "sourceId": "gor3a:140:0:9:4:0",
+        "sourceLabel": "Subaru Impreza WRX STi | Impreza WRX STi (1998) | 1998-2000 | 2.0L Turbo 6MT AWD (265 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_nearest_trim_rule",
+        "rationale": "Distinct same-model family selected; nearest available catalog-year generation selected in code; uncertain trim resolved as explicitly labeled representative production trim."
+      },
+      "current_stock": {
+        "mass": 1470,
+        "peak_bhp": 261.0,
+        "peak_torque": 319,
+        "engine_size": 1994,
+        "layout": "Awd",
+        "body_length": 4.404,
+        "body_width": 1.73,
+        "body_height": 1.435
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "AcceptedGFwagonVersionVI1999; matchedSTisedan/6MT reference not exactwagon. Output/mass/gearbox likely different; primary audit pending.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_MITS0001",
+      "accepted_identity": "Mitsubishi Lancer Evolution VIII    GSR '03",
+      "accepted_year": 2003,
+      "prior_match": {
+        "code": "GT4_MITS0001",
+        "sourceId": "gor3a:100:0:17:2:1",
+        "sourceLabel": "Mitsubishi Lancer Evolution | Lancer Evolution (2003) | 2003-2005 | 2.0L T 16V Turbo 5MT AWD (280 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_nearest_trim_rule",
+        "rationale": "Distinct same-model family selected; nearest available catalog-year generation selected in code; uncertain trim resolved as explicitly labeled representative production trim."
+      },
+      "current_stock": {
+        "mass": 320,
+        "peak_bhp": 276.0,
+        "peak_torque": 392,
+        "engine_size": 1997,
+        "layout": "Awd",
+        "body_length": 4.4910000000000005,
+        "body_width": 1.77,
+        "body_height": 1.45
+      },
+      "qualification": "primary_correction_ready",
+      "findings": "Confirmedinvalid320kg upstreamraw705lbs(320kg), not parserunitloss. OriginalMitsubishiJan2003manual: GSRGH-CT9A/SJGFZ classification0751410kg;076sunroof1430kg. Selected non-sunroofGSR1410 correction staged.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_NISS0021",
+      "accepted_identity": "Nissan SKYLINE GT-R V-spec II Nur (R34) '02",
+      "accepted_year": 2002,
+      "prior_match": {
+        "code": "GT4_NISS0021",
+        "sourceId": "benchmark:r34_2000",
+        "sourceLabel": "2000 Nissan Skyline GT-R V-spec II BNR34",
+        "match_kind": "nearest_trim",
+        "source_confidence": "manufacturer",
+        "qualityFlags": [],
+        "review_status": "accepted_primary_benchmark_rule",
+        "rationale": "R34 GT-R named chassis/family; labeled2000V-specIIproduction trim substitute. Width source disagreement remains unresolved; do not assert1780/1785as authoritative.",
+        "source_url": "https://www.nissan-global.com/EN/HERITAGE_COLLECTION/280_skyline_gt-r_v-spec_ii.html",
+        "source_limits": [
+          "English heritage source width1780mm conflicts with Japanese heritage width1785mm; unresolved."
+        ],
+        "source_notes": [
+          "production reference; map exact trim/year before use"
+        ]
+      },
+      "current_stock": {
+        "mass": 1635.0,
+        "peak_bhp": 275.31437036938377,
+        "peak_torque": 380.24,
+        "engine_size": 2568.0,
+        "layout": "Awd",
+        "body_length": 4.6,
+        "body_width": 1.7825,
+        "body_height": 1.36
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Accepted2002VspecIINur; existing2000VspecII reference and1635kg are not exact. Nissanprimary2000VspecII1560kg/206kW;2002MspecNur1580kg is differenttrim. ExactNurweight pending, no false interchange.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_LNCA0005",
+      "accepted_identity": "Lancia DELTA HF Integrale Evoluzione '91",
+      "accepted_year": 1991,
+      "prior_match": {
+        "code": "GT4_LNCA0005",
+        "sourceId": "gor3a:78:0:7:2:6",
+        "sourceLabel": "Lancia Delta | Delta (1993) | 2.0L Turbo 5MT FWD (186 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_documented_period_trim_rule",
+        "rationale": "No post-catalog/post-game generation when a period reference exists. Original game tune is not asserted. Production trim selected within exact family/nearest-date candidates; published numbers describe that labeled reference only.",
+        "previous_match_correction": {
+          "sourceId": "gor3a:78:0:7:2:6",
+          "sourceLabel": "Lancia Delta | Delta (1993) | 1993-1998 | 2.0L Turbo 5MT FWD (186 HP)"
+        },
+        "selection_exists_verdict": "absent",
+        "selection_probability": 0.8,
+        "selection_review_resolution": "Exact competition/modified trim may be absent; user explicitly permits closest production trim. Family restriction and chronology are deterministic; uncertainty retained."
+      },
+      "current_stock": {
+        "mass": 1275,
+        "peak_bhp": 184.0,
+        "peak_torque": 290,
+        "engine_size": 1995,
+        "layout": "Awd",
+        "body_length": 4.011,
+        "body_width": 1.699,
+        "body_height": 1.4
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Accepted1991IntegraleEvoluzioneAWD; rawmatch1993Delta2.0FWD184bhp is differentmodel. Layout already correctedAWD; stockpower/mass remain proxy.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_BMW_0010",
+      "accepted_identity": "BMW M3 '04",
+      "accepted_year": 2004,
+      "prior_match": {
+        "code": "GT4_BMW_0010",
+        "sourceId": "gor3a:14:0:38:15:0",
+        "sourceLabel": "BMW M3 | M3 Coupe (2000) | 2000-2006 | 3.2L 6MT RWD (343 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_nearest_trim_rule",
+        "rationale": "Distinct same-model family selected; nearest available catalog-year generation selected in code; uncertain trim resolved as explicitly labeled representative production trim."
+      },
+      "current_stock": {
+        "mass": 1470,
+        "peak_bhp": 338.0,
+        "peak_torque": 365,
+        "engine_size": 3246,
+        "layout": "Rwd",
+        "body_length": 4.492999999999999,
+        "body_width": 1.781,
+        "body_height": 1.372
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "E46M3samegeneration343PS plausible;1470kg DIN vsEU convention unverified. Exactcoupe/manual/equipment must be qualified.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "MC3_VP_ELISE_04",
+      "accepted_identity": "vp_elise_04",
+      "accepted_year": null,
+      "prior_match": {
+        "code": "MC3_VP_ELISE_04",
+        "sourceId": "gor3a:85:0:4:4:1",
+        "sourceLabel": "Lotus Elise | Elise (2001) | 1.8L 5MT FWD (122 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_documented_period_trim_rule",
+        "rationale": "No post-catalog/post-game generation when a period reference exists. Original game tune is not asserted. Production trim selected within exact family/nearest-date candidates; published numbers describe that labeled reference only.",
+        "previous_match_correction": {
+          "sourceId": "gor3a:85:0:4:2:0",
+          "sourceLabel": "Lotus Elise | Elise (2010) | 2010-2021 | 1.6L S 6MT RWD (134 HP)"
+        },
+        "selection_exists_verdict": "answered",
+        "selection_probability": 0.31,
+        "selection_review_resolution": "Exact competition/modified trim may be absent; user explicitly permits closest production trim. Family restriction and chronology are deterministic; uncertainty retained."
+      },
+      "current_stock": {
+        "mass": 710,
+        "peak_bhp": 121.0,
+        "peak_torque": 168,
+        "engine_size": 1796,
+        "layout": "Rwd",
+        "body_length": 3.7800000000000002,
+        "body_width": 1.72,
+        "body_height": 1.14
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Donorfilename04 suggests2004 but acceptedyearunknown; current710kg/Rover122HP proxy not established2004Toyota111R. Keep unknownvariant, no exactidentity claim.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "MCLA_VP_AUD_R8_08",
+      "accepted_identity": "2008 R8",
+      "accepted_year": 2008,
+      "prior_match": {
+        "code": "MCLA_VP_AUD_R8_08",
+        "sourceId": "gor3a:9:0:45:6:1",
+        "sourceLabel": "Audi R8 | R8 (2008) | 2008-2012 | 5.2L V10 FSI 6MT AWD (525 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_nearest_trim_rule",
+        "rationale": "Distinct same-model family selected; nearest available catalog-year generation selected in code; uncertain trim resolved as explicitly labeled representative production trim."
+      },
+      "current_stock": {
+        "mass": 1590,
+        "peak_bhp": 518.0,
+        "peak_torque": 530,
+        "engine_size": 5204,
+        "layout": "Awd",
+        "body_length": 4.4350000000000005,
+        "body_width": 1.93,
+        "body_height": 1.252
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Confirmedgeneration/engine mismatch:2008R8V8vs matched5.2V10525PS. Audi primary saysinitial4.2V8420PS/quattro; exactcurbmass/market pending.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "MCLA_VP_LAM_GALLARDO_06",
+      "accepted_identity": "2006 GALLARDO SPYDER",
+      "accepted_year": 2006,
+      "prior_match": {
+        "code": "MCLA_VP_LAM_GALLARDO_06",
+        "sourceId": "gor3a:77:0:7:13:0",
+        "sourceLabel": "Lamborghini Gallardo | Gallardo Spyder (2006) | 2006-2008 | 5.0L V10 6MT AWD (520 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_nearest_trim_rule",
+        "rationale": "Distinct same-model family selected; nearest available catalog-year generation selected in code; uncertain trim resolved as explicitly labeled representative production trim."
+      },
+      "current_stock": {
+        "mass": 1570,
+        "peak_bhp": 520.0,
+        "peak_torque": 510,
+        "engine_size": 4961,
+        "layout": "Awd",
+        "body_length": 4.3,
+        "body_width": 1.9,
+        "body_height": 1.184
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Spyder2006samebody reference;520HP units SAEvsPS unclear, curbmass convention pending primary.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "MUSTANG_68",
+      "accepted_identity": "'68 MUSTANG",
+      "accepted_year": 1968,
+      "prior_match": {
+        "code": "MUSTANG_68",
+        "sourceId": "gor3a:45:0:54:27:1",
+        "sourceLabel": "Ford Mustang | Mustang (1965) | 1965-1968 | 4.7L V8 4MT RWD (275 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_canonical_family_rule",
+        "rationale": "Exact normalized source model occurs in canonical model/family key with identical make. Broad-family rule explicitly resolves stricter original-variant Noul disagreement; trim/year remain labeled nearest production substitution."
+      },
+      "current_stock": {
+        "mass": 1275.0,
+        "peak_bhp": 271.0,
+        "peak_torque": 423,
+        "engine_size": 4727,
+        "layout": "Rwd",
+        "body_length": 4.613,
+        "body_width": 1.735,
+        "body_height": 1.3
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "1968donor uses1965-68 289271HP proxy; exact1968engine option unknown. Do not present representative as exactstock.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "MCLA_VP_CHV_CAMAROSS_69",
+      "accepted_identity": "1969 CAMARO RS SS",
+      "accepted_year": 1969,
+      "prior_match": {
+        "code": "MCLA_VP_CHV_CAMAROSS_69",
+        "sourceId": "gor3a:26:0:6:21:0",
+        "sourceLabel": "Chevrolet Camaro | Camaro (1967) | 1967-1970 | 5.7L 2AT RWD (299 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_nearest_trim_rule",
+        "rationale": "Distinct same-model family selected; nearest available catalog-year generation selected in code; uncertain trim resolved as explicitly labeled representative production trim."
+      },
+      "current_stock": {
+        "mass": 1424,
+        "peak_bhp": 295.0,
+        "peak_torque": 515,
+        "engine_size": 5733,
+        "layout": "Rwd",
+        "body_length": 4.689,
+        "body_width": 1.836,
+        "body_height": 1.293
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "1969RSSS uses1967family295HP350reference; exact350/396option andgross/net power not source-verified.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "MCLA_VP_BUK_GRANDNATIONAL_87",
+      "accepted_identity": "1987 GRAND NATIONAL GNX",
+      "accepted_year": 1987,
+      "prior_match": {
+        "code": "MCLA_VP_BUK_GRANDNATIONAL_87",
+        "sourceId": "gor3a:20:0:21:5:1",
+        "sourceLabel": "Buick Regal | Regal (1988) | 3.8",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_documented_period_trim_rule",
+        "rationale": "No post-catalog/post-game generation when a period reference exists. Original game tune is not asserted. Production trim selected within exact family/nearest-date candidates; published numbers describe that labeled reference only.",
+        "previous_match_correction": {
+          "sourceId": "gor3a:20:0:21:5:1",
+          "sourceLabel": "Buick Regal | Regal (1988) | 1988-1996 | 3.8"
+        },
+        "selection_exists_verdict": "partial",
+        "selection_probability": 0.92,
+        "selection_review_resolution": "Exact competition/modified trim may be absent; user explicitly permits closest production trim. Family restriction and chronology are deterministic; uncertainty retained."
+      },
+      "current_stock": {
+        "mass": 1460,
+        "peak_bhp": 170.0,
+        "peak_torque": 298,
+        "engine_size": 3791,
+        "layout": "Rwd",
+        "body_length": 4.9399999999999995,
+        "body_width": 1.801,
+        "body_height": 1.346
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "AcceptedGNX, matched1988ordinaryRegal170HP is incompatible. Buick/GMprimary historical pages located; exactGNXrated276HP andmass must be retained only after source extraction.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "MCLA_VP_CHV_CORVETTEZ06_07",
+      "accepted_identity": "2007 Z06",
+      "accepted_year": 2007,
+      "prior_match": {
+        "code": "MCLA_VP_CHV_CORVETTEZ06_07",
+        "sourceId": "gor3a:26:0:19:2:0",
+        "sourceLabel": "Chevrolet Corvette Z06 | Corvette Z06 (2008) | 7.0 V8 LS7 6MT (506 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_documented_period_trim_rule",
+        "rationale": "No post-catalog/post-game generation when a period reference exists. Original game tune is not asserted. Production trim selected within exact family/nearest-date candidates; published numbers describe that labeled reference only.",
+        "previous_match_correction": {
+          "sourceId": "gor3a:26:0:19:2:0",
+          "sourceLabel": "Chevrolet Corvette Z06 | Corvette Z06 (2008) | 2008-2013 | 7.0 V8 LS7 6MT (506 HP)"
+        },
+        "selection_exists_verdict": "answered",
+        "selection_probability": 1,
+        "selection_review_resolution": "Exact competition/modified trim may be absent; user explicitly permits closest production trim. Family restriction and chronology are deterministic; uncertainty retained."
+      },
+      "current_stock": {
+        "mass": 1418,
+        "peak_bhp": 506.0,
+        "peak_torque": 637,
+        "engine_size": 7008,
+        "layout": "Rwd",
+        "body_length": 4.46,
+        "body_width": 1.928,
+        "body_height": 1.245
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "2007Z06matched2008sameLS7variant;506HPvsSAE505 unitrounding needs primary confirmation;1418kg convention pending.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_DODG0005",
+      "accepted_identity": "Dodge VIPER SRT10 '03",
+      "accepted_year": 2003,
+      "prior_match": {
+        "code": "GT4_DODG0005",
+        "sourceId": "benchmark:viper2005",
+        "sourceLabel": "2005 Geneva Dodge Viper SRT10 Coupe press specification",
+        "match_kind": "nearest_trim",
+        "source_confidence": "manufacturer",
+        "qualityFlags": [],
+        "review_status": "accepted_primary_benchmark_rule",
+        "rationale": "Explicit catalog mapping already supplied by independent primary-source benchmark research: nearest powertrain benchmark; catalog2003 roadster body differs",
+        "source_url": "https://s3.amazonaws.com/chryslermedia.iconicweb.com/mediasite/attachments/FINALvipersrt10_eng.pdf",
+        "source_limits": [
+          "Manufacturer states90% torque available1500\u20135600rpm; this is a band constraint, not digitized full curve.",
+          "Claimed0\u2013100kph around4s; claimed60\u20130mph under100ft; no precise measured performance.",
+          "Width at sills must not be treated as maximum outer width."
+        ],
+        "source_notes": [
+          "nearest powertrain benchmark; catalog2003 roadster body differs"
+        ]
+      },
+      "current_stock": {
+        "mass": 1523,
+        "peak_bhp": 500,
+        "peak_torque": 525,
+        "engine_size": 7990,
+        "layout": "Rwd",
+        "body_length": 4.459,
+        "body_width": 1.8,
+        "body_height": 1.234
+      },
+      "qualification": "native_game_tune_not_manufacturer_spec",
+      "findings": "Existingidentity-specific originalJuiced2Viperhandling; manufacturerpresssource2005coupe is not exact2003roadster. Distinguish nativegame tune from donorphysicalspec.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "GT4_ASMT0005",
+      "accepted_identity": "Aston Martin DB9 Coupe '03",
+      "accepted_year": 2003,
+      "prior_match": {
+        "code": "GT4_ASMT0005",
+        "sourceId": "gor3a:8:0:10:3:0",
+        "sourceLabel": "Aston Martin DB9 | DB9 (2004) | 6.0L V12 6AT (450 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_documented_period_trim_rule",
+        "rationale": "No post-catalog/post-game generation when a period reference exists. Original game tune is not asserted. Production trim selected within exact family/nearest-date candidates; published numbers describe that labeled reference only.",
+        "previous_match_correction": {
+          "sourceId": "gor3a:8:0:10:3:0",
+          "sourceLabel": "Aston Martin DB9 | DB9 (2004) | 2004-2010 | 6.0L V12 6AT (450 HP)"
+        },
+        "selection_exists_verdict": "answered",
+        "selection_probability": 0.91,
+        "selection_review_resolution": "Exact competition/modified trim may be absent; user explicitly permits closest production trim. Family restriction and chronology are deterministic; uncertainty retained."
+      },
+      "current_stock": {
+        "mass": 1710,
+        "peak_bhp": 449.0,
+        "peak_torque": 570,
+        "engine_size": 5935,
+        "layout": "Rwd",
+        "body_length": 4.696,
+        "body_width": 1.875,
+        "body_height": 1.318
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "2003show/debutDB9vs2004productionreference;450HPunit and1710kg transmission/equipment pending.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "MCLA_VP_SLN_S7_06",
+      "accepted_identity": "2006 S7",
+      "accepted_year": 2006,
+      "prior_match": {
+        "code": "MCLA_VP_SLN_S7_06",
+        "sourceId": "gor3a:128:0:0:0:0",
+        "sourceLabel": "Saleen S7 | S7 (2000) | 2000-2004 | 7.0 V8",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_reviewed_family_rule",
+        "rationale": "Separate reviewed broad-family judgment >=0.7 resolves original-variant uncertainty. Nearest available year chosen in code; trim is an explicitly labeled representative production variant."
+      },
+      "current_stock": {
+        "mass": 1247,
+        "peak_bhp": 542.0,
+        "peak_torque": 712,
+        "engine_size": 6997,
+        "layout": "Rwd",
+        "body_length": 4.775,
+        "body_width": 1.989,
+        "body_height": 1.041
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Accepted2006S7 but priorreference2000-04NA542bhp. Saleenprimary distinguishesNA550HP and2005TT750HP; donortrim requires explicit source identity before selectingTT.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "LIGHTNING_SVT",
+      "accepted_identity": "SVT LIGHTNING",
+      "accepted_year": 2002,
+      "prior_match": {
+        "code": "LIGHTNING_SVT",
+        "sourceId": "gor3a:45:0:28:4:1",
+        "sourceLabel": "Ford F-150 Super Cab | F-150 Super Cab (2001) | 2001-2004 | 5.4L V8 4AT (213 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_reviewed_family_rule",
+        "rationale": "Separate reviewed broad-family judgment >=0.7 resolves original-variant uncertainty. Nearest available year chosen in code; trim is an explicitly labeled representative production variant."
+      },
+      "current_stock": {
+        "mass": 2098,
+        "peak_bhp": 228.0,
+        "peak_torque": 475,
+        "engine_size": 5409,
+        "layout": "Rwd",
+        "body_length": 6.200000000000001,
+        "body_width": 2.014,
+        "body_height": 1.842
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Confirmedwrongenginefamily:regularF150228bhp versusSVT2002380SAEhp. FordRacingofficialhistory confirms2001-04380HP; exactweight/reference pending.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "F100_1956",
+      "accepted_identity": "'56 F-100",
+      "accepted_year": 1956,
+      "prior_match": {
+        "code": "F100_1956",
+        "sourceId": "corrected:ford-f100-1956-six-shortbed",
+        "sourceLabel": "Ford F-100 1956 223 six,110-inch wheelbase | 223 cubic inch Cost Cutter inline-six",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_source_and_unit_review",
+        "rationale": "Independent inspection of original evidence and exact SI conversions. Source rawSpec audit passed; low-confidence normalized judgment reviewed by agent, not retried.",
+        "previous_match_correction": {
+          "sourceId": "gor3a:45:0:27:3:1",
+          "sourceLabel": "Ford F-150 Regular Cab | F-150 Regular Cab (1996) | 1996-2004 | 4.6L V8 5MT (231 HP)"
+        },
+        "source_url": "https://newspapers.swco.ttu.edu/bitstream/handle/20.500.12255/200842/Ballinger_Ledger_1956_02_16.pdf?isAllowed=y&sequence=1"
+      },
+      "current_stock": {
+        "mass": 1275.0,
+        "peak_bhp": 133,
+        "peak_torque": 273.875,
+        "engine_size": 3654.315,
+        "layout": "Rwd",
+        "body_length": 5.2,
+        "body_width": 1.8,
+        "body_height": 1.72440422
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Accepted1956F100 unspecifiedengine; current223six133grossHP/1275kg representative adaptation, exactGLBengine/trim cannot be proved from name.",
+      "all_fields_manufacturer_verified": false
+    },
+    {
+      "car_id": "MC3_VP_ESCALADE_03",
+      "accepted_identity": "vp_escalade_03",
+      "accepted_year": null,
+      "prior_match": {
+        "code": "MC3_VP_ESCALADE_03",
+        "sourceId": "gor3a:22:0:21:7:1",
+        "sourceLabel": "Cadillac | Escalade (2000) | 6.0L 4AT RWD (350 HP)",
+        "match_kind": "nearest_trim",
+        "source_confidence": "secondary_compilation_not_manufacturer_verified",
+        "qualityFlags": [],
+        "review_status": "accepted_agent_reviewed_family_search",
+        "rationale": "Native2003 EscaladeSUV uses period2000-2006 6L4AT SUV reference. PriorEXTpickup and proposed2006 6.2L6AT are wrong body/generation respectively.",
+        "previous_match_correction": {
+          "sourceId": "gor3a:22:0:23:1:0",
+          "sourceLabel": "Cadillac Escalade EXT | Escalade EXT (2001) | 2001-2006 | 6.0"
+        },
+        "family_review": {
+          "review": {
+            "action": "replace",
+            "sourceId": "gor3a:22:0:21:7:1",
+            "reason": "Native2003 EscaladeSUV uses period2000-2006 6L4AT SUV reference. PriorEXTpickup and proposed2006 6.2L6AT are wrong body/generation respectively."
+          },
+          "prediction": {
+            "tool": "jev_find",
+            "model": "typesafe/jev-1.14-20261014",
+            "provider": "openrouter",
+            "query": "Select the closest listed production trim for vp_escalade_03. The same model family is independently established; the nearest date ranges were selected in code. Any year/grade substitution stays labeled.",
+            "exists": 0.68,
+            "exists_verdict": "partial",
+            "top": [
+              {
+                "id": "gor3a_22_0_21_6_0",
+                "probability": 0.67,
+                "text": "Escalade (2006) | 6.2L 6AT (409 HP)"
+              },
+              {
+                "id": "gor3a_22_0_21_7_1",
+                "probability": 0.17,
+                "text": "Escalade (2000) | 6.0L 4AT RWD (350 HP)"
+              },
+              {
+                "id": "gor3a_22_0_21_7_0",
+                "probability": 0.16,
+                "text": "Escalade (2000) | 5.3L 4AT RWD (299 HP)"
+              }
+            ],
+            "usage": {
+              "input_tokens": 689,
+              "output_tokens": 111
+            }
+          }
+        },
+        "family_search_evidence": "d2a6d55605652003",
+        "trim_search_evidence": "afa551fefe5a8f21"
+      },
+      "current_stock": {
+        "mass": 2428,
+        "peak_bhp": 345.0,
+        "peak_torque": 515,
+        "engine_size": 5967,
+        "layout": "Rwd",
+        "body_length": 5.052,
+        "body_width": 2.004,
+        "body_height": 1.885
+      },
+      "qualification": "proxy_or_exact_variant_unverified",
+      "findings": "Acceptedfilename2003 vsrawgeneration2000;345bhp6.0RWD plausible2003 reference but AWD/RWD trim and2428kg unverified.",
+      "all_fields_manufacturer_verified": false
+    }
+  ],
+  "counts": {
+    "audited_qualifications": 30,
+    "all_stock_fields_primary_verified": 0,
+    "staged_mass_corrections": 1
+  },
+  "limits": [
+    "This is a complete30-row identity/input qualification audit, not30 primary-spec certifications.",
+    "High-impact mismatches are held, not silently tuned to gameplay targets.",
+    "No runtime content,sourceprofiles,normalizedarchive orGLBs modified."
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "evidence_type": "Static original bytes and translated PPC, not a runtime trace",
+  "startup_path": "xstart call823D8034 ->823D8398 ->constructor table ->82474BB0",
+  "table": {
+    "begin": "824A0010",
+    "end_exclusive": "824A0B68",
+    "entry": "824A022C",
+    "entry_index": 135,
+    "pointer": "82474BB0",
+    "skip_values": [
+      0,
+      -1
+    ]
+  },
+  "bias": {
+    "address": "824CE600",
+    "decoded_initial": 0.0,
+    "bits": "00000000"
+  },
+  "upper_double": {
+    "address": "8204D0F8",
+    "value": 1.0,
+    "bits": "3ff0000000000000"
+  },
+  "span": {
+    "address": "8257D19C",
+    "disc_initial": 0.0,
+    "after_constructor": 1.0,
+    "expression": "f32(double1 - f32(bias))"
+  },
+  "default_ui_mapping": "exponent = f32(x * initialized_span + bias), therefore x",
+  "functions": [
+    {
+      "name": "82474BB0",
+      "path": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/82474BB0.cpp",
+      "sha256": "29648a95663aa6da2c90509986180cefd76c8db5862b096ec9e289918e10bf5e"
+    },
+    {
+      "name": "823D8398",
+      "path": "artifacts/juiced2-recovery/recompiled-handling/physics-functions/823D8398.cpp",
+      "sha256": "578836f6c8bf5bbcd0501c8487df0c6fd1f8903211a59fdb5436ae5ebe4311dd"
+    },
+    {
+      "name": "xstart",
+      "path": "artifacts/juiced2-recovery/recompiled-handling/generated/default/juiced2_recomp.58.cpp",
+      "retained_body_sha256": "8d25ba74b242de9159cef32e5e05fb63880510f8d3ba26a23b88aabd073f04b2"
+    }
+  ],
+  "sections": [
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/824A0000-.data.bin",
+      "sha256": "4ea82ad309cc99eeb597e665e6c03725043e215a03a600080c2bf1a394d2050a"
+    },
+    {
+      "path": "artifacts/juiced2-recovery/recompiled-handling/decoded-sections/82000400-.rdata.bin",
+      "sha256": "aa8332314a35222743efe25d39416148868bc838daaa3ae859e583cf9ff4e17c"
+    }
+  ],
+  "limits": [
+    "Successful startup reaches the C++ constructor loop.",
+    "This proves the initialized default, not absence of every later indirect write."
+  ]
+}

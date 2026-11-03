@@ -1,0 +1,139 @@
+{
+  "recorded_utc": "2026-11-03T19:47:59.054735+00:00",
+  "binary_sha256": "4bd8a7bf5b6141e172d682da302049a64b9f022216f17304041d78ca0161ad0f",
+  "compile_input_manifest_sha256": "54dbfce99e33804136cbce527e2e14e5ec8f3754417f86453a5b386da2e7cb6f",
+  "compile_time_content_sha256": "e4187904ef5cfe85b3a73b538b27e29db6df379703f40b7e3e155812ccd0fa34",
+  "runtime_content_sha256": "d5f6fabc4a921551f3b583e0229f1bbe7fee2bae2f2196b2671d353920d65ebe",
+  "components_sha256": "b7486defc8365b7926216d222a14c8765cfa5863762daaba8ba7ee273a951502",
+  "runs": [
+    {
+      "path": "checkpoint-4bd8-b748-native-normals",
+      "passed": true,
+      "content_sha256": "d5f6fabc4a921551f3b583e0229f1bbe7fee2bae2f2196b2671d353920d65ebe",
+      "cases": [
+        {
+          "id": "ui-native-avatar",
+          "status": "passed",
+          "check_count": 33,
+          "failed": []
+        },
+        {
+          "id": "ui-native-avatar-relaunch",
+          "status": "passed",
+          "check_count": 28,
+          "failed": []
+        }
+      ]
+    },
+    {
+      "path": "checkpoint-4bd8-d5f6-earned-mustang-bound",
+      "passed": true,
+      "content_sha256": "d5f6fabc4a921551f3b583e0229f1bbe7fee2bae2f2196b2671d353920d65ebe",
+      "cases": [
+        {
+          "id": "native-career-replay",
+          "status": "passed",
+          "check_count": 35,
+          "failed": []
+        }
+      ]
+    },
+    {
+      "path": "checkpoint-4bd8-d5f6-earned-oblit-bound",
+      "passed": false,
+      "content_sha256": "d5f6fabc4a921551f3b583e0229f1bbe7fee2bae2f2196b2671d353920d65ebe",
+      "cases": [
+        {
+          "id": "native-career-replay",
+          "status": "failed",
+          "check_count": 36,
+          "failed": [
+            "save_roundtrip",
+            "disk_reload"
+          ]
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Actual native technical checks, not visual parity approval.",
+    "Four-lap Obliterator exact controls, score, reward and wager pass but save_roundtrip/disk_reload fail; original failure retained. Root/core identified accumulated f64 mileage parse drift, fix pending native rerun.",
+    "New NOS, source performance packages, route-goal predicate, typed ordered paint and creator front-fill code are not compiled into this DLL.",
+    "Compile-time and runtime content identities differ intentionally: later original-normal assets and added discipline/route metadata were loaded in these retained native runs; no claim those new code consumers exist in old DLL.",
+    "Earned career lineage retains documented provisional original-NOS/prototype eligibility/AI policies; not full native career parity."
+  ],
+  "files": {
+    "checkpoint-4bd8-b748-native-normals/index.html": "913e8cc41b355646f738aabd2568f2218b59fa90242bfc864c1518d59823ed86",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/bottoms.png": "a464d81b49b44ac2d45de5044cd713f9fe2c6df05131d48f444fd3eb9d7cffce",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/female-default.png": "fa35dcf3c09d8dabbac7f0907c587ca96cb0cb3cf15b525d4615a65784667cb9",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/female-preset.png": "7783bd564d5f4d0395da7d37f15fa1022af85a2855c06026f11ace573a4c61c9",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/final.png": "a16b45cb128b132ab195798c7015165d9b92acaceba285d446dafe7fbbe59c3b",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/gender.png": "4db03c0c07e2a6af115e627c2dc17929ac82f3b2d53410c72c523a2221abf137",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/jeans.png": "0bb88d18d8f64c746618be8824963186ce94f5f12844f7a5d908caa66a7b27a8",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/male-default.png": "90c180b2c3fa56a63e74c83a518cd9abd3803ee491aba07a9d1bff3da088312b",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/male-preset.png": "c6b3f835cfa8d6f5acdf2441306d6ad5b236b0af6cb2fa7354318dd4605ac35e",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/nose-changed.png": "e42333d09d735dc72df261c692b809b13586badb36ca22870507466386fe6d33",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/nose-editor.png": "4722034df21d4df71169088af6154cc92b639aba4a7c3785f7ba54bf66a4f153",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/nose.png": "91155f41c13430be28b48bb2ea2bd3bacc9a905bda3d279367bde46c40b8f667",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/runtime.log": "afc49a8058770c5bcb3a93c840343dfcefc73ce364f522a3c5f8ce551178648d",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/save.json": "1c945ee3af03660f8a31a690a562094bdfd8e11662ed47d28666297c18830c23",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/save.json.backup": "1c945ee3af03660f8a31a690a562094bdfd8e11662ed47d28666297c18830c23",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/scenario.json": "6dd08c7c412810994b316bd62022fca15d2b8cb6a12ca3845e360fcf7dd7bc2d",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/scene.png": "5dea883a3716c5224911e7084871715e2f957d243659353ed7a5a7a682416e88",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/ui-actions.json": "fb07f4447ae37587abcfacd047603169a6a6838c2e62acf04c592c1a523eb4ad",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar/ui-plan.json": "4d9272dba812e2a84774d2008cb9388075bd9a69e00aff7680709e35ce8add7a",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar-relaunch/final.png": "f4214be0cb1fb6aa895dede6720e76233399b65e03b197365da380126dcfaca5",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar-relaunch/reloaded-female-preset.png": "3c6e4eaf653250335cf5317882f90af60f542ff80559440e841e5fa5b227d9bc",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar-relaunch/runtime.log": "afc49a8058770c5bcb3a93c840343dfcefc73ce364f522a3c5f8ce551178648d",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar-relaunch/scenario.json": "ff0ca001c1451de1e4d788de5bcc728ce1524ce2ec5ccddb52cb088cfa43b3f0",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar-relaunch/scene.png": "f4214be0cb1fb6aa895dede6720e76233399b65e03b197365da380126dcfaca5",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar-relaunch/ui-actions.json": "bb0f0da37551b40e527ea0e098d05e181372e02716f141ada28cd131e5e2e45f",
+    "checkpoint-4bd8-b748-native-normals/ui-native-avatar-relaunch/ui-plan.json": "02e3b8fa7281e4a5b714674d1c6481a0ee6f52a9dca74765820036a2de1cceea",
+    "checkpoint-4bd8-b748-native-normals/verification.json": "73d5a18265743e860a41577f6125d348de84eef9f8b039c65741f0ade7b5b129",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/index.html": "23691f6e4625c6618c6bf3a5a9c7328a0c42318121895cf067ba4cf887a0e7ba",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/final.png": "0fb0fe8cc476914168ab4609020adb3bf9df4704a10ff66c06b805aebb26daa0",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/grid.png": "92c260c8b199750e28d75ab261372e170b6601095ea8e653a52853db767dbaf7",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/initial-save.json": "f5240461bbacce7d5b320b9b807a008f8e1d5403497de0819c61bdaf27a8acf6",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/input-comparison.json": "5e40008d509d14608a8131851053511b24efecedce4b30433bad82da963cc917",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/input-plan.json": "d094060a8942625405610f87e7811549d96196c04f5e090dfe6579edeecae1ad",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/launched.png": "e5a4e19a0f8698054b8d1fd707996896099c7134d098aef975b109bffeee59aa",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/replay-controls.json": "c81dae1c64f043d7e6536747a3034849572483341ebaf37951387b3968e4499d",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/replay-evidence.json": "e9ebb41f62de5994e48607a143641ac2e11e59d2583d8419fdebbd7c5ff09b2d",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/replay-manifest.json": "44b41ffd671807efeff4e4a74f53b9f0bb8366618319a7f8610762a49a2016ce",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/runtime.log": "afc49a8058770c5bcb3a93c840343dfcefc73ce364f522a3c5f8ce551178648d",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/save.json": "4ce7029da8198acac527c69b7267667d203b2cb885a62b6986dd917fde16c177",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/save.json.backup": "4ce7029da8198acac527c69b7267667d203b2cb885a62b6986dd917fde16c177",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/scenario.json": "b2f805f3362280314c7d0f2574716c1db32b39fb586d510976199276b479643e",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/scene.png": "b8c07a854d8d53db1f64b843f93efd95b36a9cf29f18364b437f029c9d454721",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/ui-actions.json": "cbd9fa018c12f22d9bd223c282b1a78a08a16b8830a2ec3b36119a4d817fb2be",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/native-career-replay/ui-plan.json": "213d0e87127f783b25560f0e764c00e707fbb6427344cb6b4a725b74a3d9c3de",
+    "checkpoint-4bd8-d5f6-earned-mustang-bound/verification.json": "8f069b358480c48de7dbef34884e13d4c651ce77f71d085503b7d7633682cfef",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/index.html": "dd014ff590f33d14987e1f68550705d497b783d24f2e8797b721e904c3e22d62",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/accepted.png": "b51ad7375acae3b929b27f52b1407151d5f0efbdd204bb6222c602d1239aed12",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/counteroffer.png": "0341665ef44202c2de352096cf0bba10d861d411e1b2df19c91df7e843cf9dad",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/final.png": "cadb910f3240f8a288e0514cbe4929c34c70112d1718e71e82269d0887fff554",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/grid.png": "3ad969e1de686b59b48c8e5659013299640b6b7d0e31ee03eba234f207390232",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/initial-save.json": "a05b9bc87388238334b452b6a94329b01fe8fd64daf1fadad1cdb01b82cc413f",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/input-comparison.json": "bbea8736cab000d04c7fc0baa39512f4173617da1d4df2fbdb8e0556274c2c55",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/input-plan.json": "8494be542acc052ba044ea23c6d147a2faa2855fd2bd2cdd9765ca829c78e017",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/launched.png": "b9fb72ad383067414223feb7bde14abaf34363d6446978ce26252c663b2dc9a5",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/replay-controls.json": "a503cceb1be9df4694af7c658d508259cd6d87a73111fdbe31be41e91769051f",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/replay-evidence.json": "d36f1d0d8add77b6564b254424c86f18b51f0a61716f053be96c33385204959e",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/replay-manifest.json": "193ff6c5db353b3879af70c94b3dcb60aed934c9cac725f07d4eefdd6d3d224a",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/rival.png": "39379d33fa22ddb6f399f83526e52467698ef041842390617335adfbf4db7d29",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/runtime.log": "afc49a8058770c5bcb3a93c840343dfcefc73ce364f522a3c5f8ce551178648d",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/save.json": "75e2d8b57fd5fb693c1e5faad42c28b1eb4d3df093f67c3ce9f9cc92ecace154",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/save.json.backup": "75e2d8b57fd5fb693c1e5faad42c28b1eb4d3df093f67c3ce9f9cc92ecace154",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/scenario.json": "5d25245db892b59a6bcdc61b753146046efd59babfc3853fcde263e183fd3808",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/scene.png": "f4359edbf2ff91ad2f65515ae58dbad3d791f19f4669237dd85644a8808ff072",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/ui-actions.json": "676fba4b09c752d99406ceda5ea043473bade52a34ac718d860fe8e95040e88d",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/native-career-replay/ui-plan.json": "f2c50e279e40be29c25b4b530327d0a32284f6c4d94243a5ea4be711fd3942fa",
+    "checkpoint-4bd8-d5f6-earned-oblit-bound/verification.json": "8aba6536fe494e6fbaf5065a3fe3fe06168fd6f2e1e4a5b1e739a0b04185429b",
+    "compile-boundary/compile-inputs-before.json": "885f8d4678c0985fb1988bff9228376d4bbd64c9fe0b8bb752a876c2c0ac6fda",
+    "compile-boundary/compile-result.json": "02c6330908f8a8cc10ae44a58f0581943f548198812d9fd2585cc640d0927952",
+    "compile-boundary/core-tests.log": "c275e336f8414bc77babfcb1526805b0b6ffcd38c38e9603381f79eff59b7c07",
+    "compile-boundary/frontend-tests.log": "f942e34478cc0beddd4ad935fa549cbcfc724f776fae599e59e870adb2573b9b",
+    "compile-boundary/release.log": "d3f3774b4673db2521d6561f01c1046c43bfe54ca996e3d7262520acef9f4e79",
+    "liboversteer_godot.dylib": "4bd8a7bf5b6141e172d682da302049a64b9f022216f17304041d78ca0161ad0f"
+  }
+}
