@@ -1,0 +1,12 @@
+[package]
+name = "oversteer-godot"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+godot = { version = "=0.5.5", features = ["api-4-7", "experimental-threads"] }
+oversteer-core = { path = "../oversteer-core" }
+serde_json = "1"

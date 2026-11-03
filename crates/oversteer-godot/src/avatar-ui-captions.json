@@ -1,0 +1,459 @@
+{
+  "groups": [
+    {
+      "id": "face",
+      "layout_key": "52df9820",
+      "english_key": "c1abf51c",
+      "title_id": 255,
+      "title": "EDIT FACE",
+      "controls": [
+        {
+          "id": "FACEFLATSLIDER",
+          "caption_id": 268,
+          "caption": "Face Flatness",
+          "native_row": [
+            "AddNewItem",
+            268,
+            0.0,
+            "FACEFLATSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "FACEHEARTSLIDER",
+          "caption_id": 189,
+          "caption": "Heart",
+          "native_row": [
+            "AddNewItem",
+            189,
+            0.0,
+            "FACEHEARTSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "FACEHEAVYSLIDER",
+          "caption_id": 190,
+          "caption": "Weight",
+          "native_row": [
+            "AddNewItem",
+            190,
+            0.0,
+            "FACEHEAVYSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "FACELONGSLIDER",
+          "caption_id": 191,
+          "caption": "Length",
+          "native_row": [
+            "AddNewItem",
+            191,
+            0.0,
+            "FACELONGSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "FACESQUARESLIDER",
+          "caption_id": 193,
+          "caption": "Squareness",
+          "native_row": [
+            "AddNewItem",
+            193,
+            0.0,
+            "FACESQUARESLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "BROWANGLESLIDER",
+          "caption_id": 214,
+          "caption": "Brow Shape",
+          "native_row": [
+            "AddNewItem",
+            214,
+            0.0,
+            "BROWANGLESLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "BROWHEAVYSLIDER",
+          "caption_id": 225,
+          "caption": "Brow Weight",
+          "native_row": [
+            "AddNewItem",
+            225,
+            0.0,
+            "BROWHEAVYSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "BROWDOWNSLIDER",
+          "caption_id": 234,
+          "caption": "Brow Down",
+          "native_row": [
+            "AddNewItem",
+            234,
+            0.0,
+            "BROWDOWNSLIDER",
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nose",
+      "layout_key": "a27f7f4e",
+      "english_key": "36a625f2",
+      "title_id": 228,
+      "title": "EDIT NOSE",
+      "controls": [
+        {
+          "id": "NOSEBIGSLIDER",
+          "caption_id": 184,
+          "caption": "Size",
+          "native_row": [
+            "AddNewItem",
+            184,
+            0.0,
+            "NOSEBIGSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "NOSERIDGESLIDER",
+          "caption_id": 186,
+          "caption": "Ridge",
+          "native_row": [
+            "AddNewItem",
+            186,
+            0.0,
+            "NOSERIDGESLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "NOSESLOPESLIDER",
+          "caption_id": 187,
+          "caption": "Slope",
+          "native_row": [
+            "AddNewItem",
+            187,
+            0.0,
+            "NOSESLOPESLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "NOSEUPSLIDER",
+          "caption_id": 188,
+          "caption": "Height",
+          "native_row": [
+            "AddNewItem",
+            188,
+            0.0,
+            "NOSEUPSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "NOSEWIDESLIDER",
+          "caption_id": 189,
+          "caption": "Width",
+          "native_row": [
+            "AddNewItem",
+            189,
+            0.0,
+            "NOSEWIDESLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "NOSEBRIDGESLIDER",
+          "caption_id": 192,
+          "caption": "Bridge",
+          "native_row": [
+            "AddNewItem",
+            192,
+            0.0,
+            "NOSEBRIDGESLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "NOSEROUNDSLIDER",
+          "caption_id": 193,
+          "caption": "Roundness",
+          "native_row": [
+            "AddNewItem",
+            193,
+            0.0,
+            "NOSEROUNDSLIDER",
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "eyes",
+      "layout_key": "a77a9dbb",
+      "english_key": "3db2d2ab",
+      "title_id": 313,
+      "title": "EDIT EYES",
+      "controls": [
+        {
+          "id": "EYEBIGSLIDER",
+          "caption_id": 186,
+          "caption": "Size",
+          "native_row": [
+            "AddNewItem",
+            186,
+            0.0,
+            "EYEBIGSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "EYEOUTSLIDER",
+          "caption_id": 246,
+          "caption": "Eye Distance",
+          "native_row": [
+            "AddNewItem",
+            246,
+            0.0,
+            "EYEOUTSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "EYEUPSLIDER",
+          "caption_id": 188,
+          "caption": "Height",
+          "native_row": [
+            "AddNewItem",
+            188,
+            0.0,
+            "EYEUPSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "EYEDEPTHSLIDER",
+          "caption_id": 189,
+          "caption": "Depth",
+          "native_row": [
+            "AddNewItem",
+            189,
+            0.0,
+            "EYEDEPTHSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "EYESIANTSLIDER",
+          "caption_id": 252,
+          "caption": "Angle",
+          "native_row": [
+            "AddNewItem",
+            252,
+            0.0,
+            "EYESIANTSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "EYENARROWSLIDER",
+          "caption_id": 310,
+          "caption": "Narrowness",
+          "native_row": [
+            "AddNewItem",
+            310,
+            0.0,
+            "EYENARROWSLIDER",
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mouth",
+      "layout_key": "2b24dcf3",
+      "english_key": "04e380a1",
+      "title_id": 298,
+      "title": "EDIT MOUTH",
+      "controls": [
+        {
+          "id": "MOUTHWIDESLIDER",
+          "caption_id": 185,
+          "caption": "Width",
+          "native_row": [
+            "AddNewItem",
+            185,
+            0.0,
+            "MOUTHWIDESLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "MOUTHRAISESLIDER",
+          "caption_id": 186,
+          "caption": "Height",
+          "native_row": [
+            "AddNewItem",
+            186,
+            0.0,
+            "MOUTHRAISESLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "MOUTHOUTSLIDER",
+          "caption_id": 187,
+          "caption": "Pout",
+          "native_row": [
+            "AddNewItem",
+            187,
+            0.0,
+            "MOUTHOUTSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "LIPLOWSLIDER",
+          "caption_id": 188,
+          "caption": "Lower Lip Fullness",
+          "native_row": [
+            "AddNewItem",
+            188,
+            0.0,
+            "LIPLOWSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "LIPUPSLIDER",
+          "caption_id": 189,
+          "caption": "Upper Lip Fullness",
+          "native_row": [
+            "AddNewItem",
+            189,
+            0.0,
+            "LIPUPSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "LIPLOWOUTSLIDER",
+          "caption_id": 230,
+          "caption": "Lower Lip Out",
+          "native_row": [
+            "AddNewItem",
+            230,
+            0.0,
+            "LIPLOWOUTSLIDER",
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "head",
+      "layout_key": "58bb2b6c",
+      "english_key": "ca55d7d4",
+      "title_id": 204,
+      "title": "EDIT HEAD",
+      "controls": [
+        {
+          "id": "EARSBIGSLIDER",
+          "caption_id": 184,
+          "caption": "Ear Size",
+          "native_row": [
+            "AddNewItem",
+            184,
+            0.0,
+            "EARSBIGSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "EARSLOBESBIGSLIDER",
+          "caption_id": 185,
+          "caption": "Ear Lobe Size",
+          "native_row": [
+            "AddNewItem",
+            185,
+            0.0,
+            "EARSLOBESBIGSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "EARSOUTSLIDER",
+          "caption_id": 186,
+          "caption": "Ears Stick Out",
+          "native_row": [
+            "AddNewItem",
+            186,
+            0.0,
+            "EARSOUTSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "CHEEKBONESLIDER",
+          "caption_id": 187,
+          "caption": "Cheek Bones",
+          "native_row": [
+            "AddNewItem",
+            187,
+            0.0,
+            "CHEEKBONESLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "CHEEKGAUNTSLIDER",
+          "caption_id": 188,
+          "caption": "Cheek Gaunt",
+          "native_row": [
+            "AddNewItem",
+            188,
+            0.0,
+            "CHEEKGAUNTSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "CHINSTRONGSLIDER",
+          "caption_id": 189,
+          "caption": "Chin Strength",
+          "native_row": [
+            "AddNewItem",
+            189,
+            0.0,
+            "CHINSTRONGSLIDER",
+            -1
+          ]
+        },
+        {
+          "id": "JAWFULLSLIDER",
+          "caption_id": 190,
+          "caption": "Jaw Fullness",
+          "native_row": [
+            "AddNewItem",
+            190,
+            0.0,
+            "JAWFULLSLIDER",
+            -1
+          ]
+        }
+      ]
+    }
+  ],
+  "source": "Exact AddNewItem caption ids and original English screen-local text records; source locale filename selection remains untraced.",
+  "preset_labels": "Native preset list has no human names; numeric index/count is a host navigation adapter, raw IDs remain callback metadata only."
+}

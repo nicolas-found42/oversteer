@@ -1,0 +1,8155 @@
+mod audio;
+mod avatar;
+mod effects;
+mod loading;
+mod native_layout;
+mod native_palette;
+mod paint;
+mod persistence;
+mod verification;
+use godot::classes::{
+    BoxMesh, Button, Camera3D, CanvasLayer, ColorRect, Control, DirectionalLight3D, Environment,
+    FileAccess, INode3D, Input, InputEvent, InputEventKey, Label, MeshInstance3D, Node3D,
+    PackedScene, ProjectSettings, RenderingServer, ResourceLoader, StandardMaterial3D,
+    WorldEnvironment,
+};
+use godot::global::Key;
+use godot::prelude::*;
+use oversteer_core::*;
+use std::collections::BTreeMap;
+
+struct OversteerExtension;
+#[gdextension]
+unsafe impl ExtensionLibrary for OversteerExtension {}
+
+#[derive(GodotClass)]
+#[class(base=Node3D)]
+pub struct OversteerApp {
+    base: Base<Node3D>,
+    game: Option<Game>,
+    content: GameContent,
+    camera: Option<Gd<Camera3D>>,
+    sun: Option<Gd<DirectionalLight3D>>,
+    environment: Option<Gd<Environment>>,
+    audio: Option<audio::RuntimeAudio>,
+    scene: Option<Gd<Node3D>>,
+    loading: Option<loading::SceneLoad>,
+    loading_layer: Option<Gd<Control>>,
+    loading_label: Option<Gd<Label>>,
+    load_target: String,
+    loaded_race: String,
+    preload_resources: Vec<Gd<godot::classes::Resource>>,
+    loading_reports: Vec<serde_json::Value>,
+    title: bool,
+    new_profile: bool,
+    credits: bool,
+    credits_start: f64,
+    credits_label: Option<Gd<Label>>,
+    credits_clip_height: f32,
+    stage: Option<Gd<Node3D>>,
+    main_stage: Option<Gd<Node3D>>,
+    paint_stage: Option<Gd<Node3D>>,
+    main_highlight: Option<Gd<Control>>,
+    extras: bool,
+    video_player: Option<Gd<godot::classes::VideoStreamPlayer>>,
+    video_panel: Option<Gd<Control>>,
+    video_queue: Vec<String>,
+    video_active: bool,
+    cars: Vec<Gd<Node3D>>,
+    car_effects: Vec<effects::CarEffects>,
+    last_input: PlayerInput,
+    preview_angle: Option<f32>,
+    all30_before: serde_json::Value,
+    all30_probes: Vec<serde_json::Value>,
+    sample_first: Option<serde_json::Value>,
+    sample_last: Option<serde_json::Value>,
+    preview: Option<Gd<Node3D>>,
+    avatar: Option<Gd<Node3D>>,
+    avatar_key: String,
+    avatar_report: serde_json::Value,
+    avatar_category: String,
+    avatar_cursor: usize,
+    avatar_editing: bool,
+    menu: Option<Gd<Control>>,
+    hud: Option<Gd<Control>>,
+    gauge_needle: Option<Gd<godot::classes::TextureRect>>,
+    nitro_arc: Option<Gd<godot::classes::ShaderMaterial>>,
+    speed_mph: bool,
+    labels: BTreeMap<String, Gd<Label>>,
+    previous_screen: String,
+    previous_presentation: String,
+    previous_car: String,
+    selected_event: usize,
+    selected_rival: usize,
+    ui_steps: Vec<serde_json::Value>,
+    ui_step: usize,
+    ui_action_log: Vec<serde_json::Value>,
+    ui_pending: bool,
+    ui_palette_phase: u8,
+    ui_capture_wait: Option<u64>,
+    show_goals: bool,
+    show_stats: bool,
+    selected_dna: String,
+    palette_target: String,
+    palette_original: Option<Customization>,
+    paint_session: Option<paint::Session>,
+    paint_scalar_panel: Option<Gd<Control>>,
+    palette_control: Option<Gd<native_palette::NativePalette>>,
+    decal_catalog: serde_json::Value,
+    decal_category: usize,
+    goal_page: usize,
+    selected_goal: String,
+    event_override: String,
+    car_override: String,
+    save_override: String,
+    settings_dir: String,
+    input_event_path: String,
+    input_events: Vec<serde_json::Value>,
+    input_event_index: usize,
+    input_frame: u64,
+    input_samples: Vec<serde_json::Value>,
+    virtual_joy_replay: bool,
+    settings_status: serde_json::Value,
+    settings_blocked: bool,
+    audio_options: serde_json::Value,
+    render_quality: u8,
+    save_blocked: bool,
+    io_retry: String,
+    load_status: serde_json::Value,
+    save_status: serde_json::Value,
+    wager: u32,
+    pink_slip: bool,
+    notice: String,
+    clock: f64,
+    replay: bool,
+    replay_frames: Vec<RaceSnapshot>,
+    replay_cursor: usize,
+    scenario: String,
+    capture_dir: String,
+    frame_budget: Option<u64>,
+    warmup_frames: u64,
+    scenario_frame: u64,
+    frame_times: Vec<f64>,
+    engine_frame_times: Vec<f64>,
+    last_frame: Option<std::time::Instant>,
+    viewport_rid: Option<Rid>,
+    gpu_times: Vec<f64>,
+    cpu_times: Vec<f64>,
+    customization: Customization,
+    options: bool,
+    event_picker: bool,
+    confirmation: Option<String>,
+    error_dialog: Option<String>,
+    custom_return: GameScreen,
+    custom_page: String,
+    cart_page: usize,
+    cart_selected: String,
+    vinyl_layer: usize,
+    rebind: Option<String>,
+    bindings: BTreeMap<String, Key>,
+    joy_axes: BTreeMap<String, i32>,
+    joy_buttons: BTreeMap<String, i32>,
+    content_json: String,
+}
+
+#[godot_api]
+impl INode3D for OversteerApp {
+    fn init(base: Base<Node3D>) -> Self {
+        Self {
+            base,
+            game: None,
+            content: GameContent::default(),
+            camera: None,
+            sun: None,
+            environment: None,
+            audio: None,
+            scene: None,
+            loading: None,
+            loading_layer: None,
+            loading_label: None,
+            load_target: String::new(),
+            loaded_race: String::new(),
+            preload_resources: vec![],
+            loading_reports: vec![],
+            title: false,
+            new_profile: false,
+            credits: false,
+            credits_start: 0.,
+            credits_label: None,
+            credits_clip_height: 0.,
+            stage: None,
+            main_stage: None,
+            paint_stage: None,
+            main_highlight: None,
+            extras: false,
+            video_player: None,
+            video_panel: None,
+            video_queue: vec![],
+            video_active: false,
+            cars: vec![],
+            car_effects: vec![],
+            last_input: PlayerInput::default(),
+            preview_angle: None,
+            all30_before: serde_json::Value::Null,
+            all30_probes: vec![],
+            sample_first: None,
+            sample_last: None,
+            preview: None,
+            avatar: None,
+            avatar_key: String::new(),
+            avatar_report: serde_json::Value::Null,
+            avatar_category: "gender".into(),
+            avatar_cursor: 0,
+            avatar_editing: false,
+            menu: None,
+            hud: None,
+            gauge_needle: None,
+            nitro_arc: None,
+            speed_mph: true,
+            labels: BTreeMap::new(),
+            previous_screen: String::new(),
+            previous_presentation: String::new(),
+            previous_car: String::new(),
+            selected_event: 0,
+            selected_rival: 1,
+            ui_steps: Vec::new(),
+            ui_step: 0,
+            ui_action_log: Vec::new(),
+            ui_pending: false,
+            ui_palette_phase: 0,
+            ui_capture_wait: None,
+            show_goals: false,
+            show_stats: false,
+            selected_dna: String::new(),
+            palette_target: String::new(),
+            palette_original: None,
+            paint_session: None,
+            paint_scalar_panel: None,
+            palette_control: None,
+            decal_catalog: serde_json::Value::Null,
+            decal_category: 0,
+            goal_page: 0,
+            selected_goal: String::new(),
+            event_override: String::new(),
+            car_override: String::new(),
+            save_override: String::new(),
+            settings_dir: String::new(),
+            input_event_path: String::new(),
+            input_events: Vec::new(),
+            input_event_index: 0,
+            input_frame: 0,
+            input_samples: Vec::new(),
+            virtual_joy_replay: false,
+            settings_status: serde_json::Value::Null,
+            settings_blocked: false,
+            audio_options: serde_json::Value::Null,
+            render_quality: 1,
+            save_blocked: false,
+            io_retry: String::new(),
+            load_status: serde_json::Value::Null,
+            save_status: serde_json::Value::Null,
+            wager: 0,
+            pink_slip: false,
+            notice: String::new(),
+            clock: 0.,
+            replay: false,
+            replay_frames: vec![],
+            replay_cursor: 0,
+            scenario: String::new(),
+            capture_dir: String::new(),
+            frame_budget: None,
+            warmup_frames: 300,
+            scenario_frame: 0,
+            frame_times: vec![],
+            engine_frame_times: vec![],
+            last_frame: None,
+            viewport_rid: None,
+            gpu_times: vec![],
+            cpu_times: vec![],
+            customization: Customization::default(),
+            options: false,
+            event_picker: false,
+            confirmation: None,
+            error_dialog: None,
+            custom_return: GameScreen::Garage,
+            custom_page: "paint".into(),
+            cart_page: 0,
+            cart_selected: String::new(),
+            vinyl_layer: 0,
+            rebind: None,
+            bindings: BTreeMap::from([
+                ("throttle".into(), Key::W),
+                ("brake".into(), Key::S),
+                ("left".into(), Key::A),
+                ("right".into(), Key::D),
+                ("handbrake".into(), Key::SPACE),
+                ("nitrous".into(), Key::SHIFT),
+                ("reverse".into(), Key::Q),
+            ]),
+            joy_axes: BTreeMap::from([
+                ("throttle".into(), 5),
+                ("brake".into(), 4),
+                ("steering".into(), 0),
+            ]),
+            joy_buttons: BTreeMap::from([
+                ("nitrous".into(), 0),
+                ("handbrake".into(), 2),
+                ("reverse".into(), 3),
+            ]),
+            content_json: String::new(),
+        }
+    }
+    fn ready(&mut self) {
+        let args = godot::classes::Os::singleton().get_cmdline_user_args();
+        let args: Vec<String> = args.as_slice().iter().map(|s| s.to_string()).collect();
+        for (i, arg) in args.iter().enumerate() {
+            if arg == "--scenario" {
+                self.scenario = args.get(i + 1).cloned().unwrap_or_default();
+            }
+            if arg == "--ui-actions" {
+                let path = args.get(i + 1).cloned().unwrap_or_default();
+                match std::fs::read_to_string(&path)
+                    .ok()
+                    .and_then(|text| serde_json::from_str::<Vec<serde_json::Value>>(&text).ok())
+                {
+                    Some(steps) => self.ui_steps = steps,
+                    None => {
+                        godot_error!("Cannot read UI action array: {}", path);
+                        self.base().get_tree().quit_ex().exit_code(1).done();
+                        return;
+                    }
+                }
+            }
+            if arg == "--input-events" {
+                self.input_event_path = args.get(i + 1).cloned().unwrap_or_default();
+                if !std::path::Path::new(&self.input_event_path).is_absolute() {
+                    godot_error!("--input-events must be absolute");
+                    self.base().get_tree().quit_ex().exit_code(1).done();
+                    return;
+                }
+                match std::fs::read_to_string(&self.input_event_path)
+                    .ok()
+                    .and_then(|text| serde_json::from_str::<Vec<serde_json::Value>>(&text).ok())
+                {
+                    Some(mut events) => {
+                        events.sort_by_key(|event| event["frame"].as_u64().unwrap_or(0));
+                        self.virtual_joy_replay = events.iter().any(|event| {
+                            !event["joy_axis"].is_null() || !event["joy_button"].is_null()
+                        });
+                        self.input_events = events;
+                    }
+                    None => {
+                        godot_error!("Cannot read timed input event array");
+                        self.base().get_tree().quit_ex().exit_code(1).done();
+                        return;
+                    }
+                }
+            }
+            if arg == "--settings-dir" {
+                self.settings_dir = args.get(i + 1).cloned().unwrap_or_default();
+            }
+            if arg == "--save-file" {
+                self.save_override = args.get(i + 1).cloned().unwrap_or_default();
+            }
+            if arg == "--event" {
+                self.event_override = args.get(i + 1).cloned().unwrap_or_default();
+            }
+            if arg == "--car" {
+                self.car_override = args.get(i + 1).cloned().unwrap_or_default();
+            }
+            if arg == "--wager" {
+                self.wager = args.get(i + 1).and_then(|s| s.parse().ok()).unwrap_or(0);
+            }
+            if arg == "--pink-slip" {
+                self.pink_slip = true;
+            }
+            if arg == "--frames" {
+                self.frame_budget = args.get(i + 1).and_then(|s| s.parse().ok());
+            }
+            if arg == "--warmup" {
+                self.warmup_frames = args.get(i + 1).and_then(|s| s.parse().ok()).unwrap_or(300);
+            }
+            if arg == "--capture" {
+                self.capture_dir = args.get(i + 1).cloned().unwrap_or_default();
+            }
+        }
+        self.content_json =
+            FileAccess::get_file_as_string("res://assets/game-content.json").to_string();
+        self.content = match serde_json::from_str(&self.content_json) {
+            Ok(content) => content,
+            Err(error) => {
+                godot_error!("Invalid bundled game-content.json: {}", error);
+                self.base().get_tree().quit_ex().exit_code(1).done();
+                return;
+            }
+        };
+        if self.content.cars.len() != 30
+            || self.content.tracks.len() != 33
+            || self.content.events.len() < 403
+            || self
+                .content
+                .events
+                .iter()
+                .any(|e| !self.content.tracks.iter().any(|t| t.id == e.track_id))
+        {
+            godot_error!(
+                "Incomplete production content: expected30cars/33nativecourses/403+events with validtrackreferences, got {}/{}/{}",
+                self.content.cars.len(),
+                self.content.tracks.len(),
+                self.content.events.len()
+            );
+            self.base().get_tree().quit_ex().exit_code(1).done();
+            return;
+        }
+        if !self.input_event_path.is_empty() && self.scenario.is_empty() {
+            self.scenario = "manual-driving".into();
+        }
+        if !self.car_override.is_empty()
+            && !self.content.cars.iter().any(|c| c.id == self.car_override)
+        {
+            godot_error!(
+                "Requested car not present in production content: {}",
+                self.car_override
+            );
+            self.base().get_tree().quit_ex().exit_code(1).done();
+            return;
+        }
+        if !self.event_override.is_empty() {
+            if let Some(index) = self
+                .content
+                .events
+                .iter()
+                .position(|e| e.id == self.event_override)
+            {
+                self.selected_event = index;
+            } else {
+                godot_error!(
+                    "Requested event not present in production content: {}",
+                    self.event_override
+                );
+                self.base().get_tree().quit_ex().exit_code(1).done();
+                return;
+            }
+        }
+        if !self.save_override.is_empty()
+            && !std::path::Path::new(&self.save_override).is_absolute()
+        {
+            godot_error!("--save-file must be absolute");
+            self.base().get_tree().quit_ex().exit_code(1).done();
+            return;
+        }
+        if FileAccess::file_exists("res://assets/decals/catalog.json") {
+            match serde_json::from_str(
+                &FileAccess::get_file_as_string("res://assets/decals/catalog.json").to_string(),
+            ) {
+                Ok(catalog) => self.decal_catalog = catalog,
+                Err(error) => {
+                    godot_error!("Invalid native decal catalog: {}", error);
+                    self.base().get_tree().quit_ex().exit_code(1).done();
+                    return;
+                }
+            }
+        }
+        if !self.settings_dir.is_empty() && !std::path::Path::new(&self.settings_dir).is_absolute()
+        {
+            godot_error!("--settings-dir must be absolute");
+            self.base().get_tree().quit_ex().exit_code(1).done();
+            return;
+        }
+        self.title = self.scenario.is_empty() || self.scenario == "title";
+        self.load_career();
+        if self.save_blocked && !self.scenario.is_empty() {
+            if !self.capture_dir.is_empty() {
+                let _ = std::fs::create_dir_all(&self.capture_dir);
+                let _ = std::fs::write(
+                    format!("{}/load-error.json", self.capture_dir),
+                    serde_json::to_string_pretty(&self.load_status).unwrap(),
+                );
+            }
+            self.base().get_tree().quit_ex().exit_code(1).done();
+            return;
+        }
+        self.load_settings();
+        self.setup_world();
+        self.setup_ui();
+        self.setup_audio();
+        self.apply_render_quality();
+        self.rebuild_menu();
+        let mut initial = vec![
+            "res://assets/worlds/garage.glb".to_string(),
+            "res://assets/worlds/paintbooth.glb".to_string(),
+            "res://assets/worlds/tunnel_tunnel.glb".to_string(),
+        ];
+        if let Some(car) = self.content.cars.iter().find(|c| c.id == "GT4_HOND0030") {
+            initial.push(car.model_path.clone());
+        }
+        let selected = self.game.as_ref().unwrap().frame_snapshot().selected_car;
+        if let Some(car) = self.content.cars.iter().find(|c| c.id == selected) {
+            initial.push(car.model_path.clone());
+        }
+        if let Some(characters) = character_manifest()["characters"].as_array() {
+            for c in characters {
+                if let Some(path) = c["model_path"].as_str() {
+                    initial.push(path.into());
+                }
+            }
+        }
+        self.begin_loading(initial, "showroom".into());
+        if self.scenario.is_empty() {
+            self.video_queue = vec!["THQLogo".into(), "JuiceLogo".into(), "Intro".into()];
+            self.next_movie();
+        }
+        if !self.scenario.is_empty() {
+            if let Some(viewport) = self.base().get_viewport() {
+                let rid = viewport.get_viewport_rid();
+                RenderingServer::singleton().viewport_set_measure_render_time(rid, true);
+                self.viewport_rid = Some(rid);
+            }
+        }
+        let server = RenderingServer::singleton();
+        godot_print!(
+            "OVERSTEER backend={} driver={} viewport=1920x1080",
+            server.get_current_rendering_method(),
+            server.get_current_rendering_driver_name()
+        );
+    }
+    fn process(&mut self, dt: f64) {
+        if self.game.is_none() {
+            return;
+        }
+        if self.video_active {
+            if self.video_player.as_ref().is_some_and(|p| p.is_playing()) {
+                return;
+            }
+            self.next_movie();
+        }
+        if !self.poll_loading() {
+            self.last_frame = Some(std::time::Instant::now());
+            return;
+        }
+        self.clock += dt;
+        self.scenario_frame += 1;
+        self.advance_ui_actions();
+        self.replay_native_inputs();
+        if self.credits {
+            if let Some(label) = &mut self.credits_label {
+                label.set_position(Vector2::new(
+                    0.,
+                    self.credits_clip_height - ((self.clock - self.credits_start) * 36.) as f32,
+                ));
+            }
+        }
+        let now = std::time::Instant::now();
+        let wall = self
+            .last_frame
+            .replace(now)
+            .map(|last| now.duration_since(last).as_secs_f64())
+            .unwrap_or(dt);
+        let active_sample = self.scenario != "benchmark"
+            || self
+                .game
+                .as_ref()
+                .unwrap()
+                .frame_snapshot()
+                .race
+                .as_ref()
+                .is_some_and(|r| r.countdown <= 0.);
+        if !self.scenario.is_empty() && active_sample {
+            let phase = self.game.as_ref().unwrap().frame_snapshot();
+            let phase = serde_json::json!({"frame":self.scenario_frame,"screen":phase.screen,"countdown":phase.race.as_ref().map(|r|r.countdown),"elapsed":phase.race.as_ref().map(|r|r.elapsed)});
+            if self.sample_first.is_none() {
+                self.sample_first = Some(phase.clone());
+            }
+            self.sample_last = Some(phase);
+            self.frame_times.push(wall * 1000.);
+            self.engine_frame_times.push(dt * 1000.);
+            if let Some(rid) = self.viewport_rid {
+                let server = RenderingServer::singleton();
+                self.gpu_times
+                    .push(server.viewport_get_measured_render_time_gpu(rid));
+                self.cpu_times
+                    .push(server.viewport_get_measured_render_time_cpu(rid));
+            }
+        }
+        let input = Input::singleton();
+        let pressed = |key| {
+            if input.is_physical_key_pressed(key) {
+                1.
+            } else {
+                0.
+            }
+        };
+        let mut controls = PlayerInput::default();
+        controls.reverse = pressed(self.bindings["reverse"]) > 0.;
+        controls.throttle = pressed(self.bindings["throttle"]);
+        controls.brake = pressed(self.bindings["brake"]);
+        controls.steering = host_steering(
+            pressed(self.bindings["left"]),
+            pressed(self.bindings["right"]),
+            0.,
+        );
+        controls.handbrake = pressed(self.bindings["handbrake"]);
+        controls.nitrous = pressed(self.bindings["nitrous"]);
+        let ids = input.get_connected_joypads();
+        if !ids.is_empty() || self.virtual_joy_replay {
+            use godot::global::JoyAxis;
+            let id = if self.virtual_joy_replay {
+                0
+            } else {
+                ids.get(0).unwrap_or(0) as i32
+            };
+            controls.throttle = controls.throttle.max(
+                input
+                    .get_joy_axis(id, JoyAxis::from_ord(self.joy_axes["throttle"]))
+                    .max(0.),
+            );
+            controls.brake = controls.brake.max(
+                input
+                    .get_joy_axis(id, JoyAxis::from_ord(self.joy_axes["brake"]))
+                    .max(0.),
+            );
+            controls.reverse |= input.is_joy_button_pressed(
+                id,
+                godot::global::JoyButton::from_ord(self.joy_buttons["reverse"]),
+            );
+            controls.nitrous = controls.nitrous.max(
+                if input.is_joy_button_pressed(
+                    id,
+                    godot::global::JoyButton::from_ord(self.joy_buttons["nitrous"]),
+                ) {
+                    1.
+                } else {
+                    0.
+                },
+            );
+            controls.handbrake = controls.handbrake.max(
+                if input.is_joy_button_pressed(
+                    id,
+                    godot::global::JoyButton::from_ord(self.joy_buttons["handbrake"]),
+                ) {
+                    1.
+                } else {
+                    0.
+                },
+            );
+            let steering = input.get_joy_axis(id, JoyAxis::from_ord(self.joy_axes["steering"]));
+            if steering.abs() > 0.12 {
+                controls.steering = host_steering(0., 0., steering);
+            }
+        }
+        if !self.scenario.is_empty() {
+            self.run_scenario(&mut controls);
+        }
+        self.last_input = controls;
+        if self.input_event_path.is_empty()
+            && matches!(
+                self.scenario.as_str(),
+                "career-race" | "results" | "podium" | "round-results"
+            )
+        {
+            for _ in 0..5 {
+                let input = self.game.as_ref().unwrap().scenario_player_ai_input();
+                self.game.as_mut().unwrap().advance(dt as f32, input);
+            }
+        }
+        self.game.as_mut().unwrap().advance(dt as f32, controls);
+        self.refresh();
+        self.record_native_inputs(dt, controls);
+        if self.loading.is_none() {
+            let snapshot = self.game.as_ref().unwrap().frame_snapshot();
+            if let Some(audio) = &mut self.audio {
+                let nitrous = snapshot
+                    .race
+                    .as_ref()
+                    .and_then(|race| race.racers.first())
+                    .is_some_and(|racer| racer.nitrous_active);
+                audio.update(&snapshot, controls.throttle, nitrous);
+            }
+        }
+    }
+    fn exit_tree(&mut self) {
+        if let Some(audio) = &mut self.audio {
+            audio.shutdown();
+        }
+        if let Some(video) = &mut self.video_player {
+            video.stop();
+            video.set_stream(None::<&Gd<godot::classes::VideoStream>>);
+        }
+        self.persist();
+    }
+    fn input(&mut self, event: Gd<InputEvent>) {
+        if self.video_active {
+            let pressed = event
+                .clone()
+                .try_cast::<InputEventKey>()
+                .is_ok_and(|key| key.is_pressed() && !key.is_echo())
+                || event
+                    .clone()
+                    .try_cast::<godot::classes::InputEventJoypadButton>()
+                    .is_ok_and(|button| button.is_pressed());
+            if pressed {
+                self.next_movie();
+                if let Some(mut viewport) = self.base().get_viewport() {
+                    viewport.set_input_as_handled();
+                }
+            }
+            return;
+        }
+        if self.loading.is_some() {
+            return;
+        }
+        if self.paint_scalar_panel.is_some() {
+            let cancel = event
+                .clone()
+                .try_cast::<InputEventKey>()
+                .is_ok_and(|key| key.is_pressed() && key.get_keycode() == Key::ESCAPE)
+                || event
+                    .clone()
+                    .try_cast::<godot::classes::InputEventJoypadButton>()
+                    .is_ok_and(|button| {
+                        button.is_pressed()
+                            && button.get_button_index() == godot::global::JoyButton::B
+                    });
+            let accept = event.clone().try_cast::<InputEventKey>().is_ok_and(|key| {
+                key.is_pressed() && matches!(key.get_keycode(), Key::ENTER | Key::KP_ENTER)
+            }) || event
+                .clone()
+                .try_cast::<godot::classes::InputEventJoypadButton>()
+                .is_ok_and(|button| {
+                    button.is_pressed() && button.get_button_index() == godot::global::JoyButton::A
+                });
+            if cancel {
+                self.paint_stage_cancel();
+            } else if accept {
+                self.advance_paint_stage();
+            }
+            if cancel || accept {
+                if let Some(mut viewport) = self.base().get_viewport() {
+                    viewport.set_input_as_handled();
+                }
+            }
+            return;
+        }
+        // Palette owns GUI navigation/cancel while open; global Escape must not leave the screen.
+        if self.palette_control.is_some() {
+            return;
+        }
+        if let Ok(motion) = event
+            .clone()
+            .try_cast::<godot::classes::InputEventJoypadMotion>()
+        {
+            if motion.get_axis_value().abs() > 0.6 {
+                if let Some(action) = self
+                    .rebind
+                    .clone()
+                    .and_then(|s| s.strip_prefix("axis:").map(str::to_owned))
+                {
+                    swap_binding(&mut self.joy_axes, action, motion.get_axis().ord());
+                    self.rebind = None;
+                    if let Some(mut viewport) = self.base().get_viewport() {
+                        viewport.set_input_as_handled();
+                    }
+                    self.save_settings();
+                    self.rebuild_menu();
+                    return;
+                }
+            }
+        }
+        if let Ok(button) = event
+            .clone()
+            .try_cast::<godot::classes::InputEventJoypadButton>()
+        {
+            if button.is_pressed() {
+                if self.rebind.is_none()
+                    && button.get_button_index() == godot::global::JoyButton::B
+                    && self
+                        .game
+                        .as_ref()
+                        .is_some_and(|game| game.frame_snapshot().screen == GameScreen::Avatar)
+                {
+                    self.action(
+                        if self.avatar_editing {
+                            "avatar:back"
+                        } else {
+                            "nav:main"
+                        }
+                        .into(),
+                    );
+                    return;
+                }
+                if self.title && button.get_button_index() == godot::global::JoyButton::START {
+                    self.action("title_start".into());
+                    return;
+                }
+                if button.get_button_index() == godot::global::JoyButton::START
+                    && self.rebind.is_none()
+                {
+                    if let Some(game) = &mut self.game {
+                        let paused = game.frame_snapshot().screen == GameScreen::Paused;
+                        let _ = game.command(if paused {
+                            GameCommand::Resume
+                        } else {
+                            GameCommand::Pause
+                        });
+                    }
+                    return;
+                }
+                if let Some(action) = self
+                    .rebind
+                    .clone()
+                    .and_then(|s| s.strip_prefix("button:").map(str::to_owned))
+                {
+                    swap_binding(
+                        &mut self.joy_buttons,
+                        action,
+                        button.get_button_index().ord(),
+                    );
+                    self.rebind = None;
+                    if let Some(mut viewport) = self.base().get_viewport() {
+                        viewport.set_input_as_handled();
+                    }
+                    self.save_settings();
+                    self.rebuild_menu();
+                    return;
+                }
+            }
+        }
+        if let Ok(key) = event.try_cast::<InputEventKey>() {
+            if !key.is_pressed() || key.is_echo() {
+                return;
+            }
+            if self
+                .rebind
+                .as_ref()
+                .is_some_and(|s| s.starts_with("axis:") || s.starts_with("button:"))
+            {
+                return;
+            }
+            if let Some(action) = self.rebind.take() {
+                let new_key = key.get_physical_keycode();
+                let old_key = self.bindings[&action];
+                let conflict = self
+                    .bindings
+                    .iter()
+                    .find(|(a, k)| **a != action && **k == new_key)
+                    .map(|(a, _)| a.clone());
+                if let Some(conflict) = conflict {
+                    self.bindings.insert(conflict, old_key);
+                }
+                self.bindings.insert(action, new_key);
+                self.save_settings();
+                self.rebuild_menu();
+                return;
+            }
+            if key.get_keycode() == Key::ESCAPE {
+                if self.avatar_editing
+                    && self
+                        .game
+                        .as_ref()
+                        .is_some_and(|game| game.frame_snapshot().screen == GameScreen::Avatar)
+                {
+                    self.action("avatar:back".into());
+                    return;
+                }
+                if self.confirmation.take().is_some() {
+                    self.rebuild_menu();
+                    return;
+                }
+                if self.show_stats {
+                    self.show_stats = false;
+                    self.rebuild_menu();
+                    return;
+                }
+                if self.show_goals {
+                    self.show_goals = false;
+                    self.rebuild_menu();
+                    return;
+                }
+                if self.options {
+                    self.options = false;
+                    self.rebuild_menu();
+                    return;
+                }
+                if let Some(game) = &mut self.game {
+                    let paused = game.snapshot().screen == GameScreen::Paused;
+                    let _ = game.command(if paused {
+                        GameCommand::Resume
+                    } else {
+                        GameCommand::Pause
+                    });
+                }
+            }
+            if key.get_keycode() == Key::R {
+                self.send(GameCommand::ResetCar);
+            }
+        }
+    }
+}
+
+#[godot_api]
+impl OversteerApp {
+    #[func]
+    fn menu_focus(&mut self, index: i64) {
+        if let Some(highlight) = &mut self.main_highlight {
+            highlight.set_position(Vector2::new(1080., 500. + index as f32 * 92.));
+        }
+        if let Some(menu) = &self.menu {
+            for child in menu.get_children().iter_shared() {
+                if let Ok(mut button) = child.try_cast::<Button>() {
+                    if button.has_meta("main_index") {
+                        let selected = button.get_meta("main_index").to::<i64>() == index;
+                        let font = if selected {
+                            godot::tools::load::<godot::classes::Font>(
+                                "res://assets/ui/native/fonts/menu-selected.fnt",
+                            )
+                        } else {
+                            native_font()
+                        };
+                        button.add_theme_font_override("font", &font);
+                    }
+                }
+            }
+        }
+    }
+    #[func]
+    fn paint_scalar_changed(&mut self, value: f64, channel: i64) {
+        if self.paint_session.as_ref().and_then(paint::Session::stage)
+            != Some(paint::Stage::Scalar(channel as u32))
+        {
+            return;
+        }
+        let mut record = paint::donor_seed(&self.customization);
+        match paint::scalar(&mut record, channel as u32, value as f32) {
+            Ok(()) => {
+                self.customization.native_paint = Some(record);
+                // Local preview only. The final accepted stage submits one draft.
+                if let Some(mut preview) = self.preview.take() {
+                    let (uniform, value) = match channel {
+                        2 => (
+                            "paint_balance",
+                            self.customization
+                                .native_paint
+                                .as_ref()
+                                .unwrap()
+                                .two_tone_exp,
+                        ),
+                        4 => (
+                            "paint_flakie",
+                            self.customization.native_paint.as_ref().unwrap().flakie,
+                        ),
+                        5 => (
+                            "paint_focus",
+                            self.customization
+                                .native_paint
+                                .as_ref()
+                                .unwrap()
+                                .fleck_power,
+                        ),
+                        _ => (
+                            "paint_film",
+                            self.customization
+                                .native_paint
+                                .as_ref()
+                                .unwrap()
+                                .film_thickness,
+                        ),
+                    };
+                    preview_paint_scalar(&mut preview, uniform, value as f64);
+                    self.preview = Some(preview);
+                }
+            }
+            Err(error) => self.error_dialog = Some(error),
+        }
+    }
+    fn reload_paint_preview(&mut self) {
+        let selected = self.game.as_ref().unwrap().frame_snapshot().selected_car;
+        let Some(path) = self
+            .content
+            .cars
+            .iter()
+            .find(|car| car.id == selected)
+            .map(|car| car.model_path.clone())
+        else {
+            return;
+        };
+        let transform = self
+            .preview
+            .as_ref()
+            .map(|preview| preview.get_transform())
+            .unwrap_or(Transform3D::IDENTITY);
+        if let Some(mut previous) = self.preview.take() {
+            previous.queue_free();
+        }
+        let mut preview = Self::load_scene(&path);
+        preview.set_transform(transform);
+        self.base_mut().add_child(&preview);
+        self.tint(&mut preview, &selected, &self.customization);
+        self.swap_wheels(&mut preview, &selected, &self.customization);
+        self.apply_kits(&mut preview, &selected, &self.customization);
+        self.preview = Some(preview);
+    }
+    fn advance_paint_stage(&mut self) {
+        if let Some(mut panel) = self.paint_scalar_panel.take() {
+            panel.set_visible(false);
+            panel.queue_free();
+        }
+        let Some(session) = self.paint_session.as_mut() else {
+            return;
+        };
+        session.cursor += 1;
+        match session.stage() {
+            Some(paint::Stage::Color(channel)) => {
+                self.palette_opened(if channel == 1 { "secondary" } else { "fleck" }.into());
+            }
+            Some(paint::Stage::Scalar(channel)) => self.open_paint_scalar_stage(channel),
+            None => {
+                self.paint_session = None;
+                self.apply_custom();
+            }
+        }
+    }
+    #[func]
+    fn paint_stage_cancel(&mut self) {
+        if let Some(mut palette) = self.palette_control.take() {
+            palette.set_visible(false);
+            palette.queue_free();
+        }
+        if let Some(mut panel) = self.paint_scalar_panel.take() {
+            panel.set_visible(false);
+            panel.queue_free();
+        }
+        self.palette_target.clear();
+        self.palette_original = None;
+        if let Some(session) = self.paint_session.take() {
+            self.customization = session.original;
+        }
+        self.reload_paint_preview();
+        self.rebuild_menu();
+    }
+    fn open_paint_scalar_stage(&mut self, channel: u32) {
+        let record = paint::donor_seed(&self.customization);
+        let (title, value) = match channel {
+            2 => ("SELECT PEARLESCENT BALANCE", record.two_tone_exp),
+            4 => ("SET FLAKE SIZE", (record.flakie - 0.3) / 0.7),
+            5 => ("SET FLAKE FOCUS", (record.fleck_power - 100.) / 48.),
+            _ => ("SET FILM DEPTH", (record.film_thickness - 0.0055) / 0.02),
+        };
+        let mut panel = Control::new_alloc();
+        panel.set_size(Vector2::new(1920., 1080.));
+        panel.set_z_index(90);
+        panel.set_mouse_filter(godot::classes::control::MouseFilter::STOP);
+        let price: u32 = self
+            .game
+            .as_ref()
+            .unwrap()
+            .quote_customization(&self.customization)
+            .iter()
+            .filter(|item| item.field == "paint")
+            .map(|item| item.cost)
+            .sum();
+        let cash = self.game.as_ref().unwrap().frame_snapshot().career.cash;
+        let layout =
+            native_layout::NativeLayout::parse(include_str!("layouts/palette-chrome.json"))
+                .expect("verified native paint chrome");
+        if let Err(error) = layout.render(
+            &mut panel,
+            &[
+                ("MENUTITLE", "PAINT COLOR".into()),
+                ("TITLE", title.into()),
+                ("PRICE", format!("Price: ${price}")),
+                ("CASH", format!("${cash}")),
+            ],
+        ) {
+            self.error_dialog = Some(error);
+        }
+        // Scalar widget coordinates are a presentation adapter; the channel,
+        // order and conversion are retained from the original source consumer.
+        let mut slider = godot::classes::HSlider::new_alloc();
+        slider.set_min(0.);
+        slider.set_max(1.);
+        slider.set_step(0.001);
+        slider.set_value(value.clamp(0., 1.) as f64);
+        slider.set_position(Vector2::new(174., 760.));
+        slider.set_size(Vector2::new(630., 54.));
+        slider.set_meta("ui_action", &format!("paint:scalar:{channel}").to_variant());
+        slider.connect(
+            "value_changed",
+            &self
+                .base()
+                .callable("paint_scalar_changed")
+                .bind(&[(channel as i64).to_variant()]),
+        );
+        panel.add_child(&slider);
+        self.button(
+            &mut panel,
+            "ACCEPT",
+            "paint_stage_accept",
+            1240.,
+            954.,
+            230.,
+            60.,
+        );
+        self.button(
+            &mut panel,
+            "CANCEL",
+            "paint_stage_cancel",
+            1510.,
+            954.,
+            230.,
+            60.,
+        );
+        if let Some(menu) = &mut self.menu {
+            for child in menu.get_children().iter_shared() {
+                if let Ok(mut control) = child.try_cast::<Control>() {
+                    control.set_visible(false);
+                }
+            }
+            menu.add_child(&panel);
+        }
+        slider.grab_focus();
+        self.paint_scalar_panel = Some(panel);
+    }
+    #[func]
+    fn palette_opened(&mut self, target: GString) {
+        if self.palette_control.is_some() {
+            return;
+        }
+        let target = target.to_string();
+        let family = if self.customization.finish == "matte" {
+            "matt"
+        } else {
+            self.customization.finish.as_str()
+        };
+        if target == "body" && self.paint_session.is_none() && !paint::stages(family).is_empty() {
+            self.paint_session = Some(paint::Session {
+                original: self.customization.clone(),
+                family: family.into(),
+                cursor: 0,
+            });
+        }
+        let color = match target.as_str() {
+            "body" => self.customization.paint,
+            "secondary" => {
+                let rgb = paint::donor_seed(&self.customization).secondary_rgb;
+                [rgb[0], rgb[1], rgb[2], 1.]
+            }
+            "fleck" => {
+                let rgb = paint::donor_seed(&self.customization).fleck_rgb;
+                [rgb[0], rgb[1], rgb[2], 1.]
+            }
+            "wheel" => self.customization.wheel_paint,
+            "vinyl" => self
+                .customization
+                .vinyls
+                .get(self.vinyl_layer)
+                .map(|layer| layer.color)
+                .unwrap_or([1.; 4]),
+            _ => return,
+        };
+        let field = match target.as_str() {
+            "body" | "secondary" | "fleck" => "paint",
+            "wheel" => "wheel_paint",
+            _ => "vinyls",
+        };
+        let price = self
+            .game
+            .as_ref()
+            .unwrap()
+            .quote_customization(&self.customization)
+            .iter()
+            .filter(|item| item.field == field)
+            .map(|item| item.cost)
+            .sum();
+        match native_palette::NativePalette::create(
+            Color::from_rgba(color[0], color[1], color[2], color[3]),
+            match target.as_str() {
+                "body" => "SELECT BASE COLOUR",
+                "secondary" => "SELECT PEARLESCENT COLOR",
+                "fleck" => "SET FLAKE COLOR",
+                "wheel" => "SELECT WHEEL COLOUR",
+                _ => "SELECT VINYL COLOUR",
+            },
+            price,
+            self.game.as_ref().unwrap().frame_snapshot().career.cash,
+            matches!(target.as_str(), "wheel" | "vinyl"),
+        ) {
+            Ok(mut palette) => {
+                palette.connect(
+                    "color_changed",
+                    &self
+                        .base()
+                        .callable("palette_changed")
+                        .bind(&[target.to_variant()]),
+                );
+                palette.connect("accepted", &self.base().callable("palette_accepted"));
+                palette.connect("cancelled", &self.base().callable("palette_cancelled"));
+                if let Some(menu) = &mut self.menu {
+                    for child in menu.get_children().iter_shared() {
+                        if let Ok(mut control) = child.try_cast::<Control>() {
+                            control.set_visible(false);
+                        }
+                    }
+                    menu.add_child(&palette);
+                }
+                self.palette_original = Some(self.customization.clone());
+                self.palette_target = target;
+                self.palette_control = Some(palette);
+            }
+            Err(error) => {
+                self.error_dialog = Some(error);
+                self.rebuild_menu();
+            }
+        }
+    }
+    #[func]
+    fn palette_accepted(&mut self, color: Color) {
+        self.palette_changed(color, GString::from(self.palette_target.as_str()));
+        if let Some(mut palette) = self.palette_control.take() {
+            palette.queue_free();
+        }
+        self.palette_target.clear();
+        self.palette_original = None;
+        if self.paint_session.is_some() {
+            self.advance_paint_stage();
+        } else {
+            self.apply_custom();
+        }
+    }
+    #[func]
+    fn palette_cancelled(&mut self) {
+        if self.paint_session.is_some() {
+            self.paint_stage_cancel();
+            return;
+        }
+        if let Some(original) = self.palette_original.take() {
+            self.customization = original;
+        }
+        self.previous_car.clear();
+        if let Some(mut palette) = self.palette_control.take() {
+            palette.queue_free();
+        }
+        self.palette_target.clear();
+        self.rebuild_menu();
+    }
+    #[func]
+    fn palette_changed(&mut self, color: Color, target: GString) {
+        let rgba = [color.r, color.g, color.b, color.a];
+        let field = match target.to_string().as_str() {
+            "body" | "secondary" | "fleck" => {
+                let channel = match target.to_string().as_str() {
+                    "secondary" => 1,
+                    "fleck" => 3,
+                    _ => 0,
+                };
+                let mut record = paint::donor_seed(&self.customization);
+                let family = self
+                    .paint_session
+                    .as_ref()
+                    .map(|session| session.family.as_str())
+                    .unwrap_or(self.customization.finish.as_str());
+                if paint::stages(family).is_empty()
+                    && channel == 0
+                    && self.customization.native_paint.is_none()
+                {
+                    // Preserve legacy save finishes without inventing a native
+                    // family mapping, particularly chrome versus thin film.
+                    self.customization.paint = rgba;
+                } else {
+                    if let Err(error) =
+                        paint::color(&mut record, family, channel, [color.r, color.g, color.b])
+                    {
+                        self.error_dialog = Some(error);
+                        return;
+                    }
+                    self.customization.paint = [
+                        record.base_rgb[0],
+                        record.base_rgb[1],
+                        record.base_rgb[2],
+                        1.,
+                    ];
+                    self.customization.native_paint = Some(record);
+                }
+                "paint"
+            }
+            "wheel" => {
+                self.customization.wheel_paint = rgba;
+                "wheel_paint"
+            }
+            "vinyl" => {
+                if let Some(layer) = self.customization.vinyls.get_mut(self.vinyl_layer) {
+                    layer.color = rgba;
+                }
+                "vinyls"
+            }
+            _ => return,
+        };
+        if let Some(mut preview) = self.preview.take() {
+            match field {
+                "paint" => {
+                    let target = target.to_string();
+                    if target == "secondary" || target == "fleck" {
+                        preview_paint_uniform(
+                            &mut preview,
+                            if target == "secondary" {
+                                "paint_secondary"
+                            } else {
+                                "paint_fleck"
+                            },
+                            color,
+                        );
+                    } else {
+                        preview_paint(&mut preview, color);
+                    }
+                }
+                "wheel_paint" => {
+                    if !preview_rim_tint(&mut preview, color) {
+                        self.swap_wheels(
+                            &mut preview,
+                            &self.game.as_ref().unwrap().frame_snapshot().selected_car,
+                            &self.customization,
+                        );
+                    }
+                }
+                _ => preview_vinyl_tint(&mut preview, self.vinyl_layer, color),
+            }
+            self.preview = Some(preview);
+        }
+        if let Some(palette) = &mut self.palette_control {
+            let price: u32 = self
+                .game
+                .as_ref()
+                .unwrap()
+                .quote_customization(&self.customization)
+                .iter()
+                .filter(|item| item.field == field)
+                .map(|item| item.cost)
+                .sum();
+            palette.call_deferred("set_price", &[price.to_variant()]);
+        }
+    }
+    #[func]
+    fn decal_category_selected(&mut self, index: i64) {
+        self.decal_category = index.max(0) as usize;
+        self.rebuild_menu();
+    }
+    #[func]
+    fn decal_design_selected(&mut self, index: i64) {
+        let ids = &self.decal_catalog["categories"][self.decal_category]["design_ids"];
+        if let Some(id) = ids[index.max(0) as usize].as_str() {
+            if let Some(layer) = self.customization.vinyls.get_mut(self.vinyl_layer) {
+                layer.design_id = id.into();
+                layer.color = [1.; 4];
+                self.apply_custom();
+            }
+        }
+    }
+    #[func]
+    fn vinyl_selected(&mut self, index: i64) {
+        self.vinyl_layer =
+            (index.max(0) as usize).min(self.customization.vinyls.len().saturating_sub(1));
+        self.rebuild_menu();
+    }
+    #[func]
+    fn plate_name(&mut self, name: GString) {
+        self.customization.plate_text = name.to_string();
+        self.apply_custom();
+    }
+    #[func]
+    fn avatar_name(&mut self, name: GString) {
+        let mut profile = self.game.as_ref().unwrap().frame_snapshot().profile;
+        profile.name = name.to_string();
+        self.send(GameCommand::CustomizeAvatar { profile });
+        self.persist();
+    }
+    #[func]
+    fn avatar_control_changed(&mut self, value: f64, id: GString) {
+        let mut profile = self.game.as_ref().unwrap().frame_snapshot().profile;
+        match avatar::catalog().and_then(|data| {
+            avatar::apply_control(&data, &mut profile, &id.to_string(), value as f32)
+        }) {
+            Ok(()) => {
+                self.send(GameCommand::CustomizeAvatar { profile });
+                self.avatar_key.clear();
+                self.persist();
+            }
+            Err(error) => self.notice = error,
+        }
+    }
+    #[func]
+    fn action(&mut self, key: GString) {
+        let key = key.to_string();
+        self.notice.clear();
+        if let Some(audio) = &mut self.audio {
+            audio.effect("select");
+        }
+        if let Some(kind) = key.strip_prefix("audio:") {
+            if let Some(audio) = &mut self.audio {
+                audio.cycle_gain(kind);
+            }
+            self.save_settings();
+            self.rebuild_menu();
+            return;
+        }
+
+        if let Some(choice) = key.strip_prefix("avatar:") {
+            let mut profile = self.game.as_ref().unwrap().frame_snapshot().profile;
+            let (field, value) = choice.split_once(':').unwrap_or((choice, ""));
+            if field == "page" {
+                self.avatar_category = value.into();
+                self.avatar_cursor = 0;
+                self.avatar_editing = matches!(value, "top" | "bottom" | "hat");
+                self.rebuild_menu();
+                return;
+            }
+            if field == "edit" || field == "back" {
+                self.avatar_editing = field == "edit";
+                if field == "edit" {
+                    self.avatar_category = value.into();
+                }
+                if field == "back"
+                    && matches!(self.avatar_category.as_str(), "top" | "bottom" | "hat")
+                {
+                    self.avatar_category = "clothes".into();
+                }
+                self.avatar_cursor = 0;
+                self.rebuild_menu();
+                return;
+            }
+            if field == "cursor" {
+                if !self.avatar_editing
+                    && !matches!(self.avatar_category.as_str(), "gender" | "preset")
+                {
+                    self.avatar_category = avatar::next_category(
+                        &self.avatar_category,
+                        if value == "prev" { -1 } else { 1 },
+                    );
+                    self.rebuild_menu();
+                    return;
+                }
+                self.avatar_cursor = if value == "prev" {
+                    self.avatar_cursor.saturating_sub(1)
+                } else {
+                    self.avatar_cursor + 1
+                };
+                self.rebuild_menu();
+                return;
+            }
+            if field == "component" {
+                match avatar::catalog()
+                    .and_then(|data| avatar::select_component(&data, &mut profile, value))
+                {
+                    Ok(()) => {
+                        self.send(GameCommand::CustomizeAvatar { profile });
+                        self.avatar_key.clear();
+                        self.persist();
+                    }
+                    Err(error) => self.notice = error,
+                }
+                self.rebuild_menu();
+                return;
+            }
+            if field == "native" {
+                match avatar::catalog()
+                    .and_then(|data| avatar::select_preset(&data, &mut profile, value))
+                {
+                    Ok(()) => {
+                        self.send(GameCommand::CustomizeAvatar { profile });
+                        self.avatar_key.clear();
+                        self.persist();
+                    }
+                    Err(error) => self.notice = error,
+                }
+                self.rebuild_menu();
+                return;
+            }
+            match field {
+                "gender" => {
+                    profile.gender = value.into();
+                    self.avatar_editing = false;
+                    match avatar::catalog().and_then(|data| {
+                        let id = data["native_presets"]["presets"]
+                            .as_array()
+                            .into_iter()
+                            .flatten()
+                            .find(|preset| preset["gender"].as_str() == Some(value))
+                            .and_then(|preset| preset["id"].as_str())
+                            .ok_or("Missing native gender preset")?;
+                        avatar::select_preset(&data, &mut profile, id)
+                    }) {
+                        Ok(()) => self.avatar_category = "preset".into(),
+                        Err(error) => {
+                            self.notice = error;
+                            return;
+                        }
+                    }
+                }
+                "preset" => profile.preset = value.into(),
+                "skin" => {
+                    profile.skin_color = if profile.skin_color[0] > 0.7 {
+                        [0.35, 0.20, 0.12, 1.]
+                    } else if profile.skin_color[0] < 0.5 {
+                        [0.65, 0.45, 0.3, 1.]
+                    } else {
+                        [0.90, 0.72, 0.58, 1.]
+                    }
+                }
+                "hair" => {
+                    profile.hair_color = if profile.hair_color[0] < 0.3 {
+                        [0.75, 0.53, 0.16, 1.]
+                    } else {
+                        [0.08, 0.05, 0.03, 1.]
+                    }
+                }
+                "top" => {
+                    profile.top_color = if profile.top_color[0] < 0.5 {
+                        [0.8, 0.08, 0.04, 1.]
+                    } else {
+                        [0.05, 0.2, 0.65, 1.]
+                    }
+                }
+                "bottom" => {
+                    profile.bottom_color = if profile.bottom_color[0] < 0.5 {
+                        [0.65, 0.65, 0.60, 1.]
+                    } else {
+                        [0.04, 0.05, 0.08, 1.]
+                    }
+                }
+                _ => {}
+            }
+            self.send(GameCommand::CustomizeAvatar { profile });
+            self.avatar_key.clear();
+            self.persist();
+            self.rebuild_menu();
+            return;
+        }
+        if key == "podium" {
+            self.send(GameCommand::ShowPodium);
+            return;
+        }
+        if key == "career_events" {
+            self.selected_goal.clear();
+            self.event_picker = true;
+            self.rebuild_menu();
+            return;
+        }
+        if key == "replay" {
+            self.replay = true;
+            self.replay_cursor = 0;
+            self.rebuild_menu();
+            return;
+        }
+        if key == "replay_done" {
+            self.replay = false;
+            self.rebuild_menu();
+            return;
+        }
+        if let Some(movie) = key.strip_prefix("movie:") {
+            self.video_queue = vec![movie.into()];
+            self.next_movie();
+            return;
+        }
+        if key == "movie_skip" {
+            self.next_movie();
+            return;
+        }
+        if key == "extras" {
+            self.extras = true;
+            self.rebuild_menu();
+            return;
+        }
+        if key == "extras_back" {
+            self.extras = false;
+            self.rebuild_menu();
+            return;
+        }
+        if key == "title_start" {
+            self.title = false;
+            if self.new_profile {
+                self.send(GameCommand::Navigate {
+                    screen: GameScreen::Avatar,
+                });
+            }
+            self.rebuild_menu();
+            return;
+        }
+        if key == "credits" {
+            self.credits = true;
+            self.credits_start = self.clock;
+            self.rebuild_menu();
+            return;
+        }
+        if key == "credits_back" {
+            self.credits = false;
+            self.credits_label = None;
+            self.rebuild_menu();
+            return;
+        }
+        if key == "retry_io" {
+            self.error_dialog = None;
+            if self.io_retry == "load" {
+                self.load_career();
+            } else if self.io_retry == "settings_load" {
+                self.load_settings();
+                self.apply_render_quality();
+            } else if self.io_retry == "settings_save" {
+                self.save_settings();
+            } else {
+                self.persist();
+            }
+            self.rebuild_menu();
+            return;
+        }
+        if key == "new_career" {
+            let path = self.save_path();
+            match persistence::preserve(std::path::Path::new(&path)) {
+                Ok(_) => {
+                    let backup = format!("{path}.backup");
+                    if let Err(error) = persistence::preserve(std::path::Path::new(&backup)) {
+                        self.error_dialog = Some(error);
+                        self.rebuild_menu();
+                        return;
+                    }
+                    self.game = Some(Game::new(self.content.clone()));
+                    self.load_settings();
+                    self.save_blocked = false;
+                    self.io_retry.clear();
+                    self.error_dialog = None;
+                    self.persist();
+                    self.send(GameCommand::Navigate {
+                        screen: GameScreen::Avatar,
+                    });
+                }
+                Err(error) => self.error_dialog = Some(error),
+            }
+            self.rebuild_menu();
+            return;
+        }
+        if key == "custom_done" {
+            self.send(GameCommand::Navigate {
+                screen: self.custom_return,
+            });
+            self.persist();
+            return;
+        }
+        if key == "error_ok" {
+            self.error_dialog = None;
+            self.rebuild_menu();
+            return;
+        }
+        if key == "confirm_no" {
+            self.confirmation = None;
+            self.rebuild_menu();
+            return;
+        }
+        if key == "confirm_yes" {
+            let action = self.confirmation.take().unwrap_or_default();
+            let id = self.game.as_ref().unwrap().frame_snapshot().selected_car;
+            match action.as_str() {
+                "buy" => self.send(GameCommand::BuyCar { car_id: id }),
+                "sell" => self.send(GameCommand::SellCar { car_id: id }),
+                "checkout" => {
+                    self.send(GameCommand::Checkout);
+                    self.previous_car.clear();
+                }
+                "pink_offer" => self.send(GameCommand::OfferPinkSlip {
+                    racer: self.selected_rival,
+                }),
+                "discard" => {
+                    self.send(GameCommand::DiscardCart { car_id: None });
+                    self.previous_car.clear();
+                }
+                _ => {}
+            }
+            self.persist();
+            self.rebuild_menu();
+            return;
+        }
+        if key == "checkout" {
+            self.confirmation = Some("checkout".into());
+            self.rebuild_menu();
+            return;
+        }
+        if key == "discard_cart" {
+            self.confirmation = Some("discard".into());
+            self.rebuild_menu();
+            return;
+        }
+        if let Some(item) = key.strip_prefix("cart_remove:") {
+            self.send(GameCommand::RemoveCartItem {
+                item_id: item.into(),
+            });
+            self.previous_car.clear();
+            self.rebuild_menu();
+            return;
+        }
+        if key == "wheel_color" {
+            self.customization.wheel_paint = if self.customization.wheel_paint[0] > 0.6 {
+                [0.08, 0.08, 0.09, 1.]
+            } else {
+                [0.85, 0.6, 0.18, 1.]
+            };
+            self.apply_custom();
+            return;
+        }
+        if key == "plate_style" {
+            self.customization.plate_style = if self.customization.plate_style == "stock" {
+                "dark".into()
+            } else {
+                "stock".into()
+            };
+            self.apply_custom();
+            return;
+        }
+        if key == "units" {
+            self.speed_mph = !self.speed_mph;
+            self.save_settings();
+            self.rebuild_menu();
+            return;
+        }
+        if key == "quality" {
+            self.render_quality = (self.render_quality + 1) % 3;
+            self.apply_render_quality();
+            self.save_settings();
+            self.rebuild_menu();
+            return;
+        }
+        if key == "difficulty" {
+            let level = (self.game.as_ref().unwrap().frame_snapshot().difficulty + 1) % 3;
+            self.send(GameCommand::SetDifficulty { level });
+            self.save_settings();
+            self.persist();
+            self.rebuild_menu();
+            return;
+        }
+        if key == "options" {
+            self.options = true;
+            self.rebuild_menu();
+            return;
+        }
+        if key == "back_options" {
+            self.options = false;
+            self.rebuild_menu();
+            return;
+        }
+        if key.starts_with("axis:") || key.starts_with("button:") {
+            self.rebind = Some(key);
+            self.notice = "Move a controller axis or press its new button…".into();
+            self.rebuild_menu();
+            return;
+        }
+        if let Some(action) = key.strip_prefix("bind:") {
+            self.rebind = Some(action.into());
+            self.notice = "Press a key…".into();
+            self.rebuild_menu();
+            return;
+        }
+        if key == "quit" {
+            self.persist();
+            self.base().get_tree().quit();
+            return;
+        }
+        if key == "save" {
+            self.persist();
+            self.notice = "Career saved".into();
+            self.rebuild_menu();
+            return;
+        }
+        if let Some(screen) = key.strip_prefix("nav:") {
+            let screen = match screen {
+                "career" => GameScreen::Career,
+                "quick" => GameScreen::QuickRace,
+                "garage" => GameScreen::Garage,
+                "dealer" => GameScreen::Dealership,
+                "custom" => GameScreen::Customization,
+                "crew" => GameScreen::Crew,
+                "avatar" => GameScreen::Avatar,
+                "checkout" => GameScreen::Checkout,
+                _ => GameScreen::MainMenu,
+            };
+            if screen == GameScreen::Customization {
+                let current = self.game.as_ref().unwrap().frame_snapshot().screen;
+                if current != GameScreen::Checkout && current != GameScreen::Customization {
+                    self.custom_return = if current == GameScreen::QuickRace {
+                        GameScreen::QuickRace
+                    } else {
+                        GameScreen::Garage
+                    };
+                }
+            }
+            self.options = false;
+            self.event_picker = false;
+            self.selected_goal.clear();
+            self.send(GameCommand::Navigate { screen });
+            self.previous_screen.clear();
+            return;
+        }
+        if key == "car_next" || key == "car_prev" {
+            let snap = self.game.as_ref().unwrap().frame_snapshot();
+            let eligible: Vec<_> = self
+                .content
+                .cars
+                .iter()
+                .filter(|c| {
+                    snap.screen != GameScreen::Garage || snap.career.garage.contains_key(&c.id)
+                })
+                .collect();
+            if !eligible.is_empty() {
+                let index = eligible
+                    .iter()
+                    .position(|c| c.id == snap.selected_car)
+                    .unwrap_or(0);
+                let next = if key == "car_next" {
+                    (index + 1) % eligible.len()
+                } else {
+                    (index + eligible.len() - 1) % eligible.len()
+                };
+                self.send(GameCommand::SelectCar {
+                    car_id: eligible[next].id.clone(),
+                });
+                self.previous_car.clear();
+            }
+            return;
+        }
+        if key == "event_next" || key == "event_prev" {
+            let snap = self.game.as_ref().unwrap().frame_snapshot();
+            let goal_events = self
+                .game
+                .as_ref()
+                .unwrap()
+                .events_for_goal(&self.selected_goal);
+            let eligible: Vec<_> = self
+                .content
+                .events
+                .iter()
+                .enumerate()
+                .filter(|(_, e)| {
+                    snap.screen == GameScreen::QuickRace
+                        || (e.league <= snap.career.league
+                            && (self.selected_goal.is_empty() || goal_events.contains(&e.id)))
+                })
+                .map(|(i, _)| i)
+                .collect();
+            if !eligible.is_empty() {
+                let index = eligible
+                    .iter()
+                    .position(|i| *i == self.selected_event)
+                    .unwrap_or(0);
+                self.selected_event = eligible[if key == "event_next" {
+                    (index + 1) % eligible.len()
+                } else {
+                    (index + eligible.len() - 1) % eligible.len()
+                }];
+            }
+            self.rebuild_menu();
+            return;
+        }
+        if let Some(id) = key.strip_prefix("car:") {
+            self.send(GameCommand::SelectCar { car_id: id.into() });
+            self.previous_car.clear();
+            return;
+        }
+        if let Some(index) = key.strip_prefix("event:") {
+            self.selected_event = index.parse().unwrap_or(0);
+            self.rebuild_menu();
+            return;
+        }
+        if key == "wager" {
+            if let Some(audio) = &mut self.audio {
+                audio.say("bet");
+            }
+            self.wager = if self.wager >= 5000 {
+                0
+            } else {
+                self.wager + 1000
+            };
+            self.rebuild_menu();
+            return;
+        }
+        if key == "pink" {
+            self.pink_slip = !self.pink_slip;
+            self.rebuild_menu();
+            return;
+        }
+        if let Some(item) = key.strip_prefix("cart_select:") {
+            self.cart_selected = item.into();
+            self.rebuild_menu();
+            return;
+        }
+        if key == "cart_next" || key == "cart_prev" {
+            self.cart_page = if key == "cart_next" {
+                self.cart_page + 1
+            } else {
+                self.cart_page.saturating_sub(1)
+            };
+            self.rebuild_menu();
+            return;
+        }
+        if let Some(page) = key.strip_prefix("custom_page:") {
+            if ["paint", "wheels", "vinyl", "performance", "parts"].contains(&page) {
+                self.custom_page = page.into();
+                self.previous_car.clear();
+                self.rebuild_menu();
+            }
+            return;
+        }
+        if let Some(tag) = key.strip_prefix("dna:") {
+            self.selected_dna = tag.into();
+            self.rebuild_menu();
+            return;
+        }
+        if key == "vehicle_stats" || key == "stats_back" {
+            self.show_stats = key == "vehicle_stats";
+            self.rebuild_menu();
+            return;
+        }
+        if key == "goals_select" {
+            let game = self.game.as_ref().unwrap();
+            let snap = game.snapshot();
+            if let Some(status) = snap.league_progress.goals.get(self.goal_page) {
+                let eligible = game.events_for_goal(&status.goal.id);
+                if let Some(index) = self
+                    .content
+                    .events
+                    .iter()
+                    .position(|event| eligible.contains(&event.id))
+                {
+                    self.selected_goal = status.goal.id.clone();
+                    self.selected_event = index;
+                    self.show_goals = false;
+                    self.event_picker = true;
+                } else {
+                    self.notice = if status.goal.qualifier && !snap.league_progress.promotion_open {
+                        "Complete the required optional goals to unlock this qualifier".into()
+                    } else {
+                        "No matching events are available in this league".into()
+                    };
+                }
+            }
+            self.rebuild_menu();
+            return;
+        }
+        if let Some(index) = key.strip_prefix("goal_icon:") {
+            self.goal_page = index.parse().unwrap_or(0);
+            self.rebuild_menu();
+            return;
+        }
+        if key == "career_goals"
+            || key == "goals_back"
+            || key == "goals_next"
+            || key == "goals_prev"
+        {
+            if key == "career_goals" {
+                self.show_goals = true;
+                self.goal_page = self
+                    .game
+                    .as_ref()
+                    .unwrap()
+                    .snapshot()
+                    .league_progress
+                    .goals
+                    .iter()
+                    .position(|goal| !goal.goal.qualifier)
+                    .unwrap_or(0);
+            }
+            if key == "goals_back" {
+                self.show_goals = false;
+            }
+            if key == "goals_next" {
+                let count = self
+                    .game
+                    .as_ref()
+                    .unwrap()
+                    .snapshot()
+                    .league_progress
+                    .goals
+                    .len()
+                    .max(1);
+                self.goal_page = (self.goal_page + 1) % count;
+            }
+            if key == "goals_prev" {
+                let count = self
+                    .game
+                    .as_ref()
+                    .unwrap()
+                    .snapshot()
+                    .league_progress
+                    .goals
+                    .len()
+                    .max(1);
+                self.goal_page = (self.goal_page + count - 1) % count;
+            }
+            self.rebuild_menu();
+            return;
+        }
+        if let Some(index) = key.strip_prefix("rival:") {
+            self.selected_rival = index.parse().unwrap_or(1);
+            self.rebuild_menu();
+            return;
+        }
+        if key == "spectate" {
+            if let Some(event) = self.content.events.get(self.selected_event) {
+                self.send(GameCommand::StartSpectating {
+                    event_id: event.id.clone(),
+                });
+            }
+            return;
+        }
+        if key == "spectator_bet" {
+            self.send(GameCommand::PlaceSpectatorBet {
+                racer: self.selected_rival,
+                amount: self.wager.max(1000),
+            });
+            self.persist();
+            self.rebuild_menu();
+            return;
+        }
+        if key == "cheer" || key == "boo" {
+            self.send(GameCommand::SpectatorCheer {
+                racer: self.selected_rival,
+                positive: key == "cheer",
+            });
+            return;
+        }
+        if key == "grid_launch" {
+            self.send(GameCommand::LaunchRace);
+            return;
+        }
+        if key == "offer_cash" {
+            self.send(GameCommand::OfferDriverBet {
+                racer: self.selected_rival,
+                amount: self.wager.max(1000),
+            });
+            self.rebuild_menu();
+            return;
+        }
+        if key == "offer_pink" {
+            self.confirmation = Some("pink_offer".into());
+            self.rebuild_menu();
+            return;
+        }
+        if key == "offer_accept" || key == "offer_decline" {
+            self.send(if key == "offer_accept" {
+                GameCommand::AcceptBetOffer
+            } else {
+                GameCommand::DeclineBetOffer
+            });
+            self.persist();
+            self.rebuild_menu();
+            return;
+        }
+        if key == "start" {
+            if let Some(event) = self.content.events.get(self.selected_event) {
+                let career =
+                    self.game.as_ref().unwrap().frame_snapshot().screen == GameScreen::Career;
+                self.send(GameCommand::StartRace {
+                    event_id: event.id.clone(),
+                    career,
+                    wager: if career { 0 } else { self.wager },
+                    pink_slip: !career && self.pink_slip,
+                });
+                if career && self.error_dialog.is_none() {
+                    self.send(GameCommand::OpenGrid);
+                }
+            }
+            return;
+        }
+        if key == "buy" || key == "sell" {
+            self.confirmation = Some(key);
+            self.rebuild_menu();
+            return;
+        }
+        if key == "recruit" || key.starts_with("recruit:") {
+            let snap = self.game.as_ref().unwrap().snapshot();
+            let tag = key.strip_prefix("recruit:");
+            if let Some(driver) = snap.drivers.iter().find(|d| {
+                tag.map_or(!snap.career.crew.iter().any(|c| c.name == d.name), |tag| {
+                    d.native_tag == tag
+                })
+            }) {
+                self.send(GameCommand::Recruit {
+                    driver: driver.clone(),
+                });
+            }
+            self.rebuild_menu();
+            return;
+        }
+        match key.as_str() {
+            "resume" => self.send(GameCommand::Resume),
+            "restart" => self.send(GameCommand::Restart),
+            "continue" => {
+                self.send(GameCommand::Continue);
+                self.persist();
+            }
+            _ => {}
+        }
+        if let Some(value) = key.strip_prefix("paint:") {
+            self.customization.paint = match value {
+                "blue" => [0.02, 0.22, 0.9, 1.],
+                "green" => [0.1, 0.8, 0.18, 1.],
+                "white" => [0.9, 0.9, 0.88, 1.],
+                "black" => [0.02, 0.02, 0.025, 1.],
+                "gold" => [0.95, 0.6, 0.03, 1.],
+                _ => [0.8, 0.04, 0.025, 1.],
+            };
+            self.apply_custom();
+        }
+        if key == "paint_stage_accept" {
+            self.advance_paint_stage();
+            return;
+        }
+        if key == "paint_stage_cancel" {
+            self.paint_stage_cancel();
+            return;
+        }
+        if let Some(value) = key.strip_prefix("finish:") {
+            let mut record = paint::donor_seed(&self.customization);
+            let color = self.customization.paint;
+            match paint::color(&mut record, value, 0, [color[0], color[1], color[2]]) {
+                Ok(()) => {
+                    self.paint_session = Some(paint::Session {
+                        original: self.customization.clone(),
+                        family: value.into(),
+                        cursor: 0,
+                    });
+                    self.customization.finish = value.into();
+                    self.customization.native_paint = Some(record);
+                    self.reload_paint_preview();
+                    self.palette_opened("body".into());
+                }
+                Err(error) => self.error_dialog = Some(error),
+            }
+        }
+        if let Some(value) = key.strip_prefix("wheels:") {
+            self.customization.wheels = value.into();
+            self.apply_custom();
+        }
+        if let Some(value) = key.strip_prefix("part:") {
+            if let Some((slot, id)) = value.split_once(':') {
+                let selected = self.game.as_ref().unwrap().frame_snapshot().selected_car;
+                if let Some(options) = self
+                    .content
+                    .cars
+                    .iter()
+                    .find(|car| car.id == selected)
+                    .and_then(|car| car.parts.get(slot))
+                {
+                    if options.contains(&self.customization.body_kit) {
+                        self.customization.body_kit = "stock".into();
+                    }
+                    if options.contains(&self.customization.interior_kit) {
+                        self.customization.interior_kit = "stock".into();
+                    }
+                }
+                self.customization.parts.insert(slot.into(), id.into());
+                self.apply_custom();
+            }
+            return;
+        }
+        if let Some(value) = key.strip_prefix("kit:") {
+            self.customization.body_kit = value.into();
+            self.apply_custom();
+        }
+        if let Some(value) = key.strip_prefix("interior:") {
+            self.customization.interior_kit = value.into();
+            self.apply_custom();
+        }
+        if let Some(index) = key
+            .strip_prefix("tune:")
+            .and_then(|index| index.parse::<usize>().ok())
+            .filter(|index| *index < 4)
+        {
+            self.customization.tuning[index] = if self.customization.tuning[index] >= 0.99 {
+                -1.
+            } else {
+                (self.customization.tuning[index] + 0.2).min(1.)
+            };
+            self.apply_custom();
+            return;
+        }
+        if let Some(value) = key.strip_prefix("upgrade:") {
+            match value {
+                "engine" => self.customization.engine = (self.customization.engine + 1) % 4,
+                "transmission" => {
+                    self.customization.transmission = (self.customization.transmission + 1) % 4
+                }
+                "suspension" => {
+                    self.customization.suspension = (self.customization.suspension + 1) % 4
+                }
+                "tyres" => self.customization.tyres = (self.customization.tyres + 1) % 4,
+                _ => return,
+            };
+            self.apply_custom();
+        }
+        if key == "vinyl:add" {
+            if self.customization.vinyls.len() >= 16 {
+                self.error_dialog = Some("Maximum 16 vinyl layers.".into());
+                self.rebuild_menu();
+                return;
+            }
+            let mut layer = Vinyl::default();
+            layer.design_id = self.decal_catalog["categories"][self.decal_category]["design_ids"]
+                [0]
+            .as_str()
+            .unwrap_or("")
+            .into();
+            self.customization.vinyls.push(layer);
+            self.vinyl_layer = self.customization.vinyls.len() - 1;
+            self.apply_custom();
+        }
+        if key == "vinyl:remove" {
+            if !self.customization.vinyls.is_empty() {
+                self.customization
+                    .vinyls
+                    .remove(self.vinyl_layer.min(self.customization.vinyls.len() - 1));
+                self.vinyl_layer = self.vinyl_layer.saturating_sub(1);
+            }
+            self.apply_custom();
+        }
+        if key == "vinyl:next" && !self.customization.vinyls.is_empty() {
+            self.vinyl_layer = (self.vinyl_layer + 1) % self.customization.vinyls.len();
+            self.rebuild_menu();
+            return;
+        }
+        if key == "vinyl:front" && self.vinyl_layer + 1 < self.customization.vinyls.len() {
+            self.customization
+                .vinyls
+                .swap(self.vinyl_layer, self.vinyl_layer + 1);
+            self.vinyl_layer += 1;
+            self.apply_custom();
+            return;
+        }
+        if key == "vinyl:back" && self.vinyl_layer > 0 {
+            self.customization
+                .vinyls
+                .swap(self.vinyl_layer, self.vinyl_layer - 1);
+            self.vinyl_layer -= 1;
+            self.apply_custom();
+            return;
+        }
+        if key.starts_with("vinyl:") && key != "vinyl:add" && key != "vinyl:remove" {
+            if let Some(layer) = self.customization.vinyls.get_mut(self.vinyl_layer) {
+                match key.as_str() {
+                    "vinyl:color" => {
+                        layer.color = if layer.color == [1., 1., 1., 1.] {
+                            [1., 0.05, 0.02, 1.]
+                        } else if layer.color[0] == 1. && layer.color[1] < 0.1 {
+                            [0.02, 0.02, 0.02, 1.]
+                        } else {
+                            [1., 1., 1., 1.]
+                        }
+                    }
+                    "vinyl:left" => layer.position[0] -= 0.1,
+                    "vinyl:right" => layer.position[0] += 0.1,
+                    "vinyl:up" => layer.position[1] -= 0.1,
+                    "vinyl:down" => layer.position[1] += 0.1,
+                    "vinyl:rotate" => layer.rotation += 0.25,
+                    "vinyl:rotate_back" => layer.rotation -= 0.25,
+                    "vinyl:scale_x_up" => layer.scale[0] += 0.1,
+                    "vinyl:scale_x_down" => layer.scale[0] = (layer.scale[0] - 0.1).max(0.01),
+                    "vinyl:scale_y_up" => layer.scale[1] += 0.1,
+                    "vinyl:scale_y_down" => layer.scale[1] = (layer.scale[1] - 0.1).max(0.01),
+                    "vinyl:scale" => {
+                        layer.scale[0] += 0.1;
+                        layer.scale[1] += 0.1;
+                    }
+                    "vinyl:shape" => {
+                        layer.shape = if layer.shape == "stripe" {
+                            "flame".into()
+                        } else {
+                            "stripe".into()
+                        }
+                    }
+                    _ => {}
+                }
+            }
+            self.apply_custom();
+        }
+    }
+}
+
+impl OversteerApp {
+    fn next_movie(&mut self) {
+        if let Some(player) = &mut self.video_player {
+            player.stop();
+        }
+        if self.video_queue.is_empty() {
+            self.video_active = false;
+            if let Some(panel) = &mut self.video_panel {
+                panel.set_visible(false);
+            }
+            if let Some(audio) = &mut self.audio {
+                audio.set_cinematic(false);
+            }
+            return;
+        }
+        let id = self.video_queue.remove(0);
+        let path = format!("res://assets/video/{id}.ogv");
+        if let Some(stream) = ResourceLoader::singleton()
+            .load(&path)
+            .and_then(|r| r.try_cast::<godot::classes::VideoStream>().ok())
+        {
+            if let Some(player) = &mut self.video_player {
+                player.set_stream(&stream);
+                player.play();
+            }
+            if let Some(panel) = &mut self.video_panel {
+                panel.set_visible(true);
+            }
+            self.video_active = true;
+            if let Some(audio) = &mut self.audio {
+                audio.set_cinematic(true);
+            }
+        } else {
+            godot_error!("Original movie unavailable: {}", path);
+            self.video_active = false;
+        }
+    }
+    fn begin_loading(&mut self, paths: Vec<String>, target: String) {
+        match loading::SceneLoad::new(paths) {
+            Ok(job) => {
+                self.loading = Some(job);
+                self.load_target = target;
+                if let Some(panel) = &mut self.loading_layer {
+                    panel.set_visible(true);
+                }
+            }
+            Err(error) => {
+                godot_error!("{}", error);
+                self.error_dialog = Some("Game data could not be loaded.".into());
+                self.previous_screen.clear();
+                if !self.scenario.is_empty() {
+                    self.base().get_tree().quit_ex().exit_code(1).done();
+                }
+            }
+        }
+    }
+    fn poll_loading(&mut self) -> bool {
+        let Some(job) = &mut self.loading else {
+            return true;
+        };
+        let status = job.poll();
+        match status {
+            Ok((progress, false)) => {
+                if let Some(label) = &mut self.loading_label {
+                    label.set_text(&format!("LOADING... {:.0}%", progress * 100.));
+                }
+                if self.scenario == "loading" && progress > 0.2 && !self.capture_dir.is_empty() {
+                    self.capture("loading");
+                }
+                false
+            }
+            Ok((_, true)) => {
+                let (resources, report) = self.loading.take().unwrap().finish();
+                self.preload_resources = resources;
+                self.loading_reports.push(report);
+                let target = std::mem::take(&mut self.load_target);
+                if target == "showroom" {
+                    let mut garage = Self::load_scene("res://assets/worlds/garage.glb");
+                    garage.set_position(Vector3::new(-88.7518, -0.20, 2.0147));
+                    if let Some(stage) = &mut self.stage {
+                        stage.add_child(&garage);
+                    }
+                    let mut paint = Self::load_scene("res://assets/worlds/paintbooth.glb");
+                    paint.set_position(Vector3::new(30., 1.640575715, -30.));
+                    paint.set_visible(false);
+                    self.base_mut().add_child(&paint);
+                    self.paint_stage = Some(paint);
+                    let mut tunnel = Self::load_scene("res://assets/worlds/tunnel_tunnel.glb");
+                    tunnel.set_position(Vector3::new(-36.74981, -1.566545, -2.374297));
+                    prepare_tunnel(&mut tunnel);
+                    if let Some(main) = &mut self.main_stage {
+                        main.add_child(&tunnel);
+                    }
+                } else if let Some(key) = target.strip_prefix("race:") {
+                    self.loaded_race = key.to_owned();
+                }
+                if let Some(panel) = &mut self.loading_layer {
+                    panel.set_visible(false);
+                }
+                self.previous_screen.clear();
+                true
+            }
+            Err(error) => {
+                godot_error!("{}", error);
+                self.loading = None;
+                if let Some(panel) = &mut self.loading_layer {
+                    panel.set_visible(false);
+                }
+                self.error_dialog = Some("Game data could not be loaded.".into());
+                self.previous_screen.clear();
+                if !self.scenario.is_empty() {
+                    self.base().get_tree().quit_ex().exit_code(1).done();
+                }
+                true
+            }
+        }
+    }
+    fn save_path(&self) -> String {
+        if !self.save_override.is_empty() {
+            return self.save_override.clone();
+        }
+        ProjectSettings::singleton()
+            .globalize_path(if self.scenario.is_empty() {
+                "user://career.json"
+            } else {
+                "user://scenario-career.json"
+            })
+            .to_string()
+    }
+    fn load_career(&mut self) {
+        let path = self.save_path();
+        match persistence::load(self.content.clone(), std::path::Path::new(&path)) {
+            Ok(loaded) => {
+                self.new_profile = loaded.source == "new";
+                self.save_blocked = false;
+                self.io_retry.clear();
+                self.load_status = serde_json::json!({"ok":true,"source":loaded.source,"preserved":loaded.preserved.as_ref().map(|p|p.display().to_string()),"path":path});
+                self.game = Some(loaded.game);
+                if loaded.source == "backup" {
+                    self.error_dialog = Some(
+                        "A backup career was restored. The damaged save has been retained.".into(),
+                    );
+                    self.title = false;
+                }
+            }
+            Err(error) => {
+                godot_error!("Career load failed: {}", error);
+                self.load_status = serde_json::json!({"ok":false,"error":error,"path":path});
+                self.game = Some(Game::new(self.content.clone()));
+                self.save_blocked = true;
+                self.io_retry = "load".into();
+                self.error_dialog=Some("Your career could not be loaded. The existing save has been retained. Retry loading or start a new career.".into());
+                self.title = false;
+            }
+        }
+    }
+    fn persist(&mut self) -> bool {
+        if self.save_blocked {
+            self.save_status = serde_json::json!({"ok":false,"error":"Unrecovered career is protected","path":self.save_path()});
+            return false;
+        }
+        let Some(game) = &self.game else { return false };
+        let path = self.save_path();
+        match persistence::save(game, std::path::Path::new(&path)) {
+            Ok(()) => {
+                self.save_status = serde_json::json!({"ok":true,"path":path});
+                if self.io_retry == "save" {
+                    self.error_dialog = None;
+                    self.io_retry.clear();
+                }
+                true
+            }
+            Err(error) => {
+                godot_error!("Career save failed: {}", error);
+                self.save_status = serde_json::json!({"ok":false,"error":error,"path":path});
+                self.io_retry = "save".into();
+                self.error_dialog = Some(
+                    "Your career could not be saved. Check the save location and retry.".into(),
+                );
+                self.previous_screen.clear();
+                false
+            }
+        }
+    }
+    fn replay_native_inputs(&mut self) {
+        if self.input_event_path.is_empty() {
+            return;
+        }
+        let snap = self.game.as_ref().unwrap().frame_snapshot();
+        if snap.screen != GameScreen::Race {
+            return;
+        }
+        if snap.race.as_ref().is_some_and(|race| race.countdown <= 0.) {
+            self.input_frame += 1;
+        }
+        // Only frame0 events are eligible during countdown; later events retain
+        // their active-frame clock and are polled one frame after queueing.
+
+        while let Some(event) = self
+            .input_events
+            .get(self.input_event_index)
+            .filter(|event| event["frame"].as_u64().unwrap_or(0) <= self.input_frame)
+        {
+            if !self.queue_binding_input(event, event["pressed"].as_bool().unwrap_or(true)) {
+                godot_error!("Invalid native input event{}", self.input_event_index);
+                self.base().get_tree().quit_ex().exit_code(1).done();
+                return;
+            }
+            self.input_event_index += 1;
+        }
+    }
+    fn record_native_inputs(&mut self, dt: f64, controls: PlayerInput) {
+        if self.input_event_path.is_empty() || self.input_frame == 0 {
+            return;
+        }
+        let snap = self.game.as_ref().unwrap().frame_snapshot();
+        if let Some(player) = snap
+            .race
+            .as_ref()
+            .and_then(|race| race.racers.iter().find(|racer| racer.is_player))
+        {
+            let right = self
+                .camera
+                .as_ref()
+                .map(|camera| camera.get_global_transform().basis * Vector3::RIGHT)
+                .unwrap_or(Vector3::ZERO);
+            let input = Input::singleton();
+            self.input_samples.push(serde_json::json!({"frame":self.input_frame,"process_frame":self.scenario_frame,"delta":dt,"position":player.position,"rotation":player.rotation,"speed_kph":player.speed_kph,"camera_right":[right.x,right.y,right.z],"controls":controls,"physical_keys":{"throttle":input.is_physical_key_pressed(self.bindings["throttle"]),"left":input.is_physical_key_pressed(self.bindings["left"]),"right":input.is_physical_key_pressed(self.bindings["right"])},"raw_joy_steering":if self.virtual_joy_replay{Some(input.get_joy_axis(0,godot::global::JoyAxis::from_ord(self.joy_axes["steering"])))}else{None}}));
+        }
+    }
+    fn league_label(&self, league: u8) -> String {
+        self.content
+            .leagues
+            .iter()
+            .find(|definition| definition.league == league)
+            .map(|definition| definition.name.clone())
+            .unwrap_or_else(|| "Career".into())
+    }
+    fn settings_path(&self, file: &str) -> std::path::PathBuf {
+        if self.settings_dir.is_empty() {
+            std::path::PathBuf::from(
+                ProjectSettings::singleton()
+                    .globalize_path(&format!("user://{file}"))
+                    .to_string(),
+            )
+        } else {
+            std::path::Path::new(&self.settings_dir).join(file)
+        }
+    }
+    fn load_settings(&mut self) -> bool {
+        let path = self.settings_path("options.json");
+        let result = (|| -> Result<serde_json::Value, String> {
+            if let Some(value) = persistence::load_preferences(&path)? {
+                if value["schema"].as_u64() != Some(1) {
+                    return Err("Unsupported options schema".into());
+                }
+                return Ok(value);
+            }
+            let read = |file: &str| -> Result<serde_json::Value, String> {
+                Ok(persistence::load_preferences(&self.settings_path(file))?.unwrap_or_default())
+            };
+            Ok(
+                serde_json::json!({"schema":1,"keyboard":read("settings.json")?,"controller":read("controller.json")?,"presentation":read("presentation.json")?,"audio":read("audio.json")?}),
+            )
+        })();
+        match result {
+            Ok(value) => {
+                if let Ok(bindings) =
+                    serde_json::from_value::<BTreeMap<String, i32>>(value["keyboard"].clone())
+                {
+                    for (action, ordinal) in bindings {
+                        if self.bindings.contains_key(&action) {
+                            if let Some(key) = Key::try_from_ord(ordinal) {
+                                self.bindings.insert(action, key);
+                            }
+                        }
+                    }
+                }
+                if let Ok(axes) = serde_json::from_value::<BTreeMap<String, i32>>(
+                    value["controller"]["axes"].clone(),
+                ) {
+                    self.joy_axes.extend(axes);
+                }
+                if let Ok(buttons) = serde_json::from_value::<BTreeMap<String, i32>>(
+                    value["controller"]["buttons"].clone(),
+                ) {
+                    self.joy_buttons.extend(buttons);
+                }
+                self.speed_mph = value["presentation"]["mph"].as_bool().unwrap_or(true);
+                self.render_quality = value["presentation"]["quality"]
+                    .as_u64()
+                    .unwrap_or(1)
+                    .min(2) as u8;
+                if let Some(level) = value["presentation"]["difficulty"].as_u64() {
+                    self.send(GameCommand::SetDifficulty {
+                        level: level.min(2) as u8,
+                    });
+                }
+                self.audio_options = value["audio"].clone();
+                if let Some(audio) = &mut self.audio {
+                    audio.apply_options(&self.audio_options);
+                }
+                self.settings_blocked = false;
+                self.settings_status =
+                    serde_json::json!({"ok":true,"operation":"load","path":path,"values":value});
+                if self.io_retry.starts_with("settings_") {
+                    self.io_retry.clear();
+                    self.error_dialog = None;
+                }
+                true
+            }
+            Err(error) => {
+                self.settings_blocked = true;
+                self.settings_status =
+                    serde_json::json!({"ok":false,"operation":"load","path":path,"error":error});
+                self.io_retry = "settings_load".into();
+                self.error_dialog=Some("Options could not be loaded. Existing files are retained. Retry loading options.".into());
+                false
+            }
+        }
+    }
+    fn save_settings(&mut self) -> bool {
+        if self.settings_blocked {
+            self.io_retry = "settings_load".into();
+            self.error_dialog =
+                Some("Options must be recovered before changes can be saved.".into());
+            return false;
+        }
+        let keyboard: BTreeMap<_, _> = self
+            .bindings
+            .iter()
+            .map(|(action, key)| (action.clone(), key.ord()))
+            .collect();
+        let value = serde_json::json!({"schema":1,"keyboard":keyboard,"controller":{"axes":self.joy_axes,"buttons":self.joy_buttons},"presentation":{"mph":self.speed_mph,"quality":self.render_quality,"difficulty":self.game.as_ref().unwrap().frame_snapshot().difficulty},"audio":self.audio.as_ref().map(audio::RuntimeAudio::options).unwrap_or(self.audio_options.clone())});
+        let path = self.settings_path("options.json");
+        match persistence::save_preferences(&path, &value) {
+            Ok(()) => {
+                self.settings_status =
+                    serde_json::json!({"ok":true,"operation":"save","path":path,"values":value});
+                if self.io_retry == "settings_save" {
+                    self.io_retry.clear();
+                    self.error_dialog = None;
+                }
+                true
+            }
+            Err(error) => {
+                godot_error!("Options save failed: {}", error);
+                self.settings_status =
+                    serde_json::json!({"ok":false,"operation":"save","path":path,"error":error});
+                self.io_retry = "settings_save".into();
+                self.error_dialog = Some(
+                    "Options could not be saved. Check the options location and retry.".into(),
+                );
+                false
+            }
+        }
+    }
+    fn apply_render_quality(&mut self) {
+        if let Some(mut viewport) = self.base().get_viewport() {
+            viewport.set_msaa_3d(match self.render_quality {
+                0 => godot::classes::viewport::Msaa::DISABLED,
+                2 => godot::classes::viewport::Msaa::MSAA_4X,
+                _ => godot::classes::viewport::Msaa::MSAA_2X,
+            });
+        }
+        if let Some(sun) = &mut self.sun {
+            sun.set_shadow(self.render_quality > 0);
+        }
+        if let Some(environment) = &mut self.environment {
+            environment.set_ssao_enabled(self.render_quality == 2);
+        }
+    }
+    fn ui_substate(&self) -> serde_json::Value {
+        let snap = self.game.as_ref().unwrap().frame_snapshot();
+        serde_json::json!({"title":self.title,"extras":self.extras,"avatar_category":self.avatar_category,"avatar_cursor":self.avatar_cursor,"avatar_editing":self.avatar_editing,"avatar_profile":snap.profile,"avatar_components":self.avatar_report,"event_picker":self.event_picker,"goals":self.show_goals,"vehicle_stats":self.show_stats,"selected_dna":self.selected_dna,"customization_page":self.custom_page,"cart_page":self.cart_page,"cart_selected":self.cart_selected,"palette":self.palette_target,"paint_translation":paint::provenance(),"paint_draft":self.paint_session.as_ref().map(|_|self.customization.clone()),"paint_stage":self.paint_session.as_ref().map(|session|serde_json::json!({"family":session.family,"cursor":session.cursor,"stage":format!("{:?}",session.stage())})),"palette_preview":self.palette_control.as_ref().map(|palette|{let c=palette.bind().color();[c.r,c.g,c.b,c.a]}),"goal_page":self.goal_page,"selected_goal":self.selected_goal,"options":self.options,"confirmation":self.confirmation,"error":self.error_dialog,"selected_event":self.content.events.get(self.selected_event).map(|event|&event.id),"selected_car":snap.selected_car,"selected_rival":self.selected_rival,"cart":snap.cart,"customization":snap.selected_customization,"cash":snap.career.cash,"settings":self.settings_status,"render_quality":self.render_quality,"difficulty":snap.difficulty,"offer":snap.race.as_ref().and_then(|race|race.bet_offer.as_ref()),"spectating":snap.race.as_ref().is_some_and(|race|race.spectating)})
+    }
+    fn queue_binding_input(&self, step: &serde_json::Value, pressed: bool) -> bool {
+        let mut input = Input::singleton();
+        if let Some(code) = step["key_code"]
+            .as_i64()
+            .and_then(|code| Key::try_from_ord(code as i32))
+        {
+            let mut event = InputEventKey::new_gd();
+            event.set_keycode(code);
+            event.set_physical_keycode(code);
+            event.set_pressed(pressed);
+            input.call_deferred("parse_input_event", &[event.to_variant()]);
+            return true;
+        }
+        if let Some(button) = step["joy_button"]
+            .as_i64()
+            .and_then(|code| godot::global::JoyButton::try_from_ord(code as i32))
+        {
+            let mut event = godot::classes::InputEventJoypadButton::new_gd();
+            event.set_button_index(button);
+            event.set_pressed(pressed);
+            input.call_deferred("parse_input_event", &[event.to_variant()]);
+            return true;
+        }
+        if let Some(axis) = step["joy_axis"]["axis"]
+            .as_i64()
+            .and_then(|code| godot::global::JoyAxis::try_from_ord(code as i32))
+        {
+            let mut event = godot::classes::InputEventJoypadMotion::new_gd();
+            event.set_axis(axis);
+            event.set_axis_value(if pressed {
+                step["joy_axis"]["value"].as_f64().unwrap_or(0.8) as f32
+            } else {
+                0.
+            });
+            input.call_deferred("parse_input_event", &[event.to_variant()]);
+            return true;
+        }
+        false
+    }
+    fn advance_ui_actions(&mut self) {
+        if self.ui_pending {
+            if self.ui_palette_phase < 2
+                && self
+                    .queue_binding_input(&self.ui_steps[self.ui_step], self.ui_palette_phase == 0)
+            {
+                self.ui_palette_phase += 1;
+                return;
+            }
+            if let Some(values) = self.ui_steps[self.ui_step]["color"]
+                .as_array()
+                .filter(|values| values.len() == 4 && self.ui_palette_phase < 3)
+            {
+                if let Some(palette) = &self.palette_control {
+                    if self.ui_palette_phase == 0 {
+                        let picker = palette.bind().picker();
+                        if let Some(mut picker) = picker {
+                            if !picker.is_visible() {
+                                for child in palette.get_children().iter_shared() {
+                                    if let Ok(mut button) = child.try_cast::<Button>() {
+                                        if button.has_meta("ui_action")
+                                            && button.get_meta("ui_action").to::<String>()
+                                                == "palette_precision"
+                                        {
+                                            button.call_deferred(
+                                                "emit_signal",
+                                                &["pressed".to_variant()],
+                                            );
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+                            let color = Color::from_rgba(
+                                values[0].as_f64().unwrap_or(1.) as f32,
+                                values[1].as_f64().unwrap_or(1.) as f32,
+                                values[2].as_f64().unwrap_or(1.) as f32,
+                                values[3].as_f64().unwrap_or(1.) as f32,
+                            );
+                            picker.call_deferred("set_pick_color", &[color.to_variant()]);
+                            picker.call_deferred(
+                                "emit_signal",
+                                &["color_changed".to_variant(), color.to_variant()],
+                            );
+                            self.ui_palette_phase = 1;
+                            return;
+                        }
+                    }
+                    if self.ui_palette_phase == 1
+                        && self.ui_steps[self.ui_step]["close_palette"]
+                            .as_bool()
+                            .unwrap_or(true)
+                    {
+                        for child in palette.get_children().iter_shared() {
+                            if let Ok(mut button) = child.try_cast::<Button>() {
+                                if button.has_meta("ui_action")
+                                    && button.get_meta("ui_action").to::<String>()
+                                        == "palette_accept"
+                                {
+                                    button.call_deferred("emit_signal", &["pressed".to_variant()]);
+                                    self.ui_palette_phase = 2;
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            self.ui_palette_phase = 3;
+            if self.ui_steps[self.ui_step]["capture"].is_string() {
+                let delay = self.ui_steps[self.ui_step]["capture_after_frames"]
+                    .as_u64()
+                    .unwrap_or(3)
+                    .max(3);
+                let until = *self
+                    .ui_capture_wait
+                    .get_or_insert(self.scenario_frame + delay);
+                if self.scenario_frame < until {
+                    return;
+                }
+            }
+            self.ui_capture_wait = None;
+            self.ui_palette_phase = 0;
+            self.ui_pending = false;
+            let screen = format!("{:?}", self.game.as_ref().unwrap().frame_snapshot().screen);
+            let substate = self.ui_substate();
+            let bounds = self.menu.as_ref().map(control_bounds);
+            if let Some(entry) = self.ui_action_log.last_mut() {
+                entry["screen_after"] = screen.into();
+                entry["substate_after"] = substate;
+                entry["capture_frame"] = self.scenario_frame.into();
+                entry["capture_substate"] = entry["substate_after"].clone();
+                if !self.ui_steps[self.ui_step]["key_code"].is_null()
+                    || !self.ui_steps[self.ui_step]["joy_button"].is_null()
+                    || !self.ui_steps[self.ui_step]["joy_axis"].is_null()
+                {
+                    entry["input_control"] = serde_json::json!({"via":"Input.parse_input_event press/release","key_code":self.ui_steps[self.ui_step]["key_code"],"joy_button":self.ui_steps[self.ui_step]["joy_button"],"joy_axis":self.ui_steps[self.ui_step]["joy_axis"]});
+                }
+                entry["capture_native_ui_bounds"] = serde_json::json!(bounds);
+                if self.ui_steps[self.ui_step]["color"].is_array() {
+                    entry["color_control"] = serde_json::json!({"rgba":self.ui_steps[self.ui_step]["color"],"via":"palette_precision Button.pressed → ColorPicker.color_changed → NativePalette.color_changed","closed":self.ui_steps[self.ui_step]["close_palette"].as_bool().unwrap_or(true)});
+                }
+            }
+            if let Some(name) = self.ui_steps[self.ui_step]["capture"].as_str() {
+                self.capture(name);
+            }
+            self.ui_step += 1;
+            if !self.capture_dir.is_empty() {
+                let _ = std::fs::create_dir_all(&self.capture_dir);
+                let _ = std::fs::write(
+                    format!("{}/ui-actions.json", self.capture_dir),
+                    serde_json::to_string_pretty(&self.ui_action_log).unwrap(),
+                );
+            }
+        }
+        let Some(step) = self.ui_steps.get(self.ui_step) else {
+            return;
+        };
+        if self.scenario_frame < step["after_frame"].as_u64().unwrap_or(0) {
+            return;
+        }
+        let Some(action) = step["action"].as_str() else {
+            return;
+        };
+        let since = self
+            .ui_action_log
+            .last()
+            .and_then(|v| v["frame"].as_u64())
+            .unwrap_or(0)
+            .max(step["after_frame"].as_u64().unwrap_or(0));
+        if self.scenario_frame > since + step["timeout_frames"].as_u64().unwrap_or(600) {
+            godot_error!("UI action unavailable: {} at step {}", action, self.ui_step);
+            if !self.capture_dir.is_empty() {
+                let _ = std::fs::create_dir_all(&self.capture_dir);
+                let _ = std::fs::write(format!("{}/ui-action-error.json", self.capture_dir), serde_json::json!({"action":action,"step":self.ui_step,"screen":format!("{:?}",self.game.as_ref().unwrap().frame_snapshot().screen)}).to_string());
+            }
+            self.ui_steps.clear();
+            self.base().get_tree().quit_ex().exit_code(1).done();
+            return;
+        }
+        let Some(menu) = &self.menu else { return };
+        let mut controls = menu.get_children().iter_shared().collect::<Vec<_>>();
+        if let Some(panel) = &self.paint_scalar_panel {
+            controls.extend(panel.get_children().iter_shared());
+        }
+        if let Some(palette) = &self.palette_control {
+            if let Some(index) = action
+                .strip_prefix("palette_cell:")
+                .and_then(|index| index.parse().ok())
+            {
+                if let Some(button) = palette.bind().cell_button(index) {
+                    controls.push(button.upcast());
+                }
+            } else {
+                controls.extend(palette.get_children().iter_shared());
+            }
+        }
+        for child in controls {
+            if let Ok(mut slider) = child.clone().try_cast::<godot::classes::HSlider>() {
+                if slider.is_visible_in_tree()
+                    && slider.has_meta("ui_action")
+                    && slider.get_meta("ui_action").to::<String>() == action
+                {
+                    let Some(value) = step["value"].as_f64() else {
+                        return;
+                    };
+                    self.ui_action_log.push(serde_json::json!({"action":action,"value":value,"frame":self.scenario_frame,"screen_before":format!("{:?}",self.game.as_ref().unwrap().frame_snapshot().screen),"via":"visible-HSlider.value_changed","substate_before":self.ui_substate()}));
+                    slider.call_deferred("set_value_no_signal", &[value.to_variant()]);
+                    slider.call_deferred(
+                        "emit_signal",
+                        &["value_changed".to_variant(), value.to_variant()],
+                    );
+                    self.ui_pending = true;
+                    return;
+                }
+            }
+            if let Ok(mut button) = child.try_cast::<Button>() {
+                if !button.is_visible_in_tree()
+                    || button.is_disabled()
+                    || !button.has_meta("ui_action")
+                {
+                    continue;
+                }
+                if button.get_meta("ui_action").to::<String>() == action {
+                    self.ui_action_log.push(serde_json::json!({"action":action,"frame":self.scenario_frame,"screen_before":format!("{:?}",self.game.as_ref().unwrap().frame_snapshot().screen),"via":"visible-enabled-Button.pressed","substate_before":self.ui_substate()}));
+                    button.call_deferred("emit_signal", &["pressed".to_variant()]);
+                    self.ui_pending = true;
+                    return;
+                }
+            }
+        }
+    }
+    fn send(&mut self, command: GameCommand) {
+        if let Some(game) = &mut self.game {
+            if let Err(error) = game.command(command) {
+                self.notice = error.clone();
+                self.error_dialog = Some(error);
+                self.previous_screen.clear();
+            }
+        }
+    }
+    fn apply_custom(&mut self) {
+        let id = self.game.as_ref().unwrap().frame_snapshot().selected_car;
+        self.send(GameCommand::Customize {
+            car_id: id.clone(),
+            customization: self.customization.clone(),
+        });
+        self.previous_car.clear();
+        self.persist();
+        self.rebuild_menu();
+    }
+    fn setup_world(&mut self) {
+        let mut camera = Camera3D::new_alloc();
+        camera.set_position(Vector3::new(9., 5., 10.));
+        camera.set_fov(62.);
+        camera.set_far(1800.);
+        self.base_mut().add_child(&camera);
+        camera.look_at(Vector3::new(0., 0.8, 0.));
+        camera.make_current();
+        self.camera = Some(camera);
+        let mut sun = DirectionalLight3D::new_alloc();
+        sun.set_rotation_degrees(Vector3::new(-27., -45., 0.));
+        sun.set_color(Color::from_rgb(1., 0.77, 0.56));
+        sun.set_param(godot::classes::light_3d::Param::ENERGY, 2.5);
+        sun.set_shadow(true);
+        self.base_mut().add_child(&sun);
+        self.sun = Some(sun);
+        let mut env = Environment::new_gd();
+        // Reconstructed dusk sky until the native sky render-pass textures are recovered.
+        let mut sky_material = godot::classes::ProceduralSkyMaterial::new_gd();
+        sky_material.set_sky_top_color(Color::from_rgb(0.035, 0.055, 0.13));
+        sky_material.set_sky_horizon_color(Color::from_rgb(0.32, 0.29, 0.37));
+        sky_material.set_ground_bottom_color(Color::from_rgb(0.035, 0.04, 0.065));
+        sky_material.set_ground_horizon_color(Color::from_rgb(0.24, 0.23, 0.28));
+        sky_material.set_energy_multiplier(0.75);
+        let mut sky = godot::classes::Sky::new_gd();
+        sky.set_material(&sky_material);
+        env.set_sky(&sky);
+        env.set_background(godot::classes::environment::BgMode::SKY);
+        env.set_bg_color(Color::from_rgb(0.015, 0.018, 0.035));
+        env.set_ambient_source(godot::classes::environment::AmbientSource::COLOR);
+        env.set_ambient_light_color(Color::from_rgb(0.45, 0.53, 0.7));
+        env.set_ambient_light_energy(0.8);
+        env.set_tonemapper(godot::classes::environment::ToneMapper::FILMIC);
+        let mut world = WorldEnvironment::new_alloc();
+        world.set_environment(&env);
+        self.environment = Some(env);
+        self.base_mut().add_child(&world);
+        let mut scene = Node3D::new_alloc();
+        scene.set_name("RaceWorld");
+        self.base_mut().add_child(&scene);
+        self.scene = Some(scene);
+        let mut stage = Node3D::new_alloc();
+        stage.set_name("Showroom");
+        self.base_mut().add_child(&stage);
+        if !ResourceLoader::singleton().exists("res://assets/worlds/garage.glb") {
+            let mut cylinder = godot::classes::CylinderMesh::new_gd();
+            cylinder.set_top_radius(4.5);
+            cylinder.set_bottom_radius(4.5);
+            cylinder.set_height(0.12);
+            cylinder.set_radial_segments(96);
+            let mut podium = MeshInstance3D::new_alloc();
+            podium.set_mesh(&cylinder);
+            let mut mat = StandardMaterial3D::new_gd();
+            mat.set_albedo(Color::from_rgb(0.07, 0.075, 0.09));
+            mat.set_metallic(0.75);
+            mat.set_roughness(0.22);
+            podium.set_material_override(&mat);
+            stage.add_child(&podium);
+        }
+
+        for (x, z, color) in [
+            (-4., -3., Color::from_rgb(0.22, 0.4, 1.)),
+            (4., 3., Color::from_rgb(0.7, 0.2, 1.)),
+        ] {
+            let mut light = godot::classes::OmniLight3D::new_alloc();
+            light.set_position(Vector3::new(x, 3., z));
+            light.set_color(color);
+            light.set_param(godot::classes::light_3d::Param::ENERGY, 3.);
+            light.set_param(godot::classes::light_3d::Param::RANGE, 15.);
+            stage.add_child(&light);
+        }
+        self.stage = Some(stage);
+        let mut main = Node3D::new_alloc();
+        main.set_name("OriginalMainMenuTunnel");
+        self.base_mut().add_child(&main);
+        for (x, z) in [(-4., 2.), (4., -2.)] {
+            let mut light = godot::classes::OmniLight3D::new_alloc();
+            light.set_position(Vector3::new(x, 2., z));
+            light.set_color(Color::from_rgb(0.9, 0.05, 0.45));
+            light.set_param(godot::classes::light_3d::Param::ENERGY, 5.);
+            light.set_param(godot::classes::light_3d::Param::RANGE, 25.);
+            main.add_child(&light);
+        }
+        self.main_stage = Some(main);
+    }
+    fn box_mesh(
+        parent: &mut Gd<Node3D>,
+        name: &str,
+        pos: Vector3,
+        size: Vector3,
+        color: Color,
+    ) -> Gd<MeshInstance3D> {
+        let mut mesh = BoxMesh::new_gd();
+        mesh.set_size(size);
+        let mut mat = StandardMaterial3D::new_gd();
+        mat.set_albedo(color);
+        mat.set_roughness(0.8);
+        let mut node = MeshInstance3D::new_alloc();
+        node.set_name(name);
+        node.set_mesh(&mesh);
+        node.set_material_override(&mat);
+        node.set_position(pos);
+        parent.add_child(&node);
+        node
+    }
+    fn build_track(&mut self, index: usize) {
+        if let Some(scene) = &mut self.scene {
+            for mut child in scene.get_children().iter_shared() {
+                child.queue_free();
+            }
+        }
+        let Some(track) = self.content.tracks.get(index).cloned() else {
+            return;
+        };
+        let scene = self.scene.as_mut().unwrap();
+        let route_path = format!("res://assets/worlds/{}.glb", track.id);
+        let metadata: serde_json::Value = serde_json::from_str(
+            &FileAccess::get_file_as_string("res://assets/tracks.json").to_string(),
+        )
+        .unwrap_or_default();
+        if let Some(entry) = metadata["tracks"]
+            .as_array()
+            .and_then(|tracks| tracks.iter().find(|t| t["id"].as_str() == Some(&track.id)))
+        {
+            let city = entry["city"]
+                .as_str()
+                .unwrap_or("")
+                .to_lowercase()
+                .replace(' ', "_");
+            let path = if ResourceLoader::singleton().exists(&route_path) {
+                route_path.clone()
+            } else {
+                format!("res://assets/worlds/{city}.glb")
+            };
+            if ResourceLoader::singleton().exists(&path) {
+                let mut native = Self::load_scene(&path);
+                prepare_layered_world(&mut native, &path);
+                let origin = &entry["source"]["origin_source_units"];
+                native.set_position(Vector3::new(
+                    -origin[0].as_f64().unwrap_or(0.) as f32 * 0.01,
+                    -origin[1].as_f64().unwrap_or(0.) as f32 * 0.01,
+                    -origin[2].as_f64().unwrap_or(0.) as f32 * 0.01,
+                ));
+                native.set_name("NativeReferenceWorld");
+                scene.add_child(&native);
+                return;
+            }
+        }
+        Self::box_mesh(
+            scene,
+            "Terrain",
+            Vector3::new(100., -0.7, 100.),
+            Vector3::new(6000., 1., 6000.),
+            Color::from_rgb(0.10, 0.115, 0.11),
+        );
+        let mut surface = godot::classes::SurfaceTool::new_gd();
+        surface.begin(godot::classes::mesh::PrimitiveType::TRIANGLES);
+        for i in 0..track.points.len() {
+            let a = v3(track.points[i]);
+            let b = v3(track.points[(i + 1) % track.points.len()]);
+            let delta = b - a;
+            let side = Vector3::new(delta.z, 0., -delta.x).normalized();
+            let color = Color::from_rgb(0.16, 0.165, 0.175);
+            let corners = [
+                a - side * track.road_width * 0.5,
+                b - side * track.road_width * 0.5,
+                b + side * track.road_width * 0.5,
+                a + side * track.road_width * 0.5,
+            ];
+            for n in [0, 2, 1, 0, 3, 2] {
+                surface.set_color(color);
+                surface.add_vertex(corners[n]);
+            }
+            for sign in [-1., 1.] {
+                let center = (a + b) * 0.5
+                    + side * (track.road_width * 0.5 + 0.35) * sign
+                    + Vector3::UP * 0.55;
+                let basis = Basis::from_axis_angle(Vector3::UP, delta.x.atan2(delta.z));
+                append_box(
+                    &mut surface,
+                    center,
+                    Vector3::new(0.7, 1.1, delta.length() + 0.1),
+                    basis,
+                    if i % 3 == 0 {
+                        Color::from_rgb(0.75, 0.07, 0.05)
+                    } else {
+                        Color::from_rgb(0.82, 0.80, 0.72)
+                    },
+                );
+                if i % 5 == 0 {
+                    let p = (a + b) * 0.5 + side * (track.road_width * 0.5 + 25.) * sign;
+                    let h = 12. + ((i * 7) % 29) as f32;
+                    append_box(
+                        &mut surface,
+                        p + Vector3::UP * h * 0.5,
+                        Vector3::new(17., h, 20.),
+                        basis,
+                        Color::from_rgb(0.29, 0.285, 0.30),
+                    );
+                    for level in 0..(h / 3.) as usize {
+                        append_box(
+                            &mut surface,
+                            p + Vector3::UP * (2. + level as f32 * 3.) - side * 9.0 * sign,
+                            Vector3::new(0.07, 1.3, 15.),
+                            basis,
+                            Color::from_rgb(0.58, 0.56, 0.44),
+                        );
+                    }
+                }
+            }
+            if i % 3 == 0 {
+                append_box(
+                    &mut surface,
+                    (a + b) * 0.5 + Vector3::UP * 0.025,
+                    Vector3::new(0.14, 0.015, 2.5),
+                    Basis::from_axis_angle(Vector3::UP, delta.x.atan2(delta.z)),
+                    Color::from_rgb(0.95, 0.83, 0.34),
+                );
+            }
+        }
+        surface.generate_normals();
+        if let Some(mesh) = surface.commit() {
+            let mut material = StandardMaterial3D::new_gd();
+            material.set_flag(
+                godot::classes::base_material_3d::Flags::ALBEDO_FROM_VERTEX_COLOR,
+                true,
+            );
+            material.set_roughness(0.82);
+            let mut node = MeshInstance3D::new_alloc();
+            node.set_name("RecoveredRouteReconstructedScenery");
+            node.set_mesh(&mesh);
+            node.set_material_override(&material);
+            scene.add_child(&node);
+        }
+        let path = format!("res://assets/tracks/{}.glb", track.id);
+        if ResourceLoader::singleton().exists(&path) {
+            let mut native = Self::load_scene(&path);
+            scene.add_child(&native);
+            native.set_name("RecoveredEnvironment");
+        }
+    }
+    fn load_scene(path: &str) -> Gd<Node3D> {
+        ResourceLoader::singleton()
+            .load(path)
+            .and_then(|r| r.try_cast::<PackedScene>().ok())
+            .and_then(|r| r.instantiate())
+            .and_then(|n| n.try_cast::<Node3D>().ok())
+            .unwrap_or_else(Node3D::new_alloc)
+    }
+    fn setup_audio(&mut self) {
+        let mut root = Node3D::new_alloc();
+        root.set_name("NativeAudio");
+        self.base_mut().add_child(&root);
+        let mut audio = audio::RuntimeAudio::new(root);
+        audio.apply_options(&self.audio_options);
+        self.audio = Some(audio);
+    }
+    fn setup_ui(&mut self) {
+        let mut canvas = CanvasLayer::new_alloc();
+        self.base_mut().add_child(&canvas);
+        let mut menu = Control::new_alloc();
+        menu.set_name("Menus");
+        menu.set_size(Vector2::new(1920., 1080.));
+        canvas.add_child(&menu);
+        self.menu = Some(menu);
+        let mut hud = Control::new_alloc();
+        hud.set_name("RaceHUD");
+        hud.set_size(Vector2::new(1920., 1080.));
+        canvas.add_child(&hud);
+        self.hud = Some(hud);
+        let mut loading = Control::new_alloc();
+        loading.set_size(Vector2::new(1920., 1080.));
+        canvas.add_child(&loading);
+        Self::rect(
+            &mut loading,
+            Vector2::ZERO,
+            Vector2::new(1920., 1080.),
+            Color::from_rgb(0.01, 0.015, 0.025),
+        );
+        Self::chrome(
+            &mut loading,
+            Vector2::new(0., 430.),
+            Vector2::new(1920., 160.),
+        );
+        let label = Self::text(&mut loading, "LOADING...", 720., 470., 56, Color::WHITE);
+        let mut tip = Self::text(
+            &mut loading,
+            &native_loading_tip(),
+            560.,
+            850.,
+            28,
+            Color::WHITE,
+        );
+        tip.set_size(Vector2::new(1120., 180.));
+        tip.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+        loading.set_visible(false);
+        self.loading_layer = Some(loading);
+        self.loading_label = Some(label);
+        let mut panel = Control::new_alloc();
+        panel.set_size(Vector2::new(1920., 1080.));
+        canvas.add_child(&panel);
+        Self::rect(
+            &mut panel,
+            Vector2::ZERO,
+            Vector2::new(1920., 1080.),
+            Color::BLACK,
+        );
+        let mut player = godot::classes::VideoStreamPlayer::new_alloc();
+        player.set_size(Vector2::new(1920., 1080.));
+        player.set_expand(true);
+        player.set_volume_db(-6.);
+        panel.add_child(&player);
+        self.button(&mut panel, "SKIP", "movie_skip", 1580., 970., 260., 65.);
+        panel.set_visible(false);
+        self.video_panel = Some(panel);
+        self.video_player = Some(player);
+    }
+    fn rect(parent: &mut Gd<Control>, pos: Vector2, size: Vector2, color: Color) {
+        let mut rect = ColorRect::new_alloc();
+        rect.set_position(pos);
+        rect.set_size(size);
+        rect.set_color(color);
+        rect.set_mouse_filter(godot::classes::control::MouseFilter::IGNORE);
+        parent.add_child(&rect);
+    }
+    fn text(
+        parent: &mut Gd<Control>,
+        value: &str,
+        x: f32,
+        y: f32,
+        size: i32,
+        color: Color,
+    ) -> Gd<Label> {
+        let mut label = Label::new_alloc();
+        label.add_theme_font_override("font", &native_font());
+        label.set_text(value);
+        label.set_position(Vector2::new(x, y));
+        label.add_theme_font_size_override("font_size", size);
+        label.add_theme_color_override("font_color", color);
+        parent.add_child(&label);
+        label
+    }
+    fn palette(
+        &self,
+        parent: &mut Gd<Control>,
+        label: &str,
+        target: &str,
+        _color: [f32; 4],
+        x: f32,
+        y: f32,
+        width: f32,
+    ) {
+        let mut button = Button::new_alloc();
+        button.set_text(label);
+        button.set_position(Vector2::new(x, y));
+        button.set_size(Vector2::new(width, 48.));
+        button.add_theme_font_override("font", &native_font());
+        button.add_theme_font_size_override("font_size", 22);
+        button.set_meta("ui_action", &format!("palette:{target}").to_variant());
+        button.connect(
+            "pressed",
+            &self
+                .base()
+                .callable("palette_opened")
+                .bind(&[target.to_variant()]),
+        );
+        parent.add_child(&button);
+    }
+    fn button(
+        &self,
+        parent: &mut Gd<Control>,
+        label: &str,
+        key: &str,
+        x: f32,
+        y: f32,
+        w: f32,
+        h: f32,
+    ) {
+        let mut button = Button::new_alloc();
+        button.add_theme_font_override("font", &native_font());
+        button.set_text(label);
+        button.set_meta("ui_action", &key.to_variant());
+        if self.confirmation.is_some() && !key.starts_with("confirm_") {
+            button.set_disabled(true);
+        }
+        button.set_position(Vector2::new(x, y));
+        button.set_size(Vector2::new(w, h));
+        button.add_theme_font_size_override("font_size", 23);
+        button.set_flat(true);
+        let callable = self.base().callable("action").bind(&[key.to_variant()]);
+        button.connect("pressed", &callable);
+        let first = parent
+            .get_children()
+            .iter_shared()
+            .filter(|n| n.is_class("Button") && !n.is_queued_for_deletion())
+            .count()
+            == 0;
+        parent.add_child(&button);
+        if key == "confirm_no" || (first && self.confirmation.is_none()) {
+            button.grab_focus();
+        }
+    }
+    fn rebuild_menu(&mut self) {
+        let Some(game) = &self.game else { return };
+        let snap = game.snapshot();
+        let screen = snap.screen;
+        let mut menu = self.menu.take().unwrap();
+        for mut child in menu.get_children().iter_shared() {
+            child.queue_free();
+        }
+        if let Some(error) = &self.error_dialog {
+            menu.set_visible(true);
+            Self::rect(
+                &mut menu,
+                Vector2::ZERO,
+                Vector2::new(1920., 1080.),
+                Color::from_rgba(0., 0., 0., 0.75),
+            );
+            Self::chrome(
+                &mut menu,
+                Vector2::new(350., 300.),
+                Vector2::new(1220., 100.),
+            );
+            Self::text(&mut menu, "NOTICE", 820., 320., 42, Color::WHITE);
+            let mut label = Self::text(&mut menu, error, 430., 430., 30, Color::WHITE);
+            label.set_size(Vector2::new(1060., 190.));
+            label.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+            if !self.io_retry.is_empty() {
+                self.button(&mut menu, "RETRY", "retry_io", 550., 680., 350., 65.);
+            }
+            if self.save_blocked {
+                self.button(
+                    &mut menu,
+                    "START NEW CAREER",
+                    "new_career",
+                    1000.,
+                    680.,
+                    420.,
+                    65.,
+                );
+            } else {
+                self.button(&mut menu, "OK", "error_ok", 1000., 680., 350., 65.);
+            }
+            self.menu = Some(menu);
+            return;
+        }
+        if self.title {
+            menu.set_visible(true);
+            Self::text(&mut menu, "OVERSTEER", 620., 160., 110, Color::WHITE);
+            Self::native_texture(
+                &mut menu,
+                "crew",
+                Vector2::new(810., 300.),
+                Vector2::new(300., 300.),
+                false,
+            );
+            Self::chrome(
+                &mut menu,
+                Vector2::new(470., 790.),
+                Vector2::new(980., 100.),
+            );
+            self.button(
+                &mut menu,
+                "PRESS START",
+                "title_start",
+                700.,
+                805.,
+                520.,
+                75.,
+            );
+            self.menu = Some(menu);
+            return;
+        }
+        if self.credits {
+            menu.set_visible(true);
+            let data: serde_json::Value = serde_json::from_str(
+                &FileAccess::get_file_as_string("res://assets/credits.json").to_string(),
+            )
+            .unwrap_or_default();
+            let lines = data["lines"]
+                .as_array()
+                .map(|lines| {
+                    lines
+                        .iter()
+                        .filter_map(|line| line.as_str())
+                        .collect::<Vec<_>>()
+                        .join("\n")
+                })
+                .unwrap_or_default();
+            let layout = native_layout::NativeLayout::credits();
+            self.credits_clip_height = layout.slot("TEXT").unwrap().pixels().1.y;
+            match layout.render(
+                &mut menu,
+                &[("MENUTITLE", "CREDITS".into()), ("TEXT", lines)],
+            ) {
+                Ok(mut rendered) => {
+                    self.credits_label = rendered.texts.remove("TEXT");
+                    if let Some(label) = &mut self.credits_label {
+                        label.set_position(Vector2::new(0., self.credits_clip_height));
+                    }
+                }
+                Err(error) => {
+                    godot_error!("Native credits layout: {}", error);
+                }
+            }
+            self.button(&mut menu, "BACK", "credits_back", 1500., 970., 320., 65.);
+            self.menu = Some(menu);
+            return;
+        }
+        if self.replay {
+            Self::text(&mut menu, "REPLAY", 70., 55., 38, Color::WHITE);
+            self.button(&mut menu, "CONTINUE", "replay_done", 1510., 950., 320., 65.);
+            self.menu = Some(menu);
+            return;
+        }
+        if !self.options && screen == GameScreen::MainMenu {
+            menu.set_visible(true);
+            self.reference_main(&mut menu);
+            self.menu = Some(menu);
+            return;
+        }
+        if self.show_stats {
+            menu.set_visible(true);
+            Self::rect(
+                &mut menu,
+                Vector2::ZERO,
+                Vector2::new(1920., 1080.),
+                Color::from_rgba(0.015, 0.025, 0.065, 0.94),
+            );
+            Self::chrome(&mut menu, Vector2::new(0., 90.), Vector2::new(1600., 95.));
+            Self::text(&mut menu, "VEHICLE HISTORY", 120., 100., 44, Color::WHITE);
+            if let Some(car) = snap.cars.iter().find(|car| car.id == snap.selected_car) {
+                Self::text(&mut menu, &car.name, 120., 245., 40, Color::WHITE);
+            }
+            if let Some(history) = snap.career.vehicle_history.get(&snap.selected_car) {
+                Self::text(
+                    &mut menu,
+                    &format!(
+                        "DISTANCE {:.1} KM\nWINS {}    LOSSES {}\nPINK SLIP WINS {}    LOSSES {}\nPURCHASE PRICE ${}\nTOTAL SPENT ${}\nACQUIRED BY {}",
+                        history.mileage_m / 1000.,
+                        history.wins,
+                        history.losses,
+                        history.pink_slip_wins,
+                        history.pink_slip_losses,
+                        history.purchase_price,
+                        history.total_spent,
+                        history.acquired_by
+                    ),
+                    120.,
+                    330.,
+                    32,
+                    Color::WHITE,
+                );
+            }
+            Self::text(&mut menu, "SPONSOR PACKAGES", 1090., 245., 36, Color::WHITE);
+            for (row, (category, leagues)) in snap.career.sponsor_packages.iter().enumerate() {
+                Self::text(
+                    &mut menu,
+                    &format!(
+                        "{}: {}",
+                        category,
+                        leagues
+                            .iter()
+                            .map(|league| self.league_label(*league))
+                            .collect::<Vec<_>>()
+                            .join(", ")
+                    ),
+                    1090.,
+                    330. + row as f32 * 70.,
+                    27,
+                    Color::WHITE,
+                );
+            }
+            Self::text(
+                &mut menu,
+                &format!(
+                    "VISUAL UNLOCKS {}\nPROTOTYPE {}",
+                    snap.career.visual_unlocks.len(),
+                    if snap.career.prototype_unlocked {
+                        "UNLOCKED"
+                    } else {
+                        "LOCKED"
+                    }
+                ),
+                1090.,
+                640.,
+                29,
+                Color::WHITE,
+            );
+            self.button(&mut menu, "BACK", "stats_back", 1430., 955., 300., 60.);
+            self.menu = Some(menu);
+            return;
+        }
+        if self.show_goals {
+            menu.set_visible(true);
+            let progress = &snap.league_progress;
+            self.goal_page = self.goal_page.min(progress.goals.len().saturating_sub(1));
+            let goal_layout =
+                native_layout::NativeLayout::parse(include_str!("layouts/goals.json"))
+                    .expect("verified goal UI rows");
+            let selected = progress.goals.get(self.goal_page);
+            if let Err(error) = goal_layout.render(
+                &mut menu,
+                &[
+                    ("TITLE", "SELECT GOAL".into()),
+                    (
+                        "MENU_GOALTITLE",
+                        selected
+                            .map(|s| s.goal.description.clone())
+                            .unwrap_or_default(),
+                    ),
+                    (
+                        "OPTIONAL_TOTAL",
+                        format!(
+                            "{} GOALS TO QUALIFY",
+                            progress
+                                .optional_required
+                                .saturating_sub(progress.optional_completed)
+                        ),
+                    ),
+                    (
+                        "ADDITIONAL_GOALINFO",
+                        selected
+                            .filter(|s| s.progress.complete)
+                            .map(|_| "COMPLETED".into())
+                            .unwrap_or_default(),
+                    ),
+                    ("BONUS_UNLOCK_INFO", String::new()),
+                ],
+            ) {
+                self.notice = error;
+            }
+            let carousel = goal_layout.slot("MENU").unwrap();
+            let center_y = carousel.rect[1] * 1080.;
+            let selected_size = carousel.item_height * carousel.max_scale * 1080.;
+            let spacing = carousel.rect[2] * 1920. / 5.;
+            // Native 82220250 filename builder; all261 goal bindings are verified in
+            // artifacts/juiced2-build/ui/native-goal-icon-map.json.
+            let icons: serde_json::Value =
+                serde_json::from_str(include_str!("goal-icons.json")).unwrap();
+            let optional: Vec<_> = progress
+                .goals
+                .iter()
+                .enumerate()
+                .filter(|(_, goal)| !goal.goal.qualifier)
+                .collect();
+            if !optional.is_empty() {
+                let center = optional
+                    .iter()
+                    .position(|(index, _)| *index == self.goal_page)
+                    .unwrap_or(0);
+                for offset in -2_i32..=2 {
+                    let item = (center as i32 + offset).rem_euclid(optional.len() as i32) as usize;
+                    let (index, status) = optional[item];
+                    let selected = index == self.goal_page;
+                    let size = if selected {
+                        selected_size
+                    } else {
+                        selected_size * 0.75
+                    };
+                    let x = 960. + offset as f32 * spacing - size / 2.;
+                    let y = center_y
+                        + if selected {
+                            0.
+                        } else {
+                            carousel.unselected_offset_y * 1080.
+                        }
+                        - size / 2.;
+                    if let Some(path) = icons[&status.goal.id].as_str() {
+                        Self::texture_path(
+                            &mut menu,
+                            path,
+                            Vector2::new(x, y),
+                            Vector2::new(size, size),
+                        );
+                    }
+                    // Native carousel821F60F4 overlays completion, not generic checkbox art.
+                    let overlay = if status.progress.complete {
+                        "res://assets/ui/native/ui/3c495416.png"
+                    } else {
+                        "res://assets/ui/native/ui/97e9bdbe.png"
+                    };
+                    Self::texture_path(
+                        &mut menu,
+                        overlay,
+                        Vector2::new(x, y),
+                        Vector2::new(size, size),
+                    );
+                    self.button(
+                        &mut menu,
+                        "",
+                        &format!("goal_icon:{index}"),
+                        x,
+                        y,
+                        size,
+                        size,
+                    );
+                    if selected {
+                        if let Some(child) = menu.get_children().iter_shared().last() {
+                            if let Ok(mut button) = child.try_cast::<Button>() {
+                                button.grab_focus();
+                            }
+                        }
+                    }
+                }
+            }
+            if let Some((index, qualifier)) = progress
+                .goals
+                .iter()
+                .enumerate()
+                .find(|(_, goal)| goal.goal.qualifier)
+            {
+                if let Some(path) = icons[&qualifier.goal.id].as_str() {
+                    Self::texture_path(
+                        &mut menu,
+                        path,
+                        Vector2::new(845., 785.),
+                        Vector2::new(190., 190.),
+                    );
+                }
+                if !progress.promotion_open {
+                    Self::native_texture(
+                        &mut menu,
+                        "GoalIcons_LockedIcon",
+                        Vector2::new(900., 845.),
+                        Vector2::new(75., 75.),
+                        false,
+                    );
+                }
+                self.button(
+                    &mut menu,
+                    "",
+                    &format!("goal_icon:{index}"),
+                    845.,
+                    785.,
+                    190.,
+                    190.,
+                );
+                if self.goal_page == index {
+                    if let Some(child) = menu.get_children().iter_shared().last() {
+                        if let Ok(mut button) = child.try_cast::<Button>() {
+                            button.grab_focus();
+                        }
+                    }
+                }
+            }
+            self.button(&mut menu, "PREVIOUS", "goals_prev", 110., 990., 270., 60.);
+            self.button(&mut menu, "NEXT", "goals_next", 415., 990., 270., 60.);
+            self.button(&mut menu, "SELECT", "goals_select", 1120., 990., 270., 60.);
+            Self::text(&mut menu, &self.notice, 145., 925., 23, Color::WHITE);
+            self.button(&mut menu, "BACK", "goals_back", 1510., 990., 270., 60.);
+            self.menu = Some(menu);
+            return;
+        }
+        if !self.options
+            && (screen == GameScreen::MainMenu
+                || (screen == GameScreen::Career && !self.event_picker))
+        {
+            self.reference_home(&mut menu, &snap);
+            self.menu = Some(menu);
+            return;
+        }
+        let race = screen == GameScreen::Race;
+        let spectating = snap.race.as_ref().is_some_and(|r| r.spectating);
+        menu.set_visible(!race || spectating);
+        if race && spectating {
+            if let Some(race) = &snap.race {
+                Self::rect(
+                    &mut menu,
+                    Vector2::new(30., 180.),
+                    Vector2::new(480., 720.),
+                    Color::from_rgba(0., 0., 0., 0.65),
+                );
+                for (index, racer) in race.racers.iter().enumerate() {
+                    self.button(
+                        &mut menu,
+                        &format!(
+                            "{} {}",
+                            if index == self.selected_rival {
+                                ">"
+                            } else {
+                                " "
+                            },
+                            racer.name
+                        ),
+                        &format!("rival:{index}"),
+                        45.,
+                        200. + index as f32 * 58.,
+                        440.,
+                        52.,
+                    );
+                }
+                self.button(
+                    &mut menu,
+                    &format!("STAKE ${}", self.wager.max(1000)),
+                    "wager",
+                    45.,
+                    780.,
+                    220.,
+                    50.,
+                );
+                self.button(
+                    &mut menu,
+                    "PLACE BET",
+                    "spectator_bet",
+                    270.,
+                    780.,
+                    220.,
+                    50.,
+                );
+                self.button(&mut menu, "CHEER", "cheer", 45., 840., 220., 50.);
+                self.button(&mut menu, "BOO", "boo", 270., 840., 220., 50.);
+                let odds = Self::text(&mut menu, "", 45., 920., 28, Color::WHITE);
+                self.labels.insert("spectator_odds".into(), odds);
+            }
+            self.menu = Some(menu);
+            return;
+        }
+        if race {
+            self.menu = Some(menu);
+            return;
+        }
+        let white = Color::from_rgb(0.96, 0.96, 0.93);
+        let red = Color::from_rgb(1., 0.16, 0.12);
+        let muted = Color::from_rgb(0.63, 0.67, 0.73);
+        if !matches!(
+            screen,
+            GameScreen::Grid
+                | GameScreen::Customization
+                | GameScreen::Checkout
+                | GameScreen::Avatar
+        ) {
+            Self::rect(
+                &mut menu,
+                Vector2::ZERO,
+                Vector2::new(1920., 120.),
+                Color::from_rgba(0.025, 0.025, 0.035, 0.96),
+            );
+            Self::text(&mut menu, "OVERSTEER", 60., 24., 46, white);
+            Self::text(&mut menu, "HOT IMPORT NIGHTS", 64., 78., 15, red);
+            Self::text(
+                &mut menu,
+                &format!(
+                    "{}     ${}     {} WINS",
+                    self.league_label(snap.career.league),
+                    snap.career.cash,
+                    snap.career.wins
+                ),
+                1260.,
+                53.,
+                22,
+                white,
+            );
+            Self::rect(
+                &mut menu,
+                Vector2::new(0., 120.),
+                Vector2::new(540., 890.),
+                Color::from_rgba(0.025, 0.025, 0.045, 0.91),
+            );
+            Self::rect(
+                &mut menu,
+                Vector2::new(0., 1006.),
+                Vector2::new(1920., 74.),
+                Color::from_rgba(0.025, 0.025, 0.035, 0.94),
+            );
+            Self::text(
+                &mut menu,
+                if self.options {
+                    "OPTIONS"
+                } else {
+                    match screen {
+                        GameScreen::Career => "CAREER",
+                        GameScreen::QuickRace => "QUICK RACE",
+                        GameScreen::Garage => "GARAGE",
+                        GameScreen::Dealership => "DEALERSHIP",
+                        GameScreen::Customization => "CUSTOMIZE",
+                        GameScreen::Crew => "CREW DNA",
+                        GameScreen::Paused => "PAUSED",
+                        GameScreen::Results => "RACE RESULTS",
+                        GameScreen::Complete => "CAREER COMPLETE",
+                        GameScreen::Checkout => "SHOPPING CART",
+                        GameScreen::Avatar => "DRIVER PROFILE",
+                        GameScreen::Podium => "PODIUM",
+                        GameScreen::RoundResults => "ROUND RESULTS",
+                        _ => "MAIN MENU",
+                    }
+                },
+                58.,
+                150.,
+                38,
+                white,
+            );
+            Self::rect(
+                &mut menu,
+                Vector2::new(60., 210.),
+                Vector2::new(90., 5.),
+                red,
+            );
+            Self::text(&mut menu, &self.notice, 580., 1025., 22, red);
+            if screen != GameScreen::Avatar {
+                Self::text(
+                    &mut menu,
+                    "W/S ACCELERATE / BRAKE    A/D STEER    SHIFT NITROUS    SPACE HANDBRAKE    ESC PAUSE",
+                    60.,
+                    1028.,
+                    19,
+                    muted,
+                );
+            }
+        }
+        if self.options {
+            for (i, (action, key)) in self.bindings.iter().enumerate() {
+                self.button(
+                    &mut menu,
+                    &format!("{}   {:?}", action.to_uppercase(), key),
+                    &format!("bind:{action}"),
+                    60.,
+                    250. + i as f32 * 65.,
+                    420.,
+                    54.,
+                );
+            }
+            self.button(
+                &mut menu,
+                &format!(
+                    "DIFFICULTY {}",
+                    ["EASY", "NORMAL", "HARD"][snap.difficulty as usize]
+                ),
+                "difficulty",
+                550.,
+                270.,
+                450.,
+                58.,
+            );
+            self.button(
+                &mut menu,
+                &format!(
+                    "QUALITY {}",
+                    ["LOW", "BALANCED", "HIGH"][self.render_quality as usize]
+                ),
+                "quality",
+                550.,
+                345.,
+                450.,
+                58.,
+            );
+            if let Some(audio) = &self.audio {
+                for (i, (kind, gain)) in [
+                    ("music", audio.music_gain),
+                    ("engine", audio.engine_gain),
+                    ("speech", audio.speech_gain),
+                    ("sfx", audio.sfx_gain),
+                ]
+                .iter()
+                .enumerate()
+                {
+                    self.button(
+                        &mut menu,
+                        &format!("{} {:.0}%", kind.to_uppercase(), gain * 100.),
+                        &format!("audio:{kind}"),
+                        1050. + (i % 2) as f32 * 310.,
+                        230. + (i / 2) as f32 * 65.,
+                        300.,
+                        58.,
+                    );
+                }
+            }
+            for (i, (action, axis)) in self.joy_axes.iter().enumerate() {
+                self.button(
+                    &mut menu,
+                    &format!("{}   AXIS {}", action.to_uppercase(), axis),
+                    &format!("axis:{action}"),
+                    1090.,
+                    400. + i as f32 * 65.,
+                    600.,
+                    55.,
+                );
+            }
+            for (i, (action, button)) in self.joy_buttons.iter().enumerate() {
+                self.button(
+                    &mut menu,
+                    &format!("{}   BUTTON {}", action.to_uppercase(), button),
+                    &format!("button:{action}"),
+                    1090.,
+                    620. + i as f32 * 65.,
+                    600.,
+                    55.,
+                );
+            }
+            self.button(
+                &mut menu,
+                if self.speed_mph {
+                    "SPEED UNITS: MPH"
+                } else {
+                    "SPEED UNITS: KPH"
+                },
+                "units",
+                620.,
+                650.,
+                400.,
+                55.,
+            );
+            self.button(&mut menu, "BACK", "back_options", 60., 780., 420., 58.);
+            Self::text(&mut menu, "INPUT", 620., 220., 42, white);
+            Self::text(
+                &mut menu,
+                "Select an action, then press its new key.\nGamepad: left stick / triggers.\nConnected controllers are detected every frame.",
+                620.,
+                300.,
+                26,
+                white,
+            );
+            self.menu = Some(menu);
+            return;
+        }
+        match screen {
+            GameScreen::MainMenu | GameScreen::Complete => {
+                let actions = [
+                    ("CAREER", "nav:career"),
+                    ("QUICK RACE", "nav:quick"),
+                    ("GARAGE", "nav:garage"),
+                    ("DEALERSHIP", "nav:dealer"),
+                    ("CREW DNA", "nav:crew"),
+                    ("OPTIONS", "options"),
+                    ("SAVE & QUIT", "quit"),
+                ];
+                for (i, (label, key)) in actions.iter().enumerate() {
+                    self.button(&mut menu, label, key, 60., 250. + i as f32 * 84., 420., 68.);
+                }
+                Self::text(&mut menu, "", 1120., 780., 52, white);
+                Self::text(
+                    &mut menu,
+                    "30 CARS   •   CIRCUIT   •   DRIFT   •   CAREER",
+                    1125.,
+                    845.,
+                    21,
+                    red,
+                );
+            }
+            GameScreen::QuickRace | GameScreen::Career => {
+                let goal_events = self
+                    .game
+                    .as_ref()
+                    .unwrap()
+                    .events_for_goal(&self.selected_goal);
+                let events: Vec<_> = snap
+                    .events
+                    .iter()
+                    .enumerate()
+                    .filter(|(_, e)| {
+                        screen == GameScreen::QuickRace
+                            || (e.league <= snap.career.league
+                                && (self.selected_goal.is_empty() || goal_events.contains(&e.id)))
+                    })
+                    .collect();
+                for (row, (index, event)) in events
+                    .iter()
+                    .skip(
+                        events
+                            .iter()
+                            .position(|(i, _)| *i == self.selected_event)
+                            .unwrap_or(0)
+                            / 8
+                            * 8,
+                    )
+                    .take(8)
+                    .enumerate()
+                {
+                    self.button(
+                        &mut menu,
+                        &format!(
+                            "{} {}",
+                            if *index == self.selected_event {
+                                "▶"
+                            } else {
+                                " "
+                            },
+                            event.name
+                        ),
+                        &format!("event:{index}"),
+                        50.,
+                        240. + row as f32 * 65.,
+                        450.,
+                        56.,
+                    );
+                }
+                if let Some(event) = snap.events.get(self.selected_event) {
+                    Self::text(
+                        &mut menu,
+                        &event.name.to_uppercase(),
+                        1040.,
+                        225.,
+                        42,
+                        white,
+                    );
+                    Self::text(
+                        &mut menu,
+                        &format!(
+                            "{:?}   •   {} LAPS\nPRIZE ${}   •   {}",
+                            event.mode,
+                            event.laps,
+                            event.reward,
+                            self.league_label(event.league)
+                        ),
+                        1040.,
+                        290.,
+                        24,
+                        white,
+                    );
+                }
+                self.button(
+                    &mut menu,
+                    &format!("WAGER: ${}", self.wager),
+                    "wager",
+                    1060.,
+                    690.,
+                    340.,
+                    55.,
+                );
+                self.button(
+                    &mut menu,
+                    &format!("PINK SLIP: {}", if self.pink_slip { "ON" } else { "OFF" }),
+                    "pink",
+                    1420.,
+                    690.,
+                    340.,
+                    55.,
+                );
+                self.button(&mut menu, "START RACE  ▶", "start", 1060., 780., 700., 75.);
+                if screen == GameScreen::Career {
+                    self.button(
+                        &mut menu,
+                        "SPECTATOR BET",
+                        "spectate",
+                        1060.,
+                        865.,
+                        700.,
+                        60.,
+                    );
+                }
+                self.car_picker(&mut menu, &snap, 240., false);
+                self.button(&mut menu, "◀ EVENT", "event_prev", 60., 770., 200., 50.);
+                self.button(&mut menu, "EVENT ▶", "event_next", 280., 770., 200., 50.);
+                self.button(
+                    &mut menu,
+                    "CUSTOMIZE CAR",
+                    "nav:custom",
+                    60.,
+                    830.,
+                    420.,
+                    55.,
+                );
+                self.button(&mut menu, "BACK", "nav:main", 60., 900., 420., 60.);
+            }
+            GameScreen::Garage | GameScreen::Dealership => {
+                self.car_picker(&mut menu, &snap, 240., screen == GameScreen::Garage);
+                self.button(&mut menu, "CUSTOMIZE", "nav:custom", 1090., 760., 300., 65.);
+                self.button(
+                    &mut menu,
+                    if screen == GameScreen::Garage {
+                        "SELL CAR"
+                    } else {
+                        "BUY CAR"
+                    },
+                    if screen == GameScreen::Garage {
+                        "sell"
+                    } else {
+                        "buy"
+                    },
+                    1410.,
+                    760.,
+                    300.,
+                    65.,
+                );
+                if screen == GameScreen::Garage {
+                    self.button(
+                        &mut menu,
+                        "VEHICLE HISTORY",
+                        "vehicle_stats",
+                        1090.,
+                        835.,
+                        620.,
+                        55.,
+                    );
+                }
+                self.button(&mut menu, "BACK", "nav:main", 60., 910., 420., 60.);
+            }
+            GameScreen::Customization => {
+                self.custom_menu(&mut menu, &snap);
+            }
+            GameScreen::Crew => {
+                for (i, driver) in snap.drivers.iter().enumerate() {
+                    self.button(
+                        &mut menu,
+                        &driver.name,
+                        &format!("dna:{}", driver.native_tag),
+                        1300.,
+                        230. + i as f32 * 37.,
+                        460.,
+                        36.,
+                    );
+                }
+                if let Some(driver) = snap
+                    .drivers
+                    .iter()
+                    .find(|driver| driver.native_tag == self.selected_dna)
+                    .or_else(|| snap.drivers.first())
+                {
+                    Self::text(
+                        &mut menu,
+                        &driver.name.to_uppercase(),
+                        610.,
+                        240.,
+                        38,
+                        white,
+                    );
+                    for (row, (label, genes, experience)) in [
+                        (
+                            "CIRCUIT",
+                            driver.circuit_genes.to_vec(),
+                            driver.circuit_experience.to_vec(),
+                        ),
+                        (
+                            "DRIFT",
+                            driver.drift_genes.to_vec(),
+                            driver.drift_experience.to_vec(),
+                        ),
+                        (
+                            "GAMBLING",
+                            driver.gambling_genes.to_vec(),
+                            driver.gambling_experience.to_vec(),
+                        ),
+                    ]
+                    .into_iter()
+                    .enumerate()
+                    {
+                        Self::text(&mut menu, label, 610., 335. + row as f32 * 155., 30, white);
+                        Self::text(
+                            &mut menu,
+                            &format!(
+                                "GENES {}\nEXPERIENCE {}",
+                                genes
+                                    .iter()
+                                    .map(|value| format!("{value:.2}"))
+                                    .collect::<Vec<_>>()
+                                    .join(" / "),
+                                experience
+                                    .iter()
+                                    .map(|value| format!("{value:.2}"))
+                                    .collect::<Vec<_>>()
+                                    .join(" / ")
+                            ),
+                            610.,
+                            380. + row as f32 * 155.,
+                            23,
+                            muted,
+                        );
+                    }
+                    self.button(
+                        &mut menu,
+                        "RECRUIT DRIVER",
+                        &format!("recruit:{}", driver.native_tag),
+                        60.,
+                        300.,
+                        420.,
+                        65.,
+                    );
+                }
+                Self::text(&mut menu, "YOUR CREW", 65., 425., 30, white);
+                for (i, driver) in snap.career.crew.iter().enumerate() {
+                    Self::text(
+                        &mut menu,
+                        &driver.name,
+                        65.,
+                        480. + i as f32 * 50.,
+                        26,
+                        white,
+                    );
+                }
+                self.button(&mut menu, "BACK", "nav:main", 60., 910., 420., 60.);
+            }
+            GameScreen::Paused => {
+                for (i, (label, key)) in [
+                    ("RESUME", "resume"),
+                    ("RESTART RACE", "restart"),
+                    ("OPTIONS", "options"),
+                    ("QUIT TO MENU", "nav:main"),
+                ]
+                .iter()
+                .enumerate()
+                {
+                    self.button(&mut menu, label, key, 60., 270. + i as f32 * 85., 420., 65.);
+                }
+            }
+            GameScreen::Checkout => {
+                self.checkout_menu(&mut menu, &snap);
+            }
+            GameScreen::Avatar => self.native_avatar_menu(&mut menu, &snap),
+            GameScreen::Podium => {
+                if let Some(result) = &snap.result {
+                    Self::chrome(
+                        &mut menu,
+                        Vector2::new(400., 200.),
+                        Vector2::new(1200., 100.),
+                    );
+                    Self::text(
+                        &mut menu,
+                        &format!(
+                            "{}    POSITION {}",
+                            snap.profile.name.to_uppercase(),
+                            result.position
+                        ),
+                        620.,
+                        220.,
+                        48,
+                        white,
+                    );
+                    Self::text(
+                        &mut menu,
+                        &format!("PRIZE ${}", result.reward),
+                        800.,
+                        795.,
+                        38,
+                        white,
+                    );
+                }
+                self.button(&mut menu, "CONTINUE", "continue", 60., 900., 420., 65.);
+            }
+            GameScreen::Grid => {
+                Self::rect(
+                    &mut menu,
+                    Vector2::ZERO,
+                    Vector2::new(1920., 1080.),
+                    Color::from_rgba(0., 0., 0., 0.45),
+                );
+                Self::native_texture(
+                    &mut menu,
+                    "HIN_TV_HUD_MainBars",
+                    Vector2::new(100., 85.),
+                    Vector2::new(1460., 80.),
+                    true,
+                );
+                Self::native_texture(
+                    &mut menu,
+                    "HIN_TV_Logo",
+                    Vector2::new(100., 35.),
+                    Vector2::new(470., 155.),
+                    false,
+                );
+                Self::text(&mut menu, "BET SHOWDOWN", 1180., 92., 42, white);
+                Self::chrome(&mut menu, Vector2::new(0., 205.), Vector2::new(700., 65.));
+                Self::text(
+                    &mut menu,
+                    &format!("CASH  ${}", snap.career.cash),
+                    280.,
+                    212.,
+                    31,
+                    white,
+                );
+                Self::text(&mut menu, "SELECT RIVAL", 70., 285., 36, white);
+                Self::rect(
+                    &mut menu,
+                    Vector2::new(1030., 235.),
+                    Vector2::new(760., 650.),
+                    Color::from_rgba(0., 0., 0., 0.67),
+                );
+                if let Some(race) = &snap.race {
+                    for (index, racer) in
+                        race.racers.iter().enumerate().filter(|(_, r)| !r.is_player)
+                    {
+                        self.button(
+                            &mut menu,
+                            &format!(
+                                "{} {}",
+                                if index == self.selected_rival {
+                                    ">"
+                                } else {
+                                    " "
+                                },
+                                racer.name
+                            ),
+                            &format!("rival:{index}"),
+                            65.,
+                            330. + index as f32 * 62.,
+                            460.,
+                            55.,
+                        );
+                    }
+                    Self::text(&mut menu, "DRIVER BET", 1080., 235., 38, white);
+                    self.button(
+                        &mut menu,
+                        &format!("OFFER ${}", self.wager.max(1000)),
+                        "wager",
+                        1080.,
+                        310.,
+                        330.,
+                        60.,
+                    );
+                    self.button(
+                        &mut menu,
+                        "MAKE CASH OFFER",
+                        "offer_cash",
+                        1080.,
+                        385.,
+                        640.,
+                        60.,
+                    );
+                    self.button(
+                        &mut menu,
+                        "PINK SLIP OFFER",
+                        "offer_pink",
+                        1080.,
+                        460.,
+                        640.,
+                        60.,
+                    );
+                    if let Some(offer) = &race.bet_offer {
+                        Self::text(
+                            &mut menu,
+                            &format!(
+                                "{:?}  {:?}\n${}  {}",
+                                offer.kind, offer.status, offer.counter_amount, offer.reason
+                            ),
+                            1080.,
+                            545.,
+                            25,
+                            white,
+                        );
+                        if matches!(
+                            offer.status,
+                            BetOfferStatus::Offered | BetOfferStatus::Countered
+                        ) {
+                            self.button(
+                                &mut menu,
+                                "ACCEPT",
+                                "offer_accept",
+                                1080.,
+                                670.,
+                                300.,
+                                60.,
+                            );
+                            self.button(
+                                &mut menu,
+                                "DECLINE",
+                                "offer_decline",
+                                1400.,
+                                670.,
+                                300.,
+                                60.,
+                            );
+                        }
+                    }
+                }
+                self.button(
+                    &mut menu,
+                    "START RACE",
+                    "grid_launch",
+                    1080.,
+                    790.,
+                    640.,
+                    75.,
+                );
+            }
+            GameScreen::RoundResults => {
+                Self::text(&mut menu, "ROUND COMPLETE", 850., 280., 58, white);
+                if let Some(result) = &snap.result {
+                    Self::text(
+                        &mut menu,
+                        &format!(
+                            "ROUND {} / {}\nPOINTS {:?}\nPOSITION {}",
+                            result.round,
+                            result.total_rounds,
+                            result.tournament_points,
+                            result.position
+                        ),
+                        850.,
+                        390.,
+                        32,
+                        white,
+                    );
+                }
+                self.button(&mut menu, "NEXT ROUND", "continue", 60., 300., 420., 65.);
+                self.button(&mut menu, "BACK TO MENU", "nav:main", 60., 400., 420., 65.);
+            }
+            GameScreen::Results => {
+                if let Some(result) = snap.result {
+                    Self::text(
+                        &mut menu,
+                        if result.won {
+                            "YOU WIN"
+                        } else {
+                            "RACE COMPLETE"
+                        },
+                        900.,
+                        260.,
+                        80,
+                        white,
+                    );
+                    Self::text(
+                        &mut menu,
+                        &format!(
+                            "POSITION {}\nTIME {:.2}\nDRIFT SCORE {:.0}\nREWARD ${}\nWAGER ${}",
+                            result.position, result.time, result.score, result.reward, result.wager
+                        ),
+                        1000.,
+                        390.,
+                        32,
+                        white,
+                    );
+                }
+                self.button(&mut menu, "CONTINUE", "continue", 60., 300., 420., 65.);
+                self.button(&mut menu, "PODIUM", "podium", 60., 570., 420., 65.);
+                self.button(&mut menu, "WATCH REPLAY", "replay", 60., 390., 420., 65.);
+                self.button(&mut menu, "RESTART RACE", "restart", 60., 480., 420., 65.);
+            }
+            _ => {}
+        }
+        if let Some(car) = snap
+            .cars
+            .iter()
+            .find(|c| c.id == snap.selected_car)
+            .filter(|_| {
+                !matches!(
+                    screen,
+                    GameScreen::Grid
+                        | GameScreen::Customization
+                        | GameScreen::Avatar
+                        | GameScreen::Checkout
+                )
+            })
+        {
+            Self::text(&mut menu, &car.name.to_uppercase(), 620., 890., 36, white);
+            Self::text(
+                &mut menu,
+                &format!("${}    {}", car.price, self.league_label(car.league)),
+                625.,
+                943.,
+                22,
+                muted,
+            );
+        }
+        if self.confirmation.is_some() || self.error_dialog.is_some() {
+            Self::rect(
+                &mut menu,
+                Vector2::ZERO,
+                Vector2::new(1920., 1080.),
+                Color::from_rgba(0., 0., 0., 0.7),
+            );
+            Self::native_texture(
+                &mut menu,
+                "MessageBoxFrame",
+                Vector2::new(430., 300.),
+                Vector2::new(1060., 450.),
+                true,
+            );
+            if let Some(error) = &self.error_dialog {
+                Self::text(&mut menu, "NOTICE", 650., 315., 40, white);
+                Self::text(&mut menu, error, 500., 435., 29, white);
+                self.button(&mut menu, "OK", "error_ok", 770., 630., 380., 65.);
+            } else if let Some(action) = &self.confirmation {
+                let title = match action.as_str() {
+                    "buy" => "PURCHASE VEHICLE?",
+                    "sell" => "SELL VEHICLE?",
+                    "checkout" => "PURCHASE SELECTED MODIFICATIONS?",
+                    "pink_offer" => "RISK YOUR VEHICLE IN A PINK SLIP BET?",
+                    _ => "DISCARD ALL CHANGES?",
+                };
+                Self::text(&mut menu, title, 650., 315., 40, white);
+                if let Some(car) = snap.cars.iter().find(|c| c.id == snap.selected_car) {
+                    Self::text(&mut menu, &car.name, 530., 435., 34, white);
+                    if action == "buy" {
+                        Self::text(
+                            &mut menu,
+                            &format!("PRICE ${}   CASH ${}", car.price, snap.career.cash),
+                            530.,
+                            495.,
+                            30,
+                            white,
+                        );
+                    }
+                }
+                if action == "checkout" {
+                    Self::text(
+                        &mut menu,
+                        &format!(
+                            "{} ITEMS    TOTAL ${}    CASH ${}",
+                            snap.cart.len(),
+                            snap.cart.iter().map(|item| item.cost).sum::<u32>(),
+                            snap.career.cash
+                        ),
+                        530.,
+                        510.,
+                        30,
+                        white,
+                    );
+                }
+                self.button(&mut menu, "YES", "confirm_yes", 810., 610., 300., 50.);
+                self.button(&mut menu, "NO", "confirm_no", 810., 665., 300., 50.);
+            }
+        }
+        self.menu = Some(menu);
+    }
+    fn texture_path(parent: &mut Gd<Control>, path: &str, position: Vector2, size: Vector2) {
+        let texture = godot::tools::load::<godot::classes::Texture2D>(path);
+        let mut node = godot::classes::TextureRect::new_alloc();
+        node.set_expand_mode(godot::classes::texture_rect::ExpandMode::IGNORE_SIZE);
+        node.set_stretch_mode(godot::classes::texture_rect::StretchMode::KEEP_ASPECT_CENTERED);
+        node.set_mouse_filter(godot::classes::control::MouseFilter::IGNORE);
+        node.set_meta("native_asset", &path.to_variant());
+        node.set_texture(&texture);
+        parent.add_child(&node);
+        node.set_position(position);
+        node.set_size(size);
+    }
+    fn native_texture(
+        parent: &mut Gd<Control>,
+        asset: &str,
+        position: Vector2,
+        size: Vector2,
+        stretch: bool,
+    ) -> bool {
+        let named = format!("res://assets/ui/native/named/{asset}.png");
+        let path = if ResourceLoader::singleton().exists(&named) {
+            named
+        } else {
+            format!("res://assets/ui/native/aliases/{asset}.png")
+        };
+        let Some(texture) = ResourceLoader::singleton()
+            .load(&path)
+            .and_then(|r| r.try_cast::<godot::classes::Texture2D>().ok())
+        else {
+            return false;
+        };
+        let mut node = godot::classes::TextureRect::new_alloc();
+        node.set_name(&format!("Native_{asset}"));
+        node.set_meta("native_asset", &asset.to_variant());
+        node.set_expand_mode(godot::classes::texture_rect::ExpandMode::IGNORE_SIZE);
+        node.set_stretch_mode(if stretch {
+            godot::classes::texture_rect::StretchMode::SCALE
+        } else {
+            godot::classes::texture_rect::StretchMode::KEEP_ASPECT_CENTERED
+        });
+        node.set_mouse_filter(godot::classes::control::MouseFilter::IGNORE);
+        node.set_texture(&texture);
+        parent.add_child(&node);
+        node.set_position(position);
+        node.set_size(size);
+        true
+    }
+    fn chrome(parent: &mut Gd<Control>, position: Vector2, size: Vector2) {
+        Self::native_texture(parent, "Gadget_MainTitleBar", position, size, true);
+    }
+    fn reference_main(&mut self, menu: &mut Gd<Control>) {
+        Self::native_texture(
+            menu,
+            "juiced2Logo",
+            Vector2::new(1510., 75.),
+            Vector2::new(290., 150.),
+            false,
+        );
+        if self.extras {
+            for (i, (label, key)) in [
+                ("VIEW INTRO", "movie:Intro"),
+                ("URSULA", "movie:Ursula_Movie1"),
+                ("CREDITS", "credits"),
+                ("BACK", "extras_back"),
+            ]
+            .iter()
+            .enumerate()
+            {
+                self.button(menu, label, key, 1160., 510. + i as f32 * 92., 650., 72.);
+                if let Some(child) = menu.get_child(menu.get_child_count() - 1) {
+                    if let Ok(mut b) = child.try_cast::<Button>() {
+                        b.add_theme_font_size_override("font_size", 42);
+                    }
+                }
+            }
+            return;
+        }
+        let mut highlight = Control::new_alloc();
+        highlight.set_position(Vector2::new(1080., 500.));
+        Self::native_texture(
+            &mut highlight,
+            "Gadget_MainMenu_SelectionBeam",
+            Vector2::ZERO,
+            Vector2::new(800., 100.),
+            true,
+        );
+        Self::native_texture(
+            &mut highlight,
+            "Gadget_MainMenu_OuterCircle",
+            Vector2::new(610., -10.),
+            Vector2::new(130., 130.),
+            false,
+        );
+        menu.add_child(&highlight);
+        self.main_highlight = Some(highlight);
+        for (i, (label, key)) in [
+            ("CAREER", "nav:career"),
+            ("QUICK RACE", "nav:quick"),
+            ("OPTIONS", "options"),
+            ("EXTRAS", "extras"),
+            ("EXIT", "quit"),
+        ]
+        .iter()
+        .enumerate()
+        {
+            self.button(menu, label, key, 1160., 510. + i as f32 * 92., 650., 72.);
+            if let Some(child) = menu.get_child(menu.get_child_count() - 1) {
+                if let Ok(mut b) = child.try_cast::<Button>() {
+                    b.add_theme_font_size_override("font_size", 42);
+                    b.set_meta("main_index", &(i as i64).to_variant());
+                    if i == 0 {
+                        b.add_theme_font_override(
+                            "font",
+                            &godot::tools::load::<godot::classes::Font>(
+                                "res://assets/ui/native/fonts/menu-selected.fnt",
+                            ),
+                        );
+                    }
+                    let focus = self
+                        .base()
+                        .callable("menu_focus")
+                        .bind(&[(i as i64).to_variant()]);
+                    b.connect("focus_entered", &focus);
+                    b.connect("mouse_entered", &focus);
+                }
+            }
+        }
+        Self::native_texture(
+            menu,
+            "BUT_SELECT",
+            Vector2::new(1420., 1010.),
+            Vector2::new(40., 40.),
+            false,
+        );
+        Self::text(menu, "SELECT", 1470., 1010., 26, Color::WHITE);
+    }
+    fn reference_home(&self, menu: &mut Gd<Control>, snap: &GameSnapshot) {
+        let white = Color::from_rgb(0.94, 0.95, 1.);
+        Self::chrome(menu, Vector2::new(0., 85.), Vector2::new(920., 88.));
+        Self::text(
+            menu,
+            if snap.screen == GameScreen::Career {
+                "CAREER MENU"
+            } else {
+                "MAIN MENU"
+            },
+            155.,
+            93.,
+            42,
+            white,
+        );
+        Self::chrome(menu, Vector2::new(135., 168.), Vector2::new(415., 55.));
+        Self::text(
+            menu,
+            &format!("$  {}", snap.career.cash),
+            170.,
+            171.,
+            32,
+            white,
+        );
+        Self::chrome(menu, Vector2::new(0., 610.), Vector2::new(540., 70.));
+        Self::text(
+            menu,
+            &self.league_label(snap.career.league),
+            160.,
+            620.,
+            34,
+            white,
+        );
+        Self::native_texture(
+            menu,
+            "Gadget_Horizontal_InterfaceBG",
+            Vector2::new(260., 780.),
+            Vector2::new(1400., 230.),
+            true,
+        );
+        Self::chrome(menu, Vector2::new(260., 735.), Vector2::new(1400., 70.));
+        Self::text(
+            menu,
+            if snap.screen == GameScreen::Career {
+                "RACE EVENTS"
+            } else {
+                "CAREER"
+            },
+            800.,
+            740.,
+            38,
+            white,
+        );
+        let actions = if snap.screen == GameScreen::Career {
+            vec![
+                ("⚑", "RACE EVENTS", "career_events"),
+                ("⚑", "GOALS", "career_goals"),
+                ("▣", "GARAGE", "nav:garage"),
+                ("$", "DEALERSHIP", "nav:dealer"),
+                ("◉", "CREW DNA", "nav:crew"),
+                ("⚙", "OPTIONS", "options"),
+            ]
+        } else {
+            vec![
+                ("⚑", "CAREER", "nav:career"),
+                ("▶", "QUICK RACE", "nav:quick"),
+                ("▣", "GARAGE", "nav:garage"),
+                ("$", "DEALERSHIP", "nav:dealer"),
+                ("◉", "CREW DNA", "nav:crew"),
+                ("⚙", "OPTIONS", "options"),
+            ]
+        };
+        for (i, (_icon, label, key)) in actions.iter().enumerate() {
+            let x = 400. + i as f32 * 205.;
+            let asset = match *key {
+                "nav:career" => "career",
+                "nav:quick" | "career_events" => "circuit",
+                "nav:garage" => "garage",
+                "nav:dealer" => "dealership",
+                "nav:crew" => "crew",
+                _ => "options",
+            };
+            Self::native_texture(
+                menu,
+                asset,
+                Vector2::new(x + 10., 825.),
+                Vector2::new(120., 120.),
+                false,
+            );
+            self.button(menu, "", key, x + 10., 825., 120., 120.);
+            Self::text(menu, label, x - 10., 960., 25, white);
+        }
+        self.button(
+            menu,
+            &snap.profile.name.to_uppercase(),
+            "nav:avatar",
+            1500.,
+            80.,
+            320.,
+            60.,
+        );
+        Self::text(menu, "SELECT", 780., 1030., 24, white);
+        self.button(menu, "CREDITS", "credits", 80., 1015., 260., 55.);
+        self.button(menu, "SAVE & QUIT", "quit", 1560., 1015., 260., 55.);
+    }
+    fn car_picker(&self, menu: &mut Gd<Control>, snap: &GameSnapshot, y: f32, owned: bool) {
+        let cars: Vec<_> = snap
+            .cars
+            .iter()
+            .filter(|c| !owned || snap.career.garage.contains_key(&c.id))
+            .collect();
+        if matches!(snap.screen, GameScreen::QuickRace | GameScreen::Career) {
+            self.button(menu, "◀ CAR", "car_prev", 1060., 865., 210., 55.);
+            self.button(menu, "CAR ▶", "car_next", 1550., 865., 210., 55.);
+            return;
+        }
+        let selected = cars
+            .iter()
+            .position(|c| c.id == snap.selected_car)
+            .unwrap_or(0);
+        let page = selected / 10;
+        for (row, car) in cars.iter().skip(page * 10).take(10).enumerate() {
+            self.button(
+                menu,
+                &format!(
+                    "{} {}",
+                    if car.id == snap.selected_car {
+                        "▶"
+                    } else {
+                        " "
+                    },
+                    car.name
+                ),
+                &format!("car:{}", car.id),
+                50.,
+                y + row as f32 * 54.,
+                450.,
+                49.,
+            );
+        }
+        self.button(menu, "◀ PREV", "car_prev", 60., 820., 200., 54.);
+        self.button(menu, "NEXT ▶", "car_next", 280., 820., 200., 54.);
+    }
+    fn checkout_menu(&self, menu: &mut Gd<Control>, snap: &GameSnapshot) {
+        let white = Color::WHITE;
+        let layout = native_layout::NativeLayout::cart();
+        if let Err(error) = layout.render(
+            menu,
+            &[
+                ("TITLE", "SHOPPING CART".into()),
+                ("CASH", format!("${}", snap.career.cash)),
+                ("TOTAL_TEXT", "TOTAL".into()),
+                (
+                    "TOTAL",
+                    format!("${}", snap.cart.iter().map(|item| item.cost).sum::<u32>()),
+                ),
+                (
+                    "EMPTY_TEXT1",
+                    if snap.cart.is_empty() {
+                        "NO MODIFICATIONS SELECTED".into()
+                    } else {
+                        String::new()
+                    },
+                ),
+            ],
+        ) {
+            godot_error!("Native cart layout: {}", error);
+        }
+        // The 3D gadget icon consumer is unresolved; retain the recovered cart artwork proxy.
+        Self::native_texture(
+            menu,
+            "dealership",
+            Vector2::new(1543., 71.),
+            Vector2::new(200., 200.),
+            false,
+        );
+        let part_slot = layout.slot("MENU_PART").unwrap();
+        let price_slot = layout.slot("MENU_PRICE").unwrap();
+        let (part_position, part_size) = part_slot.pixels();
+        let (price_position, price_size) = price_slot.pixels();
+        let (part_font, part_font_size) = part_slot.font_resource().unwrap();
+        let (price_font, price_font_size) = price_slot.font_resource().unwrap();
+        let pages = snap.cart.len().div_ceil(8).max(1);
+        let page = self.cart_page.min(pages - 1);
+        let selected = snap
+            .cart
+            .iter()
+            .find(|item| item.id == self.cart_selected)
+            .or_else(|| snap.cart.get(page * 8));
+        for (index, item) in snap.cart.iter().skip(page * 8).take(8).enumerate() {
+            let y = part_position.y
+                + index as f32 * (part_slot.item_height + part_slot.item_spacing) * 1080.;
+            let height = part_slot.item_height * 1080.;
+            if selected.is_some_and(|selected| selected.id == item.id) {
+                Self::native_texture(
+                    menu,
+                    "Gadget_MainTitleBar",
+                    Vector2::new(part_position.x - 10., y - 2.),
+                    Vector2::new(
+                        price_position.x + price_size.x - part_position.x + 10.,
+                        height,
+                    ),
+                    true,
+                );
+            }
+            self.button(
+                menu,
+                &item.label,
+                &format!("cart_select:{}", item.id),
+                part_position.x,
+                y,
+                part_size.x,
+                height,
+            );
+            if let Some(child) = menu.get_child(menu.get_child_count() - 1) {
+                if let Ok(mut button) = child.try_cast::<Button>() {
+                    button.add_theme_font_override("font", &part_font);
+                    button.add_theme_font_size_override("font_size", part_font_size);
+                }
+            }
+            let mut price = Self::text(
+                menu,
+                &format!("${}", item.cost),
+                price_position.x,
+                y,
+                price_font_size,
+                white,
+            );
+            price.add_theme_font_override("font", &price_font);
+        }
+        self.button(menu, "PURCHASE MODS", "checkout", 110., 960., 440., 58.);
+        self.button(
+            menu,
+            "CONTINUE MODDING",
+            "nav:custom",
+            570.,
+            960.,
+            520.,
+            58.,
+        );
+        if let Some(item) = selected {
+            self.button(
+                menu,
+                "DELETE ITEM",
+                &format!("cart_remove:{}", item.id),
+                1110.,
+                960.,
+                380.,
+                58.,
+            );
+        }
+        self.button(menu, "DISCARD ALL", "discard_cart", 1510., 960., 300., 58.);
+        if pages > 1 {
+            self.button(menu, "PREVIOUS", "cart_prev", 65., 850., 260., 50.);
+            self.button(menu, "NEXT", "cart_next", 1570., 850., 260., 50.);
+        }
+    }
+    fn custom_menu(&self, menu: &mut Gd<Control>, snap: &GameSnapshot) {
+        let white = Color::WHITE;
+        let title = match self.custom_page.as_str() {
+            "wheels" => "ALLOY WHEELS",
+            "vinyl" => "VINYLS",
+            "performance" => "TUNING PACK",
+            "parts" => "MOD BODY PARTS",
+            _ => "PAINT STYLE",
+        };
+        Self::chrome(menu, Vector2::new(0., 85.), Vector2::new(1000., 90.));
+        Self::text(menu, title, 155., 95., 43, white);
+        Self::chrome(menu, Vector2::new(120., 175.), Vector2::new(450., 55.));
+        Self::text(
+            menu,
+            &format!("$ {}", snap.career.cash),
+            180.,
+            180.,
+            29,
+            white,
+        );
+        Self::chrome(menu, Vector2::new(1360., 85.), Vector2::new(560., 95.));
+        Self::text(
+            menu,
+            &format!(
+                "ITEMS: {}    ${}",
+                snap.cart.len(),
+                snap.cart.iter().map(|item| item.cost).sum::<u32>()
+            ),
+            1410.,
+            110.,
+            28,
+            white,
+        );
+        Self::native_texture(
+            menu,
+            "Gadget_Horizontal_InterfaceBG",
+            Vector2::new(0., 755.),
+            Vector2::new(1920., 250.),
+            true,
+        );
+        match self.custom_page.as_str() {
+            "paint" => {
+                self.palette(
+                    menu,
+                    "PAINT COLOR",
+                    "body",
+                    self.customization.paint,
+                    70.,
+                    815.,
+                    300.,
+                );
+                for (index, finish) in ["gloss", "metallic", "matt", "pearl", "flake", "thinfilm"]
+                    .iter()
+                    .enumerate()
+                {
+                    self.button(
+                        menu,
+                        &finish.to_uppercase(),
+                        &format!("finish:{finish}"),
+                        400. + index as f32 * 230.,
+                        815.,
+                        220.,
+                        62.,
+                    );
+                }
+                Self::text(menu, "Choose paint color and finish", 80., 725., 27, white);
+            }
+            "wheels" => {
+                for (index, style) in ["stock", "sport", "mesh", "deep-dish"].iter().enumerate() {
+                    self.button(
+                        menu,
+                        &style.to_uppercase(),
+                        &format!("wheels:{style}"),
+                        400. + index as f32 * 340.,
+                        815.,
+                        320.,
+                        62.,
+                    );
+                }
+                self.palette(
+                    menu,
+                    "WHEEL COLOR",
+                    "wheel",
+                    self.customization.wheel_paint,
+                    70.,
+                    815.,
+                    300.,
+                );
+                let metadata: serde_json::Value = serde_json::from_str(
+                    &FileAccess::get_file_as_string("res://assets/cars.json").to_string(),
+                )
+                .unwrap_or_default();
+                if metadata["cars"].as_array().is_some_and(|cars| {
+                    cars.iter().any(|car| {
+                        car["code"].as_str() == Some(&snap.selected_car)
+                            && car["plate_socket"].is_object()
+                    })
+                }) {
+                    self.button(menu, "PLATE STYLE", "plate_style", 70., 655., 300., 50.);
+                    let mut text = godot::classes::LineEdit::new_alloc();
+                    text.set_text(&self.customization.plate_text);
+                    text.set_position(Vector2::new(70., 715.));
+                    text.set_size(Vector2::new(300., 45.));
+                    text.connect("text_submitted", &self.base().callable("plate_name"));
+                    menu.add_child(&text);
+                }
+            }
+            "vinyl" => {
+                Self::rect(
+                    menu,
+                    Vector2::new(45., 265.),
+                    Vector2::new(440., 620.),
+                    Color::from_rgba(0.015, 0.02, 0.04, 0.88),
+                );
+                let mut layers = godot::classes::OptionButton::new_alloc();
+                for (index, layer) in self.customization.vinyls.iter().enumerate() {
+                    layers.add_item(&format!(
+                        "LAYER {}: {}",
+                        index + 1,
+                        if layer.design_id.is_empty() {
+                            layer.shape.as_str()
+                        } else {
+                            layer.design_id.as_str()
+                        }
+                    ));
+                }
+                if !self.customization.vinyls.is_empty() {
+                    layers.select(self.vinyl_layer as i32);
+                }
+                layers.set_position(Vector2::new(65., 280.));
+                layers.set_size(Vector2::new(400., 44.));
+                layers.connect("item_selected", &self.base().callable("vinyl_selected"));
+                menu.add_child(&layers);
+                if let Some(categories) = self.decal_catalog["categories"].as_array() {
+                    let mut category = godot::classes::OptionButton::new_alloc();
+                    for item in categories {
+                        category.add_item(item["name"].as_str().unwrap_or("DECALS"));
+                    }
+                    if !categories.is_empty() {
+                        category.select(self.decal_category.min(categories.len() - 1) as i32);
+                    }
+                    category.set_position(Vector2::new(65., 335.));
+                    category.set_size(Vector2::new(400., 44.));
+                    category.connect(
+                        "item_selected",
+                        &self.base().callable("decal_category_selected"),
+                    );
+                    menu.add_child(&category);
+                    let mut design = godot::classes::OptionButton::new_alloc();
+                    if let Some(ids) =
+                        self.decal_catalog["categories"][self.decal_category]["design_ids"]
+                            .as_array()
+                    {
+                        for id in ids {
+                            let entry =
+                                self.decal_catalog["designs"]
+                                    .as_array()
+                                    .and_then(|designs| {
+                                        designs.iter().find(|design| design["id"] == *id)
+                                    });
+                            design.add_item(
+                                entry
+                                    .and_then(|design| design["native_label"].as_str())
+                                    .unwrap_or("DECAL"),
+                            );
+                        }
+                        if !ids.is_empty() {
+                            let selected = self
+                                .customization
+                                .vinyls
+                                .get(self.vinyl_layer)
+                                .map(|layer| layer.design_id.as_str())
+                                .unwrap_or("");
+                            design.select(
+                                ids.iter()
+                                    .position(|id| id.as_str() == Some(selected))
+                                    .unwrap_or(0) as i32,
+                            );
+                        }
+                    }
+                    design.set_position(Vector2::new(65., 390.));
+                    design.set_size(Vector2::new(400., 44.));
+                    design.connect(
+                        "item_selected",
+                        &self.base().callable("decal_design_selected"),
+                    );
+                    menu.add_child(&design);
+                }
+                if let Some(layer) = self.customization.vinyls.get(self.vinyl_layer) {
+                    self.palette(menu, "VINYL COLOR", "vinyl", layer.color, 65., 445., 400.);
+                }
+                for (index, (label, key)) in [
+                    ("+ LAYER", "add"),
+                    ("DELETE", "remove"),
+                    ("TO FRONT", "front"),
+                    ("TO BACK", "back"),
+                    ("X -", "left"),
+                    ("X +", "right"),
+                    ("Y -", "up"),
+                    ("Y +", "down"),
+                    ("ROTATE +", "rotate"),
+                    ("ROTATE -", "rotate_back"),
+                    ("WIDTH +", "scale_x_up"),
+                    ("WIDTH -", "scale_x_down"),
+                    ("HEIGHT +", "scale_y_up"),
+                    ("HEIGHT -", "scale_y_down"),
+                ]
+                .iter()
+                .enumerate()
+                {
+                    self.button(
+                        menu,
+                        label,
+                        &format!("vinyl:{key}"),
+                        65. + (index % 2) as f32 * 205.,
+                        510. + (index / 2) as f32 * 50.,
+                        195.,
+                        44.,
+                    );
+                }
+                if let Some(layer) = self.customization.vinyls.get(self.vinyl_layer) {
+                    Self::text(
+                        menu,
+                        &format!(
+                            "X {:.2}   Y {:.2}   ROT {:.1}deg\nWIDTH {:.2}   HEIGHT {:.2}",
+                            layer.position[0],
+                            layer.position[1],
+                            layer.rotation.to_degrees(),
+                            layer.scale[0],
+                            layer.scale[1]
+                        ),
+                        600.,
+                        810.,
+                        28,
+                        white,
+                    );
+                }
+            }
+            "performance" => {
+                for (index, (name, stage)) in [
+                    ("engine", self.customization.engine),
+                    ("transmission", self.customization.transmission),
+                    ("suspension", self.customization.suspension),
+                    ("tyres", self.customization.tyres),
+                ]
+                .iter()
+                .enumerate()
+                {
+                    self.button(
+                        menu,
+                        &format!("{}  STAGE {}", name.to_uppercase(), stage),
+                        &format!("upgrade:{name}"),
+                        65. + index as f32 * 370.,
+                        810.,
+                        350.,
+                        60.,
+                    );
+                }
+                for (index, name) in ["STEERING", "GEARING", "TYRE GRIP", "WEIGHT BALANCE"]
+                    .iter()
+                    .enumerate()
+                {
+                    self.button(
+                        menu,
+                        &format!("{} {:.0}%", name, self.customization.tuning[index] * 100.),
+                        &format!("tune:{index}"),
+                        65. + index as f32 * 450.,
+                        725.,
+                        430.,
+                        50.,
+                    );
+                }
+            }
+            "parts" => {
+                if let Some(car) = snap.cars.iter().find(|car| car.id == snap.selected_car) {
+                    let mut row = 0;
+                    for (slot, parts) in &car.parts {
+                        for id in std::iter::once("stock").chain(parts.iter().map(String::as_str)) {
+                            self.button(
+                                menu,
+                                &format!("{}: {}", slot.to_uppercase(), id),
+                                &format!("part:{slot}:{id}"),
+                                70. + (row % 4) as f32 * 450.,
+                                775. + (row / 4) as f32 * 60.,
+                                430.,
+                                52.,
+                            );
+                            row += 1;
+                        }
+                    }
+                    if row == 0 {
+                        Self::text(
+                            menu,
+                            "No compatible body or interior parts available",
+                            130.,
+                            815.,
+                            30,
+                            white,
+                        );
+                    }
+                }
+            }
+            _ => {}
+        }
+        for (index, (title, page)) in [
+            ("PAINT", "paint"),
+            ("WHEELS", "wheels"),
+            ("VINYLS", "vinyl"),
+            ("PERFORMANCE", "performance"),
+            ("BODY PARTS", "parts"),
+        ]
+        .iter()
+        .enumerate()
+        {
+            self.button(
+                menu,
+                title,
+                &format!("custom_page:{page}"),
+                370. + index as f32 * 300.,
+                940.,
+                285.,
+                58.,
+            );
+        }
+        self.button(
+            menu,
+            if self.custom_return == GameScreen::QuickRace {
+                "DONE"
+            } else {
+                "SHOPPING CART"
+            },
+            if self.custom_return == GameScreen::QuickRace {
+                "custom_done"
+            } else {
+                "nav:checkout"
+            },
+            65.,
+            940.,
+            280.,
+            58.,
+        );
+    }
+    fn build_hud(&mut self) {
+        let mut hud = self.hud.take().unwrap();
+        for mut child in hud.get_children().iter_shared() {
+            child.queue_free();
+        }
+        self.labels.clear();
+        self.gauge_needle = None;
+        self.nitro_arc = None;
+        let white = Color::WHITE;
+        let red = Color::from_rgb(1., 0.12, 0.08);
+        // Original source4:3 HIN header geometry, adapted to the left safe area at1080p.
+        for (asset, x, y, w, h) in [
+            ("HIN_TV_WhiteBar_02", 0.18196, 0.15782, 0.1875, 0.0625),
+            ("HIN_TV_HUD_RedScoreBox", 0.05703, 0.12375, 0.15469, 0.10208),
+            ("HIN_TV_HUD_MainBars", 0.08179, 0.07875, 0.30469, 0.09375),
+            ("HIN_TV_Logo", 0.07367, 0.05146, 0.1875, 0.125),
+        ] {
+            Self::native_texture(
+                &mut hud,
+                asset,
+                Vector2::new(x * 1440., y * 1080.),
+                Vector2::new(w * 1440., h * 1080.),
+                true,
+            );
+        }
+        for (id, x, y, size, color) in [
+            ("lap", 138., 969., 25, white),
+            ("position", 1690., 48., 35, white),
+            ("time", 285., 183., 23, Color::BLACK),
+            ("opponents", 1530., 110., 20, white),
+            ("speed", 1668., 906., 48, white),
+            ("gear", 1728., 857., 42, red),
+            ("rpm", 1700., 949., 22, white),
+            ("nitrous", 1570., 625., 22, Color::from_rgb(0.25, 0.65, 1.)),
+            ("drift", 830., 260., 54, white),
+            ("family", 650., 95., 27, white),
+            ("message", 710., 365., 43, red),
+            ("minimap", 107., 1004., 18, white),
+        ] {
+            let mut label = Self::text(&mut hud, "", x, y, size, color);
+            if id == "position" || id == "opponents" {
+                label.add_theme_color_override("font_shadow_color", Color::BLACK);
+                label.add_theme_constant_override("shadow_offset_x", 2);
+                label.add_theme_constant_override("shadow_offset_y", 2);
+            }
+            self.labels.insert(id.into(), label);
+        }
+        // Native UI de0962e2: preserve circles from the 4:3 virtual canvas at 1080 high,
+        // anchor right-side instruments to the widescreen edge.
+        native_arc(
+            &mut hud,
+            "nitrous-meter-bg",
+            Vector2::new(1655., 828.),
+            166.,
+            14.,
+            0.4,
+        );
+        self.nitro_arc = native_arc(
+            &mut hud,
+            "nitrous-meter",
+            Vector2::new(1655., 828.),
+            166.,
+            14.,
+            1.0,
+        );
+        Self::native_texture(
+            &mut hud,
+            "gauge-background",
+            Vector2::new(1498., 670.),
+            Vector2::new(315., 315.),
+            false,
+        );
+        Self::native_texture(
+            &mut hud,
+            "tachometer",
+            Vector2::new(1498., 670.),
+            Vector2::new(315., 315.),
+            false,
+        );
+        Self::native_texture(
+            &mut hud,
+            "gauge-background",
+            Vector2::new(107., 727.),
+            Vector2::new(225., 225.),
+            false,
+        );
+        Self::native_texture(
+            &mut hud,
+            "minimap-ring",
+            Vector2::new(107., 727.),
+            Vector2::new(225., 225.),
+            false,
+        );
+        if let Some(texture) = ResourceLoader::singleton()
+            .load("res://assets/ui/native/aliases/needle.png")
+            .and_then(|r| r.try_cast::<godot::classes::Texture2D>().ok())
+        {
+            let mut needle = godot::classes::TextureRect::new_alloc();
+            needle.set_texture(&texture);
+            needle.set_expand_mode(godot::classes::texture_rect::ExpandMode::IGNORE_SIZE);
+            needle.set_size(Vector2::new(195., 9.5));
+            needle.set_pivot_offset(Vector2::new(53.5, 4.75));
+            needle.set_position(Vector2::new(1601.5, 823.25));
+            hud.add_child(&needle);
+            self.gauge_needle = Some(needle);
+        }
+        if let Some(race) = self.game.as_ref().unwrap().frame_snapshot().race {
+            if let Some(track) = self.content.tracks.iter().find(|t| t.id == race.track_id) {
+                let (center, scale) = map_transform(&track.points);
+                let mut line = godot::classes::Line2D::new_alloc();
+                let mut points: Vec<Vector2> = track
+                    .points
+                    .iter()
+                    .map(|p| {
+                        Vector2::new(219.5, 839.5) + (Vector2::new(p[0], p[2]) - center) * scale
+                    })
+                    .collect();
+                if let Some(first) = points.first().copied() {
+                    points.push(first);
+                }
+                line.set_points(&PackedVector2Array::from(points));
+                line.set_default_color(Color::from_rgb(0.5, 0.7, 1.));
+                line.set_width(3.);
+                hud.add_child(&line);
+                let dot = Self::text(
+                    &mut hud,
+                    "●",
+                    170.,
+                    910.,
+                    18,
+                    Color::from_rgb(1., 0.2, 0.15),
+                );
+                self.labels.insert("map_player".into(), dot);
+            }
+        }
+        for label in self.labels.values_mut() {
+            label.move_to_front();
+        }
+        self.hud = Some(hud);
+    }
+    fn showdown_avatar(&mut self, snap: &GameSnapshot, visible: bool) {
+        if !visible {
+            if self.avatar_key.starts_with("showdown:") {
+                if let Some(mut actor) = self.avatar.take() {
+                    actor.queue_free();
+                }
+                self.avatar_key.clear();
+            }
+            return;
+        }
+        let Some(rival) = snap
+            .race
+            .as_ref()
+            .and_then(|race| race.racers.get(self.selected_rival))
+        else {
+            return;
+        };
+        // Two recovered source presets proxy rival presentation; exact individual outfits are unresolved.
+        let female = ["Keiko", "Tara", "Crystal", "Tamara", "Melissa", "Rachel"]
+            .iter()
+            .any(|name| rival.name.starts_with(name));
+        let mut profile = PlayerProfile::default();
+        profile.name = rival.name.clone();
+        profile.gender = if female { "F" } else { "M" }.into();
+        profile.preset = if female {
+            "native_female_zip"
+        } else {
+            "native_male_baggy_t"
+        }
+        .into();
+        let role = snap
+            .race
+            .as_ref()
+            .and_then(|race| race.bet_offer.as_ref())
+            .filter(|offer| offer.racer == self.selected_rival)
+            .map(|offer| match offer.status {
+                BetOfferStatus::Accepted => "bet_positive",
+                _ => "crew_idle",
+            })
+            .unwrap_or("crew_idle");
+        let key = format!(
+            "showdown:{role}:{}",
+            serde_json::to_string(&profile).unwrap()
+        );
+        if self.avatar_key == key {
+            return;
+        }
+        if let Some(mut actor) = self.avatar.take() {
+            actor.queue_free();
+        }
+        let manifest = character_manifest();
+        if let Some(character) = manifest["characters"].as_array().and_then(|characters| {
+            characters
+                .iter()
+                .find(|character| character["id"].as_str() == Some(&profile.preset))
+                .or_else(|| {
+                    characters
+                        .iter()
+                        .find(|character| character["gender"].as_str() == Some(&profile.gender))
+                })
+        }) {
+            if let Some(path) = character["model_path"].as_str() {
+                let mut actor = Self::load_scene(path);
+                color_avatar(&mut actor, character, &profile);
+                actor.set_position(Vector3::new(3.4, 0., -0.8));
+                actor.set_rotation(Vector3::new(0., std::f32::consts::PI, 0.));
+                self.base_mut().add_child(&actor);
+                // Native Tyrone/Keiko bet clips retargeted by source bone names to the
+                // two common actor assemblies; these remain explicit character proxies.
+                play_source_animation(
+                    &mut actor.clone().upcast::<godot::classes::Node>(),
+                    character["animation_roles"][role].as_str().unwrap_or(""),
+                    role == "crew_idle",
+                );
+                self.avatar = Some(actor);
+            }
+        }
+        self.avatar_key = key;
+    }
+    fn refresh(&mut self) {
+        let mut snap = self.game.as_ref().unwrap().frame_snapshot();
+        if self.replay {
+            if !self.replay_frames.is_empty() {
+                snap.race = Some(
+                    self.replay_frames[self.replay_cursor.min(self.replay_frames.len() - 1)]
+                        .clone(),
+                );
+                if self.scenario_frame % 3 == 0 {
+                    self.replay_cursor = (self.replay_cursor + 1) % self.replay_frames.len();
+                }
+            }
+        } else if snap.screen == GameScreen::Race && self.scenario_frame % 3 == 0 {
+            if let Some(race) = &snap.race {
+                if race.elapsed < 0.05 {
+                    self.replay_frames.clear();
+                }
+                if self.replay_frames.len() < 12000 {
+                    self.replay_frames.push(race.clone());
+                }
+            }
+        }
+        let presentation_role = if snap.screen == GameScreen::Avatar {
+            "CreateCharacter"
+        } else if snap.screen != GameScreen::MainMenu {
+            ""
+        } else if self.credits {
+            "ExtrasToCredits"
+        } else if self.extras {
+            "MainToExtras"
+        } else if self.options {
+            "MainToOptions"
+        } else if self.title {
+            "TunnelStart"
+        } else {
+            "StartToMain"
+        };
+        let presentation_changed = presentation_role != self.previous_presentation;
+        self.previous_presentation = presentation_role.into();
+        let screen = format!("{:?}", snap.screen);
+        let screen_changed = screen != self.previous_screen;
+        let car_changed = snap.selected_car != self.previous_car;
+        if screen_changed || car_changed {
+            self.customization = snap.selected_customization.clone();
+            self.rebuild_menu();
+            self.previous_screen = screen;
+            self.previous_car = snap.selected_car.clone();
+        }
+        let racing = matches!(
+            snap.screen,
+            GameScreen::Race | GameScreen::Paused | GameScreen::Results | GameScreen::Grid
+        );
+        let showdown = snap.screen == GameScreen::Grid;
+        self.showdown_avatar(&snap, showdown);
+        let tuning_presentation =
+            snap.screen == GameScreen::Customization && self.custom_page == "performance";
+        let paint_presentation =
+            snap.screen == GameScreen::Customization && self.custom_page == "paint";
+        let main_presentation = snap.screen == GameScreen::MainMenu;
+        let profile_presentation = snap.screen == GameScreen::Avatar;
+        let tunnel_presentation = main_presentation || profile_presentation;
+        if let Some(sun) = &mut self.sun {
+            sun.set_visible(!tunnel_presentation);
+        }
+        if let Some(environment) = &mut self.environment {
+            environment.set_background(if tuning_presentation {
+                godot::classes::environment::BgMode::COLOR
+            } else {
+                godot::classes::environment::BgMode::SKY
+            });
+            if tuning_presentation {
+                environment.set_bg_color(Color::BLACK);
+            }
+            environment.set_ambient_light_energy(if tunnel_presentation { 0.2 } else { 0.8 });
+        }
+        if let Some(main) = &mut self.main_stage {
+            main.set_visible(tunnel_presentation);
+            // Scene-relative source marker placement: Character_CreateAvatar is
+            // [-55.76,-0.99,0.42], while the shared tunnel child is centered on MainTarget.
+            for child in main.get_children().iter_shared() {
+                if child.clone().try_cast::<godot::classes::Light3D>().is_ok() {
+                    continue;
+                }
+                if let Ok(mut geometry) = child.try_cast::<Node3D>() {
+                    geometry.set_position(if profile_presentation {
+                        Vector3::new(55.76, 0.99, -0.42)
+                    } else {
+                        Vector3::new(-36.74981, -1.566545, -2.374297)
+                    });
+                }
+            }
+            if screen_changed || presentation_changed {
+                set_tunnel_palette(
+                    main,
+                    presentation_style(presentation_role).0,
+                    if profile_presentation { 3.0 } else { 0.15 },
+                );
+                set_creator_room_visibility(main, profile_presentation);
+                for child in main.get_children().iter_shared() {
+                    if let Ok(mut light) = child.try_cast::<godot::classes::OmniLight3D>() {
+                        // Reference presentation-light adapter; original Spotlight behavior
+                        // and native light-mode coefficients remain unported.
+                        let x = light.get_position().x;
+                        // Paired native diagnostics show that rear fill creates a
+                        // harsh central diffuse terminator on the source actor.
+                        // Symmetric front fill is a reference-lighting adapter.
+                        light.set_position(Vector3::new(
+                            x,
+                            2.,
+                            if profile_presentation || x < 0. {
+                                2.
+                            } else {
+                                -2.
+                            },
+                        ));
+                        light.set_color(if profile_presentation {
+                            Color::from_rgb(1., 0.95, 0.9)
+                        } else {
+                            Color::from_rgb(0.9, 0.05, 0.45)
+                        });
+                    }
+                }
+            }
+        }
+        if let Some(scene) = &mut self.scene {
+            scene.set_visible(racing && !showdown);
+        }
+        if let Some(stage) = &mut self.stage {
+            stage.set_visible(
+                (!racing || showdown)
+                    && !tunnel_presentation
+                    && !tuning_presentation
+                    && !paint_presentation,
+            );
+        }
+        if let Some(stage) = &mut self.paint_stage {
+            stage.set_visible(paint_presentation);
+        }
+        if let Some(hud) = &mut self.hud {
+            hud.set_visible(snap.screen == GameScreen::Race);
+        }
+        if racing {
+            if let Some(mut preview) = self.preview.take() {
+                preview.queue_free();
+            }
+            if let Some(race) = snap.race {
+                let race_key = format!("{}:{}:{}", race.event_id, race.track_id, race.round);
+                if self.loaded_race != race_key {
+                    let mut paths = vec![format!("res://assets/worlds/{}.glb", race.track_id)];
+                    for racer in &race.racers {
+                        if let Some(car) = self.content.cars.iter().find(|c| c.id == racer.car_id) {
+                            paths.push(car.model_path.clone());
+                        }
+                    }
+                    self.begin_loading(paths, format!("race:{race_key}"));
+                    return;
+                }
+                if self.cars.len() != race.racers.len() {
+                    self.car_effects.clear();
+                    for mut c in self.cars.drain(..) {
+                        c.queue_free();
+                    }
+                    let index = self
+                        .content
+                        .tracks
+                        .iter()
+                        .position(|t| t.id == race.track_id)
+                        .unwrap_or(0);
+                    self.build_track(index);
+                    for racer in &race.racers {
+                        let path = self
+                            .content
+                            .cars
+                            .iter()
+                            .find(|c| c.id == racer.car_id)
+                            .map(|c| c.model_path.as_str())
+                            .unwrap_or("");
+                        let mut car = Self::load_scene(path);
+                        self.base_mut().add_child(&car);
+                        if self.cars.is_empty() {
+                            self.tint(&mut car, &racer.car_id, &racer.customization);
+                            self.swap_wheels(&mut car, &racer.car_id, &racer.customization);
+                            self.apply_kits(&mut car, &racer.car_id, &racer.customization);
+                        }
+                        let metadata: serde_json::Value = serde_json::from_str(
+                            &FileAccess::get_file_as_string("res://assets/cars.json").to_string(),
+                        )
+                        .unwrap_or_default();
+                        let definition = metadata["cars"].as_array().and_then(|cars| {
+                            cars.iter()
+                                .find(|c| c["code"].as_str() == Some(&racer.car_id))
+                        });
+                        let length = definition
+                            .and_then(|c| c["length_m"].as_f64())
+                            .unwrap_or(4.2) as f32;
+                        let width = definition
+                            .and_then(|c| c["width_m"].as_f64())
+                            .unwrap_or(1.8) as f32;
+                        self.car_effects
+                            .push(effects::CarEffects::new(&mut car, length, width));
+                        self.cars.push(car);
+                    }
+                    self.build_hud();
+                    if race.spectating {
+                        self.rebuild_menu();
+                    }
+                }
+                for (i, racer) in race.racers.iter().enumerate() {
+                    if let Some(effect) = self.car_effects.get_mut(i) {
+                        effect.update(
+                            racer,
+                            if racer.is_player {
+                                Some(self.last_input)
+                            } else {
+                                None
+                            },
+                            snap.screen != GameScreen::Race,
+                        );
+                    }
+                    let car = &mut self.cars[i];
+                    car.set_position(v3(racer.position));
+                    car.set_quaternion(
+                        Quaternion::new(
+                            racer.rotation[0],
+                            racer.rotation[1],
+                            racer.rotation[2],
+                            racer.rotation[3],
+                        ) * Quaternion::from_axis_angle(Vector3::UP, std::f32::consts::PI),
+                    );
+                    car.set_visible(!showdown || i == self.selected_rival);
+                    if showdown {
+                        car.set_position(Vector3::new(1.7, 0., 0.));
+                        car.set_rotation(Vector3::ZERO);
+                    }
+                    animate_wheels(car, racer);
+                }
+                if let Some(label) = self.labels.get_mut("spectator_odds") {
+                    let odds = race
+                        .spectator_odds
+                        .get(self.selected_rival)
+                        .copied()
+                        .unwrap_or(0.);
+                    label.set_text(&format!("ODDS {:.2}:1    CASH ${}", odds, snap.career.cash));
+                }
+                if let Some(player) = race.racers.get(if race.spectating {
+                    self.selected_rival.min(race.racers.len().saturating_sub(1))
+                } else {
+                    0
+                }) {
+                    let pos = v3(player.position);
+                    let q = Quaternion::new(
+                        player.rotation[0],
+                        player.rotation[1],
+                        player.rotation[2],
+                        player.rotation[3],
+                    );
+                    let forward = q * Vector3::new(0., 0., 1.);
+                    if let Some(cam) = &mut self.camera {
+                        let target = if showdown {
+                            Vector3::new(4.8, 2.1, -7.4)
+                        } else if self.replay {
+                            pos + Vector3::new(
+                                (self.clock as f32 * 0.2).sin() * 11.,
+                                4.,
+                                (self.clock as f32 * 0.2).cos() * 11.,
+                            )
+                        } else {
+                            pos - forward * 4.3 + Vector3::UP * 2.2
+                        };
+                        let camera_pos = cam.get_position().lerp(target, 0.12);
+                        cam.set_position(camera_pos);
+                        cam.look_at(if showdown {
+                            Vector3::new(1.7, 0.9, 0.)
+                        } else {
+                            pos + forward * 5.5 + Vector3::UP * 0.85
+                        });
+                        cam.set_fov(if showdown {
+                            48.
+                        } else {
+                            62. + (player.speed_kph / 250.).min(1.) * 9.
+                        });
+                    }
+                    if let Some(track) = self.content.tracks.iter().find(|t| t.id == race.track_id)
+                    {
+                        let (center, scale) = map_transform(&track.points);
+                        if let Some(dot) = self.labels.get_mut("map_player") {
+                            dot.set_position(
+                                Vector2::new(214.5, 828.5)
+                                    + (Vector2::new(pos.x, pos.z) - center) * scale,
+                            );
+                        }
+                    }
+                    if let Some(needle) = &mut self.gauge_needle {
+                        needle.set_rotation(
+                            std::f32::consts::FRAC_PI_2
+                                + (player.rpm / 9000.).clamp(0., 1.) * std::f32::consts::PI * 1.5,
+                        );
+                    }
+                    if let Some(meter) = &mut self.nitro_arc {
+                        meter.set_shader_parameter(
+                            "fill",
+                            &player.nitrous.clamp(0., 1.).to_variant(),
+                        );
+                    }
+                    let values = [
+                        (
+                            "family",
+                            format!(
+                                "{}{}{}",
+                                if race.total_rounds > 1 {
+                                    format!("ROUND {} / {}   ", race.round, race.total_rounds)
+                                } else {
+                                    String::new()
+                                },
+                                if race.mode == RaceMode::DriftKing {
+                                    format!(
+                                        "TIME {:.1}   SCORE {:.0}",
+                                        (race.target - race.elapsed).max(0.),
+                                        player.drift_score
+                                    )
+                                } else if race.mode == RaceMode::DriftEndurance {
+                                    format!(
+                                        "CHAIN {:.0}   TARGET {:.0}",
+                                        player.chain_score, race.target
+                                    )
+                                } else if race.mode.is_drift() {
+                                    format!(
+                                        "SCORE {:.0} / {:.0}   ATTEMPTS {}",
+                                        player.drift_score, race.target, race.lives
+                                    )
+                                } else if race.mode == RaceMode::SpeedChallenge {
+                                    format!(
+                                        "TARGET {:.0} {}",
+                                        race.target
+                                            * 3.6
+                                            * if self.speed_mph { 0.621371 } else { 1. },
+                                        if self.speed_mph { "MPH" } else { "KPH" }
+                                    )
+                                } else if race.mode == RaceMode::TeamRace {
+                                    format!(
+                                        "TEAM POINTS {}",
+                                        race.team_scores
+                                            .iter()
+                                            .map(|s| format!("{:.0}", s))
+                                            .collect::<Vec<_>>()
+                                            .join(" : ")
+                                    )
+                                } else if matches!(
+                                    race.mode,
+                                    RaceMode::PerfectLap | RaceMode::LapTime | RaceMode::TimeAttack
+                                ) {
+                                    format!(
+                                        "TARGET {:.2}s   {}",
+                                        race.target,
+                                        if player.clean_lap {
+                                            "CLEAN LAP"
+                                        } else {
+                                            "INVALID LAP"
+                                        }
+                                    )
+                                } else {
+                                    String::new()
+                                },
+                                if player.eliminated {
+                                    "  ELIMINATED"
+                                } else {
+                                    ""
+                                }
+                            ),
+                        ),
+                        ("lap", format!("LAP {} / {}", player.lap.max(1), race.laps)),
+                        (
+                            "position",
+                            format!("{} / {}\nPOS", race.position, race.racers.len()),
+                        ),
+                        (
+                            "time",
+                            format!(
+                                "TIME  {:02}:{:05.2}",
+                                (race.elapsed / 60.) as u32,
+                                race.elapsed % 60.
+                            ),
+                        ),
+                        (
+                            "speed",
+                            format!(
+                                "{:03}",
+                                (player.speed_kph * if self.speed_mph { 0.621371 } else { 1. })
+                                    as u32
+                            ),
+                        ),
+                        (
+                            "gear",
+                            if player.gear < 0 {
+                                "R".into()
+                            } else if player.gear == 0 {
+                                "N".into()
+                            } else {
+                                player.gear.to_string()
+                            },
+                        ),
+                        (
+                            "rpm",
+                            if self.speed_mph {
+                                "MPH".into()
+                            } else {
+                                "KPH".into()
+                            },
+                        ),
+                        ("nitrous", String::new()),
+                        (
+                            "drift",
+                            if race.drift_combo > 1. {
+                                format!("{:.0}  x{:.1}", player.drift_score, race.drift_combo)
+                            } else {
+                                String::new()
+                            },
+                        ),
+                        (
+                            "message",
+                            if race.countdown > 0. {
+                                format!("{}", race.countdown.ceil() as u32)
+                            } else {
+                                race.message.clone()
+                            },
+                        ),
+                        (
+                            "opponents",
+                            race.racers
+                                .iter()
+                                .enumerate()
+                                .map(|(i, r)| format!("{}  {}", i + 1, r.name))
+                                .collect::<Vec<_>>()
+                                .join("\n"),
+                        ),
+                        ("minimap", String::new()),
+                    ];
+                    for (id, text) in values {
+                        if let Some(label) = self.labels.get_mut(id) {
+                            label.set_text(&text);
+                        }
+                    }
+                }
+            }
+        } else {
+            self.car_effects.clear();
+            for mut c in self.cars.drain(..) {
+                c.queue_free();
+            }
+            if car_changed || screen_changed || presentation_changed || self.preview.is_none() {
+                if let Some(mut p) = self.preview.take() {
+                    p.queue_free();
+                }
+                if let Some(car) = self
+                    .content
+                    .cars
+                    .iter()
+                    .find(|c| {
+                        c.id == if main_presentation {
+                            "GT4_HOND0030"
+                        } else if profile_presentation {
+                            "GT4_MITS0001"
+                        } else {
+                            snap.selected_car.as_str()
+                        }
+                    })
+                    .cloned()
+                {
+                    let mut instance = Self::load_scene(&car.model_path);
+                    instance.set_position(Vector3::ZERO);
+                    self.base_mut().add_child(&instance);
+                    if main_presentation || profile_presentation {
+                        // Native StartToMain's CarColour is byte RGB160/160/160.
+                        let presentation = Customization {
+                            paint: if profile_presentation {
+                                [0.65, 0.65, 0.65, 1.]
+                            } else {
+                                presentation_style(presentation_role).1
+                            },
+                            ..Customization::default()
+                        };
+                        self.tint(&mut instance, &car.id, &presentation);
+                    } else {
+                        self.tint(&mut instance, &car.id, &self.customization);
+                        self.swap_wheels(&mut instance, &car.id, &self.customization);
+                        self.apply_kits(&mut instance, &snap.selected_car, &self.customization);
+                        if tuning_presentation {
+                            wireframe_car(&mut instance);
+                        }
+                    }
+                    self.preview = Some(instance);
+                }
+            }
+            let show_avatar = matches!(snap.screen, GameScreen::Avatar | GameScreen::Podium);
+            if show_avatar {
+                let key = format!(
+                    "{:?}:{}",
+                    snap.screen,
+                    serde_json::to_string(&snap.profile).unwrap()
+                );
+                if key != self.avatar_key {
+                    if let Some(mut actor) = self.avatar.take() {
+                        actor.queue_free();
+                    }
+                    let manifest = character_manifest();
+                    if let Some(character) = manifest["characters"].as_array().and_then(|items| {
+                        items
+                            .iter()
+                            .find(|c| c["id"].as_str() == Some(&snap.profile.preset))
+                            .or_else(|| {
+                                items
+                                    .iter()
+                                    .find(|c| c["gender"].as_str() == Some(&snap.profile.gender))
+                            })
+                    }) {
+                        if let Some(path) = character["model_path"].as_str() {
+                            let mut actor = Self::load_scene(path);
+                            if snap.profile.native_components.is_empty() {
+                                color_avatar(&mut actor, character, &snap.profile);
+                            } else {
+                                match avatar::catalog().and_then(|data| {
+                                    avatar::attach(&mut actor, &data, &snap.profile)
+                                }) {
+                                    Ok(report) => self.avatar_report = report,
+                                    Err(error) => {
+                                        self.notice = error.clone();
+                                        self.avatar_report = serde_json::json!({"error":error});
+                                    }
+                                }
+                            }
+                            actor.set_position(if snap.screen == GameScreen::Podium {
+                                Vector3::new(2.3, 0., 0.)
+                            } else {
+                                // Original CreateAvatar marker, with the venue translated
+                                // into actor-relative world coordinates above.
+                                Vector3::ZERO
+                            });
+                            self.base_mut().add_child(&actor);
+                            let podium = snap.screen == GameScreen::Podium;
+                            let role = if podium {
+                                if snap
+                                    .result
+                                    .as_ref()
+                                    .is_some_and(|result| result.position == 1)
+                                {
+                                    "podium_happy"
+                                } else {
+                                    "podium_disappointed"
+                                }
+                            } else {
+                                "idle"
+                            };
+                            play_source_animation(
+                                &mut actor.clone().upcast::<godot::classes::Node>(),
+                                character["animation_roles"][role].as_str().unwrap_or(""),
+                                !podium,
+                            );
+                            self.avatar = Some(actor);
+                        }
+                    }
+                    self.avatar_key = key;
+                }
+            } else {
+                if let Some(mut actor) = self.avatar.take() {
+                    actor.queue_free();
+                }
+                self.avatar_key.clear();
+            }
+            if let Some(car) = &mut self.preview {
+                if main_presentation {
+                    car.set_position(Vector3::new(0., -1.752155, 0.));
+                    car.set_rotation(Vector3::new(
+                        0.,
+                        std::f32::consts::PI + self.clock as f32 * 0.025,
+                        0.,
+                    ));
+                    car.set_scale(Vector3::ONE * 1.2);
+                } else if profile_presentation {
+                    // Source CreateAvatar_Car minus Character_CreateAvatar. The donor
+                    // Evo and its facing are a presentation proxy, not recovered Car1 identity.
+                    car.set_position(Vector3::new(-1.34, 0.03, -1.11));
+                    car.set_rotation(Vector3::new(0., std::f32::consts::PI, 0.));
+                } else if paint_presentation {
+                    car.set_position(Vector3::ZERO);
+                    // Recovered native pose yaw, plus donor -Z to native +Z forward adapter.
+                    car.set_rotation(Vector3::new(
+                        0.,
+                        self.preview_angle
+                            .unwrap_or(1.570000052 + std::f32::consts::PI),
+                        0.,
+                    ));
+                } else {
+                    car.set_rotation(Vector3::new(
+                        0.,
+                        if snap.screen == GameScreen::Checkout {
+                            -std::f32::consts::FRAC_PI_2
+                        } else {
+                            self.preview_angle.unwrap_or(self.clock as f32 * 0.10)
+                        },
+                        0.,
+                    ));
+                }
+            }
+            if let Some(cam) = &mut self.camera {
+                if paint_presentation && self.preview_angle.is_none() {
+                    let chassis = self
+                        .preview
+                        .as_ref()
+                        .and_then(world_mesh_bounds)
+                        .map(|b| (b[0] + b[1]) * 0.5)
+                        .unwrap_or(Vector3::new(0., 0.7, 0.));
+                    // Exact Paintshop end offsets in the recovered pose's local basis;
+                    // donor body center replaces unavailable DRIVER_CHASS. Component
+                    // matrix conventions remain an explicit renderer adapter.
+                    let offset = Basis::from_axis_angle(Vector3::UP, 1.570000052)
+                        * Vector3::new(-3., 1., 0.);
+                    cam.set_position(chassis + offset);
+                    cam.look_at(chassis);
+                    cam.set_fov(script_camera_fov(120.));
+                    return;
+                }
+                if main_presentation {
+                    // These three native views use MainCam_Pos/MainTarget_Pos marker offsets.
+                    let main_cam = Vector3::new(-1.77849, 0., -2.385891);
+                    let source_view = match presentation_role {
+                        "MainToOptions" => Some((
+                            main_cam + Vector3::new(0.25, 1.25, 4.75),
+                            Vector3::new(-0.25, 0.5, -0.25),
+                            70.,
+                            3_f32,
+                        )),
+                        "MainToExtras" => Some((
+                            main_cam + Vector3::new(3.25, -0.75, -4.25),
+                            Vector3::new(-0.25, 0.25, 0.),
+                            100.,
+                            42_f32,
+                        )),
+                        "ExtrasToCredits" => {
+                            // Original CHASS is unavailable on donor models; rendered body center
+                            // is its explicit presentation adapter, not a recovered native anchor.
+                            let chassis = self
+                                .preview
+                                .as_ref()
+                                .and_then(world_mesh_bounds)
+                                .map(|bounds| (bounds[0] + bounds[1]) * 0.5)
+                                .unwrap_or(Vector3::ZERO);
+                            Some((
+                                main_cam + Vector3::new(1.45, 0.5, -2.),
+                                chassis + Vector3::new(0., -1., 0.),
+                                105.,
+                                5_f32,
+                            ))
+                        }
+                        _ => None,
+                    };
+                    if let Some((position, target, fov, roll)) = source_view {
+                        cam.set_position(position);
+                        cam.look_at(target);
+                        cam.rotate_object_local(Vector3::BACK, roll.to_radians());
+                        cam.set_fov(script_camera_fov(fov));
+                        return;
+                    }
+                    cam.set_position(Vector3::new(-2.5, 0.5, -4.5));
+                    cam.look_at(Vector3::new(-1.3, -1.05, 0.));
+                    cam.rotate_object_local(
+                        Vector3::BACK,
+                        -15f32.to_radians() + (self.clock as f32 * 0.12).sin() * 0.03,
+                    );
+                    // Native TunnelStart/StartToMain end values; travel and drift remain adapted.
+                    cam.set_fov(script_camera_fov(if self.title { 129.34 } else { 125. }));
+                    return;
+                }
+                if snap.screen == GameScreen::Avatar {
+                    if let Some(actor) = &self.avatar {
+                        if let Some((position, target, fov, roll)) = avatar::camera_pose(
+                            actor,
+                            if self.avatar_editing {
+                                &self.avatar_category
+                            } else if matches!(self.avatar_category.as_str(), "gender" | "preset") {
+                                &self.avatar_category
+                            } else {
+                                "categories"
+                            },
+                        ) {
+                            cam.set_position(position);
+                            cam.look_at(target);
+                            cam.rotate_object_local(Vector3::BACK, roll.to_radians());
+                            cam.set_fov(script_camera_fov(fov));
+                            return;
+                        }
+                    }
+                    let anchor = self
+                        .avatar
+                        .as_ref()
+                        .and_then(|actor| source_bone_anchor(&actor.clone().upcast(), "posbip"))
+                        .unwrap_or(Vector3::new(0., -1.752155, 0.));
+                    // Native CreateCharacter end rows, reflected X into Godot world axes.
+                    cam.set_position(anchor + Vector3::new(-0.25, 1.1, 4.25));
+                    cam.look_at(anchor + Vector3::new(0., 0.6, 1.));
+                    cam.set_fov(script_camera_fov(80.));
+                    return;
+                }
+                cam.set_position(Vector3::new(4.4, 2.2, 5.6));
+                cam.look_at(
+                    if snap.screen == GameScreen::MainMenu
+                        || (snap.screen == GameScreen::Career && !self.event_picker)
+                    {
+                        Vector3::new(0., 0.7, 0.)
+                    } else {
+                        Vector3::new(-1.3, 0.7, 0.)
+                    },
+                );
+                cam.set_fov(45.);
+            }
+        }
+    }
+    fn apply_plate(&self, node: &mut Gd<Node3D>, car_id: &str, custom: &Customization) {
+        let metadata: serde_json::Value = serde_json::from_str(
+            &FileAccess::get_file_as_string("res://assets/cars.json").to_string(),
+        )
+        .unwrap_or_default();
+        let Some(socket) = metadata["cars"]
+            .as_array()
+            .and_then(|cars| cars.iter().find(|c| c["code"].as_str() == Some(car_id)))
+            .map(|car| &car["plate_socket"])
+            .filter(|s| s.is_object())
+        else {
+            return;
+        };
+        let vector = |key: &str| -> Vector3 {
+            let a = &socket[key];
+            Vector3::new(
+                a[0].as_f64().unwrap_or(0.) as f32,
+                a[1].as_f64().unwrap_or(0.) as f32,
+                a[2].as_f64().unwrap_or(0.) as f32,
+            )
+        };
+        let center = vector("center");
+        let normal = vector("normal");
+        let basis = Basis::from_cols(vector("right"), vector("up"), normal);
+        let width = socket["size"][0].as_f64().unwrap_or(0.32) as f32;
+        let height = socket["size"][1].as_f64().unwrap_or(0.16) as f32;
+        let mut mesh = godot::classes::QuadMesh::new_gd();
+        mesh.set_size(Vector2::new(width, height));
+        let mut material = StandardMaterial3D::new_gd();
+        material.set_texture(
+            godot::classes::base_material_3d::TextureParam::ALBEDO,
+            &godot::tools::load::<godot::classes::Texture2D>(
+                "res://assets/ui/native/named/LPlate_GB_01.png",
+            ),
+        );
+        material.set_albedo(if custom.plate_style == "dark" {
+            Color::from_rgb(0.12, 0.12, 0.14)
+        } else {
+            Color::WHITE
+        });
+        let mut surface = MeshInstance3D::new_alloc();
+        surface.set_name("CustomLicensePlate");
+        surface.set_mesh(&mesh);
+        surface.set_material_override(&material);
+        surface.set_transform(Transform3D::new(basis, center + normal * 0.001));
+        node.add_child(&surface);
+        let mut text = godot::classes::Label3D::new_alloc();
+        text.set_name("LicensePlateText");
+        text.set_text(&custom.plate_text);
+        text.set_font(&godot::tools::load::<godot::classes::Font>(
+            "res://assets/ui/native/fonts/lplate-1080.fnt",
+        ));
+        text.set_font_size(64);
+        text.set_outline_size(0);
+        text.set_modulate(if custom.plate_style == "dark" {
+            Color::WHITE
+        } else {
+            Color::BLACK
+        });
+        text.set_pixel_size(width * 0.82 / (custom.plate_text.chars().count().max(1) as f32 * 38.));
+        text.set_transform(Transform3D::new(basis, center + normal * 0.003));
+        node.add_child(&text);
+    }
+    fn apply_kits(&self, node: &mut Gd<Node3D>, car_id: &str, custom: &Customization) {
+        self.apply_plate(node, car_id, custom);
+        let data: serde_json::Value = serde_json::from_str(
+            &FileAccess::get_file_as_string("res://assets/kits.json").to_string(),
+        )
+        .unwrap_or_default();
+        let mut selected = custom
+            .parts
+            .values()
+            .cloned()
+            .collect::<std::collections::BTreeSet<_>>();
+        selected.insert(custom.body_kit.clone());
+        selected.insert(custom.interior_kit.clone());
+        if let Some(kits) = data["kits"].as_array() {
+            for kit in kits {
+                if !selected.contains(kit["id"].as_str().unwrap_or(""))
+                    || !kit["compatible_cars"]
+                        .as_array()
+                        .is_some_and(|cars| cars.iter().any(|c| c.as_str() == Some(car_id)))
+                {
+                    continue;
+                }
+                if let Some(path) = kit["model_path"].as_str() {
+                    let mut part = Self::load_scene(path);
+                    part.set_name(&format!(
+                        "Installed_{}",
+                        kit["id"].as_str().unwrap_or("part")
+                    ));
+                    node.add_child(&part);
+                    let names = kit["paint_materials"]
+                        .as_array()
+                        .map(|items| {
+                            items
+                                .iter()
+                                .filter_map(|i| i.as_str().map(str::to_owned))
+                                .collect::<Vec<_>>()
+                        })
+                        .unwrap_or_default();
+                    if !names.is_empty() {
+                        let paint = custom
+                            .part_paints
+                            .get(kit["id"].as_str().unwrap_or(""))
+                            .copied()
+                            .unwrap_or(custom.paint);
+                        let mut part_custom = custom.clone();
+                        part_custom.paint = paint;
+                        self.paint_nodes(&mut part, car_id, &part_custom, &names);
+                    }
+                }
+            }
+        }
+    }
+    fn tint(&self, node: &mut Gd<Node3D>, car_id: &str, custom: &Customization) {
+        let metadata: serde_json::Value = serde_json::from_str(
+            &FileAccess::get_file_as_string("res://assets/cars.json").to_string(),
+        )
+        .unwrap_or_default();
+        let names: Vec<String> = metadata["cars"]
+            .as_array()
+            .and_then(|cars| cars.iter().find(|c| c["code"].as_str() == Some(car_id)))
+            .and_then(|c| c["paint_materials"].as_array())
+            .map(|m| {
+                m.iter()
+                    .filter_map(|m| m["name"].as_str().map(str::to_owned))
+                    .filter(|n| !n.contains("wheel") && !n.contains("tire") && !n.contains("glass"))
+                    .collect()
+            })
+            .unwrap_or_default();
+        self.paint_nodes(node, car_id, custom, &names);
+    }
+    fn paint_nodes(
+        &self,
+        node: &mut Gd<Node3D>,
+        car_id: &str,
+        custom: &Customization,
+        names: &[String],
+    ) {
+        let paint = custom.paint;
+        let finish = custom.finish.as_str();
+        for child in node.get_children().iter_shared() {
+            if let Ok(mut mesh) = child.clone().try_cast::<MeshInstance3D>() {
+                if let Some(resource) = mesh.get_mesh() {
+                    for i in 0..resource.get_surface_count() {
+                        if let Some(material) = mesh.get_active_material(i) {
+                            let name = material.get_name().to_string();
+                            if names.contains(&name)
+                                || (names.is_empty()
+                                    && name.contains("paint")
+                                    && !name.contains("wheel")
+                                    && !name.contains("tire"))
+                            {
+                                let decal_paths = custom
+                                    .vinyls
+                                    .iter()
+                                    .take(16)
+                                    .map(|layer| {
+                                        self.decal_catalog["designs"]
+                                            .as_array()
+                                            .and_then(|designs| {
+                                                designs.iter().find(|design| {
+                                                    design["id"].as_str() == Some(&layer.design_id)
+                                                })
+                                            })
+                                            .and_then(|design| design["texture_path"].as_str())
+                                            .map(str::to_owned)
+                                    })
+                                    .collect::<Vec<_>>();
+                                let source_material =
+                                    material.clone().try_cast::<StandardMaterial3D>().ok();
+                                let mut shader = godot::classes::Shader::new_gd();
+                                let mut code = String::from(
+                                    "shader_type spatial; uniform sampler2D base_texture:source_color; uniform bool has_texture=false; uniform bool decal_repeat_uv=false; uniform sampler2D paint_mask; uniform bool has_mask=false; uniform float factory_luma=0.5; uniform vec4 original_albedo:source_color=vec4(1.0); uniform float original_roughness=0.5; uniform float original_metallic=0.0; uniform vec4 paint:source_color=vec4(1.0);uniform vec4 paint_secondary:source_color=vec4(1.0);uniform vec4 paint_fleck:source_color=vec4(1.0);uniform float paint_balance=0.5;uniform float paint_flakie=0.52;uniform float paint_focus=100.0;uniform float paint_film=0.011; uniform vec3 uv1_scale=vec3(1.0);uniform vec3 uv1_offset=vec3(0.0);uniform bool use_vertex_color=false;uniform bool srgb_vertex_color=false;vec3 linear_vertex(vec3 c){return mix(c/12.92,pow((c+vec3(0.055))/1.055,vec3(2.4)),step(vec3(0.04045),c));} void fragment(){vec2 base_uv=UV*uv1_scale.xy+uv1_offset.xy;vec4 vertex_base=use_vertex_color?COLOR:vec4(1.0);if(srgb_vertex_color){vertex_base.rgb=linear_vertex(vertex_base.rgb);}vec4 base=has_texture?texture(base_texture,base_uv):vec4(1.0);vec3 original=base.rgb*original_albedo.rgb*vertex_base.rgb;float coverage=(has_mask?texture(paint_mask,base_uv).r:1.0)*paint.a;ALBEDO=mix(original,paint.rgb*dot(original,vec3(0.2126,0.7152,0.0722))/factory_luma,coverage);",
+                                );
+                                if let Some(source) = &source_material {
+                                    let cull = match source.get_cull_mode() {
+                                        godot::classes::base_material_3d::CullMode::FRONT => {
+                                            "render_mode cull_front;"
+                                        }
+                                        godot::classes::base_material_3d::CullMode::DISABLED => {
+                                            "render_mode cull_disabled;"
+                                        }
+                                        _ => "",
+                                    };
+                                    code = code.replacen(
+                                        "shader_type spatial;",
+                                        &format!("shader_type spatial;{cull}"),
+                                        1,
+                                    );
+                                }
+                                let uniforms = custom.vinyls.iter().take(16).enumerate().map(|(index,_)| {
+                                    let texture = if decal_paths[index].is_some() {format!("uniform sampler2D decal_{index}:source_color;uniform bool decal_{index}_alpha_mask=false;")}else{String::new()};
+                                    format!("{texture}uniform vec4 vinyl_tint_{index}:source_color=vec4(1.0);")
+                                }).collect::<String>();
+                                code = code.replacen(
+                                    "void fragment()",
+                                    &format!("{uniforms}void fragment()"),
+                                    1,
+                                );
+                                code.push_str(&format!(
+                                    "ROUGHNESS=mix(original_roughness,{:.3},coverage);METALLIC=mix(original_metallic,{:.3},coverage);",
+                                    if matches!(finish, "matt" | "matte") { 0.85 } else { 0.19 },
+                                    if finish == "chrome" {
+                                        1.0
+                                    } else if matches!(finish, "metallic" | "flake") {
+                                        0.8
+                                    } else {
+                                        0.3
+                                    }
+                                ));
+                                code.push_str(
+                                    "vec2 decal_uv=decal_repeat_uv?fract(base_uv):base_uv;",
+                                );
+                                for (layer_index, layer) in
+                                    custom.vinyls.iter().take(16).enumerate()
+                                {
+                                    if !layer.design_id.is_empty()
+                                        && decal_paths[layer_index].is_none()
+                                    {
+                                        godot_warn!(
+                                            "Native decal unavailable: {}",
+                                            layer.design_id
+                                        );
+                                        continue;
+                                    }
+                                    let c = layer.rotation.cos();
+                                    let sn = layer.rotation.sin();
+                                    let sx = layer.scale[0].max(0.01);
+                                    let sy = layer.scale[1].max(0.01);
+                                    code.push_str(&format!("{{vec2 p=mat2(vec2({c:.4},{sn:.4}),vec2({neg:.4},{c:.4}))*(decal_uv-vec2({x:.4},{y:.4})-vec2(0.5));p/=vec2({sx:.4},{sy:.4});float mask=",neg=-sn,x=layer.position[0],y=layer.position[1]));
+                                    if decal_paths[layer_index].is_some() {
+                                        code.push_str(&format!("step(abs(p.x),0.5)*step(abs(p.y),0.5);vec4 decal=texture(decal_{layer_index},p+vec2(0.5));mask*=decal.a;"));
+                                    } else {
+                                        code.push_str(if layer.shape=="flame"{"step(abs(p.x+sin(p.y*28.0)*0.04),0.045)*(1.0-step(0.43,abs(p.y)));"}else{"(1.0-step(0.045,abs(p.x)))*(1.0-step(0.48,abs(p.y)));"});
+                                    }
+                                    let artwork = if decal_paths[layer_index].is_some() {
+                                        format!(
+                                            "(decal_{layer_index}_alpha_mask?vec3(1.0):decal.rgb)*"
+                                        )
+                                    } else {
+                                        String::new()
+                                    };
+                                    code.push_str(&format!("mask*=has_mask?texture(paint_mask,base_uv).r:1.0;ALBEDO=mix(ALBEDO,{artwork}vinyl_tint_{layer_index}.rgb,mask*vinyl_tint_{layer_index}.a);}}"));
+                                }
+                                // PBR translations distinguish the recovered families; the
+                                // original uniform bindings are known, but its GPU BRDF is not.
+                                if finish == "flake" {
+                                    code.push_str("float fleck=step(1.0-paint_flakie*0.03,fract(sin(dot(floor(base_uv*(1000.0+paint_focus*8.0)),vec2(12.9898,78.233)))*43758.5453));ROUGHNESS=mix(ROUGHNESS,0.07,fleck*coverage);ALBEDO=mix(ALBEDO,paint_fleck.rgb,fleck*coverage*0.55);");
+                                }
+                                if matches!(finish, "pearl" | "pearlescent") {
+                                    code.push_str("ALBEDO=mix(ALBEDO,paint_secondary.rgb,pow(1.0-abs(dot(NORMAL,VIEW)),0.5+paint_balance*5.0)*0.65*coverage);");
+                                }
+                                if finish == "thinfilm" {
+                                    code.push_str("float film_angle=1.0-abs(dot(normalize(NORMAL),normalize(VIEW)));vec3 film=0.5+0.5*cos(vec3(0.0,2.094395,4.18879)+film_angle*(paint_film*1142.3973));ALBEDO=mix(ALBEDO,ALBEDO*(0.35+film*1.3),coverage*0.75);CLEARCOAT=coverage;CLEARCOAT_ROUGHNESS=0.1;");
+                                }
+                                if let Some(source) = &source_material {
+                                    if source.get_transparency()==godot::classes::base_material_3d::Transparency::ALPHA_SCISSOR {
+                                        code.push_str(&format!("ALPHA=base.a*original_albedo.a*vertex_base.a;ALPHA_SCISSOR_THRESHOLD={:.7};", source.get_alpha_scissor_threshold()));
+                                    }
+                                }
+                                code.push('}');
+                                shader.set_code(&code);
+                                let mut mat = godot::classes::ShaderMaterial::new_gd();
+                                mat.set_shader(&shader);
+                                // These controls preserve the recovered material record;
+                                // their mapping into Godot PBR remains an explicit adapter.
+                                let mut record = paint::donor_seed(custom);
+                                if custom.native_paint.is_none()
+                                    && !paint::stages(finish).is_empty()
+                                {
+                                    // Legacy saves have no72-byte record. Translate the
+                                    // selected donor color through the same recovered writer.
+                                    let _ = paint::color(
+                                        &mut record,
+                                        finish,
+                                        0,
+                                        [paint[0], paint[1], paint[2]],
+                                    );
+                                }
+                                for (name, rgb) in [
+                                    ("paint_secondary", record.secondary_rgb),
+                                    ("paint_fleck", record.fleck_rgb),
+                                ] {
+                                    mat.set_shader_parameter(
+                                        name,
+                                        &Color::from_rgba(rgb[0], rgb[1], rgb[2], 1.).to_variant(),
+                                    );
+                                }
+                                for (name, value) in [
+                                    ("paint_balance", record.two_tone_exp),
+                                    ("paint_flakie", record.flakie),
+                                    ("paint_focus", record.fleck_power),
+                                    ("paint_film", record.film_thickness),
+                                ] {
+                                    mat.set_shader_parameter(name, &value.to_variant());
+                                }
+                                if let Some(source) = &source_material {
+                                    mat.set_shader_parameter(
+                                        "uv1_scale",
+                                        &source.get_uv1_scale().to_variant(),
+                                    );
+                                    mat.set_shader_parameter(
+                                        "uv1_offset",
+                                        &source.get_uv1_offset().to_variant(),
+                                    );
+                                    mat.set_shader_parameter("use_vertex_color", &source.get_flag(godot::classes::base_material_3d::Flags::ALBEDO_FROM_VERTEX_COLOR).to_variant());
+                                    mat.set_shader_parameter("srgb_vertex_color", &source.get_flag(godot::classes::base_material_3d::Flags::SRGB_VERTEX_COLOR).to_variant());
+                                }
+                                for (index, layer) in custom.vinyls.iter().take(16).enumerate() {
+                                    mat.set_shader_parameter(
+                                        &format!("vinyl_tint_{index}"),
+                                        &Color::from_rgba(
+                                            layer.color[0],
+                                            layer.color[1],
+                                            layer.color[2],
+                                            layer.color[3],
+                                        )
+                                        .to_variant(),
+                                    );
+                                }
+                                for (index, path) in decal_paths.iter().enumerate() {
+                                    if let Some(path) = path {
+                                        let alpha_mask = self.decal_catalog["designs"]
+                                            .as_array()
+                                            .is_some_and(|designs| {
+                                                designs.iter().any(|design| {
+                                                    design["id"].as_str()
+                                                        == Some(&custom.vinyls[index].design_id)
+                                                        && design["color_mode"].as_str()
+                                                            == Some("alpha_mask")
+                                                })
+                                            });
+                                        mat.set_shader_parameter(
+                                            &format!("decal_{index}_alpha_mask"),
+                                            &alpha_mask.to_variant(),
+                                        );
+                                        mat.set_shader_parameter(
+                                            &format!("decal_{index}"),
+                                            &godot::tools::load::<godot::classes::Texture2D>(path)
+                                                .to_variant(),
+                                        );
+                                    }
+                                }
+                                mat.set_shader_parameter(
+                                    "paint",
+                                    &Color::from_rgba(paint[0], paint[1], paint[2], paint[3])
+                                        .to_variant(),
+                                );
+                                if let Ok(base) = material.try_cast::<StandardMaterial3D>() {
+                                    mat.set_shader_parameter(
+                                        "original_albedo",
+                                        &base.get_albedo().to_variant(),
+                                    );
+                                    mat.set_shader_parameter(
+                                        "original_roughness",
+                                        &base.get_roughness().to_variant(),
+                                    );
+                                    mat.set_shader_parameter(
+                                        "original_metallic",
+                                        &base.get_metallic().to_variant(),
+                                    );
+                                    let a = base.get_albedo().srgb_to_linear();
+                                    mat.set_shader_parameter(
+                                        "factory_luma",
+                                        &(a.r * 0.2126 + a.g * 0.7152 + a.b * 0.0722)
+                                            .max(0.01)
+                                            .to_variant(),
+                                    );
+                                    if let Some(texture) = base.get_texture(
+                                        godot::classes::base_material_3d::TextureParam::ALBEDO,
+                                    ) {
+                                        mat.set_shader_parameter(
+                                            "base_texture",
+                                            &texture.to_variant(),
+                                        );
+                                        mat.set_shader_parameter("has_texture", &true.to_variant());
+                                    }
+                                }
+                                let metadata: serde_json::Value = serde_json::from_str(
+                                    &FileAccess::get_file_as_string("res://assets/cars.json")
+                                        .to_string(),
+                                )
+                                .unwrap_or_default();
+                                if let Some(entry) = metadata["cars"]
+                                    .as_array()
+                                    .and_then(|cars| {
+                                        cars.iter().find(|c| c["code"].as_str() == Some(car_id))
+                                    })
+                                    .and_then(|c| c["paint_materials"].as_array())
+                                    .and_then(|materials| {
+                                        materials.iter().find(|m| m["name"].as_str() == Some(&name))
+                                    })
+                                {
+                                    mat.set_shader_parameter(
+                                        "decal_repeat_uv",
+                                        &entry["decal_repeat_uv"]
+                                            .as_bool()
+                                            .unwrap_or(false)
+                                            .to_variant(),
+                                    );
+                                    if let Some(path) = entry["mask_path"].as_str() {
+                                        if let Some(texture) =
+                                            ResourceLoader::singleton().load(path)
+                                        {
+                                            mat.set_shader_parameter(
+                                                "paint_mask",
+                                                &texture.to_variant(),
+                                            );
+                                            mat.set_shader_parameter(
+                                                "has_mask",
+                                                &true.to_variant(),
+                                            );
+                                            let rgb = &entry["factory_rgb"];
+                                            let values = [
+                                                rgb[0].as_f64().unwrap_or(0.5),
+                                                rgb[1].as_f64().unwrap_or(0.5),
+                                                rgb[2].as_f64().unwrap_or(0.5),
+                                            ];
+                                            let denominator =
+                                                if values.iter().any(|value| *value > 1.) {
+                                                    255.
+                                                } else {
+                                                    1.
+                                                };
+                                            let reference = Color::from_rgb(
+                                                (values[0] / denominator) as f32,
+                                                (values[1] / denominator) as f32,
+                                                (values[2] / denominator) as f32,
+                                            )
+                                            .srgb_to_linear();
+                                            let luma =
+                                                entry["factory_luma_linear"].as_f64().unwrap_or(
+                                                    (reference.r * 0.2126
+                                                        + reference.g * 0.7152
+                                                        + reference.b * 0.0722)
+                                                        as f64,
+                                                );
+                                            mat.set_shader_parameter(
+                                                "factory_luma",
+                                                &(luma.max(0.01) as f32).to_variant(),
+                                            );
+                                        }
+                                    }
+                                }
+                                mesh.set_surface_override_material(i, &mat);
+                            }
+                        }
+                    }
+                }
+            }
+            if let Ok(mut spatial) = child.try_cast::<Node3D>() {
+                self.paint_nodes(&mut spatial, car_id, custom, names);
+            }
+        }
+    }
+    fn run_scenario(&mut self, controls: &mut PlayerInput) {
+        let frame = self.scenario_frame;
+        if frame == 3 {
+            if self.scenario != "reload" {
+                let level = self.game.as_ref().unwrap().frame_snapshot().difficulty;
+                self.game = Some(Game::new(self.content.clone()));
+                self.send(GameCommand::SetDifficulty { level });
+            }
+            if !self.car_override.is_empty() {
+                self.send(GameCommand::SelectCar {
+                    car_id: self.car_override.clone(),
+                });
+            }
+            let screen = match self.scenario.as_str() {
+                "menu" | "reload" | "title" | "credits" => Some(GameScreen::MainMenu),
+                "career" | "event" | "bet" => Some(GameScreen::Career),
+                "quick" | "all30" => Some(GameScreen::QuickRace),
+                "garage" => Some(GameScreen::Garage),
+                "dealer" => Some(GameScreen::Dealership),
+                "crew" => Some(GameScreen::Crew),
+                "avatar" => Some(GameScreen::Avatar),
+                "customization" | "vinyl" => Some(GameScreen::Customization),
+                "options" => Some(GameScreen::MainMenu),
+                _ => None,
+            };
+            if self.scenario == "event" || self.scenario == "bet" {
+                self.event_picker = true;
+            }
+            if let Some(screen) = screen {
+                self.send(GameCommand::Navigate { screen });
+            } else {
+                let event = if !self.event_override.is_empty() {
+                    self.content.events[self.selected_event].id.clone()
+                } else {
+                    self.content
+                        .events
+                        .iter()
+                        .find(|e| {
+                            if self.scenario == "drift" {
+                                e.mode == RaceMode::Drift
+                            } else {
+                                e.mode == RaceMode::Circuit
+                            }
+                        })
+                        .unwrap_or(&self.content.events[0])
+                        .id
+                        .clone()
+                };
+                self.send(GameCommand::StartRace {
+                    event_id: event,
+                    career: self.scenario == "career-race",
+                    wager: if self.scenario == "career-race" {
+                        self.wager
+                    } else {
+                        0
+                    },
+                    pink_slip: self.scenario == "career-race" && self.pink_slip,
+                });
+            }
+            if self.scenario == "credits" {
+                self.credits = true;
+                self.credits_start = self.clock;
+                self.rebuild_menu();
+            }
+            if self.scenario == "options" {
+                self.options = true;
+                self.previous_screen.clear();
+            }
+            if self.scenario == "vinyl" {
+                self.custom_page = "vinyl".into();
+                self.customization.vinyls = vec![Vinyl::default()];
+                self.apply_custom();
+            }
+        }
+        if self.scenario == "pause" && frame == 120 {
+            self.send(GameCommand::Pause);
+        }
+        if self.scenario == "crew" && frame == 8 {
+            if let Some(driver) = self
+                .game
+                .as_ref()
+                .unwrap()
+                .snapshot()
+                .drivers
+                .first()
+                .cloned()
+            {
+                self.send(GameCommand::Recruit { driver });
+            }
+            self.previous_screen.clear();
+        }
+        if self.scenario == "all30" && frame >= 10 {
+            let index = ((frame - 10) / 80) as usize;
+            let phase = (frame - 10) % 80;
+            if index < self.content.cars.len() {
+                let car = self.content.cars[index].clone();
+                let id = car.id.clone();
+                if phase == 0 {
+                    self.custom_return = GameScreen::QuickRace;
+                    self.preview_angle = Some(0.);
+                    self.send(GameCommand::Navigate {
+                        screen: GameScreen::QuickRace,
+                    });
+                    self.send(GameCommand::SelectCar { car_id: id.clone() });
+                    self.customization = Customization::default();
+                    self.send(GameCommand::Customize {
+                        car_id: id.clone(),
+                        customization: self.customization.clone(),
+                    });
+                    self.send(GameCommand::Navigate {
+                        screen: GameScreen::Customization,
+                    });
+                    self.previous_car.clear();
+                }
+                if phase == 8 {
+                    self.capture(&format!("car-{index:02}-{id}-before-rear"));
+                    let data: serde_json::Value = serde_json::from_str(
+                        &FileAccess::get_file_as_string("res://assets/cars.json").to_string(),
+                    )
+                    .unwrap_or_default();
+                    let definition = data["cars"]
+                        .as_array()
+                        .and_then(|c| c.iter().find(|c| c["code"].as_str() == Some(&id)))
+                        .cloned()
+                        .unwrap_or_default();
+                    let materials = self
+                        .preview
+                        .as_ref()
+                        .map(|node| verification::materials(node, &definition))
+                        .unwrap_or_default();
+                    self.all30_before = serde_json::json!({"customization":self.game.as_ref().unwrap().frame_snapshot().selected_customization,"materials":materials});
+                }
+                if phase == 16 {
+                    self.preview_angle = Some(std::f32::consts::PI);
+                }
+                if phase == 24 {
+                    self.capture(&format!("car-{index:02}-{id}-before-front"));
+                }
+                if phase == 28 {
+                    self.preview_angle = Some(0.);
+                    self.customization = Customization {
+                        paint: [0.02 + (index % 3) as f32 * 0.25, 0.2, 0.85, 1.],
+                        finish: ["gloss", "metallic", "matt", "pearl", "flake", "thinfilm"]
+                            [index % 6]
+                            .into(),
+                        wheels: ["sport", "mesh", "deep-dish"][index % 3].into(),
+                        wheel_paint: [0.85, 0.6, 0.18, 1.],
+                        vinyls: vec![Vinyl::default()],
+                        engine: 1,
+                        transmission: 1,
+                        suspension: 1,
+                        tyres: 1,
+                        nitrous: 1,
+                        ..Customization::default()
+                    };
+                    let plate_metadata: serde_json::Value = serde_json::from_str(
+                        &FileAccess::get_file_as_string("res://assets/cars.json").to_string(),
+                    )
+                    .unwrap_or_default();
+                    if plate_metadata["cars"].as_array().is_some_and(|cars| {
+                        cars.iter().any(|c| {
+                            c["code"].as_str() == Some(&id) && c["plate_socket"].is_object()
+                        })
+                    }) {
+                        self.customization.plate_text = format!("OVR{index:03}");
+                        self.customization.plate_style = "dark".into();
+                    }
+                    if let Some(layer) = self.customization.vinyls.first_mut() {
+                        layer.design_id = self.decal_catalog["categories"][0]["design_ids"][0]
+                            .as_str()
+                            .unwrap_or("")
+                            .into();
+                    }
+                    self.customization.body_kit =
+                        car.body_kits.first().cloned().unwrap_or("stock".into());
+                    self.customization.interior_kit =
+                        car.interior_kits.first().cloned().unwrap_or("stock".into());
+                    for (slot, options) in &car.parts {
+                        if let Some(part) = options.first() {
+                            self.customization.parts.insert(slot.clone(), part.clone());
+                        }
+                    }
+                    self.send(GameCommand::Customize {
+                        car_id: id.clone(),
+                        customization: self.customization.clone(),
+                    });
+                    self.previous_car.clear();
+                }
+                if phase == 44 {
+                    let name = format!("car-{index:02}-{id}-after-rear");
+                    self.capture(&name);
+                    let _ = std::fs::copy(
+                        format!("{}/{name}.png", self.capture_dir),
+                        format!("{}/car-{index:02}-{id}.png", self.capture_dir),
+                    );
+                    let data: serde_json::Value = serde_json::from_str(
+                        &FileAccess::get_file_as_string("res://assets/cars.json").to_string(),
+                    )
+                    .unwrap_or_default();
+                    let definition = data["cars"]
+                        .as_array()
+                        .and_then(|c| c.iter().find(|c| c["code"].as_str() == Some(&id)))
+                        .cloned()
+                        .unwrap_or_default();
+                    let materials = self
+                        .preview
+                        .as_ref()
+                        .map(|node| verification::materials(node, &definition))
+                        .unwrap_or_default();
+                    let actual = self
+                        .game
+                        .as_ref()
+                        .unwrap()
+                        .frame_snapshot()
+                        .selected_customization;
+                    self.all30_probes.push(serde_json::json!({"car_id":id,"stock":self.all30_before,"modified":{"customization":actual,"materials":materials},"state_matches_requested":actual==self.customization,"unpainted_factory_state_unchanged":verification::trim_unchanged(&self.all30_before["materials"],&materials),"paint_trim_override_isolation":materials["unexpected_unpainted_overrides"].as_u64()==Some(0),"compatible_body_kits":car.body_kits,"compatible_interior_kits":car.interior_kits}));
+                }
+                if phase == 48 {
+                    self.preview_angle = Some(std::f32::consts::PI);
+                }
+                if phase == 64 {
+                    self.capture(&format!("car-{index:02}-{id}-after-front"));
+                }
+            }
+        }
+        if self.input_event_path.is_empty()
+            && matches!(
+                self.scenario.as_str(),
+                "driving"
+                    | "race"
+                    | "drift"
+                    | "career-race"
+                    | "results"
+                    | "podium"
+                    | "round-results"
+                    | "benchmark"
+            )
+        {
+            *controls = self.game.as_ref().unwrap().scenario_player_ai_input();
+            if self.scenario == "benchmark" {
+                controls.nitrous = if frame % 600 < 180 { 1. } else { 0. };
+            }
+        }
+        if self.scenario != "benchmark"
+            && (frame == 180 || frame == 600)
+            && !self.capture_dir.is_empty()
+        {
+            self.capture("scene");
+        }
+        let long = matches!(
+            self.scenario.as_str(),
+            "career-race" | "results" | "podium" | "round-results"
+        );
+        let end = self
+            .frame_budget
+            .unwrap_or(if self.scenario == "benchmark" {
+                2100
+            } else if self.scenario == "all30" {
+                self.content.cars.len() as u64 * 80 + 40
+            } else if long {
+                21600
+            } else if matches!(self.scenario.as_str(), "driving" | "race" | "drift") {
+                900
+            } else {
+                360
+            });
+        let current = self.game.as_ref().unwrap().frame_snapshot();
+        let replay_terminal_success = !self.input_event_path.is_empty()
+            && self.input_event_index == self.input_events.len()
+            && matches!(current.screen, GameScreen::Results | GameScreen::Complete);
+        let replay_ended_early = !self.input_event_path.is_empty()
+            && (self.input_frame > 0 || self.input_event_index > 0)
+            && self.input_event_index < self.input_events.len()
+            && current.screen != GameScreen::Race;
+        let replay_timed_out = !self.input_event_path.is_empty()
+            && !replay_terminal_success
+            && frame > end.saturating_mul(2) + 600
+            && self.input_frame < end;
+        if replay_timed_out {
+            godot_error!("Native input replay did not reach its active-frame budget");
+        }
+        if long && current.screen == GameScreen::RoundResults && self.scenario != "round-results" {
+            if let Some(result) = &current.result {
+                self.capture(&format!("round-{}", result.round));
+            }
+            self.send(GameCommand::Continue);
+            return;
+        }
+        if self.scenario == "podium" && current.screen == GameScreen::Results {
+            self.send(GameCommand::ShowPodium);
+            return;
+        }
+        let finished = long
+            && if self.scenario == "podium" {
+                current.screen == GameScreen::Podium
+            } else if self.scenario == "round-results" {
+                current.screen == GameScreen::RoundResults
+            } else {
+                current.screen == GameScreen::Results
+            };
+        if (if !self.input_event_path.is_empty() {
+            self.input_frame >= end
+        } else if self.scenario == "benchmark" {
+            self.frame_times.len() as u64 >= end
+        } else {
+            frame == end
+        }) || finished
+            || replay_timed_out
+            || replay_terminal_success
+            || replay_ended_early
+        {
+            self.persist();
+            let saved = self.game.as_ref().unwrap().save_json().unwrap();
+            let loaded = Game::load_json(self.content.clone(), &saved);
+            let disk_data = std::fs::read_to_string(self.save_path());
+            let disk_reload_equal = disk_data
+                .as_ref()
+                .ok()
+                .and_then(|s| Game::load_json(self.content.clone(), s).ok())
+                .and_then(|g| g.save_json().ok())
+                .is_some_and(|s| s == saved);
+            let save_reload_equal = loaded
+                .as_ref()
+                .map(|g| g.save_json().unwrap() == saved)
+                .unwrap_or(false);
+            let mut times = self.frame_times.clone();
+            times.sort_by(|a, b| a.total_cmp(b));
+            let warmup = self.warmup_frames.min(self.frame_times.len() as u64) as usize;
+            let measured = &self.frame_times[warmup..];
+            let mut measured_sorted = measured.to_vec();
+            measured_sorted.sort_by(f64::total_cmp);
+            let mut families = BTreeMap::<String, usize>::new();
+            for event in &self.content.events {
+                *families.entry(format!("{:?}", event.mode)).or_default() += 1;
+            }
+            let server = RenderingServer::singleton();
+            let viewport = self
+                .base()
+                .get_viewport()
+                .map(|v| v.get_visible_rect().size)
+                .unwrap_or(Vector2::ZERO);
+            let mut report = serde_json::json!({"scenario":self.scenario,"native_ui_bounds":self.menu.as_ref().map(control_bounds),"presentation":{"tunnel_shader":"Recovered VDL UV/native art/scroll/palette values with unshaded ALBEDO output; original luminous art RGB retained, source PS694 palette-weight equation and linear RAW/255 upload, source PS660 lum×base×strength and PS82 white/alpha equation; reference per-venue exposure, sampler transfer, TIME seconds and blend-mode adapters remain; active native g_exp grading and variant selection unbound","bet_scene":"Native garage/rival-car staging; two source avatar presets proxy selected rival gender/outfit; original individual likeness/crowd/animation not recovered","profile_scene":"Original CreateAvatar actor/car markers and category camera rows; original DJ_PROFILE/floor venue re-enabled for creator; reference neutral symmetric-front-fill light adapter (causal native capture removes central diffuse band); imported common-rig attachment. Donor Evo companion identity/facing, camera travel/parent behaviours and material HSV remain adaptations or unresolved.","avatar":self.avatar.as_ref().map(spatial_diagnostic),"paint_scene":"Original PaintBox subset/pose XZ/render-floor; donor ground-reference adaptation. Paintshop end FOV/offset values use donor body-center CHASS and source-pose-rotated component-offset adapter; original DLT lighting and camera parent basis remain unresolved.","paintbooth":self.paint_stage.as_ref().map(spatial_diagnostic),"avatar_anchor":self.avatar.as_ref().and_then(|avatar|source_bone_anchor(&avatar.clone().upcast(),"posbip")).map(|v|[v.x,v.y,v.z]),"camera":self.camera.as_ref().map(|node|spatial_diagnostic(&node.clone().upcast::<Node3D>())),"preview":self.preview.as_ref().map(spatial_diagnostic)},"customization_catalog":{"native_decals":self.decal_catalog["designs"].as_array().map(Vec::len).unwrap_or(0),"native_categories":self.decal_catalog["categories"].as_array().map(Vec::len).unwrap_or(0),"alpha_mask_designs":self.decal_catalog["designs"].as_array().map(|designs|designs.iter().filter(|design|design["color_mode"].as_str()==Some("alpha_mask")).count()).unwrap_or(0),"colorization":"Exact constant black/white source artwork uses source alpha with chosen tint; varied RGB artwork retains source RGB multiplied by tint. Explicit renderer adaptation; native compositor unresolved.","layer_limit":16,"mapping":"Recovered source RGBA artwork on donor UV with isolated body paint masks; original decal projection consumer not recovered"},"ui_actions":self.ui_action_log,"ui_actions_complete":self.ui_step==self.ui_steps.len(),"simulation_speed":if long&&self.input_event_path.is_empty(){6}else{1},"frames":frame,"sampled_frames":self.frame_times.len(),"sample_first":self.sample_first,"sample_last":self.sample_last,"all30_probes":self.all30_probes,"load_status":self.load_status,"save_status":self.save_status,"content":{"cars":self.content.cars.len(),"tracks":self.content.tracks.len(),"events":self.content.events.len(),"event_families":families,"sha256":GString::from(self.content_json.as_str()).sha256_text().to_string()},"renderer":{"method":server.get_current_rendering_method().to_string(),"driver":server.get_current_rendering_driver_name().to_string(),"viewport":[viewport.x,viewport.y],"draw_calls":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_DRAW_CALLS_IN_FRAME),"primitives":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_PRIMITIVES_IN_FRAME),"video_memory_bytes":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::VIDEO_MEM_USED)},"frame_clock":"Rust monotonic Instant at process entry (includes render/vsync/host work between entries)","frame_times_ms":self.frame_times,"engine_delta_times_ms":self.engine_frame_times,"viewport_gpu_timing_available":self.gpu_times.iter().any(|v|*v>0.),"viewport_cpu_timing_available":self.cpu_times.iter().any(|v|*v>0.),"viewport_gpu_times_ms":self.gpu_times,"viewport_cpu_times_ms":self.cpu_times,"viewport_timing_note":"Godot measured viewport render times, read at following process entry","warmup_frames":warmup,"measured_frames":measured.len(),"measured_frame_ms_mean":if measured.is_empty(){0.}else{measured.iter().sum::<f64>()/measured.len() as f64},"measured_frame_ms_p95":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.95) as usize]},"measured_frame_ms_p99":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.99) as usize]},"measured_frame_ms_max":measured_sorted.last(),"measured_over_16_67_ms":measured.iter().filter(|t|**t>16.67).count(),"frame_ms_mean":times.iter().sum::<f64>()/times.len() as f64,"frame_ms_p95":times[(times.len() as f32*0.95) as usize],"save_reload_equal":save_reload_equal,"disk_reload_equal":disk_reload_equal,"audio":self.audio.as_ref().map(audio::RuntimeAudio::summary),"loading":self.loading_reports,"effects":self.car_effects.iter().map(effects::CarEffects::summary).collect::<Vec<_>>(),"saved_state":serde_json::from_str::<serde_json::Value>(&saved).unwrap(),"snapshot":self.game.as_ref().unwrap().frame_snapshot()});
+            report["input_replay_timed_out"] = replay_timed_out.into();
+            report["input_replay_ended_early"] = replay_ended_early.into();
+            report["input_replay_terminal_success"] = replay_terminal_success.into();
+            report["native_input_replay"] = serde_json::json!({"path":self.input_event_path,"source":"Input.parse_input_event → is_physical_key_pressed/get_joy_axis; AI disabled","virtual_joy_device":self.virtual_joy_replay,"frames":self.input_frame,"event_clock":"Frame0 events preload during Race countdown. Active frame k events queue before poll k and are observed at sample k+1; input_frame counts active Race frames only","events":self.input_events,"events_processed":self.input_event_index,"events_complete":self.input_event_index==self.input_events.len(),"samples":self.input_samples});
+            report["preview_screen_bounds"] = serde_json::json!(
+                self.camera
+                    .as_ref()
+                    .zip(self.preview.as_ref())
+                    .and_then(|(camera, preview)| projected_bounds(camera, preview))
+            );
+            report["world_layers"] = serde_json::json!({"bindings":self.scene.as_ref().map(world_layer_states),"sampling":"Recovered nativeUV0 +nativeUV2/art/scalars; baseUVscale and alpha-mix are explicitPBRtranslation, original premultiplication/sampleexpressions not recovered"});
+            report["avatar_components"] = self.avatar_report.clone();
+            report["avatar_animations"] =
+                serde_json::json!(self.avatar.as_ref().map(|avatar| animation_states(
+                    &avatar.clone().upcast::<godot::classes::Node>()
+                )));
+            report["settings_status"] = self.settings_status.clone();
+            report["settings_path"] = serde_json::json!(self.settings_path("options.json"));
+            report["render_quality"] = self.render_quality.into();
+            if let Some(audio) = &mut self.audio {
+                audio.shutdown();
+            }
+            if !self.capture_dir.is_empty() {
+                let _ = std::fs::create_dir_all(&self.capture_dir);
+                let _ = std::fs::write(
+                    format!("{}/scenario.json", self.capture_dir),
+                    serde_json::to_string_pretty(&report).unwrap(),
+                );
+                self.capture("final");
+            }
+            self.base()
+                .get_tree()
+                .quit_ex()
+                .exit_code(
+                    if self.save_status["ok"].as_bool() == Some(true)
+                        && !replay_timed_out
+                        && !replay_ended_early
+                        && (self.input_event_path.is_empty()
+                            || self.input_event_index == self.input_events.len())
+                    {
+                        0
+                    } else {
+                        1
+                    },
+                )
+                .done();
+        }
+    }
+    fn swap_wheels(&self, node: &mut Gd<Node3D>, car_id: &str, custom: &Customization) {
+        let style = custom.wheels.as_str();
+        if style == "stock" {
+            if custom.wheel_paint != Customization::default().wheel_paint {
+                let metadata: serde_json::Value = serde_json::from_str(
+                    &FileAccess::get_file_as_string("res://assets/cars.json").to_string(),
+                )
+                .unwrap_or_default();
+                if let Some(car) = metadata["cars"]
+                    .as_array()
+                    .and_then(|cars| cars.iter().find(|car| car["code"].as_str() == Some(car_id)))
+                {
+                    if let Some(sockets) = car["wheel_sockets"].as_array() {
+                        let names = car["stock_rim_materials"]
+                            .as_array()
+                            .map(|names| {
+                                names
+                                    .iter()
+                                    .filter_map(|name| name.as_str().map(str::to_owned))
+                                    .collect::<Vec<_>>()
+                            })
+                            .unwrap_or_default();
+                        paint_stock_rims(node, sockets, &names, custom.wheel_paint);
+                    }
+                }
+            }
+            return;
+        }
+        for child in node.get_children().iter_shared() {
+            if let Ok(mut spatial) = child.try_cast::<Node3D>() {
+                let name = spatial.get_name().to_string().to_lowercase();
+                if name.starts_with("wheel_") && !name.contains("tire") {
+                    hide_geometry(&mut spatial);
+                    let mut radius = 0.20;
+                    let mut replacement_transform = None;
+                    let scale = spatial.get_global_transform().basis.get_scale().abs();
+                    let metadata: serde_json::Value = serde_json::from_str(
+                        &FileAccess::get_file_as_string("res://assets/cars.json").to_string(),
+                    )
+                    .unwrap_or_default();
+                    if let Some(socket) = metadata["cars"]
+                        .as_array()
+                        .and_then(|cars| cars.iter().find(|c| c["code"].as_str() == Some(car_id)))
+                        .and_then(|c| c["wheel_sockets"].as_array())
+                        .and_then(|sockets| {
+                            sockets.iter().find(|s| s["node"].as_str() == Some(&name))
+                        })
+                    {
+                        radius = socket["radius"].as_f64().unwrap_or(0.20) as f32;
+                        replacement_transform =
+                            matrix_transform(&socket["replacement_transforms"][style]);
+                        if socket["tire_embedded"].as_bool() == Some(true) {
+                            let mut tire = Self::load_scene(
+                                socket["replacement_tire_path"]
+                                    .as_str()
+                                    .unwrap_or("res://assets/wheels/shared-tire.glb"),
+                            );
+                            let outer = socket["outer_radius"].as_f64().unwrap_or(0.30) as f32;
+                            if let Some(transform) =
+                                matrix_transform(&socket["replacement_tire_transform"])
+                            {
+                                tire.set_transform(transform);
+                            } else {
+                                tire.set_scale(Vector3::new(
+                                    outer / scale.x,
+                                    outer / scale.y,
+                                    outer / scale.z,
+                                ));
+                            }
+                            spatial.add_child(&tire);
+                        }
+                    }
+                    let mut replacement =
+                        Self::load_scene(&format!("res://assets/wheels/{style}.glb"));
+                    color_meshes(&mut replacement, custom.wheel_paint);
+                    if let Some(transform) = replacement_transform {
+                        replacement.set_transform(transform);
+                    } else {
+                        replacement.set_scale(Vector3::new(
+                            radius / scale.x,
+                            radius / scale.y,
+                            radius / scale.z,
+                        ));
+                    }
+                    spatial.add_child(&replacement);
+                } else {
+                    self.swap_wheels(&mut spatial, car_id, custom);
+                }
+            }
+        }
+    }
+    fn capture(&self, name: &str) {
+        let _ = std::fs::create_dir_all(&self.capture_dir);
+        if let Some(viewport) = self.base().get_viewport() {
+            if let Some(texture) = viewport.get_texture() {
+                if let Some(image) = texture.get_image() {
+                    let _ = image.save_png(&format!("{}/{name}.png", self.capture_dir));
+                }
+            }
+        }
+    }
+}
+
+fn preview_paint(node: &mut Gd<Node3D>, color: Color) {
+    preview_paint_uniform(node, "paint", color);
+}
+fn preview_paint_uniform(node: &mut Gd<Node3D>, uniform: &str, color: Color) {
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if let Some(resource) = mesh.get_mesh() {
+            for surface in 0..resource.get_surface_count() {
+                if let Some(mut shader) = mesh
+                    .get_active_material(surface)
+                    .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+                {
+                    if !shader.get_shader_parameter("paint").is_nil() {
+                        shader.set_shader_parameter(uniform, &color.to_variant());
+                    }
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            preview_paint_uniform(&mut child, uniform, color);
+        }
+    }
+}
+
+fn preview_paint_scalar(node: &mut Gd<Node3D>, uniform: &str, value: f64) {
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if let Some(resource) = mesh.get_mesh() {
+            for surface in 0..resource.get_surface_count() {
+                if let Some(mut shader) = mesh
+                    .get_active_material(surface)
+                    .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+                {
+                    if !shader.get_shader_parameter("paint").is_nil() {
+                        shader.set_shader_parameter(uniform, &value.to_variant());
+                    }
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            preview_paint_scalar(&mut child, uniform, value);
+        }
+    }
+}
+
+fn wireframe_car(node: &mut Gd<Node3D>) {
+    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        let mut shader = godot::classes::Shader::new_gd();
+        shader.set_code("shader_type spatial;render_mode unshaded,wireframe;void fragment(){ALBEDO=vec3(0.08,0.9,0.78);}");
+        let mut material = godot::classes::ShaderMaterial::new_gd();
+        material.set_shader(&shader);
+        mesh.set_material_override(&material);
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            wireframe_car(&mut child);
+        }
+    }
+}
+
+fn play_source_animation(node: &mut Gd<godot::classes::Node>, clip: &str, looping: bool) {
+    if clip.is_empty() {
+        return;
+    }
+    if let Ok(mut player) = node.clone().try_cast::<godot::classes::AnimationPlayer>() {
+        let names = player.get_animation_list();
+        if let Some(name) = names.as_slice().iter().find(|name| {
+            name.to_string() == clip || name.to_string().ends_with(&format!("/{clip}"))
+        }) {
+            let name = StringName::from(name);
+            if let Some(mut animation) = player.get_animation(&name) {
+                animation.set_loop_mode(if looping {
+                    godot::classes::animation::LoopMode::LINEAR
+                } else {
+                    godot::classes::animation::LoopMode::NONE
+                });
+            }
+            player.play_ex().name(&name).done();
+        }
+    }
+    for mut child in node.get_children().iter_shared() {
+        play_source_animation(&mut child, clip, looping);
+    }
+}
+fn animation_states(node: &Gd<godot::classes::Node>) -> Vec<serde_json::Value> {
+    let mut states = vec![];
+    if let Ok(player) = node.clone().try_cast::<godot::classes::AnimationPlayer>() {
+        states.push(serde_json::json!({"clip":player.get_current_animation().to_string(),"position":player.get_current_animation_position(),"playing":player.is_playing()}));
+    }
+    for child in node.get_children().iter_shared() {
+        states.extend(animation_states(&child));
+    }
+    states
+}
+
+fn world_mesh_bounds(node: &Gd<Node3D>) -> Option<[Vector3; 2]> {
+    let mut bounds: Option<[Vector3; 2]> = None;
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if mesh.get_mesh().is_some() {
+            let aabb = mesh.get_aabb();
+            let transform = mesh.get_global_transform();
+            for corner in 0..8 {
+                let point = transform
+                    * (aabb.position
+                        + aabb.size
+                            * Vector3::new(
+                                (corner & 1) as f32,
+                                ((corner >> 1) & 1) as f32,
+                                ((corner >> 2) & 1) as f32,
+                            ));
+                if let Some(pair) = &mut bounds {
+                    pair[0] = Vector3::new(
+                        pair[0].x.min(point.x),
+                        pair[0].y.min(point.y),
+                        pair[0].z.min(point.z),
+                    );
+                    pair[1] = Vector3::new(
+                        pair[1].x.max(point.x),
+                        pair[1].y.max(point.y),
+                        pair[1].z.max(point.z),
+                    );
+                } else {
+                    bounds = Some([point, point]);
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(child) = child.try_cast::<Node3D>() {
+            if let Some(pair) = world_mesh_bounds(&child) {
+                if let Some(current) = &mut bounds {
+                    current[0] = Vector3::new(
+                        current[0].x.min(pair[0].x),
+                        current[0].y.min(pair[0].y),
+                        current[0].z.min(pair[0].z),
+                    );
+                    current[1] = Vector3::new(
+                        current[1].x.max(pair[1].x),
+                        current[1].y.max(pair[1].y),
+                        current[1].z.max(pair[1].z),
+                    );
+                } else {
+                    bounds = Some(pair);
+                }
+            }
+        }
+    }
+    bounds
+}
+
+fn world_layer_states(node: &Gd<Node3D>) -> Vec<serde_json::Value> {
+    let mut states = vec![];
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if let Some(resource) = mesh.get_mesh() {
+            for surface in 0..resource.get_surface_count() {
+                if let Some(material) = mesh
+                    .get_active_material(surface)
+                    .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+                    .filter(|material| material.has_meta("native_tarmac_uv"))
+                {
+                    states.push(serde_json::json!({"node":mesh.get_name().to_string(),"surface":surface,"base_uv_native":0,"markings_uv_native":2,"base_texture":material.get_shader_parameter("native_tarmac").try_to::<Gd<godot::classes::Texture2D>>().ok().map(|texture|texture.get_path().to_string()),"markings_texture":material.get_shader_parameter("native_markings").try_to::<Gd<godot::classes::Texture2D>>().ok().map(|texture|texture.get_path().to_string())}));
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(child) = child.try_cast::<Node3D>() {
+            states.extend(world_layer_states(&child));
+        }
+    }
+    states
+}
+
+fn projected_bounds(camera: &Gd<Camera3D>, node: &Gd<Node3D>) -> Option<[[f32; 2]; 2]> {
+    let bounds = world_mesh_bounds(node)?;
+    let mut min = Vector2::new(f32::MAX, f32::MAX);
+    let mut max = Vector2::new(f32::MIN, f32::MIN);
+    for corner in 0..8 {
+        let point = Vector3::new(
+            if corner & 1 == 0 {
+                bounds[0].x
+            } else {
+                bounds[1].x
+            },
+            if corner & 2 == 0 {
+                bounds[0].y
+            } else {
+                bounds[1].y
+            },
+            if corner & 4 == 0 {
+                bounds[0].z
+            } else {
+                bounds[1].z
+            },
+        );
+        let projected = camera.unproject_position(point);
+        min = Vector2::new(min.x.min(projected.x), min.y.min(projected.y));
+        max = Vector2::new(max.x.max(projected.x), max.y.max(projected.y));
+    }
+    Some([[min.x, min.y], [max.x, max.y]])
+}
+
+fn spatial_diagnostic(node: &Gd<Node3D>) -> serde_json::Value {
+    let transform = node.get_global_transform();
+    let p = transform.origin;
+    let x = transform.basis * Vector3::RIGHT;
+    let y = transform.basis * Vector3::UP;
+    let z = transform.basis * Vector3::BACK;
+    serde_json::json!({"name":node.get_name().to_string(),"position":[p.x,p.y,p.z],"basis":[[x.x,x.y,x.z],[y.x,y.y,y.z],[z.x,z.y,z.z]],"vertical_fov_degrees":node.clone().try_cast::<Camera3D>().ok().map(|camera|camera.get_fov()),"mesh_bounds":world_mesh_bounds(node).map(|pair|[[pair[0].x,pair[0].y,pair[0].z],[pair[1].x,pair[1].y,pair[1].z]])})
+}
+
+fn control_bounds(parent: &Gd<Control>) -> Vec<serde_json::Value> {
+    fn visit(node: &Gd<godot::classes::Node>, rows: &mut Vec<serde_json::Value>) {
+        if node.is_queued_for_deletion() {
+            return;
+        }
+        if node.has_meta("native_asset") || node.has_meta("native_layout_slot") {
+            let asset = node
+                .has_meta("native_asset")
+                .then(|| node.get_meta("native_asset").to::<String>());
+            let slot = node
+                .has_meta("native_layout_slot")
+                .then(|| node.get_meta("native_layout_slot").to::<String>());
+            if let Ok(control) = node.clone().try_cast::<Control>() {
+                let rect = control.get_global_rect();
+                let minimum = control.get_combined_minimum_size();
+                rows.push(serde_json::json!({"name":control.get_name().to_string(),"asset":asset,"layout_slot":slot,"size":[rect.size.x,rect.size.y],"minimum":[minimum.x,minimum.y],"position":[rect.position.x,rect.position.y],"visible":control.is_visible_in_tree()}));
+            } else if let Ok(polygon) = node.clone().try_cast::<godot::classes::Polygon2D>() {
+                let points = polygon.get_polygon();
+                if !points.is_empty() {
+                    let mut min = Vector2::new(f32::INFINITY, f32::INFINITY);
+                    let mut max = -min;
+                    for point in points.as_slice() {
+                        let point = polygon.get_global_transform() * *point;
+                        min = Vector2::new(min.x.min(point.x), min.y.min(point.y));
+                        max = Vector2::new(max.x.max(point.x), max.y.max(point.y));
+                    }
+                    rows.push(serde_json::json!({"name":polygon.get_name().to_string(),"asset":asset,"layout_slot":slot,"size":[max.x-min.x,max.y-min.y],"minimum":[0,0],"position":[min.x,min.y],"visible":polygon.is_visible_in_tree(),"vertex_rgba":polygon.get_vertex_colors().as_slice().iter().map(|color|[color.r,color.g,color.b,color.a]).collect::<Vec<_>>()}));
+                }
+            }
+        }
+        for child in node.get_children().iter_shared() {
+            visit(&child, rows);
+        }
+    }
+    let mut rows = vec![];
+    visit(&parent.clone().upcast(), &mut rows);
+    rows
+}
+
+fn matrix_transform(value: &serde_json::Value) -> Option<Transform3D> {
+    let values = value.as_array()?;
+    if values.len() != 16 {
+        return None;
+    }
+    let mut m = [0.0; 16];
+    for (out, value) in m.iter_mut().zip(values) {
+        *out = value.as_f64()? as f32;
+        if !out.is_finite() {
+            return None;
+        }
+    }
+    Some(Transform3D::new(
+        Basis::from_cols(
+            Vector3::new(m[0], m[1], m[2]),
+            Vector3::new(m[4], m[5], m[6]),
+            Vector3::new(m[8], m[9], m[10]),
+        ),
+        Vector3::new(m[12], m[13], m[14]),
+    ))
+}
+
+fn script_camera_fov(value: f32) -> f32 {
+    // 820869D8..DC uses this recovered multiplier before renderer mode 2
+    // (vertical FOV). Keep its f32 rounding rather than approximating value / 2.
+    (value * 0.008726389147341251_f32).to_degrees()
+}
+
+fn host_steering(left: f32, right: f32, axis: f32) -> f32 {
+    // Explicit host adaptation: reflect stick sign and normalize its usable range after deadzone.
+    if axis.abs() > 0.12 {
+        -axis.signum() * (axis.abs() - 0.12) / 0.88
+    } else {
+        left - right
+    }
+}
+
+fn swap_binding(bindings: &mut BTreeMap<String, i32>, action: String, value: i32) {
+    if let Some(previous) = bindings.get(&action).copied() {
+        if let Some(conflict) = bindings
+            .iter()
+            .find(|(name, binding)| **name != action && **binding == value)
+            .map(|(name, _)| name.clone())
+        {
+            bindings.insert(conflict, previous);
+        }
+    }
+    bindings.insert(action, value);
+}
+
+#[cfg(test)]
+mod binding_tests {
+    use super::swap_binding;
+    use std::collections::BTreeMap;
+    #[test]
+    fn script_camera_units_match_native_vertical_projection() {
+        let vertical = super::script_camera_fov(80.);
+        assert!((vertical - 39.99882).abs() < 0.00001);
+        // Native projection mode 2 keeps M11 and divides M00 by viewport aspect.
+        let m11 = 1. / (vertical.to_radians() * 0.5).tan();
+        let native_m11 = 1. / (80_f32 * 0.008726389147341251 * 0.5).tan();
+        assert!((m11 - native_m11).abs() < 0.000001);
+        assert!((m11 / (16. / 9.) - 1.54554).abs() < 0.0001);
+    }
+    #[test]
+    fn stick_deadzone_is_continuous_and_legal_inputs_roundtrip() {
+        let epsilon = 0.00001;
+        assert_eq!(super::host_steering(1., 0., 0.12), 1.);
+        assert!(super::host_steering(0., 0., 0.12 + epsilon).abs() < 0.0001);
+        for steering in [-1_f32, -0.085, -0.001, 0.001, 0.085, 1.] {
+            let raw = -steering.signum() * (0.12 + 0.88 * steering.abs());
+            assert!((super::host_steering(0., 0., raw) - steering).abs() < 0.000001);
+        }
+    }
+    #[test]
+    fn right_keyboard_and_stick_turn_toward_rh_chase_camera_right() {
+        use oversteer_core::{Handling, PhysicsGlobals, PlayerInput, VehicleState};
+        for input in [
+            super::host_steering(0., 1., 0.),
+            super::host_steering(0., 0., 1.),
+        ] {
+            let handling = Handling::default();
+            let globals = PhysicsGlobals::recovered_script_settings();
+            let mut vehicle = VehicleState::default();
+            vehicle.velocity = [0., 0., 15.];
+            vehicle.wheel_omega = [15. / handling.wheel_radius; 4];
+            for _ in 0..60 {
+                vehicle.step(
+                    &handling,
+                    &globals,
+                    PlayerInput {
+                        throttle: 0.7,
+                        steering: input,
+                        ..Default::default()
+                    },
+                    1. / 60.,
+                );
+            }
+            assert!(
+                vehicle.position[0] < 0.,
+                "RH screen-right from forward+Z is−X, got{:?}",
+                vehicle.position
+            );
+        }
+    }
+    #[test]
+    fn assigning_nitrous_to_reverse_button_swaps_previous_button() {
+        let mut buttons = BTreeMap::from([
+            ("nitrous".into(), 0),
+            ("reverse".into(), 3),
+            ("handbrake".into(), 1),
+        ]);
+        swap_binding(&mut buttons, "nitrous".into(), 3);
+        assert_eq!(buttons["nitrous"], 3);
+        assert_eq!(buttons["reverse"], 0);
+        assert_eq!(buttons["handbrake"], 1);
+    }
+    #[test]
+    fn assigning_steering_to_brake_axis_preserves_both_controls() {
+        let mut axes = BTreeMap::from([
+            ("steering".into(), 0),
+            ("brake".into(), 4),
+            ("throttle".into(), 5),
+        ]);
+        swap_binding(&mut axes, "steering".into(), 4);
+        assert_eq!(axes["steering"], 4);
+        assert_eq!(axes["brake"], 0);
+        assert_eq!(axes["throttle"], 5);
+    }
+}
+
+fn v3(p: [f32; 3]) -> Vector3 {
+    Vector3::new(p[0], p[1], p[2])
+}
+
+fn append_box(
+    surface: &mut Gd<godot::classes::SurfaceTool>,
+    center: Vector3,
+    size: Vector3,
+    basis: Basis,
+    color: Color,
+) {
+    let corners = [
+        Vector3::new(-1., -1., -1.),
+        Vector3::new(1., -1., -1.),
+        Vector3::new(1., 1., -1.),
+        Vector3::new(-1., 1., -1.),
+        Vector3::new(-1., -1., 1.),
+        Vector3::new(1., -1., 1.),
+        Vector3::new(1., 1., 1.),
+        Vector3::new(-1., 1., 1.),
+    ];
+    for i in [
+        0, 1, 2, 0, 2, 3, 5, 4, 7, 5, 7, 6, 4, 0, 3, 4, 3, 7, 1, 5, 6, 1, 6, 2, 3, 2, 6, 3, 6, 7,
+        4, 5, 1, 4, 1, 0,
+    ] {
+        surface.set_color(color);
+        surface.add_vertex(center + basis * (corners[i] * size * 0.5));
+    }
+}
+
+fn animate_wheels(node: &mut Gd<Node3D>, racer: &RacerSnapshot) {
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut spatial) = child.try_cast::<Node3D>() {
+            let name = spatial.get_name().to_string().to_lowercase();
+            let index = if name.starts_with("wheel_") || name.starts_with("tire_") {
+                if name.contains("front_left") {
+                    Some(0)
+                } else if name.contains("front_right") {
+                    Some(1)
+                } else if name.contains("rear_left") {
+                    Some(2)
+                } else if name.contains("rear_right") {
+                    Some(3)
+                } else {
+                    None
+                }
+            } else {
+                None
+            };
+            if let Some(i) = index {
+                let key = "oversteer_wheel_rest";
+                let rest = if spatial.has_meta(key) {
+                    spatial.get_meta(key).to::<Transform3D>()
+                } else {
+                    let rest = spatial.get_transform();
+                    spatial.set_meta(key, &rest.to_variant());
+                    rest
+                };
+                let steer = Basis::from_axis_angle(Vector3::UP, racer.wheel_steer_angles[i]);
+                let spin = Basis::from_axis_angle(Vector3::RIGHT, -racer.wheel_angles[i]);
+                spatial.set_transform(Transform3D::new(steer * rest.basis * spin, rest.origin));
+            } else {
+                animate_wheels(&mut spatial, racer);
+            }
+        }
+    }
+}
+
+fn map_transform(points: &[[f32; 3]]) -> (Vector2, f32) {
+    let mut min = Vector2::new(f32::MAX, f32::MAX);
+    let mut max = Vector2::new(f32::MIN, f32::MIN);
+    for p in points {
+        min = Vector2::new(min.x.min(p[0]), min.y.min(p[2]));
+        max = Vector2::new(max.x.max(p[0]), max.y.max(p[2]));
+    }
+    (
+        (min + max) * 0.5,
+        165. / (max - min).x.max((max - min).y).max(1.),
+    )
+}
+
+fn hide_geometry(node: &mut Gd<Node3D>) {
+    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        mesh.set_mesh(None::<&Gd<godot::classes::Mesh>>);
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            hide_geometry(&mut child);
+        }
+    }
+}
+
+fn native_font() -> Gd<godot::classes::Font> {
+    if let Some(mut font) = ResourceLoader::singleton()
+        .load("res://assets/ui/native/fonts/menu.fnt")
+        .and_then(|r| r.try_cast::<godot::classes::Font>().ok())
+    {
+        if font.get_fallbacks().is_empty() {
+            let system = godot::classes::SystemFont::new_gd().upcast::<godot::classes::Font>();
+            font.set_fallbacks(&Array::from(&[system][..]));
+        }
+        font
+    } else {
+        let mut font = godot::classes::SystemFont::new_gd();
+        font.set_font_names(&PackedStringArray::from(
+            &[
+                GString::from("DIN Condensed"),
+                GString::from("Arial Narrow"),
+            ][..],
+        ));
+        font.upcast()
+    }
+}
+
+fn character_manifest() -> serde_json::Value {
+    let path = "res://assets/characters/avatars.json";
+    if FileAccess::file_exists(path) {
+        serde_json::from_str(&FileAccess::get_file_as_string(path).to_string()).unwrap_or_default()
+    } else {
+        serde_json::Value::Null
+    }
+}
+
+fn color_avatar(node: &mut Gd<Node3D>, definition: &serde_json::Value, profile: &PlayerProfile) {
+    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if let Some(resource) = mesh.get_mesh() {
+            for i in 0..resource.get_surface_count() {
+                if let Some(material) = mesh.get_active_material(i) {
+                    let name = material.get_name().to_string();
+                    for (key, color) in [
+                        ("skin_materials", profile.skin_color),
+                        ("hair_materials", profile.hair_color),
+                        ("top_materials", profile.top_color),
+                        ("bottom_materials", profile.bottom_color),
+                    ] {
+                        if definition[key]
+                            .as_array()
+                            .is_some_and(|names| names.iter().any(|n| n.as_str() == Some(&name)))
+                        {
+                            if let Some(mut copy) = material
+                                .duplicate()
+                                .and_then(|m| m.try_cast::<StandardMaterial3D>().ok())
+                            {
+                                copy.set_albedo(Color::from_rgba(
+                                    color[0], color[1], color[2], color[3],
+                                ));
+                                mesh.set_surface_override_material(i, &copy);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut spatial) = child.try_cast::<Node3D>() {
+            color_avatar(&mut spatial, definition, profile);
+        }
+    }
+}
+
+fn native_arc(
+    parent: &mut Gd<Control>,
+    asset: &str,
+    center: Vector2,
+    radius: f32,
+    thickness: f32,
+    alpha: f32,
+) -> Option<Gd<godot::classes::ShaderMaterial>> {
+    let texture = ResourceLoader::singleton()
+        .load(&format!("res://assets/ui/native/aliases/{asset}.png"))?
+        .try_cast::<godot::classes::Texture2D>()
+        .ok()?;
+    let mut surface = godot::classes::SurfaceTool::new_gd();
+    surface.begin(godot::classes::mesh::PrimitiveType::TRIANGLES);
+    for i in 0..32 {
+        let u0 = i as f32 / 32.;
+        let u1 = (i + 1) as f32 / 32.;
+        for (u, v) in [(u0, 0.), (u1, 0.), (u1, 1.), (u0, 0.), (u1, 1.), (u0, 1.)] {
+            let angle = 3.63 + u * (6.318 - 3.63);
+            let point = center + Vector2::new(angle.cos(), angle.sin()) * (radius + v * thickness);
+            surface.set_uv(Vector2::new(u, v));
+            surface.set_color(Color::from_rgba(1., 1., 1., alpha));
+            surface.add_vertex(Vector3::new(point.x, point.y, 0.));
+        }
+    }
+    let mesh = surface.commit()?;
+    let mut shader = godot::classes::Shader::new_gd();
+    shader.set_code("shader_type canvas_item; uniform float fill=1.0; void fragment(){COLOR*=texture(TEXTURE,UV);if(UV.x>fill){COLOR.a=0.0;}}");
+    let mut material = godot::classes::ShaderMaterial::new_gd();
+    material.set_shader(&shader);
+    let mut node = godot::classes::MeshInstance2D::new_alloc();
+    node.set_mesh(&mesh);
+    node.set_texture(&texture);
+    node.set_material(&material);
+    parent.add_child(&node);
+    Some(material)
+}
+
+fn paint_stock_rims(
+    node: &mut Gd<Node3D>,
+    sockets: &[serde_json::Value],
+    names: &[String],
+    color: [f32; 4],
+) {
+    let name = node.get_name().to_string();
+    if let Some(socket) = sockets
+        .iter()
+        .find(|socket| socket["node"].as_str() == Some(&name))
+    {
+        if socket["tire_embedded"].as_bool() != Some(true) {
+            color_meshes(node, color);
+        } else {
+            color_named_meshes(node, names, color);
+        }
+        return;
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            paint_stock_rims(&mut child, sockets, names, color);
+        }
+    }
+}
+
+fn color_named_meshes(node: &mut Gd<Node3D>, names: &[String], color: [f32; 4]) {
+    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if let Some(resource) = mesh.get_mesh() {
+            for surface in 0..resource.get_surface_count() {
+                if let Some(material) = mesh
+                    .get_active_material(surface)
+                    .filter(|material| names.contains(&material.get_name().to_string()))
+                {
+                    if let Some(mut copy) = material
+                        .duplicate()
+                        .and_then(|material| material.try_cast::<StandardMaterial3D>().ok())
+                    {
+                        copy.set_meta("wheel_tint", &true.to_variant());
+                        copy.set_albedo(Color::from_rgba(color[0], color[1], color[2], color[3]));
+                        mesh.set_surface_override_material(surface, &copy);
+                    }
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            color_named_meshes(&mut child, names, color);
+        }
+    }
+}
+
+fn preview_vinyl_tint(node: &mut Gd<Node3D>, index: usize, color: Color) {
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if let Some(resource) = mesh.get_mesh() {
+            for surface in 0..resource.get_surface_count() {
+                if let Some(mut material) = mesh
+                    .get_active_material(surface)
+                    .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+                {
+                    let parameter = format!("vinyl_tint_{index}");
+                    if material
+                        .get_shader()
+                        .is_some_and(|shader| shader.get_code().to_string().contains(&parameter))
+                    {
+                        material.set_shader_parameter(&parameter, &color.to_variant());
+                    }
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            preview_vinyl_tint(&mut child, index, color);
+        }
+    }
+}
+fn preview_rim_tint(node: &mut Gd<Node3D>, color: Color) -> bool {
+    let mut changed = false;
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if let Some(resource) = mesh.get_mesh() {
+            for surface in 0..resource.get_surface_count() {
+                if let Some(mut material) = mesh
+                    .get_active_material(surface)
+                    .and_then(|material| material.try_cast::<StandardMaterial3D>().ok())
+                {
+                    if material.has_meta("wheel_tint") {
+                        material.set_albedo(color);
+                        changed = true;
+                    }
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            changed = preview_rim_tint(&mut child, color) || changed;
+        }
+    }
+    changed
+}
+fn color_meshes(node: &mut Gd<Node3D>, color: [f32; 4]) {
+    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if let Some(resource) = mesh.get_mesh() {
+            for i in 0..resource.get_surface_count() {
+                if let Some(material) = mesh.get_active_material(i) {
+                    if let Some(mut copy) = material
+                        .duplicate()
+                        .and_then(|m| m.try_cast::<StandardMaterial3D>().ok())
+                    {
+                        copy.set_meta("wheel_tint", &true.to_variant());
+                        copy.set_albedo(Color::from_rgba(color[0], color[1], color[2], color[3]));
+                        mesh.set_surface_override_material(i, &copy);
+                    }
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            color_meshes(&mut child, color);
+        }
+    }
+}
+
+fn native_loading_tip() -> String {
+    let path = "res://assets/ui/native/loading-tips.json";
+    if !FileAccess::file_exists(path) {
+        return String::new();
+    }
+    let data: serde_json::Value =
+        serde_json::from_str(&FileAccess::get_file_as_string(path).to_string()).unwrap_or_default();
+    data["tips"]
+        .as_array()
+        .and_then(|tips| tips.first())
+        .and_then(|s| s.as_str())
+        .unwrap_or("")
+        .to_owned()
+}
+
+fn prepare_layered_world(node: &mut Gd<Node3D>, path: &str) {
+    let contract_path = "res://assets/worlds/render-contract.json";
+    if !FileAccess::file_exists(contract_path) {
+        return;
+    }
+    let contract: serde_json::Value =
+        serde_json::from_str(&FileAccess::get_file_as_string(contract_path).to_string())
+            .unwrap_or_default();
+    let filename = path.rsplit('/').next().unwrap_or("");
+    let Some(catalog) = contract["worlds"][filename].as_str() else {
+        return;
+    };
+    let Some(layers) = contract["catalogs"][catalog]["tarmac"].as_array() else {
+        return;
+    };
+    let mut shader = godot::classes::Shader::new_gd();
+    // Original UV attributes/art/parameters; layered PBR sampling is a documented translation.
+    shader.set_code("shader_type spatial;render_mode cull_disabled;uniform sampler2D native_tarmac:source_color,filter_linear_mipmap_anisotropic,repeat_enable;uniform sampler2D native_markings:source_color,filter_linear_mipmap_anisotropic,repeat_enable;uniform float native_tarmac_scale=1.0;uniform float native_tarmac_brightness=1.0;void fragment(){vec3 road=texture(native_tarmac,UV*native_tarmac_scale).rgb*native_tarmac_brightness;vec4 markings=texture(native_markings,UV2);ALBEDO=mix(road,markings.rgb,markings.a);ROUGHNESS=mix(0.94,0.72,markings.a);METALLIC=0.0;}");
+    let mut materials = BTreeMap::<String, Gd<godot::classes::ShaderMaterial>>::new();
+    for layer in layers {
+        let Some(name) = layer["name"].as_str() else {
+            continue;
+        };
+        let Some(base) = layer["base_texture_path"].as_str() else {
+            continue;
+        };
+        let Some(markings) = layer["markings_texture_path"].as_str() else {
+            continue;
+        };
+        let mut material = godot::classes::ShaderMaterial::new_gd();
+        material.set_shader(&shader);
+        material.set_shader_parameter(
+            "native_tarmac",
+            &godot::tools::load::<godot::classes::Texture2D>(base).to_variant(),
+        );
+        material.set_shader_parameter(
+            "native_markings",
+            &godot::tools::load::<godot::classes::Texture2D>(markings).to_variant(),
+        );
+        material.set_shader_parameter(
+            "native_tarmac_scale",
+            &(layer["native_scalars"]["tarmacScale"]
+                .as_f64()
+                .unwrap_or(1.) as f32)
+                .to_variant(),
+        );
+        material.set_shader_parameter(
+            "native_tarmac_brightness",
+            &(layer["native_scalars"]["tarmacBrightness"]
+                .as_f64()
+                .unwrap_or(1.) as f32)
+                .to_variant(),
+        );
+        material.set_meta("native_tarmac_uv", &0i32.to_variant());
+        material.set_meta("native_markings_uv", &2i32.to_variant());
+        materials.insert(name.into(), material);
+    }
+    apply_named_world_materials(node, &materials);
+}
+fn apply_named_world_materials(
+    node: &mut Gd<Node3D>,
+    materials: &BTreeMap<String, Gd<godot::classes::ShaderMaterial>>,
+) {
+    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if let Some(resource) = mesh.get_mesh() {
+            for surface in 0..resource.get_surface_count() {
+                if let Some(material) = mesh
+                    .get_active_material(surface)
+                    .and_then(|material| materials.get(&material.get_name().to_string()))
+                {
+                    mesh.set_surface_override_material(surface, material);
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            apply_named_world_materials(&mut child, materials);
+        }
+    }
+}
+
+fn presentation_style(role: &str) -> ([[u8; 3]; 3], [f32; 4]) {
+    // Recovered record470 RGB bytes;822D4340 uploads raw/255 floats without sRGB transfer. These are distinct from gadget ARGB rows.
+    let (palette, car) = match role {
+        "TunnelStart" => ([[20, 0, 30], [34, 20, 60], [179, 135, 200]], [65, 0, 155]),
+        "CreateCharacter" => ([[5, 0, 6], [4, 0, 2], [1, 0, 2]], [160, 160, 160]),
+        "MainToOptions" => ([[2, 0, 5], [10, 0, 20], [25, 0, 55]], [10, 0, 70]),
+        "MainToExtras" => ([[47, 19, 5], [210, 145, 65], [0, 0, 0]], [215, 20, 25]),
+        "ExtrasToCredits" => ([[15, 20, 0], [0, 0, 0], [0, 0, 0]], [0, 120, 65]),
+        _ => ([[36, 6, 29], [82, 22, 33], [0, 0, 0]], [160, 160, 160]),
+    };
+    (
+        palette,
+        [
+            car[0] as f32 / 255.,
+            car[1] as f32 / 255.,
+            car[2] as f32 / 255.,
+            1.,
+        ],
+    )
+}
+fn source_bone_anchor(node: &Gd<godot::classes::Node>, name: &str) -> Option<Vector3> {
+    if let Ok(skeleton) = node.clone().try_cast::<godot::classes::Skeleton3D>() {
+        let bone = skeleton.find_bone(name);
+        if bone >= 0 {
+            return Some(
+                skeleton.get_global_transform() * skeleton.get_bone_global_pose(bone).origin,
+            );
+        }
+    }
+    node.get_children()
+        .iter_shared()
+        .find_map(|child| source_bone_anchor(&child, name))
+}
+fn set_tunnel_palette(node: &mut Gd<Node3D>, palette: [[u8; 3]; 3], exposure: f32) {
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if let Some(resource) = mesh.get_mesh() {
+            for surface in 0..resource.get_surface_count() {
+                if let Some(mut material) = mesh
+                    .get_active_material(surface)
+                    .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+                {
+                    let code = material
+                        .get_shader()
+                        .map(|shader| shader.get_code().to_string())
+                        .unwrap_or_default();
+                    for (index, rgb) in palette.iter().enumerate() {
+                        let name = format!("tunnel_col{}", index + 1);
+                        if code.contains(&format!("uniform vec3 {name}")) {
+                            let color = Color::from_rgb(
+                                rgb[0] as f32 * f32::from_bits(0x3b808081),
+                                rgb[1] as f32 * f32::from_bits(0x3b808081),
+                                rgb[2] as f32 * f32::from_bits(0x3b808081),
+                            );
+                            material.set_shader_parameter(
+                                &name,
+                                &Vector3::new(color.r, color.g, color.b).to_variant(),
+                            );
+                        }
+                    }
+                    if code.contains("uniform float presentation_exposure") {
+                        material
+                            .set_shader_parameter("presentation_exposure", &exposure.to_variant());
+                    }
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            set_tunnel_palette(&mut child, palette, exposure);
+        }
+    }
+}
+fn set_creator_room_visibility(node: &mut Gd<Node3D>, visible: bool) {
+    let name = node.get_name().to_string().to_lowercase();
+    if ["dj_profile", "floor_reflect", "glass_reflect"]
+        .iter()
+        .any(|part| name.contains(part))
+    {
+        node.set_visible(visible);
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            set_creator_room_visibility(&mut child, visible);
+        }
+    }
+}
+fn prepare_tunnel(node: &mut Gd<Node3D>) {
+    let materials: serde_json::Value = serde_json::from_str(
+        &FileAccess::get_file_as_string("res://assets/worlds/tunnel-materials.json").to_string(),
+    )
+    .unwrap_or_default();
+    prepare_tunnel_nodes(node, &materials);
+}
+fn prepare_tunnel_nodes(node: &mut Gd<Node3D>, materials: &serde_json::Value) {
+    // Native palette upload is raw/255 linear and PS694 uses UV0 RGB weights.
+    // Shared g_exp grading, sampler transfer and blend-variant selection remain
+    // unbound; per-venue exposure is an explicit presentation adapter.
+    let name = node.get_name().to_string().to_lowercase();
+    if [
+        "dj_photo",
+        "dj_profile",
+        "floor_reflect",
+        "glass_reflect",
+        "black_box",
+    ]
+    .iter()
+    .any(|part| name.contains(part))
+    {
+        node.set_visible(false);
+        // Visibility is chosen by presentation role later. Still translate child
+        // luminous passes: leaving their imported MASK material discards low-alpha art.
+    }
+    if let Ok(mut mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if let Some(resource) = mesh.get_mesh() {
+            for i in 0..resource.get_surface_count() {
+                if let Some(material) = mesh.get_active_material(i) {
+                    let definition = materials.as_array().and_then(|materials| {
+                        materials.iter().find(|definition| {
+                            definition["name"].as_str() == Some(&material.get_name().to_string())
+                        })
+                    });
+                    if let Some(definition) = definition.filter(|definition| {
+                        definition["nativeShader"].as_str() == Some("simpleGradient")
+                    }) {
+                        let mut shader = godot::classes::Shader::new_gd();
+                        shader.set_code("shader_type spatial;render_mode unshaded,cull_disabled;uniform sampler2D gradient_weights:repeat_enable;uniform vec3 tunnel_col1=vec3(0.14117647,0.02352941,0.11372549);uniform vec3 tunnel_col2=vec3(0.32156863,0.08627451,0.12941176);uniform vec3 tunnel_col3=vec3(0.0);uniform float brightness=2.5;uniform float presentation_exposure=0.15;void fragment(){vec3 weights=texture(gradient_weights,UV).rgb;vec3 tint=tunnel_col1*weights.r+tunnel_col2*weights.g+tunnel_col3*weights.b;ALBEDO=tint*brightness*presentation_exposure;}");
+                        let mut translated = godot::classes::ShaderMaterial::new_gd();
+                        translated.set_shader(&shader);
+                        translated.set_shader_parameter(
+                            "gradient_weights",
+                            &godot::tools::load::<godot::classes::Texture2D>(
+                                "res://assets/worlds/textures/tunnel/12.png",
+                            )
+                            .to_variant(),
+                        );
+                        translated.set_shader_parameter(
+                            "brightness",
+                            &(definition["nativeScalars"]["brightness"]
+                                .as_f64()
+                                .unwrap_or(2.5) as f32)
+                                .to_variant(),
+                        );
+                        mesh.set_surface_override_material(i, &translated);
+                        continue;
+                    }
+                    if let Some(definition) = definition.filter(|definition| {
+                        matches!(
+                            definition["nativeShader"].as_str(),
+                            Some("luminousScroll" | "backLightScroll")
+                        )
+                    }) {
+                        let mut shader = godot::classes::Shader::new_gd();
+                        shader.set_code("shader_type spatial;render_mode unshaded,cull_disabled,blend_add,depth_draw_never;uniform sampler2D base_texture:source_color,repeat_enable;uniform sampler2D lum_texture:source_color,repeat_enable;uniform vec2 native_scroll=vec2(0.0);uniform float multiplier=1.0;uniform float lum_strength=1.0;uniform bool authored_color=false;void fragment(){vec2 uv=UV+TIME*native_scroll;vec4 base=texture(base_texture,uv);vec3 lum=texture(lum_texture,uv).rgb;ALBEDO=authored_color?lum*lum_strength*base.rgb:vec3(1.0);ALPHA=base.a*(authored_color?1.0:multiplier);}");
+                        let mut translated = godot::classes::ShaderMaterial::new_gd();
+                        translated.set_shader(&shader);
+                        for (uniform, binding) in [
+                            ("base_texture", "baseTexture"),
+                            ("lum_texture", "lumTexture"),
+                        ] {
+                            if let Some(index) =
+                                definition["nativeTextureBindings"][binding].as_u64()
+                            {
+                                translated.set_shader_parameter(
+                                    uniform,
+                                    &godot::tools::load::<godot::classes::Texture2D>(&format!(
+                                        "res://assets/worlds/textures/tunnel/{index}.png"
+                                    ))
+                                    .to_variant(),
+                                );
+                            }
+                        }
+                        translated.set_shader_parameter(
+                            "authored_color",
+                            &(definition["nativeShader"].as_str() == Some("luminousScroll"))
+                                .to_variant(),
+                        );
+                        let scalars = &definition["nativeScalars"];
+                        translated.set_shader_parameter(
+                            "native_scroll",
+                            &Vector2::new(
+                                scalars["uScroll"].as_f64().unwrap_or(0.) as f32,
+                                scalars["vScroll"].as_f64().unwrap_or(0.) as f32,
+                            )
+                            .to_variant(),
+                        );
+                        translated.set_shader_parameter(
+                            "multiplier",
+                            &(scalars["multiplier"].as_f64().unwrap_or(1.) as f32).to_variant(),
+                        );
+                        translated.set_shader_parameter(
+                            "lum_strength",
+                            &(scalars["lumStrength"].as_f64().unwrap_or(1.) as f32).to_variant(),
+                        );
+                        mesh.set_surface_override_material(i, &translated);
+                        continue;
+                    }
+                    if let Some(mut material) = material
+                        .duplicate()
+                        .and_then(|m| m.try_cast::<StandardMaterial3D>().ok())
+                    {
+                        if definition.is_some_and(|definition| {
+                            definition["nativeShader"].as_str() == Some("building_reflect")
+                        }) {
+                            // Keep original floor artwork until its reflection pass is ported.
+                            continue;
+                        }
+                        material.set_albedo(Color::from_rgb(36. / 255., 6. / 255., 29. / 255.));
+                        material.set_roughness(0.8);
+                        material.set_metallic(0.);
+                        material
+                            .set_feature(godot::classes::base_material_3d::Feature::EMISSION, true);
+                        material.set_emission(Color::from_rgb(82. / 255., 22. / 255., 33. / 255.));
+                        material.set_emission_energy_multiplier(0.25);
+                        if let Some(texture) = material
+                            .get_texture(godot::classes::base_material_3d::TextureParam::ALBEDO)
+                        {
+                            material.set_texture(
+                                godot::classes::base_material_3d::TextureParam::EMISSION,
+                                &texture,
+                            );
+                        }
+                        mesh.set_surface_override_material(i, &material);
+                    }
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            prepare_tunnel_nodes(&mut child, materials);
+        }
+    }
+}

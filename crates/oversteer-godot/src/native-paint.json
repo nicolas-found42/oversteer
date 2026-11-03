@@ -1,0 +1,2633 @@
+{
+  "schema_version": 1,
+  "uniform_bindings": {
+    "4": "colour2",
+    "16": "cFleckColor",
+    "28": "colour1",
+    "40": "twoToneExp",
+    "44": "minReflect",
+    "48": "maxReflect",
+    "52": "fFlakie",
+    "56": "fFleckPower",
+    "60": "fFleckLocality",
+    "64": "bTryThinFilm",
+    "68": "fFilmThickness"
+  },
+  "uniform_binding_proof": "820FA388 firsthandle set passes originalrdata names\u2192820F9BA0 argument-to-handle offsets\u2192820FA06072byte-to-uniform writes; alternate per-layer names remain separate",
+  "families": [
+    {
+      "id": "gloss",
+      "native_enum": 0,
+      "price": 3000,
+      "material_state_by_channel": {
+        "0": {
+          "4": "input.r",
+          "8": "input.g",
+          "12": "input.b",
+          "16": 0.0,
+          "20": 0.0,
+          "24": 0.0,
+          "28": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "subtract": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 0
+                  },
+                  20.0
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 1
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 0
+          },
+          "32": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "subtract": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 0
+                  },
+                  20.0
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 1
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 1
+          },
+          "36": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "subtract": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 0
+                  },
+                  20.0
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 1
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 2
+          },
+          "40": {
+            "native_global": "824cbe38",
+            "disc_initial": 0.6499999761581421,
+            "runtime_value_unbound": true
+          },
+          "44": 0.05000000074505806,
+          "48": {
+            "native_global": "824b6a88",
+            "disc_initial": 0.25,
+            "runtime_value_unbound": true
+          },
+          "52": 0.0,
+          "56": 0.0,
+          "60": "previous.material[60]",
+          "64": 0.0,
+          "68": 0.0
+        }
+      }
+    },
+    {
+      "id": "metallic",
+      "native_enum": 1,
+      "price": 5000,
+      "material_state_by_channel": {
+        "0": {
+          "4": "input.r",
+          "8": "input.g",
+          "12": "input.b",
+          "16": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 1
+                  },
+                  0.5
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 0
+          },
+          "20": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 1
+                  },
+                  0.5
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 1
+          },
+          "24": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 1
+                  },
+                  0.5
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 2
+          },
+          "28": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "subtract": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 0
+                  },
+                  20.0
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 1
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 0
+          },
+          "32": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "subtract": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 0
+                  },
+                  20.0
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 1
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 1
+          },
+          "36": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "subtract": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 0
+                  },
+                  20.0
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 1
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 2
+          },
+          "40": {
+            "native_global": "824cbe38",
+            "disc_initial": 0.6499999761581421,
+            "runtime_value_unbound": true
+          },
+          "44": 0.05000000074505806,
+          "48": {
+            "native_global": "824b6a88",
+            "disc_initial": 0.25,
+            "runtime_value_unbound": true
+          },
+          "52": {
+            "native_global": "8257797c",
+            "disc_initial": 0.0,
+            "runtime_value_unbound": true
+          },
+          "56": 20.0,
+          "60": {
+            "native_global": "82577980",
+            "disc_initial": 0.0,
+            "runtime_value_unbound": true
+          },
+          "64": 0.0,
+          "68": 0.0
+        }
+      }
+    },
+    {
+      "id": "flake",
+      "native_enum": 2,
+      "price": 12000,
+      "material_state_by_channel": {
+        "0": {
+          "4": "input.r",
+          "8": "input.g",
+          "12": "input.b",
+          "16": 0.0,
+          "20": 0.0,
+          "24": 0.0,
+          "28": "input.r",
+          "32": "input.g",
+          "36": "input.b",
+          "40": {
+            "native_global": "824cbe38",
+            "disc_initial": 0.6499999761581421,
+            "runtime_value_unbound": true
+          },
+          "44": {
+            "native_global": "824cbf10",
+            "disc_initial": 0.019999999552965164,
+            "runtime_value_unbound": true
+          },
+          "48": 0.20000000298023224,
+          "52": "previous.material[52]",
+          "56": "previous.material[56]",
+          "60": "previous.material[60]",
+          "64": 0.0,
+          "68": 0.0
+        },
+        "3": {
+          "4": "previous.material[4]",
+          "8": "previous.material[8]",
+          "12": "previous.material[12]",
+          "16": "input.r",
+          "20": "input.g",
+          "24": "input.b",
+          "28": "previous.material[28]",
+          "32": "previous.material[32]",
+          "36": "previous.material[36]",
+          "40": {
+            "native_global": "824cbe38",
+            "disc_initial": 0.6499999761581421,
+            "runtime_value_unbound": true
+          },
+          "44": {
+            "native_global": "824cbf10",
+            "disc_initial": 0.019999999552965164,
+            "runtime_value_unbound": true
+          },
+          "48": 0.20000000298023224,
+          "52": {
+            "native_global": "824cbe48",
+            "disc_initial": 0.5199999809265137,
+            "runtime_value_unbound": true
+          },
+          "56": 100.0,
+          "60": "previous.material[60]",
+          "64": 0.0,
+          "68": 0.0
+        }
+      }
+    },
+    {
+      "id": "pearl",
+      "native_enum": 3,
+      "price": 12000,
+      "material_state_by_channel": {
+        "0": {
+          "4": "input.r",
+          "8": "input.g",
+          "12": "input.b",
+          "16": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 1
+                  },
+                  0.5
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 0
+          },
+          "20": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 1
+                  },
+                  0.5
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 1
+          },
+          "24": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 1
+                  },
+                  0.5
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 2
+          },
+          "28": "previous.material[28]",
+          "32": "previous.material[32]",
+          "36": "previous.material[36]",
+          "40": "previous.material[40]",
+          "44": 0.05000000074505806,
+          "48": {
+            "native_global": "824b6a88",
+            "disc_initial": 0.25,
+            "runtime_value_unbound": true
+          },
+          "52": {
+            "native_global": "8257797c",
+            "disc_initial": 0.0,
+            "runtime_value_unbound": true
+          },
+          "56": 20.0,
+          "60": {
+            "native_global": "82577980",
+            "disc_initial": 0.0,
+            "runtime_value_unbound": true
+          },
+          "64": 0.0,
+          "68": 0.0
+        },
+        "1": {
+          "4": "previous.material[4]",
+          "8": "previous.material[8]",
+          "12": "previous.material[12]",
+          "16": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "previous.material[4]",
+                  "previous.material[8]",
+                  "previous.material[12]"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "previous.material[4]",
+                      "previous.material[8]",
+                      "previous.material[12]"
+                    ],
+                    "component": 1
+                  },
+                  0.5
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "previous.material[4]",
+                  "previous.material[8]",
+                  "previous.material[12]"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 0
+          },
+          "20": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "previous.material[4]",
+                  "previous.material[8]",
+                  "previous.material[12]"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "previous.material[4]",
+                      "previous.material[8]",
+                      "previous.material[12]"
+                    ],
+                    "component": 1
+                  },
+                  0.5
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "previous.material[4]",
+                  "previous.material[8]",
+                  "previous.material[12]"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 1
+          },
+          "24": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "previous.material[4]",
+                  "previous.material[8]",
+                  "previous.material[12]"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "previous.material[4]",
+                      "previous.material[8]",
+                      "previous.material[12]"
+                    ],
+                    "component": 1
+                  },
+                  0.5
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "previous.material[4]",
+                  "previous.material[8]",
+                  "previous.material[12]"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 2
+          },
+          "28": "input.r",
+          "32": "input.g",
+          "36": "input.b",
+          "40": "previous.material[40]",
+          "44": 0.05000000074505806,
+          "48": {
+            "native_global": "824b6a88",
+            "disc_initial": 0.25,
+            "runtime_value_unbound": true
+          },
+          "52": {
+            "native_global": "8257797c",
+            "disc_initial": 0.0,
+            "runtime_value_unbound": true
+          },
+          "56": 20.0,
+          "60": {
+            "native_global": "82577980",
+            "disc_initial": 0.0,
+            "runtime_value_unbound": true
+          },
+          "64": 0.0,
+          "68": 0.0
+        }
+      }
+    },
+    {
+      "id": "matt",
+      "native_enum": 4,
+      "price": 7500,
+      "material_state_by_channel": {
+        "0": {
+          "4": "input.r",
+          "8": "input.g",
+          "12": "input.b",
+          "16": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 1
+                  },
+                  0.4000000059604645
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 0
+          },
+          "20": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 1
+                  },
+                  0.4000000059604645
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 1
+          },
+          "24": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 1
+                  },
+                  0.4000000059604645
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 2
+          },
+          "28": "input.r",
+          "32": "input.g",
+          "36": "input.b",
+          "40": 0.0,
+          "44": 0.0,
+          "48": 0.0,
+          "52": {
+            "native_global": "82577984",
+            "disc_initial": 0.0,
+            "runtime_value_unbound": true
+          },
+          "56": {
+            "native_global": "824b6d4c",
+            "disc_initial": 90.0,
+            "runtime_value_unbound": true
+          },
+          "60": {
+            "native_global": "82577988",
+            "disc_initial": 0.0,
+            "runtime_value_unbound": true
+          },
+          "64": 0.0,
+          "68": 0.0
+        }
+      }
+    },
+    {
+      "id": "thinfilm",
+      "native_enum": 5,
+      "price": 20000,
+      "material_state_by_channel": {
+        "0": {
+          "4": "input.r",
+          "8": "input.g",
+          "12": "input.b",
+          "16": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 1
+                  },
+                  0.5
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 0
+          },
+          "20": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 1
+                  },
+                  0.5
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 1
+          },
+          "24": {
+            "source_call": "8207adc0",
+            "inputs": [
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 0
+              },
+              {
+                "multiply": [
+                  {
+                    "source_call": "8207ac80",
+                    "inputs": [
+                      "input.r",
+                      "input.g",
+                      "input.b"
+                    ],
+                    "component": 1
+                  },
+                  0.5
+                ]
+              },
+              {
+                "source_call": "8207ac80",
+                "inputs": [
+                  "input.r",
+                  "input.g",
+                  "input.b"
+                ],
+                "component": 2
+              }
+            ],
+            "component": 2
+          },
+          "28": "input.r",
+          "32": "input.g",
+          "36": "input.b",
+          "40": 0.0,
+          "44": 0.05000000074505806,
+          "48": {
+            "native_global": "824b6a88",
+            "disc_initial": 0.25,
+            "runtime_value_unbound": true
+          },
+          "52": {
+            "native_global": "8257797c",
+            "disc_initial": 0.0,
+            "runtime_value_unbound": true
+          },
+          "56": 20.0,
+          "60": {
+            "native_global": "82577980",
+            "disc_initial": 0.0,
+            "runtime_value_unbound": true
+          },
+          "64": 1.0,
+          "68": {
+            "native_global": "824b6d6c",
+            "disc_initial": 0.010999999940395355,
+            "runtime_value_unbound": true
+          }
+        }
+      }
+    }
+  ],
+  "source_functions": {
+    "820F8F78": "253d12caa41682ab9b0f76fe2792be708acc0e47f5ca880bb71c9b211c0dc1f7",
+    "821C4F00": "8deb4513f5170bcd1cff485af23500f53de4055eb8e67203f607c6b6450b81c9",
+    "821C83E8": "3707f6ad4913cebb3bc8a207683131026e8a2499b866b4e779e83d92a94da8d3",
+    "8207ADC0": "12e2b963d54aa473ecb76e60c686f738638a812ff1d8dc3719cadda2b23b6320",
+    "820FA060": "2f5d6f5f84caaea2f6acc9a1e938be6af47eb98f21daa86c83cd9b4581eb3297",
+    "820EFCD0": "9c01f9405c16787251ceb3d6ca1be6f052cdb275a3ccf8d45a447f253a6545ff",
+    "820F9BA0": "5c9db3e4de87e7af00d163eaf640eb72a17c1372962df12729e8f94ef6c7c211",
+    "821C6280": "d23650103774174010747c11143f9e3326cfccae4221c1d8b55347bdd21a73ea",
+    "82108438": "97b51af7f19c182f77b49aa1245db3affdabb157d6e6c74d502af68396e4ec50",
+    "821C6650": "d0eb7416878adfae8a5a5516056dd6db89cdc478584bfb00b4848f9bd0449696",
+    "822191A0": "d4272dba1b489df4e0556a6361ce7fe5a489e787382474459e4ce7ee4c208d55",
+    "82108108": "7e3134c93795c30a9b6b534ed2bac01499ead82d3fd05e205953265d86f0b7e7",
+    "821C5A68": "18c06b82555c49f27db8d1345bef53335565ed31980e52ffb53197db5193a43a",
+    "8207AC80": "4bd97c0db5983c4e3f122da5de6a473f3f9d7c8b31ec95c68876122a6705223d",
+    "820F94D8": "aafaebbeb755cce6b0e9d42865b42556b83840953785bfc1b4e0e38397fb6f37",
+    "821C48C0": "2aadeaabfef3eca2f3545a5517d1737ef704a3fbdbf5ae397a29d4380760b9a9",
+    "82218FD0": "2f4901d9c0967c07d8442e458973a235764d70a9af3a5bae8356a3fbe9379b8d",
+    "82108580": "af5576b0992a2c55696ac976c242999e1a7d084e5e53769322ab28fdc3ef4b91",
+    "820F9428": "f6c935e01e711b93edbd7d4afeb9891434a2fc8cf4978b52478512cbbc346bc8",
+    "820FA388": "0a7b7e09bd42c7324b2f78af6e8ca19ca5beea4c9e3e05de10ea63ccbabe144c",
+    "821083E8": "44a6053a6b2cca635fd9dde0c8f109601302bbd3623002225fcabae810b518ee",
+    "821C5E20": "9301d2432fb98e859de48449266966598236b404ceabd5a2dd92b50ee394bb72",
+    "820FAC50": "79559338c398565ee1de8c74e00f088e97df23a3303eece2dac34497d6353555"
+  },
+  "material_record": {
+    "size": 72,
+    "type_offset": 0,
+    "base_rgb_offsets": [
+      4,
+      8,
+      12
+    ],
+    "secondary_rgb_offsets": [
+      16,
+      20,
+      24
+    ],
+    "third_rgb_offsets": [
+      28,
+      32,
+      36
+    ],
+    "scalar_offsets": [
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68
+    ],
+    "scalar_semantics": "Exact original uniform names bound separately; not glTF metallic/roughness equivalents"
+  },
+  "purchase": {
+    "price_consumers": [
+      "821C4F00 selecteditem+268 family tag",
+      "821C5A68 price display",
+      "821C5E20 color-page initialization"
+    ],
+    "cart_consumer": "821C5E20 writes cart82581670 slot0 +4=selected0,+8=family price,+12=0; flags+680=1,+564=1",
+    "checkout": "821C4F00 reads wallet+20; subtracts821C83E8 sum of selected cart slot prices; calls822191A0 new-balance setter; no extra separate RGB fee in this paint entry",
+    "preview": "821C6650 converts packed source8bitRGB by1/255 and calls820F8F78 then820FAC50",
+    "persistence": "820EFCD0 copies all72bytes type+17floats"
+  },
+  "limits": [
+    "Symbolic writer preserves original RGB/HSV calls rather than substituting unverified color-space arithmetic.",
+    "Native globals retain disc-initial values and unknown runtime binding separately; they are not fixed shader constants.",
+    "Six native families have no chrome alias. Legacy authored chrome migration is a separate compatibility decision.",
+    "Catalog432/797 source colors do not prove active user palette selection; source local records retained independently.",
+    "Material coefficients are source data; exact Godot shader execution/BRDF translation remains separate."
+  ],
+  "stock_color_catalogs": [
+    {
+      "member": 432,
+      "key": "62cc08f9",
+      "sha256": "b08ba57efb7bea462552022b124088b45f22863ad85118d4c5b5dbd38a97ec6c",
+      "native_rows": [
+        [
+          "[BeginCollection]"
+        ],
+        [
+          "BeginCar",
+          "Evo_10"
+        ],
+        [
+          "ID",
+          0
+        ],
+        [
+          "Class",
+          "Rookie"
+        ],
+        [
+          "BaseColour",
+          77,
+          77,
+          77
+        ],
+        [
+          "MetallicColour",
+          220,
+          220,
+          220,
+          0.6299999952316284
+        ],
+        [
+          "PearlescentColour",
+          77,
+          77,
+          77,
+          0.20000000298023224
+        ],
+        [
+          "EndCar"
+        ],
+        [
+          "BeginCar",
+          "S2000"
+        ],
+        [
+          "ID",
+          1
+        ],
+        [
+          "Class",
+          "Rookie"
+        ],
+        [
+          "BaseColour",
+          77,
+          77,
+          77
+        ],
+        [
+          "MetallicColour",
+          220,
+          220,
+          220,
+          0.6299999952316284
+        ],
+        [
+          "PearlescentColour",
+          77,
+          77,
+          77,
+          0.20000000298023224
+        ],
+        [
+          "EndCar"
+        ],
+        [
+          "BeginCar",
+          "RX8"
+        ],
+        [
+          "ID",
+          2
+        ],
+        [
+          "Class",
+          "Rookie"
+        ],
+        [
+          "BaseColour",
+          77,
+          77,
+          77
+        ],
+        [
+          "MetallicColour",
+          220,
+          220,
+          220,
+          0.6299999952316284
+        ],
+        [
+          "PearlescentColour",
+          77,
+          77,
+          77,
+          0.20000000298023224
+        ],
+        [
+          "EndCar"
+        ],
+        [
+          "BeginCar",
+          "ACNSX_04"
+        ],
+        [
+          "ID",
+          3
+        ],
+        [
+          "Class",
+          "Rookie"
+        ],
+        [
+          "BaseColour",
+          77,
+          77,
+          77
+        ],
+        [
+          "MetallicColour",
+          220,
+          220,
+          220,
+          0.6299999952316284
+        ],
+        [
+          "PearlescentColour",
+          77,
+          77,
+          77,
+          0.20000000298023224
+        ],
+        [
+          "EndCar"
+        ],
+        [
+          "BeginCar",
+          "VIPER_SRT"
+        ],
+        [
+          "ID",
+          4
+        ],
+        [
+          "Class",
+          "Rookie"
+        ],
+        [
+          "BaseColour",
+          77,
+          77,
+          77
+        ],
+        [
+          "MetallicColour",
+          220,
+          220,
+          220,
+          0.6299999952316284
+        ],
+        [
+          "PearlescentColour",
+          77,
+          77,
+          77,
+          0.20000000298023224
+        ],
+        [
+          "EndCar"
+        ],
+        [
+          "BeginCar",
+          "Corvette_68"
+        ],
+        [
+          "ID",
+          6
+        ],
+        [
+          "Class",
+          "Rookie"
+        ],
+        [
+          "BaseColour",
+          77,
+          77,
+          77
+        ],
+        [
+          "MetallicColour",
+          220,
+          220,
+          220,
+          0.6299999952316284
+        ],
+        [
+          "PearlescentColour",
+          77,
+          77,
+          77,
+          0.20000000298023224
+        ],
+        [
+          "EndCar"
+        ],
+        [
+          "BeginCar",
+          "Torino"
+        ],
+        [
+          "ID",
+          7
+        ],
+        [
+          "Class",
+          "Rookie"
+        ],
+        [
+          "BaseColour",
+          77,
+          77,
+          77
+        ],
+        [
+          "MetallicColour",
+          220,
+          220,
+          220,
+          0.6299999952316284
+        ],
+        [
+          "PearlescentColour",
+          77,
+          77,
+          77,
+          0.20000000298023224
+        ],
+        [
+          "EndCar"
+        ],
+        [
+          "BeginCar",
+          "Camaro_SS"
+        ],
+        [
+          "ID",
+          8
+        ],
+        [
+          "Class",
+          "Rookie"
+        ],
+        [
+          "BaseColour",
+          77,
+          77,
+          77
+        ],
+        [
+          "MetallicColour",
+          220,
+          220,
+          220,
+          0.6299999952316284
+        ],
+        [
+          "PearlescentColour",
+          77,
+          77,
+          77,
+          0.20000000298023224
+        ],
+        [
+          "EndCar"
+        ],
+        [
+          "BeginCar",
+          "Silvia_S15"
+        ],
+        [
+          "ID",
+          9
+        ],
+        [
+          "Class",
+          "Rookie"
+        ],
+        [
+          "BaseColour",
+          77,
+          77,
+          77
+        ],
+        [
+          "MetallicColour",
+          220,
+          220,
+          220,
+          0.6299999952316284
+        ],
+        [
+          "PearlescentColour",
+          77,
+          77,
+          77,
+          0.20000000298023224
+        ],
+        [
+          "EndCar"
+        ],
+        [
+          "BeginCar",
+          "Z28"
+        ],
+        [
+          "ID",
+          10
+        ],
+        [
+          "Class",
+          "Rookie"
+        ],
+        [
+          "BaseColour",
+          77,
+          77,
+          77
+        ],
+        [
+          "MetallicColour",
+          220,
+          220,
+          220,
+          0.6299999952316284
+        ],
+        [
+          "PearlescentColour",
+          77,
+          77,
+          77,
+          0.20000000298023224
+        ],
+        [
+          "EndCar"
+        ],
+        [
+          "[EndCollection]"
+        ]
+      ]
+    },
+    {
+      "member": 797,
+      "key": "b770ec39",
+      "sha256": "35d6e4a3157062577a0cae71cf5788d266982ae7ff8c2c7096146045a21f2746",
+      "native_rows": [
+        [
+          "[BeginCar]",
+          "none",
+          "NONE"
+        ],
+        [
+          "MANUFACTURER",
+          "NONE",
+          "NONE"
+        ],
+        [
+          "VALUE",
+          0
+        ],
+        [
+          "STATE",
+          "NEW"
+        ],
+        [
+          "[EndCar]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.550000011920929,
+          0.5099999904632568,
+          0.5199999809265137
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.27000001072883606,
+          0.25999999046325684,
+          0.23000000417232513
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "GLOSS"
+        ],
+        [
+          "BaseColour",
+          0.6000000238418579,
+          0.029999999329447746,
+          0.0
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "GLOSS"
+        ],
+        [
+          "BaseColour",
+          0.9399999976158142,
+          0.6800000071525574,
+          0.019999999552965164
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.05000000074505806,
+          0.12999999523162842,
+          0.3700000047683716
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "GLOSS"
+        ],
+        [
+          "BaseColour",
+          0.4699999988079071,
+          0.0,
+          0.0
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.0,
+          0.23000000417232513,
+          0.009999999776482582
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.550000011920929,
+          0.550000011920929,
+          0.550000011920929
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.10000000149011612,
+          0.0,
+          0.11999999731779099
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.5099999904632568,
+          0.0,
+          0.0
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.0,
+          0.25,
+          0.4399999976158142
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.019999999552965164,
+          0.0,
+          0.14000000059604645
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.5600000023841858,
+          0.6200000047683716,
+          0.699999988079071
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.9399999976158142,
+          0.6800000071525574,
+          0.019999999552965164
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.27000001072883606,
+          0.25999999046325684,
+          0.23000000417232513
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.27000001072883606,
+          0.25999999046325684,
+          0.23000000417232513
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "GLOSS"
+        ],
+        [
+          "BaseColour",
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "GLOSS"
+        ],
+        [
+          "BaseColour",
+          0.7200000286102295,
+          0.07000000029802322,
+          0.12999999523162842
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "GLOSS"
+        ],
+        [
+          "BaseColour",
+          1.0,
+          0.4399999976158142,
+          0.0
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "GLOSS"
+        ],
+        [
+          "BaseColour",
+          0.0,
+          0.36000001430511475,
+          0.6100000143051147
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "GLOSS"
+        ],
+        [
+          "BaseColour",
+          0.17000000178813934,
+          0.18000000715255737,
+          0.20000000298023224
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "GLOSS"
+        ],
+        [
+          "BaseColour",
+          0.9200000166893005,
+          0.5600000023841858,
+          0.0
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.07000000029802322,
+          0.029999999329447746,
+          0.05999999865889549
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          1.0,
+          0.4399999976158142,
+          0.0
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.0,
+          0.36000001430511475,
+          0.6100000143051147
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.5600000023841858,
+          0.5400000214576721,
+          0.3799999952316284
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "METALLIC"
+        ],
+        [
+          "BaseColour",
+          0.5099999904632568,
+          0.2800000011920929,
+          0.11999999731779099
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[BeginColour]",
+          "GLOSS"
+        ],
+        [
+          "BaseColour",
+          0.9399999976158142,
+          0.9200000166893005,
+          0.8399999737739563
+        ],
+        [
+          "[EndColour]"
+        ],
+        [
+          "[NeonColour]",
+          255,
+          5,
+          5
+        ],
+        [
+          "[NeonColour]",
+          5,
+          255,
+          5
+        ],
+        [
+          "[NeonColour]",
+          5,
+          100,
+          255
+        ],
+        [
+          "[NeonColour]",
+          255,
+          5,
+          255
+        ],
+        [
+          "[NeonColour]",
+          255,
+          255,
+          5
+        ],
+        [
+          "[NeonColour]",
+          255,
+          150,
+          5
+        ],
+        [
+          "[DialColour]",
+          53,
+          206,
+          220,
+          0,
+          0,
+          0
+        ],
+        [
+          "[DialColour]",
+          82,
+          227,
+          127,
+          0,
+          0,
+          0
+        ],
+        [
+          "[DialColour]",
+          250,
+          167,
+          12,
+          0,
+          0,
+          0
+        ],
+        [
+          "[DialColour]",
+          186,
+          96,
+          11,
+          255,
+          239,
+          130
+        ],
+        [
+          "[DialColour]",
+          115,
+          82,
+          182,
+          0,
+          0,
+          0
+        ],
+        [
+          "[DialColour]",
+          38,
+          39,
+          194,
+          182,
+          182,
+          253
+        ],
+        [
+          "[DialColour]",
+          255,
+          255,
+          255,
+          0,
+          0,
+          0
+        ],
+        [
+          "[DialColour]",
+          33,
+          108,
+          23,
+          186,
+          252,
+          177
+        ],
+        [
+          "[DialColour]",
+          236,
+          232,
+          45,
+          0,
+          0,
+          0
+        ],
+        [
+          "[DialColour]",
+          91,
+          120,
+          89,
+          5,
+          232,
+          0
+        ],
+        [
+          "[DialColour]",
+          41,
+          42,
+          37,
+          252,
+          159,
+          12
+        ],
+        [
+          "[WheelColour]",
+          245,
+          245,
+          245
+        ],
+        [
+          "[WheelColour]",
+          32,
+          32,
+          32
+        ],
+        [
+          "[WheelColour]",
+          128,
+          128,
+          128
+        ],
+        [
+          "[WheelColour]",
+          64,
+          64,
+          64
+        ],
+        [
+          "[WheelColour]",
+          188,
+          127,
+          38
+        ],
+        [
+          "[WheelColour]",
+          83,
+          66,
+          50
+        ],
+        [
+          "[WheelColour]",
+          128,
+          0,
+          24
+        ],
+        [
+          "[WheelColour]",
+          64,
+          0,
+          0
+        ],
+        [
+          "[WheelColour]",
+          0,
+          72,
+          128
+        ],
+        [
+          "[WheelColour]",
+          0,
+          30,
+          64
+        ],
+        [
+          "[WheelColour]",
+          165,
+          54,
+          0
+        ],
+        [
+          "[WheelColour]",
+          104,
+          27,
+          0
+        ],
+        [
+          "[WheelColour]",
+          165,
+          0,
+          82
+        ],
+        [
+          "[WheelColour]",
+          93,
+          0,
+          48
+        ],
+        [
+          "[WheelColour]",
+          109,
+          0,
+          165
+        ],
+        [
+          "[WheelColour]",
+          39,
+          0,
+          64
+        ],
+        [
+          "[WheelColour]",
+          0,
+          88,
+          10
+        ],
+        [
+          "[WheelColour]",
+          0,
+          36,
+          12
+        ],
+        [
+          "[WheelColour]",
+          218,
+          141,
+          0
+        ],
+        [
+          "[WheelColour]",
+          67,
+          52,
+          0
+        ],
+        [
+          "[WheelColour]",
+          0,
+          183,
+          155
+        ],
+        [
+          "[WheelColour]",
+          0,
+          44,
+          51
+        ]
+      ]
+    }
+  ],
+  "style_ui": {
+    "layout": "ui-0f393c40",
+    "sha256": "a08ab2b3d3ffa2fcab5d5c7a395f75c15fd2b7b63f8fdc7be135697862c48d1b",
+    "items": [
+      {
+        "id": "gloss",
+        "native_label": "GadgetIcons_Paint_gloss",
+        "caption_id": 671,
+        "texture_key": "5f2bb6df",
+        "texture_paths": [
+          "res://assets/ui/native/ui/5f2bb6df.png",
+          "res://assets/ui/native/ui_frontend/5f2bb6df.png"
+        ],
+        "native_row": [
+          "AddNewTexturedItem",
+          "GadgetIcons_Paint_gloss",
+          "GadgetIcons_Paint_gloss",
+          -1,
+          0.0,
+          "gloss",
+          671,
+          "NORMAL",
+          100,
+          255,
+          255,
+          255,
+          "NORMAL",
+          255,
+          255,
+          255,
+          255,
+          "DOUBLE",
+          "NORMAL",
+          150,
+          255,
+          255,
+          255,
+          "SINGLE"
+        ],
+        "row_index": 198
+      },
+      {
+        "id": "metallic",
+        "native_label": "GadgetIcons_Paint_Matalic",
+        "caption_id": 706,
+        "texture_key": "5744846e",
+        "texture_paths": [
+          "res://assets/ui/native/ui/5744846e.png",
+          "res://assets/ui/native/ui_frontend/5744846e.png"
+        ],
+        "native_row": [
+          "AddNewTexturedItem",
+          "GadgetIcons_Paint_Matalic",
+          "GadgetIcons_Paint_Matalic",
+          -1,
+          0.0,
+          "metallic",
+          706,
+          "NORMAL",
+          100,
+          255,
+          255,
+          255,
+          "NORMAL",
+          255,
+          255,
+          255,
+          255,
+          "DOUBLE",
+          "NORMAL",
+          150,
+          255,
+          255,
+          255,
+          "SINGLE"
+        ],
+        "row_index": 199
+      },
+      {
+        "id": "matt",
+        "native_label": "GadgetIcons_Paint_Matt",
+        "caption_id": 743,
+        "texture_key": "979000e2",
+        "texture_paths": [
+          "res://assets/ui/native/ui/979000e2.png",
+          "res://assets/ui/native/ui_frontend/979000e2.png"
+        ],
+        "native_row": [
+          "AddNewTexturedItem",
+          "GadgetIcons_Paint_Matt",
+          "GadgetIcons_Paint_Matt",
+          -1,
+          0.0,
+          "matt",
+          743,
+          "NORMAL",
+          100,
+          255,
+          255,
+          255,
+          "NORMAL",
+          255,
+          255,
+          255,
+          255,
+          "DOUBLE",
+          "NORMAL",
+          150,
+          255,
+          255,
+          255,
+          "SINGLE"
+        ],
+        "row_index": 200
+      },
+      {
+        "id": "pearl",
+        "native_label": "GadgetIcons_Paint_Pearl",
+        "caption_id": 776,
+        "texture_key": "1907b672",
+        "texture_paths": [
+          "res://assets/ui/native/ui/1907b672.png",
+          "res://assets/ui/native/ui_frontend/1907b672.png"
+        ],
+        "native_row": [
+          "AddNewTexturedItem",
+          "GadgetIcons_Paint_Pearl",
+          "GadgetIcons_Paint_Pearl",
+          -1,
+          0.0,
+          "pearl",
+          776,
+          "NORMAL",
+          100,
+          255,
+          255,
+          255,
+          "NORMAL",
+          255,
+          255,
+          255,
+          255,
+          "DOUBLE",
+          "NORMAL",
+          150,
+          255,
+          255,
+          255,
+          "SINGLE"
+        ],
+        "row_index": 201
+      },
+      {
+        "id": "flake",
+        "native_label": "GadgetIcons_Paint_Metalflake",
+        "caption_id": 809,
+        "texture_key": "a024723b",
+        "texture_paths": [
+          "res://assets/ui/native/ui/a024723b.png",
+          "res://assets/ui/native/ui_frontend/a024723b.png"
+        ],
+        "native_row": [
+          "AddNewTexturedItem",
+          "GadgetIcons_Paint_Metalflake",
+          "GadgetIcons_Paint_Metalflake",
+          -1,
+          0.0,
+          "flake",
+          809,
+          "NORMAL",
+          100,
+          255,
+          255,
+          255,
+          "NORMAL",
+          255,
+          255,
+          255,
+          255,
+          "DOUBLE",
+          "NORMAL",
+          150,
+          255,
+          255,
+          255,
+          "SINGLE"
+        ],
+        "row_index": 202
+      },
+      {
+        "id": "thinfilm",
+        "native_label": "GadgetIcons_Paint_Thinfilm",
+        "caption_id": 842,
+        "texture_key": "67910fa5",
+        "texture_paths": [
+          "res://assets/ui/native/ui/67910fa5.png",
+          "res://assets/ui/native/ui_frontend/67910fa5.png"
+        ],
+        "native_row": [
+          "AddNewTexturedItem",
+          "GadgetIcons_Paint_Thinfilm",
+          "GadgetIcons_Paint_Thinfilm",
+          -1,
+          0.0,
+          "thinfilm",
+          842,
+          "NORMAL",
+          100,
+          255,
+          255,
+          255,
+          "NORMAL",
+          255,
+          255,
+          255,
+          255,
+          "DOUBLE",
+          "NORMAL",
+          150,
+          255,
+          255,
+          255,
+          "SINGLE"
+        ],
+        "row_index": 203
+      },
+      {
+        "id": "stopper",
+        "native_label": "GadgetIcons_Stopper",
+        "caption_id": -1,
+        "texture_key": "9b15081b",
+        "texture_paths": [
+          "res://assets/ui/native/ui/9b15081b.png",
+          "res://assets/ui/native/ui_frontend/9b15081b.png",
+          "res://assets/ui/native/ui_ingame/9b15081b.png"
+        ],
+        "native_row": [
+          "AddNewTexturedItem",
+          "GadgetIcons_Stopper",
+          "GadgetIcons_Stopper",
+          -1,
+          0.0,
+          "stopper",
+          -1,
+          "NORMAL",
+          100,
+          202,
+          198,
+          255,
+          "NORMAL",
+          255,
+          255,
+          255,
+          255,
+          "DOUBLE",
+          "NORMAL",
+          150,
+          202,
+          198,
+          255,
+          "SINGLE"
+        ],
+        "row_index": 204
+      }
+    ],
+    "order": "Exact sourcecarouselorder; differsfromnativeenumorder"
+  },
+  "record_fields": [
+    {
+      "name": "native_type",
+      "offset": 0,
+      "type": "u32_be"
+    },
+    {
+      "name": "base_rgb",
+      "offset": 4,
+      "type": "vec3_f32_be",
+      "proof": "BaseColour82037c2c\u2192table824b8550\u2192821083E8 readsrecord+4 then820F8F78 channel0"
+    },
+    {
+      "name": "fleck_rgb",
+      "offset": 16,
+      "type": "vec3_f32_be"
+    },
+    {
+      "name": "secondary_rgb",
+      "offset": 28,
+      "type": "vec3_f32_be"
+    },
+    {
+      "name": "two_tone_exp",
+      "offset": 40,
+      "type": "f32_be"
+    },
+    {
+      "name": "min_reflect",
+      "offset": 44,
+      "type": "f32_be"
+    },
+    {
+      "name": "max_reflect",
+      "offset": 48,
+      "type": "f32_be"
+    },
+    {
+      "name": "flakie",
+      "offset": 52,
+      "type": "f32_be"
+    },
+    {
+      "name": "fleck_power",
+      "offset": 56,
+      "type": "f32_be"
+    },
+    {
+      "name": "fleck_locality",
+      "offset": 60,
+      "type": "f32_be"
+    },
+    {
+      "name": "try_thin_film",
+      "offset": 64,
+      "type": "f32_be",
+      "proof": "820F8F78 storesfloat0/1 withstfs;820FA060 usesfloatsetter822CF8E8 fornativebTryThinFilm, notu32/bool"
+    },
+    {
+      "name": "film_thickness",
+      "offset": 68,
+      "type": "f32_be"
+    }
+  ],
+  "scalar_controls": [
+    {
+      "family": "pearl",
+      "channel": 2,
+      "uniform": "twoToneExp",
+      "offset": 40,
+      "slope_address": "8257d19c",
+      "slope": {
+        "native_global": "8257d19c",
+        "disc_initial": 0.0,
+        "runtime_value_unbound": true
+      },
+      "intercept_address": "824ce600",
+      "intercept": {
+        "native_global": "824ce600",
+        "disc_initial": 0.0,
+        "runtime_value_unbound": true
+      },
+      "startup_binding": {
+        "source": "artifacts/juiced2-build/presentation/pearl-balance-startup/contract.json",
+        "sha256": "06d2d5e0e4f7c701c612df22e18204c00a2b70c16f43d02f52b7ca7c2386b98b",
+        "constructor": "82474BB0",
+        "constructor_table_entry": "824A022C",
+        "startup_span": 1.0,
+        "startup_bias": 0.0,
+        "default_mapping": "f32(input*1+0)",
+        "limits": "Staticstartupwriterproof,notruntimecapture;laterindirectwritesnotexcluded."
+      }
+    },
+    {
+      "family": "flake",
+      "channel": 4,
+      "uniform": "fFlakie",
+      "offset": 52,
+      "slope_address": "8201158c",
+      "slope": 0.699999988079071,
+      "intercept_address": "8201a664",
+      "intercept": 0.30000001192092896
+    },
+    {
+      "family": "flake",
+      "channel": 5,
+      "uniform": "fFleckPower",
+      "offset": 56,
+      "slope_address": "8201ffb0",
+      "slope": 48.0,
+      "intercept_address": "8204cb08",
+      "intercept": 100.0
+    },
+    {
+      "family": "thinfilm",
+      "channel": 6,
+      "uniform": "fFilmThickness",
+      "offset": 68,
+      "slope_address": "824cbf10",
+      "slope": {
+        "native_global": "824cbf10",
+        "disc_initial": 0.019999999552965164,
+        "runtime_value_unbound": true
+      },
+      "intercept_address": "824b6d74",
+      "intercept": {
+        "native_global": "824b6d74",
+        "disc_initial": 0.005499999970197678,
+        "runtime_value_unbound": true
+      }
+    }
+  ],
+  "scalar_control_arithmetic": "820F9428 writesfloat32nativeFMADD(input,slope,intercept); noadditionalclampinthissetter. UIinputboundsareseparate.",
+  "color_workflow": {
+    "consumer": "821C5E20",
+    "state_field": "controller+36",
+    "pearl": "baseRGB channel0 then secondaryRGB channel1 then scalar channel2 then one12000cartentry",
+    "flake": "baseRGB channel0 then fleckRGB channel3 then scalar channel4 then scalar channel5 then one12000cartentry",
+    "thinfilm": "baseRGB channel0 then scalar channel6 then one20000cartentry",
+    "limits": [
+      "Channel ordering is source state-machine evidence; native localized caption binding retained separately.",
+      "Scalar channel functions820F9428 and820F94D8 are source consumer leads; runtime globals in their arithmetic remain unbound."
+    ]
+  }
+}

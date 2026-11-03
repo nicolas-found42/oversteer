@@ -1,0 +1,933 @@
+[
+  {
+    "name": "Tyrone Albercete",
+    "native_tag": "Char01",
+    "aggression": 1.0,
+    "precision": 0.95,
+    "drift": 0.1,
+    "spook_rate": 0.8,
+    "recklessness": 1.0,
+    "blocking": 0.8,
+    "race_throttle": 1,
+    "corner_throttle": 1,
+    "drift_throttle": 1,
+    "drift_corner_throttle": 1,
+    "circuit_genes": [
+      7,
+      8,
+      6,
+      8,
+      7
+    ],
+    "circuit_experience": [
+      9,
+      8,
+      9,
+      10,
+      7
+    ],
+    "drift_genes": [
+      5,
+      6,
+      8
+    ],
+    "drift_experience": [
+      6,
+      8,
+      7
+    ],
+    "gambling_genes": [
+      5,
+      4,
+      6
+    ],
+    "gambling_experience": [
+      4,
+      3,
+      6
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Leon Tyrrell",
+    "native_tag": "Char02",
+    "aggression": 0.6,
+    "precision": 0.85,
+    "drift": 0.5,
+    "spook_rate": 0.9,
+    "recklessness": 0.7,
+    "blocking": 1,
+    "race_throttle": 0.7,
+    "corner_throttle": 1,
+    "drift_throttle": 0.8,
+    "drift_corner_throttle": 0.8,
+    "circuit_genes": [
+      4,
+      2,
+      6,
+      4,
+      3
+    ],
+    "circuit_experience": [
+      2,
+      3,
+      6,
+      6,
+      2
+    ],
+    "drift_genes": [
+      3,
+      2,
+      2
+    ],
+    "drift_experience": [
+      5,
+      8,
+      7
+    ],
+    "gambling_genes": [
+      3,
+      1,
+      2
+    ],
+    "gambling_experience": [
+      8,
+      7,
+      9
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Bobby Sawyer",
+    "native_tag": "Char03",
+    "aggression": 0.5,
+    "precision": 0.95,
+    "drift": 0.4,
+    "spook_rate": 1.0,
+    "recklessness": 1,
+    "blocking": 0.6,
+    "race_throttle": 0.9,
+    "corner_throttle": 1,
+    "drift_throttle": 0.8,
+    "drift_corner_throttle": 0.8,
+    "circuit_genes": [
+      5,
+      5,
+      6,
+      6,
+      5
+    ],
+    "circuit_experience": [
+      3,
+      4,
+      5,
+      3,
+      4
+    ],
+    "drift_genes": [
+      3,
+      2,
+      3
+    ],
+    "drift_experience": [
+      3,
+      2,
+      3
+    ],
+    "gambling_genes": [
+      0,
+      1,
+      0
+    ],
+    "gambling_experience": [
+      8,
+      7,
+      7
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Keiko Miyama",
+    "native_tag": "Char04",
+    "aggression": 1,
+    "precision": 0.9,
+    "drift": 0.7,
+    "spook_rate": 1.0,
+    "recklessness": 0.4,
+    "blocking": 0.9,
+    "race_throttle": 0.85,
+    "corner_throttle": 1,
+    "drift_throttle": 0.8,
+    "drift_corner_throttle": 0.8,
+    "circuit_genes": [
+      3,
+      2,
+      2,
+      1,
+      2
+    ],
+    "circuit_experience": [
+      5,
+      4,
+      3,
+      4,
+      6
+    ],
+    "drift_genes": [
+      3,
+      3,
+      3
+    ],
+    "drift_experience": [
+      4,
+      3,
+      2
+    ],
+    "gambling_genes": [
+      7,
+      8,
+      7
+    ],
+    "gambling_experience": [
+      2,
+      3,
+      4
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Tara Johnson",
+    "native_tag": "Char05",
+    "aggression": 0.9,
+    "precision": 0.85,
+    "drift": 0.65,
+    "spook_rate": 1.1,
+    "recklessness": 0.95,
+    "blocking": 0.0,
+    "race_throttle": 0.8,
+    "corner_throttle": 1,
+    "drift_throttle": 0.8,
+    "drift_corner_throttle": 0.8,
+    "circuit_genes": [
+      8,
+      7,
+      7,
+      6,
+      8
+    ],
+    "circuit_experience": [
+      3,
+      4,
+      3,
+      3,
+      4
+    ],
+    "drift_genes": [
+      4,
+      4,
+      4
+    ],
+    "drift_experience": [
+      2,
+      1,
+      0
+    ],
+    "gambling_genes": [
+      3,
+      1,
+      4
+    ],
+    "gambling_experience": [
+      4,
+      3,
+      6
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Nicolas Jamet",
+    "native_tag": "Char06",
+    "aggression": 0.5,
+    "precision": 0.7,
+    "drift": 0.9,
+    "spook_rate": 1.0,
+    "recklessness": 0.7,
+    "blocking": 0.2,
+    "race_throttle": 0.7,
+    "corner_throttle": 1,
+    "drift_throttle": 0.7,
+    "drift_corner_throttle": 1,
+    "circuit_genes": [
+      3,
+      6,
+      4,
+      5,
+      5
+    ],
+    "circuit_experience": [
+      7,
+      4,
+      1,
+      5,
+      4
+    ],
+    "drift_genes": [
+      8,
+      8,
+      7
+    ],
+    "drift_experience": [
+      8,
+      9,
+      9
+    ],
+    "gambling_genes": [
+      2,
+      3,
+      2
+    ],
+    "gambling_experience": [
+      4,
+      3,
+      3
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Crystal Simmons",
+    "native_tag": "Char07",
+    "aggression": 0.6,
+    "precision": 0.75,
+    "drift": 0.9,
+    "spook_rate": 1.2,
+    "recklessness": 0.8,
+    "blocking": 0.3,
+    "race_throttle": 0.7,
+    "corner_throttle": 1,
+    "drift_throttle": 0.8,
+    "drift_corner_throttle": 1,
+    "circuit_genes": [
+      3,
+      2,
+      3,
+      3,
+      3
+    ],
+    "circuit_experience": [
+      1,
+      3,
+      2,
+      1,
+      1
+    ],
+    "drift_genes": [
+      3,
+      2,
+      4
+    ],
+    "drift_experience": [
+      8,
+      8,
+      7
+    ],
+    "gambling_genes": [
+      3,
+      2,
+      1
+    ],
+    "gambling_experience": [
+      1,
+      1,
+      1
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Ken Tanaka",
+    "native_tag": "Char08",
+    "aggression": 1,
+    "precision": 0.5,
+    "drift": 0.95,
+    "spook_rate": 1.0,
+    "recklessness": 0.4,
+    "blocking": 0.8,
+    "race_throttle": 0.65,
+    "corner_throttle": 1,
+    "drift_throttle": 0.8,
+    "drift_corner_throttle": 1,
+    "circuit_genes": [
+      3,
+      2,
+      3,
+      6,
+      6
+    ],
+    "circuit_experience": [
+      3,
+      4,
+      2,
+      8,
+      8
+    ],
+    "drift_genes": [
+      0,
+      0,
+      0
+    ],
+    "drift_experience": [
+      10,
+      8,
+      9
+    ],
+    "gambling_genes": [
+      4,
+      4,
+      4
+    ],
+    "gambling_experience": [
+      0,
+      0,
+      0
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Jason Quinn",
+    "native_tag": "Char09",
+    "aggression": 0.7,
+    "precision": 0.7,
+    "drift": 0.7,
+    "spook_rate": 1.0,
+    "recklessness": 0.7,
+    "blocking": 0.7,
+    "race_throttle": 0.7,
+    "corner_throttle": 0.7,
+    "drift_throttle": 0.7,
+    "drift_corner_throttle": 0.7,
+    "circuit_genes": [
+      5,
+      5,
+      6,
+      6,
+      5
+    ],
+    "circuit_experience": [
+      2,
+      2,
+      1,
+      2,
+      1
+    ],
+    "drift_genes": [
+      3,
+      2,
+      3
+    ],
+    "drift_experience": [
+      2,
+      2,
+      2
+    ],
+    "gambling_genes": [
+      4,
+      4,
+      4
+    ],
+    "gambling_experience": [
+      0,
+      0,
+      0
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Tamara Alvis",
+    "native_tag": "Char10",
+    "aggression": 0.7,
+    "precision": 0.7,
+    "drift": 0.7,
+    "spook_rate": 1.0,
+    "recklessness": 0.7,
+    "blocking": 0.7,
+    "race_throttle": 0.7,
+    "corner_throttle": 0.7,
+    "drift_throttle": 0.7,
+    "drift_corner_throttle": 0.7,
+    "circuit_genes": [
+      3,
+      2,
+      3,
+      3,
+      3
+    ],
+    "circuit_experience": [
+      1,
+      3,
+      3,
+      1,
+      1
+    ],
+    "drift_genes": [
+      3,
+      2,
+      4
+    ],
+    "drift_experience": [
+      2,
+      3,
+      1
+    ],
+    "gambling_genes": [
+      4,
+      4,
+      4
+    ],
+    "gambling_experience": [
+      0,
+      0,
+      0
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Joe Five-O",
+    "native_tag": "Char11",
+    "aggression": 0.7,
+    "precision": 0.7,
+    "drift": 0.7,
+    "spook_rate": 1.0,
+    "recklessness": 0.7,
+    "blocking": 0.7,
+    "race_throttle": 0.7,
+    "corner_throttle": 0.7,
+    "drift_throttle": 0.7,
+    "drift_corner_throttle": 0.7,
+    "circuit_genes": [
+      6,
+      3,
+      5,
+      6,
+      6
+    ],
+    "circuit_experience": [
+      2,
+      3,
+      2,
+      2,
+      2
+    ],
+    "drift_genes": [
+      0,
+      0,
+      0
+    ],
+    "drift_experience": [
+      3,
+      3,
+      1
+    ],
+    "gambling_genes": [
+      4,
+      4,
+      4
+    ],
+    "gambling_experience": [
+      0,
+      0,
+      0
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Melissa Stone",
+    "native_tag": "Char12",
+    "aggression": 0.7,
+    "precision": 0.7,
+    "drift": 0.7,
+    "spook_rate": 1.0,
+    "recklessness": 0.7,
+    "blocking": 0.7,
+    "race_throttle": 0.7,
+    "corner_throttle": 0.7,
+    "drift_throttle": 0.7,
+    "drift_corner_throttle": 0.7,
+    "circuit_genes": [
+      6,
+      4,
+      4,
+      5,
+      6
+    ],
+    "circuit_experience": [
+      3,
+      1,
+      3,
+      2,
+      3
+    ],
+    "drift_genes": [
+      4,
+      4,
+      4
+    ],
+    "drift_experience": [
+      2,
+      2,
+      2
+    ],
+    "gambling_genes": [
+      4,
+      4,
+      4
+    ],
+    "gambling_experience": [
+      0,
+      0,
+      0
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Marcus Jackson",
+    "native_tag": "Char13",
+    "aggression": 0.7,
+    "precision": 0.7,
+    "drift": 0.7,
+    "spook_rate": 1.0,
+    "recklessness": 0.7,
+    "blocking": 0.7,
+    "race_throttle": 0.7,
+    "corner_throttle": 0.7,
+    "drift_throttle": 0.7,
+    "drift_corner_throttle": 0.7,
+    "circuit_genes": [
+      7,
+      8,
+      6,
+      8,
+      7
+    ],
+    "circuit_experience": [
+      4,
+      4,
+      1,
+      2,
+      2
+    ],
+    "drift_genes": [
+      5,
+      6,
+      8
+    ],
+    "drift_experience": [
+      3,
+      2,
+      3
+    ],
+    "gambling_genes": [
+      4,
+      4,
+      4
+    ],
+    "gambling_experience": [
+      0,
+      0,
+      0
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Eduardo Perez",
+    "native_tag": "Char14",
+    "aggression": 0.7,
+    "precision": 0.7,
+    "drift": 0.7,
+    "spook_rate": 1.0,
+    "recklessness": 0.7,
+    "blocking": 0.7,
+    "race_throttle": 0.7,
+    "corner_throttle": 0.7,
+    "drift_throttle": 0.7,
+    "drift_corner_throttle": 0.7,
+    "circuit_genes": [
+      4,
+      2,
+      6,
+      4,
+      3
+    ],
+    "circuit_experience": [
+      3,
+      3,
+      3,
+      4,
+      2
+    ],
+    "drift_genes": [
+      5,
+      6,
+      5
+    ],
+    "drift_experience": [
+      4,
+      1,
+      2
+    ],
+    "gambling_genes": [
+      4,
+      4,
+      4
+    ],
+    "gambling_experience": [
+      0,
+      0,
+      0
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Taro Yoshida",
+    "native_tag": "Char15",
+    "aggression": 0.7,
+    "precision": 0.7,
+    "drift": 0.7,
+    "spook_rate": 1.0,
+    "recklessness": 0.7,
+    "blocking": 0.7,
+    "race_throttle": 0.7,
+    "corner_throttle": 0.7,
+    "drift_throttle": 0.7,
+    "drift_corner_throttle": 0.7,
+    "circuit_genes": [
+      3,
+      2,
+      3,
+      6,
+      6
+    ],
+    "circuit_experience": [
+      3,
+      4,
+      3,
+      4,
+      3
+    ],
+    "drift_genes": [
+      0,
+      0,
+      0
+    ],
+    "drift_experience": [
+      3,
+      3,
+      4
+    ],
+    "gambling_genes": [
+      4,
+      4,
+      4
+    ],
+    "gambling_experience": [
+      0,
+      0,
+      0
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Karl Zeigler",
+    "native_tag": "Char16",
+    "aggression": 0.7,
+    "precision": 0.7,
+    "drift": 0.7,
+    "spook_rate": 1.0,
+    "recklessness": 0.7,
+    "blocking": 0.7,
+    "race_throttle": 0.7,
+    "corner_throttle": 0.7,
+    "drift_throttle": 0.7,
+    "drift_corner_throttle": 0.7,
+    "circuit_genes": [
+      3,
+      6,
+      4,
+      5,
+      5
+    ],
+    "circuit_experience": [
+      4,
+      5,
+      4,
+      6,
+      6
+    ],
+    "drift_genes": [
+      6,
+      5,
+      4
+    ],
+    "drift_experience": [
+      4,
+      4,
+      4
+    ],
+    "gambling_genes": [
+      4,
+      4,
+      4
+    ],
+    "gambling_experience": [
+      0,
+      0,
+      0
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Scott Mitchell",
+    "native_tag": "Char17",
+    "aggression": 0.7,
+    "precision": 0.7,
+    "drift": 0.7,
+    "spook_rate": 1.0,
+    "recklessness": 0.7,
+    "blocking": 0.7,
+    "race_throttle": 0.7,
+    "corner_throttle": 0.7,
+    "drift_throttle": 0.7,
+    "drift_corner_throttle": 0.7,
+    "circuit_genes": [
+      2,
+      2,
+      5,
+      3,
+      1
+    ],
+    "circuit_experience": [
+      6,
+      5,
+      7,
+      5,
+      5
+    ],
+    "drift_genes": [
+      2,
+      3,
+      1
+    ],
+    "drift_experience": [
+      7,
+      4,
+      4
+    ],
+    "gambling_genes": [
+      4,
+      4,
+      4
+    ],
+    "gambling_experience": [
+      0,
+      0,
+      0
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Rachel Williams",
+    "native_tag": "Char18",
+    "aggression": 0.7,
+    "precision": 0.7,
+    "drift": 0.7,
+    "spook_rate": 1.0,
+    "recklessness": 0.7,
+    "blocking": 0.7,
+    "race_throttle": 0.7,
+    "corner_throttle": 0.7,
+    "drift_throttle": 0.7,
+    "drift_corner_throttle": 0.7,
+    "circuit_genes": [
+      3,
+      2,
+      2,
+      1,
+      2
+    ],
+    "circuit_experience": [
+      6,
+      8,
+      6,
+      6,
+      5
+    ],
+    "drift_genes": [
+      3,
+      3,
+      3
+    ],
+    "drift_experience": [
+      6,
+      3,
+      5
+    ],
+    "gambling_genes": [
+      4,
+      4,
+      4
+    ],
+    "gambling_experience": [
+      0,
+      0,
+      0
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  },
+  {
+    "name": "Stig",
+    "native_tag": "Stig",
+    "aggression": 1.0,
+    "precision": 1,
+    "drift": 1,
+    "spook_rate": 0.3,
+    "recklessness": 1.0,
+    "blocking": 1.0,
+    "race_throttle": 1,
+    "corner_throttle": 1,
+    "drift_throttle": 1,
+    "drift_corner_throttle": 1,
+    "circuit_genes": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "circuit_experience": [
+      10,
+      10,
+      10,
+      10,
+      10
+    ],
+    "drift_genes": [
+      0,
+      0,
+      0
+    ],
+    "drift_experience": [
+      10,
+      10,
+      10
+    ],
+    "gambling_genes": [
+      4,
+      4,
+      4
+    ],
+    "gambling_experience": [
+      0,
+      0,
+      0
+    ],
+    "provenance": "NativeDriverDNA scripts.jfs record800 keyb855a1b1 SHA256de10e10d9eed6a036e65213145461224cbce093052699c90d1769b60c5d46a48; absent SpookRate defaults not recovered"
+  }
+]
