@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "scope": "Manual review of particular state leads; original classifier records remain unchanged.",
+  "reviews": [
+    {
+      "state": "character/preset",
+      "asset_id": "-GCF8J-tVyQ-000003000000",
+      "source_sha256": "4e9c2d3abfe36a4b3ded2ffa70cb1a74887852b1483a7cbc27b7a50dfcf08564",
+      "action": "exclude-from-state-leads",
+      "reason": "This frame shows the gender screen exiting, with its interactive choices hidden. It does not show preset selection. The preceding frame at 0 seconds visibly shows SELECT GENDER and is retained for character/identity/unspecified.",
+      "review": "Root inspected the full frame and surrounding sequence. Jev separately identified the previous source/current preset pair as different phases (same_phase probability 0.05).",
+      "evidence": "artifacts/juiced2-build/character-ps3-reference-contact-sheet.jpg"
+    }
+  ]
+}
