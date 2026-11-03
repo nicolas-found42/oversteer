@@ -1,5 +1,8 @@
 {
     "recommendations": [
+        "rust-lang.rust-analyzer",
+        "vadimcn.vscode-lldb",
+        "charliermarsh.ruff",
         "llvm-vs-code-extensions.vscode-clangd",
         "ms-vscode.cpptools",
         "ms-python.python",

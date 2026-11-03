@@ -19,3 +19,21 @@
 *.exe binary
 *.a   binary
 *.lib binary
+
+# Native source/resources remain text; generated 3D/media must stay byte-identical.
+*.rs text eol=lf
+*.gd text eol=lf
+*.gdshader text eol=lf
+*.godot text eol=lf
+*.gdextension text eol=lf
+*.tscn text eol=lf
+*.tres text eol=lf
+*.glb binary
+*.blend binary
+*.res binary
+*.scn binary
+*.ogg binary
+*.wav binary
+*.mp3 binary
+*.zip binary
+*.iso binary

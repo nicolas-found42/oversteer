@@ -128,3 +128,6 @@ PowerShellEditorServices.json
 .slim/*
 # END oh-my-opencode-slim clonedeps
 debug/
+
+# uv-managed local Python environment.
+/.venv/

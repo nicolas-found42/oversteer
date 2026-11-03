@@ -1,13 +1,20 @@
 {
-    // Debugging uses the MSYS2 UCRT64 gdb, which is what builds these binaries.
-    // Install it once with:  pacman -S mingw-w64-ucrt-x86_64-gdb
-    //
-    // "Attach to the running game" is the one that matters for hot reload: the developer
-    // leaves build/dev/oversteer.exe running, and you attach to it rather than restarting it.
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug headless tests",
+            "name": "Native: Godot with Rust extension (prepared assets)",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/tools/godot-4.7.2/Godot.app/Contents/MacOS/Godot",
+            "args": [
+                "--path",
+                "${workspaceFolder}/godot"
+            ],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Native: build dev extension"
+        },
+        {
+            "name": "Legacy C: Debug headless tests",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/tests/oversteer_tests.exe",
@@ -15,25 +22,32 @@
             "cwd": "${workspaceFolder}",
             "MIMode": "gdb",
             "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe",
-            "preLaunchTask": "Build headless tests",
+            "preLaunchTask": "Legacy C: Build headless tests",
             "setupCommands": [
-                { "description": "pretty printing", "text": "-enable-pretty-printing",
-                  "ignoreFailures": true }
+                {
+                    "description": "pretty printing",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
             ]
         },
         {
-            "name": "Debug one scenario",
+            "name": "Legacy C: Debug one scenario",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/tests/oversteer_tests.exe",
-            "args": ["--scenario", "${input:scenario}", "-v"],
+            "args": [
+                "--scenario",
+                "${input:scenario}",
+                "-v"
+            ],
             "cwd": "${workspaceFolder}",
             "MIMode": "gdb",
             "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe",
-            "preLaunchTask": "Build headless tests"
+            "preLaunchTask": "Legacy C: Build headless tests"
         },
         {
-            "name": "Debug the game (fresh launch)",
+            "name": "Legacy C: Debug the game (fresh launch)",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/dev/oversteer.exe",
@@ -41,10 +55,10 @@
             "cwd": "${workspaceFolder}",
             "MIMode": "gdb",
             "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe",
-            "preLaunchTask": "Build hot-reload module"
+            "preLaunchTask": "Legacy C: Build hot-reload module"
         },
         {
-            "name": "Attach to the running game",
+            "name": "Legacy C: Attach to the running game",
             "type": "cppdbg",
             "request": "attach",
             "program": "${workspaceFolder}/build/dev/oversteer.exe",
@@ -52,16 +66,20 @@
             "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe"
         },
         {
-            "name": "Debug a scene capture",
+            "name": "Legacy C: Debug a scene capture",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/dev/oversteer.exe",
-            "args": ["--capture-scene", "physics_lab", "--output",
-                     "artifacts/screenshots/physics_lab.png"],
+            "args": [
+                "--capture-scene",
+                "physics_lab",
+                "--output",
+                "artifacts/screenshots/physics_lab.png"
+            ],
             "cwd": "${workspaceFolder}",
             "MIMode": "gdb",
             "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe",
-            "preLaunchTask": "Build hot-reload module"
+            "preLaunchTask": "Legacy C: Build hot-reload module"
         }
     ],
     "inputs": [

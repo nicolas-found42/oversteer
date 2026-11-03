@@ -7,12 +7,21 @@
 # The revs are pinned to the exact versions this project formats with:
 #
 #   clang-format 22.1.8   the version in MSYS2 UCRT64 (mingw-w64-ucrt-x86_64-clang-tools-extra)
-#   ruff 0.15.20          the version pinned in requirements-dev.txt
+#   ruff 0.15.20          the authoritative pyproject.toml pin (exported to requirements-dev.txt)
 #
 # Keep those three in step. A hook one minor version off the toolchain will reformat files
 # that `make format-check` considers correct, and the two will fight on every commit.
 
 repos:
+  - repo: local
+    hooks:
+      - id: rustfmt-check
+        name: Rust format (check only)
+        entry: cargo fmt --all -- --check
+        language: system
+        files: \.rs$
+        pass_filenames: false
+
   - repo: https://github.com/pre-commit/mirrors-clang-format
     rev: v22.1.8
     hooks:
@@ -31,9 +40,9 @@ repos:
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
-        exclude: ^third_party/
+        exclude: ^(third_party/|docs/game/evidence/)
       - id: end-of-file-fixer
-        exclude: ^(third_party/|tests/visual/baseline/)
+        exclude: ^(third_party/|tests/visual/baseline/|docs/game/evidence/)
       - id: check-merge-conflict
       # Deliberately NOT mixed-line-ending. It inspects the worktree, where core.autocrlf=true
       # legitimately produces CRLF on Windows, so it "fixes" all 300 files on every run and
