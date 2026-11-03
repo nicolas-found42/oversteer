@@ -20,6 +20,102 @@ fn content() -> GameContent {
     }
 }
 #[test]
+fn native_prototype_currency_migrates_only_absent_fields_without_installing_parts() {
+    let mut data = content();
+    data.leagues.push(LeagueDefinition {
+        goals: vec![
+            GoalDefinition {
+                id: "earned".into(),
+                prot_unlock: true,
+                ..Default::default()
+            },
+            GoalDefinition {
+                id: "unfinished".into(),
+                prot_unlock: true,
+                ..Default::default()
+            },
+        ],
+        ..Default::default()
+    });
+    let game = Game::new(data.clone());
+    let mut old: GameSave = serde_json::from_str(&game.save_json().unwrap()).unwrap();
+    old.career.league = 3;
+    old.career.goal_progress.insert(
+        "earned".into(),
+        GoalProgress {
+            value: 1.,
+            complete: true,
+        },
+    );
+    old.career.native_performance = None;
+    let mut migrated =
+        Game::load_json(data.clone(), &serde_json::to_string(&old).unwrap()).unwrap();
+    let saved = migrated.save_json().unwrap();
+    let state = migrated.frame_snapshot().career;
+    let native = state.native_performance.unwrap();
+    assert_eq!(native.prototype_tokens, 2);
+    assert!(native.prototype_unlocks.is_empty());
+    assert_eq!(native.ordinary_licenses.len(), 30);
+    assert!(native
+        .ordinary_licenses
+        .iter()
+        .all(|license| license.item == 0));
+    assert!(state
+        .garage
+        .values()
+        .all(|car| car.native_performance_parts.is_none()));
+    assert_eq!(
+        Game::load_json(data.clone(), &saved)
+            .unwrap()
+            .save_json()
+            .unwrap(),
+        saved
+    );
+    assert!(migrated
+        .command(GameCommand::UnlockPrototype {
+            league: 4,
+            category: PrototypeCategory::Power
+        })
+        .is_err());
+    migrated
+        .command(GameCommand::UnlockPrototype {
+            league: 3,
+            category: PrototypeCategory::Nitrous,
+        })
+        .unwrap();
+    assert!(migrated
+        .command(GameCommand::UnlockPrototype {
+            league: 3,
+            category: PrototypeCategory::Nitrous
+        })
+        .is_err());
+    let chosen = migrated.frame_snapshot().career.native_performance.unwrap();
+    assert_eq!(chosen.prototype_tokens, 1);
+    assert_eq!(
+        chosen.prototype_unlocks,
+        vec![(3, PrototypeCategory::Nitrous)]
+    );
+    let chosen_save = migrated.save_json().unwrap();
+    assert_eq!(
+        Game::load_json(data.clone(), &chosen_save)
+            .unwrap()
+            .save_json()
+            .unwrap(),
+        chosen_save
+    );
+    old.career.native_performance = Some(NativePerformanceCareer::default());
+    let present = Game::load_json(data, &serde_json::to_string(&old).unwrap()).unwrap();
+    assert_eq!(
+        present
+            .frame_snapshot()
+            .career
+            .native_performance
+            .unwrap()
+            .prototype_tokens,
+        0
+    );
+}
+#[test]
 fn native_scheduler_strict_thresholds() {
     assert_eq!(substeps(0.05), (1, 0.05));
     assert_eq!(substeps(0.1), (2, 0.05));
@@ -743,7 +839,8 @@ fn paid_garage_cart_previews_removes_checks_out_and_persists() {
 }
 #[test]
 fn checkout_is_atomic_and_owned_parts_can_be_refitted_without_repurchase() {
-    let mut c=content();c.cars[1].price=2000;
+    let mut c = content();
+    c.cars[1].price = 2000;
     let mut game = Game::new(c);
     game.command(GameCommand::BuyCar {
         car_id: "car1".into(),
@@ -2671,9 +2768,9 @@ fn native_paint_record_preserves_channels_and_single_cart_purchase() {
         ..Default::default()
     };
     assert_eq!(game.quote_customization(&custom)[0].cost, 20000);
-    game.command(GameCommand::Customize {
+    game.command(GameCommand::AcceptNativePaint {
         car_id: "car0".into(),
-        customization: custom.clone(),
+        paint: custom.native_paint.clone().unwrap(),
     })
     .unwrap();
     let cart = game.frame_snapshot().cart;
@@ -2686,9 +2783,9 @@ fn native_paint_record_preserves_channels_and_single_cart_purchase() {
         game.frame_snapshot().selected_customization,
         Customization::default()
     );
-    game.command(GameCommand::Customize {
+    game.command(GameCommand::AcceptNativePaint {
         car_id: "car0".into(),
-        customization: custom,
+        paint: custom.native_paint.unwrap(),
     })
     .unwrap();
     game.command(GameCommand::Checkout).unwrap();
@@ -2707,6 +2804,121 @@ fn native_paint_record_preserves_channels_and_single_cart_purchase() {
     assert!(loaded.quote_customization(&same_typed).is_empty());
     let old: Customization = serde_json::from_str("{}").unwrap();
     assert!(old.native_paint.is_none());
+}
+
+#[test]
+fn accepted_native_paint_requeues_identical_paid_record() {
+    let record = NativePaintRecord::from_be_bytes(&[0; 72]).unwrap();
+    let mut game = Game::new(content());
+    let customization = Customization {
+        native_paint: Some(record.clone()),
+        ..Default::default()
+    };
+    game.command(GameCommand::Customize {
+        car_id: "car0".into(),
+        customization: customization.clone(),
+    })
+    .unwrap();
+    assert!(game.frame_snapshot().cart.is_empty());
+    for _ in 0..2 {
+        game.command(GameCommand::AcceptNativePaint {
+            car_id: "car0".into(),
+            paint: record.clone(),
+        })
+        .unwrap();
+    }
+    assert_eq!(game.frame_snapshot().cart.len(), 1);
+    game.command(GameCommand::Checkout).unwrap();
+    assert_eq!(game.frame_snapshot().career.cash, 22000);
+    game.command(GameCommand::Customize {
+        car_id: "car0".into(),
+        customization,
+    })
+    .unwrap();
+    assert!(game.frame_snapshot().cart.is_empty());
+    assert_eq!(game.quote_native_paint(&record).unwrap().cost, 3000);
+    game.command(GameCommand::AcceptNativePaint {
+        car_id: "car0".into(),
+        paint: record.clone(),
+    })
+    .unwrap();
+    assert_eq!(game.frame_snapshot().cart.len(), 1);
+    assert_eq!(game.frame_snapshot().cart[0].cost, 3000);
+    game.command(GameCommand::RemoveCartItem {
+        item_id: "car0:paint".into(),
+    })
+    .unwrap();
+    assert!(game.frame_snapshot().cart.is_empty());
+    let mut metallic = record.clone();
+    metallic.native_type = 1;
+    game.command(GameCommand::AcceptNativePaint {
+        car_id: "car0".into(),
+        paint: metallic.clone(),
+    })
+    .unwrap();
+    assert_eq!(game.frame_snapshot().cart[0].cost, 5000);
+    game.command(GameCommand::AcceptNativePaint {
+        car_id: "car0".into(),
+        paint: record.clone(),
+    })
+    .unwrap();
+    let mut unaccepted_preview = game.frame_snapshot().selected_customization;
+    unaccepted_preview.native_paint = Some(metallic);
+    game.command(GameCommand::Customize {
+        car_id: "car0".into(),
+        customization: unaccepted_preview,
+    })
+    .unwrap();
+    assert_eq!(game.frame_snapshot().cart[0].cost, 3000);
+    assert_eq!(
+        game.frame_snapshot()
+            .selected_customization
+            .native_paint
+            .as_ref()
+            .unwrap()
+            .native_type,
+        0
+    );
+    game.command(GameCommand::DiscardCart { car_id: None })
+        .unwrap();
+    assert!(game.frame_snapshot().cart.is_empty());
+    assert_eq!(game.frame_snapshot().career.cash, 22000);
+    game.command(GameCommand::AcceptNativePaint {
+        car_id: "car0".into(),
+        paint: record.clone(),
+    })
+    .unwrap();
+    game.command(GameCommand::Checkout).unwrap();
+    assert_eq!(game.frame_snapshot().career.cash, 19000);
+    assert!(game.frame_snapshot().cart.is_empty());
+    let saved = game.save_json().unwrap();
+    assert_eq!(
+        Game::load_json(content(), &saved)
+            .unwrap()
+            .save_json()
+            .unwrap(),
+        saved
+    );
+    game.command(GameCommand::Navigate {
+        screen: GameScreen::QuickRace,
+    })
+    .unwrap();
+    game.command(GameCommand::SelectCar {
+        car_id: "car29".into(),
+    })
+    .unwrap();
+    assert_eq!(game.quote_native_paint(&record).unwrap().cost, 0);
+    game.command(GameCommand::AcceptNativePaint {
+        car_id: "car29".into(),
+        paint: record,
+    })
+    .unwrap();
+    assert!(game.frame_snapshot().cart.is_empty());
+    assert!(game
+        .frame_snapshot()
+        .selected_customization
+        .native_paint
+        .is_some());
 }
 
 #[test]
@@ -3219,15 +3431,23 @@ fn native_nitrous_uses_mutable_force_refill_and_drain_parameters() {
 
 #[test]
 fn retired_legacy_nitrous_stage_is_preserved_without_a_fake_purchase() {
-    let c=content();let mut game=Game::new(c.clone());
-    let custom=Customization{nitrous:3,..Default::default()};
+    let c = content();
+    let mut game = Game::new(c.clone());
+    let custom = Customization {
+        nitrous: 3,
+        ..Default::default()
+    };
     assert!(game.quote_customization(&custom).is_empty());
-    game.command(GameCommand::Customize{car_id:"car0".into(),customization:custom}).unwrap();
+    game.command(GameCommand::Customize {
+        car_id: "car0".into(),
+        customization: custom,
+    })
+    .unwrap();
     assert!(game.frame_snapshot().cart.is_empty());
-    assert_eq!(game.frame_snapshot().career.cash,25000);
-    assert_eq!(game.frame_snapshot().selected_customization.nitrous,0);
-    let mut legacy:GameSave=serde_json::from_str(&game.save_json().unwrap()).unwrap();
-    legacy.career.garage.get_mut("car0").unwrap().nitrous=3;
-    let loaded=Game::load_json(c,&serde_json::to_string(&legacy).unwrap()).unwrap();
-    assert_eq!(loaded.frame_snapshot().career.garage["car0"].nitrous,3);
+    assert_eq!(game.frame_snapshot().career.cash, 25000);
+    assert_eq!(game.frame_snapshot().selected_customization.nitrous, 0);
+    let mut legacy: GameSave = serde_json::from_str(&game.save_json().unwrap()).unwrap();
+    legacy.career.garage.get_mut("car0").unwrap().nitrous = 3;
+    let loaded = Game::load_json(c, &serde_json::to_string(&legacy).unwrap()).unwrap();
+    assert_eq!(loaded.frame_snapshot().career.garage["car0"].nitrous, 3);
 }

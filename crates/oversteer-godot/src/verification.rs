@@ -104,3 +104,59 @@ pub fn trim_unchanged(before: &Value, after: &Value) -> bool {
                 })
         })
 }
+
+/// Read-only observer on the same post-advance clock as native input samples.
+/// Recharging is defined identically to replay_record: fraction increased since
+/// the preceding tick. No input or simulation state is modified.
+pub fn nitrous_observations(samples: &[Value], initial: Option<f32>) -> Value {
+    let mut previous = initial;
+    let mut minimum = initial.unwrap_or(1.);
+    let mut requested = 0usize;
+    let mut active = 0usize;
+    let mut recharge = 0usize;
+    let mut recharged_fraction = 0_f64;
+    let mut observed = 0usize;
+    for sample in samples {
+        let Some(fraction) = sample["nitrous"]["fraction"].as_f64().map(|v| v as f32) else {
+            continue;
+        };
+        observed += 1;
+        requested += usize::from(sample["controls"]["nitrous"].as_f64().unwrap_or(0.) > 0.);
+        active += usize::from(sample["nitrous"]["active"].as_bool() == Some(true));
+        minimum = minimum.min(fraction);
+        if let Some(before) = previous {
+            if fraction > before {
+                recharge += 1;
+                recharged_fraction += (fraction - before) as f64;
+            }
+        }
+        previous = Some(fraction);
+    }
+    json!({"sampled_ticks":observed,"initial_fraction":initial,"requested_ticks":requested,"active_ticks":active,"minimum_fraction":minimum,"recharge_ticks":recharge,"recharged_fraction_f64_sum":recharged_fraction,"clock":"Post-Game.advance, same sample as polled controls; recharge iff fraction increased from preceding tick; f64 sum of positive f32 fraction deltas"})
+}
+
+#[cfg(test)]
+mod observer_tests {
+    use super::*;
+    #[test]
+    fn nitrous_counts_post_tick_state_including_first_delta() {
+        let sample = |fraction: f32, active: bool, request: f32| json!({"nitrous":{"fraction":fraction,"active":active},"controls":{"nitrous":request}});
+        let report = nitrous_observations(
+            &[
+                sample(0.5, true, 1.),
+                sample(0.6, false, 1.),
+                sample(0.7, false, 0.),
+            ],
+            Some(1.),
+        );
+        assert_eq!(report["active_ticks"], 1);
+        assert_eq!(report["requested_ticks"], 2);
+        assert_eq!(report["recharge_ticks"], 2);
+        assert_eq!(report["minimum_fraction"], 0.5);
+        assert!((report["recharged_fraction_f64_sum"].as_f64().unwrap() - 0.2).abs() < 1e-6);
+        assert_eq!(
+            nitrous_observations(&[sample(0.6, false, 0.)], Some(0.5))["recharge_ticks"],
+            1
+        );
+    }
+}

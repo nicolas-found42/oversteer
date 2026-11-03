@@ -108,6 +108,7 @@ pub struct OversteerApp {
     input_event_index: usize,
     input_frame: u64,
     input_samples: Vec<serde_json::Value>,
+    input_nitrous_initial: Option<f32>,
     virtual_joy_replay: bool,
     settings_status: serde_json::Value,
     settings_blocked: bool,
@@ -239,6 +240,7 @@ impl INode3D for OversteerApp {
             input_event_index: 0,
             input_frame: 0,
             input_samples: Vec::new(),
+            input_nitrous_initial: None,
             virtual_joy_replay: false,
             settings_status: serde_json::Value::Null,
             settings_blocked: false,
@@ -988,6 +990,20 @@ impl OversteerApp {
         self.apply_kits(&mut preview, &selected, &self.customization);
         self.preview = Some(preview);
     }
+    fn preview_quote_cost(&self, field: &str) -> u32 {
+        let game = self.game.as_ref().unwrap();
+        if field == "paint" && self.paint_session.is_some() {
+            return game
+                .quote_native_paint(&paint::donor_seed(&self.customization))
+                .expect("paint session has a validated native family")
+                .cost;
+        }
+        game.quote_customization(&self.customization)
+            .iter()
+            .filter(|item| item.field == field)
+            .map(|item| item.cost)
+            .sum()
+    }
     fn advance_paint_stage(&mut self) {
         if let Some(mut panel) = self.paint_scalar_panel.take() {
             panel.set_visible(false);
@@ -1004,7 +1020,16 @@ impl OversteerApp {
             Some(paint::Stage::Scalar(channel)) => self.open_paint_scalar_stage(channel),
             None => {
                 self.paint_session = None;
-                self.apply_custom();
+                if let Some(record) = self.customization.native_paint.clone() {
+                    let car_id = self.game.as_ref().unwrap().frame_snapshot().selected_car;
+                    self.send(GameCommand::AcceptNativePaint {
+                        car_id,
+                        paint: record,
+                    });
+                    self.previous_car.clear();
+                    self.persist();
+                    self.rebuild_menu();
+                }
             }
         }
     }
@@ -1055,15 +1080,7 @@ impl OversteerApp {
         panel.set_size(Vector2::new(1920., 1080.));
         panel.set_z_index(90);
         panel.set_mouse_filter(godot::classes::control::MouseFilter::STOP);
-        let price: u32 = self
-            .game
-            .as_ref()
-            .unwrap()
-            .quote_customization(&self.customization)
-            .iter()
-            .filter(|item| item.field == "paint")
-            .map(|item| item.cost)
-            .sum();
+        let price = self.preview_quote_cost("paint");
         let cash = self.game.as_ref().unwrap().frame_snapshot().career.cash;
         let layout =
             native_layout::NativeLayout::parse(include_str!("layouts/palette-chrome.json"))
@@ -1138,11 +1155,25 @@ impl OversteerApp {
             self.customization.finish.as_str()
         };
         if target == "body" && self.paint_session.is_none() && !paint::stages(family).is_empty() {
+            let original = self.customization.clone();
+            let family = family.to_string();
+            if self.customization.native_paint.is_none() {
+                let mut record = paint::donor_seed(&self.customization);
+                let rgb = self.customization.paint;
+                paint::color(&mut record, &family, 0, [rgb[0], rgb[1], rgb[2]])
+                    .expect("validated native paint family");
+                self.customization.native_paint = Some(record);
+            }
             self.paint_session = Some(paint::Session {
-                original: self.customization.clone(),
-                family: family.into(),
+                original,
+                family,
                 cursor: 0,
             });
+        }
+        if target == "body" && self.paint_session.is_none() {
+            self.error_dialog = Some("Choose a paint finish before editing its color.".into());
+            self.rebuild_menu();
+            return;
         }
         let color = match target.as_str() {
             "body" => self.customization.paint,
@@ -1168,15 +1199,7 @@ impl OversteerApp {
             "wheel" => "wheel_paint",
             _ => "vinyls",
         };
-        let price = self
-            .game
-            .as_ref()
-            .unwrap()
-            .quote_customization(&self.customization)
-            .iter()
-            .filter(|item| item.field == field)
-            .map(|item| item.cost)
-            .sum();
+        let price = self.preview_quote_cost(field);
         match native_palette::NativePalette::create(
             Color::from_rgba(color[0], color[1], color[2], color[3]),
             match target.as_str() {
@@ -1331,16 +1354,8 @@ impl OversteerApp {
             }
             self.preview = Some(preview);
         }
+        let price = self.preview_quote_cost(field);
         if let Some(palette) = &mut self.palette_control {
-            let price: u32 = self
-                .game
-                .as_ref()
-                .unwrap()
-                .quote_customization(&self.customization)
-                .iter()
-                .filter(|item| item.field == field)
-                .map(|item| item.cost)
-                .sum();
             palette.call_deferred("set_price", &[price.to_variant()]);
         }
     }
@@ -2496,7 +2511,7 @@ impl OversteerApp {
         }
     }
     fn record_native_inputs(&mut self, dt: f64, controls: PlayerInput) {
-        if self.input_event_path.is_empty() || self.input_frame == 0 {
+        if self.input_event_path.is_empty() {
             return;
         }
         let snap = self.game.as_ref().unwrap().frame_snapshot();
@@ -2505,13 +2520,19 @@ impl OversteerApp {
             .as_ref()
             .and_then(|race| race.racers.iter().find(|racer| racer.is_player))
         {
+            if self.input_frame == 0 {
+                // Last pre-active post-tick state, used for the first observed
+                // recharge delta; countdown controls still have no effect.
+                self.input_nitrous_initial = Some(player.nitrous);
+                return;
+            }
             let right = self
                 .camera
                 .as_ref()
                 .map(|camera| camera.get_global_transform().basis * Vector3::RIGHT)
                 .unwrap_or(Vector3::ZERO);
             let input = Input::singleton();
-            self.input_samples.push(serde_json::json!({"frame":self.input_frame,"process_frame":self.scenario_frame,"delta":dt,"position":player.position,"rotation":player.rotation,"speed_kph":player.speed_kph,"camera_right":[right.x,right.y,right.z],"controls":controls,"physical_keys":{"throttle":input.is_physical_key_pressed(self.bindings["throttle"]),"left":input.is_physical_key_pressed(self.bindings["left"]),"right":input.is_physical_key_pressed(self.bindings["right"])},"raw_joy_steering":if self.virtual_joy_replay{Some(input.get_joy_axis(0,godot::global::JoyAxis::from_ord(self.joy_axes["steering"])))}else{None}}));
+            self.input_samples.push(serde_json::json!({"frame":self.input_frame,"process_frame":self.scenario_frame,"delta":dt,"position":player.position,"rotation":player.rotation,"speed_kph":player.speed_kph,"camera_right":[right.x,right.y,right.z],"nitrous":{"active":player.nitrous_active,"fraction":player.nitrous,"pressure_band":player.nitrous_pressure_band},"controls":controls,"physical_keys":{"throttle":input.is_physical_key_pressed(self.bindings["throttle"]),"left":input.is_physical_key_pressed(self.bindings["left"]),"right":input.is_physical_key_pressed(self.bindings["right"])},"raw_joy_steering":if self.virtual_joy_replay{Some(input.get_joy_axis(0,godot::global::JoyAxis::from_ord(self.joy_axes["steering"])))}else{None}}));
         }
     }
     fn league_label(&self, league: u8) -> String {
@@ -5566,6 +5587,7 @@ impl OversteerApp {
                     if profile_presentation { 3.0 } else { 0.15 },
                 );
                 set_creator_room_visibility(main, profile_presentation);
+                set_creator_tunnel_culling(main, profile_presentation);
                 for child in main.get_children().iter_shared() {
                     if let Ok(mut light) = child.try_cast::<godot::classes::OmniLight3D>() {
                         // Reference presentation-light adapter; original Spotlight behavior
@@ -6793,9 +6815,27 @@ impl OversteerApp {
                         transmission: 1,
                         suspension: 1,
                         tyres: 1,
-                        nitrous: 1,
                         ..Customization::default()
                     };
+                    let mut record = paint::donor_seed(&self.customization);
+                    let family = self.customization.finish.clone();
+                    let rgb = self.customization.paint;
+                    paint::color(&mut record, &family, 0, [rgb[0], rgb[1], rgb[2]])
+                        .expect("native all30 base color");
+                    match family.as_str() {
+                        "pearl" => {
+                            paint::color(&mut record, &family, 1, [0.9, 0.15, 0.25]).unwrap();
+                            paint::scalar(&mut record, 2, 0.625).unwrap();
+                        }
+                        "flake" => {
+                            paint::color(&mut record, &family, 3, [1., 0.85, 0.2]).unwrap();
+                            paint::scalar(&mut record, 4, 0.25).unwrap();
+                            paint::scalar(&mut record, 5, 0.75).unwrap();
+                        }
+                        "thinfilm" => paint::scalar(&mut record, 6, 0.875).unwrap(),
+                        _ => {}
+                    }
+                    self.customization.native_paint = Some(record.clone());
                     let plate_metadata: serde_json::Value = serde_json::from_str(
                         &FileAccess::get_file_as_string("res://assets/cars.json").to_string(),
                     )
@@ -6827,6 +6867,10 @@ impl OversteerApp {
                         car_id: id.clone(),
                         customization: self.customization.clone(),
                     });
+                    self.send(GameCommand::AcceptNativePaint {
+                        car_id: id.clone(),
+                        paint: record,
+                    });
                     self.previous_car.clear();
                 }
                 if phase == 44 {
@@ -6856,7 +6900,7 @@ impl OversteerApp {
                         .unwrap()
                         .frame_snapshot()
                         .selected_customization;
-                    self.all30_probes.push(serde_json::json!({"car_id":id,"stock":self.all30_before,"modified":{"customization":actual,"materials":materials},"state_matches_requested":actual==self.customization,"unpainted_factory_state_unchanged":verification::trim_unchanged(&self.all30_before["materials"],&materials),"paint_trim_override_isolation":materials["unexpected_unpainted_overrides"].as_u64()==Some(0),"compatible_body_kits":car.body_kits,"compatible_interior_kits":car.interior_kits}));
+                    self.all30_probes.push(serde_json::json!({"car_id":id,"stock":self.all30_before,"modified":{"customization":actual,"materials":materials},"state_matches_requested":actual==self.customization,"unpainted_factory_state_unchanged":verification::trim_unchanged(&self.all30_before["materials"],&materials),"paint_trim_override_isolation":materials["unexpected_unpainted_overrides"].as_u64()==Some(0),"compatible_body_kits":car.body_kits,"compatible_interior_kits":car.interior_kits,"performance_scope":"Existing adapted engine/transmission/suspension/tyre parameters; not original Power/Handling/Weight package parity. Legacy NOS tier is not edited."}));
                 }
                 if phase == 48 {
                     self.preview_angle = Some(std::f32::consts::PI);
@@ -6982,11 +7026,11 @@ impl OversteerApp {
                 .get_viewport()
                 .map(|v| v.get_visible_rect().size)
                 .unwrap_or(Vector2::ZERO);
-            let mut report = serde_json::json!({"scenario":self.scenario,"native_ui_bounds":self.menu.as_ref().map(control_bounds),"presentation":{"tunnel_shader":"Recovered VDL UV/native art/scroll/palette values with unshaded ALBEDO output; original luminous art RGB retained, source PS694 palette-weight equation and linear RAW/255 upload, source PS660 lum×base×strength and PS82 white/alpha equation; reference per-venue exposure, sampler transfer, TIME seconds and blend-mode adapters remain; active native g_exp grading and variant selection unbound","bet_scene":"Native garage/rival-car staging; two source avatar presets proxy selected rival gender/outfit; original individual likeness/crowd/animation not recovered","profile_scene":"Original CreateAvatar actor/car markers and category camera rows; original DJ_PROFILE/floor venue re-enabled for creator; reference neutral symmetric-front-fill light adapter (causal native capture removes central diffuse band); imported common-rig attachment. Donor Evo companion identity/facing, camera travel/parent behaviours and material HSV remain adaptations or unresolved.","avatar":self.avatar.as_ref().map(spatial_diagnostic),"paint_scene":"Original PaintBox subset/pose XZ/render-floor; donor ground-reference adaptation. Paintshop end FOV/offset values use donor body-center CHASS and source-pose-rotated component-offset adapter; original DLT lighting and camera parent basis remain unresolved.","paintbooth":self.paint_stage.as_ref().map(spatial_diagnostic),"avatar_anchor":self.avatar.as_ref().and_then(|avatar|source_bone_anchor(&avatar.clone().upcast(),"posbip")).map(|v|[v.x,v.y,v.z]),"camera":self.camera.as_ref().map(|node|spatial_diagnostic(&node.clone().upcast::<Node3D>())),"preview":self.preview.as_ref().map(spatial_diagnostic)},"customization_catalog":{"native_decals":self.decal_catalog["designs"].as_array().map(Vec::len).unwrap_or(0),"native_categories":self.decal_catalog["categories"].as_array().map(Vec::len).unwrap_or(0),"alpha_mask_designs":self.decal_catalog["designs"].as_array().map(|designs|designs.iter().filter(|design|design["color_mode"].as_str()==Some("alpha_mask")).count()).unwrap_or(0),"colorization":"Exact constant black/white source artwork uses source alpha with chosen tint; varied RGB artwork retains source RGB multiplied by tint. Explicit renderer adaptation; native compositor unresolved.","layer_limit":16,"mapping":"Recovered source RGBA artwork on donor UV with isolated body paint masks; original decal projection consumer not recovered"},"ui_actions":self.ui_action_log,"ui_actions_complete":self.ui_step==self.ui_steps.len(),"simulation_speed":if long&&self.input_event_path.is_empty(){6}else{1},"frames":frame,"sampled_frames":self.frame_times.len(),"sample_first":self.sample_first,"sample_last":self.sample_last,"all30_probes":self.all30_probes,"load_status":self.load_status,"save_status":self.save_status,"content":{"cars":self.content.cars.len(),"tracks":self.content.tracks.len(),"events":self.content.events.len(),"event_families":families,"sha256":GString::from(self.content_json.as_str()).sha256_text().to_string()},"renderer":{"method":server.get_current_rendering_method().to_string(),"driver":server.get_current_rendering_driver_name().to_string(),"viewport":[viewport.x,viewport.y],"draw_calls":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_DRAW_CALLS_IN_FRAME),"primitives":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_PRIMITIVES_IN_FRAME),"video_memory_bytes":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::VIDEO_MEM_USED)},"frame_clock":"Rust monotonic Instant at process entry (includes render/vsync/host work between entries)","frame_times_ms":self.frame_times,"engine_delta_times_ms":self.engine_frame_times,"viewport_gpu_timing_available":self.gpu_times.iter().any(|v|*v>0.),"viewport_cpu_timing_available":self.cpu_times.iter().any(|v|*v>0.),"viewport_gpu_times_ms":self.gpu_times,"viewport_cpu_times_ms":self.cpu_times,"viewport_timing_note":"Godot measured viewport render times, read at following process entry","warmup_frames":warmup,"measured_frames":measured.len(),"measured_frame_ms_mean":if measured.is_empty(){0.}else{measured.iter().sum::<f64>()/measured.len() as f64},"measured_frame_ms_p95":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.95) as usize]},"measured_frame_ms_p99":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.99) as usize]},"measured_frame_ms_max":measured_sorted.last(),"measured_over_16_67_ms":measured.iter().filter(|t|**t>16.67).count(),"frame_ms_mean":times.iter().sum::<f64>()/times.len() as f64,"frame_ms_p95":times[(times.len() as f32*0.95) as usize],"save_reload_equal":save_reload_equal,"disk_reload_equal":disk_reload_equal,"audio":self.audio.as_ref().map(audio::RuntimeAudio::summary),"loading":self.loading_reports,"effects":self.car_effects.iter().map(effects::CarEffects::summary).collect::<Vec<_>>(),"saved_state":serde_json::from_str::<serde_json::Value>(&saved).unwrap(),"snapshot":self.game.as_ref().unwrap().frame_snapshot()});
+            let mut report = serde_json::json!({"scenario":self.scenario,"native_ui_bounds":self.menu.as_ref().map(control_bounds),"presentation":{"tunnel_shader":"Recovered VDL UV/native art/scroll/palette values with unshaded ALBEDO output; original luminous art RGB retained, source PS694 palette-weight equation and linear RAW/255 upload, source PS660 lum×base×strength and PS82 white/alpha equation; reference per-venue exposure, sampler transfer, TIME seconds and blend-mode adapters remain; active native g_exp grading and variant selection unbound","bet_scene":"Native garage/rival-car staging; two source avatar presets proxy selected rival gender/outfit; original individual likeness/crowd/animation not recovered","profile_scene":"Original CreateAvatar actor/car markers and category camera rows; original DJ_PROFILE/floor venue re-enabled for creator; reference neutral symmetric-front-fill light adapter (causal native capture removes central diffuse band); creator-only backface culling on translated tunnel surfaces (controlled native captures remove the foreground shell, original pass state unbound); imported common-rig attachment. Donor Evo companion identity/facing, camera travel/parent behaviours and material HSV remain adaptations or unresolved.","avatar":self.avatar.as_ref().map(spatial_diagnostic),"paint_scene":"Original PaintBox subset/pose XZ/render-floor; donor ground-reference adaptation. Paintshop end FOV/offset values use donor body-center CHASS and source-pose-rotated component-offset adapter; original DLT lighting and camera parent basis remain unresolved.","paintbooth":self.paint_stage.as_ref().map(spatial_diagnostic),"avatar_anchor":self.avatar.as_ref().and_then(|avatar|source_bone_anchor(&avatar.clone().upcast(),"posbip")).map(|v|[v.x,v.y,v.z]),"camera":self.camera.as_ref().map(|node|spatial_diagnostic(&node.clone().upcast::<Node3D>())),"preview":self.preview.as_ref().map(spatial_diagnostic)},"customization_catalog":{"native_decals":self.decal_catalog["designs"].as_array().map(Vec::len).unwrap_or(0),"native_categories":self.decal_catalog["categories"].as_array().map(Vec::len).unwrap_or(0),"alpha_mask_designs":self.decal_catalog["designs"].as_array().map(|designs|designs.iter().filter(|design|design["color_mode"].as_str()==Some("alpha_mask")).count()).unwrap_or(0),"colorization":"Exact constant black/white source artwork uses source alpha with chosen tint; varied RGB artwork retains source RGB multiplied by tint. Explicit renderer adaptation; native compositor unresolved.","layer_limit":16,"mapping":"Recovered source RGBA artwork on donor UV with isolated body paint masks; original decal projection consumer not recovered"},"ui_actions":self.ui_action_log,"ui_actions_complete":self.ui_step==self.ui_steps.len(),"simulation_speed":if long&&self.input_event_path.is_empty(){6}else{1},"frames":frame,"sampled_frames":self.frame_times.len(),"sample_first":self.sample_first,"sample_last":self.sample_last,"all30_probes":self.all30_probes,"load_status":self.load_status,"save_status":self.save_status,"content":{"cars":self.content.cars.len(),"tracks":self.content.tracks.len(),"events":self.content.events.len(),"event_families":families,"sha256":GString::from(self.content_json.as_str()).sha256_text().to_string()},"renderer":{"method":server.get_current_rendering_method().to_string(),"driver":server.get_current_rendering_driver_name().to_string(),"viewport":[viewport.x,viewport.y],"draw_calls":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_DRAW_CALLS_IN_FRAME),"primitives":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_PRIMITIVES_IN_FRAME),"video_memory_bytes":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::VIDEO_MEM_USED)},"frame_clock":"Rust monotonic Instant at process entry (includes render/vsync/host work between entries)","frame_times_ms":self.frame_times,"engine_delta_times_ms":self.engine_frame_times,"viewport_gpu_timing_available":self.gpu_times.iter().any(|v|*v>0.),"viewport_cpu_timing_available":self.cpu_times.iter().any(|v|*v>0.),"viewport_gpu_times_ms":self.gpu_times,"viewport_cpu_times_ms":self.cpu_times,"viewport_timing_note":"Godot measured viewport render times, read at following process entry","warmup_frames":warmup,"measured_frames":measured.len(),"measured_frame_ms_mean":if measured.is_empty(){0.}else{measured.iter().sum::<f64>()/measured.len() as f64},"measured_frame_ms_p95":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.95) as usize]},"measured_frame_ms_p99":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.99) as usize]},"measured_frame_ms_max":measured_sorted.last(),"measured_over_16_67_ms":measured.iter().filter(|t|**t>16.67).count(),"frame_ms_mean":times.iter().sum::<f64>()/times.len() as f64,"frame_ms_p95":times[(times.len() as f32*0.95) as usize],"save_reload_equal":save_reload_equal,"disk_reload_equal":disk_reload_equal,"audio":self.audio.as_ref().map(audio::RuntimeAudio::summary),"loading":self.loading_reports,"effects":self.car_effects.iter().map(effects::CarEffects::summary).collect::<Vec<_>>(),"saved_state":serde_json::from_str::<serde_json::Value>(&saved).unwrap(),"snapshot":self.game.as_ref().unwrap().frame_snapshot()});
             report["input_replay_timed_out"] = replay_timed_out.into();
             report["input_replay_ended_early"] = replay_ended_early.into();
             report["input_replay_terminal_success"] = replay_terminal_success.into();
-            report["native_input_replay"] = serde_json::json!({"path":self.input_event_path,"source":"Input.parse_input_event → is_physical_key_pressed/get_joy_axis; AI disabled","virtual_joy_device":self.virtual_joy_replay,"frames":self.input_frame,"event_clock":"Frame0 events preload during Race countdown. Active frame k events queue before poll k and are observed at sample k+1; input_frame counts active Race frames only","events":self.input_events,"events_processed":self.input_event_index,"events_complete":self.input_event_index==self.input_events.len(),"samples":self.input_samples});
+            report["native_input_replay"] = serde_json::json!({"path":self.input_event_path,"source":"Input.parse_input_event → is_physical_key_pressed/get_joy_axis; AI disabled","virtual_joy_device":self.virtual_joy_replay,"frames":self.input_frame,"event_clock":"Frame0 events preload during Race countdown. Active frame k events queue before poll k and are observed at sample k+1; input_frame counts active Race frames only","events":self.input_events,"events_processed":self.input_event_index,"events_complete":self.input_event_index==self.input_events.len(),"samples":self.input_samples,"nitrous_observations":verification::nitrous_observations(&self.input_samples,self.input_nitrous_initial)});
             report["preview_screen_bounds"] = serde_json::json!(
                 self.camera
                     .as_ref()
@@ -8169,6 +8213,38 @@ fn prepare_tunnel_nodes(node: &mut Gd<Node3D>, materials: &serde_json::Value) {
     for child in node.get_children().iter_shared() {
         if let Ok(mut child) = child.try_cast::<Node3D>() {
             prepare_tunnel_nodes(&mut child, materials);
+        }
+    }
+}
+
+fn set_creator_tunnel_culling(node: &mut Gd<Node3D>, creator: bool) {
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>() {
+        if let Some(resource) = mesh.get_mesh() {
+            for surface in 0..resource.get_surface_count() {
+                if let Some(material) = mesh
+                    .get_active_material(surface)
+                    .and_then(|material| material.try_cast::<godot::classes::ShaderMaterial>().ok())
+                {
+                    if let Some(mut shader) = material.get_shader() {
+                        let code = shader.get_code().to_string();
+                        if code.contains("gradient_weights") || code.contains("lum_strength") {
+                            let revised = if creator {
+                                code.replace("cull_disabled", "cull_back")
+                            } else {
+                                code.replace("cull_back", "cull_disabled")
+                            };
+                            if revised != code {
+                                shader.set_code(&revised);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(mut child) = child.try_cast::<Node3D>() {
+            set_creator_tunnel_culling(&mut child, creator);
         }
     }
 }

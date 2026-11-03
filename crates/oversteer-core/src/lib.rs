@@ -30,3 +30,6 @@ pub use paint::*;
 
 mod nitrous;
 pub use nitrous::*;
+
+mod performance;
+pub use performance::*;

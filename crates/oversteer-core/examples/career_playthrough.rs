@@ -163,8 +163,8 @@ fn main() {
             if stock_nos
                 && tick % 600 < 120
                 && game.frame_snapshot().race.as_ref().unwrap().racers[0].speed_kph > 60.
-                && input.steering.abs() < 0.02
-                && input.throttle > 0.9
+                && input.steering.abs() < 0.1
+                && input.throttle > 0.1
             {
                 input.nitrous = 1.;
             }
@@ -208,7 +208,13 @@ fn main() {
         );
         let prefix = format!(
             "artifacts/juiced2-build/career-{event}{}",
-            if stock_nos { "-stock-nos" } else if predictive { "-predict" } else { "" }
+            if stock_nos {
+                "-stock-nos"
+            } else if predictive {
+                "-predict"
+            } else {
+                ""
+            }
         );
         std::fs::write(format!("{prefix}-initial-save.json"), initial).unwrap();
         std::fs::write(

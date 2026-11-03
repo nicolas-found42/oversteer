@@ -70,6 +70,11 @@ impl NativePaintRecord {
             .get(self.native_type as usize)
             .copied()
     }
+    pub fn price(&self) -> Option<u32> {
+        [3000, 5000, 12000, 12000, 7500, 20000]
+            .get(self.native_type as usize)
+            .copied()
+    }
 }
 
 pub(crate) fn sync_customization(custom: &mut crate::Customization) {

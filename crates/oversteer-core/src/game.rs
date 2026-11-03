@@ -16,6 +16,7 @@ pub struct CarDefinition {
     pub league: u8,
     pub classes: Vec<String>,
     pub handling: Handling,
+    pub native_performance: Option<crate::NativePerformanceDefinition>,
     pub body_kits: Vec<String>,
     pub interior_kits: Vec<String>,
 }
@@ -42,6 +43,7 @@ impl Default for CarDefinition {
             league: 0,
             classes: vec![],
             handling: Handling::default(),
+            native_performance: None,
             body_kits: vec![],
             interior_kits: vec![],
         }
@@ -356,6 +358,7 @@ impl Default for Vinyl {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(default)]
 pub struct Customization {
+    pub native_performance_parts: Option<[u32; 3]>,
     pub parts: BTreeMap<String, String>,
     pub plate_text: String,
     pub plate_style: String,
@@ -379,6 +382,7 @@ pub struct Customization {
 impl Default for Customization {
     fn default() -> Self {
         Self {
+            native_performance_parts: None,
             parts: BTreeMap::new(),
             plate_text: "OVERSTR".into(),
             plate_style: "stock".into(),
@@ -456,6 +460,8 @@ impl Default for DriverDna {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct CareerState {
     #[serde(default)]
+    pub native_performance: Option<crate::NativePerformanceCareer>,
+    #[serde(default)]
     pub sponsor_packages: BTreeMap<String, Vec<u8>>,
     #[serde(default)]
     pub visual_unlocks: Vec<String>,
@@ -495,6 +501,14 @@ pub struct RaceResult {
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum GameCommand {
+    AcceptNativePaint {
+        car_id: String,
+        paint: crate::NativePaintRecord,
+    },
+    UnlockPrototype {
+        league: u8,
+        category: crate::PrototypeCategory,
+    },
     SetDifficulty {
         level: u8,
     },
@@ -581,6 +595,8 @@ pub struct RacerSnapshot {
     pub clean_lap: bool,
     pub car_id: String,
     pub name: String,
+    #[serde(default)]
+    pub native_tag: String,
     pub position: [f32; 3],
     pub rotation: [f32; 4],
     pub velocity: [f32; 3],
@@ -792,6 +808,7 @@ pub struct Game {
     quick_customizations: BTreeMap<String, Customization>,
     quick_mode: bool,
     pending_customizations: BTreeMap<String, Customization>,
+    accepted_native_paint: std::collections::BTreeSet<String>,
 }
 impl Game {
     pub fn new(mut content: GameContent) -> Self {
@@ -833,6 +850,7 @@ impl Game {
             screen: GameScreen::MainMenu,
             selected_car: selected.clone(),
             career: CareerState {
+                native_performance: Some(crate::NativePerformanceCareer::default()),
                 sponsor_packages: BTreeMap::new(),
                 visual_unlocks: vec![],
                 prototype_unlocked: false,
@@ -871,6 +889,7 @@ impl Game {
             quick_customizations: BTreeMap::new(),
             quick_mode: false,
             pending_customizations: BTreeMap::new(),
+            accepted_native_paint: Default::default(),
         }
     }
     pub fn save_json(&self) -> Result<String, serde_json::Error> {
@@ -902,6 +921,27 @@ impl Game {
         }
         game.selected_car = save.selected_car;
         game.career = save.career;
+        if game.career.native_performance.is_none() {
+            // Earlier reconstruction saves could earn these rewards but could not
+            // spend original choice currency. Restore earned choices, never parts.
+            let mut tokens = u8::from(game.career.league >= 3);
+            for goal in game.content.leagues.iter().flat_map(|league| &league.goals) {
+                if goal.prot_unlock
+                    && game
+                        .career
+                        .goal_progress
+                        .get(&goal.id)
+                        .map(|p| p.complete)
+                        .unwrap_or(false)
+                {
+                    tokens = tokens.wrapping_add(1);
+                }
+            }
+            game.career.native_performance = Some(crate::NativePerformanceCareer {
+                prototype_tokens: tokens,
+                ..Default::default()
+            });
+        }
         for (id, custom) in &game.career.garage {
             game.career
                 .parts_inventory
@@ -915,6 +955,48 @@ impl Game {
     }
     pub fn command(&mut self, command: GameCommand) -> Result<(), String> {
         match command {
+            GameCommand::AcceptNativePaint { car_id, paint } => {
+                paint.price().ok_or("Unsupported native paint family")?;
+                let prior = if self.quick_mode {
+                    self.quick_customizations
+                        .get(&car_id)
+                        .or_else(|| self.career.garage.get(&car_id))
+                } else {
+                    self.pending_customizations
+                        .get(&car_id)
+                        .or_else(|| self.career.garage.get(&car_id))
+                };
+                let mut custom = prior.cloned().unwrap_or_default();
+                custom.native_paint = Some(paint);
+                crate::paint::sync_customization(&mut custom);
+                self.command(GameCommand::Customize {
+                    car_id: car_id.clone(),
+                    customization: custom.clone(),
+                })?;
+                if self.quick_mode {
+                    self.quick_customizations.insert(car_id, custom);
+                } else {
+                    self.accepted_native_paint.insert(car_id.clone());
+                    self.pending_customizations.insert(car_id, custom);
+                }
+            }
+            GameCommand::UnlockPrototype { league, category } => {
+                if !(3..=9).contains(&league) || league > self.career.league {
+                    return Err("Prototype choice is unavailable in this league".into());
+                }
+                let performance = self
+                    .career
+                    .native_performance
+                    .get_or_insert_with(Default::default);
+                if performance.prototype_unlocks.contains(&(league, category)) {
+                    return Err("Prototype choice is already unlocked".into());
+                }
+                if performance.prototype_tokens == 0 {
+                    return Err("No prototype choice available".into());
+                }
+                performance.prototype_unlocks.push((league, category));
+                performance.prototype_tokens -= 1;
+            }
             GameCommand::SetDifficulty { level } => {
                 if level > 2 {
                     return Err("Difficulty must be 0 (Easy), 1 (Normal), or 2 (Hard)".into());
@@ -925,8 +1007,10 @@ impl Game {
             GameCommand::DiscardCart { car_id } => {
                 if let Some(id) = car_id {
                     self.pending_customizations.remove(&id);
+                    self.accepted_native_paint.remove(&id);
                 } else {
                     self.pending_customizations.clear();
+                    self.accepted_native_paint.clear();
                 }
             }
             GameCommand::RemoveCartItem { item_id } => {
@@ -945,7 +1029,10 @@ impl Game {
                     .get_mut(&item.car_id)
                     .ok_or("No preview for cart item")?;
                 crate::garage::revert_field(preview, old, &item.field);
-                if preview == old {
+                if item.field == "paint" {
+                    self.accepted_native_paint.remove(&item.car_id);
+                }
+                if preview == old && !self.accepted_native_paint.contains(&item.car_id) {
                     self.pending_customizations.remove(&item.car_id);
                 }
             }
@@ -1240,6 +1327,7 @@ impl Game {
                 }
                 self.career.cash += i64::from(price / 2);
                 self.pending_customizations.remove(&car_id);
+                self.accepted_native_paint.remove(&car_id);
                 self.career
                     .vehicle_history
                     .entry(car_id.clone())
@@ -1261,11 +1349,34 @@ impl Game {
                 car_id,
                 mut customization,
             } => {
+                let prior = if self.quick_mode {
+                    self.quick_customizations
+                        .get(&car_id)
+                        .or_else(|| self.career.garage.get(&car_id))
+                } else {
+                    self.pending_customizations
+                        .get(&car_id)
+                        .or_else(|| self.career.garage.get(&car_id))
+                };
+                if customization.native_paint.is_some()
+                    || prior.and_then(|p| p.native_paint.as_ref()).is_some()
+                {
+                    let prior = prior.cloned().unwrap_or_default();
+                    customization.native_paint = prior.native_paint;
+                    customization.paint = prior.paint;
+                    customization.finish = prior.finish;
+                }
                 crate::paint::sync_customization(&mut customization);
                 // Retired tier survives old saves but cannot create a new fake upgrade.
                 customization.nitrous = if self.quick_mode {
-                    self.quick_customizations.get(&car_id).or_else(||self.career.garage.get(&car_id))
-                } else {self.career.garage.get(&car_id)}.map(|prior|prior.nitrous).unwrap_or(0);
+                    self.quick_customizations
+                        .get(&car_id)
+                        .or_else(|| self.career.garage.get(&car_id))
+                } else {
+                    self.career.garage.get(&car_id)
+                }
+                .map(|prior| prior.nitrous)
+                .unwrap_or(0);
                 let car = self.car(&car_id)?;
                 for (slot, part) in &customization.parts {
                     if part != "stock"
@@ -1304,7 +1415,9 @@ impl Game {
                 if self.quick_mode {
                     self.quick_customizations.insert(car_id, customization);
                 } else if self.career.garage.contains_key(&car_id) {
-                    if self.career.garage[&car_id] == customization {
+                    if self.career.garage[&car_id] == customization
+                        && !self.accepted_native_paint.contains(&car_id)
+                    {
                         self.pending_customizations.remove(&car_id);
                     } else {
                         self.pending_customizations.insert(car_id, customization);
@@ -2516,6 +2629,15 @@ impl Game {
                         .max()
                         .unwrap_or(0);
                     self.career.league = (self.career.league + 1).min(max);
+                    if self.career.league == 3 {
+                        let performance = self
+                            .career
+                            .native_performance
+                            .get_or_insert_with(Default::default);
+                        if performance.prototype_unlocks.len() < 40 {
+                            performance.prototype_tokens = 1;
+                        }
+                    }
                 }
             } else {
                 self.career.losses += 1;
@@ -2555,6 +2677,7 @@ impl Game {
                     .or_default()
                     .pink_slip_losses += 1;
                 self.pending_customizations.remove(&player.car_id);
+                self.accepted_native_paint.remove(&player.car_id);
                 record_transaction(
                     &mut self.career,
                     crate::TransactionKind::PinkSlipLoss,
@@ -2589,6 +2712,20 @@ impl Game {
         });
         self.screen = GameScreen::Results;
     }
+    /// Terminal821C5E20 purchase intent has a family price even when bytes match.
+    pub fn quote_native_paint(
+        &self,
+        paint: &crate::NativePaintRecord,
+    ) -> Result<crate::CartItem, String> {
+        let price = paint.price().ok_or("Unsupported native paint family")?;
+        Ok(crate::CartItem {
+            id: format!("{}:paint", self.selected_car),
+            car_id: self.selected_car.clone(),
+            label: "Body paint".into(),
+            cost: if self.quick_mode { 0 } else { price },
+            field: "paint".into(),
+        })
+    }
     /// Quotes the selected vehicle against purchased state without changing its draft.
     pub fn quote_customization(&self, customization: &Customization) -> Vec<crate::CartItem> {
         if self.quick_mode {
@@ -2621,7 +2758,7 @@ impl Game {
                     .garage
                     .get(id)
                     .map(|old| {
-                        crate::garage::cart_changes(
+                        let mut items = crate::garage::cart_changes(
                             id,
                             old,
                             new,
@@ -2630,7 +2767,20 @@ impl Game {
                                 .get(id)
                                 .map(Vec::as_slice)
                                 .unwrap_or(&[]),
-                        )
+                        );
+                        if self.accepted_native_paint.contains(id) {
+                            items.retain(|item| item.field != "paint");
+                            if let Some(paint) = &new.native_paint {
+                                items.push(crate::CartItem {
+                                    id: format!("{id}:paint"),
+                                    car_id: id.clone(),
+                                    label: "Body paint".into(),
+                                    cost: paint.price().expect("accepted native family"),
+                                    field: "paint".into(),
+                                });
+                            }
+                        }
+                        items
                     })
                     .unwrap_or_default()
             })
@@ -2680,6 +2830,7 @@ impl Game {
                 "Garage checkout",
             );
         }
+        self.accepted_native_paint.clear();
         self.screen = GameScreen::Garage;
         Ok(())
     }
@@ -2811,6 +2962,7 @@ impl Game {
                     clean_lap: v.clean_lap,
                     car_id: v.car_id.clone(),
                     name: v.name.clone(),
+                    native_tag: v.dna.native_tag.clone(),
                     position: v.state.position,
                     rotation: v.state.orientation,
                     velocity: v.state.velocity,
@@ -3343,21 +3495,26 @@ fn ai_input(
     } else {
         22. + r.dna.aggression * 6.
     };
-    let desired_speed = if mode.is_drift() || r.drive_layout != crate::DriveLayout::Rwd { desired_speed } else {
+    let desired_speed = if mode.is_drift() || r.drive_layout != crate::DriveLayout::Rwd {
+        desired_speed
+    } else {
         // Reconstructed RWD input policy: brake before a curved route, not only
         // after the heading error is large. This does not alter vehicle forces.
-        let lateral_error=distance_xz(r.state.position,projection);
-        let mut limit=desired_speed/(1.+lateral_error*0.15);
-        let mut distance=distance_xz(r.state.position,checkpoint);
+        let lateral_error = distance_xz(r.state.position, projection);
+        let mut limit = desired_speed / (1. + lateral_error * 0.15);
+        let mut distance = distance_xz(r.state.position, checkpoint);
         for ahead in 0..12.min(track.points.len()) {
-            let j=(r.checkpoint+ahead)%track.points.len();
-            let a=track.points[(j+track.points.len()-1)%track.points.len()];
-            let b=track.points[j];let c=track.points[(j+1)%track.points.len()];
-            let angle=wrap_angle((c[0]-b[0]).atan2(c[2]-b[2])-(b[0]-a[0]).atan2(b[2]-a[2])).abs();
-            let curvature=angle/((distance_xz(a,b)+distance_xz(b,c))*0.5).max(0.1);
-            let corner=(6./curvature.max(0.0001)).sqrt().max(5.);
-            limit=limit.min((corner*corner+8.*distance).sqrt());
-            distance+=distance_xz(b,c);
+            let j = (r.checkpoint + ahead) % track.points.len();
+            let a = track.points[(j + track.points.len() - 1) % track.points.len()];
+            let b = track.points[j];
+            let c = track.points[(j + 1) % track.points.len()];
+            let angle =
+                wrap_angle((c[0] - b[0]).atan2(c[2] - b[2]) - (b[0] - a[0]).atan2(b[2] - a[2]))
+                    .abs();
+            let curvature = angle / ((distance_xz(a, b) + distance_xz(b, c)) * 0.5).max(0.1);
+            let corner = (6. / curvature.max(0.0001)).sqrt().max(5.);
+            limit = limit.min((corner * corner + 8. * distance).sqrt());
+            distance += distance_xz(b, c);
         }
         limit
     };
@@ -3989,6 +4146,12 @@ fn update_goals(
         if progress.complete {
             if goal.prot_unlock {
                 career.prototype_unlocked = true;
+                let performance = career
+                    .native_performance
+                    .get_or_insert_with(Default::default);
+                if performance.prototype_unlocks.len() < 40 {
+                    performance.prototype_tokens = performance.prototype_tokens.wrapping_add(1);
+                }
             }
             if goal.vis_unlock && !career.visual_unlocks.contains(&goal.id) {
                 career.visual_unlocks.push(goal.id.clone());

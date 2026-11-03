@@ -1,0 +1,387 @@
+{
+  "packages": [
+    {
+      "league": "Rookie",
+      "threshold": 0.15000000596046448,
+      "steps": 3,
+      "native_price_operands": [
+        7500,
+        9500,
+        3000,
+        5000,
+        5500,
+        7500
+      ],
+      "native_row": [
+        "PackData",
+        "Rookie",
+        0.15000000596046448,
+        3,
+        7500,
+        9500,
+        3000,
+        5000,
+        5500,
+        7500
+      ],
+      "runtime_struct_offsets": {
+        "league": 0,
+        "threshold": 4,
+        "steps": 8,
+        "price_operand_offsets": [
+          12,
+          24,
+          16,
+          28,
+          20,
+          32
+        ]
+      }
+    },
+    {
+      "league": "L7",
+      "threshold": 0.2199999988079071,
+      "steps": 3,
+      "native_price_operands": [
+        8500,
+        10500,
+        4000,
+        6000,
+        6500,
+        8500
+      ],
+      "native_row": [
+        "PackData",
+        "L7",
+        0.2199999988079071,
+        3,
+        8500,
+        10500,
+        4000,
+        6000,
+        6500,
+        8500
+      ],
+      "runtime_struct_offsets": {
+        "league": 0,
+        "threshold": 4,
+        "steps": 8,
+        "price_operand_offsets": [
+          12,
+          24,
+          16,
+          28,
+          20,
+          32
+        ]
+      }
+    },
+    {
+      "league": "L6",
+      "threshold": 0.28999999165534973,
+      "steps": 3,
+      "native_price_operands": [
+        11000,
+        13000,
+        7000,
+        9000,
+        9000,
+        11000
+      ],
+      "native_row": [
+        "PackData",
+        "L6",
+        0.28999999165534973,
+        3,
+        11000,
+        13000,
+        7000,
+        9000,
+        9000,
+        11000
+      ],
+      "runtime_struct_offsets": {
+        "league": 0,
+        "threshold": 4,
+        "steps": 8,
+        "price_operand_offsets": [
+          12,
+          24,
+          16,
+          28,
+          20,
+          32
+        ]
+      }
+    },
+    {
+      "league": "L5",
+      "threshold": 0.36000001430511475,
+      "steps": 4,
+      "native_price_operands": [
+        12000,
+        15000,
+        8000,
+        10000,
+        10000,
+        12000
+      ],
+      "native_row": [
+        "PackData",
+        "L5",
+        0.36000001430511475,
+        4,
+        12000,
+        15000,
+        8000,
+        10000,
+        10000,
+        12000
+      ],
+      "runtime_struct_offsets": {
+        "league": 0,
+        "threshold": 4,
+        "steps": 8,
+        "price_operand_offsets": [
+          12,
+          24,
+          16,
+          28,
+          20,
+          32
+        ]
+      }
+    },
+    {
+      "league": "L4",
+      "threshold": 0.4300000071525574,
+      "steps": 4,
+      "native_price_operands": [
+        16000,
+        18000,
+        12000,
+        14000,
+        14000,
+        16000
+      ],
+      "native_row": [
+        "PackData",
+        "L4",
+        0.4300000071525574,
+        4,
+        16000,
+        18000,
+        12000,
+        14000,
+        14000,
+        16000
+      ],
+      "runtime_struct_offsets": {
+        "league": 0,
+        "threshold": 4,
+        "steps": 8,
+        "price_operand_offsets": [
+          12,
+          24,
+          16,
+          28,
+          20,
+          32
+        ]
+      }
+    },
+    {
+      "league": "L3",
+      "threshold": 0.5,
+      "steps": 4,
+      "native_price_operands": [
+        18000,
+        20000,
+        14000,
+        16000,
+        16000,
+        18000
+      ],
+      "native_row": [
+        "PackData",
+        "L3",
+        0.5,
+        4,
+        18000,
+        20000,
+        14000,
+        16000,
+        16000,
+        18000
+      ],
+      "runtime_struct_offsets": {
+        "league": 0,
+        "threshold": 4,
+        "steps": 8,
+        "price_operand_offsets": [
+          12,
+          24,
+          16,
+          28,
+          20,
+          32
+        ]
+      }
+    },
+    {
+      "league": "L2",
+      "threshold": 0.5699999928474426,
+      "steps": 4,
+      "native_price_operands": [
+        21000,
+        23000,
+        17000,
+        19000,
+        19000,
+        21000
+      ],
+      "native_row": [
+        "PackData",
+        "L2",
+        0.5699999928474426,
+        4,
+        21000,
+        23000,
+        17000,
+        19000,
+        19000,
+        21000
+      ],
+      "runtime_struct_offsets": {
+        "league": 0,
+        "threshold": 4,
+        "steps": 8,
+        "price_operand_offsets": [
+          12,
+          24,
+          16,
+          28,
+          20,
+          32
+        ]
+      }
+    },
+    {
+      "league": "L1",
+      "threshold": 0.6399999856948853,
+      "steps": 4,
+      "native_price_operands": [
+        24000,
+        26000,
+        20000,
+        22000,
+        22000,
+        24000
+      ],
+      "native_row": [
+        "PackData",
+        "L1",
+        0.6399999856948853,
+        4,
+        24000,
+        26000,
+        20000,
+        22000,
+        22000,
+        24000
+      ],
+      "runtime_struct_offsets": {
+        "league": 0,
+        "threshold": 4,
+        "steps": 8,
+        "price_operand_offsets": [
+          12,
+          24,
+          16,
+          28,
+          20,
+          32
+        ]
+      }
+    },
+    {
+      "league": "WorldClass",
+      "threshold": 0.7099999785423279,
+      "steps": 4,
+      "native_price_operands": [
+        28000,
+        30000,
+        24000,
+        26000,
+        26000,
+        28000
+      ],
+      "native_row": [
+        "PackData",
+        "WorldClass",
+        0.7099999785423279,
+        4,
+        28000,
+        30000,
+        24000,
+        26000,
+        26000,
+        28000
+      ],
+      "runtime_struct_offsets": {
+        "league": 0,
+        "threshold": 4,
+        "steps": 8,
+        "price_operand_offsets": [
+          12,
+          24,
+          16,
+          28,
+          20,
+          32
+        ]
+      }
+    },
+    {
+      "league": "Elite",
+      "threshold": 0.7799999713897705,
+      "steps": 4,
+      "native_price_operands": [
+        38000,
+        40000,
+        32000,
+        34000,
+        36000,
+        38000
+      ],
+      "native_row": [
+        "PackData",
+        "Elite",
+        0.7799999713897705,
+        4,
+        38000,
+        40000,
+        32000,
+        34000,
+        36000,
+        38000
+      ],
+      "runtime_struct_offsets": {
+        "league": 0,
+        "threshold": 4,
+        "steps": 8,
+        "price_operand_offsets": [
+          12,
+          24,
+          16,
+          28,
+          20,
+          32
+        ]
+      }
+    }
+  ],
+  "handling_increment": 0.02500000037252903,
+  "handling_scale": 0.75,
+  "source_sha256": "6ad61d82825ac02b3d757d7b3a868a1fb7d6f1947654bfb10ef36da204ad4a9a"
+}

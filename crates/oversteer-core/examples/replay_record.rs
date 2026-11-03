@@ -37,6 +37,10 @@ fn main() {
         serde_json::from_str(&std::fs::read_to_string(&args[1]).unwrap()).unwrap();
     let mut actual = Vec::new();
     let mut first = None;
+    let mut nitrous_requested_ticks = 0;
+    let mut nitrous_active_ticks = 0;
+    let mut minimum_nitrous = 1.0_f32;
+    let mut nitrous_recharge_ticks = 0;
     for (tick, mut row) in rows.into_iter().enumerate() {
         let before = game.frame_snapshot();
         let countdown = before.race.as_ref().unwrap().countdown;
@@ -44,6 +48,8 @@ fn main() {
             first = Some(tick);
         }
         let input: PlayerInput = serde_json::from_value(row["input"].clone()).unwrap();
+        assert!(input.nitrous == 0. || input.nitrous == 1.);
+        nitrous_requested_ticks += usize::from(input.nitrous > 0.);
         let raw = row["raw_axes"]["steering_0"].as_f64().unwrap() as f32;
         let mapped = if raw.abs() > 0.12 {
             -raw.signum() * (raw.abs() - 0.12) / 0.88
@@ -60,7 +66,13 @@ fn main() {
         row["active_tick"] = first.map(|f| tick - f).into();
         actual.push(row);
         game.advance(1. / 60., input);
-        if game.frame_snapshot().screen == GameScreen::Results {
+        let after = game.frame_snapshot();
+        let racer = &after.race.as_ref().unwrap().racers[0];
+        nitrous_active_ticks += usize::from(racer.nitrous_active);
+        minimum_nitrous = minimum_nitrous.min(racer.nitrous);
+        nitrous_recharge_ticks +=
+            usize::from(racer.nitrous > before.race.as_ref().unwrap().racers[0].nitrous);
+        if after.screen == GameScreen::Results {
             break;
         }
     }
@@ -77,7 +89,7 @@ fn main() {
         serde_json::to_vec(&snapshot).unwrap(),
     )
     .unwrap();
-    let evidence = serde_json::json!({"first_active_tick":first,"tick_count":actual.len(),"active_ticks":actual.len()-first.unwrap(),"event_id":args[2],"car_id":snapshot.race.as_ref().unwrap().racers[0].car_id,"result":snapshot.result,"raw_handbrake_button":2,"outer_dt_seconds":1./60.,"host_reachability":"Everyrawaxiswascheckedwiththeactualfloat32deadzoneforwardmapbeforeadvance; binaryHB/zeroShift/forwardOnly validated by preprocessing."});
+    let evidence = serde_json::json!({"first_active_tick":first,"tick_count":actual.len(),"active_ticks":actual.len()-first.unwrap(),"event_id":args[2],"car_id":snapshot.race.as_ref().unwrap().racers[0].car_id,"result":snapshot.result,"raw_handbrake_button":2,"raw_nitrous_button":0,"outer_dt_seconds":1./60.,"nitrous_observations":{"requested_ticks":nitrous_requested_ticks,"active_ticks":nitrous_active_ticks,"minimum_fraction":minimum_nitrous,"recharge_ticks":nitrous_recharge_ticks},"host_reachability":"Everyrawaxiswascheckedwiththeactualfloat32deadzoneforwardmapbeforeadvance; binaryHB/NOS,zeroShift/forwardOnly validated by preprocessing."});
     std::fs::write(
         format!("{}-evidence.json", args[3]),
         serde_json::to_vec_pretty(&evidence).unwrap(),
