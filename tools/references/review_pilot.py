@@ -32,7 +32,9 @@ def file_hash(path):
 
 
 def write_json(path, value):
-    path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n")
+    encoded = json.dumps(value, indent=2, ensure_ascii=False) + "\n"
+    with path.open("x") as stream:
+        stream.write(encoded)
 
 
 def seal(pilot):

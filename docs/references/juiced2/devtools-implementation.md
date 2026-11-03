@@ -98,3 +98,12 @@ remains opt-in because it needs the local prepared pilot and Playwright install.
 It passed blind-payload checks, image loading, validation, persistence, annotation
 export/import, wrong-pilot rejection and desktop/mobile layout without browser
 errors. No gold human judgments or classification acceptance are inferred.
+
+The subsequent pilot-hardening validation passed49 local Python tests and the
+prepared116-test Rust suite. It protects existing scoring outputs and ensures
+the browser harness builds the current template in a temporary pilot. One
+browser-regression Python test is conditional on local corpus/Playwright inputs.
+Apple Silicon hosted CI passed revision5c55ae0 before this hardening follow-up;
+the new revision triggers its own hosted rerun. Linux lint/physics/sanitizer CI
+passed; the historical Windows C-format failure at src/game/profile.h:44
+predates these changes and remains outside the native tooling scope.

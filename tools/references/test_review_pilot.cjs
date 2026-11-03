@@ -1,19 +1,24 @@
-// Run after review_pilot.py build. Uses the repository's existing Playwright install.
+// Build from current sources in a temporary directory; never edit the human pilot.
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const {pathToFileURL} = require('node:url');
+const {execFileSync} = require('node:child_process');
 const {chromium} = require('../visual/node_modules/playwright');
 
 (async () => {
   const root = path.resolve(__dirname, '../..');
-  const directory = path.join(root, 'artifacts/juiced2-vault/review-pilot');
-  const url = pathToFileURL(path.join(directory, 'index.html')).href;
-  const browser = await chromium.launch({headless: true});
   const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'juiced2-blind-review-'));
+  let browser;
   const errors = [];
   try {
+    const directory = path.join(temporary, 'pilot');
+    execFileSync('python3', [path.join(__dirname, 'review_pilot.py'), 'build', '--output', directory], {cwd: root, encoding: 'utf8'});
+    const url = pathToFileURL(path.join(directory, 'index.html')).href;
+    const previews = path.join(root, 'artifacts/juiced2-vault/review-pilot-tests');
+    await fs.mkdir(previews, {recursive: true});
+    browser = await chromium.launch({headless: true});
     const context = await browser.newContext({viewport: {width: 1440, height: 1000}});
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
@@ -23,7 +28,7 @@ const {chromium} = require('../visual/node_modules/playwright');
     const publicItems = await page.locator('#pilot-data').evaluate(node => JSON.parse(node.textContent).items);
     assert.equal(publicItems.length, 200);
     for (const item of publicItems) assert.deepEqual(Object.keys(item).sort(), ['id', 'image']);
-    await page.screenshot({path: path.join(directory, 'preview-desktop.png'), fullPage: true});
+    await page.screenshot({path: path.join(previews, 'preview-desktop.png'), fullPage: true});
     await page.locator('#save-next').click();
     assert.match(await page.locator('#status').textContent(), /Choose a judgment/);
     await page.locator('#outcome').selectOption('label');
@@ -57,7 +62,7 @@ const {chromium} = require('../visual/node_modules/playwright');
     restored.on('pageerror', error => errors.push(error.message));
     await restored.goto(url);
     await restored.locator('#frame').evaluate(image => image.decode());
-    await restored.screenshot({path: path.join(directory, 'preview-mobile.png'), fullPage: true});
+    await restored.screenshot({path: path.join(previews, 'preview-mobile.png'), fullPage: true});
     assert.equal(await restored.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
     await restored.locator('#import').setInputFiles(exported);
     await restored.waitForFunction(() => document.querySelector('#status').textContent === 'Annotations imported.');
@@ -74,7 +79,7 @@ const {chromium} = require('../visual/node_modules/playwright');
     assert.deepEqual(errors, []);
     console.log('PASS: blind payload, image loading, input guards, reload persistence, export/import, wrong-pilot rejection, desktop/mobile layout; no browser errors.');
   } finally {
-    await browser.close();
+    await browser?.close();
     await fs.rm(temporary, {recursive: true, force: true});
   }
 })().catch(error => { console.error(error); process.exitCode = 1; });

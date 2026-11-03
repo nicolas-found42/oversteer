@@ -213,7 +213,9 @@ python3 tools/references/review_pilot.py score /path/to/annotations.json \
 ```
 
 Scoring checks the frozen manifest identity, selected image bytes, annotation
-identity and labels. It reports weighted per-category precision and recall
+identity and labels. Output files are created exclusively: an existing report,
+annotation backup, manifest, or other evidence file is never overwritten. Choose
+a new output filename for each scoring run. It reports weighted per-category precision and recall
 estimates separately for tuning and held-out sources. Recall is conditional on
 resolved gold labels; unreadable examples leave true categories unknown. Neither
 an aggregate agreement rate nor resolved-only recall establishes corpus accuracy.
@@ -242,6 +244,8 @@ python3 -m unittest discover -s tools/references -p test_review_pilot.py
 node tools/references/test_review_pilot.cjs
 ```
 
-The browser check uses the existing Playwright install under `tools/visual` and
-isolated temporary browser contexts. Its synthetic answers are never human gold
-labels and are not saved into the pilot.
+The browser check uses the existing Playwright install under `tools/visual`. It
+builds the current source into a temporary pilot and uses isolated browser contexts;
+it does not rely on or change the human pilot. Preview screenshots go into
+`artifacts/juiced2-vault/review-pilot-tests/`. Its synthetic answers are never human
+gold labels and are not saved into the human pilot.

@@ -1,7 +1,12 @@
 """Sampling, evidence identity, and conservative scoring for the blind pilot."""
 
 import copy
+import hashlib
+import json
 import math
+import shutil
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -38,6 +43,161 @@ def corpus():
 
 
 class PilotTests(unittest.TestCase):
+    @unittest.skipUnless(
+        shutil.which("node")
+        and (review_pilot.ROOT / "tools/visual/node_modules/playwright").exists()
+        and (review_pilot.DEFAULT_VAULT / "assets.json").exists(),
+        "Requires the existing reference corpus and Playwright install",
+    )
+    def test_browser_harness_exercises_current_template_not_stale_user_page(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "tools/references"
+            source.mkdir(parents=True)
+            for name in ("review_pilot.py", "jev_catalog_v2.py", "test_review_pilot.cjs"):
+                shutil.copyfile(Path(__file__).with_name(name), source / name)
+            # Deliberately regress the source template in a sandbox. A stale generated
+            # user page remains valid: the harness must detect the SOURCE regression.
+            (source / "review_pilot.html").write_text(
+                '<img id="frame" src="data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%271%27%20height=%271%27%3E%3C/svg%3E">'
+                '<strong id="progress">source-template-regression</strong>'
+            )
+            modules = root / "tools/visual/node_modules"
+            modules.parent.mkdir()
+            modules.symlink_to(review_pilot.ROOT / "tools/visual/node_modules")
+            vault = root / "artifacts/juiced2-vault"
+            vault.mkdir(parents=True)
+            original = review_pilot.DEFAULT_VAULT
+            for name in ("assets.json", "judgments", "frames", "screenshots"):
+                (vault / name).symlink_to(original / name)
+            coverage = root / "data/juiced2/reference-coverage.json"
+            coverage.parent.mkdir(parents=True)
+            coverage.symlink_to(review_pilot.ROOT / "data/juiced2/reference-coverage.json")
+            stale = vault / "review-pilot"
+            review_pilot.build(original, stale, 200, "juiced2-human-pilot-1")
+            result = subprocess.run(
+                ["node", str(source / "test_review_pilot.cjs")],
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=30,
+            )
+            self.assertNotEqual(
+                result.returncode, 0, "Browser checks passed against a stale artifact"
+            )
+            self.assertIn("source-template-regression", result.stderr)
+
+    def test_score_cli_cannot_overwrite_annotations_manifest_or_existing_evidence(self):
+        assets, predictions = corpus()
+        for asset, prediction in zip(assets, predictions, strict=True):
+            asset["sha256"] = hashlib.sha256(asset["id"].encode()).hexdigest()
+            prediction["image_sha256"] = asset["sha256"]
+        pilot = review_pilot.make_pilot(assets, predictions, 40, "test")
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for item in pilot["items"]:
+                image = root / item["image"]
+                image.parent.mkdir(exist_ok=True)
+                image.write_bytes(item["asset_id"].encode())
+            manifest = root / "audit-manifest.json"
+            annotations = root / "annotations.json"
+            evidence = root / "prior-evidence.json"
+            contents = {
+                manifest: json.dumps(pilot),
+                annotations: json.dumps({"pilot_id": pilot["pilot_id"], "answers": {}}),
+                evidence: '{"reviewer_evidence":"must survive"}',
+            }
+            for output in contents:
+                with self.subTest(output=output.name):
+                    for path, content in contents.items():
+                        path.write_text(content)
+                    result = subprocess.run(
+                        [
+                            sys.executable,
+                            review_pilot.__file__,
+                            "score",
+                            str(annotations),
+                            "--manifest",
+                            str(manifest),
+                            "--output",
+                            str(output),
+                        ],
+                        capture_output=True,
+                        text=True,
+                        check=False,
+                    )
+                    self.assertNotEqual(result.returncode, 0, "Scoring overwrote frozen evidence")
+                    self.assertEqual(output.read_text(), contents[output])
+            fresh = root / "new-evaluation.json"
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    review_pilot.__file__,
+                    "score",
+                    str(annotations),
+                    "--manifest",
+                    str(manifest),
+                    "--output",
+                    str(fresh),
+                ],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(json.loads(fresh.read_text())["missing_annotations"], 40)
+
+    def test_category_eligibility_at_95_percent_and_with_sparse_samples(self):
+        self.assertEqual(review_pilot.MIN_PRECISION, 0.95)
+        self.assertEqual(review_pilot.CONFIDENCE, 0.95)
+        seed = "boundary"
+        sources = {}
+        for i in range(100):
+            key = f"recording-{i}"
+            split = int(review_pilot.identity([seed, key])[:8], 16) % 2
+            sources.setdefault(split, key)
+        assets, predictions = [], []
+        for source in sources.values():
+            for i in range(20):
+                identity = f"{source}-{i}"
+                sha = hashlib.sha256(identity.encode()).hexdigest()
+                assets.append(
+                    {
+                        "id": identity,
+                        "kind": "frame",
+                        "source_id": source,
+                        "sha256": sha,
+                        "path": f"{identity}.jpg",
+                        "platform_declared": "PS3",
+                    }
+                )
+                predictions.append(
+                    {
+                        "id": identity,
+                        "status": "complete",
+                        "screen_state": "menu/main",
+                        "screen_review": False,
+                        "image_sha256": sha,
+                    }
+                )
+        for size in (2, 40):
+            pilot = review_pilot.make_pilot(assets, predictions, size, seed)
+            answers = {
+                x["review_id"]: {"outcome": "label", "label": "menu/main"} for x in pilot["items"]
+            }
+            annotations = {"pilot_id": pilot["pilot_id"], "answers": answers}
+            report = review_pilot.evaluate(pilot, annotations)
+            self.assertEqual(report["categories"]["menu/main"]["eligible"], size == 40)
+            self.assertFalse(report["automatic_acceptance_enabled"])
+            if size == 40:
+                heldout = [x for x in pilot["items"] if x["split"] == "heldout"]
+                for errors, expected_bound, eligible in ((1, 0.95, True), (2, 0.9, False)):
+                    for item in heldout[:errors]:
+                        answers[item["review_id"]]["label"] = "boot/title"
+                    category = review_pilot.evaluate(pilot, annotations)["categories"]["menu/main"]
+                    self.assertEqual(category["heldout_auto_precision_lower_95"], expected_bound)
+                    self.assertEqual(category["eligible"], eligible)
+
     def test_sampling_is_reproducible_source_disjoint_and_weighted(self):
         assets, predictions = corpus()
         first = review_pilot.make_pilot(assets, predictions, 40, "test")
