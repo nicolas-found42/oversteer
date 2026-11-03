@@ -1,5 +1,23 @@
 # Oversteer
 
+The active rebuild is a native Apple Silicon racing game in Rust, using
+**Godot 4.7.2 + gdext 0.5.5**. It reconstructs Juiced 2's single-player
+experience from the local reference vault and recovered game data, with the
+accepted 30 donor vehicles. Implementation and acceptance work are in progress
+under [the specification](https://github.com/nicolas-found42/oversteer/issues/1).
+
+```sh
+python3 tools/game/bootstrap.py
+python3 tools/game/build.py run
+python3 tools/game/build.py export --skip-build
+```
+
+See [the native game workflow](docs/game/README.md) for asset preparation,
+controls, verification and packaging. The previous C11 implementation is retained
+below as historical documentation.
+
+## Legacy C11 implementation
+
 A top-down 2D drift driving simulator in C11 with raylib 6.0. The design goal is a
 physically coherent vehicle simulation underneath an arcade presentation layer: the car
 initiates, holds, transitions, and recovers a drift because of tire, drivetrain, and
