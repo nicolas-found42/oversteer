@@ -1,0 +1,26 @@
+[
+  {
+    "id": "sport",
+    "model_path": "res://assets/wheels/sport.glb",
+    "source_car": "GT4_HOND0018",
+    "axle": "X",
+    "outer_radius": 1,
+    "classification": "reconstructed style label; actual accepted donor rim geometry"
+  },
+  {
+    "id": "mesh",
+    "model_path": "res://assets/wheels/mesh.glb",
+    "source_car": "GT4_BMW_0010",
+    "axle": "X",
+    "outer_radius": 1,
+    "classification": "reconstructed style label; actual accepted donor rim geometry"
+  },
+  {
+    "id": "deep-dish",
+    "model_path": "res://assets/wheels/deep-dish.glb",
+    "source_car": "GT4_MAZD0012",
+    "axle": "X",
+    "outer_radius": 1,
+    "classification": "reconstructed style label; actual accepted donor rim geometry"
+  }
+]

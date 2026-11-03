@@ -1,0 +1,3510 @@
+{
+  "kits": [
+    {
+      "id": "350z-varis-wing",
+      "name": "VARIS rear wing \u00b7 native 350Z",
+      "kind": "body",
+      "category": "spoiler",
+      "fit_status": "verified_blender",
+      "compatible_cars": [
+        "GT4_NISS0004"
+      ],
+      "model_path": "res://assets/kits/350z-varis-wing.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\350Z_SPOILER_VS1.xem",
+          "key": "9503d3c4",
+          "sha256": "57d8ddd50721cb9bd05d013497cc45ba6a9a014aaf15c00e745b8da054eda8fa",
+          "bank": "cars/350z.jfs"
+        }
+      ],
+      "adaptation": "Native Z33 accessory fitted to accepted GT4 Z33 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "350z-native-seats",
+      "name": "Juiced 2 seat pair \u00b7 native 350Z",
+      "kind": "interior",
+      "category": "seats",
+      "fit_status": "verified_blender",
+      "compatible_cars": [
+        "GT4_NISS0004"
+      ],
+      "model_path": "res://assets/kits/350z-native-seats.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\350Z_SEAT_FL.xem",
+          "key": "049b4ff1",
+          "sha256": "1e6b2e13492b31ef9569d19606973a49f464099fb0c9c78fd4189faae40e7a1a",
+          "bank": "cars/350z.jfs"
+        },
+        {
+          "filename": "mesh\\350Z_SEAT_FR.xem",
+          "key": "0f8ef28f",
+          "sha256": "cee37292549bcf0ebf64788c6c07832f8fe40aa890de01c3dc06cca777b663cb",
+          "bank": "cars/350z.jfs"
+        }
+      ],
+      "adaptation": "Native Z33 accessory fitted to accepted GT4 Z33 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "350z-front_bumper",
+      "name": "VARIS front bumper \u00b7 native 350Z",
+      "kind": "body",
+      "category": "front_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0004"
+      ],
+      "model_path": "res://assets/kits/350z-front_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\350Z_FBUMP_VS1.xem",
+          "key": "b70750aa",
+          "sha256": "ccc38d3832f454f3c6d9dd81e9f5bd685682d21cad698729334b9f7199f24321",
+          "bank": "cars/350z.jfs"
+        }
+      ],
+      "adaptation": "Native Z33 accessory fitted to accepted GT4 Z33 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "350z-rear_bumper",
+      "name": "VARIS rear bumper \u00b7 native 350Z",
+      "kind": "body",
+      "category": "rear_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0004"
+      ],
+      "model_path": "res://assets/kits/350z-rear_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\350Z_RBUMP_VS1.xem",
+          "key": "ce20123a",
+          "sha256": "af2f510568dbb754ec43897aec712eb5b487962883901d68081e1a9094c3560f",
+          "bank": "cars/350z.jfs"
+        }
+      ],
+      "adaptation": "Native Z33 accessory fitted to accepted GT4 Z33 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "350z-exhaust",
+      "name": "Native twin exhaust \u00b7 350Z",
+      "kind": "body",
+      "category": "exhaust",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0004"
+      ],
+      "model_path": "res://assets/kits/350z-exhaust.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\350Z_EXHAUST_TWIN_1.xem",
+          "key": "34d67421",
+          "sha256": "79ff8f7fa4360adcd999584080645142363ca5b6ad0c9bfa65415b6a738fb1f6",
+          "bank": "cars/350z.jfs"
+        }
+      ],
+      "adaptation": "Native Z33 accessory fitted to accepted GT4 Z33 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "350z-skirts",
+      "name": "VARIS skirts \u00b7 native 350Z",
+      "kind": "body",
+      "category": "skirts",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0004"
+      ],
+      "model_path": "res://assets/kits/350z-skirts.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\350Z_SSKIRT_VS1_L.xem",
+          "key": "536c32b1",
+          "sha256": "6f3de094575239a4507fc763275dccb69d92a296d07ac7c0e5e444b0f5541d50",
+          "bank": "cars/350z.jfs"
+        },
+        {
+          "filename": "mesh\\350Z_SSKIRT_VS1_R.xem",
+          "key": "62341bcd",
+          "sha256": "82973ddb0da0168bf5225e77381a7b2fa966cf805615d4eb246f0aca2468fdec",
+          "bank": "cars/350z.jfs"
+        }
+      ],
+      "adaptation": "Native Z33 accessory fitted to accepted GT4 Z33 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "350z-hood",
+      "name": "Juiced2 hood \u00b7 native 350Z",
+      "kind": "body",
+      "category": "hood",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0004"
+      ],
+      "model_path": "res://assets/kits/350z-hood.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\350Z_BONNET_VS50.xem",
+          "key": "500e5977",
+          "sha256": "d86c5ac91f51fc7a7220a861a8ea7d2aaee45480b9b2a965bf12f112ea737d91",
+          "bank": "cars/350z.jfs"
+        }
+      ],
+      "adaptation": "Native Z33 accessory fitted to accepted GT4 Z33 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "350z-trunk",
+      "name": "Juiced2 trunk \u00b7 native 350Z",
+      "kind": "body",
+      "category": "trunk",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0004"
+      ],
+      "model_path": "res://assets/kits/350z-trunk.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\350Z_BOOT_VS1.xem",
+          "key": "66ef0e85",
+          "sha256": "3dcd20807db43c3015f1431e0fec5fdfd25f4125490ccdacf43b7e35d43e8a97",
+          "bank": "cars/350z.jfs"
+        }
+      ],
+      "adaptation": "Native Z33 accessory fitted to accepted GT4 Z33 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "350z-roof",
+      "name": "Juiced2 roof \u00b7 native 350Z",
+      "kind": "body",
+      "category": "roof",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0004"
+      ],
+      "model_path": "res://assets/kits/350z-roof.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\350Z_ROOF_VS4.xem",
+          "key": "6d48d321",
+          "sha256": "788d3fdf36bca7f0136cdb83124e2f7af761bbfcd971e3665a98b3b37dd73f4a",
+          "bank": "cars/350z.jfs"
+        }
+      ],
+      "adaptation": "Native Z33 accessory fitted to accepted GT4 Z33 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "350z-headlights",
+      "name": "Juiced2 headlights \u00b7 native 350Z",
+      "kind": "body",
+      "category": "headlights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0004"
+      ],
+      "model_path": "res://assets/kits/350z-headlights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\350Z_HLIGHT_VS1_L.xem",
+          "key": "099975ea",
+          "sha256": "f5c39e43bda4063d94f58f986fc37895172cecd99935c2d450729c579107e7f1",
+          "bank": "cars/350z.jfs"
+        },
+        {
+          "filename": "mesh\\350Z_HLIGHT_VS1_R.xem",
+          "key": "17fce40a",
+          "sha256": "7a57ce1f89c5727b92679b6b21165d27dab31f7eae6f4157555a1125cb9f3d26",
+          "bank": "cars/350z.jfs"
+        }
+      ],
+      "adaptation": "Native Z33 accessory fitted to accepted GT4 Z33 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "350z-taillights",
+      "name": "Juiced2 taillights \u00b7 native 350Z",
+      "kind": "body",
+      "category": "taillights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0004"
+      ],
+      "model_path": "res://assets/kits/350z-taillights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\350Z_RLIGHT_VS3_L.xem",
+          "key": "23874804",
+          "sha256": "22439384a2ee32a45de6f4dfd3b88f54488b82423c42abb7023567014a0f9ad1",
+          "bank": "cars/350z.jfs"
+        },
+        {
+          "filename": "mesh\\350Z_RLIGHT_VS3_R.xem",
+          "key": "320e470c",
+          "sha256": "f1f5ab5af3c5c0273ce89ee9d26dbeb6cb7dfdb4210accc565e3c65280b7f193",
+          "bank": "cars/350z.jfs"
+        }
+      ],
+      "adaptation": "Native Z33 accessory fitted to accepted GT4 Z33 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "350z-mirrors",
+      "name": "Juiced2 mirrors \u00b7 native 350Z",
+      "kind": "body",
+      "category": "mirrors",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0004"
+      ],
+      "model_path": "res://assets/kits/350z-mirrors.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\350Z_WMIR_VS1_L.xem",
+          "key": "65347341",
+          "sha256": "4c8c477f98cfd8c2739ef483d48ca663f2334a3b5a2b71e6bfb786fca5acbc61",
+          "bank": "cars/350z.jfs"
+        },
+        {
+          "filename": "mesh\\350Z_WMIR_VS1_R.xem",
+          "key": "7288eb49",
+          "sha256": "6ec56a1744e6bf9bbfa8ba8103dbcd98df7c5a94499e6fe7a216e1a877e41afe",
+          "bank": "cars/350z.jfs"
+        }
+      ],
+      "adaptation": "Native Z33 accessory fitted to accepted GT4 Z33 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "mini-native-seats",
+      "name": "Juiced 2 seat pair \u00b7 native MINI",
+      "kind": "interior",
+      "category": "seats",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MINI0001"
+      ],
+      "model_path": "res://assets/kits/mini-native-seats.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\MINI_SEAT_FL.xem",
+          "key": "53e29e87",
+          "sha256": "10497b645f918c641c44468122d597a88dd294b7b05a4b83923689dba6d55599",
+          "bank": "cars/mini.jfs"
+        },
+        {
+          "filename": "mesh\\MINI_SEAT_FR.xem",
+          "key": "5f5c7021",
+          "sha256": "c98a71d38e3b9440c358853e2960c2b0f7f4f45d5bcccb68bf3ae26b390edd90",
+          "bank": "cars/mini.jfs"
+        }
+      ],
+      "adaptation": "Native MINI accessory fitted to accepted GT4_MINI0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "focus_svt-spoiler",
+      "name": "Superspeed rear wing \u00b7 native FOCUS_SVT",
+      "kind": "body",
+      "category": "spoiler",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "FOCUS_SVT"
+      ],
+      "model_path": "res://assets/kits/focus_svt-spoiler.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\FOCUS_SVT_SPOILER_VS4.xem",
+          "key": "0ad014c0",
+          "sha256": "4b6e90dfc9f22ae914c5c2d34e1e8471907a65d3c62188311034c8321d9740c6",
+          "bank": "cars/focus_svt.jfs"
+        }
+      ],
+      "adaptation": "Native FOCUS_SVT accessory fitted to accepted FOCUS_SVT donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "focus_svt-native-seats",
+      "name": "Juiced 2 seat pair \u00b7 native FOCUS_SVT",
+      "kind": "interior",
+      "category": "seats",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "FOCUS_SVT"
+      ],
+      "model_path": "res://assets/kits/focus_svt-native-seats.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\FOCUS_SVT_SEAT_FL.xem",
+          "key": "cd46456d",
+          "sha256": "0a7e3249b3b482e679c21a84024bfb92251ad7dd3a6e7f713662411869b3184f",
+          "bank": "cars/focus_svt.jfs"
+        },
+        {
+          "filename": "mesh\\FOCUS_SVT_SEAT_FR.xem",
+          "key": "dcada61d",
+          "sha256": "7e8064628b14e52ec29434c9d4e0757200f4682099c8afad1d62f6ddc17b6600",
+          "bank": "cars/focus_svt.jfs"
+        }
+      ],
+      "adaptation": "Native FOCUS_SVT accessory fitted to accepted FOCUS_SVT donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "focus_svt-front_bumper",
+      "name": "Superspeed front bumper \u00b7 native FOCUS_SVT",
+      "kind": "body",
+      "category": "front_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "FOCUS_SVT"
+      ],
+      "model_path": "res://assets/kits/focus_svt-front_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\FOCUS_SVT_FBUMP_VS4.xem",
+          "key": "d3530734",
+          "sha256": "63573d5eda505f6c24916ec869a39c5c8bb20124c4a5dc618586af91cf9da53c",
+          "bank": "cars/focus_svt.jfs"
+        }
+      ],
+      "adaptation": "Native FOCUS_SVT accessory fitted to accepted FOCUS_SVT donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "focus_svt-rear_bumper",
+      "name": "Superspeed rear bumper \u00b7 native FOCUS_SVT",
+      "kind": "body",
+      "category": "rear_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "FOCUS_SVT"
+      ],
+      "model_path": "res://assets/kits/focus_svt-rear_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\FOCUS_SVT_RBUMP_VS4.xem",
+          "key": "04ae87cc",
+          "sha256": "8b4a1e15b86921a26c0325665be6f02aa74e6be4a8bb1696daeca4739e5f6678",
+          "bank": "cars/focus_svt.jfs"
+        }
+      ],
+      "adaptation": "Native FOCUS_SVT accessory fitted to accepted FOCUS_SVT donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "focus_svt-exhaust",
+      "name": "Native twin exhaust \u00b7 FOCUS_SVT",
+      "kind": "body",
+      "category": "exhaust",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "FOCUS_SVT"
+      ],
+      "model_path": "res://assets/kits/focus_svt-exhaust.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\FOCUS_SVT_EXHAUST_TWIN_1.xem",
+          "key": "391b20fe",
+          "sha256": "ff72f61830820be66e3bb90b79c4ab1a81d4ea46dfe77c9143ec6adb6fb23ce5",
+          "bank": "cars/focus_svt.jfs"
+        }
+      ],
+      "adaptation": "Native FOCUS_SVT accessory fitted to accepted FOCUS_SVT donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "focus_svt-skirts",
+      "name": "Superspeed skirts \u00b7 native FOCUS_SVT",
+      "kind": "body",
+      "category": "skirts",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "FOCUS_SVT"
+      ],
+      "model_path": "res://assets/kits/focus_svt-skirts.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\FOCUS_SVT_SSKIRT_VS4_L.xem",
+          "key": "0de14225",
+          "sha256": "e3aee60beffce674d2012fa86218891d1128de2914e6a77b11f9d5137e19ce84",
+          "bank": "cars/focus_svt.jfs"
+        },
+        {
+          "filename": "mesh\\FOCUS_SVT_SSKIRT_VS4_R.xem",
+          "key": "2180abf3",
+          "sha256": "67686194c9d7afcaf7a67cfb573158d847c46be4bf51d81b383e5212df1d1d37",
+          "bank": "cars/focus_svt.jfs"
+        }
+      ],
+      "adaptation": "Native FOCUS_SVT accessory fitted to accepted FOCUS_SVT donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "focus_svt-hood",
+      "name": "Juiced2 hood \u00b7 native FOCUS_SVT",
+      "kind": "body",
+      "category": "hood",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "FOCUS_SVT"
+      ],
+      "model_path": "res://assets/kits/focus_svt-hood.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\FOCUS_SVT_BONNET_VS50.xem",
+          "key": "a6b302c4",
+          "sha256": "448045429670b68c1fdac0de8309e37e93db15025dcd9048e15189827911b296",
+          "bank": "cars/focus_svt.jfs"
+        }
+      ],
+      "adaptation": "Native FOCUS_SVT accessory fitted to accepted FOCUS_SVT donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "focus_svt-trunk",
+      "name": "Juiced2 trunk \u00b7 native FOCUS_SVT",
+      "kind": "body",
+      "category": "trunk",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "FOCUS_SVT"
+      ],
+      "model_path": "res://assets/kits/focus_svt-trunk.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\FOCUS_SVT_BOOT_VS1.xem",
+          "key": "5a79774b",
+          "sha256": "55e52f3e1170385e9b8a4a72b10f8b8a0401141800408d0d69af7fabba30f0e2",
+          "bank": "cars/focus_svt.jfs"
+        }
+      ],
+      "adaptation": "Native FOCUS_SVT accessory fitted to accepted FOCUS_SVT donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "focus_svt-roof",
+      "name": "Juiced2 roof \u00b7 native FOCUS_SVT",
+      "kind": "body",
+      "category": "roof",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "FOCUS_SVT"
+      ],
+      "model_path": "res://assets/kits/focus_svt-roof.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\FOCUS_SVT_ROOF_VS4.xem",
+          "key": "6370804f",
+          "sha256": "5314ff73c5111c2ff0b1d17612ebd3a86cc1d362af5669b3a910dba329bf4738",
+          "bank": "cars/focus_svt.jfs"
+        }
+      ],
+      "adaptation": "Native FOCUS_SVT accessory fitted to accepted FOCUS_SVT donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "focus_svt-headlights",
+      "name": "Juiced2 headlights \u00b7 native FOCUS_SVT",
+      "kind": "body",
+      "category": "headlights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "FOCUS_SVT"
+      ],
+      "model_path": "res://assets/kits/focus_svt-headlights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\FOCUS_SVT_HLIGHT_VS1_L.xem",
+          "key": "a4f41e6d",
+          "sha256": "d9a2a35e850cb09a1109912d52f3dfb6a399cf80b8311ff1bd6c01280fe29860",
+          "bank": "cars/focus_svt.jfs"
+        },
+        {
+          "filename": "mesh\\FOCUS_SVT_HLIGHT_VS1_R.xem",
+          "key": "b8222e55",
+          "sha256": "81c2d76ccf6f09f9e612fae8f29d27e9fd760986d441cac61bebc3709ba3e768",
+          "bank": "cars/focus_svt.jfs"
+        }
+      ],
+      "adaptation": "Native FOCUS_SVT accessory fitted to accepted FOCUS_SVT donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "focus_svt-taillights",
+      "name": "Juiced2 taillights \u00b7 native FOCUS_SVT",
+      "kind": "body",
+      "category": "taillights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "FOCUS_SVT"
+      ],
+      "model_path": "res://assets/kits/focus_svt-taillights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\FOCUS_SVT_RLIGHT_VS1_L.xem",
+          "key": "c31cfa1d",
+          "sha256": "6c293ccd417d94776b228c1e16e97c9619b3a7460cfa2c98970c3fde85881d16",
+          "bank": "cars/focus_svt.jfs"
+        },
+        {
+          "filename": "mesh\\FOCUS_SVT_RLIGHT_VS1_R.xem",
+          "key": "d66bbfc5",
+          "sha256": "f397b42e3ae7fdb80c3448435fe2d869a5724ac885549ab8b1b4a30a79870e56",
+          "bank": "cars/focus_svt.jfs"
+        }
+      ],
+      "adaptation": "Native FOCUS_SVT accessory fitted to accepted FOCUS_SVT donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "focus_svt-mirrors",
+      "name": "Juiced2 mirrors \u00b7 native FOCUS_SVT",
+      "kind": "body",
+      "category": "mirrors",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "FOCUS_SVT"
+      ],
+      "model_path": "res://assets/kits/focus_svt-mirrors.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\FOCUS_SVT_WMIR_VS1_L.xem",
+          "key": "bf162258",
+          "sha256": "42a3c5daa66927734816228b0722fcbac07d795819f490563259fef887b20e20",
+          "bank": "cars/focus_svt.jfs"
+        },
+        {
+          "filename": "mesh\\FOCUS_SVT_WMIR_VS1_R.xem",
+          "key": "d116eb94",
+          "sha256": "c8db87edc55975d2aed32fea9fa34d75df61fa6cf9ea1b7afda98658617d2ea6",
+          "bank": "cars/focus_svt.jfs"
+        }
+      ],
+      "adaptation": "Native FOCUS_SVT accessory fitted to accepted FOCUS_SVT donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "silvia_s15-spoiler",
+      "name": "DOLUCK rear wing \u00b7 native Silvia_S15",
+      "kind": "body",
+      "category": "spoiler",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0056"
+      ],
+      "model_path": "res://assets/kits/silvia_s15-spoiler.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SILVIA_S15_SPOILER_VS1.xem",
+          "key": "de2642b4",
+          "sha256": "3b8af5306e56091513fce9431dee80ceb67d5147bcc1961541153298a4e6c16d",
+          "bank": "cars/silvia_s15.jfs"
+        }
+      ],
+      "adaptation": "Native Silvia_S15 accessory fitted to accepted GT4_NISS0056 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "silvia_s15-native-seats",
+      "name": "Juiced 2 seat pair \u00b7 native Silvia_S15",
+      "kind": "interior",
+      "category": "seats",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0056"
+      ],
+      "model_path": "res://assets/kits/silvia_s15-native-seats.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SILVIA_S15_SEAT_FL.xem",
+          "key": "a843919b",
+          "sha256": "8ee8690c1e41167b61d683e8db0f27e4dd475b1764be2c59e81c8dba897f2be7",
+          "bank": "cars/silvia_s15.jfs"
+        },
+        {
+          "filename": "mesh\\SILVIA_S15_SEAT_FR.xem",
+          "key": "b78de8b1",
+          "sha256": "9f6d4c13326f5b5d013cd747b4e806015f7e45aa8f7bae9ba5ffcfbc47d99eea",
+          "bank": "cars/silvia_s15.jfs"
+        }
+      ],
+      "adaptation": "Native Silvia_S15 accessory fitted to accepted GT4_NISS0056 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "silvia_s15-front_bumper",
+      "name": "DOLUCK front bumper \u00b7 native Silvia_S15",
+      "kind": "body",
+      "category": "front_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0056"
+      ],
+      "model_path": "res://assets/kits/silvia_s15-front_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SILVIA_S15_FBUMP_VS1.xem",
+          "key": "a7b5ea56",
+          "sha256": "23c1d0be15d73c15f64e41ed92e3e7daaa3263308a3caf42bc83765374ffbf2f",
+          "bank": "cars/silvia_s15.jfs"
+        }
+      ],
+      "adaptation": "Native Silvia_S15 accessory fitted to accepted GT4_NISS0056 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "silvia_s15-rear_bumper",
+      "name": "DOLUCK rear bumper \u00b7 native Silvia_S15",
+      "kind": "body",
+      "category": "rear_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0056"
+      ],
+      "model_path": "res://assets/kits/silvia_s15-rear_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SILVIA_S15_RBUMP_VS1.xem",
+          "key": "c746a3b6",
+          "sha256": "3bc6338a43fdc0fd088ee738d8160a817ce14a72ec8014d0d49f867aeffdeedd",
+          "bank": "cars/silvia_s15.jfs"
+        }
+      ],
+      "adaptation": "Native Silvia_S15 accessory fitted to accepted GT4_NISS0056 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "silvia_s15-exhaust",
+      "name": "Native twin exhaust \u00b7 Silvia_S15",
+      "kind": "body",
+      "category": "exhaust",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0056"
+      ],
+      "model_path": "res://assets/kits/silvia_s15-exhaust.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SILVIA_S15_EXHAUST_2.xem",
+          "key": "a90c4ad2",
+          "sha256": "dfeec0ff6449aaf48bb0c6c591fb4fb5e323292261bf8b18b69a7ede38e90e89",
+          "bank": "cars/silvia_s15.jfs"
+        }
+      ],
+      "adaptation": "Native Silvia_S15 accessory fitted to accepted GT4_NISS0056 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "silvia_s15-skirts",
+      "name": "DOLUCK skirts \u00b7 native Silvia_S15",
+      "kind": "body",
+      "category": "skirts",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0056"
+      ],
+      "model_path": "res://assets/kits/silvia_s15-skirts.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SILVIA_S15_SSKIRT_VS1_L.xem",
+          "key": "e074f38d",
+          "sha256": "a16618b7d9948e0f57836f2e00e3830e57ae260f8141bf962f27ceaa502758ab",
+          "bank": "cars/silvia_s15.jfs"
+        },
+        {
+          "filename": "mesh\\SILVIA_S15_SSKIRT_VS1_R.xem",
+          "key": "0590ec35",
+          "sha256": "f0dfa674bcdc8d8f4e727f7a96171747ccb688026ab8cf96dd3d9a605c53140b",
+          "bank": "cars/silvia_s15.jfs"
+        }
+      ],
+      "adaptation": "Native Silvia_S15 accessory fitted to accepted GT4_NISS0056 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "silvia_s15-hood",
+      "name": "Juiced2 hood \u00b7 native Silvia_S15",
+      "kind": "body",
+      "category": "hood",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0056"
+      ],
+      "model_path": "res://assets/kits/silvia_s15-hood.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SILVIA_S15_BONNET_Vs50.xem",
+          "key": "80d3fd5b",
+          "sha256": "fed40822927ed4a74166e0b3edf263c62fb61c408eb447ff5299a8e46b7a2089",
+          "bank": "cars/silvia_s15.jfs"
+        }
+      ],
+      "adaptation": "Native Silvia_S15 accessory fitted to accepted GT4_NISS0056 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "silvia_s15-trunk",
+      "name": "Juiced2 trunk \u00b7 native Silvia_S15",
+      "kind": "body",
+      "category": "trunk",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0056"
+      ],
+      "model_path": "res://assets/kits/silvia_s15-trunk.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SILVIA_S15_BOOT_VS1.xem",
+          "key": "34f07a9f",
+          "sha256": "b98dea3c1a9ccf01ea67fbc8d32e6d537aa7441930e5fdb7f378df7b7cdf9283",
+          "bank": "cars/silvia_s15.jfs"
+        }
+      ],
+      "adaptation": "Native Silvia_S15 accessory fitted to accepted GT4_NISS0056 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "silvia_s15-roof",
+      "name": "Juiced2 roof \u00b7 native Silvia_S15",
+      "kind": "body",
+      "category": "roof",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0056"
+      ],
+      "model_path": "res://assets/kits/silvia_s15-roof.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SILVIA_S15_ROOF_VS4.xem",
+          "key": "3ddf3be9",
+          "sha256": "3c252c89e204e38797e059ac1448df98a5759c1803d3f38ac7f74fa3240f0e51",
+          "bank": "cars/silvia_s15.jfs"
+        }
+      ],
+      "adaptation": "Native Silvia_S15 accessory fitted to accepted GT4_NISS0056 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "silvia_s15-headlights",
+      "name": "Juiced2 headlights \u00b7 native Silvia_S15",
+      "kind": "body",
+      "category": "headlights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0056"
+      ],
+      "model_path": "res://assets/kits/silvia_s15-headlights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SILVIA_S15_HLIGHT_VS1_L.xem",
+          "key": "7e9cfe3e",
+          "sha256": "69c7b39453acc60466a6608975d4fabfa75fd35399cb46c3d3301bdf3683ca66",
+          "bank": "cars/silvia_s15.jfs"
+        },
+        {
+          "filename": "mesh\\SILVIA_S15_HLIGHT_VS1_R.xem",
+          "key": "91b9026e",
+          "sha256": "2b94d38f94459fc6a4497f95cca1bc4e2fdefda23e0f0d74629d46a2603553f1",
+          "bank": "cars/silvia_s15.jfs"
+        }
+      ],
+      "adaptation": "Native Silvia_S15 accessory fitted to accepted GT4_NISS0056 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "silvia_s15-taillights",
+      "name": "Juiced2 taillights \u00b7 native Silvia_S15",
+      "kind": "body",
+      "category": "taillights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0056"
+      ],
+      "model_path": "res://assets/kits/silvia_s15-taillights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SILVIA_S15_RLIGHT_VS3_L.xem",
+          "key": "a11e9788",
+          "sha256": "e8c5eb50d9943bc3ae343e6282d829c219fad0341d99b6fd84fcd07d0c85f6d6",
+          "bank": "cars/silvia_s15.jfs"
+        },
+        {
+          "filename": "mesh\\SILVIA_S15_RLIGHT_VS3_R.xem",
+          "key": "b46098c8",
+          "sha256": "ec4dcd31a4f4563348596ad9c553b8aa455e405165c3fb8d7b65097ce5621aff",
+          "bank": "cars/silvia_s15.jfs"
+        }
+      ],
+      "adaptation": "Native Silvia_S15 accessory fitted to accepted GT4_NISS0056 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "silvia_s15-mirrors",
+      "name": "Juiced2 mirrors \u00b7 native Silvia_S15",
+      "kind": "body",
+      "category": "mirrors",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0056"
+      ],
+      "model_path": "res://assets/kits/silvia_s15-mirrors.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SILVIA_S15_WMIR_VS1_L.xem",
+          "key": "98a29751",
+          "sha256": "02df173bfbcf5a168cd37f9639b458eb2954276bdc79fdcebcc6afef8c7f3e99",
+          "bank": "cars/silvia_s15.jfs"
+        },
+        {
+          "filename": "mesh\\SILVIA_S15_WMIR_VS1_R.xem",
+          "key": "aa8dd675",
+          "sha256": "1834f006f724518db626c9cdeaf220914bfb591558653169305ce92c977cd747",
+          "bank": "cars/silvia_s15.jfs"
+        }
+      ],
+      "adaptation": "Native Silvia_S15 accessory fitted to accepted GT4_NISS0056 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "s2000-spoiler",
+      "name": "TopSecret rear wing \u00b7 native S2000",
+      "kind": "body",
+      "category": "spoiler",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_HOND0030"
+      ],
+      "model_path": "res://assets/kits/s2000-spoiler.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\S2000_SPOILER_VS15.xem",
+          "key": "06380694",
+          "sha256": "afd8746ab5e26b31b18632066da311e299bb368380b3a0cdd4df860ea07a75c5",
+          "bank": "cars/s2000.jfs"
+        }
+      ],
+      "adaptation": "Native S2000 accessory fitted to accepted GT4_HOND0030 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "s2000-native-seats",
+      "name": "Juiced 2 seat pair \u00b7 native S2000",
+      "kind": "interior",
+      "category": "seats",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_HOND0030"
+      ],
+      "model_path": "res://assets/kits/s2000-native-seats.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\S2000_SEAT_FL.xem",
+          "key": "1a73b24b",
+          "sha256": "5be4a843e6247eb3809e7a50f8683dab2f30544d4525daf08120013c9dcc7333",
+          "bank": "cars/s2000.jfs"
+        },
+        {
+          "filename": "mesh\\S2000_SEAT_FR.xem",
+          "key": "259c5ecb",
+          "sha256": "1d5caa05b62f257ad4c193c872412ea6dfdf5874e9b0241c8ffc40ef4514f129",
+          "bank": "cars/s2000.jfs"
+        }
+      ],
+      "adaptation": "Native S2000 accessory fitted to accepted GT4_HOND0030 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "s2000-front_bumper",
+      "name": "Extreme_Dimensions front bumper \u00b7 native S2000",
+      "kind": "body",
+      "category": "front_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_HOND0030"
+      ],
+      "model_path": "res://assets/kits/s2000-front_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\S2000_FBUMP_VS3.xem",
+          "key": "d3ea2878",
+          "sha256": "20fc2138a8066a0bed461bf39cca56364ac48953355d4774b6931540239d2a16",
+          "bank": "cars/s2000.jfs"
+        }
+      ],
+      "adaptation": "Native S2000 accessory fitted to accepted GT4_HOND0030 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "s2000-rear_bumper",
+      "name": "Extreme_Dimensions rear bumper \u00b7 native S2000",
+      "kind": "body",
+      "category": "rear_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_HOND0030"
+      ],
+      "model_path": "res://assets/kits/s2000-rear_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\S2000_RBUMP_VS3.xem",
+          "key": "eb7c3f48",
+          "sha256": "45b69544fcd6d8f392c71b170b75c255c7a80b96f53d7d2f2d5fcd096f56be20",
+          "bank": "cars/s2000.jfs"
+        }
+      ],
+      "adaptation": "Native S2000 accessory fitted to accepted GT4_HOND0030 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "s2000-exhaust",
+      "name": "Native twin exhaust \u00b7 S2000",
+      "kind": "body",
+      "category": "exhaust",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_HOND0030"
+      ],
+      "model_path": "res://assets/kits/s2000-exhaust.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\S2000_EXHAUST_TWIN_1.xem",
+          "key": "5d09204c",
+          "sha256": "f03c372f1cced5b8dd9f5ae771930c9d1dd9cc402879ed383ce643227395c284",
+          "bank": "cars/s2000.jfs"
+        }
+      ],
+      "adaptation": "Native S2000 accessory fitted to accepted GT4_HOND0030 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "s2000-skirts",
+      "name": "Extreme_Dimensions skirts \u00b7 native S2000",
+      "kind": "body",
+      "category": "skirts",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_HOND0030"
+      ],
+      "model_path": "res://assets/kits/s2000-skirts.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\S2000_SSKIRT_VS3_L.xem",
+          "key": "79f07021",
+          "sha256": "069d4a725579f9c3731575cbdcc684c7bd0a20788e4042d776aff34c9dec3ee2",
+          "bank": "cars/s2000.jfs"
+        },
+        {
+          "filename": "mesh\\S2000_SSKIRT_VS3_R.xem",
+          "key": "88ffee4b",
+          "sha256": "4451f63b33322766081fe2d7e82d6435999646dd62a5829f43bb44f5a9004753",
+          "bank": "cars/s2000.jfs"
+        }
+      ],
+      "adaptation": "Native S2000 accessory fitted to accepted GT4_HOND0030 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "s2000-hood",
+      "name": "Extreme_Dimensions hood \u00b7 native S2000",
+      "kind": "body",
+      "category": "hood",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_HOND0030"
+      ],
+      "model_path": "res://assets/kits/s2000-hood.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\S2000_BONNET_VS3.xem",
+          "key": "36438fd3",
+          "sha256": "6eac519ba30b30cf01098c5a033bf8891ded7adaa00c6f8f92de289549e2d948",
+          "bank": "cars/s2000.jfs"
+        }
+      ],
+      "adaptation": "Native S2000 accessory fitted to accepted GT4_HOND0030 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "s2000-trunk",
+      "name": "Extreme_Dimensions trunk \u00b7 native S2000",
+      "kind": "body",
+      "category": "trunk",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_HOND0030"
+      ],
+      "model_path": "res://assets/kits/s2000-trunk.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\S2000_BOOT_WIDE1.xem",
+          "key": "0de41969",
+          "sha256": "2dfec834a1389fe4485a2b5f7df8ab6b62bb6aebde8a71870791f66a71f6ffcf",
+          "bank": "cars/s2000.jfs"
+        }
+      ],
+      "adaptation": "Native S2000 accessory fitted to accepted GT4_HOND0030 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "s2000-roof",
+      "name": "ROOF_DOWN roof \u00b7 native S2000",
+      "kind": "body",
+      "category": "roof",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_HOND0030"
+      ],
+      "model_path": "res://assets/kits/s2000-roof.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\S2000_ROOF_DOWN.xem",
+          "key": "0d159cfd",
+          "sha256": "a0d84568d7d0ae4e6655f5c457529ee591255ec3d46f99ec12d3aa4b8ed4889d",
+          "bank": "cars/s2000.jfs"
+        }
+      ],
+      "adaptation": "Native S2000 accessory fitted to accepted GT4_HOND0030 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "s2000-headlights",
+      "name": "Juiced2 headlights \u00b7 native S2000",
+      "kind": "body",
+      "category": "headlights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_HOND0030"
+      ],
+      "model_path": "res://assets/kits/s2000-headlights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\S2000_HLIGHT_VS1_L.xem",
+          "key": "2b5a70e7",
+          "sha256": "b747de91219664f9b1450c3b1231ad62f5ac5b9cee679e7220c8f24c34cf27f5",
+          "bank": "cars/s2000.jfs"
+        },
+        {
+          "filename": "mesh\\S2000_HLIGHT_VS1_R.xem",
+          "key": "39ffbc3f",
+          "sha256": "2c1ef1d54c9eb2538ed7079f2fc9ec67981df71fb31f1824344b4ba6a184a7c1",
+          "bank": "cars/s2000.jfs"
+        }
+      ],
+      "adaptation": "Native S2000 accessory fitted to accepted GT4_HOND0030 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "s2000-taillights",
+      "name": "Juiced2 taillights \u00b7 native S2000",
+      "kind": "body",
+      "category": "taillights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_HOND0030"
+      ],
+      "model_path": "res://assets/kits/s2000-taillights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\S2000_RLIGHT_VS1_L.xem",
+          "key": "426c2c8f",
+          "sha256": "ce5c08b2d66ad33773717bb4ea02a0fbedbc0367fe592ef5c2ce3c4125536ec2",
+          "bank": "cars/s2000.jfs"
+        },
+        {
+          "filename": "mesh\\S2000_RLIGHT_VS1_R.xem",
+          "key": "5130ce17",
+          "sha256": "a55a7b421e532d172bcf39998c80acd852de0b3ec199b0a1eafe365bdfc65a9f",
+          "bank": "cars/s2000.jfs"
+        }
+      ],
+      "adaptation": "Native S2000 accessory fitted to accepted GT4_HOND0030 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "s2000-mirrors",
+      "name": "Juiced2 mirrors \u00b7 native S2000",
+      "kind": "body",
+      "category": "mirrors",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_HOND0030"
+      ],
+      "model_path": "res://assets/kits/s2000-mirrors.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\S2000_WMIR_VS1_L.xem",
+          "key": "82f6bdea",
+          "sha256": "54e60edcec7a15470ed58dfa4b9dca7659e5be46f706c5f3c7c963c8127380a2",
+          "bank": "cars/s2000.jfs"
+        },
+        {
+          "filename": "mesh\\S2000_WMIR_VS1_R.xem",
+          "key": "9088d2ae",
+          "sha256": "5b4788bcffd7d98fb229fe2fa4736ec44fa1d6cf27292cc24af2d3df2f2190d8",
+          "bank": "cars/s2000.jfs"
+        }
+      ],
+      "adaptation": "Native S2000 accessory fitted to accepted GT4_HOND0030 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "rx7-spoiler",
+      "name": "VEILSIDE rear wing \u00b7 native RX7",
+      "kind": "body",
+      "category": "spoiler",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MAZD0007"
+      ],
+      "model_path": "res://assets/kits/rx7-spoiler.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\RX7_SPOILER_VS2.xem",
+          "key": "942c846a",
+          "sha256": "f847025b349529832d3f306d1aa5c5ea82caf9fe4f7c0c31e65eacafd4ffd5d0",
+          "bank": "cars/rx7.jfs"
+        }
+      ],
+      "adaptation": "Native RX7 accessory fitted to accepted GT4_MAZD0007 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "rx7-native-seats",
+      "name": "Juiced 2 seat pair \u00b7 native RX7",
+      "kind": "interior",
+      "category": "seats",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MAZD0007"
+      ],
+      "model_path": "res://assets/kits/rx7-native-seats.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\RX7_SEAT_FR.xem",
+          "key": "111dffee",
+          "sha256": "e43b1bb6d49a6a9a07d688743d125c05bd830b430f2c12e32576719742e672b3",
+          "bank": "cars/rx7.jfs"
+        },
+        {
+          "filename": "mesh\\RX7_SEAT_FL.xem",
+          "key": "0637c95e",
+          "sha256": "0fb39ac72e4b2ef08bd6e7c32f4ee20efa7c4494241654ac4be96c4d67b0add6",
+          "bank": "cars/rx7.jfs"
+        }
+      ],
+      "adaptation": "Native RX7 accessory fitted to accepted GT4_MAZD0007 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "rx7-front_bumper",
+      "name": "VEILSIDE front bumper \u00b7 native RX7",
+      "kind": "body",
+      "category": "front_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MAZD0007"
+      ],
+      "model_path": "res://assets/kits/rx7-front_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\RX7_FBUMP_VS2.xem",
+          "key": "b84b85e6",
+          "sha256": "de9cf48befd5e6927a621b6a83d7053818059213b4b462298224444b123b5761",
+          "bank": "cars/rx7.jfs"
+        }
+      ],
+      "adaptation": "Native RX7 accessory fitted to accepted GT4_MAZD0007 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "rx7-rear_bumper",
+      "name": "VEILSIDE rear bumper \u00b7 native RX7",
+      "kind": "body",
+      "category": "rear_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MAZD0007"
+      ],
+      "model_path": "res://assets/kits/rx7-rear_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\RX7_RBUMP_VS2.xem",
+          "key": "cf421db6",
+          "sha256": "b6013484281950f14e8317c1954bf73fc0fb3bcea9c6a551b4ec74e974ba4cc4",
+          "bank": "cars/rx7.jfs"
+        }
+      ],
+      "adaptation": "Native RX7 accessory fitted to accepted GT4_MAZD0007 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "rx7-exhaust",
+      "name": "Native twin exhaust \u00b7 RX7",
+      "kind": "body",
+      "category": "exhaust",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MAZD0007"
+      ],
+      "model_path": "res://assets/kits/rx7-exhaust.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\RX7_EXHAUST_1.xem",
+          "key": "b69a2f87",
+          "sha256": "d4c7e0f5b669fcbd6ba1d86f6587b0c25a86313a7eecb4f0d9f107e895ac8f76",
+          "bank": "cars/rx7.jfs"
+        }
+      ],
+      "adaptation": "Native RX7 accessory fitted to accepted GT4_MAZD0007 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "rx7-skirts",
+      "name": "VEILSIDE skirts \u00b7 native RX7",
+      "kind": "body",
+      "category": "skirts",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MAZD0007"
+      ],
+      "model_path": "res://assets/kits/rx7-skirts.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\RX7_SSKIRT_VS2_L.xem",
+          "key": "50e9ff4c",
+          "sha256": "2fc4515a157a3e5f135290cc1b18bc499e84127dde72e39eb2d529ce50d9376e",
+          "bank": "cars/rx7.jfs"
+        },
+        {
+          "filename": "mesh\\RX7_SSKIRT_VS2_R.xem",
+          "key": "5f99e940",
+          "sha256": "c3082cb91459e562ea1737c44334f5d52fe0a68feb7495881af88d1bb6cb8533",
+          "bank": "cars/rx7.jfs"
+        }
+      ],
+      "adaptation": "Native RX7 accessory fitted to accepted GT4_MAZD0007 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "rx7-hood",
+      "name": "EXTREME_DIMENSIONS hood \u00b7 native RX7",
+      "kind": "body",
+      "category": "hood",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MAZD0007"
+      ],
+      "model_path": "res://assets/kits/rx7-hood.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\RX7_BONNET_VS6.xem",
+          "key": "1d4a7cd5",
+          "sha256": "7ab643cfa65e27f99681631827e5446addf762a06ddc6749c53cd55af913f31c",
+          "bank": "cars/rx7.jfs"
+        }
+      ],
+      "adaptation": "Native RX7 accessory fitted to accepted GT4_MAZD0007 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "rx7-trunk",
+      "name": "Juiced2 trunk \u00b7 native RX7",
+      "kind": "body",
+      "category": "trunk",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MAZD0007"
+      ],
+      "model_path": "res://assets/kits/rx7-trunk.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\RX7_BOOT_VS1.xem",
+          "key": "67ae9d48",
+          "sha256": "d90bb4a32c0fbc21d98025eaba43169ef870ed1bb4dcdff4510b5d5bd21fa01c",
+          "bank": "cars/rx7.jfs"
+        }
+      ],
+      "adaptation": "Native RX7 accessory fitted to accepted GT4_MAZD0007 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "rx7-roof",
+      "name": "Juiced2 roof \u00b7 native RX7",
+      "kind": "body",
+      "category": "roof",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MAZD0007"
+      ],
+      "model_path": "res://assets/kits/rx7-roof.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\RX7_ROOF_VS4.xem",
+          "key": "6dfa8370",
+          "sha256": "5bad5a11dea73b2464bdaaa7fcf9f40e6b3d1f0dba442f078d64e5ff1a0f3932",
+          "bank": "cars/rx7.jfs"
+        }
+      ],
+      "adaptation": "Native RX7 accessory fitted to accepted GT4_MAZD0007 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "rx7-mirrors",
+      "name": "Juiced2 mirrors \u00b7 native RX7",
+      "kind": "body",
+      "category": "mirrors",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MAZD0007"
+      ],
+      "model_path": "res://assets/kits/rx7-mirrors.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\RX7_WMIR_VS1_L.xem",
+          "key": "639a18ec",
+          "sha256": "1244750575fb6c89b0daae2f445c79b06f2345b13bd9c1c0f744fa3e110886b3",
+          "bank": "cars/rx7.jfs"
+        },
+        {
+          "filename": "mesh\\RX7_WMIR_VS1_R.xem",
+          "key": "70d93c22",
+          "sha256": "cffa30d01959b6151612b2069a0e494ae8c3fcaaa1cdd28ab6874d9dc7dfdcca",
+          "bank": "cars/rx7.jfs"
+        }
+      ],
+      "adaptation": "Native RX7 accessory fitted to accepted GT4_MAZD0007 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "supra_95-spoiler",
+      "name": "Varis rear wing \u00b7 native SUPRA_95",
+      "kind": "body",
+      "category": "spoiler",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_TOYT0006"
+      ],
+      "model_path": "res://assets/kits/supra_95-spoiler.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SUPRA_95_SPOILER_VS1.xem",
+          "key": "e9203af8",
+          "sha256": "ef3bd7a7f6bf5a5329a416add61b0a39d2cc7a9d6e36358748a50f4758cd7716",
+          "bank": "cars/supra_95.jfs"
+        }
+      ],
+      "adaptation": "Native SUPRA_95 accessory fitted to accepted GT4_TOYT0006 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "supra_95-native-seats",
+      "name": "Juiced 2 seat pair \u00b7 native SUPRA_95",
+      "kind": "interior",
+      "category": "seats",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_TOYT0006"
+      ],
+      "model_path": "res://assets/kits/supra_95-native-seats.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SUPRA_95_SEAT_FR.xem",
+          "key": "022bbbbd",
+          "sha256": "4b7e33a9d0a123a350d669947acdd038e31918a7061272906ef676f8e76a70d4",
+          "bank": "cars/supra_95.jfs"
+        },
+        {
+          "filename": "mesh\\SUPRA_95_SEAT_FL.xem",
+          "key": "e27ebf6b",
+          "sha256": "e891f93a2b5d2c28cf6ed4b3f10b1f4fab82c675d80c8d787c70994ce634516a",
+          "bank": "cars/supra_95.jfs"
+        }
+      ],
+      "adaptation": "Native SUPRA_95 accessory fitted to accepted GT4_TOYT0006 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "supra_95-front_bumper",
+      "name": "Varis front bumper \u00b7 native SUPRA_95",
+      "kind": "body",
+      "category": "front_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_TOYT0006"
+      ],
+      "model_path": "res://assets/kits/supra_95-front_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SUPRA_95_FBUMP_VS1.xem",
+          "key": "cbfd726e",
+          "sha256": "0b8a9f5b9e495d4bb45d1219d7416d5b9bbf4af39ecdcc5f1045badf16124014",
+          "bank": "cars/supra_95.jfs"
+        }
+      ],
+      "adaptation": "Native SUPRA_95 accessory fitted to accepted GT4_TOYT0006 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "supra_95-rear_bumper",
+      "name": "Varis rear bumper \u00b7 native SUPRA_95",
+      "kind": "body",
+      "category": "rear_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_TOYT0006"
+      ],
+      "model_path": "res://assets/kits/supra_95-rear_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SUPRA_95_RBUMP_VS1.xem",
+          "key": "e9329226",
+          "sha256": "0b64b13b51ea03fa04f6d75b86bb0311707f2cc74cbb7bab5a55bfb1264fb5bc",
+          "bank": "cars/supra_95.jfs"
+        }
+      ],
+      "adaptation": "Native SUPRA_95 accessory fitted to accepted GT4_TOYT0006 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "supra_95-exhaust",
+      "name": "Native twin exhaust \u00b7 SUPRA_95",
+      "kind": "body",
+      "category": "exhaust",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_TOYT0006"
+      ],
+      "model_path": "res://assets/kits/supra_95-exhaust.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SUPRA_95_EXHAUST_1.xem",
+          "key": "cb7bf53a",
+          "sha256": "b531031d55d54fb54b875d6609c7dfe361fb05dd74c6dce5344fdfc1235c7077",
+          "bank": "cars/supra_95.jfs"
+        }
+      ],
+      "adaptation": "Native SUPRA_95 accessory fitted to accepted GT4_TOYT0006 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "supra_95-skirts",
+      "name": "Varis skirts \u00b7 native SUPRA_95",
+      "kind": "body",
+      "category": "skirts",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_TOYT0006"
+      ],
+      "model_path": "res://assets/kits/supra_95-skirts.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SUPRA_95_SSKIRT_VS1_L.xem",
+          "key": "d81ea83d",
+          "sha256": "28ab4774860b0070f9eb00faa139958b4dc6304fb8655639b5ed1efd61ae2f85",
+          "bank": "cars/supra_95.jfs"
+        },
+        {
+          "filename": "mesh\\SUPRA_95_SSKIRT_VS1_R.xem",
+          "key": "ea5236c9",
+          "sha256": "f9a61736863c9cc5df66c1ba1c8a76f8252cf8f2560861a46c1d6761c6810901",
+          "bank": "cars/supra_95.jfs"
+        }
+      ],
+      "adaptation": "Native SUPRA_95 accessory fitted to accepted GT4_TOYT0006 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "supra_95-hood",
+      "name": "Juiced2 hood \u00b7 native SUPRA_95",
+      "kind": "body",
+      "category": "hood",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_TOYT0006"
+      ],
+      "model_path": "res://assets/kits/supra_95-hood.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SUPRA_95_BONNET_VS50.xem",
+          "key": "92a11573",
+          "sha256": "0fcd22ca97c924f5684248bdf1b77bd4f7aad007e38ba741c607b91f8f08e94f",
+          "bank": "cars/supra_95.jfs"
+        }
+      ],
+      "adaptation": "Native SUPRA_95 accessory fitted to accepted GT4_TOYT0006 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "supra_95-trunk",
+      "name": "Juiced2 trunk \u00b7 native SUPRA_95",
+      "kind": "body",
+      "category": "trunk",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_TOYT0006"
+      ],
+      "model_path": "res://assets/kits/supra_95-trunk.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SUPRA_95_BOOT_VS1.xem",
+          "key": "63287a73",
+          "sha256": "2c768e3b4854a7252cb400a762d2df19af4a0127ab0e68777099098b40858b2e",
+          "bank": "cars/supra_95.jfs"
+        }
+      ],
+      "adaptation": "Native SUPRA_95 accessory fitted to accepted GT4_TOYT0006 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "supra_95-roof",
+      "name": "Juiced2 roof \u00b7 native SUPRA_95",
+      "kind": "body",
+      "category": "roof",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_TOYT0006"
+      ],
+      "model_path": "res://assets/kits/supra_95-roof.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SUPRA_95_ROOF_VS4.xem",
+          "key": "6b5c984d",
+          "sha256": "c00d4834b6c977edcd1d1bddbb0c1bf16fb04243da2f19971d8cf02e0d4537e7",
+          "bank": "cars/supra_95.jfs"
+        }
+      ],
+      "adaptation": "Native SUPRA_95 accessory fitted to accepted GT4_TOYT0006 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "supra_95-headlights",
+      "name": "Juiced2 headlights \u00b7 native SUPRA_95",
+      "kind": "body",
+      "category": "headlights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_TOYT0006"
+      ],
+      "model_path": "res://assets/kits/supra_95-headlights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SUPRA_95_HLIGHT_VS1_L.xem",
+          "key": "7d03fbb4",
+          "sha256": "21f5c37518bee28cb027c8741ca7e1dd6474bce944d0178a1411525e85e5e905",
+          "bank": "cars/supra_95.jfs"
+        },
+        {
+          "filename": "mesh\\SUPRA_95_HLIGHT_VS1_R.xem",
+          "key": "8ecea99c",
+          "sha256": "c217fbf1f8cd15088f3050026bca8643fa11cef9865ad20fd05607584810751a",
+          "bank": "cars/supra_95.jfs"
+        }
+      ],
+      "adaptation": "Native SUPRA_95 accessory fitted to accepted GT4_TOYT0006 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "supra_95-taillights",
+      "name": "Juiced2 taillights \u00b7 native SUPRA_95",
+      "kind": "body",
+      "category": "taillights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_TOYT0006"
+      ],
+      "model_path": "res://assets/kits/supra_95-taillights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SUPRA_95_RLIGHT_VS1_L.xem",
+          "key": "9901eb6e",
+          "sha256": "30125ac5fd7beea6e5172cf97927d58dd8b5d9a64284dec4659ca965e5c1da3e",
+          "bank": "cars/supra_95.jfs"
+        },
+        {
+          "filename": "mesh\\SUPRA_95_RLIGHT_VS1_R.xem",
+          "key": "aaecf67e",
+          "sha256": "69c8c60c1df2755dd711b0ccd171f66909a3e72ecd08aa43a8ca973737800746",
+          "bank": "cars/supra_95.jfs"
+        }
+      ],
+      "adaptation": "Native SUPRA_95 accessory fitted to accepted GT4_TOYT0006 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "supra_95-mirrors",
+      "name": "Juiced2 mirrors \u00b7 native SUPRA_95",
+      "kind": "body",
+      "category": "mirrors",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_TOYT0006"
+      ],
+      "model_path": "res://assets/kits/supra_95-mirrors.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SUPRA_95_WMIR_VS1_L.xem",
+          "key": "aa04254d",
+          "sha256": "cfa595d97de00012cfd5ecd01c6b201d33f7857f731c8bd56233521f5eef2677",
+          "bank": "cars/supra_95.jfs"
+        },
+        {
+          "filename": "mesh\\SUPRA_95_WMIR_VS1_R.xem",
+          "key": "baa8b5ad",
+          "sha256": "10dce2c91b6a1022af13be9711d815597f5d3e245401559aff404805f4c42977",
+          "bank": "cars/supra_95.jfs"
+        }
+      ],
+      "adaptation": "Native SUPRA_95 accessory fitted to accepted GT4_TOYT0006 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "evo-spoiler",
+      "name": "KAMINARI rear wing \u00b7 native Evo",
+      "kind": "body",
+      "category": "spoiler",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MITS0001"
+      ],
+      "model_path": "res://assets/kits/evo-spoiler.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\EVO_SPOILER_VS1.xem",
+          "key": "9fb163bb",
+          "sha256": "69e8499a4c0b2c869668ca19266adf58e15dd924023897d9eb4a7682ead4b09c",
+          "bank": "cars/evo.jfs"
+        }
+      ],
+      "adaptation": "Native Evo accessory fitted to accepted GT4_MITS0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "evo-native-seats",
+      "name": "Juiced 2 seat pair \u00b7 native Evo",
+      "kind": "interior",
+      "category": "seats",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MITS0001"
+      ],
+      "model_path": "res://assets/kits/evo-native-seats.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\EVO_SEAT_FR.xem",
+          "key": "1bc330b0",
+          "sha256": "8d6987af9526ba750b47488fc618cacef63610a3ac5aef971388a9d8bac624e8",
+          "bank": "cars/evo.jfs"
+        },
+        {
+          "filename": "mesh\\EVO_SEAT_FL.xem",
+          "key": "10ca5ca0",
+          "sha256": "d350fc994510ef4e11be863c8d2abab93d9aa42d305facf36aeb21bf48d4c883",
+          "bank": "cars/evo.jfs"
+        }
+      ],
+      "adaptation": "Native Evo accessory fitted to accepted GT4_MITS0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "evo-front_bumper",
+      "name": "KAMINARI front bumper \u00b7 native Evo",
+      "kind": "body",
+      "category": "front_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MITS0001"
+      ],
+      "model_path": "res://assets/kits/evo-front_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\EVO_FBUMP_VS1.xem",
+          "key": "c2acc553",
+          "sha256": "030f1d30776efaf73b5a876f23e4379ea413997862e93ed96b59ce0130873fa5",
+          "bank": "cars/evo.jfs"
+        }
+      ],
+      "adaptation": "Native Evo accessory fitted to accepted GT4_MITS0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "evo-rear_bumper",
+      "name": "KAMINARI rear bumper \u00b7 native Evo",
+      "kind": "body",
+      "category": "rear_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MITS0001"
+      ],
+      "model_path": "res://assets/kits/evo-rear_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\EVO_RBUMP_VS1.xem",
+          "key": "d9c21d53",
+          "sha256": "a8c32b25f2936e9de6bdfe20f29d6fe64ff382ff184c3ddcc2c28190f41111b1",
+          "bank": "cars/evo.jfs"
+        }
+      ],
+      "adaptation": "Native Evo accessory fitted to accepted GT4_MITS0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "evo-exhaust",
+      "name": "Native twin exhaust \u00b7 Evo",
+      "kind": "body",
+      "category": "exhaust",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MITS0001"
+      ],
+      "model_path": "res://assets/kits/evo-exhaust.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\EVO_EXHAUST_1.xem",
+          "key": "c2572b92",
+          "sha256": "b0aee69f9aaa784cf64b517ae227b14d11aa312e36816137d559eb11fc4dbbeb",
+          "bank": "cars/evo.jfs"
+        }
+      ],
+      "adaptation": "Native Evo accessory fitted to accepted GT4_MITS0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "evo-skirts",
+      "name": "KAMINARI skirts \u00b7 native Evo",
+      "kind": "body",
+      "category": "skirts",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MITS0001"
+      ],
+      "model_path": "res://assets/kits/evo-skirts.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\EVO_SSKIRT_VS1_L.xem",
+          "key": "5d56247e",
+          "sha256": "19c4ff6d6fce218641700c7ab8454bec7d0b8af3cbc6324836f604e2f9380bb1",
+          "bank": "cars/evo.jfs"
+        },
+        {
+          "filename": "mesh\\EVO_SSKIRT_VS1_R.xem",
+          "key": "6c16eb84",
+          "sha256": "4ed506379772e227cdffed3352b89cecd525922b4590361c06cedf9b563bf22f",
+          "bank": "cars/evo.jfs"
+        }
+      ],
+      "adaptation": "Native Evo accessory fitted to accepted GT4_MITS0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "evo-hood",
+      "name": "KAMINARI hood \u00b7 native Evo",
+      "kind": "body",
+      "category": "hood",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MITS0001"
+      ],
+      "model_path": "res://assets/kits/evo-hood.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\EVO_BONNET_VS1.xem",
+          "key": "22310530",
+          "sha256": "0b0cb6f98c2bc0f8bd3fd916c8a9202d61efbcd3e52167ba24a58d6ac102ea4b",
+          "bank": "cars/evo.jfs"
+        }
+      ],
+      "adaptation": "Native Evo accessory fitted to accepted GT4_MITS0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "evo-trunk",
+      "name": "CWEST trunk \u00b7 native Evo",
+      "kind": "body",
+      "category": "trunk",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MITS0001"
+      ],
+      "model_path": "res://assets/kits/evo-trunk.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\EVO_BOOT_VS9.xem",
+          "key": "7df17466",
+          "sha256": "bf5c480afcef5ace11468f268f117d44ae5c3ef93cf05a30b222f4ddd6f1358f",
+          "bank": "cars/evo.jfs"
+        }
+      ],
+      "adaptation": "Native Evo accessory fitted to accepted GT4_MITS0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "evo-roof",
+      "name": "Juiced2 roof \u00b7 native Evo",
+      "kind": "body",
+      "category": "roof",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MITS0001"
+      ],
+      "model_path": "res://assets/kits/evo-roof.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\EVO_ROOF_VS4.xem",
+          "key": "793e8c24",
+          "sha256": "a3c01048b03bedcd9962d02ee5901ff33d07973b4f5efccf752f2d478d5ad99e",
+          "bank": "cars/evo.jfs"
+        }
+      ],
+      "adaptation": "Native Evo accessory fitted to accepted GT4_MITS0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "evo-headlights",
+      "name": "Juiced2 headlights \u00b7 native Evo",
+      "kind": "body",
+      "category": "headlights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MITS0001"
+      ],
+      "model_path": "res://assets/kits/evo-headlights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\EVO_HLIGHT_VS1_L.xem",
+          "key": "13b34080",
+          "sha256": "9941da3a45cd8adf2ac07a66389c11b52e21a55ea6f676c9121c02fdf3978a5c",
+          "bank": "cars/evo.jfs"
+        },
+        {
+          "filename": "mesh\\EVO_HLIGHT_VS1_R.xem",
+          "key": "2210a234",
+          "sha256": "d039bd8dd6ef4224cf1a3eb284829ab6dd0b6ace79d30119c47393a81d0e1e0e",
+          "bank": "cars/evo.jfs"
+        }
+      ],
+      "adaptation": "Native Evo accessory fitted to accepted GT4_MITS0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "evo-taillights",
+      "name": "Juiced2 taillights \u00b7 native Evo",
+      "kind": "body",
+      "category": "taillights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MITS0001"
+      ],
+      "model_path": "res://assets/kits/evo-taillights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\EVO_RLIGHT_VS1_L.xem",
+          "key": "2a4aa07c",
+          "sha256": "ee714aeac3c43858fcf5e1993d6ffccc47b8c54886019ace89d42357880e96c6",
+          "bank": "cars/evo.jfs"
+        },
+        {
+          "filename": "mesh\\EVO_RLIGHT_VS1_R.xem",
+          "key": "38c6ab68",
+          "sha256": "06dfaff087ddb7fbb2077c68789711b26c938cedeb1de662741f86633b742428",
+          "bank": "cars/evo.jfs"
+        }
+      ],
+      "adaptation": "Native Evo accessory fitted to accepted GT4_MITS0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "evo-mirrors",
+      "name": "Juiced2 mirrors \u00b7 native Evo",
+      "kind": "body",
+      "category": "mirrors",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_MITS0001"
+      ],
+      "model_path": "res://assets/kits/evo-mirrors.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\EVO_WMIR_VS1_L.xem",
+          "key": "705d70bb",
+          "sha256": "e2c902d20a7e92df3d7c6674afbfb1d35fa1d3c3093de8d5c82b19997359b521",
+          "bank": "cars/evo.jfs"
+        },
+        {
+          "filename": "mesh\\EVO_WMIR_VS1_R.xem",
+          "key": "7daf7be7",
+          "sha256": "5826988a3c7ecbd1882678985fe78ea497bcdd81cdbe7d2f3d9b8390fddf3865",
+          "bank": "cars/evo.jfs"
+        }
+      ],
+      "adaptation": "Native Evo accessory fitted to accepted GT4_MITS0001 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "gtr-spoiler",
+      "name": "BOMEXAERO rear wing \u00b7 native GTR",
+      "kind": "body",
+      "category": "spoiler",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0021"
+      ],
+      "model_path": "res://assets/kits/gtr-spoiler.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\GTR_SPOILER_VS2.xem",
+          "key": "a717dfd6",
+          "sha256": "1d6765845c17e94eca94d4315c6f0d7d6228da241a2839b292775e1cb8ddffc4",
+          "bank": "cars/gtr.jfs"
+        }
+      ],
+      "adaptation": "Native GTR accessory fitted to accepted GT4_NISS0021 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "gtr-native-seats",
+      "name": "Juiced 2 seat pair \u00b7 native GTR",
+      "kind": "interior",
+      "category": "seats",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0021"
+      ],
+      "model_path": "res://assets/kits/gtr-native-seats.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\GTR_SEAT_FL.xem",
+          "key": "159001c0",
+          "sha256": "a24178bc202a26bcf87cdefe71e90135c60a56846e96a10a23baa77a47c56d51",
+          "bank": "cars/gtr.jfs"
+        },
+        {
+          "filename": "mesh\\GTR_SEAT_FR.xem",
+          "key": "2090f950",
+          "sha256": "9c0f0bf64490208b03a8de286f2dffd03c025775a86cd399602aab94dee1e385",
+          "bank": "cars/gtr.jfs"
+        }
+      ],
+      "adaptation": "Native GTR accessory fitted to accepted GT4_NISS0021 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "gtr-front_bumper",
+      "name": "BOMEXAERO front bumper \u00b7 native GTR",
+      "kind": "body",
+      "category": "front_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0021"
+      ],
+      "model_path": "res://assets/kits/gtr-front_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\GTR_FBUMP_VS2.xem",
+          "key": "c954d86a",
+          "sha256": "80baee2549fd7f5607c7c2f59550150baeb7844d9c89454adbf8a518cad696d0",
+          "bank": "cars/gtr.jfs"
+        }
+      ],
+      "adaptation": "Native GTR accessory fitted to accepted GT4_NISS0021 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "gtr-rear_bumper",
+      "name": "BOMEXAERO rear bumper \u00b7 native GTR",
+      "kind": "body",
+      "category": "rear_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0021"
+      ],
+      "model_path": "res://assets/kits/gtr-rear_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\GTR_RBUMP_VS2.xem",
+          "key": "e07d9a1a",
+          "sha256": "f58b31fb859596e29dfd9c37f2528b66bb1e0c496722a7e60ea530dfbf4ff5e4",
+          "bank": "cars/gtr.jfs"
+        }
+      ],
+      "adaptation": "Native GTR accessory fitted to accepted GT4_NISS0021 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "gtr-exhaust",
+      "name": "Native twin exhaust \u00b7 GTR",
+      "kind": "body",
+      "category": "exhaust",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0021"
+      ],
+      "model_path": "res://assets/kits/gtr-exhaust.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\GTR_EXHAUST_1.xem",
+          "key": "c79f47ff",
+          "sha256": "da63d282853c5935421671129ca0f8372c99c465ef783571846ec5162c2884f0",
+          "bank": "cars/gtr.jfs"
+        }
+      ],
+      "adaptation": "Native GTR accessory fitted to accepted GT4_NISS0021 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "gtr-skirts",
+      "name": "BOMEXAERO skirts \u00b7 native GTR",
+      "kind": "body",
+      "category": "skirts",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0021"
+      ],
+      "model_path": "res://assets/kits/gtr-skirts.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\GTR_SSKIRT_VS2_L.xem",
+          "key": "654a36b6",
+          "sha256": "287b6a6c9f4081fa8d3ea49c92244f0ec61cbf2849ba3c7a4fc9fbe1624179ec",
+          "bank": "cars/gtr.jfs"
+        },
+        {
+          "filename": "mesh\\GTR_SSKIRT_VS2_R.xem",
+          "key": "74159406",
+          "sha256": "fd4de14ca5013e03584cbf566718951f5ce831a8d5a041e971ce5ab640a3d2e4",
+          "bank": "cars/gtr.jfs"
+        }
+      ],
+      "adaptation": "Native GTR accessory fitted to accepted GT4_NISS0021 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "gtr-hood",
+      "name": "Juiced2 hood \u00b7 native GTR",
+      "kind": "body",
+      "category": "hood",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0021"
+      ],
+      "model_path": "res://assets/kits/gtr-hood.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\GTR_BONNET_VS50.xem",
+          "key": "608c0db9",
+          "sha256": "99f8da00e5a04169c974d2c814941d1c1c60fe589ab9d784beb32f65d685d8c8",
+          "bank": "cars/gtr.jfs"
+        }
+      ],
+      "adaptation": "Native GTR accessory fitted to accepted GT4_NISS0021 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "gtr-trunk",
+      "name": "Juiced2 trunk \u00b7 native GTR",
+      "kind": "body",
+      "category": "trunk",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0021"
+      ],
+      "model_path": "res://assets/kits/gtr-trunk.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\GTR_BOOT_VS1.xem",
+          "key": "77f727c2",
+          "sha256": "bc3d278e3ad6e5fd84515633d6b699a4e53d87f22117b1ecaa400b9215a6e090",
+          "bank": "cars/gtr.jfs"
+        }
+      ],
+      "adaptation": "Native GTR accessory fitted to accepted GT4_NISS0021 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "gtr-roof",
+      "name": "Juiced2 roof \u00b7 native GTR",
+      "kind": "body",
+      "category": "roof",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0021"
+      ],
+      "model_path": "res://assets/kits/gtr-roof.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\GTR_ROOF_VS4.xem",
+          "key": "7e51c73e",
+          "sha256": "8170d6b01afc57017d2325fc2b2ba933afd12feb79fead79a1ac966f1ec1b385",
+          "bank": "cars/gtr.jfs"
+        }
+      ],
+      "adaptation": "Native GTR accessory fitted to accepted GT4_NISS0021 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "gtr-headlights",
+      "name": "Juiced2 headlights \u00b7 native GTR",
+      "kind": "body",
+      "category": "headlights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0021"
+      ],
+      "model_path": "res://assets/kits/gtr-headlights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\GTR_HLIGHT_VS1_L.xem",
+          "key": "19d61a9b",
+          "sha256": "b2c8437380c3b7defbcedf11fa4896cd81a4ba08f0e383516f45f69d1db694c8",
+          "bank": "cars/gtr.jfs"
+        },
+        {
+          "filename": "mesh\\GTR_HLIGHT_VS1_R.xem",
+          "key": "283bd611",
+          "sha256": "bc0e03ad8905ba21c3929480af71e2bde3da01c2764d70452a33e9d67503aa3f",
+          "bank": "cars/gtr.jfs"
+        }
+      ],
+      "adaptation": "Native GTR accessory fitted to accepted GT4_NISS0021 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "gtr-taillights",
+      "name": "Juiced2 taillights \u00b7 native GTR",
+      "kind": "body",
+      "category": "taillights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0021"
+      ],
+      "model_path": "res://assets/kits/gtr-taillights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\GTR_RLIGHT_VS1_L.xem",
+          "key": "307a563b",
+          "sha256": "15c26542b55f965af7b3d7684e17771ae8452c18b48b40228f83f4bc6f68cc9e",
+          "bank": "cars/gtr.jfs"
+        },
+        {
+          "filename": "mesh\\GTR_RLIGHT_VS1_R.xem",
+          "key": "3efebae9",
+          "sha256": "6673b0e4bc695007437861ae6190d30efa4db95937b8160ae50b5a8d3db334b9",
+          "bank": "cars/gtr.jfs"
+        }
+      ],
+      "adaptation": "Native GTR accessory fitted to accepted GT4_NISS0021 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "gtr-mirrors",
+      "name": "Juiced2 mirrors \u00b7 native GTR",
+      "kind": "body",
+      "category": "mirrors",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_NISS0021"
+      ],
+      "model_path": "res://assets/kits/gtr-mirrors.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\GTR_WMIR_VS1_L.xem",
+          "key": "7618417c",
+          "sha256": "71deccb697a88d84151ce4e130429d82f1e1fe1e9d9b228c895f65fe4fcc36c5",
+          "bank": "cars/gtr.jfs"
+        },
+        {
+          "filename": "mesh\\GTR_WMIR_VS1_R.xem",
+          "key": "837290b6",
+          "sha256": "c1e77f9e60339d24e76883eee7e6fb8c3476aff015b407e2c3997f01f67197ca",
+          "bank": "cars/gtr.jfs"
+        }
+      ],
+      "adaptation": "Native GTR accessory fitted to accepted GT4_NISS0021 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "camaro_ss-front_bumper",
+      "name": "Juiced2 front bumper \u00b7 native CAMARO_SS",
+      "kind": "body",
+      "category": "front_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CAMAROSS_69"
+      ],
+      "model_path": "res://assets/kits/camaro_ss-front_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\CAMARO_SS_FBUMP_VS1.xem",
+          "key": "7295ec7b",
+          "sha256": "deb36dcc48a86862bdb7d81f080ae4943df4a75c58251806449d59d20e27b6dd",
+          "bank": "cars/camaro_ss.jfs"
+        }
+      ],
+      "adaptation": "Native CAMARO_SS accessory fitted to accepted MCLA_VP_CHV_CAMAROSS_69 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "camaro_ss-rear_bumper",
+      "name": "Juiced2 rear bumper \u00b7 native CAMARO_SS",
+      "kind": "body",
+      "category": "rear_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CAMAROSS_69"
+      ],
+      "model_path": "res://assets/kits/camaro_ss-rear_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\CAMARO_SS_RBUMP_VS1.xem",
+          "key": "918288d3",
+          "sha256": "9b6563da95fef84e21a76a02c0452fadd51ba9207c0dea61b8e66914ab063b11",
+          "bank": "cars/camaro_ss.jfs"
+        }
+      ],
+      "adaptation": "Native CAMARO_SS accessory fitted to accepted MCLA_VP_CHV_CAMAROSS_69 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "camaro_ss-hood",
+      "name": "Juiced2 hood \u00b7 native CAMARO_SS",
+      "kind": "body",
+      "category": "hood",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CAMAROSS_69"
+      ],
+      "model_path": "res://assets/kits/camaro_ss-hood.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\CAMARO_SS_BONNET_VS1.xem",
+          "key": "0859e3a3",
+          "sha256": "0d5356f26817d545a68ef01bb175fdf993c74d6ab7e97f08698ca5820d18f09d",
+          "bank": "cars/camaro_ss.jfs"
+        }
+      ],
+      "adaptation": "Native CAMARO_SS accessory fitted to accepted MCLA_VP_CHV_CAMAROSS_69 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "camaro_ss-trunk",
+      "name": "Juiced2 trunk \u00b7 native CAMARO_SS",
+      "kind": "body",
+      "category": "trunk",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CAMAROSS_69"
+      ],
+      "model_path": "res://assets/kits/camaro_ss-trunk.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\CAMARO_SS_BOOT_VS2.xem",
+          "key": "0480395c",
+          "sha256": "f23945952ecd16522777a31d6855b422f612753cfff5465ba0e499ed6318d477",
+          "bank": "cars/camaro_ss.jfs"
+        }
+      ],
+      "adaptation": "Native CAMARO_SS accessory fitted to accepted MCLA_VP_CHV_CAMAROSS_69 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "camaro_ss-roof",
+      "name": "Juiced2 roof \u00b7 native CAMARO_SS",
+      "kind": "body",
+      "category": "roof",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CAMAROSS_69"
+      ],
+      "model_path": "res://assets/kits/camaro_ss-roof.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\CAMARO_SS_ROOF_VS1.xem",
+          "key": "05f50550",
+          "sha256": "60bec23215628fedd6a255b16f0141353f9fde7617a7e6796af640271f0a1b2c",
+          "bank": "cars/camaro_ss.jfs"
+        }
+      ],
+      "adaptation": "Native CAMARO_SS accessory fitted to accepted MCLA_VP_CHV_CAMAROSS_69 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "z06-spoiler",
+      "name": "EXTREME_DIMENSIONS rear wing \u00b7 native Z06",
+      "kind": "body",
+      "category": "spoiler",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CORVETTEZ06_07"
+      ],
+      "model_path": "res://assets/kits/z06-spoiler.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\Z06_SPOILER_VS2.xem",
+          "key": "5afa4cd4",
+          "sha256": "3e7d4661a211878f9749b84858fd35fdbf0a57e33af995757fffea4a5da69788",
+          "bank": "cars/z06.jfs"
+        }
+      ],
+      "adaptation": "Native Z06 accessory fitted to accepted MCLA_VP_CHV_CORVETTEZ06_07 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "z06-native-seats",
+      "name": "Juiced 2 seat pair \u00b7 native Z06",
+      "kind": "interior",
+      "category": "seats",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CORVETTEZ06_07"
+      ],
+      "model_path": "res://assets/kits/z06-native-seats.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\Z06_SEAT_FR.xem",
+          "key": "e26f329f",
+          "sha256": "cc8ee478678c91904f2fd8fc4dda90438fe44446a72ddf726c019450e6c0e455",
+          "bank": "cars/z06.jfs"
+        },
+        {
+          "filename": "mesh\\Z06_SEAT_FL.xem",
+          "key": "d7da098f",
+          "sha256": "3408632675f29aaf2895c0879cb84403538e0350f06b5e218d8aeaac762c1393",
+          "bank": "cars/z06.jfs"
+        }
+      ],
+      "adaptation": "Native Z06 accessory fitted to accepted MCLA_VP_CHV_CORVETTEZ06_07 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "z06-front_bumper",
+      "name": "Juiced2 front bumper \u00b7 native Z06",
+      "kind": "body",
+      "category": "front_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CORVETTEZ06_07"
+      ],
+      "model_path": "res://assets/kits/z06-front_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\Z06_FBUMP_VS1.xem",
+          "key": "837aaa16",
+          "sha256": "4b4aaa72ea4aed443526a149dcd91dfc3bc5e5a17326879c821a526c75f91260",
+          "bank": "cars/z06.jfs"
+        }
+      ],
+      "adaptation": "Native Z06 accessory fitted to accepted MCLA_VP_CHV_CORVETTEZ06_07 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "z06-rear_bumper",
+      "name": "Juiced2 rear bumper \u00b7 native Z06",
+      "kind": "body",
+      "category": "rear_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CORVETTEZ06_07"
+      ],
+      "model_path": "res://assets/kits/z06-rear_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\Z06_RBUMP_VS1.xem",
+          "key": "99d52176",
+          "sha256": "b5e640c62896fb9d0ce15ad0175599467002318dc42ab24effb63c47ad6740f7",
+          "bank": "cars/z06.jfs"
+        }
+      ],
+      "adaptation": "Native Z06 accessory fitted to accepted MCLA_VP_CHV_CORVETTEZ06_07 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "z06-exhaust",
+      "name": "Native twin exhaust \u00b7 Z06",
+      "kind": "body",
+      "category": "exhaust",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CORVETTEZ06_07"
+      ],
+      "model_path": "res://assets/kits/z06-exhaust.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\Z06_EXHAUST_TWIN_1.xem",
+          "key": "eb8765fc",
+          "sha256": "ae5f9c654612418eb8baabcbe41ee674c16491faa10543e12de346942eadf32f",
+          "bank": "cars/z06.jfs"
+        }
+      ],
+      "adaptation": "Native Z06 accessory fitted to accepted MCLA_VP_CHV_CORVETTEZ06_07 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "z06-skirts",
+      "name": "Juiced2 skirts \u00b7 native Z06",
+      "kind": "body",
+      "category": "skirts",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CORVETTEZ06_07"
+      ],
+      "model_path": "res://assets/kits/z06-skirts.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\Z06_SSKIRT_VS1_L.xem",
+          "key": "11b35545",
+          "sha256": "622693ef19a85e31783c30342403ab11c5dff3e0c70ceefc84133950e7aee5bd",
+          "bank": "cars/z06.jfs"
+        },
+        {
+          "filename": "mesh\\Z06_SSKIRT_VS1_R.xem",
+          "key": "200dd8d7",
+          "sha256": "69e748f8cca1852acdb5cb702e930f5a7a53a3ad1cdcdf7fca0d660fae319429",
+          "bank": "cars/z06.jfs"
+        }
+      ],
+      "adaptation": "Native Z06 accessory fitted to accepted MCLA_VP_CHV_CORVETTEZ06_07 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "z06-hood",
+      "name": "Juiced2 hood \u00b7 native Z06",
+      "kind": "body",
+      "category": "hood",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CORVETTEZ06_07"
+      ],
+      "model_path": "res://assets/kits/z06-hood.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\Z06_BONNET_VS50.xem",
+          "key": "16b2c844",
+          "sha256": "66344772a4a2a8cce0f2ed93d486bb8f987dddabe69b30776028341af20500f6",
+          "bank": "cars/z06.jfs"
+        }
+      ],
+      "adaptation": "Native Z06 accessory fitted to accepted MCLA_VP_CHV_CORVETTEZ06_07 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "z06-trunk",
+      "name": "Juiced2 trunk \u00b7 native Z06",
+      "kind": "body",
+      "category": "trunk",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CORVETTEZ06_07"
+      ],
+      "model_path": "res://assets/kits/z06-trunk.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\Z06_BOOT_VS1.xem",
+          "key": "3678cc35",
+          "sha256": "c283510ab77075aef9001ebf7fe11767fae2dbe4a1b0af7449855d9d96568eda",
+          "bank": "cars/z06.jfs"
+        }
+      ],
+      "adaptation": "Native Z06 accessory fitted to accepted MCLA_VP_CHV_CORVETTEZ06_07 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "z06-roof",
+      "name": "Juiced2 roof \u00b7 native Z06",
+      "kind": "body",
+      "category": "roof",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CORVETTEZ06_07"
+      ],
+      "model_path": "res://assets/kits/z06-roof.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\Z06_ROOF_VS4.xem",
+          "key": "3c9816ef",
+          "sha256": "97ff9b17266f6866575661dd7e6ea320d0e2bd7d93af3fb4aacbc7e9ae47aebe",
+          "bank": "cars/z06.jfs"
+        }
+      ],
+      "adaptation": "Native Z06 accessory fitted to accepted MCLA_VP_CHV_CORVETTEZ06_07 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "z06-mirrors",
+      "name": "Juiced2 mirrors \u00b7 native Z06",
+      "kind": "body",
+      "category": "mirrors",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_CHV_CORVETTEZ06_07"
+      ],
+      "model_path": "res://assets/kits/z06-mirrors.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\Z06_WMIR_VS1_L.xem",
+          "key": "2bb2b470",
+          "sha256": "8bb4e18baf7aad437c54e3e370c46468131af3b83711e2850dccdbe5deb482c3",
+          "bank": "cars/z06.jfs"
+        },
+        {
+          "filename": "mesh\\Z06_WMIR_VS1_R.xem",
+          "key": "389f85f0",
+          "sha256": "adde56016641354c7567982a1941dd8c82bc1e9e9f76ad05b3d62fdc43809d93",
+          "bank": "cars/z06.jfs"
+        }
+      ],
+      "adaptation": "Native Z06 accessory fitted to accepted MCLA_VP_CHV_CORVETTEZ06_07 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "viper_srt-spoiler",
+      "name": "Juiced2 rear wing \u00b7 native VIPER_SRT",
+      "kind": "body",
+      "category": "spoiler",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_DODG0005"
+      ],
+      "model_path": "res://assets/kits/viper_srt-spoiler.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\VIPER_SRT_SPOILER_VS2.xem",
+          "key": "09583d3d",
+          "sha256": "00efea1f8bc0ab4464acf9ae848a325bbd91b9fd1aa573b11f5871f0ad39d8cc",
+          "bank": "cars/viper_srt.jfs"
+        }
+      ],
+      "adaptation": "Native VIPER_SRT accessory fitted to accepted GT4_DODG0005 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "viper_srt-native-seats",
+      "name": "Juiced 2 seat pair \u00b7 native VIPER_SRT",
+      "kind": "interior",
+      "category": "seats",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_DODG0005"
+      ],
+      "model_path": "res://assets/kits/viper_srt-native-seats.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\VIPER_SRT_SEAT_FR.xem",
+          "key": "df2874c8",
+          "sha256": "e6b552659e8a93d01d3cbb57b8efd1b56a3a071b46095bad07626206836bb9e6",
+          "bank": "cars/viper_srt.jfs"
+        },
+        {
+          "filename": "mesh\\VIPER_SRT_SEAT_FL.xem",
+          "key": "cfbe36e0",
+          "sha256": "fa06eccc8c0ef1ca4d22f0c6e7a57af462b16c5bdb7354f055ac5df24d12a2c9",
+          "bank": "cars/viper_srt.jfs"
+        }
+      ],
+      "adaptation": "Native VIPER_SRT accessory fitted to accepted GT4_DODG0005 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "viper_srt-front_bumper",
+      "name": "Juiced2 front bumper \u00b7 native VIPER_SRT",
+      "kind": "body",
+      "category": "front_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_DODG0005"
+      ],
+      "model_path": "res://assets/kits/viper_srt-front_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\VIPER_SRT_FBUMP_VS2.xem",
+          "key": "d20b3b75",
+          "sha256": "8131a5a4f2024c380a10f6eb33991f73d217d3d85e3e17882ee42ac5a837a0a7",
+          "bank": "cars/viper_srt.jfs"
+        }
+      ],
+      "adaptation": "Native VIPER_SRT accessory fitted to accepted GT4_DODG0005 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "viper_srt-rear_bumper",
+      "name": "Juiced2 rear bumper \u00b7 native VIPER_SRT",
+      "kind": "body",
+      "category": "rear_bumper",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_DODG0005"
+      ],
+      "model_path": "res://assets/kits/viper_srt-rear_bumper.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\VIPER_SRT_RBUMP_VS2.xem",
+          "key": "0362f09d",
+          "sha256": "f70d5960c6328d6289eda1b2d9631a9df033bb4514d3f8135c0aa039015a9e17",
+          "bank": "cars/viper_srt.jfs"
+        }
+      ],
+      "adaptation": "Native VIPER_SRT accessory fitted to accepted GT4_DODG0005 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "viper_srt-skirts",
+      "name": "Juiced2 skirts \u00b7 native VIPER_SRT",
+      "kind": "body",
+      "category": "skirts",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_DODG0005"
+      ],
+      "model_path": "res://assets/kits/viper_srt-skirts.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\VIPER_SRT_SSKIRT_VS2_L.xem",
+          "key": "0c5395ae",
+          "sha256": "e76b80d1df2dabbc370fd4ef78a2286559fa4efd08cc8ccc78a7ef71bb1bc337",
+          "bank": "cars/viper_srt.jfs"
+        },
+        {
+          "filename": "mesh\\VIPER_SRT_SSKIRT_VS2_R.xem",
+          "key": "1ff0fda4",
+          "sha256": "7175793ec524bd2beec7e1fc7c517340b58d9db33b442592d43c19b788ee9571",
+          "bank": "cars/viper_srt.jfs"
+        }
+      ],
+      "adaptation": "Native VIPER_SRT accessory fitted to accepted GT4_DODG0005 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "viper_srt-hood",
+      "name": "Juiced2 hood \u00b7 native VIPER_SRT",
+      "kind": "body",
+      "category": "hood",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_DODG0005"
+      ],
+      "model_path": "res://assets/kits/viper_srt-hood.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\VIPER_SRT_BONNET_VS50.xem",
+          "key": "a9801c83",
+          "sha256": "8aba1e12c74170f87b99cb99800a7955aabea1f58ed119e8d19a328ac28c023c",
+          "bank": "cars/viper_srt.jfs"
+        }
+      ],
+      "adaptation": "Native VIPER_SRT accessory fitted to accepted GT4_DODG0005 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "viper_srt-trunk",
+      "name": "Juiced2 trunk \u00b7 native VIPER_SRT",
+      "kind": "body",
+      "category": "trunk",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_DODG0005"
+      ],
+      "model_path": "res://assets/kits/viper_srt-trunk.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\VIPER_SRT_BOOT_VS1.xem",
+          "key": "5d0bc64e",
+          "sha256": "48a2127a40861a2bd5857b2a37ebad0698944353f71d393821288bd79272219b",
+          "bank": "cars/viper_srt.jfs"
+        }
+      ],
+      "adaptation": "Native VIPER_SRT accessory fitted to accepted GT4_DODG0005 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "viper_srt-roof",
+      "name": "ROOF_DOWN roof \u00b7 native VIPER_SRT",
+      "kind": "body",
+      "category": "roof",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_DODG0005"
+      ],
+      "model_path": "res://assets/kits/viper_srt-roof.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\VIPER_SRT_ROOF_DOWN.xem",
+          "key": "09d302d0",
+          "sha256": "304e417c59960bbc1a6c1f66e2c5fbec244cda5834bcb62dc9d86de93e3ef392",
+          "bank": "cars/viper_srt.jfs"
+        }
+      ],
+      "adaptation": "Native VIPER_SRT accessory fitted to accepted GT4_DODG0005 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "viper_srt-headlights",
+      "name": "Juiced2 headlights \u00b7 native VIPER_SRT",
+      "kind": "body",
+      "category": "headlights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_DODG0005"
+      ],
+      "model_path": "res://assets/kits/viper_srt-headlights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\VIPER_SRT_HLIGHT_VS1_L.xem",
+          "key": "a7ea3eda",
+          "sha256": "de26984a5be25b96320a604146d1237ef113841743458210c21d44a08a7c3e4c",
+          "bank": "cars/viper_srt.jfs"
+        },
+        {
+          "filename": "mesh\\VIPER_SRT_HLIGHT_VS1_R.xem",
+          "key": "bb1b3e7e",
+          "sha256": "7c65c3add0108197d7fe321c43d2499762c0f52ecb7861521af07b43f2980611",
+          "bank": "cars/viper_srt.jfs"
+        }
+      ],
+      "adaptation": "Native VIPER_SRT accessory fitted to accepted GT4_DODG0005 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "viper_srt-taillights",
+      "name": "Juiced2 taillights \u00b7 native VIPER_SRT",
+      "kind": "body",
+      "category": "taillights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_DODG0005"
+      ],
+      "model_path": "res://assets/kits/viper_srt-taillights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\VIPER_SRT_RLIGHT_VS1_L.xem",
+          "key": "c617a2da",
+          "sha256": "0b0afa6f7806cd8a90418010e0513832b8bebfe3ac54c848cdfe84ee08f054fc",
+          "bank": "cars/viper_srt.jfs"
+        },
+        {
+          "filename": "mesh\\VIPER_SRT_RLIGHT_VS1_R.xem",
+          "key": "d969583e",
+          "sha256": "12adb9eda41d7bbc62a95a8b6983ef7ca1c5f1023d867d3bb42fb0c8bab01b0e",
+          "bank": "cars/viper_srt.jfs"
+        }
+      ],
+      "adaptation": "Native VIPER_SRT accessory fitted to accepted GT4_DODG0005 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "viper_srt-mirrors",
+      "name": "Juiced2 mirrors \u00b7 native VIPER_SRT",
+      "kind": "body",
+      "category": "mirrors",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "GT4_DODG0005"
+      ],
+      "model_path": "res://assets/kits/viper_srt-mirrors.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\VIPER_SRT_WMIR_VS1_L.xem",
+          "key": "c1e657a5",
+          "sha256": "1e1f68af1e2aeea5bdaf7bec91c07dd78f9816e6f676330fc04f063470a65a5c",
+          "bank": "cars/viper_srt.jfs"
+        },
+        {
+          "filename": "mesh\\VIPER_SRT_WMIR_VS1_R.xem",
+          "key": "d3ea0935",
+          "sha256": "c3cf8e9406ba7563cedec2d8adcd6daf6f6aab30f71e57bbc914883de7eede48",
+          "bank": "cars/viper_srt.jfs"
+        }
+      ],
+      "adaptation": "Native VIPER_SRT accessory fitted to accepted GT4_DODG0005 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "saleen_s7-spoiler",
+      "name": "Extreme_Dimensions rear wing \u00b7 native SALEEN_S7",
+      "kind": "body",
+      "category": "spoiler",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_SLN_S7_06"
+      ],
+      "model_path": "res://assets/kits/saleen_s7-spoiler.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SALEEN_S7_SPOILER_VS79.xem",
+          "key": "d11fa827",
+          "sha256": "11baa30b83958f60e0c7ab37be46929681f03a0630de37c411c461e67df6d724",
+          "bank": "cars/saleen_s7.jfs"
+        }
+      ],
+      "adaptation": "Native SALEEN_S7 accessory fitted to accepted MCLA_VP_SLN_S7_06 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "saleen_s7-native-seats",
+      "name": "Juiced 2 seat pair \u00b7 native SALEEN_S7",
+      "kind": "interior",
+      "category": "seats",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_SLN_S7_06"
+      ],
+      "model_path": "res://assets/kits/saleen_s7-native-seats.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SALEEN_S7_SEAT_FL.xem",
+          "key": "47307838",
+          "sha256": "2ed5f266a8533fdb340b5792f96169017ea4b6cc81f51dd8f880b5d5e80a2e80",
+          "bank": "cars/saleen_s7.jfs"
+        },
+        {
+          "filename": "mesh\\SALEEN_S7_SEAT_FR.xem",
+          "key": "55e71f74",
+          "sha256": "012032a48bf21cf57484ef54cc0fbc27df08b83e2913f5b1efafe8e534b3fb86",
+          "bank": "cars/saleen_s7.jfs"
+        }
+      ],
+      "adaptation": "Native SALEEN_S7 accessory fitted to accepted MCLA_VP_SLN_S7_06 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "saleen_s7-hood",
+      "name": "Juiced2 hood \u00b7 native SALEEN_S7",
+      "kind": "body",
+      "category": "hood",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_SLN_S7_06"
+      ],
+      "model_path": "res://assets/kits/saleen_s7-hood.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SALEEN_S7_BONNET_VS50.xem",
+          "key": "0c16c80d",
+          "sha256": "626cc94841cae9982506f05497dd8dd6d9266fc263067b2b4a5a899002385d28",
+          "bank": "cars/saleen_s7.jfs"
+        }
+      ],
+      "adaptation": "Native SALEEN_S7 accessory fitted to accepted MCLA_VP_SLN_S7_06 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "saleen_s7-trunk",
+      "name": "Juiced2 trunk \u00b7 native SALEEN_S7",
+      "kind": "body",
+      "category": "trunk",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_SLN_S7_06"
+      ],
+      "model_path": "res://assets/kits/saleen_s7-trunk.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SALEEN_S7_BOOT_VS1.xem",
+          "key": "ce08d8fe",
+          "sha256": "51a5657d19fe8ee4e031afe14e9422642c4a1932dfd18546dd85a8b1e91c4d37",
+          "bank": "cars/saleen_s7.jfs"
+        }
+      ],
+      "adaptation": "Native SALEEN_S7 accessory fitted to accepted MCLA_VP_SLN_S7_06 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "saleen_s7-headlights",
+      "name": "Juiced2 headlights \u00b7 native SALEEN_S7",
+      "kind": "body",
+      "category": "headlights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_SLN_S7_06"
+      ],
+      "model_path": "res://assets/kits/saleen_s7-headlights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SALEEN_S7_HLIGHT_VS2_L.xem",
+          "key": "028f308b",
+          "sha256": "c9ed777f2e3398132bdf3091cc4acf707f93e73f7432836e5c70d75ea3c9640d",
+          "bank": "cars/saleen_s7.jfs"
+        },
+        {
+          "filename": "mesh\\SALEEN_S7_HLIGHT_VS2_R.xem",
+          "key": "150a7b0d",
+          "sha256": "7e2e15781d60c80d4195ed1cace529009b6b391cdea4f36c2d6f3f9cc67cfefc",
+          "bank": "cars/saleen_s7.jfs"
+        }
+      ],
+      "adaptation": "Native SALEEN_S7 accessory fitted to accepted MCLA_VP_SLN_S7_06 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "saleen_s7-taillights",
+      "name": "Juiced2 taillights \u00b7 native SALEEN_S7",
+      "kind": "body",
+      "category": "taillights",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_SLN_S7_06"
+      ],
+      "model_path": "res://assets/kits/saleen_s7-taillights.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SALEEN_S7_RLIGHT_VS3_L.xem",
+          "key": "21cb1b67",
+          "sha256": "9a9ea32e4eb19f4afd823770976d2419054377f48cbe48ba9e004c90cf4eead2",
+          "bank": "cars/saleen_s7.jfs"
+        },
+        {
+          "filename": "mesh\\SALEEN_S7_RLIGHT_VS3_R.xem",
+          "key": "34698fb1",
+          "sha256": "ddb6352f756f761e470cc67e83053272e0f0a50c47345176aeab1218fdec32fd",
+          "bank": "cars/saleen_s7.jfs"
+        }
+      ],
+      "adaptation": "Native SALEEN_S7 accessory fitted to accepted MCLA_VP_SLN_S7_06 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    },
+    {
+      "id": "saleen_s7-mirrors",
+      "name": "Juiced2 mirrors \u00b7 native SALEEN_S7",
+      "kind": "body",
+      "category": "mirrors",
+      "fit_status": "decoded_pending_fit",
+      "compatible_cars": [
+        "MCLA_VP_SLN_S7_06"
+      ],
+      "model_path": "res://assets/kits/saleen_s7-mirrors.glb",
+      "paint_materials": [],
+      "source": [
+        {
+          "filename": "mesh\\SALEEN_S7_WMIR_VS1_L.xem",
+          "key": "23ba27e4",
+          "sha256": "f232b0bd6fd3a6f166abb39bf4bced5652d7ccf1322343a5703119a95909aacf",
+          "bank": "cars/saleen_s7.jfs"
+        },
+        {
+          "filename": "mesh\\SALEEN_S7_WMIR_VS1_R.xem",
+          "key": "35078a32",
+          "sha256": "199a265c96aebb7c91affc6bd960afc4e450eca526b6e2a0e91e068a1c42d6d7",
+          "bank": "cars/saleen_s7.jfs"
+        }
+      ],
+      "adaptation": "Native SALEEN_S7 accessory fitted to accepted MCLA_VP_SLN_S7_06 donor; original playable base geometry is unchanged.",
+      "limits": [
+        "Native accessory geometry with original mounting coordinates; donor fit needs native runtime visual verification.",
+        "Seat pair is an adapted support accessory, not a claim of an original interior customization menu."
+      ]
+    }
+  ]
+}

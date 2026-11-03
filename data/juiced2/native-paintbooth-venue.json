@@ -1,0 +1,203 @@
+{
+  "model_path": "res://assets/worlds/paintbooth.glb",
+  "source": {
+    "prepared_garage_sha256": "51387e606b83edede0e83f6e3b69974b970ff36cd3bbb2e496e75987ac3711b0",
+    "bdl": "tracks/garage/garageGeom.bdl",
+    "bdl_sha256": "106c918572863cf74f55fdc40c051d5a4c5bf36b28e1325405d4b07a5489653b",
+    "zdf": "tracks/garage/Garagezone0.zdf",
+    "zdf_sha256": "c40a3df6e4c94a899206a1d9e63e0632da86c1e8830c4a0516973c30d292a162",
+    "instances": [
+      "instance_6_source_9",
+      "instance_7_source_10",
+      "instance_8_source_11",
+      "instance_9_source_12",
+      "instance_10_source_13",
+      "instance_11_source_14",
+      "instance_12_source_15",
+      "instance_13_source_15",
+      "instance_14_source_15"
+    ]
+  },
+  "binding": {
+    "menu_consumer": "821C22D0: selected string paint at8203E900 calls8219F788(mode1,reset1), then8219DEE8(mode2)",
+    "pose_consumer": "8219F388 mode1 reads824C0028/824C0038",
+    "native_position_cm": [
+      3000.0,
+      -167.0,
+      3000.0
+    ],
+    "native_euler_radians": [
+      0.0,
+      -1.5700000524520874,
+      -0.0
+    ],
+    "position_rh_m": [
+      -30.0,
+      -1.67,
+      30.0
+    ],
+    "euler_rh_radians": [
+      -0.0,
+      1.5700000524520874,
+      -0.0
+    ],
+    "lighting_preset": "tracks/garage/paintbooth.dlt",
+    "lighting_selector": 2
+  },
+  "camera": {
+    "source": {
+      "bank": "scripts.jfs",
+      "member": 798,
+      "key": "b7cf5263",
+      "sha256": "32cbf4bbbc8266adf4363a536db7bf6156641a52e11bb61712be14d36f5e8cdb"
+    },
+    "name": "Paintshop",
+    "native_rows": [
+      [
+        "CamFOV",
+        90.0,
+        120.0
+      ],
+      [
+        "CamRoll",
+        50.0,
+        0.0
+      ],
+      [
+        "CamPosStart",
+        "car1",
+        "Comp",
+        "DRIVER_CHASS",
+        "Offset",
+        0.0,
+        1.7400000095367432,
+        3.5
+      ],
+      [
+        "CamPosEnd",
+        "car1",
+        "Comp",
+        "DRIVER_CHASS",
+        "Offset",
+        3.0,
+        1.0,
+        0.0
+      ],
+      [
+        "TravelTime",
+        1.0
+      ],
+      [
+        "TravelType",
+        "LERP"
+      ],
+      [
+        "Damp",
+        1.0
+      ],
+      [
+        "TargetPosStart",
+        "car1",
+        "Comp",
+        "DRIVER_CHASS",
+        "Offset",
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "TargetPosEnd",
+        "car1",
+        "Comp",
+        "DRIVER_CHASS",
+        "Offset",
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "TravelTime",
+        1.0
+      ],
+      [
+        "TravelType",
+        "LERP"
+      ],
+      [
+        "Damp",
+        1.0
+      ],
+      [
+        "Behaviour",
+        "DepthOfField",
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Behaviour",
+        "ThumbPan2",
+        -25.0,
+        5.0,
+        0.0,
+        360.0,
+        60.0,
+        0.0
+      ],
+      [
+        "Behaviour",
+        "TriggerFOV",
+        0.02500000037252903,
+        40.0,
+        120.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "Behaviour",
+        "Spotlight",
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        450.0,
+        -500.0
+      ]
+    ]
+  },
+  "render_floor_candidates": [
+    {
+      "node": "instance_6_source_9",
+      "material": 6,
+      "height": -1.6529803624879071
+    },
+    {
+      "node": "instance_6_source_9",
+      "material": 7,
+      "height": -1.64057571500176
+    }
+  ],
+  "donor_display": {
+    "position_rh_m": [
+      -30,
+      -1.64057571500176,
+      30
+    ],
+    "status": "Donor ground-reference adaptation to highest unchanged source render-floor triangle at original placementXZ; native physicsCG offsets are not applied to donor renderfeet"
+  },
+  "counts": {
+    "instances": 9,
+    "draws": 22,
+    "triangles": 11268
+  },
+  "sha256": "5a21c4530280e8c95dbf5581136a0b9ffd747b43f7aac67da277238bd6888535",
+  "limits": [
+    "Native pose setter8219F788 adds10cm then convertscm\u2192m before physics; that is a body/CG seed, not an arbitrary donor meshground offset.",
+    "Original DLT coefficients/spatial bounds are retained evidence; no lights inferred from preset names.",
+    "Camera projection axis is under separate source trace; component-relative donor camera anchoring remains an adaptation."
+  ]
+}
