@@ -50,7 +50,6 @@
   </section>
 </main>
 <footer>
-  <label for="reviewer">Reviewer name or initials</label><input id="reviewer" placeholder="Your name or initials">
   <nav style="margin-top: 12px"><button id="export">Export annotations</button><button id="import-button">Import annotations</button><button id="unanswered">First unanswered</button></nav>
   <input id="import" type="file" accept="application/json,.json" hidden>
   <p class="muted">Answers save in this browser. Import restores a backup from this exact pilot. This screen audit cannot establish gameplay rules or platform equivalence.</p>
@@ -76,7 +75,6 @@
     return {...state, ...value, position: Math.max(0, Math.min(pilot.items.length - 1, Number.isInteger(value.position) ? value.position : 0))};
   }
   function persist() {
-    state.reviewer = el('reviewer').value;
     try { localStorage.setItem(storageKey, JSON.stringify(state)); storageFailed = false; return true; }
     catch { storageFailed = true; message('Browser storage is unavailable. Export a backup to keep your answers.', true); return false; }
   }
@@ -126,7 +124,6 @@
   el('previous').onclick = () => move(-1);
   el('next').onclick = () => move(1);
   el('save-next').onclick = () => move(1, true);
-  el('reviewer').oninput = persist;
   el('unanswered').onclick = () => {
     if (!save()) return;
     const position = pilot.items.findIndex(x => !state.answers[x.id]);
@@ -135,7 +132,6 @@
   };
   el('export').onclick = () => {
     if (!save()) return;
-    state.reviewer = el('reviewer').value;
     const blob = new Blob([JSON.stringify(state, null, 2) + '\n'], {type: 'application/json'});
     const url = URL.createObjectURL(blob), link = document.createElement('a');
     link.href = url; link.download = `juiced2-annotations-${pilot.pilot_id.slice(0, 12)}.json`; link.click();
@@ -148,7 +144,7 @@
     try {
       const imported = validate(JSON.parse(await file.text()));
       if (Object.keys(state.answers).length && !window.confirm('Replace the current browser answers with this backup? Export first if you need to keep them.')) return;
-      state = imported; el('reviewer').value = state.reviewer; persist(); render();
+      state = imported; persist(); render();
       if (!storageFailed) message('Annotations imported.');
     } catch (error) { message(error.message, true); }
     finally { el('import').value = ''; }
@@ -157,7 +153,6 @@
     const saved = localStorage.getItem(storageKey);
     if (saved) state = validate(JSON.parse(saved));
   } catch { message('Saved progress could not be read. Import a backup to recover it.', true); }
-  el('reviewer').value = state.reviewer;
   render();
 </script>
 </html>
