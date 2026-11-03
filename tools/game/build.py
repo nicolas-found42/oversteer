@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import platform
 import re
 import shutil
 import subprocess
@@ -58,22 +59,61 @@ def import_assets(headless=False):
     validate_imports()
 
 
-def build(headless=False):
-    run(
-        ["cargo", "build", "-p", "oversteer-godot", "--release", "--target", "aarch64-apple-darwin"]
+def require_runtime_inputs():
+    if platform.system() != "Darwin" or platform.machine() != "arm64":
+        raise RuntimeError("The native game requires Apple Silicon macOS")
+    if not GODOT.is_file():
+        raise RuntimeError("Pinned Godot missing; run python tools/game/bootstrap.py")
+    if not (ROOT / "godot/assets/game-content.json").is_file():
+        raise RuntimeError("Prepared runtime assets missing; see tools/game/assets/README.md")
+
+
+def require_unloaded_library(target):
+    if not target.exists():
+        return
+    process = subprocess.run(
+        ["/usr/sbin/lsof", "-t", str(target)], capture_output=True, text=True, check=False
     )
-    source = ROOT / "build/rust/aarch64-apple-darwin/release/liboversteer_godot.dylib"
-    for configuration in ["debug", "release"]:
-        target = ROOT / f"godot/bin/{configuration}"
-        target.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target / source.name)
-    import_assets(headless=headless)
+    if process.returncode not in (0, 1):
+        raise RuntimeError(f"Could not check loaded extension: {process.stderr.strip()}")
+    if process.stdout.strip():
+        raise RuntimeError(
+            f"Close the Godot process before replacing {target} (PIDs {process.stdout.split()})"
+        )
+
+
+def build(headless=False, profile="release", skip_import=False):
+    if not skip_import:
+        require_runtime_inputs()
+    configurations = ["debug"] if profile == "dev" else ["debug", "release"]
+    targets = [ROOT / f"godot/bin/{name}/liboversteer_godot.dylib" for name in configurations]
+    for target in targets:
+        require_unloaded_library(target)
+    arguments = ["cargo", "build", "--locked", "-p", "oversteer-godot"]
+    if profile == "release":
+        arguments.append("--release")
+    arguments.extend(["--target", "aarch64-apple-darwin"])
+    run(arguments)
+    directory = "debug" if profile == "dev" else "release"
+    source = ROOT / f"build/rust/aarch64-apple-darwin/{directory}/liboversteer_godot.dylib"
+    for target in targets:
+        # A process may have opened the extension while Cargo was compiling.
+        require_unloaded_library(target)
+    for target in targets:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+    if not skip_import:
+        import_assets(headless=headless)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=["build", "import", "run", "export", "test"])
     parser.add_argument("--skip-build", action="store_true")
+    parser.add_argument("--profile", choices=["dev", "release"], default="release")
+    parser.add_argument(
+        "--skip-import", action="store_true", help="Build extension without importing assets"
+    )
     parser.add_argument("--scenario")
     parser.add_argument("--ui-actions", type=Path)
     parser.add_argument("--input-events", type=Path)
@@ -93,14 +133,21 @@ def main():
     parser.add_argument("--frames", type=int)
     parser.add_argument("--warmup", type=int)
     options = parser.parse_args()
+    if options.skip_import and options.action != "build":
+        parser.error("--skip-import is only valid for build")
+    if options.action == "export" and options.profile != "release":
+        parser.error("export requires --profile release")
     if options.action == "test":
-        run(["cargo", "test", "--workspace"])
+        run(["cargo", "test", "--workspace", "--locked"])
         return
     if options.action == "import":
+        require_runtime_inputs()
         import_assets(headless=options.headless)
         return
     if not options.skip_build and not options.packaged:
-        build(headless=options.headless)
+        build(headless=options.headless, profile=options.profile, skip_import=options.skip_import)
+    elif options.action in {"run", "export"} and not options.packaged:
+        require_runtime_inputs()
     if options.action == "run":
         arguments = (
             [options.packaged.resolve() / "Contents/MacOS/Oversteer"]
