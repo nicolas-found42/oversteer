@@ -98,6 +98,7 @@ mk_verify*.log
 opencode.json
 PowerShellEditorServices.json
 .cache/
+.claude/settings.local.json
 
 # Reference sprite packs used only for human visual comparison during the
 # vehicle-appearance work. Not game assets; issue #7 forbids redistributing them.

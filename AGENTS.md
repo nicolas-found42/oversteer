@@ -153,3 +153,20 @@ Before finishing, confirm:
 ---
 
 **These guidelines are working if:** diffs are smaller, solutions are easier to understand and test, unnecessary rewrites decrease, ambiguity is surfaced before it causes mistakes, and verification is tied to concrete outcomes.
+
+## Agent skills
+
+### Issue tracker
+
+Track issues and specs in GitHub Issues for `nicolas-found42/oversteer`.
+Before reading or publishing tickets, read `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the five default triage labels. Before triaging issues, read
+`docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Use a single-context glossary and ADR layout. Before exploring domain
+behavior or proposing domain changes, read `docs/agents/domain.md`.
