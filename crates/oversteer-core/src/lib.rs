@@ -27,3 +27,6 @@ pub use collision::*;
 
 mod paint;
 pub use paint::*;
+
+mod nitrous;
+pub use nitrous::*;

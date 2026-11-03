@@ -21,6 +21,9 @@ pub enum DriveLayout {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(default)]
 pub struct Handling {
+    pub nitrous_capacity_control: f32,
+    pub nitrous_engine_multiplier: f32,
+    pub nitrous_power_factor: f32,
     pub max_spring_compression: f32,
     pub rear_max_spring_compression: Option<f32>,
     pub rear_spring_rate: Option<f32>,
@@ -66,6 +69,9 @@ pub struct Handling {
 impl Default for Handling {
     fn default() -> Self {
         Self {
+            nitrous_capacity_control: 0.5,
+            nitrous_engine_multiplier: 1.,
+            nitrous_power_factor: 1.,
             max_spring_compression: 0.4,
             rear_max_spring_compression: None,
             rear_spring_rate: None,
@@ -112,6 +118,8 @@ impl Default for Handling {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(default)]
 pub struct PhysicsGlobals {
+    pub nitrous_force_gain: f32,
+    pub nitrous_refill_scale: f32,
     pub skid_mu_scalar: f32,
     pub slip_mu_scalar: f32,
     pub slip_point: f32,
@@ -134,6 +142,8 @@ pub struct PhysicsGlobals {
 impl Default for PhysicsGlobals {
     fn default() -> Self {
         let mut g = Self {
+            nitrous_force_gain: 13600.,
+            nitrous_refill_scale: 0.04,
             skid_mu_scalar: 1.,
             slip_mu_scalar: 0.4000000059604645,
             slip_point: 5.,
@@ -437,6 +447,18 @@ impl Default for SurfaceContact {
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct VehicleState {
+    #[serde(default)]
+    pub native_nitrous: crate::NativeNitrousState,
+    #[serde(default)]
+    pub nitrous_allowed: bool,
+    #[serde(default)]
+    pub extreme_nos: bool,
+    #[serde(default)]
+    pub nitrous_control_mode: u8,
+    #[serde(default)]
+    nitrous_refill_metric: f32,
+    #[serde(default)]
+    nitrous_body_force: f32,
     pub wheel_angles: [f32; 4],
     pub wheel_steer_angles: [f32; 4],
     pub handbrake: f32,
@@ -464,6 +486,12 @@ pub struct VehicleState {
 impl Default for VehicleState {
     fn default() -> Self {
         Self {
+            native_nitrous: crate::NativeNitrousState::default(),
+            nitrous_allowed: true,
+            extreme_nos: false,
+            nitrous_control_mode: 1,
+            nitrous_refill_metric: 0.,
+            nitrous_body_force: 0.,
             wheel_angles: [0.; 4],
             wheel_steer_angles: [0.; 4],
             handbrake: 0.,
@@ -604,10 +632,25 @@ impl VehicleState {
                 }
             }
         }
-        let boosted = input.nitrous > 0. && self.nitrous > 0.;
-        if boosted {
-            self.nitrous = (self.nitrous - h * 0.12).max(0.);
-        }
+        self.native_nitrous.configure(p.nitrous_capacity_control);
+        self.native_nitrous.force_gain = g.nitrous_force_gain;
+        self.native_nitrous.refill_scale = g.nitrous_refill_scale;
+        self.native_nitrous
+            .request(input.nitrous > 0. && self.nitrous_allowed);
+        self.native_nitrous.drain(h);
+        let contacts = if self.native_nitrous.active {
+            self.nitrous_contact_metrics(p, g).0
+        } else {
+            0
+        };
+        self.nitrous_body_force = self.native_nitrous.force(
+            input.throttle.clamp(0., 1.),
+            p.nitrous_power_factor,
+            contacts,
+            !self.reversing && self.gear > 0,
+        );
+        self.nitrous = self.native_nitrous.fraction();
+        let boosted = self.native_nitrous.active && self.native_nitrous.tank > 0.;
         let mut u = input;
         u.throttle = u.throttle.clamp(0., 1.);
         u.brake = u.brake.clamp(0., 1.);
@@ -624,6 +667,15 @@ impl VehicleState {
         let k3 = self.derivative(p, g, u, h);
         self.commit(add(initial, k3, h), p);
         let k4 = self.derivative(p, g, u, h);
+        // Preserve the last force-stage readout for the following gameplay update.
+        self.nitrous_refill_metric = if self.nitrous_allowed
+            && !self.native_nitrous.active
+            && self.native_nitrous.tank < self.native_nitrous.capacity
+        {
+            self.nitrous_contact_metrics(p, g).1
+        } else {
+            0.
+        };
         let mut final_state = initial;
         for i in 0..18 {
             final_state[i] += h * (k1[i] + 2. * k2[i] + 2. * k3[i] + k4[i]) * 0.1666666716337204;
@@ -636,6 +688,104 @@ impl VehicleState {
         self.distance += self.speed() * h;
         let local_velocity = self.body_velocity();
         self.slip_angle = local_velocity[0].atan2(local_velocity[2]);
+    }
+    /// Source820F5480/82111E50 read the last force-stage wheel registers.
+    pub fn update_nitrous_gameplay(&mut self, h: f32) {
+        if self.nitrous_allowed {
+            self.native_nitrous.refill(
+                self.nitrous_refill_metric,
+                self.nitrous_control_mode,
+                self.extreme_nos,
+                h,
+            );
+        }
+        self.nitrous = self.native_nitrous.fraction();
+    }
+    fn nitrous_contact_metrics(&self, p: &Handling, g: &PhysicsGlobals) -> (usize, f32) {
+        let body = self.body_velocity();
+        let mut contacts = 0;
+        let ratios = std::array::from_fn(|i| {
+            let contact = self.contacts[i];
+            if !contact.active {
+                return 0.;
+            }
+            let front = i < 2;
+            let weight = if front {
+                p.front_weight * 0.5
+            } else {
+                (1. - p.front_weight) * 0.5
+            };
+            let x = if i % 2 == 0 {
+                -p.track_width / 2.
+            } else {
+                p.track_width / 2.
+            };
+            let z = if front {
+                p.wheelbase * (1. - p.front_weight)
+            } else {
+                -p.wheelbase * p.front_weight
+            };
+            let point = [
+                body[0] + self.yaw_rate * z,
+                body[1] + x * self.roll_rate - z * self.pitch_rate,
+                body[2] - self.yaw_rate * x,
+            ];
+            let normal = inverse_rotate(self.orientation, contact.normal);
+            let q = self.orientation;
+            let arm = inverse_rotate([-q[0], -q[1], -q[2], q[3]], [x, 0., z]);
+            let world_point =
+                std::array::from_fn::<_, 3, _>(|axis| self.position[axis] + arm[axis]);
+            let delta = [
+                contact.anchor_xz[0] - world_point[0],
+                contact.height - world_point[1],
+                contact.anchor_xz[1] - world_point[2],
+            ];
+            let penetration = contact.normal[0].mul_add(
+                delta[0],
+                contact.normal[1].mul_add(delta[1], contact.normal[2] * delta[2]),
+            );
+            let spring = if front {
+                p.spring_rate
+            } else {
+                p.rear_spring_rate.unwrap_or(p.spring_rate)
+            };
+            let damping = if front {
+                p.damping_ratio
+            } else {
+                p.rear_damping_ratio.unwrap_or(p.damping_ratio)
+            };
+            let compression = if front {
+                p.max_spring_compression
+            } else {
+                p.rear_max_spring_compression
+                    .unwrap_or(p.max_spring_compression)
+            };
+            let vy = normal[0].mul_add(point[0], normal[1].mul_add(point[1], normal[2] * point[2]));
+            let load = suspension_load(
+                p.mass * (-g.gravity) * weight + penetration * spring,
+                damping_coefficient(p.mass * weight, spring, damping),
+                vy,
+                compression,
+                spring,
+            );
+            if load <= 0. {
+                return 0.;
+            }
+            contacts += 1;
+            if normal[1] <= 0. || contact.normal[1] < 0.1 {
+                return 0.;
+            }
+            let steer = if front {
+                self.steering * p.max_steer
+            } else {
+                0.
+            };
+            let frame = native_wheel_frame(normal, point, steer, self.wheel_omega[i]);
+            let residual = frame.tangent_velocity[0]
+                - frame.longitudinal_axis[0] * (self.wheel_omega[i] * wheel_radius(p, i));
+            crate::native_nitrous_wheel_ratio(point, residual, true)
+        });
+        (contacts, crate::native_nitrous_metric(ratios))
     }
     fn channels(&self, p: &Handling) -> [f32; 18] {
         let inertia = body_inertia(p);
@@ -778,7 +928,11 @@ impl VehicleState {
             * p.peak_torque
             * g.engine_torque_scalar
             * u.throttle
-            * (1. + 0.5 * u.nitrous)
+            * if u.nitrous > 0. {
+                p.nitrous_engine_multiplier
+            } else {
+                1.
+            }
             - (1. - u.throttle) * p.engine_size * g.engine_braking_scalar;
         let (_, fractions) = self.drivetrain(p);
         let mut reflected_reaction = 0.;
@@ -975,6 +1129,9 @@ impl VehicleState {
             body_torque[0] -= z * wheel_force[1];
             body_torque[1] += z * wheel_force[0] - x * wheel_force[2];
             body_torque[2] += x * wheel_force[1];
+        }
+        if self.nitrous_body_force != 0. {
+            body_force[2] += self.nitrous_body_force;
         }
         let engine_acc = (engine_torque + reflected_reaction) / inertia;
         let drag = body_drag(self.velocity, p.drag, 1.);

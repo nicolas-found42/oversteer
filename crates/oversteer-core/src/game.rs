@@ -115,8 +115,17 @@ impl Default for EventStage {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[repr(u8)]
-pub enum NativeDiscipline { Circuit=0, Drift=1, TestDrive=2, Solo=3 }
-impl NativeDiscipline { pub fn source_index(self)->u8 {self as u8} }
+pub enum NativeDiscipline {
+    Circuit = 0,
+    Drift = 1,
+    TestDrive = 2,
+    Solo = 3,
+}
+impl NativeDiscipline {
+    pub fn source_index(self) -> u8 {
+        self as u8
+    }
+}
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(default)]
@@ -363,6 +372,7 @@ pub struct Customization {
     pub suspension: u8,
     pub tyres: u8,
     pub nitrous: u8,
+    pub nitrous_capacity_control: Option<f32>,
     pub tuning: [f32; 4],
     pub vinyls: Vec<Vinyl>,
 }
@@ -385,6 +395,7 @@ impl Default for Customization {
             suspension: 0,
             tyres: 0,
             nitrous: 0,
+            nitrous_capacity_control: None,
             tuning: [0.; 4],
             vinyls: vec![],
         }
@@ -578,6 +589,8 @@ pub struct RacerSnapshot {
     pub gear: i32,
     pub steering: f32,
     pub nitrous: f32,
+    pub nitrous_active: bool,
+    pub nitrous_pressure_band: u8,
     pub lap: u32,
     pub checkpoint: usize,
     pub progress: f32,
@@ -589,6 +602,7 @@ pub struct RacerSnapshot {
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct RaceSnapshot {
+    pub native_discipline: Option<NativeDiscipline>,
     pub bet_offer: Option<crate::DriverBetOffer>,
     pub wager: u32,
     pub bet_racer: usize,
@@ -1248,6 +1262,10 @@ impl Game {
                 mut customization,
             } => {
                 crate::paint::sync_customization(&mut customization);
+                // Retired tier survives old saves but cannot create a new fake upgrade.
+                customization.nitrous = if self.quick_mode {
+                    self.quick_customizations.get(&car_id).or_else(||self.career.garage.get(&car_id))
+                } else {self.career.garage.get(&car_id)}.map(|prior|prior.nitrous).unwrap_or(0);
                 let car = self.car(&car_id)?;
                 for (slot, part) in &customization.parts {
                     if part != "stock"
@@ -1277,7 +1295,6 @@ impl Game {
                     customization.transmission,
                     customization.suspension,
                     customization.tyres,
-                    customization.nitrous,
                 ]
                 .iter()
                 .any(|v| *v > 3)
@@ -1898,9 +1915,16 @@ impl Game {
                 i == 0 && !race.spectating,
             );
 
-            if r.customization.nitrous == 0 {
-                u.nitrous = 0.;
-            }
+            r.state.nitrous_allowed = matches!(
+                race.event.native_discipline,
+                Some(
+                    NativeDiscipline::Circuit
+                        | NativeDiscipline::TestDrive
+                        | NativeDiscipline::Solo
+                )
+            );
+            r.state.extreme_nos = race.event.extreme_nos;
+            r.state.nitrous_control_mode = if i == 0 && !race.spectating { 1 } else { 2 };
             r.life_cooldown = (r.life_cooldown - h).max(0.);
             update_surface_contacts(
                 &mut r.state,
@@ -1918,6 +1942,8 @@ impl Game {
                     race.event.stage_mode().is_drift(),
                 );
             }
+
+            r.state.update_nitrous_gameplay(h);
 
             // 820F5480 follows the assistance call; the next tick consumes actor680.
             // SurfaceContact.active is the reconstruction's wheel-contact binding.
@@ -2024,14 +2050,6 @@ impl Game {
                 r.checkpoint = (r.checkpoint + 1) % race.track.points.len();
             }
             let mode = race.event.stage_mode();
-            if r.customization.nitrous > 0
-                && u.nitrous == 0.
-                && r.state.speed() > 10.
-                && r.state.slip_angle.abs().to_degrees() > 10.
-            {
-                // Native help confirms drift recharge; the rate remains an adaptation.
-                r.state.nitrous = (r.state.nitrous + h * 0.03).min(1.);
-            }
             if mode.is_drift() {
                 let banked = r.drift_state.advance(
                     r.state.speed(),
@@ -2219,6 +2237,10 @@ impl Game {
             return;
         }
         race.settled = true;
+        // 820F82D0 stops gameplay NOS in the post-race states.
+        for racer in &mut race.racers {
+            racer.state.native_nitrous.request(false);
+        }
         let ranking = ranked_indices(race);
         let mut position = ranking.iter().position(|i| *i == 0).unwrap_or(0) as u32 + 1;
         if race.spectating {
@@ -2736,6 +2758,7 @@ impl Game {
     }
     fn snapshot_content(&self, include_content: bool) -> GameSnapshot {
         let race = self.race.as_ref().map(|r| RaceSnapshot {
+            native_discipline: r.event.native_discipline,
             bet_offer: r.bet_offer.clone(),
             wager: r.wager,
             bet_racer: r.bet_racer,
@@ -2800,6 +2823,9 @@ impl Game {
                     },
                     steering: v.state.steering,
                     nitrous: v.state.nitrous,
+                    nitrous_active: v.state.native_nitrous.active
+                        && v.state.native_nitrous.tank > 0.,
+                    nitrous_pressure_band: v.state.native_nitrous.pressure_band,
                     lap: v.lap,
                     checkpoint: v.checkpoint,
                     progress: v.progress,
@@ -3145,6 +3171,11 @@ fn customized_handling(base: &Handling, customization: &Customization) -> Handli
     let mut handling = base.clone();
     handling.peak_torque *= 1. + customization.engine as f32 * 0.12;
     handling.peak_bhp *= 1. + customization.engine as f32 * 0.12;
+    // Accepted-donor power tuning remains an adaptation until the native package catalog is bound.
+    handling.nitrous_power_factor *= handling.peak_bhp / base.peak_bhp;
+    if let Some(control) = customization.nitrous_capacity_control {
+        handling.nitrous_capacity_control = control;
+    }
     let tyre_scale = 1. + customization.tyres as f32 * 0.06;
     handling.tyre_mu *= tyre_scale;
     handling.rear_tyre_mu = handling.rear_tyre_mu.map(|mu| mu * tyre_scale);
@@ -3311,6 +3342,24 @@ fn ai_input(
         8.
     } else {
         22. + r.dna.aggression * 6.
+    };
+    let desired_speed = if mode.is_drift() || r.drive_layout != crate::DriveLayout::Rwd { desired_speed } else {
+        // Reconstructed RWD input policy: brake before a curved route, not only
+        // after the heading error is large. This does not alter vehicle forces.
+        let lateral_error=distance_xz(r.state.position,projection);
+        let mut limit=desired_speed/(1.+lateral_error*0.15);
+        let mut distance=distance_xz(r.state.position,checkpoint);
+        for ahead in 0..12.min(track.points.len()) {
+            let j=(r.checkpoint+ahead)%track.points.len();
+            let a=track.points[(j+track.points.len()-1)%track.points.len()];
+            let b=track.points[j];let c=track.points[(j+1)%track.points.len()];
+            let angle=wrap_angle((c[0]-b[0]).atan2(c[2]-b[2])-(b[0]-a[0]).atan2(b[2]-a[2])).abs();
+            let curvature=angle/((distance_xz(a,b)+distance_xz(b,c))*0.5).max(0.1);
+            let corner=(6./curvature.max(0.0001)).sqrt().max(5.);
+            limit=limit.min((corner*corner+8.*distance).sqrt());
+            distance+=distance_xz(b,c);
+        }
+        limit
     };
     let demand = native_ai_speed_demand(
         r.state.body_velocity()[2],
@@ -3793,9 +3842,15 @@ fn goal_matches_event(
     track: &TrackDefinition,
 ) -> bool {
     let route = if goal.route.is_empty() {
-        goal.native_rows.iter().find(|row|row.first().and_then(|v|v.as_str())==Some("Route"))
-            .and_then(|row|row.get(1)).and_then(|v|v.as_str()).unwrap_or("")
-    } else { &goal.route };
+        goal.native_rows
+            .iter()
+            .find(|row| row.first().and_then(|v| v.as_str()) == Some("Route"))
+            .and_then(|row| row.get(1))
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+    } else {
+        &goal.route
+    };
     let drift = event.stage_mode().is_drift();
     let subtype = match event.stage_mode() {
         RaceMode::Eliminator => "Eliminator",

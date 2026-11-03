@@ -150,7 +150,6 @@ pub(crate) fn cart_changes(
         ),
         ("suspension", "Suspension", old.suspension, new.suspension),
         ("tyres", "Tyres", old.tyres, new.tyres),
-        ("nitrous", "Nitrous", old.nitrous, new.nitrous),
     ] {
         if before != after {
             let key = format!("{field}:{after}");
@@ -169,7 +168,10 @@ pub(crate) fn cart_changes(
             push(field, &format!("{label} stage {after}"), cost);
         }
     }
-    if old.tuning != new.tuning {
+    if old.tuning != new.tuning
+        || old.nitrous_capacity_control.unwrap_or(0.5)
+            != new.nitrous_capacity_control.unwrap_or(0.5)
+    {
         push("tuning", "Setup tuning", 250);
     }
     if old.vinyls != new.vinyls {
@@ -210,7 +212,10 @@ pub(crate) fn revert_field(new: &mut Customization, old: &Customization, field: 
         "suspension" => new.suspension = old.suspension,
         "tyres" => new.tyres = old.tyres,
         "nitrous" => new.nitrous = old.nitrous,
-        "tuning" => new.tuning = old.tuning,
+        "tuning" => {
+            new.tuning = old.tuning;
+            new.nitrous_capacity_control = old.nitrous_capacity_control;
+        }
         "vinyls" => new.vinyls = old.vinyls.clone(),
         "plate" => {
             new.plate_text = old.plate_text.clone();
