@@ -42,6 +42,7 @@
 
 #include "core/config.h"
 #include "core/math_utils.h"
+#include "physics/drivetrain.h"
 #include "physics/surface.h"
 
 /* Curvature below this is a straight; the reciprocal would otherwise overflow the target. */
@@ -555,8 +556,18 @@ void ai_driver_update(const AiDriverConfig *cfg, AiDriverState *state, const Tra
     const float horizonM =
         speedMps * speedMps / (2.0f * brakeAccelLimit) + AI_SPEED_SCAN_MARGIN_M;
 
-    float targetSpeedMps = cfg->maxSpeedMps;
-    float bindingCurvature1pm = 0.0f;
+    /* Driven steering wheels share their grip with acceleration, so budget the actual
+     * pursuit arc. An undriven front axle keeps the road-speed budget while tracking
+     * normally, and needs the recovery bound once the target line leaves its footprint. */
+    const float recoveryCurvature =
+        drivetrain_front_torque_share(spec) > 0.0f || fabsf(crossTrackM) > spec->bodyHalfWidthM
+            ? fabsf(arcCurvature)
+            : 0.0f;
+    float targetSpeedMps =
+        recoveryCurvature > AI_MIN_CURVATURE_1PM
+            ? minf(cfg->maxSpeedMps, sqrtf(latAccelLimit / recoveryCurvature))
+            : cfg->maxSpeedMps;
+    float bindingCurvature1pm = targetSpeedMps < cfg->maxSpeedMps ? recoveryCurvature : 0.0f;
     float bindingDistanceM = 0.0f;
     float scannedM = 0.0f;
     Vector2 walk = bestPoint;
@@ -590,7 +601,9 @@ void ai_driver_update(const AiDriverConfig *cfg, AiDriverState *state, const Tra
     /* Traction management: ease off while the tyres are at the limit, feed the power back in
      * once they hook up again. Both directions are rate-bounded, so the throttle this produces
      * is smooth however jagged the underlying friction reading is. */
-    if (derived->maxFrictionUsage >= cfg->gripCutThreshold) {
+    /* Below the dynamic blend, slip/friction usage can saturate while the car barely
+     * moves. Cutting power there can strand it indefinitely in first gear. */
+    if (speedMps >= LOW_SPEED_END_MPS && derived->maxFrictionUsage >= cfg->gripCutThreshold) {
         state->gripCut += cfg->gripCutRatePerS * dt;
     } else {
         state->gripCut -= cfg->gripRecoverRatePerS * dt;

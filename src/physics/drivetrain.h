@@ -17,6 +17,8 @@ typedef struct {
 
 float drivetrain_engine_torque_at_rpm(const VehicleSpec *spec, float engineRpm);
 float drivetrain_total_gear_ratio(const VehicleSpec *spec, int selectedGear);
+float drivetrain_effective_gear_ratio(const VehicleSpec *spec, int selectedGear,
+                                      float drivenAngularVelocityRadS);
 
 /*
  * Fraction of driveline torque sent to the FRONT axle: 0 for RWD, 1 for FWD, the configured
@@ -41,6 +43,8 @@ float drivetrain_engine_rpm(const VehicleSpec *spec, int selectedGear,
  * the torque calculation cannot disagree about which wheels the engine is connected to.
  */
 float drivetrain_driven_mean_omega(const float omegaRadS[WHEEL_COUNT], float frontShare);
+float drivetrain_vehicle_mean_omega(const VehicleSpec *spec,
+                                    const float omegaRadS[WHEEL_COUNT]);
 
 /*
  * One driven axle's differential, from carrier torque to the two wheel torques.

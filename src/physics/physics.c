@@ -83,9 +83,9 @@ void physics_update_steering(const VehicleSpec *spec, VehicleState *state, float
         steerFR = deltaC + spec->ackermannPercent * (deltaR - deltaC);
     }
     state->wheels[WHEEL_FRONT_LEFT].steerAngleRad = steerFL;
-    state->wheels[WHEEL_FRONT_RIGHT].steerAngleRad = steerFR;
-    state->wheels[WHEEL_REAR_LEFT].steerAngleRad = 0.0f;
-    state->wheels[WHEEL_REAR_RIGHT].steerAngleRad = 0.0f;
+    state->wheels[WHEEL_FRONT_RIGHT].steerAngleRad =
+        spec->frontWheelCount == 1.0f ? 0.0f : steerFR;
+    for (int i = WHEEL_REAR_LEFT; i < WHEEL_COUNT; i++) state->wheels[i].steerAngleRad = 0.0f;
 }
 
 void physics_axle_slip_angles(const VehicleSpec *spec, const VehicleState *state,
@@ -287,6 +287,7 @@ bool physics_state_is_valid(const VehicleSpec *spec, const VehicleState *state,
     FINITE_VALUE(state->filteredLatAccelMps2);
     FINITE_VALUE(state->prevLatAccelMps2);
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         const WheelState *wheel = &state->wheels[i];
         FINITE_VALUE(wheel->localPositionM.x);
         FINITE_VALUE(wheel->localPositionM.y);
@@ -327,6 +328,7 @@ bool physics_state_is_valid(const VehicleSpec *spec, const VehicleState *state,
     FINITE_VALUE(derived->rearBodyForceN.x);
     FINITE_VALUE(derived->rearBodyForceN.y);
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         FINITE_VALUE(derived->wheelContactVelocityBodyMps[i].x);
         FINITE_VALUE(derived->wheelContactVelocityBodyMps[i].y);
         FINITE_VALUE(derived->pureLongitudinalForceN[i]);
@@ -401,21 +403,18 @@ bool physics_state_is_valid(const VehicleSpec *spec, const VehicleState *state,
     /* Lateral load transfer asymmetrizes the per-axle split. The simple sum check is only
      * valid when neither wheel of an axle has hit the MIN_NORMAL_LOAD_N floor. Once the
      * floor breaks load conservation, the sum is expected to deviate from the axle total. */
-    {
-        const float frontSum = state->wheels[WHEEL_FRONT_LEFT].normalLoadN +
-                               state->wheels[WHEEL_FRONT_RIGHT].normalLoadN;
-        const bool frontFloored =
-            state->wheels[WHEEL_FRONT_LEFT].normalLoadN <= MIN_NORMAL_LOAD_N + 1e-3f ||
-            state->wheels[WHEEL_FRONT_RIGHT].normalLoadN <= MIN_NORMAL_LOAD_N + 1e-3f;
-        if (!frontFloored && fabsf(frontSum - derived->normalLoadFrontN) > 1e-2f) return false;
-    }
-    {
-        const float rearSum = state->wheels[WHEEL_REAR_LEFT].normalLoadN +
-                              state->wheels[WHEEL_REAR_RIGHT].normalLoadN;
-        const bool rearFloored =
-            state->wheels[WHEEL_REAR_LEFT].normalLoadN <= MIN_NORMAL_LOAD_N + 1e-3f ||
-            state->wheels[WHEEL_REAR_RIGHT].normalLoadN <= MIN_NORMAL_LOAD_N + 1e-3f;
-        if (!rearFloored && fabsf(rearSum - derived->normalLoadRearN) > 1e-2f) return false;
+    for (int group = 0; group < 2; group++) {
+        float sum = 0.0f;
+        bool floored = false;
+        for (int i = 0; i < WHEEL_COUNT; i++) {
+            if (!vehicle_wheel_is_active(spec, i) || (i <= WHEEL_FRONT_RIGHT) != (group == 0))
+                continue;
+            sum += state->wheels[i].normalLoadN;
+            floored |= state->wheels[i].normalLoadN <= MIN_NORMAL_LOAD_N + 1e-3f;
+        }
+        const float expected =
+            group == 0 ? derived->normalLoadFrontN : derived->normalLoadRearN;
+        if (!floored && fabsf(sum - expected) > 1e-2f) return false;
     }
 
     /* Lateral transfer direction check: when lateral acceleration is significant and neither
@@ -456,6 +455,7 @@ bool physics_state_is_valid(const VehicleSpec *spec, const VehicleState *state,
         RESISTANCE_POWER_TOLERANCE_W)
         return false;
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         if (derived->wheelRollingResistanceN[i] < 0.0f) return false;
         float expectedMagnitudeN = 0.0f;
         (void)physics_rolling_resistance_body_n(
@@ -481,7 +481,7 @@ bool physics_state_is_valid(const VehicleSpec *spec, const VehicleState *state,
          * rotate at different speeds (turns, asymmetric surfaces), so requiring lockstep
          * there would reject valid states and roll the step back. */
         const float frontShare = drivetrain_front_torque_share(spec);
-        if (frontShare > 0.0f &&
+        if (frontShare > 0.0f && spec->frontWheelCount == 2.0f &&
             fabsf(state->wheels[WHEEL_FRONT_LEFT].angularVelocityRadS -
                   state->wheels[WHEEL_FRONT_RIGHT].angularVelocityRadS) > 1e-5f)
             return false;
@@ -532,6 +532,7 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
     renderState->prevPositionM = renderState->currPositionM;
     renderState->prevHeadingRad = renderState->currHeadingRad;
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         renderState->prevWheelAngleRad[i] = renderState->currWheelAngleRad[i];
     }
 
@@ -553,7 +554,7 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
      * OPEN/LSD perform no equalization at all. */
     const DifferentialMode diffMode = (DifferentialMode)(int)spec->differentialMode;
     const float frontShare = drivetrain_front_torque_share(spec);
-    if (diffMode == DIFF_LOCKED && frontShare > 0.0f) {
+    if (diffMode == DIFF_LOCKED && frontShare > 0.0f && spec->frontWheelCount == 2.0f) {
         const float frontAngularVelocityRadS =
             0.5f * (state->wheels[WHEEL_FRONT_LEFT].angularVelocityRadS +
                     state->wheels[WHEEL_FRONT_RIGHT].angularVelocityRadS);
@@ -577,15 +578,16 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
      * driveline is actually connected to. Tire reaction torque is the torque the road exerts
      * on a wheel (Fx * R) and feeds the LSD grip limit. On the first step after a reset these
      * are 0, which conservatively limits an LSD to its preload only. */
-    float wheelOmegaRadS[WHEEL_COUNT];
-    float wheelTireReactionNm[WHEEL_COUNT];
+    float wheelOmegaRadS[WHEEL_COUNT] = { 0 };
+    float wheelTireReactionNm[WHEEL_COUNT] = { 0 };
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         wheelOmegaRadS[i] = state->wheels[i].angularVelocityRadS;
         wheelTireReactionNm[i] =
             state->wheels[i].forceLongitudinalN * vehicle_wheel_radius_m(spec, i);
     }
 
-    const float drivenOmegaRadS = drivetrain_driven_mean_omega(wheelOmegaRadS, frontShare);
+    const float drivenOmegaRadS = drivetrain_vehicle_mean_omega(spec, wheelOmegaRadS);
     state->engineRpm = drivetrain_engine_rpm(spec, state->selectedGear, drivenOmegaRadS);
 
     DrivetrainTorques torques = drivetrain_calculate_torques(
@@ -602,10 +604,12 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
         const float frontServiceTotalNm = input->brake * spec->maxBrakeTorqueNm * effectiveBias;
         const float rearServiceTotalNm =
             input->brake * spec->maxBrakeTorqueNm * (1.0f - effectiveBias);
-        torques.serviceBrakeTorqueNm[WHEEL_FRONT_LEFT] = frontServiceTotalNm * 0.5f;
-        torques.serviceBrakeTorqueNm[WHEEL_FRONT_RIGHT] = frontServiceTotalNm * 0.5f;
-        torques.serviceBrakeTorqueNm[WHEEL_REAR_LEFT] = rearServiceTotalNm * 0.5f;
-        torques.serviceBrakeTorqueNm[WHEEL_REAR_RIGHT] = rearServiceTotalNm * 0.5f;
+        for (int i = 0; i < WHEEL_COUNT; i++) {
+            if (!vehicle_wheel_is_active(spec, i)) continue;
+            torques.serviceBrakeTorqueNm[i] = i <= WHEEL_FRONT_RIGHT
+                                                  ? frontServiceTotalNm / spec->frontWheelCount
+                                                  : rearServiceTotalNm * 0.5f;
+        }
     }
     derived->differentialOmegaRadS[0] = rearOmegaLeftRadS;
     derived->differentialOmegaRadS[1] = rearOmegaRightRadS;
@@ -615,6 +619,7 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
     derived->totalGearRatio = torques.totalGearRatio;
     derived->drivelineTorqueNm = torques.drivelineTorqueNm;
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         derived->driveTorqueNm[i] = torques.driveTorqueNm[i];
         derived->serviceBrakeTorqueNm[i] = torques.serviceBrakeTorqueNm[i];
         derived->handbrakeTorqueNm[i] = torques.handbrakeTorqueNm[i];
@@ -623,6 +628,7 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
     /* --- 5. contact-point velocities ---------------------------------------------------- */
 
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         derived->wheelContactVelocityBodyMps[i] =
             physics_contact_point_velocity_body(state, state->wheels[i].localPositionM);
     }
@@ -641,6 +647,7 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
      * contact-point velocity and steer angle rather than the axle aggregate. The axle slip
      * angles above remain for telemetry diagnostics and the kinematic low-speed branch. */
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         WheelState *wheel = &state->wheels[i];
         const float vxSafe =
             fmaxf(fabsf(derived->wheelContactVelocityBodyMps[i].x), LOW_SPEED_EPSILON_MPS);
@@ -702,15 +709,20 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
     const float rollMoment = spec->massKg * state->filteredLatAccelMps2 * spec->cgHeightM;
     float dFzFront = 0.0f, dFzRear = 0.0f;
     if (spec->lateralLoadTransferEnabled) {
-        dFzFront = spec->rollStiffnessFrontFraction * rollMoment / spec->trackWidthFrontM;
-        dFzRear =
-            (1.0f - spec->rollStiffnessFrontFraction) * rollMoment / spec->trackWidthRearM;
+        if (spec->frontWheelCount == 1.0f) {
+            dFzRear = rollMoment / spec->trackWidthRearM;
+        } else {
+            dFzFront = spec->rollStiffnessFrontFraction * rollMoment / spec->trackWidthFrontM;
+            dFzRear =
+                (1.0f - spec->rollStiffnessFrontFraction) * rollMoment / spec->trackWidthRearM;
+        }
     }
     derived->rollMomentNm = rollMoment;
     derived->lateralLoadTransferFrontN = dFzFront;
     derived->lateralLoadTransferRearN = dFzRear;
 
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         const bool front = (i <= WHEEL_FRONT_RIGHT);
         const float axleTotalN = front ? loads.frontN : loads.rearN;
         const float dFzAxle = front ? dFzFront : dFzRear;
@@ -721,7 +733,8 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
          * for right turns automatically: when ay<0 and dFzAxle<0, −dFz becomes
          * positive on the left (outside) and +dFz becomes negative on the right
          * (inside). The single formula covers both directions. */
-        float Fz = axleTotalN * 0.5f + (py > 0.0f ? -dFzAxle : dFzAxle);
+        const float count = front ? spec->frontWheelCount : 2.0f;
+        float Fz = axleTotalN / count + (py > 0.0f ? -dFzAxle : dFzAxle);
         Fz = fmaxf(Fz, MIN_NORMAL_LOAD_N);
         state->wheels[i].normalLoadN = Fz;
     }
@@ -729,6 +742,7 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
     /* --- 10/11. pure tire forces and the combined-friction limit ------------------------- */
 
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         WheelState *wheel = &state->wheels[i];
         const bool front = i <= WHEEL_FRONT_RIGHT;
         const float lateralB = front ? spec->tireBLatFront : spec->tireBLatRear;
@@ -790,6 +804,7 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
     Vector2 rollingN = { 0.0f, 0.0f };
     derived->rollingResistanceMagnitudeN = 0.0f;
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         const Vector2 wheelRollingN = physics_rolling_resistance_body_n(
             Surface_Get(state->wheels[i].surfaceId)->rollingResistanceCoefficient,
             state->wheels[i].normalLoadN, derived->wheelContactVelocityBodyMps[i],
@@ -825,6 +840,7 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
             const float targetWheelFxBodyN = stopNetN - longitudinalResistanceN;
             const float scale = clampf(targetWheelFxBodyN / wheelFxBodyN, 0.0f, 1.0f);
             for (int i = 0; i < WHEEL_COUNT; i++) {
+                if (!vehicle_wheel_is_active(spec, i)) continue;
                 WheelState *wheel = &state->wheels[i];
                 wheel->forceLongitudinalN *= scale;
                 const SurfaceSpec *sv2 = Surface_Get(wheel->surfaceId);
@@ -847,6 +863,7 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
     derived->rearBodyForceN = (Vector2){ 0.0f, 0.0f };
     derived->totalYawTorqueNm = 0.0f;
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         const bool front = (i <= WHEEL_FRONT_RIGHT);
         /* Wheel-frame lateral force sum (for telemetry; before rotation). */
         if (front)
@@ -950,6 +967,7 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
     /* Constant across the four wheels: the slip at which the longitudinal curve peaks. */
     const float peakSlip = tanf(OVERSTEER_PI / (2.0f * spec->tireCLong)) / spec->tireBLong;
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         /* Body integration precedes wheel integration, so the brake/free-roll crossing
          * guard uses the updated contact speed rather than lagging one fixed tick behind. */
         const float wheelVxMps = state->velocityLongitudinalMps;
@@ -1004,26 +1022,32 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
     }
     /* Locked-axle enforcement: only for LOCKED mode, applied to each DRIVEN axle.
      * OPEN and LSD let wheels rotate independently, so no equalization is performed. */
-    if (diffMode == DIFF_LOCKED && frontShare > 0.0f)
+    if (diffMode == DIFF_LOCKED && frontShare > 0.0f && spec->frontWheelCount == 2.0f)
         locked_axle_equalize(state, WHEEL_FRONT_LEFT, WHEEL_FRONT_RIGHT);
-    if (diffMode == DIFF_LOCKED && frontShare < 1.0f)
+    if (diffMode == DIFF_LOCKED && frontShare < 1.0f) {
         locked_axle_equalize(state, WHEEL_REAR_LEFT, WHEEL_REAR_RIGHT);
+    }
     if (diffMode == DIFF_LOCKED && torques.totalGearRatio != 0.0f) {
         const float redlineWheelOmegaRadS =
             spec->engineRedlineRpm * OVERSTEER_TWO_PI / (60.0f * fabsf(torques.totalGearRatio));
-        if (frontShare > 0.0f)
+        if (frontShare > 0.0f && spec->frontWheelCount == 2.0f)
             locked_axle_clamp_redline(state, WHEEL_FRONT_LEFT, WHEEL_FRONT_RIGHT,
                                       redlineWheelOmegaRadS);
-        if (frontShare < 1.0f)
+        else if (frontShare > 0.0f)
+            state->wheels[WHEEL_FRONT_LEFT].angularVelocityRadS =
+                clampf(state->wheels[WHEEL_FRONT_LEFT].angularVelocityRadS,
+                       -redlineWheelOmegaRadS, redlineWheelOmegaRadS);
+        if (frontShare < 1.0f) {
             locked_axle_clamp_redline(state, WHEEL_REAR_LEFT, WHEEL_REAR_RIGHT,
                                       redlineWheelOmegaRadS);
+        }
     }
     {
         float postOmega[WHEEL_COUNT];
         for (int i = 0; i < WHEEL_COUNT; i++)
             postOmega[i] = state->wheels[i].angularVelocityRadS;
         state->engineRpm = drivetrain_engine_rpm(
-            spec, state->selectedGear, drivetrain_driven_mean_omega(postOmega, frontShare));
+            spec, state->selectedGear, drivetrain_vehicle_mean_omega(spec, postOmega));
     }
 
     /* Body acceleration is force divided by mass. Do not reconstruct it from the integrated
@@ -1052,6 +1076,7 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
                      fmaxf(fabsf(state->velocityLongitudinalMps), LOW_SPEED_EPSILON_MPS));
     derived->maxFrictionUsage = 0.0f;
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         derived->maxFrictionUsage =
             fmaxf(derived->maxFrictionUsage, state->wheels[i].frictionUsage);
     }
@@ -1060,6 +1085,7 @@ void physics_fixed_update(const VehicleSpec *spec, VehicleState *state, VehicleD
     renderState->currPositionM = state->positionM;
     renderState->currHeadingRad = state->headingRad;
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
         renderState->currWheelAngleRad[i] = state->wheels[i].steerAngleRad;
     }
 

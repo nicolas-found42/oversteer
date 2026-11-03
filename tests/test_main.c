@@ -39,17 +39,16 @@ static void print_usage(const char *argv0)
     printf("       %s --generate-corpus [DIR]   export the vehicle corpus as tuning profiles\n",
            argv0);
     printf("       %s --dump-corpus-index [PATH] write the corpus table as Markdown\n", argv0);
-    printf("       %s --dump-corpus-metrics [PATH] write corpus latents+signatures as CSV\n",
-           argv0);
-    printf("       %s --dump-corpus-cards [DIR]  per-car PNGs, label maps and cards.json\n",
-           argv0);
-    printf("       %s --dump-corpus-sheet [DIR]  render the vehicle contact sheet (PNG+HTML)\n",
-           argv0);
-    printf("       %s --measure-sweep KEY       can this key carry a corpus sweep row?\n",
+    printf("       %s --dump-corpus-cards [DIR]  source-model PNGs and cards.json\n", argv0);
+    printf("       %s --dump-corpus-sheet [DIR]  write the source-model contact sheet\n",
            argv0);
     printf("       %s --list-cars               list validation roster car ids\n", argv0);
     printf("       %s --generate-roster [DIR]   export roster cars as tuning profiles\n",
            argv0);
+    printf("       %s --vehicle-card PROFILE PREFIX   render one researched vehicle\n", argv0);
+    printf("       %s --measure-vehicle PROFILE PREFIX   render and benchmark one vehicle\n",
+           argv0);
+    printf("       %s --measure-physics PROFILE PREFIX   benchmark without rendering\n", argv0);
 }
 
 /* Write one XML-safe character; returns the number of bytes written. */
@@ -135,6 +134,17 @@ int main(int argc, char **argv)
         if (strcmp(argv[i], "--dump-params") == 0) {
             return test_dump_params((i + 1 < argc) ? argv[i + 1] : NULL);
         }
+        if (strcmp(argv[i], "--vehicle-card") == 0 ||
+            strcmp(argv[i], "--measure-vehicle") == 0 ||
+            strcmp(argv[i], "--measure-physics") == 0) {
+            if (i + 2 >= argc) {
+                fprintf(stderr, "vehicle measurement needs PROFILE and PREFIX\n");
+                return 2;
+            }
+            return test_measure_vehicle(argv[i + 1], argv[i + 2],
+                                        strcmp(argv[i], "--vehicle-card") != 0,
+                                        strcmp(argv[i], "--measure-physics") != 0);
+        }
         if (strcmp(argv[i], "--benchmark") == 0) {
             return test_run_benchmark((i + 1 < argc) ? atoi(argv[i + 1]) : 0);
         }
@@ -153,18 +163,11 @@ int main(int argc, char **argv)
             return test_dump_corpus_index((i + 1 < argc && argv[i + 1][0] != '-') ? argv[i + 1]
                                                                                   : NULL);
         }
-        if (strcmp(argv[i], "--measure-sweep") == 0) {
-            return test_measure_sweep((i + 1 < argc) ? argv[i + 1] : NULL);
-        }
         if (strcmp(argv[i], "--dump-corpus-cards") == 0) {
             const char *dir = (i + 1 < argc && argv[i + 1][0] != '-')
                                   ? argv[i + 1]
                                   : "artifacts/corpus-cards";
             return test_dump_corpus_cards(dir);
-        }
-        if (strcmp(argv[i], "--dump-corpus-metrics") == 0) {
-            return test_dump_corpus_metrics(
-                (i + 1 < argc && argv[i + 1][0] != '-') ? argv[i + 1] : NULL);
         }
         if (strcmp(argv[i], "--dump-corpus-sheet") == 0) {
             const char *dir =

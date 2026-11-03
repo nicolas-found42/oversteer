@@ -29,8 +29,6 @@
 #include "scenario_shared.h"
 
 #include "dev/car_corpus.h"
-#include "render/car_visual.h"
-#include "render/car_visual_raster.h"
 #include "core/config.h"
 #include "dev/dev_params.h"
 #include "dev/dev_replay.h"
@@ -206,7 +204,8 @@ static void scenario_math(void)
     check_near_angle(wrap_angle(0.0f), 0.0f, 1e-6f, "wrap_angle(0)");
     check_near((double)wrap_angle(OVERSTEER_PI), -(double)OVERSTEER_PI, 1e-5,
                "wrap_angle(+PI) returns -PI (range is closed below, open above)");
-    check_near((double)wrap_angle(-OVERSTEER_PI), -(double)OVERSTEER_PI, 1e-5, "wrap_angle(-PI)");
+    check_near((double)wrap_angle(-OVERSTEER_PI), -(double)OVERSTEER_PI, 1e-5,
+               "wrap_angle(-PI)");
     check_near_angle(wrap_angle(3.0f * OVERSTEER_PI), OVERSTEER_PI, 1e-4f, "wrap_angle(3*PI)");
     check_near((double)wrap_angle(0.5f), 0.5, 1e-6,
                "wrap_angle leaves an in-range angle alone");

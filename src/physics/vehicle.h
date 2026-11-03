@@ -101,6 +101,9 @@ typedef struct {
     float massDriverKg, massDriverXM, massDriverZM;
     float massChassisKg, massChassisXM, massChassisZM;
 
+    /* The retained 1886 Benz has one centered front steering wheel. */
+    float frontWheelCount; /* 1 (Benz) or 2 */
+
     /* ---- tire designation (primary) ---- */
     float tireSectionWidthFrontMm, tireSectionWidthRearMm;
     float tireAspectFrontPct, tireAspectRearPct;
@@ -169,6 +172,12 @@ typedef struct {
     float reverseGearRatio;
     float finalDriveRatio;
     float drivetrainEfficiency;
+    float continuousTransmission; /* 0=stepped; 1=equivalent continuously variable ratio */
+    float cvtMinRatio,
+        cvtMaxRatio; /* gearbox ratios, before final drive; estimates if unknown */
+    float cvtTargetRpm;
+    float
+        maxDrivenWheelRpm; /* 0=unlimited; equivalent output-speed limit, independent of ICE */
     float engineIdleRpm;
     float engineRedlineRpm;
     float engineTorqueCurveNm[ENGINE_CURVE_POINTS];
@@ -302,6 +311,9 @@ typedef struct {
 } VehicleRenderState;
 
 void vehicle_spec_set_default(VehicleSpec *spec);
+bool vehicle_wheel_is_active(const VehicleSpec *spec, int wheelIndex);
+int vehicle_active_wheel_count(const VehicleSpec *spec);
+Vector2 vehicle_wheel_local_position_m(const VehicleSpec *spec, int wheelIndex);
 /* Staged recompute of derived VehicleSpec fields (dimensions → mass → tires →
  * suspension → brakes). Safe to call repeatedly; does nothing on NULL. */
 void vehicle_spec_refresh_derived(VehicleSpec *spec);

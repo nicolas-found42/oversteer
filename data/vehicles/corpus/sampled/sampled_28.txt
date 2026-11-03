@@ -139,7 +139,7 @@ brake.pad_friction           = 0.380000     # (default 0.380000)
 
 # --- Aero ---
 aero.lift_front              = 0.050000     # (default 0.050000)
-aero.lift_rear               = -0.040540    # (default 0.100000)
+aero.lift_rear               = -0.040541    # (default 0.100000)
 aero.ref_area_front          = 0.400000     # m^2 (default 0.400000)
 aero.ref_area_rear           = 0.550000     # m^2 (default 0.550000)
 aero.cop_x                   = -0.200000    # m (default -0.200000)

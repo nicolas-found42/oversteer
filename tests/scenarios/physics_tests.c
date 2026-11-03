@@ -21,8 +21,6 @@
 
 #include "dev/car_corpus.h"
 #include "game/car_roster.h"
-#include "render/car_visual.h"
-#include "render/car_visual_raster.h"
 #include "core/config.h"
 #include "dev/dev_params.h"
 #include "dev/dev_presets.h"
@@ -2239,6 +2237,23 @@ static void scenario_params(void)
               "a refused profile changes nothing");
     }
     check(vehicle_spec_is_valid(&guarded), "the spec is valid whatever the profile said");
+
+    /* Manufacturer 2005 Viper: six gears, 712 Nm and 8.275 L. Import must not
+     * silently retain five gears or clamp researched values to the old envelope. */
+    VehicleSpec researched = defaults;
+    const char *sixSpeed = "drive.gear_count = 6\ndrive.gear6 = 0.50\n"
+                           "engine.torque_p3 = 712\nengine.displacement = 8.275\n";
+    check(dev_params_apply_text(&researched, sixSpeed, strlen(sixSpeed), &applied, &unknown,
+                                &rejected),
+          "researched six-speed profile loads");
+    check(unknown == 0 && rejected == 0, "researched gearbox keys are registered");
+    check(researched.gearCount == 6, "profile retains the researched gear count");
+    check_near(researched.gearRatios[5], 0.50, 1e-7, "sixth gear reaches the solver");
+    check_near(researched.engineTorqueCurveNm[3], 712.0, 1e-5,
+               "712 Nm is not silently clamped");
+    check_near(researched.engineDisplacementL, 8.275, 1e-5, "8.275 L is not silently clamped");
+    check_near(drivetrain_total_gear_ratio(&researched, 6), 0.50 * researched.finalDriveRatio,
+               1e-6, "sixth gear participates in drivetrain calculation");
 }
 
 /* ------------------------------------------------------------------------------------- */
@@ -3070,7 +3085,148 @@ static void scenario_roster(void)
     }
 }
 
+static void scenario_researched_wheel_topology(void)
+{
+    const char *profiles[] = { "wheel.front_count = 1\nbody.track_front = 0\n",
+                               "wheel.front_count = 2\nbody.track_front = 1.52\n" };
+    const int expectedCounts[] = { 3, 4 };
+    for (int test = 0; test < 2; test++) {
+        VehicleSpec spec;
+        VehicleState state;
+        VehicleDerived derived;
+        VehicleRenderState history;
+        vehicle_spec_set_default(&spec);
+        int unknown = 0, rejected = 0;
+        check(dev_params_apply_text(&spec, profiles[test], strlen(profiles[test]), NULL,
+                                    &unknown, &rejected),
+              "researched wheel topology loads");
+        check(unknown == 0 && rejected == 0, "wheel topology keys are registered");
+        vehicle_state_reset(&spec, &state, &derived, &history);
+        const int capacity = (int)(sizeof(state.wheels) / sizeof(state.wheels[0]));
+        int active = 0;
+        float sum = 0.0f;
+        float rearMin = 1e6f, rearMax = -1e6f;
+        for (int i = 0; i < capacity; i++) {
+            if (state.wheels[i].normalLoadN <= 0.0f) continue;
+            active++;
+            sum += state.wheels[i].normalLoadN;
+            if (i >= WHEEL_REAR_LEFT) {
+                rearMin = fminf(rearMin, state.wheels[i].localPositionM.x);
+                rearMax = fmaxf(rearMax, state.wheels[i].localPositionM.x);
+            }
+        }
+        check(active == expectedCounts[test], "researched topology has %d active contacts",
+              expectedCounts[test]);
+        check_near(sum, spec.massKg * GRAVITY_MPS2, 0.01, "extra slots create no ghost load");
+        if (test == 0) {
+            check_near(state.wheels[WHEEL_FRONT_LEFT].localPositionM.y, 0, 0,
+                       "Benz single front wheel is centered");
+            check_near(state.wheels[WHEEL_FRONT_RIGHT].normalLoadN, 0, 0,
+                       "unused front slot carries no load");
+        } else {
+            check_near(rearMax - rearMin, 0, 0, "rear wheels share one axle");
+        }
+        Input input;
+        input_zero(&input);
+        input.throttle = 0.5f;
+        for (int tick = 0; tick < 120; tick++)
+            physics_fixed_update(&spec, &state, &derived, &history, &input, FIXED_DT_S);
+        check(physics_state_is_valid(&spec, &state, &derived),
+              "researched topology preserves force/load invariants");
+        check(state.positionM.x > 0.0f, "researched topology can launch");
+        for (int layout = DRIVE_LAYOUT_RWD; layout <= DRIVE_LAYOUT_AWD; layout++) {
+            for (int mode = DIFF_LOCKED; mode <= DIFF_LSD; mode++) {
+                spec.drivetrainLayout = (float)layout;
+                spec.differentialMode = (float)mode;
+                vehicle_state_reset(&spec, &state, &derived, &history);
+                state.velocityLongitudinalMps = 8.0f;
+                for (int i = 0; i < capacity; i++) {
+                    if (vehicle_wheel_is_active(&spec, i))
+                        state.wheels[i].angularVelocityRadS =
+                            8.0f / vehicle_wheel_radius_m(&spec, i);
+                }
+                input_zero(&input);
+                input.throttle = 0.5f;
+                input.steer = 0.25f;
+                for (int tick = 0; tick < 240; tick++) {
+                    if (tick == 120) {
+                        input.throttle = 0.0f;
+                        input.brake = 0.8f;
+                    }
+                    physics_fixed_update(&spec, &state, &derived, &history, &input, FIXED_DT_S);
+                }
+                check(physics_state_is_valid(&spec, &state, &derived),
+                      "topology %d layout %d differential %d survives turning and braking",
+                      expectedCounts[test], layout, mode);
+                check(state.positionM.x > 0.0f, "turning/braking topology advances");
+                for (int i = 0; i < capacity; i++) {
+                    if (vehicle_wheel_is_active(&spec, i)) continue;
+                    check_near(state.wheels[i].normalLoadN, 0.0, 0.0,
+                               "inactive contacts have zero normal load");
+                    check_near(state.wheels[i].angularVelocityRadS, 0.0, 0.0,
+                               "inactive contacts have zero wheel motion");
+                }
+            }
+        }
+    }
+}
+
+static void scenario_continuous_transmission(void)
+{
+    VehicleSpec spec;
+    vehicle_spec_set_default(&spec);
+    spec.continuousTransmission = 1.0f;
+    spec.cvtTargetRpm = 4500.0f;
+    spec.cvtMinRatio = 0.5f;
+    spec.cvtMaxRatio = 4.0f;
+    spec.finalDriveRatio = 4.0f;
+    check_near(drivetrain_effective_gear_ratio(&spec, 1, 0.0f), 16.0, 1e-5,
+               "CVT launch is limited by maximum ratio");
+    check_near(drivetrain_engine_rpm(&spec, 1, 100.0f), 4500.0, 0.01,
+               "CVT changes ratio to hold target RPM");
+    check_near(drivetrain_engine_rpm(&spec, 1, 200.0f), 4500.0, 0.01,
+               "CVT holds target at another road speed");
+    check_near(drivetrain_effective_gear_ratio(&spec, 1, 10000.0f), 2.0, 1e-5,
+               "CVT ratio has a lower bound");
+    check_near(drivetrain_effective_gear_ratio(&spec, 0, 100.0f), 0.0, 0.0,
+               "CVT neutral disconnects torque");
+    check_near(drivetrain_effective_gear_ratio(&spec, -1, 100.0f),
+               -spec.reverseGearRatio * spec.finalDriveRatio, 1e-5,
+               "CVT retains explicit reverse");
+    VehicleState state;
+    VehicleDerived derived;
+    VehicleRenderState history;
+    vehicle_state_reset(&spec, &state, &derived, &history);
+    AutoTransmission automatic = { true, true, AUTO_DRIVE, 0.0f };
+    Input input;
+    input_zero(&input);
+    input.throttle = 1.0f;
+    for (int tick = 0; tick < FIXED_HZ * 12; tick++) {
+        auto_transmission_update(&automatic, &state, &spec, &derived, &input, FIXED_DT_S);
+        physics_fixed_update(&spec, &state, &derived, &history, &input, FIXED_DT_S);
+    }
+    check(physics_state_is_valid(&spec, &state, &derived), "CVT launch remains valid");
+    check(state.velocityLongitudinalMps > 10.0f, "CVT delivers tractive power");
+    check(state.selectedGear == 1, "CVT does not invent discrete forward shifts");
+    float omega[WHEEL_COUNT] = { 0 };
+    float reaction[WHEEL_COUNT] = { 0 };
+    spec.maxDrivenWheelRpm = 1000.0f;
+    for (int i = 0; i < WHEEL_COUNT; i++) omega[i] = 1001.0f * OVERSTEER_TWO_PI / 60.0f;
+    DrivetrainTorques limited =
+        drivetrain_calculate_torques(&spec, 1, omega, reaction, 1.0f, 0.0f, 0.0f);
+    check_near(limited.drivelineTorqueNm, 0.0, 1e-5,
+               "hybrid output-speed cap is independent of engine target RPM");
+    spec.continuousTransmission = 0.0f;
+    check_near(drivetrain_effective_gear_ratio(&spec, 2, 100.0f),
+               drivetrain_total_gear_ratio(&spec, 2), 0.0,
+               "stepped transmission preserves the legacy ratio exactly");
+}
+
 static const TestScenario kPhysicsScenarios[] = {
+    { "continuous-transmission", "bounded equivalent CVT and legacy stepped ratios",
+      scenario_continuous_transmission },
+    { "wheel-topology", "researched three-wheel and standard contact models",
+      scenario_researched_wheel_topology },
     { "telemetry", "CSV writer: stable header, row count, failure handling",
       scenario_telemetry },
     { "vehicle", "canonical structures, steering, contact velocity, render",

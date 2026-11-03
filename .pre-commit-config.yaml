@@ -43,3 +43,5 @@ repos:
       - id: check-added-large-files
         # Telemetry CSVs and scene baselines are legitimately chunky; run evidence is not.
         args: [--maxkb=2048]
+        # Runtime provenance for all 904 source-model sprite atlases.
+        exclude: ^data/carmodels/sprites\.json$

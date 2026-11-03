@@ -33,6 +33,7 @@
 #include "dev/dev_state.h"
 #include "dev/failure_bundle.h"
 #include "game/game.h"
+#include "render/car_model.h"
 #include "core/math_utils.h"
 #include "physics/physics.h"
 #include "game/telemetry.h"
@@ -226,6 +227,7 @@ void dev_lab_draw_world(const struct Game *game, const VehicleDrawState *draw)
     if (dev->showPath) draw_path_polyline(dev, ppm, (Color){ 90, 190, 140, 220 });
 
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(&game->spec, i)) continue;
         const WheelState *wheel = &game->vehicle.wheels[i];
         const Vector2 contactM =
             body_to_world(wheel->localPositionM, draw->positionM, draw->headingRad);
@@ -239,9 +241,10 @@ void dev_lab_draw_world(const struct Game *game, const VehicleDrawState *draw)
              * at a glance without reading a number. A second, dimmer ring marks the static
              * load, so the transfer is the visible gap between the rings. */
             const float radius = fmaxf(2.0f, wheel->normalLoadN * 0.006f);
-            const float staticLoadN = (i <= WHEEL_FRONT_RIGHT)
-                                          ? game->derived.staticFrontLoadN * 0.5f
-                                          : game->derived.staticRearLoadN * 0.5f;
+            const float staticLoadN =
+                (i <= WHEEL_FRONT_RIGHT)
+                    ? game->derived.staticFrontLoadN / game->spec.frontWheelCount
+                    : game->derived.staticRearLoadN * 0.5f;
             const Vector2 pixel = units_world_to_render_px(contactM, ppm);
             DrawCircleLinesV(pixel, fmaxf(2.0f, staticLoadN * 0.006f),
                              (Color){ 240, 200, 90, 70 });
@@ -763,7 +766,8 @@ static void draw_lab_panel(struct Game *game)
         char path[256];
         telemetry_ensure_dir(PROFILE_DIR);
         snprintf(path, sizeof(path), "%s/%s.txt", PROFILE_DIR, g_profileName);
-        const bool ok = dev_params_save(&game->spec, path);
+        const bool ok = dev_params_save(&game->spec, path) &&
+                        car_model_append_profile(path, &game->appearance);
         if (ok) snprintf(g_activeProfile, sizeof(g_activeProfile), "%s", g_profileName);
         dev_state_set_status(dev, !ok, ok ? "profile saved to %s" : "could not save %s", path);
     }
@@ -771,7 +775,12 @@ static void draw_lab_panel(struct Game *game)
         char path[256];
         snprintf(path, sizeof(path), "%s/%s.txt", PROFILE_DIR, g_profileName);
         int applied = 0, unknown = 0, rejected = 0;
-        if (dev_params_load(&game->spec, path, &applied, &unknown, &rejected)) {
+        const CarModel *model = NULL;
+        VehicleSpec candidate = game->spec;
+        if (car_model_read_profile(path, &model) &&
+            dev_params_load(&candidate, path, &applied, &unknown, &rejected)) {
+            game_apply_spec(game, &candidate);
+            if (model != NULL) car_model_select(&game->appearance, model->code);
             snprintf(g_activeProfile, sizeof(g_activeProfile), "%s", g_profileName);
             dev_state_set_status(dev, false, "%d applied, %d unknown, %d rejected", applied,
                                  unknown, rejected);

@@ -18,7 +18,9 @@ void auto_transmission_update(AutoTransmission *at, VehicleState *vs, const Vehi
             const float upRpm = spec->engineRedlineRpm * AUTO_SHIFT_UP_FACTOR;
             const float downRpm = spec->engineRedlineRpm * AUTO_SHIFT_DOWN_FACTOR;
 
-            if (vs->engineRpm > upRpm && vs->selectedGear < spec->gearCount)
+            if (spec->continuousTransmission != 0.0f)
+                vs->selectedGear = 1;
+            else if (vs->engineRpm > upRpm && vs->selectedGear < spec->gearCount)
                 vs->selectedGear++;
             else if (vs->engineRpm < downRpm && vs->selectedGear > 1)
                 vs->selectedGear--;

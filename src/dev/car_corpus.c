@@ -1,25 +1,5 @@
-/*
- * car_corpus.c — the demonstration fleet. See the header for the contract.
- *
- * COMPOSITION (Phase 3):
- *   17 archetypes  the stock baseline plus the 16 required hand-designed forms
- *   40 sweeps      8 axes × 5 steps — one registry key varied at a time
- *   43 sampled     deterministic Halton low-discrepancy sequence over a documented box
- *   ───
- *  100 vehicles
- *
- * Sweep bounds are read from the DevParameter registry rather than hardcoded, so widening a
- * parameter's range in Phase 2 automatically widens the sweep that demonstrates it.
- *
- * Sampled generation uses a Halton sequence (bases 2,3,5,7,11,13,17,19,23,29,31,37) over
- * 12 visually-active primary parameters. Candidates are filtered: spec validity, CarVisual
- * derivation, raster bounds, and pairwise similarity against ALL already-accepted vehicles
- * (rejection margin 1.5× the corpus scenario threshold). Generation is bounded at 4096
- * candidates; if 44 cannot be reached, the sampled group is truncated.
- *
- * Raylib-free. Lives in DEV_SRCS rather than SHARED_SRCS because it calls vehicle_spec and
- * raster functions that are linked into the test executable only.
- */
+/* Historical physics fixtures: authored archetypes, parameter sweeps and frozen
+ * samples. Independent of the source-model artwork catalog. */
 #include "dev/car_corpus.h"
 
 #include <math.h>
@@ -27,8 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "render/car_visual.h"
-#include "render/car_visual_raster.h"
 #include "dev/dev_params.h"
 #include "physics/vehicle.h"
 
@@ -253,6 +231,22 @@ static const SweepAxis kSweepAxes[SWEEP_AXES] = {
  */
 static float sweep_compute_value(const DevParameter *param, int step, int totalSteps)
 {
+    DevParameter effective = *param;
+    if (strcmp(param->name, "body.track_front") == 0) {
+        /* This fixture has two front wheels. Zero track is reserved for a single front. */
+        effective.minimum = fmaxf(param->minimum, 1.0f);
+        param = &effective;
+    }
+    if (strcmp(param->name, "body.shoulder_x") == 0) {
+        VehicleSpec stock;
+        vehicle_spec_set_default(&stock);
+        const float inset = 0.03f * stock.lengthOverallM;
+        effective.minimum =
+            fmaxf(param->minimum, -0.5f * stock.wheelbaseM - stock.rearOverhangM + inset);
+        effective.maximum =
+            fminf(param->maximum, 0.5f * stock.wheelbaseM + stock.frontOverhangM - inset);
+        param = &effective;
+    }
     const float span = param->maximum - param->minimum;
     const float stepSpan = (totalSteps > 1) ? (span / (float)(totalSteps - 1)) : span;
     /* Minimum exclusion around stock: half a grid step, but never less than 0.08 m for
@@ -316,294 +310,9 @@ bool car_corpus_sweep_probe(const char *key, int step, VehicleSpec *out)
     return dev_param_set(out, param, sweep_compute_value(param, step, SWEEP_STEPS));
 }
 
-/* ---- sampled generation ----
- *
- * 43 vehicles generated from a Halton low-discrepancy sequence over a documented parameter
- * box. Candidates are filtered: must pass vehicle_spec_is_valid(), car_visual_derive(),
- * raster-bounds check, and be sufficiently distinct from ALL already-accepted vehicles
- * (archetypes + sweeps + previously-accepted sampled).
- *
- * HALTON BOX. Twelve primary parameters are varied independently using Halton bases
- * 2,3,5,7,11,13,17,19,23,29,31,37. The box bounds are chosen within the registry range
- * to span the plausible passenger-vehicle space while avoiding degenerate combinations:
- *
- *   Index  Base  Registry key            Box min   Box max   Registry range
- *   ─────  ────  ──────────────────────  ────────  ────────  ──────────────
- *     0      2   body.wheelbase            2.000     5.500    1.80 – 7.00
- *     1      3   body.track_front          1.100     2.300    1.00 – 2.60
- *     2      5   body.width_overall        1.300     2.400    1.20 – 2.60
- *     3      7   body.height_overall       1.100     2.800    1.00 – 3.20
- *     4     11   body.front_overhang       0.300     1.800    0.20 – 2.50
- *     5     13   body.rear_overhang        0.300     1.800    0.20 – 2.50
- *     6     17   mass.engine_x            -2.500     3.000   -4.00 – 4.00
- *     7     19   body.cowl_x              -1.500     1.500   -2.00 – 2.00
- *     8     23   body.backlight_x         -1.500     1.500   -2.00 – 2.00
- *     9     29   tire.section_width_front 155.000   325.000  145.00 – 355.00
- *    10     31   tire.aspect_front         30.000    70.000   25.00 – 80.00
- *    11     37   aero.lift_rear           -2.000     0.500   -3.00 – 1.00
- */
+/* The original sampled physics cases are frozen independently of artwork. */
 #define SAMPLED_COUNT 43
-#define HALTON_DIMS 12
-#define MAX_CANDIDATES 4096
-
-/* Rejection thresholds: 1.5× the corpus scenario distinctness floor. */
-#define SAMPLED_REJECT_PIXEL (1.5f * 0.030f) /* 0.045 */
-#define SAMPLED_REJECT_LINF (1.5f * 0.080f)  /* 0.120 */
-
-static const int kHaltonBases[HALTON_DIMS] = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37 };
-static const char *const kHaltonKeys[HALTON_DIMS] = {
-    "body.wheelbase",      "body.track_front",
-    "body.width_overall",  "body.height_overall",
-    "body.front_overhang", "body.rear_overhang",
-    "mass.engine_x",       "body.cowl_x",
-    "body.backlight_x",    "tire.section_width_front",
-    "tire.aspect_front",   "aero.lift_rear",
-};
-static const float kHaltonBoxMin[HALTON_DIMS] = {
-    2.000f,  1.100f,  1.300f,  1.100f,   0.300f,  0.300f,
-    -2.500f, -1.500f, -1.500f, 155.000f, 30.000f, -2.000f,
-};
-static const float kHaltonBoxMax[HALTON_DIMS] = {
-    5.500f, 2.300f, 2.400f, 2.800f,   1.800f,  1.800f,
-    3.000f, 1.500f, 1.500f, 325.000f, 70.000f, 0.500f,
-};
-
-/* Cached sampled specs. Populated on first access. */
-static VehicleSpec g_sampledSpecs[SAMPLED_COUNT];
-static int g_sampledAccepted = -1; /* -1 = not generated yet */
-
-/* ---- Halton sequence ---- */
-static float halton(int index, int base)
-{
-    float result = 0.0f;
-    float f = 1.0f / (float)base;
-    int i = index;
-    while (i > 0) {
-        result += f * (float)(i % base);
-        i /= base;
-        f /= (float)base;
-    }
-    return result;
-}
-
-/* Map a Halton point [0,1] into the box range [boxMin, boxMax]. */
-static float halton_to_box(float t, float boxMin, float boxMax)
-{
-    return boxMin + t * (boxMax - boxMin);
-}
-
-/* Build a label map for a spec on the given canvas. Returns true on success. */
-static bool build_label_map(const VehicleSpec *spec, const CarRasterInfo *canvas,
-                            unsigned char *labels, size_t bytes)
-{
-    CarVisual visual;
-    car_visual_derive(spec, &visual);
-    return car_raster_draw_labels(&visual, *canvas, labels, bytes);
-}
-
-/* Pre-compute canvas info from archetypes + sweeps, with generous margin. */
-static CarRasterInfo compute_canvas(void)
-{
-    const float pxPerM = 13.2f; /* PIXELS_PER_METER * CAMERA_BASE_ZOOM ≈ 13.2 */
-    float left = 1.0f, right = 1.0f, up = 1.0f, down = 1.0f;
-
-    for (int i = 0; i < car_corpus_archetype_count() + SWEEP_AXES * SWEEP_STEPS; i++) {
-        VehicleSpec spec;
-        vehicle_spec_set_default(&spec);
-
-        if (i < car_corpus_archetype_count()) {
-            (void)car_corpus_archetype_build(i, &spec);
-        } else {
-            const int si = i - car_corpus_archetype_count();
-            sweep_build_spec(si / SWEEP_STEPS, si % SWEEP_STEPS, &spec);
-        }
-
-        CarVisual visual;
-        car_visual_derive(&spec, &visual);
-        const CarRasterInfo info = car_raster_info(&visual, pxPerM, 2);
-        const float l = info.originXPx;
-        const float r = (float)info.width - info.originXPx;
-        const float u = info.originYPx;
-        const float d = (float)info.height - info.originYPx;
-        if (l > left) left = l;
-        if (r > right) right = r;
-        if (u > up) up = u;
-        if (d > down) down = d;
-    }
-
-    /* Add 2.5 m margin on each side for sampled vehicles. */
-    const float marginPx = 2.5f * pxPerM;
-    CarRasterInfo shared;
-    memset(&shared, 0, sizeof(shared));
-    shared.pxPerM = pxPerM;
-    shared.width = (int)ceilf(left + right + 2.0f * marginPx);
-    shared.height = (int)ceilf(up + down + 2.0f * marginPx);
-    shared.originXPx = left + marginPx;
-    shared.originYPx = up + marginPx;
-    return shared;
-}
-
-/* Generate every sampled vehicle. Called once on first access. Returns true when the full
- * SAMPLED_COUNT was reached; false means generation ran out of candidates and truncated,
- * which car_corpus_spec() reports rather than papering over. */
-static bool generate_sampled(void)
-{
-    if (g_sampledAccepted >= 0) return (g_sampledAccepted == SAMPLED_COUNT);
-
-    g_sampledAccepted = 0;
-
-    /* Phase 1: compute canvas, rasterize archetypes + sweeps for comparison. */
-    const CarRasterInfo canvas = compute_canvas();
-    const size_t pixels = (size_t)canvas.width * (size_t)canvas.height;
-    if (pixels == 0) return false;
-
-    const int baseVehicles = car_corpus_archetype_count() + SWEEP_AXES * SWEEP_STEPS;
-    /* Store label maps for all accepted vehicles (grows as sampled are accepted). */
-    const int maxAccepted = baseVehicles + SAMPLED_COUNT; /* 17 + 40 + 43 = 100 */
-    unsigned char **acceptedLabels =
-        (unsigned char **)malloc((size_t)maxAccepted * sizeof(unsigned char *));
-    VehicleSpec *acceptedSpecs =
-        (VehicleSpec *)malloc((size_t)maxAccepted * sizeof(VehicleSpec));
-    if (acceptedLabels == NULL || acceptedSpecs == NULL) {
-        free(acceptedLabels);
-        free(acceptedSpecs);
-        return false;
-    }
-
-    int acceptedCount = 0;
-
-    /* Build and store archetypes. */
-    for (int i = 0; i < car_corpus_archetype_count(); i++) {
-        VehicleSpec spec;
-        if (!car_corpus_archetype_build(i, &spec)) return false;
-        acceptedLabels[acceptedCount] = (unsigned char *)calloc(pixels, 1);
-        if (acceptedLabels[acceptedCount] == NULL ||
-            !build_label_map(&spec, &canvas, acceptedLabels[acceptedCount], pixels)) {
-            for (int j = 0; j <= acceptedCount; j++) free(acceptedLabels[j]);
-            free(acceptedLabels);
-            free(acceptedSpecs);
-            return false;
-        }
-        acceptedSpecs[acceptedCount] = spec;
-        acceptedCount++;
-    }
-
-    /* Build and store sweeps. */
-    for (int si = 0; si < SWEEP_AXES * SWEEP_STEPS; si++) {
-        VehicleSpec spec;
-        sweep_build_spec(si / SWEEP_STEPS, si % SWEEP_STEPS, &spec);
-        acceptedLabels[acceptedCount] = (unsigned char *)calloc(pixels, 1);
-        if (acceptedLabels[acceptedCount] == NULL ||
-            !build_label_map(&spec, &canvas, acceptedLabels[acceptedCount], pixels)) {
-            for (int j = 0; j <= acceptedCount; j++) free(acceptedLabels[j]);
-            free(acceptedLabels);
-            free(acceptedSpecs);
-            return false;
-        }
-        acceptedSpecs[acceptedCount] = spec;
-        acceptedCount++;
-    }
-
-    /* Phase 2: iterate Halton candidates. */
-    int candidatesTried = 0;
-    for (int seed = 1; seed <= MAX_CANDIDATES && g_sampledAccepted < SAMPLED_COUNT; seed++) {
-        candidatesTried++;
-
-        /* Build candidate spec from Halton point. */
-        VehicleSpec candidate;
-        vehicle_spec_set_default(&candidate);
-        for (int d = 0; d < HALTON_DIMS; d++) {
-            const float t = halton(seed, kHaltonBases[d]);
-            const float val = halton_to_box(t, kHaltonBoxMin[d], kHaltonBoxMax[d]);
-            const DevParameter *param = dev_param_find(kHaltonKeys[d]);
-            if (param != NULL) {
-                dev_param_set(&candidate, param, val);
-            }
-        }
-
-        /* Validate. */
-        if (!vehicle_spec_is_valid(&candidate)) continue;
-
-        /* Derive visual and check raster. */
-        CarVisual candVis;
-        car_visual_derive(&candidate, &candVis);
-        const CarRasterInfo candInfo = car_raster_info(&candVis, canvas.pxPerM, 0);
-        if (candInfo.width <= 0 || candInfo.height <= 0) continue;
-
-        /* Rasterize candidate. */
-        unsigned char *candLabels = (unsigned char *)calloc(pixels, 1);
-        if (candLabels == NULL) continue;
-        if (!car_raster_draw_labels(&candVis, canvas, candLabels, pixels)) {
-            free(candLabels);
-            continue;
-        }
-
-        /* Compute candidate signature. */
-        float candSig[CAR_SIGNATURE_MAX];
-        const int sigN = car_visual_signature_count();
-        if (sigN <= 0 || sigN > (int)(sizeof(candSig) / sizeof(candSig[0]))) {
-            free(candLabels);
-            continue;
-        }
-        if (car_visual_signature(&candVis, candSig, sigN) != sigN) {
-            free(candLabels);
-            continue;
-        }
-
-        /* Check against all already-accepted vehicles. */
-        bool tooSimilar = false;
-        for (int a = 0; a < acceptedCount && !tooSimilar; a++) {
-            /* Pixel label-map difference. */
-            const float pixDiff = car_raster_difference(candLabels, acceptedLabels[a],
-                                                        canvas.width, canvas.height);
-            if (pixDiff < SAMPLED_REJECT_PIXEL) {
-                tooSimilar = true;
-                break;
-            }
-
-            /* Signature Linf. */
-            CarVisual accVis;
-            car_visual_derive(&acceptedSpecs[a], &accVis);
-            float accSig[CAR_SIGNATURE_MAX];
-            if (car_visual_signature(&accVis, accSig, sigN) == sigN) {
-                float worst = 0.0f;
-                for (int k = 0; k < sigN; k++) {
-                    const float d = fabsf(candSig[k] - accSig[k]);
-                    if (d > worst) worst = d;
-                }
-                if (worst < SAMPLED_REJECT_LINF) {
-                    tooSimilar = true;
-                    break;
-                }
-            }
-        }
-
-        if (tooSimilar) {
-            free(candLabels);
-            continue;
-        }
-
-        /* Accepted! */
-        g_sampledSpecs[g_sampledAccepted] = candidate;
-        acceptedLabels[acceptedCount] = candLabels;
-        acceptedSpecs[acceptedCount] = candidate;
-        acceptedCount++;
-        g_sampledAccepted++;
-    }
-
-    /* Cleanup. */
-    for (int j = 0; j < acceptedCount; j++) free(acceptedLabels[j]);
-    free(acceptedLabels);
-    free(acceptedSpecs);
-
-    if (g_sampledAccepted < SAMPLED_COUNT) {
-        fprintf(stderr,
-                "car_corpus: sampled generation reached %d/%d vehicles"
-                " (%d candidates tried, max %d)\n",
-                g_sampledAccepted, SAMPLED_COUNT, candidatesTried, MAX_CANDIDATES);
-    }
-    return (g_sampledAccepted == SAMPLED_COUNT);
-}
+#include "car_corpus_sampled.inc"
 
 /* -------------------------------------------------------------------- public API ---- */
 
@@ -682,19 +391,13 @@ bool car_corpus_spec(int index, VehicleSpec *out)
         return true;
     }
 
-    /* Sampled. Lazy-generation on first access. */
-    if (!generate_sampled()) {
-        /* Generation truncated; only the available specs are valid. */
-        const int sampledIdx = index - archetype_count() - sweep_count();
-        if (sampledIdx < 0 || sampledIdx >= g_sampledAccepted) return false;
-        *out = g_sampledSpecs[sampledIdx];
-        return true;
-    }
-
     const int sampledIdx = index - archetype_count() - sweep_count();
     if (sampledIdx < 0 || sampledIdx >= SAMPLED_COUNT) return false;
-    *out = g_sampledSpecs[sampledIdx];
-    return true;
+    int count = 0;
+    while (kSampled[sampledIdx][count].key != NULL) count++;
+    int unknown = 0, rejected = 0;
+    (void)dev_params_apply_assignments(out, kSampled[sampledIdx], count, &unknown, &rejected);
+    return unknown == 0 && rejected == 0 && vehicle_spec_is_valid(out);
 }
 
 /* Lower-case, replace anything awkward with '_'. */

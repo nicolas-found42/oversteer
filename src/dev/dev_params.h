@@ -38,7 +38,7 @@ typedef enum {
     DEV_TIER_EXPERT = 2     /* numerical model internals and readouts */
 } DevParamTier;
 
-/* Description of one tunable float inside VehicleSpec. */
+/* Description of one tunable number in VehicleSpec (gearCount is integer-backed). */
 typedef struct {
     const char *name;   /* stable dotted key, e.g. "tire.lat_front.mu" */
     const char *group;  /* UI / documentation grouping */

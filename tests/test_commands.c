@@ -24,21 +24,20 @@
 
 #include "test_commands.h"
 #include "test_scenarios.h"
-#include "support/appearance_metrics.h"
 #include "support/car_sheet.h"
 #include "support/simulation_fixture.h"
 #include "support/test_harness.h"
 
 #include "dev/car_corpus.h"
 #include "game/car_roster.h"
-#include "render/car_visual.h"
-#include "render/car_visual_raster.h"
+#include "render/car_model.h"
 #include "core/config.h"
 #include "dev/dev_params.h"
 #include "dev/dev_replay.h"
 #include "dev/dev_scenario.h"
 #include "dev/dev_state.h"
 #include "physics/drivetrain.h"
+#include "physics/auto_transmission.h"
 #include "dev/failure_bundle.h"
 #include "physics/surface.h"
 #include "game/game.h"
@@ -301,8 +300,8 @@ int test_dump_corpus_index(const char *path)
                  " Do not edit by hand. -->\n");
     fprintf(out, "# Vehicle corpus\n\n");
     fprintf(out, "Every entry is a pure function of its index in `src/dev/car_corpus.c`."
-                 " Appearance is derived from these parameters alone —"
-                 " see `src/render/car_visual.c`.\n\n");
+                 " These are deterministic physics fixtures; source artwork is selected "
+                 "independently.\n\n");
     fprintf(out, "| # | Group | Id | What defines it |\n|---:|---|---|---|\n");
 
     for (int i = 0; i < car_corpus_count(); i++) {
@@ -323,237 +322,87 @@ int test_dump_corpus_index(const char *path)
     return 0;
 }
 
-/* ------------------------------------------------------- candidate sweep measurement ----
- *
- * "Measure sweep eligibility, do not assume it" is the standing rule for every new appearance
- * parameter, and the reason is arithmetic: adjacent steps of a five-step row are the tightest
- * pairs in the fleet, so an axis has to clear all three distinctness floors four times over.
- * Two keys that looked certain (tire aspect, body.bed_length) failed, and each cost a full
- * corpus regeneration to find out.
- *
- * This mode answers the question before the axis table is edited. It builds the five cars the
- * generator WOULD build for `key` (car_corpus_sweep_probe, sharing the generator's exclusion
- * window), then reports, per adjacent pair and against the entire existing fleet, the three
- * numbers the corpus scenario asserts. It only measures and prints: nothing is written and no
- * gate is moved. Exit status is 0 when every measured pair clears every floor, 1 otherwise, so
- * it can be used as a decision step rather than read by eye. */
-int test_measure_sweep(const char *key)
-{
-    if (key == NULL) {
-        fprintf(stderr, "error: --measure-sweep needs a registry key\n");
-        return 2;
-    }
-    const DevParameter *param = dev_param_find(key);
-    if (param == NULL) {
-        fprintf(stderr, "error: '%s' is not a registry key\n", key);
-        return 2;
-    }
-
-    const int steps = car_corpus_sweep_steps();
-    const int fleet = car_corpus_count();
-    const CarRasterInfo canvas = test_car_shared_canvas(CV_TEST_PX_PER_M);
-    const size_t pixels = (size_t)canvas.width * (size_t)canvas.height;
-    if (pixels == 0 || steps <= 1) {
-        fprintf(stderr, "error: no canvas or no sweep steps\n");
-        return 1;
-    }
-
-    unsigned char *stepMaps = (unsigned char *)malloc(pixels * (size_t)steps);
-    unsigned char *fleetMap = (unsigned char *)malloc(pixels);
-    CarVisual *stepVisuals = (CarVisual *)malloc(sizeof(CarVisual) * (size_t)steps);
-    VehicleSpec *stepSpecs = (VehicleSpec *)malloc(sizeof(VehicleSpec) * (size_t)steps);
-    if (stepMaps == NULL || fleetMap == NULL || stepVisuals == NULL || stepSpecs == NULL) {
-        free(stepMaps);
-        free(fleetMap);
-        free(stepVisuals);
-        free(stepSpecs);
-        fprintf(stderr, "error: out of memory\n");
-        return 1;
-    }
-
-    printf("measuring '%s' over [%g, %g] as a %d-step sweep axis at %.1f px/m\n", param->name,
-           (double)param->minimum, (double)param->maximum, steps, (double)CV_TEST_PX_PER_M);
-    printf("floors: pixels >= %.3f, L2 >= %.2f, Linf >= %.3f m\n\n", (double)CV_MIN_PIXEL_DIFF,
-           (double)CV_MIN_L2, (double)CV_MIN_LINF);
-
-    bool built = true;
-    for (int s = 0; s < steps && built; s++) {
-        if (!car_corpus_sweep_probe(key, s, &stepSpecs[s])) {
-            built = false;
-            break;
-        }
-        if (!vehicle_spec_is_valid(&stepSpecs[s])) {
-            printf("step %d: value %g is not a valid spec — the axis cannot be swept here\n", s,
-                   (double)dev_param_get(&stepSpecs[s], param));
-            built = false;
-            break;
-        }
-        car_visual_derive(&stepSpecs[s], &stepVisuals[s]);
-        built = car_raster_draw_labels(&stepVisuals[s], canvas, stepMaps + pixels * (size_t)s,
-                                       pixels);
-    }
-    if (!built) {
-        free(stepMaps);
-        free(fleetMap);
-        free(stepVisuals);
-        free(stepSpecs);
-        fprintf(stderr, "error: could not build the candidate sweep row for '%s'\n", key);
-        return 1;
-    }
-
-    printf("%-6s %-12s %-9s %-8s %-9s %s\n", "pair", "value", "pixels", "L2", "Linf(m)",
-           "worst component");
-    bool pass = true;
-
-    /* Adjacent steps first: the tightest pairs, and the ones that kill most candidates. */
-    for (int s = 1; s < steps; s++) {
-        int worst = 0;
-        const float d =
-            car_raster_difference(stepMaps + pixels * (size_t)(s - 1),
-                                  stepMaps + pixels * (size_t)s, canvas.width, canvas.height);
-        const float linf =
-            test_car_signature_linf(&stepVisuals[s - 1], &stepVisuals[s], &worst);
-        const float l2 = test_car_signature_l2(&stepVisuals[s - 1], &stepVisuals[s]);
-        const bool ok = (d >= CV_MIN_PIXEL_DIFF && l2 >= CV_MIN_L2 && linf >= CV_MIN_LINF);
-        pass = pass && ok;
-        printf("%d-%d    %-12.4g %-9.4f %-8.4f %-9.4f %s%s\n", s - 1, s,
-               (double)dev_param_get(&stepSpecs[s], param), (double)d, (double)l2, (double)linf,
-               car_visual_signature_component_name(worst), ok ? "" : "   FAIL");
-    }
-
-    /* Then the whole existing fleet: a new row has to be distinct from all 100 cars, not only
-     * from its own neighbours.
-     *
-     * Each floor is minimised INDEPENDENTLY over every step x fleet pair. Picking one "closest"
-     * vehicle by pixel difference and then reading its L2 and Linf would report a pass whenever
-     * some other fleet vehicle differs in more pixels but shares a feature vector — exactly the
-     * failure mode the corpus scenario catches, reported here as a clean bill of health. */
-    printf("\n%-6s %-9s %-30s %-8s %-30s %-9s %s\n", "step", "pixels", "worst pixel pair", "L2",
-           "worst L2 pair", "Linf(m)", "worst Linf pair");
-    for (int s = 0; s < steps; s++) {
-        float minDiff = 2.0f, minL2 = 1e9f, minLinf = 1e9f;
-        int diffIndex = -1, l2Index = -1, linfIndex = -1;
-        for (int i = 0; i < fleet; i++) {
-            VehicleSpec other;
-            if (!car_corpus_spec(i, &other)) continue;
-            /* A key that is ALREADY a sweep axis would otherwise measure itself: the fleet
-             * contains the very car this step rebuilds, the comparison is 0.0000 on every
-             * metric, and the verdict would read as a catastrophic failure instead of a
-             * tautology. The comparison walks the registry rather than the struct bytes —
-             * VehicleSpec padding is unspecified, so memcmp could call two identical cars
-             * different and quietly reinstate the tautology it is here to remove. */
-            if (test_car_primary_diff_count(&other, &stepSpecs[s], NULL) == 0) continue;
-            if (!test_car_labels_for_spec(&other, canvas, fleetMap, pixels)) continue;
-
-            CarVisual otherVisual;
-            int worst = 0;
-            car_visual_derive(&other, &otherVisual);
-
-            const float d = car_raster_difference(stepMaps + pixels * (size_t)s, fleetMap,
-                                                  canvas.width, canvas.height);
-            const float l2 = test_car_signature_l2(&stepVisuals[s], &otherVisual);
-            const float linf = test_car_signature_linf(&stepVisuals[s], &otherVisual, &worst);
-
-            if (d < minDiff) {
-                minDiff = d;
-                diffIndex = i;
-            }
-            if (l2 < minL2) {
-                minL2 = l2;
-                l2Index = i;
-            }
-            if (linf < minLinf) {
-                minLinf = linf;
-                linfIndex = i;
-            }
-        }
-        char diffId[128] = "?", l2Id[128] = "?", linfId[128] = "?";
-        if (diffIndex >= 0) car_corpus_id(diffIndex, diffId, sizeof(diffId));
-        if (l2Index >= 0) car_corpus_id(l2Index, l2Id, sizeof(l2Id));
-        if (linfIndex >= 0) car_corpus_id(linfIndex, linfId, sizeof(linfId));
-
-        const bool ok =
-            (minDiff >= CV_MIN_PIXEL_DIFF && minL2 >= CV_MIN_L2 && minLinf >= CV_MIN_LINF);
-        pass = pass && ok;
-        printf("%-6d %-9.4f %-30s %-8.4f %-30s %-9.4f %s%s\n", s, (double)minDiff, diffId,
-               (double)minL2, l2Id, (double)minLinf, linfId, ok ? "" : "   FAIL");
-    }
-
-    printf("\nverdict: '%s' %s carry a sweep row against the current fleet\n", param->name,
-           pass ? "CAN" : "CANNOT");
-
-    free(stepMaps);
-    free(fleetMap);
-    free(stepVisuals);
-    free(stepSpecs);
-    return pass ? 0 : 1;
-}
-
-/* Every corpus vehicle's style axes and signature vector as one CSV, for spread analysis.
- *
- * The `corpus` scenario only answers "is any PAIR closer than the threshold". That is a
- * minimum, and it says nothing about how the fleet uses the space: a corpus can pass while
- * every car sits in one corner of it. This dump exists so the distribution can be looked at
- * directly — per-column range, variance, and which components are effectively constant. */
-int test_dump_corpus_metrics(const char *path)
-{
-    FILE *out = stdout;
-    if (path != NULL) {
-        out = fopen(path, "wb");
-        if (out == NULL) {
-            fprintf(stderr, "error: could not write '%s'\n", path);
-            return 1;
-        }
-    }
-
-    const int sigCount = car_visual_signature_count();
-
-    fprintf(out, "index,group,id,mass01,size01,low01,grip01,balance01,power01,aero01,"
-                 "sport01,strip01");
-    for (int c = 0; c < sigCount; c++) {
-        fprintf(out, ",%s", car_visual_signature_component_name(c));
-    }
-    fprintf(out, "\n");
-
-    for (int i = 0; i < car_corpus_count(); i++) {
-        VehicleSpec spec;
-        if (!car_corpus_spec(i, &spec)) continue;
-
-        CarVisual visual;
-        car_visual_derive(&spec, &visual);
-
-        float sig[128];
-        const int written =
-            car_visual_signature(&visual, sig, (int)(sizeof(sig) / sizeof(sig[0])));
-
-        char id[128];
-        car_corpus_id(i, id, sizeof(id));
-
-        const CarLatents *l = &visual.latents;
-        fprintf(out, "%d,%s,%s,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f", i,
-                car_corpus_group_name(car_corpus_group(i)), id, l->mass01, l->size01, l->low01,
-                l->grip01, l->balance01, l->power01, l->aero01, l->sport01, l->strip01);
-        for (int c = 0; c < written; c++) fprintf(out, ",%.6f", sig[c]);
-        fprintf(out, "\n");
-    }
-
-    if (path != NULL) {
-        if (fclose(out) != 0) {
-            fprintf(stderr, "error: could not close '%s'\n", path);
-            return 1;
-        }
-        printf("wrote %s (%d vehicles, %d signature components)\n", path, car_corpus_count(),
-               sigCount);
-    }
-    return 0;
-}
-
 int test_dump_corpus_cards(const char *dir)
 {
-    return car_sheet_write_cards(dir, 0.0f) ? 0 : 1;
+    return car_sheet_write_cards(dir) ? 0 : 1;
 }
 
 int test_dump_corpus_sheet(const char *dir)
 {
-    return car_sheet_write(dir, 0.0f, 0) ? 0 : 1;
+    return car_sheet_write(dir) ? 0 : 1;
+}
+
+int test_measure_vehicle(const char *profile, const char *prefix, bool benchmark, bool card)
+{
+    VehicleSpec spec;
+    vehicle_spec_set_default(&spec);
+    int unknown = 0;
+    int rejected = 0;
+    if (!dev_params_load(&spec, profile, NULL, &unknown, &rejected) || unknown || rejected) {
+        fprintf(stderr, "vehicle measurement: invalid profile %s (%d unknown, %d rejected)\n",
+                profile, unknown, rejected);
+        return 1;
+    }
+    if (card) {
+        const CarModel *model = NULL;
+        if (!car_model_read_profile(profile, &model) || model == NULL) {
+            fprintf(stderr, "vehicle card: profile needs a valid # carmodels.model = CODE\n");
+            return 1;
+        }
+        if (!car_sheet_write_spec(&spec, model, prefix)) return 1;
+    }
+    if (!benchmark) return 0;
+
+    VehicleState state;
+    VehicleDerived derived;
+    VehicleRenderState history;
+    vehicle_state_reset(&spec, &state, &derived, &history);
+    AutoTransmission automatic = { true, true, AUTO_DRIVE, 0.0f };
+    Input input;
+    input_zero(&input);
+    input.throttle = 1.0f;
+    float zeroToHundredS = -1.0f;
+    float maxSpeedMps = 0.0f;
+    for (int tick = 0; tick < FIXED_HZ * 120; tick++) {
+        auto_transmission_update(&automatic, &state, &spec, &derived, &input, FIXED_DT_S);
+        physics_fixed_update(&spec, &state, &derived, &history, &input, FIXED_DT_S);
+        if (!physics_state_is_valid(&spec, &state, &derived)) return 1;
+        if (state.velocityLongitudinalMps > maxSpeedMps)
+            maxSpeedMps = state.velocityLongitudinalMps;
+        if (zeroToHundredS < 0.0f && state.velocityLongitudinalMps >= 100.0f / 3.6f)
+            zeroToHundredS = (float)(tick + 1) * FIXED_DT_S;
+    }
+
+    vehicle_state_reset(&spec, &state, &derived, &history);
+    state.selectedGear = 0;
+    state.velocityLongitudinalMps = 100.0f / 3.6f;
+    for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(&spec, i)) continue;
+        const float radius = vehicle_wheel_radius_m(&spec, i);
+        state.wheels[i].angularVelocityRadS = state.velocityLongitudinalMps / radius;
+    }
+    input_zero(&input);
+    input.brake = 1.0f;
+    int stopTick = 0;
+    for (; stopTick < FIXED_HZ * 30; stopTick++) {
+        physics_fixed_update(&spec, &state, &derived, &history, &input, FIXED_DT_S);
+        if (!physics_state_is_valid(&spec, &state, &derived)) return 1;
+        if (fabsf(state.velocityLongitudinalMps) < 0.1f) break;
+    }
+    char path[1024];
+    snprintf(path, sizeof(path), "%s_physics.json", prefix);
+    FILE *out = fopen(path, "wb");
+    if (out == NULL) return 1;
+    fprintf(out, "{\"protocol\":\"level asphalt; production automatic; 120s full throttle; "
+                 "100kmh neutral full brake\",\"zero_to_100_s\":");
+    if (zeroToHundredS >= 0.0f)
+        fprintf(out, "%.6g", (double)zeroToHundredS);
+    else
+        fprintf(out, "null");
+    fprintf(out,
+            ",\"max_120s_kmh\":%.6g,\"brake_100_to_stop_m\":%.6g,"
+            "\"brake_stopped\":%s}\n",
+            (double)(maxSpeedMps * 3.6f), (double)state.positionM.x,
+            stopTick < FIXED_HZ * 30 ? "true" : "false");
+    return fclose(out) == 0 ? 0 : 1;
 }

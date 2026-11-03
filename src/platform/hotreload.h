@@ -96,6 +96,7 @@ typedef struct ValidationOverlayData ValidationOverlayData;
      * cannot do this itself: track and vehicle code live in the reloadable module. */ \
     ENTRY(game_configure_run, bool, Game *, const GameRunConfig *)                        \
     ENTRY(game_apply_spec, void, Game *, const VehicleSpec *)                             \
+    ENTRY(game_select_model, bool, Game *, const char *)                                  \
     ENTRY(game_spawn_on_track, bool, Game *)                                              \
     ENTRY(game_spawn_on_track_at, bool, Game *, int)                                      \
     ENTRY(game_telemetry_row, TelemetryRow, const Game *, int)                            \

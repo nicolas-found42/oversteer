@@ -1,0 +1,152 @@
+[
+  {
+    "code": "EXPLORER",
+    "open_bed_observed": true,
+    "hypothesis_probability": 0.86,
+    "inspection": "Open cargo tub with visible floor/rear cavity behind a separate cabin in recovered top-down render.",
+    "reference": "references/EXPLORER.png",
+    "resolution": "Agent visual corroboration; numeric length remains an estimate.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "F100_1956",
+    "open_bed_observed": true,
+    "hypothesis_probability": 0.9,
+    "inspection": "Open cargo tub with visible floor/rear cavity behind a separate cabin in recovered top-down render.",
+    "reference": "references/F100_1956.png",
+    "resolution": "Agent visual corroboration; numeric length remains an estimate.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "F100_1965",
+    "open_bed_observed": true,
+    "hypothesis_probability": 0.9,
+    "inspection": "Open cargo tub with visible floor/rear cavity behind a separate cabin in recovered top-down render.",
+    "reference": "references/F100_1965.png",
+    "resolution": "Agent visual corroboration; numeric length remains an estimate.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "F150",
+    "open_bed_observed": true,
+    "hypothesis_probability": 0.86,
+    "inspection": "Open cargo tub with visible floor/rear cavity behind a separate cabin in recovered top-down render.",
+    "reference": "references/F150.png",
+    "resolution": "Agent visual corroboration; numeric length remains an estimate.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "F150_2004",
+    "open_bed_observed": true,
+    "hypothesis_probability": 0.9,
+    "inspection": "Open cargo tub with visible floor/rear cavity behind a separate cabin in recovered top-down render.",
+    "reference": "references/F150_2004.png",
+    "resolution": "Agent visual corroboration; numeric length remains an estimate.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "F350",
+    "open_bed_observed": true,
+    "hypothesis_probability": 0.84,
+    "inspection": "Open cargo tub with visible floor/rear cavity behind a separate cabin in recovered top-down render.",
+    "reference": "references/F350.png",
+    "resolution": "Agent visual corroboration; numeric length remains an estimate.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "LIGHTNING_SVT",
+    "open_bed_observed": true,
+    "hypothesis_probability": 0.88,
+    "inspection": "Open cargo tub with visible floor/rear cavity behind a separate cabin in recovered top-down render.",
+    "reference": "references/LIGHTNING_SVT.png",
+    "resolution": "Agent visual corroboration; numeric length remains an estimate.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "MC3_VP_D_GT750_04",
+    "open_bed_observed": false,
+    "hypothesis_probability": 0.03,
+    "inspection": "No clearly visible open pickup tub established in this inspection; enclosed roofs, passenger compartments, tractor chassis or insufficient texture detail remain distinct.",
+    "reference": "references/MC3_VP_D_GT750_04.png",
+    "resolution": "Do not adopt positive bed feature without clear corroboration.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "MC3_VP_D_H3T_05",
+    "open_bed_observed": true,
+    "hypothesis_probability": 0.74,
+    "inspection": "Open cargo tub with visible floor/rear cavity behind a separate cabin in recovered top-down render.",
+    "reference": "references/MC3_VP_D_H3T_05.png",
+    "resolution": "Agent visual corroboration; numeric length remains an estimate.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "MC3_VP_D_YUKON_05",
+    "open_bed_observed": false,
+    "hypothesis_probability": 0.04,
+    "inspection": "No clearly visible open pickup tub established in this inspection; enclosed roofs, passenger compartments, tractor chassis or insufficient texture detail remain distinct.",
+    "reference": "references/MC3_VP_D_YUKON_05.png",
+    "resolution": "Do not adopt positive bed feature without clear corroboration.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "MC3_VP_ESCALADE_03",
+    "open_bed_observed": false,
+    "hypothesis_probability": 0.8,
+    "inspection": "No clearly visible open pickup tub established in this inspection; enclosed roofs, passenger compartments, tractor chassis or insufficient texture detail remain distinct.",
+    "reference": "references/MC3_VP_ESCALADE_03.png",
+    "resolution": "Do not adopt positive bed feature without clear corroboration.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "MC3_VP_EXT_03",
+    "open_bed_observed": false,
+    "hypothesis_probability": 0.79,
+    "inspection": "No clearly visible open pickup tub established in this inspection; enclosed roofs, passenger compartments, tractor chassis or insufficient texture detail remain distinct.",
+    "reference": "references/MC3_VP_EXT_03.png",
+    "resolution": "Do not adopt positive bed feature without clear corroboration.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "MC3_VP_H2_03",
+    "open_bed_observed": false,
+    "hypothesis_probability": 0.76,
+    "inspection": "No clearly visible open pickup tub established in this inspection; enclosed roofs, passenger compartments, tractor chassis or insufficient texture detail remain distinct.",
+    "reference": "references/MC3_VP_H2_03.png",
+    "resolution": "Do not adopt positive bed feature without clear corroboration.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "MC3_VP_HUMMER_02",
+    "open_bed_observed": false,
+    "hypothesis_probability": 0.75,
+    "inspection": "No clearly visible open pickup tub established in this inspection; enclosed roofs, passenger compartments, tractor chassis or insufficient texture detail remain distinct.",
+    "reference": "references/MC3_VP_HUMMER_02.png",
+    "resolution": "Do not adopt positive bed feature without clear corroboration.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  },
+  {
+    "code": "MC3_VP_SILVERADO_SS_04",
+    "open_bed_observed": false,
+    "hypothesis_probability": 0.87,
+    "inspection": "No clearly visible open pickup tub established in this inspection; enclosed roofs, passenger compartments, tractor chassis or insufficient texture detail remain distinct.",
+    "reference": "references/MC3_VP_SILVERADO_SS_04.png",
+    "resolution": "Do not adopt positive bed feature without clear corroboration.",
+    "disagreement": false,
+    "hypothesis_request_hash": "168b9ca773497be9"
+  }
+]

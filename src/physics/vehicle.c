@@ -3,19 +3,35 @@
 #include <math.h>
 #include <string.h>
 
+bool vehicle_wheel_is_active(const VehicleSpec *spec, int wheelIndex)
+{
+    if (spec == NULL || wheelIndex < 0 || wheelIndex >= WHEEL_COUNT) return false;
+    if (wheelIndex == WHEEL_FRONT_RIGHT && spec->frontWheelCount == 1.0f) return false;
+    return true;
+}
+
+int vehicle_active_wheel_count(const VehicleSpec *spec)
+{
+    if (spec == NULL) return 0;
+    return (spec->frontWheelCount == 1.0f ? 1 : 2) + 2;
+}
+
+Vector2 vehicle_wheel_local_position_m(const VehicleSpec *spec, int wheelIndex)
+{
+    if (!vehicle_wheel_is_active(spec, wheelIndex)) return (Vector2){ 0.0f, 0.0f };
+    const bool front = wheelIndex <= WHEEL_FRONT_RIGHT;
+    const float side = (wheelIndex % 2 == 0) ? 1.0f : -1.0f;
+    if (front)
+        return (Vector2){ spec->cgToFrontM, spec->frontWheelCount == 1.0f
+                                                ? 0.0f
+                                                : side * 0.5f * spec->trackWidthFrontM };
+    return (Vector2){ -spec->cgToRearM, side * 0.5f * spec->trackWidthRearM };
+}
+
 static void set_wheel_positions(const VehicleSpec *spec, VehicleState *state)
 {
-    const float halfFrontTrackM = 0.5f * spec->trackWidthFrontM;
-    const float halfRearTrackM = 0.5f * spec->trackWidthRearM;
-
-    state->wheels[WHEEL_FRONT_LEFT].localPositionM =
-        (Vector2){ spec->cgToFrontM, halfFrontTrackM };
-    state->wheels[WHEEL_FRONT_RIGHT].localPositionM =
-        (Vector2){ spec->cgToFrontM, -halfFrontTrackM };
-    state->wheels[WHEEL_REAR_LEFT].localPositionM =
-        (Vector2){ -spec->cgToRearM, halfRearTrackM };
-    state->wheels[WHEEL_REAR_RIGHT].localPositionM =
-        (Vector2){ -spec->cgToRearM, -halfRearTrackM };
+    for (int i = 0; i < WHEEL_COUNT; i++)
+        state->wheels[i].localPositionM = vehicle_wheel_local_position_m(spec, i);
 }
 
 static float tire_unloaded_radius_m(float sectionWidthMm, float aspectPct, float rimDiameterIn)
@@ -106,7 +122,8 @@ void vehicle_spec_refresh_derived(VehicleSpec *spec)
     spec->wheelRadiusM = spec->wheelRadiusRearM;
 
     if (massKg > 0.0f) {
-        spec->tireLoadRefPerWheelN = massKg * GRAVITY_MPS2 * 0.25f;
+        spec->tireLoadRefPerWheelN =
+            massKg * GRAVITY_MPS2 / (float)vehicle_active_wheel_count(spec);
     }
 
     /* Wheel inertia, tire relaxation, roll stiffness, and max brake torque stay primary
@@ -147,6 +164,7 @@ void vehicle_spec_set_default(VehicleSpec *spec)
     spec->doorCount = VEH_DOOR_COUNT;
     spec->cabinRows = VEH_CABIN_ROWS;
     spec->roofType = VEH_ROOF_TYPE;
+    spec->frontWheelCount = 2.0f;
 
     spec->massEngineKg = MASS_ENGINE_KG;
     spec->massEngineXM = MASS_ENGINE_X_M;
@@ -242,6 +260,11 @@ void vehicle_spec_set_default(VehicleSpec *spec)
     spec->finalDriveRatio = FINAL_DRIVE_RATIO;
     spec->drivetrainEfficiency = DRIVETRAIN_EFFICIENCY;
     spec->engineIdleRpm = ENGINE_IDLE_RPM;
+    spec->continuousTransmission = 0.0f;
+    spec->cvtMinRatio = 0.5f;
+    spec->cvtMaxRatio = 4.0f;
+    spec->cvtTargetRpm = 4500.0f;
+    spec->maxDrivenWheelRpm = 0.0f;
     spec->engineRedlineRpm = ENGINE_REDLINE_RPM;
     {
         const float torqueCurve[ENGINE_CURVE_POINTS] = ENGINE_TORQUE_CURVE_NM;
@@ -268,7 +291,11 @@ bool vehicle_spec_is_valid(const VehicleSpec *spec)
     if (!(isfinite(spec->wheelbaseM) &&
           fabsf(spec->wheelbaseM - (spec->cgToFrontM + spec->cgToRearM)) < 1e-4f))
         return false;
-    if (!(isfinite(spec->trackWidthFrontM) && spec->trackWidthFrontM > 0.0f)) return false;
+    if (!integer_in_range(spec->frontWheelCount, 1, 2)) return false;
+    if (!(isfinite(spec->trackWidthFrontM) &&
+          (spec->frontWheelCount == 1.0f ? spec->trackWidthFrontM >= 0.0f
+                                         : spec->trackWidthFrontM > 0.0f)))
+        return false;
     if (!(isfinite(spec->trackWidthRearM) && spec->trackWidthRearM > 0.0f)) return false;
     if (!(isfinite(spec->cgHeightM) && spec->cgHeightM > 0.0f)) return false;
     if (!(isfinite(spec->frontOverhangM) && spec->frontOverhangM >= 0.0f)) return false;
@@ -281,7 +308,7 @@ bool vehicle_spec_is_valid(const VehicleSpec *spec)
      * than the body it caps is incompatible geometry: widthOverallM is the maximum body width
      * and the shoulder sits at it, so an endpoint past it would falsify the identity (the
      * grammar would have to clamp) and make the shoulder's max-width claim ambiguous. Reject
-     * it here rather than silently clamp in car_visual.c. */
+     * it here before any presentation code can consume the invalid dimensions. */
     if (!(isfinite(spec->noseWidthM) && spec->noseWidthM > 0.0f &&
           spec->noseWidthM <= spec->widthOverallM))
         return false;
@@ -330,10 +357,16 @@ bool vehicle_spec_is_valid(const VehicleSpec *spec)
           spec->tireMuLongScale > 0.0f))
         return false;
     if (spec->gearCount <= 0 || spec->gearCount > MAX_GEARS) return false;
+    if (!integer_in_range(spec->continuousTransmission, 0, 1) ||
+        !(isfinite(spec->cvtMinRatio) && isfinite(spec->cvtMaxRatio) &&
+          spec->cvtMinRatio > 0.0f && spec->cvtMaxRatio >= spec->cvtMinRatio &&
+          isfinite(spec->cvtTargetRpm) && spec->cvtTargetRpm > 0.0f))
+        return false;
+    if (!(isfinite(spec->maxDrivenWheelRpm) && spec->maxDrivenWheelRpm >= 0.0f)) return false;
     for (int i = 0; i < spec->gearCount; i++) {
         if (!(isfinite(spec->gearRatios[i]) && spec->gearRatios[i] > 0.0f)) return false;
     }
-    if (!(isfinite(spec->reverseGearRatio) && spec->reverseGearRatio > 0.0f)) return false;
+    if (!(isfinite(spec->reverseGearRatio) && spec->reverseGearRatio >= 0.0f)) return false;
     if (!(isfinite(spec->finalDriveRatio) && spec->finalDriveRatio > 0.0f)) return false;
     if (!(isfinite(spec->drivetrainEfficiency) && spec->drivetrainEfficiency >= 0.0f &&
           spec->drivetrainEfficiency <= 1.0f))
@@ -403,10 +436,11 @@ void vehicle_state_reset(const VehicleSpec *spec, VehicleState *state, VehicleDe
 
     const float frontLoadN = spec->massKg * GRAVITY_MPS2 * spec->cgToRearM / spec->wheelbaseM;
     const float rearLoadN = spec->massKg * GRAVITY_MPS2 * spec->cgToFrontM / spec->wheelbaseM;
-    state->wheels[WHEEL_FRONT_LEFT].normalLoadN = frontLoadN * 0.5f;
-    state->wheels[WHEEL_FRONT_RIGHT].normalLoadN = frontLoadN * 0.5f;
-    state->wheels[WHEEL_REAR_LEFT].normalLoadN = rearLoadN * 0.5f;
-    state->wheels[WHEEL_REAR_RIGHT].normalLoadN = rearLoadN * 0.5f;
+    for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(spec, i)) continue;
+        state->wheels[i].normalLoadN =
+            i <= WHEEL_FRONT_RIGHT ? frontLoadN / spec->frontWheelCount : rearLoadN * 0.5f;
+    }
     for (int i = 0; i < WHEEL_COUNT; i++) state->wheels[i].surfaceId = SURFACE_ASPHALT;
 
     derived->normalLoadFrontN = frontLoadN;

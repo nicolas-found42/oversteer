@@ -32,6 +32,7 @@
 #include "physics/vehicle.h"
 #include "physics/auto_transmission.h"
 #include "game/telemetry.h"
+#include "render/car_appearance.h"
 
 typedef enum {
     STATE_MENU = 0,
@@ -79,6 +80,7 @@ struct Game {
     Input input;
     SimState sim;
     VehicleSpec spec;
+    CarAppearanceSpec appearance; /* Plain presentation identity, excluded from checksums. */
     VehicleState vehicle;
     VehicleDerived derived;
     VehicleRenderState renderState;

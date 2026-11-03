@@ -1,0 +1,456 @@
+{
+  "schema": 1,
+  "generated": "2026-11-02",
+  "scope": "Independent reference benchmarks; explicit nearest trim/year mappings are not exact catalog provenance.",
+  "units": "Field suffixes preserve source units; no silent hp/PS or mph/kmh conversions.",
+  "global_limits": [
+    "Full torque curves were not available; never infer a measured curve from one peak.",
+    "No GLB dimensions are asserted; manufacturer maximum dimensions, sill widths and tyre envelope differ.",
+    "No missing128field parameters were invented.",
+    "Sources may contain rounding errors; retain labeled source values."
+  ],
+  "records": [
+    {
+      "id": "prius2004",
+      "vehicle": "2004 Toyota Prius UK",
+      "catalog": "GT4_TOYT0008",
+      "match": "nearest-market/year; catalog is2003 JDM G Touring",
+      "values": {
+        "length_mm": 4450,
+        "width_mm": 1725,
+        "height_mm": 1490,
+        "wheelbase_mm": 2700,
+        "track_front_mm": 1510,
+        "track_rear_mm": 1480,
+        "kerb_kg": 1300,
+        "cd": 0.26,
+        "engine_cc": 1497,
+        "engine_bhp": 76,
+        "power_rpm": 5000,
+        "engine_torque_Nm": 115,
+        "torque_rpm": 4000,
+        "motor_torque_Nm": 400,
+        "motor_torque_rpm_range": [
+          0,
+          1200
+        ],
+        "tyres": "195/55 R16",
+        "zero_62mph_s": 10.9,
+        "top_mph": 106,
+        "steering_ratio": 19.1
+      },
+      "limits": [
+        "Engine and motor peaks must not be added; planetary hybrid transmission is not stepped gears.",
+        "UK dimensions differ from JDM; not a GLB measurement."
+      ],
+      "source_url": "https://media.toyota.co.uk/toyota-prius-paves-the-way-ahead/",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer"
+    },
+    {
+      "id": "mr2_2000",
+      "vehicle": "2000 Toyota MR2 Roadster UK 1ZZ-FE",
+      "catalog": "GT4_TOYT0070",
+      "match": "nearest-market/year; catalog1999 JDM S Edition",
+      "values": {
+        "length_mm": 3885,
+        "width_mm": 1695,
+        "height_softtop_mm": 1240,
+        "wheelbase_mm": 2450,
+        "track_front_mm": 1475,
+        "track_rear_mm": 1460,
+        "kerb_kg": 975,
+        "cd": 0.35,
+        "front_mass_fraction": 0.42,
+        "engine_cc": 1794,
+        "power_PS": 140,
+        "power_rpm": 6400,
+        "torque_Nm": 170,
+        "torque_rpm": 4400,
+        "tyres_front": "185/55 R15",
+        "tyres_rear": "205/50 R15",
+        "zero_62mph_s": 7.9,
+        "zero_400m_s": 15.6,
+        "top_mph": 130,
+        "steering_ratio": 13.6
+      },
+      "source_url": "https://media.toyota.co.uk/new-mr2-roadster/",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer"
+    },
+    {
+      "id": "r32_1989",
+      "vehicle": "1989 Nissan Skyline GT-R BNR32",
+      "match": "production reference; map exact trim/year before use",
+      "values": {
+        "length_mm": 4545,
+        "width_mm": 1755,
+        "height_mm": 1340,
+        "wheelbase_mm": 2615,
+        "track_front_mm": 1480,
+        "track_rear_mm": 1480,
+        "curb_kg": 1430,
+        "engine_cc": 2568,
+        "power_kW": 206,
+        "power_PS": 280,
+        "power_rpm": 6800,
+        "torque_Nm": 353,
+        "torque_rpm": 4400,
+        "tyres": "225/50R16 92V"
+      },
+      "source_url": "https://www2.nissan.co.jp/HERITAGE/DETAIL/210.html",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer"
+    },
+    {
+      "id": "r34_2000",
+      "vehicle": "2000 Nissan Skyline GT-R V-spec II BNR34",
+      "match": "production reference; map exact trim/year before use",
+      "values": {
+        "length_mm": 4600,
+        "width_mm": 1780,
+        "height_mm": 1360,
+        "wheelbase_mm": 2665,
+        "track_front_mm": 1480,
+        "track_rear_mm": 1490,
+        "curb_kg": 1560,
+        "engine_cc": 2568,
+        "power_kW": 206,
+        "power_rpm": 6800,
+        "torque_Nm": 392,
+        "torque_rpm": 4400,
+        "tyres": "245/40ZR18"
+      },
+      "limits": [
+        "English heritage source width1780mm conflicts with Japanese heritage width1785mm; unresolved."
+      ],
+      "source_url": "https://www.nissan-global.com/EN/HERITAGE_COLLECTION/280_skyline_gt-r_v-spec_ii.html",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer"
+    },
+    {
+      "id": "silvia1989",
+      "vehicle": "1989 Nissan Silvia K's S13 CA18DET",
+      "match": "production reference; do not apply to later2L SR20DET",
+      "values": {
+        "length_mm": 4470,
+        "width_mm": 1690,
+        "height_mm": 1290,
+        "wheelbase_mm": 2475,
+        "track_front_mm": 1465,
+        "track_rear_mm": 1460,
+        "curb_kg": 1120,
+        "engine_cc": 1809,
+        "power_kW": 129,
+        "power_rpm": 6400,
+        "torque_Nm": 226,
+        "torque_rpm": 4000,
+        "tyres": "195/60R15"
+      },
+      "source_url": "https://www.nissan-global.com/EN/HERITAGE_COLLECTION/silvia_ks.html",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer"
+    },
+    {
+      "id": "z32_1992",
+      "vehicle": "1992 Nissan300ZX US naturally aspirated4AT two-seater",
+      "match": "production reference; not twin turbo or2+2",
+      "values": {
+        "length_mm": 4310,
+        "width_mm": 1790,
+        "height_mm": 1250,
+        "wheelbase_mm": 2450,
+        "track_front_mm": 1495,
+        "track_rear_mm": 1535,
+        "curb_kg": 1470,
+        "engine_cc": 2960,
+        "power_kW": 169.2,
+        "power_rpm": 6400,
+        "torque_Nm": 273,
+        "torque_rpm": 4800,
+        "tyres": "225/50R16 92V",
+        "gears": 4
+      },
+      "source_url": "https://www.nissan-global.com/EN/HERITAGE_COLLECTION/nissan_300ZX_ttop.html",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer"
+    },
+    {
+      "id": "supra1993",
+      "vehicle": "1993 Toyota Supra RZ JDM E-JZA80-ALFQZ",
+      "catalog": "GT4_TOYT0006",
+      "match": "nearest earlier production year; catalog1997 RZ",
+      "values": {
+        "length_mm": 4520,
+        "width_mm": 1810,
+        "height_mm": 1275,
+        "wheelbase_mm": 2550,
+        "curb_kg": 1490,
+        "engine_cc": 2997,
+        "power_PS": 280,
+        "power_rpm": 5600
+      },
+      "limits": [
+        "Do not mix UK326bhp or US320hp power/test performance with JDM280PS trim."
+      ],
+      "source_url": "https://www.toyota-global.com/company/history_of_toyota/75years/vehicle_lineage/car/id60006850/index.html",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer"
+    },
+    {
+      "id": "celica1994",
+      "vehicle": "1994 Toyota Celica GT-Four JDM E-ST205-BLMVZ",
+      "catalog": "GT4_TOYT0003",
+      "match": "nearest earlier production year; catalog1998",
+      "values": {
+        "length_mm": 4420,
+        "width_mm": 1750,
+        "height_mm": 1305,
+        "wheelbase_mm": 2535,
+        "curb_kg": 1380,
+        "engine_cc": 1998,
+        "power_PS": 255,
+        "power_rpm": 6000
+      },
+      "source_url": "https://www.toyota-global.com/company/history_of_toyota/75years/vehicle_lineage/car/id60010126/",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer"
+    },
+    {
+      "id": "cobra2003",
+      "vehicle": "2003 Ford SVT Mustang Cobra coupe",
+      "catalog": "COBRA",
+      "match": "alternate production benchmark; catalog2000 SVT Cobra is not2003 Terminator",
+      "values": {
+        "length_mm": 4661,
+        "width_mm": 1857,
+        "height_mm": 1336,
+        "wheelbase_mm": 2573,
+        "track_front_mm": 1530,
+        "track_rear_mm": 1530,
+        "curb_kg": 1662,
+        "front_mass_fraction": 0.57,
+        "engine_cc": 4601,
+        "power_hp": 390,
+        "power_rpm": 6000,
+        "torque_lbft": 390,
+        "torque_rpm": 3500,
+        "redline_rpm": 6500,
+        "gear_ratios": [
+          2.66,
+          1.78,
+          1.3,
+          1,
+          0.8,
+          0.63
+        ],
+        "reverse_ratio": 2.9,
+        "final_drive": 3.55,
+        "tyres": "275/40ZR17",
+        "spring_front_lbin": 600,
+        "spring_rear_lbin": 600,
+        "steering_ratio": 15,
+        "brake_front_mm": 330,
+        "brake_rear_mm": 296
+      },
+      "limits": [
+        "Manufacturer brochure mirrored on enthusiast site; full PDF fetch blocked but web text retained.",
+        "Brochure mm/inch pairs occasionally round inconsistently; retain manufacturer metric values."
+      ],
+      "source_url": "https://www.terminator-cobra.com/2003_SVT_Cobra_Brochure.pdf",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer document mirrored by third party"
+    },
+    {
+      "id": "focus2003",
+      "vehicle": "2003 Ford SVT Focus Getrag twin-output transmission",
+      "catalog": "FOCUS_SVT",
+      "match": "nearest year2003 training data vs2002 catalog",
+      "values": {
+        "gear_ratios": [
+          4.44,
+          2.67,
+          1.33,
+          1.08,
+          1.33,
+          1.08
+        ],
+        "final_drive_by_gear": [
+          2.88,
+          2.88,
+          4.25,
+          4.25,
+          2.88,
+          2.88
+        ],
+        "overall_ratios_published": [
+          12.7,
+          7.7,
+          5.7,
+          4.6,
+          3.8,
+          3.1
+        ]
+      },
+      "limits": [
+        "One common final-drive plus raw six ratios would be wrong; use per-output final drive or equivalent normalized ratios."
+      ],
+      "source_url": "https://www.terminator-cobra.com/SVT%20Training%202003.pdf",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer document mirrored by third party"
+    },
+    {
+      "id": "viper2005",
+      "vehicle": "2005 Geneva Dodge Viper SRT10 Coupe press specification",
+      "catalog": "GT4_DODG0005",
+      "match": "nearest powertrain benchmark; catalog2003 roadster body differs",
+      "values": {
+        "length_mm": 4459,
+        "width_at_sills_mm": 1911,
+        "height_mm": 1234,
+        "wheelbase_mm": 2510,
+        "track_front_mm": 1565,
+        "track_rear_mm": 1539,
+        "curb_estimated_kg": 1546,
+        "front_mass_fraction": 0.494,
+        "cd": 0.39,
+        "frontal_area_m2": 1.79,
+        "engine_cc": 8275,
+        "power_bhp": 500,
+        "power_rpm": 5600,
+        "torque_Nm": 712,
+        "torque_rpm": 4200,
+        "max_rpm": 6000,
+        "gear_ratios": [
+          2.66,
+          1.78,
+          1.3,
+          1,
+          0.74,
+          0.5
+        ],
+        "final_drive": 3.07,
+        "steering_ratio": 16.7,
+        "tyres_front": "P275/35 ZR18",
+        "tyres_rear": "P345/30 ZR19",
+        "brake_rotor_diameter_mm": 355
+      },
+      "limits": [
+        "Manufacturer states90% torque available1500–5600rpm; this is a band constraint, not digitized full curve.",
+        "Claimed0–100kph around4s; claimed60–0mph under100ft; no precise measured performance.",
+        "Width at sills must not be treated as maximum outer width."
+      ],
+      "source_url": "https://s3.amazonaws.com/chryslermedia.iconicweb.com/mediasite/attachments/FINALvipersrt10_eng.pdf",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer"
+    },
+    {
+      "id": "bmw_csl2003",
+      "vehicle": "2003 BMW M3 CSL",
+      "catalog": "GT4_BMW_0011",
+      "match": "exact model year",
+      "values": {
+        "power_kW": 265,
+        "unladen_kg": 1385,
+        "zero_100kmh_s": 4.9,
+        "zero_200kmh_s": 16.8
+      },
+      "limits": [
+        "Manufacturer retrospective cached search excerpt; direct URL redirects to newsroom today."
+      ],
+      "source_url": "https://www.press.bmwgroup.com/asia/article/attachment/T0260577EN/360348",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer"
+    },
+    {
+      "id": "ram2004",
+      "vehicle": "2004 Dodge Ram SRT10",
+      "match": "production reference; exact catalog identity needs join",
+      "values": {
+        "power_hp": 500,
+        "torque_lbft": 525,
+        "claimed_top_mph_greater_than": 150,
+        "record_top_mph": 154.587
+      },
+      "limits": [
+        "Manufacturer claimed0–60 just over5s; flying-kilometre record speed is different condition from acceleration test.",
+        "Search returned truncated manufacturer release URL; use cached excerpt for traceability, do not publish this as a resolved link."
+      ],
+      "source_url": null,
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer indexed search excerpt; full URL truncated",
+      "indexed_source_reference": "https://stellcmsdev.iconinteract.com/newsrelease/1072/Press%2BKit%3A%2B2005%2BDodge%2BRam%2BSRT-..."
+    },
+    {
+      "id": "f350_2002",
+      "vehicle": "2002 Ford F250/F3507.3L diesel manual engine option",
+      "catalog": "F350",
+      "match": "engine-option reference; catalog350bhp not stock275hp",
+      "values": {
+        "engine_cc": 7277,
+        "power_hp": 275,
+        "power_rpm": 2800,
+        "torque_lbft": 520,
+        "torque_rpm": 1600
+      },
+      "limits": [
+        "Ford press release reproduced by fordF150.net; source direct fetch403, search excerpt retained.",
+        "Cab/bed/axle/body and actual catalog engine unresolved; do not apply dimensions/mass from unspecified truck."
+      ],
+      "source_url": "https://www.fordf150.net/specs/02fsuper.php",
+      "source_cache": [
+        "screened-search-sources.json",
+        "docspecs.json"
+      ],
+      "evidence_class": "manufacturer document mirrored by third party"
+    }
+  ],
+  "audit_notes": "Initial broad audits exposed missing-context/truncation, not trusted. Focused source audit passed R32 and Viper after removing unsupported R32 gearbox/drive fields. Other12 passed source-filtered audit. No full curve claims.",
+  "verification": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"tool\": \"jev_verify\",\n  \"model\": \"typesafe/jev-1.14-20261014\",\n  \"provider\": \"openrouter\",\n  \"auto_accept\": 0.8,\n  \"subject_at\": 0.5,\n  \"summary\": {\n    \"verified\": 4,\n    \"contradicted\": 0,\n    \"unsupported\": 0,\n    \"needs_review\": 0\n  },\n  \"results\": [\n    {\n      \"id\": \"claim0\",\n      \"claim\": \"Viper2005 press specifications list8275cc,712Nm and six manual ratios2.66,1.78,1.30,1.00,0.74,0.50, so production-family references exceed8L,600Nm and5gears.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 0.91,\n        \"contradicts\": 0.08,\n        \"says_nothing\": 0.01\n      },\n      \"confidence\": 0.86,\n      \"action\": \"auto\",\n      \"supporting_evidence\": null,\n      \"same_subject\": 0.93\n    },\n    {\n      \"id\": \"claim1\",\n      \"claim\": \"Ford Focus training data use two different final drives2.88 and4.25 across six gears; raw ratios cannot be combined with one shared final drive.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 0.96,\n        \"contradicts\": 0.03,\n        \"says_nothing\": 0.01\n      },\n      \"confidence\": 0.94,\n      \"action\": \"auto\",\n      \"supporting_evidence\": null,\n      \"same_subject\": 0.94\n    },\n    {\n      \"id\": \"claim2\",\n      \"claim\": \"2004 UK Prius source lists1300kg,4450mm length,0.26 drag coefficient and10.9 seconds0–62mph; these are UK data, not a GLB measurement.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 0.91,\n        \"contradicts\": 0.06,\n        \"says_nothing\": 0.03\n      },\n      \"confidence\": 0.86,\n      \"action\": \"auto\",\n      \"supporting_evidence\": null,\n      \"same_subject\": 0.9\n    },\n    {\n      \"id\": \"claim3\",\n      \"claim\": \"Nissan English R34 heritage width1780mm differs from Japanese heritage width1785mm.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 1,\n        \"contradicts\": 0,\n        \"says_nothing\": 0\n      },\n      \"confidence\": 1,\n      \"action\": \"auto\",\n      \"supporting_evidence\": null,\n      \"same_subject\": 0.97\n    }\n  ],\n  \"usage\": {\n    \"input_tokens\": 8219,\n    \"output_tokens\": 248\n  }\n}"
+      }
+    ]
+  }
+}

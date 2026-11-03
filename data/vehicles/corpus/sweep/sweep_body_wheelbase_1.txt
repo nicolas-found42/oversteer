@@ -2,7 +2,7 @@
 # name = value    [unit]  (default)
 
 # --- Body ---
-body.wheelbase               = 4.075000     # m (default 2.550000)
+body.wheelbase               = 3.625000     # m (default 2.550000)
 body.track_front             = 1.480000     # m (default 1.480000)
 body.track_rear              = 1.460000     # m (default 1.460000)
 body.front_overhang          = 0.780000     # m (default 0.780000)

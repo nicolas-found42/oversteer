@@ -1,0 +1,88 @@
+{
+  "profiles_simulated": 904,
+  "calibration_entries": 673,
+  "training_inputs_sha256": "52ba77797aef2ceda588234be62da0ba765fd4d0e6111289e09b0f359052edde",
+  "groups": 67,
+  "candidate_count": 18,
+  "coefficient_keys": [
+    "drive.efficiency",
+    "tire.long.mu_scale",
+    "body.drag_coefficient"
+  ],
+  "baseline_coefficients": [
+    0.9,
+    1.0,
+    1.0
+  ],
+  "coefficients": [
+    0.9,
+    1.25,
+    1.15
+  ],
+  "baseline_loss": 0.019617740946674116,
+  "held_out_loss": 0.014269114328836414,
+  "final_train_loss": 0.014269114328836414,
+  "family_improvement_bootstrap_95ci": [
+    0.0005075719742914034,
+    0.011869414282866742
+  ],
+  "folds": [
+    {
+      "fold": 0,
+      "train": 381,
+      "test": 292,
+      "coefficients": [
+        0.9,
+        1.25,
+        1.15
+      ]
+    },
+    {
+      "fold": 1,
+      "train": 562,
+      "test": 111,
+      "coefficients": [
+        0.9,
+        1.25,
+        1.15
+      ]
+    },
+    {
+      "fold": 2,
+      "train": 620,
+      "test": 53,
+      "coefficients": [
+        0.9,
+        1.25,
+        1.15
+      ]
+    },
+    {
+      "fold": 3,
+      "train": 606,
+      "test": 67,
+      "coefficients": [
+        0.9,
+        1.25,
+        1.15
+      ]
+    },
+    {
+      "fold": 4,
+      "train": 523,
+      "test": 150,
+      "coefficients": [
+        0.9,
+        1.25,
+        1.15
+      ]
+    }
+  ],
+  "binary_sha256": "579ced40b5058aaea2594b34c22263f4d1532f6e1f3742c51168a2b04d43f20e",
+  "metric": "Mean squared log error of available 0-100s and 120s top-speed figures, equal weight per manufacturer family.",
+  "limitations": [
+    "Published figures include secondary compilations and proxies, not uniform independently measured tests.",
+    "120s terminal speed is a bounded protocol, not exact v-max.",
+    "Handling hardware remains explicitly unmeasured where absent."
+  ]
+}

@@ -19,8 +19,6 @@
 #include "dev/car_corpus.h"
 #include "game/ai_driver.h"
 #include "game/car_roster.h"
-#include "render/car_visual.h"
-#include "render/car_visual_raster.h"
 #include "core/config.h"
 #include "dev/dev_params.h"
 #include "dev/dev_replay.h"

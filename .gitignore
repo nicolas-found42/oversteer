@@ -106,6 +106,7 @@ PowerShellEditorServices.json
 # Browser inspector: node deps and the Playwright report/evidence it writes. The inspector
 # itself (tools/visual/*.html, *.js, tests/) is source and IS tracked.
 /tools/visual/node_modules/
+/tools/carmodels/node_modules/
 /tools/visual/playwright-report/
 /tools/visual/test-results/
 

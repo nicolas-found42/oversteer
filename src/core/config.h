@@ -249,7 +249,7 @@
 #define TIRE_C_LONG 1.55f
 #define TIRE_MU_LONG_SCALE 1.00f
 
-#define MAX_GEARS 8
+#define MAX_GEARS 8 /* Retained production references include eight-speed transmissions. */
 #define ENGINE_CURVE_POINTS 7
 
 #define GEAR_RATIOS { 3.55f, 2.05f, 1.38f, 1.00f, 0.82f }
@@ -393,7 +393,7 @@
  * WHAT IS NOT UPSCALED. The HUD, raygui and the Physics Lab draw at native resolution on top
  * of the blit. Text through a 2x nearest-neighbour upscale would be unreadable.
  */
-#define PIXEL_ART_UPSCALE 2 /* integer; must divide SCREEN_W and SCREEN_H exactly */
+#define PIXEL_ART_UPSCALE 1 /* Native resolution preserves source-model sprite detail. */
 #define PIXEL_ART_TARGET_W (SCREEN_W / PIXEL_ART_UPSCALE)
 #define PIXEL_ART_TARGET_H (SCREEN_H / PIXEL_ART_UPSCALE)
 

@@ -1,27 +1,6 @@
-/*
- * car_corpus.h — the demonstration fleet: N vehicles as pure functions of an index.
- *
- * WHY C AND NOT FILES. The corpus is the source of truth for the distinctness test and the
- * contact sheet, so it must be reachable without file I/O, without a working directory
- * assumption, and without enumerating a directory from inside the hot-reloadable game module.
- * `oversteer_tests --generate-corpus` exports these specs into data/vehicles/corpus as .txt files in the
- * existing profile format for humans to read and diff; a test asserts the export round-trips,
- * so the files cannot silently rot away from the code.
- *
- * COMPOSITION. Two groups in Phase 1:
- *
- *   archetype  the hand-designed presets from dev_presets.c — recognisable anchors that prove
- *              deliberately authored specs render sensibly
- *   sweep      one registry key varied across its declared [minimum, maximum] with everything
- *              else at stock. A row of cars where ONLY the wheelbase changes is the most
- *              direct evidence that appearance is a function of the parameters, and it is
- *              self-documenting in a way a random sample never is.
- *
- * A third `sampled` group joins them in Phase 3, once the parameter expansion has widened the
- * space enough for quasi-random points to be interesting.
- *
- * Raylib-free and I/O-free.
- */
+/* Deterministic physics fixtures, independent of the source-model artwork catalog.
+ * Authored archetypes and sweeps are built locally; sampled cases are frozen numeric
+ * snapshots so changes to rendering never select different simulation fixtures. */
 #ifndef OVERSTEER_CAR_CORPUS_H
 #define OVERSTEER_CAR_CORPUS_H
 
@@ -57,22 +36,10 @@ void car_corpus_id(int index, char *buf, size_t cap);
  * "body.cg_to_rear = 1.200 (step 2/5)". Used in the contact sheet and in test failures. */
 void car_corpus_describe(int index, char *buf, size_t cap);
 
-/* The registry key a sweep entry varies, or NULL for non-sweep entries. Lets a test assert
- * that each sweep axis actually moves the appearance. */
+/* The registry key a sweep entry varies, or NULL for non-sweep entries. Used to describe physics parameter coverage. */
 const char *car_corpus_sweep_key(int index);
 
-/* ------------------------------------------------------- candidate sweep measurement ----
- *
- * A sweep axis has to move roughly a fifth of its range past all three distinctness floors,
- * four times over, and most registry keys cannot. Deciding that by argument wastes a build:
- * `oversteer_tests --measure-sweep KEY` measures it directly, and these two entry points are
- * what let it build exactly the cars the sweep generator would build for a key that is not
- * (yet) on the axis table.
- *
- * car_corpus_sweep_steps() is the row length the generator uses.
- * car_corpus_sweep_probe() writes the stock spec with `key` moved to the value step `step`
- * would take, using the same exclusion window as the real generator, and returns false for an
- * unknown key or an out-of-range step. */
+/* Build a physics sweep probe using the same exclusion window as the fixture row. */
 int car_corpus_sweep_steps(void);
 bool car_corpus_sweep_probe(const char *key, int step, VehicleSpec *out);
 

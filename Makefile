@@ -152,8 +152,8 @@ BUILD_DEFINES = -DOVERSTEER_BUILD_COMMIT=\"$(BUILD_COMMIT)\" \
 # Paths must stay repository-relative and free of whitespace and apostrophes: one manifest is
 # consumed by both Make and POSIX shell.
 
-SHARED_SRCS := src/game/input.c src/core/math_utils.c src/dev/dev_scenario.c src/game/profile.c src/render/car_visual.c src/render/car_visual_raster.c src/render/vehicle_effects.c \
-               src/game/car_roster.c src/world/track.c src/game/validation_metrics.c src/game/run_report.c \
+SHARED_SRCS := src/game/input.c src/core/math_utils.c src/dev/dev_scenario.c src/game/profile.c src/render/vehicle_effects.c \
+               src/render/car_model.c src/game/car_roster.c src/world/track.c src/game/validation_metrics.c src/game/run_report.c \
                src/game/telemetry.c src/game/ai_driver.c src/game/replay.c src/dev/dev_presets.c src/dev/dev_params.c src/dev/dev_replay.c \
                src/dev/failure_bundle.c \
                src/physics/surface.c src/physics/vehicle.c
@@ -174,7 +174,7 @@ HOTRELOAD_SRC := src/platform/hotreload_windows.c
 # runner plus everything it pulls in.
 TEST_RUNNER_SRCS := tests/test_main.c tests/test_commands.c \
                     tests/support/test_harness.c tests/support/simulation_fixture.c \
-                    tests/support/appearance_metrics.c tests/support/car_sheet.c \
+                    tests/support/car_sheet.c \
                     tests/scenarios/core_tests.c tests/scenarios/appearance_tests.c \
                     tests/scenarios/physics_tests.c tests/scenarios/handling_tests.c \
                     tests/scenarios/gameplay_tests.c
@@ -200,7 +200,7 @@ ALL_H_SRCS  := $(sort $(wildcard src/*.h src/*/*.h tests/*.h tests/*/*.h))
 # Static analysis covers the headless-safe set. The exclusions are named as translation units,
 # NOT as source groups: subtracting whole groups looks tidier but HOTRELOAD_HARNESS_SRCS and
 # PLATFORM_SRCS both contain shared code, so `filter-out $(HOTRELOAD_HARNESS_SRCS)` would take
-# car_visual.c, car_visual_raster.c, input.c, math_utils.c, dev_scenario.c, profile.c and
+# car_model.c, input.c, math_utils.c, dev_scenario.c, profile.c and
 # timestep.c out of analysis as collateral — the appearance core included.
 #
 # What genuinely cannot be analysed: the Windows-only platform entry point, the hot-reload
@@ -232,6 +232,7 @@ EXE_DEBUG   := $(BUILD_DEV)/oversteer$(EXE_SUFFIX)
 EXE_RELEASE := $(BUILD_RELEASE)/oversteer_release$(EXE_SUFFIX)
 
 ARTIFACTS := artifacts
+CARMODELS_PYTHON ?= build/carmodels-venv/bin/python
 # Ephemeral run evidence, all of it under the already-ignored artifacts/ root.
 TELEMETRY := $(ARTIFACTS)/telemetry
 BASELINES := tests/baselines
@@ -247,7 +248,8 @@ REGRESSION_SCENARIOS := skidpad step-steer transition lift-off \
         benchmark ci compile-commands format format-check format-py lint-py lint analyze fuzz \
         validate-hotreload compare-rgba measure-rotation record tidy tidy-changed tidy-run \
         clean clean-telemetry clean-artifacts dirs windows-only cards inspect visual-diagnose \
-        print-source-groups print-source-group
+        print-source-groups print-source-group carmodels-train carmodels-calibrate \
+        carmodels-references carmodels-judge carmodels-sprites
 
 all: dev
 
@@ -417,6 +419,23 @@ endif
 #
 # Every tool under tools/ is reachable from here. A tool with no entry point is a tool nobody
 # runs and nobody notices rotting — which is how four scripts ended up referenced by nothing.
+
+carmodels-train:
+	$(CARMODELS_PYTHON) -m tools.carmodels.pipeline --restore
+
+carmodels-sprites:
+	$(CARMODELS_PYTHON) -m tools.carmodels.pipeline --restore --bake-sprites
+
+carmodels-calibrate:
+	$(CARMODELS_PYTHON) -m tools.carmodels.pipeline --restore --refit-physics
+
+carmodels-references:
+	$(CARMODELS_PYTHON) -m tools.carmodels.dataset restore
+	$(CARMODELS_PYTHON) -m tools.carmodels.assets fetch
+	$(CARMODELS_PYTHON) -m tools.carmodels.assets render
+
+carmodels-judge:
+	$(CARMODELS_PYTHON) -m tools.carmodels.judgments --run
 
 # Bounded hot-reload validation: harness plus deliberate-compile-failure preservation.
 validate-hotreload:

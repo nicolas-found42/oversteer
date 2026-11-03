@@ -1,19 +1,14 @@
 /*
- * car_appearance.h — stable, presentation-only identity for procedural vehicle art.
+ * car_appearance.h — stable, presentation-only identity for source-model sprites.
  *
- * This draft type deliberately lives outside VehicleSpec: paint and decorative identity are
- * not physics inputs and must not affect simulation validation, checksums, replays, or solver
- * behavior. A zero seed is valid, so `hasSeed` is the explicit presence bit.
+ * Model identity lives outside VehicleSpec and never changes solver behavior or checksums.
+ * An empty code selects the catalog's default source model for legacy tuning profiles.
  */
 #ifndef OVERSTEER_CAR_APPEARANCE_H
 #define OVERSTEER_CAR_APPEARANCE_H
 
-#include <stdbool.h>
-#include <stdint.h>
-
 typedef struct {
-    bool hasSeed;
-    uint32_t seed;
+    char modelCode[64]; /* Presentation identity; never read by the physics solver. */
 } CarAppearanceSpec;
 
 #endif /* OVERSTEER_CAR_APPEARANCE_H */

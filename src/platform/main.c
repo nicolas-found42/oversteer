@@ -56,6 +56,7 @@
 #include "dev/failure_bundle.h"
 #include "game/ai_driver.h"
 #include "game/car_roster.h"
+#include "render/car_model.h"
 #include "game/game.h"
 #include "game/input.h"
 #include "game/run_report.h"
@@ -85,6 +86,7 @@ typedef struct {
 } CaptureScene;
 
 static const CaptureScene g_captureScenes[] = {
+    { "vehicle_sprite", "accel", 0, false, false, DEV_SCOPE_PRESET_HANDLING, false, false },
     { "debug_overlay", "accel", 240, true, false, DEV_SCOPE_PRESET_HANDLING, false, false },
     { "tire_curves", "skidpad", 600, true, false, DEV_SCOPE_PRESET_GRIP, false, false },
     { "drift_hud", "handbrake-entry", 500, true, false, DEV_SCOPE_PRESET_HANDLING, false,
@@ -153,15 +155,17 @@ typedef struct {
     int height;
     int ticks; /* -1: use the scene's own tick count */
     uint32_t seed;
-    int galleryPage;     /* 0: not a gallery capture; >=1: the 1-based page */
-    bool video;          /* --capture-scene writes an MP4 of every frame, not one PNG */
-    const char *track;   /* NULL: leave whatever game_init() loaded */
-    float cameraZoom;    /* 0: leave the default; >0 overrides, for whole-track framing */
-    bool validateLap;    /* --validate-lap subcommand */
-    const char *carId;   /* --car ID */
-    int startCheckpoint; /* ordered checkpoint used as the standing-start pose */
-    bool noVideo;        /* --no-video flag */
-    bool listCars;       /* --list-cars flag */
+    int galleryPage;       /* 0: not a gallery capture; >=1: the 1-based page */
+    bool video;            /* --capture-scene writes an MP4 of every frame, not one PNG */
+    const char *track;     /* NULL: leave whatever game_init() loaded */
+    float cameraZoom;      /* 0: leave the default; >0 overrides, for whole-track framing */
+    bool validateLap;      /* --validate-lap subcommand */
+    const char *carId;     /* --car ID */
+    int startCheckpoint;   /* ordered checkpoint used as the standing-start pose */
+    bool noVideo;          /* --no-video flag */
+    bool listCars;         /* --list-cars flag */
+    const char *modelCode; /* --model CODE: source artwork and researched profile */
+    bool listModels;
 } Options;
 
 /*
@@ -171,6 +175,10 @@ typedef struct {
  */
 static bool apply_run_options(Game *game, const Options *options)
 {
+    if (options->modelCode != NULL && !game_select_model(game, options->modelCode)) {
+        fprintf(stderr, "error: unavailable vehicle model '%s'\n", options->modelCode);
+        return false;
+    }
     GameRunConfig config;
     memset(&config, 0, sizeof(config));
     config.cameraZoomOverride = options->cameraZoom;
@@ -206,6 +214,9 @@ static void print_usage(const char *argv0)
            "[--output DIR] [--no-video]\n",
            argv0);
     printf("       %s --list-cars\n", argv0);
+    printf("       %s [--model CODE]    (use --list-models to list the source catalog)\n",
+           argv0);
+    printf("       %s --list-models\n", argv0);
     printf("       %s --list-scenes\n", argv0);
 }
 
@@ -228,6 +239,8 @@ static bool parse_options(int argc, char **argv, Options *options, int *statusOu
     options->startCheckpoint = 0;
     options->noVideo = false;
     options->listCars = false;
+    options->modelCode = NULL;
+    options->listModels = false;
     *statusOut = 0;
 
     for (int i = 1; i < argc; i++) {
@@ -269,6 +282,10 @@ static bool parse_options(int argc, char **argv, Options *options, int *statusOu
             options->validateLap = true;
         } else if (strcmp(arg, "--car") == 0 && hasValue) {
             options->carId = argv[++i];
+        } else if (strcmp(arg, "--model") == 0 && hasValue) {
+            options->modelCode = argv[++i];
+        } else if (strcmp(arg, "--list-models") == 0) {
+            options->listModels = true;
         } else if (strcmp(arg, "--start-checkpoint") == 0 && hasValue) {
             options->startCheckpoint = atoi(argv[++i]);
         } else if (strcmp(arg, "--no-video") == 0) {
@@ -310,6 +327,7 @@ static int run_capture(Game *game, const Options *options)
                                                        : "artifacts/screenshots/capture.png";
 
     game_init(game);
+    game->state = STATE_PLAYING;
     if (!apply_run_options(game, options)) return 2;
     game->debugOverlay = scene->debugOverlay;
     game->dev.labVisible = scene->lab;
@@ -847,6 +865,12 @@ int main(int argc, char **argv)
         Game_UnloadModule();
         return 0;
     }
+    if (options.listModels) {
+        for (int i = 0; i < car_model_count(); i++)
+            printf("%s\t%s\n", car_model_at(i)->code, car_model_at(i)->name);
+        Game_UnloadModule();
+        return 0;
+    }
 
     Game *game = (Game *)calloc(1, sizeof(Game));
     if (game == NULL) {
@@ -887,6 +911,7 @@ int main(int argc, char **argv)
     if (gallery) title = "Oversteer - vehicle gallery";
 
     InitWindow(options.width, options.height, title);
+    SetExitKey(KEY_NULL); /* Escape closes the vehicle picker before it can quit the app. */
     if (!IsWindowReady()) {
         fprintf(stderr, "FATAL: InitWindow failed (%dx%d)\n", options.width, options.height);
         Game_UnloadModule();
@@ -915,7 +940,8 @@ int main(int argc, char **argv)
     }
 
     game_init(game);
-    if (!apply_run_options(game, &options)) {
+    if ((options.modelCode == NULL && !game_select_model(game, "FOCUS_SVT")) ||
+        !apply_run_options(game, &options)) {
         game_shutdown(game);
         CloseWindow();
         Game_UnloadModule();
@@ -932,6 +958,7 @@ int main(int argc, char **argv)
     int exit_status = 0;
 
     while (!WindowShouldClose()) {
+        if (IsKeyPressed(KEY_ESCAPE) && game->dev.galleryPage == 0) break;
         /* Development builds only; compiles to nothing in a release build. */
         Game_MaybeHotReload(game);
 

@@ -13,6 +13,7 @@
 #include "physics/tire.h"
 #include "physics/vehicle.h"
 #include "core/units.h"
+#include "render/car_model.h"
 
 /* ---- presentation palette, type scale, and screen-space helpers -----------------------
  *
@@ -39,11 +40,8 @@ const Color COL_PANEL = { 12, 14, 18, 170 };
 const Color COL_PANEL_EDGE = { 255, 255, 255, 26 };
 const Color COL_DIM_SCREEN = { 8, 10, 14, 185 };
 
-/* The car's own palette used to live here as COL_CAR_BODY / COL_CAR_OUTLINE / COL_CAR_CABIN /
- * COL_TIRE / COL_RIM, next to a hardcoded 4.2 x 1.82 m box. Both are gone: the vehicle's
- * colours and its geometry are now derived in src/render/car_visual.c and rasterized by
- * src/render/car_visual_raster.c, and this file only uploads and draws what they produce. Adding a
- * styling decision back here would put it where oversteer_tests cannot reach it. */
+/* Vehicle artwork is loaded from the explicit source-model catalog by render_vehicle.c.
+ * The HUD never derives paint, geometry or styling from physics settings. */
 
 static void draw_text_centered(const char *text, int y, int fontSize, Color color)
 {
@@ -79,11 +77,13 @@ static const char *gear_label(int selectedGear);
  */
 static void draw_overlay_menu(const Game *game)
 {
-    (void)game;
     DrawRectangle(0, 0, SCREEN_W, SCREEN_H, COL_DIM_SCREEN);
 
     draw_text_centered_shadow("OVERSTEER", 226, 64, COL_ACCENT);
     draw_text_centered("a tiny top-down drift sandbox", 306, 20, COL_TEXT_DIM);
+    const CarModel *model = car_model_selected(&game->appearance);
+    if (model != NULL) draw_text_centered(model->name, 350, 18, COL_TEXT);
+    draw_text_centered("G choose vehicle", 378, 16, COL_TEXT_DIM);
 
     draw_text_centered(
         "PRESS P TO START", 414, 24,

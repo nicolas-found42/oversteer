@@ -1,0 +1,3391 @@
+{
+  "sampling_grid_comparisons": 2560,
+  "sampling": {
+    "metric": "mean linear RGB composite MSE across three backgrounds plus alpha coverage MSE",
+    "gpu_model_limit": "axis-aligned integral sRGB8 premultiplied mip approximation; transformed/trilinear sampling requires native captures",
+    "summary": {
+      "development": {
+        "direct_256": {
+          "128": 0.00015871418477786392,
+          "256": 0.0003731307664528079,
+          "512": 0.0035477229788133022
+        },
+        "supersample_512_box_linear_premultiplied": {
+          "128": 0.00011112683407077384,
+          "256": 3.70486229760066e-05,
+          "512": 0.0030640333181205888
+        },
+        "reference_1024_box_linear_premultiplied": {
+          "128": 0.00011972391753204784,
+          "256": 0.0,
+          "512": 0.0029648494164575823
+        }
+      },
+      "heldout": {
+        "direct_256": {
+          "128": 0.00011459297802692466,
+          "256": 0.0003227338465308094,
+          "512": 0.003326995833428252
+        },
+        "supersample_512_box_linear_premultiplied": {
+          "128": 7.345315261867806e-05,
+          "256": 3.367547670407589e-05,
+          "512": 0.002930769098763146
+        },
+        "reference_1024_box_linear_premultiplied": {
+          "128": 7.90140961542581e-05,
+          "256": 0.0,
+          "512": 0.0028444218201002514
+        }
+      }
+    },
+    "improvements": {
+      "development": {
+        "128": {
+          "relative_reduction": 0.2998304831650256,
+          "bootstrap_95_interval": [
+            0.11619010812054663,
+            0.5260741612000548
+          ],
+          "cars_improved": 13,
+          "cars": 16
+        },
+        "256": {
+          "relative_reduction": 0.9007087425992454,
+          "bootstrap_95_interval": [
+            0.895555697489168,
+            0.9050728902704375
+          ],
+          "cars_improved": 16,
+          "cars": 16
+        },
+        "512": {
+          "relative_reduction": 0.13633805784196418,
+          "bootstrap_95_interval": [
+            0.1269296828427155,
+            0.14470644125885251
+          ],
+          "cars_improved": 16,
+          "cars": 16
+        }
+      },
+      "heldout": {
+        "128": {
+          "relative_reduction": 0.35900825789325785,
+          "bootstrap_95_interval": [
+            0.2114171947611338,
+            0.5483865090254825
+          ],
+          "cars_improved": 15,
+          "cars": 16
+        },
+        "256": {
+          "relative_reduction": 0.8956555779132973,
+          "bootstrap_95_interval": [
+            0.8901644184717775,
+            0.9011777681038953
+          ],
+          "cars_improved": 16,
+          "cars": 16
+        },
+        "512": {
+          "relative_reduction": 0.11909444871676311,
+          "bootstrap_95_interval": [
+            0.1068783449870055,
+            0.13346359497737034
+          ],
+          "cars_improved": 16,
+          "cars": 16
+        }
+      }
+    },
+    "image_judgments": {
+      "development": {
+        "comparisons": 32,
+        "detail": {
+          "refined": 26,
+          "baseline": 6
+        },
+        "edges": {
+          "refined": 27,
+          "baseline": 5
+        },
+        "difference_visibility": {
+          "yes": 2,
+          "no": 14,
+          "uncertain": 16
+        }
+      },
+      "heldout": {
+        "comparisons": 32,
+        "detail": {
+          "refined": 24,
+          "baseline": 8
+        },
+        "edges": {
+          "refined": 23,
+          "baseline": 9
+        },
+        "difference_visibility": {
+          "no": 14,
+          "uncertain": 16,
+          "yes": 2
+        }
+      }
+    }
+  },
+  "shading": {
+    "rendered_candidates": 160,
+    "image_judgments": {
+      "development": {
+        "comparisons": 32,
+        "surface_detail": {
+          "baseline": 15,
+          "refined": 17
+        },
+        "source_detail": {
+          "refined": 13,
+          "baseline": 19
+        },
+        "difference_visibility": {
+          "no": 26,
+          "yes": 6
+        }
+      },
+      "heldout": {
+        "comparisons": 32,
+        "surface_detail": {
+          "baseline": 10,
+          "refined": 22
+        },
+        "source_detail": {
+          "refined": 7,
+          "baseline": 25
+        },
+        "difference_visibility": {
+          "no": 17,
+          "yes": 14,
+          "uncertain": 1
+        }
+      }
+    },
+    "silhouettes": [
+      {
+        "code": "F350",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "FOCUS_SVT",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "FORD_GT",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "EXPLORER",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_BENZ0001",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_DAIH0006",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_DODG0005",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_LNCA0003",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_SUBR0019",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_MINI0001",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_TOYT0008",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_FORD0007",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "MC3_VP_SC430_04",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "MC3_VP_D_H3T_05",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "MCLA_VP_NSN_GTR_08",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_PEUG0001",
+        "group": "development",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "POWERSTROKE",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "MUSTANG_68",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "F100_1956",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "THUNDERBIRD",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_MITS0055",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_PGNI0002",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_NISS0116",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "GT4_MBNZ0009",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "MC3_VP_H2_03",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "MC3_VP_IS300_04",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "MC3_VP_ELISE_04",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "MC3_VP_SALEEN_SR_00",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "MCLA_VPD_LR_SPORT_08",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "MCLA_VP_FRD_GT_06",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "MCLA_VP_FRD_MUSTANG_06",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      },
+      {
+        "code": "MCLA_VP_CHV_CAMARO_06",
+        "group": "heldout",
+        "mask_iou": 1.0,
+        "alpha_identical": true
+      }
+    ],
+    "transcript": "Visual inspection of shading/bounded-comparison.png, three columns: unlit, ao_untextured, studio_neutral. The Focus SVT is blue with white headlights and black window regions in both unlit and ao_untextured. The Ford GT has a red body, white racing stripes, round white number markings, and a visible rear engine panel in both unlit and ao_untextured. In the earlier shading/comparison.png, all-material AO darkens those headlight and engine details. The SC430 has a white body and exposed engine area in both unlit and ao_untextured; the latter shows darker narrow recesses near its window edges. The MCLA GT-R is a nearly flat white silhouette in unlit, with a few dark slits; ao_untextured makes its hood creases, vents, bumper outlines and roof boundary visible. The MCLA Camaro is also nearly flat white in unlit; ao_untextured reveals hood, roof and bumper contours. Window regions on those MCLA cars remain pale; missing native glass colour has not been recovered. All three columns have matching outer shapes. The neutral studio column has softer shading and visible render noise. This is an agent's image transcript, not an independent verification of the pixels.",
+    "limit": "Occlusion is geometry-derived preview shading, not recovered native game lighting. Neutral reconstructed materials remain neutral. The full PBR reference is a controlled Blender presentation, not an authentic native game capture."
+  },
+  "live_image_calls": 176,
+  "controls": [
+    {
+      "stage": "sampling",
+      "case": "development-f350-control-identical",
+      "kind": "identical",
+      "difference_probability": 0.13,
+      "presence_probability": 0.98
+    },
+    {
+      "stage": "sampling",
+      "case": "development-f350-control-blank",
+      "kind": "blank",
+      "difference_probability": 0.99,
+      "presence_probability": 0.01
+    },
+    {
+      "stage": "sampling",
+      "case": "development-f350-control-blur",
+      "kind": "blur",
+      "difference_probability": 0.98,
+      "presence_probability": 0.91
+    },
+    {
+      "stage": "sampling",
+      "case": "development-focus_svt-control-identical",
+      "kind": "identical",
+      "difference_probability": 0.12,
+      "presence_probability": 0.98
+    },
+    {
+      "stage": "sampling",
+      "case": "development-focus_svt-control-blank",
+      "kind": "blank",
+      "difference_probability": 0.98,
+      "presence_probability": 0.01
+    },
+    {
+      "stage": "sampling",
+      "case": "development-focus_svt-control-blur",
+      "kind": "blur",
+      "difference_probability": 0.98,
+      "presence_probability": 0.95
+    },
+    {
+      "stage": "sampling",
+      "case": "development-ford_gt-control-identical",
+      "kind": "identical",
+      "difference_probability": 0.11,
+      "presence_probability": 0.97
+    },
+    {
+      "stage": "sampling",
+      "case": "development-ford_gt-control-blank",
+      "kind": "blank",
+      "difference_probability": 0.98,
+      "presence_probability": 0
+    },
+    {
+      "stage": "sampling",
+      "case": "development-ford_gt-control-blur",
+      "kind": "blur",
+      "difference_probability": 0.98,
+      "presence_probability": 0.95
+    },
+    {
+      "stage": "sampling",
+      "case": "development-explorer-control-identical",
+      "kind": "identical",
+      "difference_probability": 0.15,
+      "presence_probability": 0.96
+    },
+    {
+      "stage": "sampling",
+      "case": "development-explorer-control-blank",
+      "kind": "blank",
+      "difference_probability": 0.99,
+      "presence_probability": 0.01
+    },
+    {
+      "stage": "sampling",
+      "case": "development-explorer-control-blur",
+      "kind": "blur",
+      "difference_probability": 0.98,
+      "presence_probability": 0.9
+    },
+    {
+      "stage": "sampling",
+      "case": "heldout-gt90-control-identical",
+      "kind": "identical",
+      "difference_probability": 0.09,
+      "presence_probability": 0.95
+    },
+    {
+      "stage": "sampling",
+      "case": "heldout-gt90-control-blank",
+      "kind": "blank",
+      "difference_probability": 0.98,
+      "presence_probability": 0.01
+    },
+    {
+      "stage": "sampling",
+      "case": "heldout-gt90-control-blur",
+      "kind": "blur",
+      "difference_probability": 0.98,
+      "presence_probability": 0.91
+    },
+    {
+      "stage": "sampling",
+      "case": "heldout-mustang_68b-control-identical",
+      "kind": "identical",
+      "difference_probability": 0.1,
+      "presence_probability": 0.96
+    },
+    {
+      "stage": "sampling",
+      "case": "heldout-mustang_68b-control-blank",
+      "kind": "blank",
+      "difference_probability": 0.98,
+      "presence_probability": 0.01
+    },
+    {
+      "stage": "sampling",
+      "case": "heldout-mustang_68b-control-blur",
+      "kind": "blur",
+      "difference_probability": 0.97,
+      "presence_probability": 0.87
+    },
+    {
+      "stage": "sampling",
+      "case": "heldout-taurus_stock_d-control-identical",
+      "kind": "identical",
+      "difference_probability": 0.11,
+      "presence_probability": 0.96
+    },
+    {
+      "stage": "sampling",
+      "case": "heldout-taurus_stock_d-control-blank",
+      "kind": "blank",
+      "difference_probability": 0.98,
+      "presence_probability": 0
+    },
+    {
+      "stage": "sampling",
+      "case": "heldout-taurus_stock_d-control-blur",
+      "kind": "blur",
+      "difference_probability": 0.97,
+      "presence_probability": 0.95
+    },
+    {
+      "stage": "sampling",
+      "case": "heldout-fr500-control-identical",
+      "kind": "identical",
+      "difference_probability": 0.12,
+      "presence_probability": 0.97
+    },
+    {
+      "stage": "sampling",
+      "case": "heldout-fr500-control-blank",
+      "kind": "blank",
+      "difference_probability": 0.98,
+      "presence_probability": 0.01
+    },
+    {
+      "stage": "sampling",
+      "case": "heldout-fr500-control-blur",
+      "kind": "blur",
+      "difference_probability": 0.97,
+      "presence_probability": 0.91
+    },
+    {
+      "stage": "shading",
+      "case": "development-f350-identical",
+      "kind": "identical",
+      "difference_probability": 0.21,
+      "presence_probability": 0.99
+    },
+    {
+      "stage": "shading",
+      "case": "development-f350-blank",
+      "kind": "blank",
+      "difference_probability": 0.95,
+      "presence_probability": 0.01
+    },
+    {
+      "stage": "shading",
+      "case": "development-focus_svt-identical",
+      "kind": "identical",
+      "difference_probability": 0.08,
+      "presence_probability": 0.99
+    },
+    {
+      "stage": "shading",
+      "case": "development-focus_svt-blank",
+      "kind": "blank",
+      "difference_probability": 0.96,
+      "presence_probability": 0
+    },
+    {
+      "stage": "shading",
+      "case": "heldout-powerstroke-identical",
+      "kind": "identical",
+      "difference_probability": 0.27,
+      "presence_probability": 0.98
+    },
+    {
+      "stage": "shading",
+      "case": "heldout-powerstroke-blank",
+      "kind": "blank",
+      "difference_probability": 0.95,
+      "presence_probability": 0
+    },
+    {
+      "stage": "shading",
+      "case": "heldout-mustang_68-identical",
+      "kind": "identical",
+      "difference_probability": 0.17,
+      "presence_probability": 0.98
+    },
+    {
+      "stage": "shading",
+      "case": "heldout-mustang_68-blank",
+      "kind": "blank",
+      "difference_probability": 0.97,
+      "presence_probability": 0.01
+    }
+  ],
+  "raw_results_sha256": {
+    "sprites/refinement/results.json": "2f069888ef968b1e258e001b9774be80db104753d9d8772f5188d948029ae06c",
+    "sprites/refinement/jev/results.json": "c4042211a4b4c973914bc6e7a05e463758e0bc94a424537af2e1baf63f206f6a",
+    "sprites/shading/jev/results.json": "c2c86f25c2b99497886089c247a408207ab699825725d00f119136463bbc20e3"
+  },
+  "limits": "AB choices can be arbitrary on visually identical inputs. No universal perceptual win is claimed. Score distributions and Noul uncertainty are retained. Box estimates never crop sprites; exact geometry and alpha bounds remain authoritative.",
+  "final_style_sampling": {
+    "summary": {
+      "development": {
+        "direct_256": {
+          "128": 0.00016276143142590627,
+          "256": 0.000387747475751136,
+          "512": 0.0035824717469949974
+        },
+        "supersample_512_box_linear_premultiplied": {
+          "128": 0.00011096740116537754,
+          "256": 4.208106064140793e-05,
+          "512": 0.0030941030319506053
+        },
+        "reference_1024_box_linear_premultiplied": {
+          "128": 0.00011738907008540522,
+          "256": 0.0,
+          "512": 0.0029934696382648935
+        }
+      },
+      "heldout": {
+        "direct_256": {
+          "128": 0.00020879606708016732,
+          "256": 0.00040242856258979986,
+          "512": 0.003738285523089265
+        },
+        "supersample_512_box_linear_premultiplied": {
+          "128": 0.00019257089596654472,
+          "256": 5.3656244575724564e-05,
+          "512": 0.0032813637728850154
+        },
+        "reference_1024_box_linear_premultiplied": {
+          "128": 0.0002188997220435122,
+          "256": 0.0,
+          "512": 0.0031903629928062096
+        }
+      }
+    },
+    "rows": [
+      {
+        "group": "development",
+        "code": "F350",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0001123202212814552,
+            "alpha_mse": 3.8308819057419896e-05
+          },
+          "256": {
+            "color_mse": 0.0001444096075526128,
+            "alpha_mse": 0.00023692427203059196
+          },
+          "512": {
+            "color_mse": 0.0014374802897994716,
+            "alpha_mse": 0.0021295484621077776
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "F350",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00013701363059226424,
+            "alpha_mse": 5.23673679708736e-06
+          },
+          "256": {
+            "color_mse": 1.559113601009206e-05,
+            "alpha_mse": 2.490555380063597e-05
+          },
+          "512": {
+            "color_mse": 0.0012687946436926723,
+            "alpha_mse": 0.0018173200078308582
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "F350",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00017410754420173666,
+            "alpha_mse": 1.3519735375666642e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0012414348699773352,
+            "alpha_mse": 0.001734432065859437
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "FOCUS_SVT",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 3.436017080578798e-05,
+            "alpha_mse": 5.146798139321618e-05
+          },
+          "256": {
+            "color_mse": 6.870538951867881e-05,
+            "alpha_mse": 0.000172771280631423
+          },
+          "512": {
+            "color_mse": 0.000678180552010114,
+            "alpha_mse": 0.0017988999607041478
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "FOCUS_SVT",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 2.479888219871403e-05,
+            "alpha_mse": 4.967767836205894e-06
+          },
+          "256": {
+            "color_mse": 6.8442778532092534e-06,
+            "alpha_mse": 1.620117836864665e-05
+          },
+          "512": {
+            "color_mse": 0.0005928466465168943,
+            "alpha_mse": 0.001558506628498435
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "FOCUS_SVT",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 2.671217650155692e-05,
+            "alpha_mse": 1.264279774204624e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0005778492971633872,
+            "alpha_mse": 0.001511355978436768
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "FORD_GT",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00018425598682370037,
+            "alpha_mse": 5.7275941799161956e-05
+          },
+          "256": {
+            "color_mse": 0.00010862516258688022,
+            "alpha_mse": 0.0001886391983134672
+          },
+          "512": {
+            "color_mse": 0.0014660932744542758,
+            "alpha_mse": 0.0018619147595018148
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "FORD_GT",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00024040009884629399,
+            "alpha_mse": 5.606586910289479e-06
+          },
+          "256": {
+            "color_mse": 1.043968283435485e-05,
+            "alpha_mse": 1.8961862224387005e-05
+          },
+          "512": {
+            "color_mse": 0.0012939123359198372,
+            "alpha_mse": 0.0016044048825278878
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "FORD_GT",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0002667033695615828,
+            "alpha_mse": 1.50553788103025e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0012619642075151205,
+            "alpha_mse": 0.001543395803309977
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "EXPLORER",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00011653344457348187,
+            "alpha_mse": 4.950204674969427e-05
+          },
+          "256": {
+            "color_mse": 0.00011780888113814096,
+            "alpha_mse": 0.00019054455333389342
+          },
+          "512": {
+            "color_mse": 0.001402321271598339,
+            "alpha_mse": 0.002186085330322385
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "EXPLORER",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00012436759425327182,
+            "alpha_mse": 5.252443770586979e-06
+          },
+          "256": {
+            "color_mse": 1.1103227431400834e-05,
+            "alpha_mse": 1.9715465896297246e-05
+          },
+          "512": {
+            "color_mse": 0.001256378930217276,
+            "alpha_mse": 0.0019321569707244635
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "EXPLORER",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0001250034935461978,
+            "alpha_mse": 1.1113014863894932e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.001220540745028605,
+            "alpha_mse": 0.0018766532884910703
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_BENZ0001",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 8.865534497696596e-05,
+            "alpha_mse": 0.00026460186927579343
+          },
+          "256": {
+            "color_mse": 0.0003217830829574571,
+            "alpha_mse": 0.0010687191970646381
+          },
+          "512": {
+            "color_mse": 0.002611372464646896,
+            "alpha_mse": 0.00852879323065281
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_BENZ0001",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 2.2841242753202096e-05,
+            "alpha_mse": 2.8604184990399517e-05
+          },
+          "256": {
+            "color_mse": 2.8978181262573344e-05,
+            "alpha_mse": 9.62346384767443e-05
+          },
+          "512": {
+            "color_mse": 0.0022322897566482425,
+            "alpha_mse": 0.007259940728545189
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_BENZ0001",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 1.7999790846564185e-05,
+            "alpha_mse": 8.564491622564674e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0021685073346210024,
+            "alpha_mse": 0.0070415991358459
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_DAIH0006",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 2.4674329930955235e-05,
+            "alpha_mse": 6.825668970122933e-05
+          },
+          "256": {
+            "color_mse": 6.29227039704953e-05,
+            "alpha_mse": 0.00019413761037867516
+          },
+          "512": {
+            "color_mse": 0.0005474297649925575,
+            "alpha_mse": 0.0016856803558766842
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_DAIH0006",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 8.163158478661595e-06,
+            "alpha_mse": 5.385015811043559e-06
+          },
+          "256": {
+            "color_mse": 6.082154262306479e-06,
+            "alpha_mse": 1.6576652342337184e-05
+          },
+          "512": {
+            "color_mse": 0.00046128692338243127,
+            "alpha_mse": 0.0014018757501617074
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_DAIH0006",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 6.735058832418872e-06,
+            "alpha_mse": 1.5100289374458953e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0004440953586405764,
+            "alpha_mse": 0.0013436570297926664
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_DODG0005",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 1.5048251498228638e-05,
+            "alpha_mse": 3.683780596475117e-05
+          },
+          "256": {
+            "color_mse": 5.711609264835715e-05,
+            "alpha_mse": 0.00017014244804158807
+          },
+          "512": {
+            "color_mse": 0.0006160832611688724,
+            "alpha_mse": 0.0019360168371349573
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_DODG0005",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 7.215105749007004e-06,
+            "alpha_mse": 3.7502400118683e-06
+          },
+          "256": {
+            "color_mse": 5.5415631171248e-06,
+            "alpha_mse": 1.579614036018029e-05
+          },
+          "512": {
+            "color_mse": 0.0005404140077492533,
+            "alpha_mse": 0.0017051545437425375
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_DODG0005",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 6.770361324015539e-06,
+            "alpha_mse": 1.1871623684100996e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0005245664797257632,
+            "alpha_mse": 0.001655728556215763
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_LNCA0003",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 2.6386453707042772e-05,
+            "alpha_mse": 4.956774864695035e-05
+          },
+          "256": {
+            "color_mse": 6.340431718854234e-05,
+            "alpha_mse": 0.00016989087453112006
+          },
+          "512": {
+            "color_mse": 0.0006268602737691253,
+            "alpha_mse": 0.0016690328484401107
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_LNCA0003",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 1.6376483775578283e-05,
+            "alpha_mse": 5.149500793777406e-06
+          },
+          "256": {
+            "color_mse": 6.553037943983024e-06,
+            "alpha_mse": 1.6901010894798674e-05
+          },
+          "512": {
+            "color_mse": 0.0005470892647281289,
+            "alpha_mse": 0.00143478624522686
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_LNCA0003",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 1.7086593895025242e-05,
+            "alpha_mse": 1.2904253310352942e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0005301175551721826,
+            "alpha_mse": 0.0013827960938215256
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_SUBR0019",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 1.9142521523463074e-05,
+            "alpha_mse": 5.090133345220238e-05
+          },
+          "256": {
+            "color_mse": 6.530756005910614e-05,
+            "alpha_mse": 0.00021150610700715333
+          },
+          "512": {
+            "color_mse": 0.0005411121237557381,
+            "alpha_mse": 0.0017215973930433393
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_SUBR0019",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 6.722561920469161e-06,
+            "alpha_mse": 3.70691805073875e-06
+          },
+          "256": {
+            "color_mse": 6.0575947221271536e-06,
+            "alpha_mse": 1.8788003217196092e-05
+          },
+          "512": {
+            "color_mse": 0.00045084253846046823,
+            "alpha_mse": 0.0014200989389792085
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_SUBR0019",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 6.639695584453875e-06,
+            "alpha_mse": 1.0033407704668207e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0004326074995333329,
+            "alpha_mse": 0.00135795958340168
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_MINI0001",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00012245271742964783,
+            "alpha_mse": 2.9838749469490722e-05
+          },
+          "256": {
+            "color_mse": 0.00012304837097569057,
+            "alpha_mse": 0.00015265187539625913
+          },
+          "512": {
+            "color_mse": 0.0011008290845590334,
+            "alpha_mse": 0.0018290632870048285
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_MINI0001",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0001659140980336815,
+            "alpha_mse": 3.828694843832636e-06
+          },
+          "256": {
+            "color_mse": 1.3812151034168588e-05,
+            "alpha_mse": 1.6014400898711756e-05
+          },
+          "512": {
+            "color_mse": 0.000963458965998143,
+            "alpha_mse": 0.001629984937608242
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_MINI0001",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0002040948262826229,
+            "alpha_mse": 1.259100912420763e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0009407918939056495,
+            "alpha_mse": 0.0015830857446417212
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_TOYT0008",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 4.0143066144082695e-05,
+            "alpha_mse": 6.671009759884328e-05
+          },
+          "256": {
+            "color_mse": 7.071375512168743e-05,
+            "alpha_mse": 0.00020404005772434175
+          },
+          "512": {
+            "color_mse": 0.0006346675848665958,
+            "alpha_mse": 0.001738891820423305
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_TOYT0008",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 3.103441182853809e-05,
+            "alpha_mse": 6.630568805121584e-06
+          },
+          "256": {
+            "color_mse": 8.080528838642445e-06,
+            "alpha_mse": 2.1317418941180222e-05
+          },
+          "512": {
+            "color_mse": 0.0005373926445220908,
+            "alpha_mse": 0.0014465799322351813
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_TOYT0008",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 3.328561554856909e-05,
+            "alpha_mse": 1.18714588381863e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0005175005159496019,
+            "alpha_mse": 0.0013796488055959344
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_FORD0007",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0001002831074098746,
+            "alpha_mse": 3.975413346779533e-05
+          },
+          "256": {
+            "color_mse": 0.0001307594357058406,
+            "alpha_mse": 0.00014612197992391884
+          },
+          "512": {
+            "color_mse": 0.0013635496143251657,
+            "alpha_mse": 0.001795150456018746
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_FORD0007",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0001223098903816814,
+            "alpha_mse": 4.180854830337921e-06
+          },
+          "256": {
+            "color_mse": 1.422989559311342e-05,
+            "alpha_mse": 1.5639847333659418e-05
+          },
+          "512": {
+            "color_mse": 0.001215333235450089,
+            "alpha_mse": 0.001591148553416133
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_FORD0007",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00014651791328409067,
+            "alpha_mse": 1.4693024752432393e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0011876131369111438,
+            "alpha_mse": 0.0015481077134609222
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_SC430_04",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00021545123308897018,
+            "alpha_mse": 6.216738984221593e-05
+          },
+          "256": {
+            "color_mse": 0.00028806105062055093,
+            "alpha_mse": 0.00019809258810710162
+          },
+          "512": {
+            "color_mse": 0.0024394468249132237,
+            "alpha_mse": 0.0018414179794490337
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_SC430_04",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00023331245756708086,
+            "alpha_mse": 6.115162250353023e-06
+          },
+          "256": {
+            "color_mse": 4.6057569610032566e-05,
+            "alpha_mse": 2.0438001229194924e-05
+          },
+          "512": {
+            "color_mse": 0.0021465621733417115,
+            "alpha_mse": 0.0015718572540208697
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_SC430_04",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0002680303684125344,
+            "alpha_mse": 1.1576471337093608e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0020941905677318573,
+            "alpha_mse": 0.001507547334767878
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_D_H3T_05",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00021069827198516577,
+            "alpha_mse": 6.189162377268076e-05
+          },
+          "256": {
+            "color_mse": 0.0002662242526033272,
+            "alpha_mse": 0.0001977973006432876
+          },
+          "512": {
+            "color_mse": 0.0019949302077293396,
+            "alpha_mse": 0.0017813830636441708
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_D_H3T_05",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00023515859114316603,
+            "alpha_mse": 6.281205514824251e-06
+          },
+          "256": {
+            "color_mse": 4.1938240125697725e-05,
+            "alpha_mse": 2.0287838196964003e-05
+          },
+          "512": {
+            "color_mse": 0.001727814010034005,
+            "alpha_mse": 0.0014896350912749767
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_D_H3T_05",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0002606024985046436,
+            "alpha_mse": 1.2662280823860783e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0016760154394432902,
+            "alpha_mse": 0.0014219472650438547
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "MCLA_VP_NSN_GTR_08",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 9.113032623038937e-05,
+            "alpha_mse": 5.080684059066698e-05
+          },
+          "256": {
+            "color_mse": 0.00027935102601380396,
+            "alpha_mse": 0.000210193291422911
+          },
+          "512": {
+            "color_mse": 0.001648899361801644,
+            "alpha_mse": 0.0018142377957701683
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "MCLA_VP_NSN_GTR_08",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 5.1579765568021685e-05,
+            "alpha_mse": 4.760736828757217e-06
+          },
+          "256": {
+            "color_mse": 6.07505498919636e-05,
+            "alpha_mse": 2.0203466192469932e-05
+          },
+          "512": {
+            "color_mse": 0.0014253053814172745,
+            "alpha_mse": 0.0015271001029759645
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "MCLA_VP_NSN_GTR_08",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 5.46141612479308e-05,
+            "alpha_mse": 1.1945114408717927e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0013642654521390796,
+            "alpha_mse": 0.0014569648774340749
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_PEUG0001",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0001908766037862127,
+            "alpha_mse": 3.3881780836964026e-05
+          },
+          "256": {
+            "color_mse": 0.00017946968243146935,
+            "alpha_mse": 0.00014407660637516528
+          },
+          "512": {
+            "color_mse": 0.0020552752539515495,
+            "alpha_mse": 0.001837303163483739
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_PEUG0001",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0002446044236421585,
+            "alpha_mse": 4.209403869026573e-06
+          },
+          "256": {
+            "color_mse": 1.8619740634070087e-05,
+            "alpha_mse": 1.4635960724262986e-05
+          },
+          "512": {
+            "color_mse": 0.0018207932589575648,
+            "alpha_mse": 0.0016345832264050841
+          }
+        }
+      },
+      {
+        "group": "development",
+        "code": "GT4_PEUG0001",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0002605714350162695,
+            "alpha_mse": 1.1797101251431741e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0017734838572020333,
+            "alpha_mse": 0.0015950907254591584
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "POWERSTROKE",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 4.5226213842397556e-05,
+            "alpha_mse": 5.8934288972523063e-05
+          },
+          "256": {
+            "color_mse": 9.218586880403261e-05,
+            "alpha_mse": 0.00020951361511833966
+          },
+          "512": {
+            "color_mse": 0.0007969763052339355,
+            "alpha_mse": 0.0017009597504511476
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "POWERSTROKE",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 3.650070357252844e-05,
+            "alpha_mse": 4.882468147116015e-06
+          },
+          "256": {
+            "color_mse": 9.544590435931847e-06,
+            "alpha_mse": 1.963334761967417e-05
+          },
+          "512": {
+            "color_mse": 0.0006883443372013668,
+            "alpha_mse": 0.0014268828090280294
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "POWERSTROKE",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 4.036916773960305e-05,
+            "alpha_mse": 1.5162099487042724e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.000667754812942197,
+            "alpha_mse": 0.0013631239999085665
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MUSTANG_68",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 3.782327985391021e-05,
+            "alpha_mse": 6.662053783657029e-05
+          },
+          "256": {
+            "color_mse": 0.00010804749520805974,
+            "alpha_mse": 0.000220094618271105
+          },
+          "512": {
+            "color_mse": 0.0010407371834541361,
+            "alpha_mse": 0.0019304724410176277
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MUSTANG_68",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 2.458734100703926e-05,
+            "alpha_mse": 6.384930657077348e-06
+          },
+          "256": {
+            "color_mse": 1.0901546678117787e-05,
+            "alpha_mse": 2.149314786947798e-05
+          },
+          "512": {
+            "color_mse": 0.0009180647903122008,
+            "alpha_mse": 0.0016399463638663292
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MUSTANG_68",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 2.360971423816712e-05,
+            "alpha_mse": 1.4291970273916377e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.000892622124714156,
+            "alpha_mse": 0.0015685667749494314
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "F100_1956",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 6.329556466274273e-05,
+            "alpha_mse": 4.5473356294678524e-05
+          },
+          "256": {
+            "color_mse": 0.0001099656437872909,
+            "alpha_mse": 0.00025360618019476533
+          },
+          "512": {
+            "color_mse": 0.0011404164833948016,
+            "alpha_mse": 0.0026993011124432087
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "F100_1956",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 6.663733074674383e-05,
+            "alpha_mse": 5.125417374074459e-06
+          },
+          "256": {
+            "color_mse": 1.0888144667357361e-05,
+            "alpha_mse": 2.4163453417713754e-05
+          },
+          "512": {
+            "color_mse": 0.0009985594466949503,
+            "alpha_mse": 0.00236975378356874
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "F100_1956",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 7.243783087081586e-05,
+            "alpha_mse": 1.5197311142856051e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0009711890403802196,
+            "alpha_mse": 0.0022989509161561728
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "THUNDERBIRD",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00012416101526468992,
+            "alpha_mse": 3.650401413324289e-05
+          },
+          "256": {
+            "color_mse": 0.0001277836442265349,
+            "alpha_mse": 0.0001423249050276354
+          },
+          "512": {
+            "color_mse": 0.0013011873234063387,
+            "alpha_mse": 0.00203654239885509
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "THUNDERBIRD",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00016495261904007444,
+            "alpha_mse": 4.384346084407298e-06
+          },
+          "256": {
+            "color_mse": 1.4493262824544217e-05,
+            "alpha_mse": 1.5030496797407977e-05
+          },
+          "512": {
+            "color_mse": 0.0011580786279713113,
+            "alpha_mse": 0.0018456135876476765
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "THUNDERBIRD",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.000199546804651618,
+            "alpha_mse": 1.1628994656120994e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.001135760472000887,
+            "alpha_mse": 0.0018073719693347812
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MITS0055",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.000101015039642031,
+            "alpha_mse": 3.5586923331720755e-05
+          },
+          "256": {
+            "color_mse": 0.00015705441668008765,
+            "alpha_mse": 0.00016387509822379798
+          },
+          "512": {
+            "color_mse": 0.0017001947853714228,
+            "alpha_mse": 0.0018835497321560979
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MITS0055",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00010599092396053796,
+            "alpha_mse": 4.794726010004524e-06
+          },
+          "256": {
+            "color_mse": 1.5341200499581948e-05,
+            "alpha_mse": 1.8799126337398775e-05
+          },
+          "512": {
+            "color_mse": 0.0015100784366950393,
+            "alpha_mse": 0.0016672535566613078
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MITS0055",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0001233837150114899,
+            "alpha_mse": 1.3492454797869868e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0014773355796933174,
+            "alpha_mse": 0.0016169100999832153
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_PGNI0002",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 5.772982937439034e-05,
+            "alpha_mse": 2.8713538995361887e-05
+          },
+          "256": {
+            "color_mse": 7.718524526959906e-05,
+            "alpha_mse": 0.00012025646719848737
+          },
+          "512": {
+            "color_mse": 0.001027839471741269,
+            "alpha_mse": 0.0020690206438302994
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_PGNI0002",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 6.439579253007348e-05,
+            "alpha_mse": 3.003401843670872e-06
+          },
+          "256": {
+            "color_mse": 6.810611921537202e-06,
+            "alpha_mse": 1.1260596693318803e-05
+          },
+          "512": {
+            "color_mse": 0.0009232335044847181,
+            "alpha_mse": 0.0019229260506108403
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_PGNI0002",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 7.271934252154703e-05,
+            "alpha_mse": 1.9249152671818592e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0009056787724451473,
+            "alpha_mse": 0.0019020289182662964
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_NISS0116",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 1.6882496083781007e-05,
+            "alpha_mse": 4.8477508244104683e-05
+          },
+          "256": {
+            "color_mse": 5.4938051713785775e-05,
+            "alpha_mse": 0.0001718128623906523
+          },
+          "512": {
+            "color_mse": 0.0005500061464166114,
+            "alpha_mse": 0.0018036674009636045
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_NISS0116",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 3.945075604860904e-06,
+            "alpha_mse": 4.666766017180635e-06
+          },
+          "256": {
+            "color_mse": 5.358728249878671e-06,
+            "alpha_mse": 1.617839552636724e-05
+          },
+          "512": {
+            "color_mse": 0.00047510865139580954,
+            "alpha_mse": 0.001556303002871573
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_NISS0116",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 2.6199568310403265e-06,
+            "alpha_mse": 1.1502002195129535e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.00046203551391954534,
+            "alpha_mse": 0.0015159613685682416
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MBNZ0009",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 4.944341465791998e-05,
+            "alpha_mse": 3.803269282798283e-05
+          },
+          "256": {
+            "color_mse": 8.270330605834413e-05,
+            "alpha_mse": 0.0001501011138316244
+          },
+          "512": {
+            "color_mse": 0.0009197610682652643,
+            "alpha_mse": 0.0019655339419841766
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MBNZ0009",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 4.361901665106416e-05,
+            "alpha_mse": 4.477569746086374e-06
+          },
+          "256": {
+            "color_mse": 9.14534712137538e-06,
+            "alpha_mse": 1.6126534319482744e-05
+          },
+          "512": {
+            "color_mse": 0.000822753868609046,
+            "alpha_mse": 0.0017794184386730194
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MBNZ0009",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 4.694295421359129e-05,
+            "alpha_mse": 9.214933527346147e-08
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0008019624122728904,
+            "alpha_mse": 0.0017351497663185
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_H2_03",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0003043665492441505,
+            "alpha_mse": 4.7830504627199844e-05
+          },
+          "256": {
+            "color_mse": 0.0003937432775273919,
+            "alpha_mse": 0.0001569512824062258
+          },
+          "512": {
+            "color_mse": 0.0025705120836695037,
+            "alpha_mse": 0.0019687863532453775
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_H2_03",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00029243780105995637,
+            "alpha_mse": 5.066375706519466e-06
+          },
+          "256": {
+            "color_mse": 7.552290965880577e-05,
+            "alpha_mse": 1.5995990906958468e-05
+          },
+          "512": {
+            "color_mse": 0.0022236830166851482,
+            "alpha_mse": 0.001769065042026341
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_H2_03",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00032273905041317147,
+            "alpha_mse": 1.1263812638162563e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0021865680270517864,
+            "alpha_mse": 0.0017290618270635605
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_IS300_04",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0002721334361316015,
+            "alpha_mse": 4.668264227802865e-05
+          },
+          "256": {
+            "color_mse": 0.00038120986816162866,
+            "alpha_mse": 0.00019840209279209375
+          },
+          "512": {
+            "color_mse": 0.0033412687480449677,
+            "alpha_mse": 0.0016224670689553022
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_IS300_04",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0003227431346507122,
+            "alpha_mse": 7.242752872116398e-06
+          },
+          "256": {
+            "color_mse": 5.758192613332843e-05,
+            "alpha_mse": 2.5614323021727614e-05
+          },
+          "512": {
+            "color_mse": 0.003006149549037218,
+            "alpha_mse": 0.0014074541395530105
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_IS300_04",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0003635918643946449,
+            "alpha_mse": 1.0802239103213651e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.002929277950897813,
+            "alpha_mse": 0.0013518942287191749
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_ELISE_04",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0002740073832683265,
+            "alpha_mse": 4.6707431465620175e-05
+          },
+          "256": {
+            "color_mse": 0.00031869869174746174,
+            "alpha_mse": 0.0001712868979666382
+          },
+          "512": {
+            "color_mse": 0.0021801491578420005,
+            "alpha_mse": 0.0017256763530895114
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_ELISE_04",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0003214781463611871,
+            "alpha_mse": 4.111278485652292e-06
+          },
+          "256": {
+            "color_mse": 5.87345493840985e-05,
+            "alpha_mse": 1.5255159269145224e-05
+          },
+          "512": {
+            "color_mse": 0.001864069257862866,
+            "alpha_mse": 0.0014784380327910185
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_ELISE_04",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0003762312796122084,
+            "alpha_mse": 8.094054493312797e-08
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0018034865691636999,
+            "alpha_mse": 0.001431195647455752
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_SALEEN_SR_00",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0001574464161725094,
+            "alpha_mse": 3.738726445590146e-05
+          },
+          "256": {
+            "color_mse": 0.00016776456322986633,
+            "alpha_mse": 0.00013620733807329088
+          },
+          "512": {
+            "color_mse": 0.0011853404575958848,
+            "alpha_mse": 0.001615760033018887
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_SALEEN_SR_00",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0001573446934344247,
+            "alpha_mse": 4.877536412095651e-06
+          },
+          "256": {
+            "color_mse": 3.8477398144702114e-05,
+            "alpha_mse": 1.7610636859899387e-05
+          },
+          "512": {
+            "color_mse": 0.0010327619190017383,
+            "alpha_mse": 0.0014324829680845141
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_SALEEN_SR_00",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00016872592095751315,
+            "alpha_mse": 1.8989054240137193e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.001006213715299964,
+            "alpha_mse": 0.0013854040298610926
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VPD_LR_SPORT_08",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00042592250004721183,
+            "alpha_mse": 5.45509101357311e-05
+          },
+          "256": {
+            "color_mse": 0.000452737498562783,
+            "alpha_mse": 0.0001891132997116074
+          },
+          "512": {
+            "color_mse": 0.00397427116210262,
+            "alpha_mse": 0.0018596635200083256
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VPD_LR_SPORT_08",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0006153581004279355,
+            "alpha_mse": 5.525282176677138e-06
+          },
+          "256": {
+            "color_mse": 6.805597028384606e-05,
+            "alpha_mse": 1.9994389731436968e-05
+          },
+          "512": {
+            "color_mse": 0.0034989339765161276,
+            "alpha_mse": 0.001618109759874642
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VPD_LR_SPORT_08",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0007501204963773489,
+            "alpha_mse": 1.1995085458238464e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0034207093995064497,
+            "alpha_mse": 0.0015571636613458395
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_GT_06",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0003021972079295665,
+            "alpha_mse": 4.790168168256059e-05
+          },
+          "256": {
+            "color_mse": 0.00047144524675483507,
+            "alpha_mse": 0.00018924700270872563
+          },
+          "512": {
+            "color_mse": 0.003387005999684334,
+            "alpha_mse": 0.0018567064544185996
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_GT_06",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0004086776267892371,
+            "alpha_mse": 4.652106781577459e-06
+          },
+          "256": {
+            "color_mse": 7.778495879999052e-05,
+            "alpha_mse": 1.7352114809909835e-05
+          },
+          "512": {
+            "color_mse": 0.0029386215998480716,
+            "alpha_mse": 0.0015991763211786747
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_GT_06",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0005043047131039202,
+            "alpha_mse": 1.2292923656787025e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0028532211824009814,
+            "alpha_mse": 0.001544471480883658
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_MUSTANG_06",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0002979786368086934,
+            "alpha_mse": 4.132894173380919e-05
+          },
+          "256": {
+            "color_mse": 0.0003517531440593302,
+            "alpha_mse": 0.00018278388597536832
+          },
+          "512": {
+            "color_mse": 0.002835929704209169,
+            "alpha_mse": 0.0016899564070627093
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_MUSTANG_06",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.0003393211712439855,
+            "alpha_mse": 5.160673026693985e-06
+          },
+          "256": {
+            "color_mse": 5.60578167399702e-05,
+            "alpha_mse": 1.7136591850430705e-05
+          },
+          "512": {
+            "color_mse": 0.002522772643715143,
+            "alpha_mse": 0.0014158488484099507
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_MUSTANG_06",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 0.00040476053254678845,
+            "alpha_mse": 1.4633710065936611e-07
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0024632440569500127,
+            "alpha_mse": 0.0013678742107003927
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_CHV_CAMARO_06",
+        "candidate": "direct_256",
+        "display_metrics": {
+          "128": {
+            "color_mse": 8.527984270282711e-05,
+            "alpha_mse": 4.509601058089174e-05
+          },
+          "256": {
+            "color_mse": 0.00025858290609903634,
+            "alpha_mse": 0.00017748147365637124
+          },
+          "512": {
+            "color_mse": 0.001666016411036253,
+            "alpha_mse": 0.001766892266459763
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_CHV_CAMARO_06",
+        "candidate": "supersample_512_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 3.411473395923773e-05,
+            "alpha_mse": 4.6744930841668975e-06
+          },
+          "256": {
+            "color_mse": 5.519388651009649e-05,
+            "alpha_mse": 1.6962760128080845e-05
+          },
+          "512": {
+            "color_mse": 0.0014686374537025888,
+            "alpha_mse": 0.001523296581581235
+          }
+        }
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_CHV_CAMARO_06",
+        "candidate": "reference_1024_box_linear_premultiplied",
+        "display_metrics": {
+          "128": {
+            "color_mse": 2.8222252391666796e-05,
+            "alpha_mse": 9.185883698137332e-08
+          },
+          "256": {
+            "color_mse": 0.0,
+            "alpha_mse": 0.0
+          },
+          "512": {
+            "color_mse": 0.0014169237110763788,
+            "alpha_mse": 0.0014766956446692348
+          }
+        }
+      }
+    ]
+  },
+  "explicit_linear_mips": {
+    "rows": [
+      {
+        "group": "development",
+        "code": "F350",
+        "pixels": 128,
+        "color_mse": 3.876523730165597e-06,
+        "alpha_mse": 5.304162641550647e-06
+      },
+      {
+        "group": "development",
+        "code": "F350",
+        "pixels": 256,
+        "color_mse": 1.559113601009206e-05,
+        "alpha_mse": 2.490555380063597e-05
+      },
+      {
+        "group": "development",
+        "code": "FOCUS_SVT",
+        "pixels": 128,
+        "color_mse": 2.080690402787392e-06,
+        "alpha_mse": 4.977829121344257e-06
+      },
+      {
+        "group": "development",
+        "code": "FOCUS_SVT",
+        "pixels": 256,
+        "color_mse": 6.8442778532092534e-06,
+        "alpha_mse": 1.620117836864665e-05
+      },
+      {
+        "group": "development",
+        "code": "FORD_GT",
+        "pixels": 128,
+        "color_mse": 2.9591581854523006e-06,
+        "alpha_mse": 5.525295819097664e-06
+      },
+      {
+        "group": "development",
+        "code": "FORD_GT",
+        "pixels": 256,
+        "color_mse": 1.043968283435485e-05,
+        "alpha_mse": 1.8961862224387005e-05
+      },
+      {
+        "group": "development",
+        "code": "EXPLORER",
+        "pixels": 128,
+        "color_mse": 3.160201648218693e-06,
+        "alpha_mse": 5.269524990580976e-06
+      },
+      {
+        "group": "development",
+        "code": "EXPLORER",
+        "pixels": 256,
+        "color_mse": 1.1103227431400834e-05,
+        "alpha_mse": 1.9715465896297246e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_BENZ0001",
+        "pixels": 128,
+        "color_mse": 8.792502493785529e-06,
+        "alpha_mse": 2.873448647733312e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_BENZ0001",
+        "pixels": 256,
+        "color_mse": 2.8978181262573344e-05,
+        "alpha_mse": 9.62346384767443e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_DAIH0006",
+        "pixels": 128,
+        "color_mse": 2.0712234534888316e-06,
+        "alpha_mse": 5.4132456170918886e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_DAIH0006",
+        "pixels": 256,
+        "color_mse": 6.082154262306479e-06,
+        "alpha_mse": 1.6576652342337184e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_DODG0005",
+        "pixels": 128,
+        "color_mse": 1.4833328615774615e-06,
+        "alpha_mse": 3.5922312235925347e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_DODG0005",
+        "pixels": 256,
+        "color_mse": 5.5415631171248e-06,
+        "alpha_mse": 1.579614036018029e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_LNCA0003",
+        "pixels": 128,
+        "color_mse": 1.966217344791706e-06,
+        "alpha_mse": 5.054931534687057e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_LNCA0003",
+        "pixels": 256,
+        "color_mse": 6.553037943983024e-06,
+        "alpha_mse": 1.6901010894798674e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_SUBR0019",
+        "pixels": 128,
+        "color_mse": 1.2817887219777428e-06,
+        "alpha_mse": 3.6067308428755496e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_SUBR0019",
+        "pixels": 256,
+        "color_mse": 6.0575947221271536e-06,
+        "alpha_mse": 1.8788003217196092e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_MINI0001",
+        "pixels": 128,
+        "color_mse": 4.263724273793438e-06,
+        "alpha_mse": 3.835307779809227e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_MINI0001",
+        "pixels": 256,
+        "color_mse": 1.3812151034168588e-05,
+        "alpha_mse": 1.6014400898711756e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_TOYT0008",
+        "pixels": 128,
+        "color_mse": 2.5981718939268226e-06,
+        "alpha_mse": 6.591973942704499e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_TOYT0008",
+        "pixels": 256,
+        "color_mse": 8.080528838642445e-06,
+        "alpha_mse": 2.1317418941180222e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_FORD0007",
+        "pixels": 128,
+        "color_mse": 4.107071314744341e-06,
+        "alpha_mse": 4.337331120041199e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_FORD0007",
+        "pixels": 256,
+        "color_mse": 1.422989559311342e-05,
+        "alpha_mse": 1.5639847333659418e-05
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_SC430_04",
+        "pixels": 128,
+        "color_mse": 1.4298900168796536e-05,
+        "alpha_mse": 6.253271749301348e-06
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_SC430_04",
+        "pixels": 256,
+        "color_mse": 4.6057569610032566e-05,
+        "alpha_mse": 2.0438001229194924e-05
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_D_H3T_05",
+        "pixels": 128,
+        "color_mse": 1.2311042458653295e-05,
+        "alpha_mse": 5.961660008324543e-06
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_D_H3T_05",
+        "pixels": 256,
+        "color_mse": 4.1938240125697725e-05,
+        "alpha_mse": 2.0287838196964003e-05
+      },
+      {
+        "group": "development",
+        "code": "MCLA_VP_NSN_GTR_08",
+        "pixels": 128,
+        "color_mse": 1.6418640370829962e-05,
+        "alpha_mse": 4.743011231767014e-06
+      },
+      {
+        "group": "development",
+        "code": "MCLA_VP_NSN_GTR_08",
+        "pixels": 256,
+        "color_mse": 6.07505498919636e-05,
+        "alpha_mse": 2.0203466192469932e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_PEUG0001",
+        "pixels": 128,
+        "color_mse": 6.161288032065689e-06,
+        "alpha_mse": 4.06327671953477e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_PEUG0001",
+        "pixels": 256,
+        "color_mse": 1.8619740634070087e-05,
+        "alpha_mse": 1.4635960724262986e-05
+      },
+      {
+        "group": "heldout",
+        "code": "POWERSTROKE",
+        "pixels": 128,
+        "color_mse": 2.8654815954117416e-06,
+        "alpha_mse": 4.915926183457486e-06
+      },
+      {
+        "group": "heldout",
+        "code": "POWERSTROKE",
+        "pixels": 256,
+        "color_mse": 9.544590435931847e-06,
+        "alpha_mse": 1.963334761967417e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MUSTANG_68",
+        "pixels": 128,
+        "color_mse": 3.1879620413140706e-06,
+        "alpha_mse": 6.355346613418078e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MUSTANG_68",
+        "pixels": 256,
+        "color_mse": 1.0901546678117787e-05,
+        "alpha_mse": 2.149314786947798e-05
+      },
+      {
+        "group": "heldout",
+        "code": "F100_1956",
+        "pixels": 128,
+        "color_mse": 3.0138458744962313e-06,
+        "alpha_mse": 5.663904630637262e-06
+      },
+      {
+        "group": "heldout",
+        "code": "F100_1956",
+        "pixels": 256,
+        "color_mse": 1.0888144667357361e-05,
+        "alpha_mse": 2.4163453417713754e-05
+      },
+      {
+        "group": "heldout",
+        "code": "THUNDERBIRD",
+        "pixels": 128,
+        "color_mse": 4.1341035436441116e-06,
+        "alpha_mse": 4.348282345745247e-06
+      },
+      {
+        "group": "heldout",
+        "code": "THUNDERBIRD",
+        "pixels": 256,
+        "color_mse": 1.4493262824544217e-05,
+        "alpha_mse": 1.5030496797407977e-05
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MITS0055",
+        "pixels": 128,
+        "color_mse": 5.3509928269098355e-06,
+        "alpha_mse": 5.172051260160515e-06
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MITS0055",
+        "pixels": 256,
+        "color_mse": 1.5341200499581948e-05,
+        "alpha_mse": 1.8799126337398775e-05
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_PGNI0002",
+        "pixels": 128,
+        "color_mse": 1.9471563443100117e-06,
+        "alpha_mse": 2.9827995149389608e-06
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_PGNI0002",
+        "pixels": 256,
+        "color_mse": 6.810611921537202e-06,
+        "alpha_mse": 1.1260596693318803e-05
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_NISS0116",
+        "pixels": 128,
+        "color_mse": 1.6379918482319529e-06,
+        "alpha_mse": 4.974235707777552e-06
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_NISS0116",
+        "pixels": 256,
+        "color_mse": 5.358728249878671e-06,
+        "alpha_mse": 1.617839552636724e-05
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MBNZ0009",
+        "pixels": 128,
+        "color_mse": 2.397302788873882e-06,
+        "alpha_mse": 4.134911705477862e-06
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MBNZ0009",
+        "pixels": 256,
+        "color_mse": 9.14534712137538e-06,
+        "alpha_mse": 1.6126534319482744e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_H2_03",
+        "pixels": 128,
+        "color_mse": 2.2986948655064527e-05,
+        "alpha_mse": 5.514112672244664e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_H2_03",
+        "pixels": 256,
+        "color_mse": 7.552290965880577e-05,
+        "alpha_mse": 1.5995990906958468e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_IS300_04",
+        "pixels": 128,
+        "color_mse": 1.741865162330214e-05,
+        "alpha_mse": 7.061486940074246e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_IS300_04",
+        "pixels": 256,
+        "color_mse": 5.758192613332843e-05,
+        "alpha_mse": 2.5614323021727614e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_ELISE_04",
+        "pixels": 128,
+        "color_mse": 1.713885164159971e-05,
+        "alpha_mse": 4.034652647533221e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_ELISE_04",
+        "pixels": 256,
+        "color_mse": 5.87345493840985e-05,
+        "alpha_mse": 1.5255159269145224e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_SALEEN_SR_00",
+        "pixels": 128,
+        "color_mse": 1.2008374445334388e-05,
+        "alpha_mse": 5.390321803133702e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_SALEEN_SR_00",
+        "pixels": 256,
+        "color_mse": 3.8477398144702114e-05,
+        "alpha_mse": 1.7610636859899387e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VPD_LR_SPORT_08",
+        "pixels": 128,
+        "color_mse": 1.898301646482044e-05,
+        "alpha_mse": 5.701991085516056e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VPD_LR_SPORT_08",
+        "pixels": 256,
+        "color_mse": 6.805597028384606e-05,
+        "alpha_mse": 1.9994389731436968e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_GT_06",
+        "pixels": 128,
+        "color_mse": 2.064172804239206e-05,
+        "alpha_mse": 4.639608050638344e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_GT_06",
+        "pixels": 256,
+        "color_mse": 7.778495879999052e-05,
+        "alpha_mse": 1.7352114809909835e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_MUSTANG_06",
+        "pixels": 128,
+        "color_mse": 1.4928170761171108e-05,
+        "alpha_mse": 5.078547474113293e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_MUSTANG_06",
+        "pixels": 256,
+        "color_mse": 5.60578167399702e-05,
+        "alpha_mse": 1.7136591850430705e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_CHV_CAMARO_06",
+        "pixels": 128,
+        "color_mse": 1.666969607564776e-05,
+        "alpha_mse": 4.74582066090079e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_CHV_CAMARO_06",
+        "pixels": 256,
+        "color_mse": 5.519388651009649e-05,
+        "alpha_mse": 1.6962760128080845e-05
+      }
+    ],
+    "summary": {
+      "development": {
+        "128": 1.1943421760918229e-05,
+        "256": 4.208106064140793e-05
+      },
+      "heldout": {
+        "128": 1.5376517116768202e-05,
+        "256": 5.3656244575724564e-05
+      }
+    }
+  },
+  "errata": "The frozen decision-input snapshot counted all shading artifact JSON files, including API receipts. The corrected rendered-candidate count is160. Source inputs, decisions and sampling measurements are unchanged.",
+  "actual_packed_mips": {
+    "rows": [
+      {
+        "group": "development",
+        "code": "F350",
+        "pixels": 256,
+        "color_mse": 1.5672470908612013e-05,
+        "alpha_mse": 2.490555380063597e-05
+      },
+      {
+        "group": "development",
+        "code": "F350",
+        "pixels": 128,
+        "color_mse": 4.028225779014368e-06,
+        "alpha_mse": 5.304162641550647e-06
+      },
+      {
+        "group": "development",
+        "code": "FOCUS_SVT",
+        "pixels": 256,
+        "color_mse": 6.874768966251092e-06,
+        "alpha_mse": 1.620117836864665e-05
+      },
+      {
+        "group": "development",
+        "code": "FOCUS_SVT",
+        "pixels": 128,
+        "color_mse": 2.142646811383505e-06,
+        "alpha_mse": 4.977829121344257e-06
+      },
+      {
+        "group": "development",
+        "code": "FORD_GT",
+        "pixels": 256,
+        "color_mse": 1.0458123445763098e-05,
+        "alpha_mse": 1.8961862224387005e-05
+      },
+      {
+        "group": "development",
+        "code": "FORD_GT",
+        "pixels": 128,
+        "color_mse": 3.041778124194631e-06,
+        "alpha_mse": 5.525295819097664e-06
+      },
+      {
+        "group": "development",
+        "code": "EXPLORER",
+        "pixels": 256,
+        "color_mse": 1.112150327268561e-05,
+        "alpha_mse": 1.9715465896297246e-05
+      },
+      {
+        "group": "development",
+        "code": "EXPLORER",
+        "pixels": 128,
+        "color_mse": 3.176152328402774e-06,
+        "alpha_mse": 5.269524990580976e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_BENZ0001",
+        "pixels": 256,
+        "color_mse": 2.902557412198803e-05,
+        "alpha_mse": 9.62346384767443e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_BENZ0001",
+        "pixels": 128,
+        "color_mse": 8.861738479026826e-06,
+        "alpha_mse": 2.873448647733312e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_DAIH0006",
+        "pixels": 256,
+        "color_mse": 6.117019362742819e-06,
+        "alpha_mse": 1.6576652342337184e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_DAIH0006",
+        "pixels": 128,
+        "color_mse": 2.1098126505118366e-06,
+        "alpha_mse": 5.4132456170918886e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_DODG0005",
+        "pixels": 256,
+        "color_mse": 5.544038003790774e-06,
+        "alpha_mse": 1.579614036018029e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_DODG0005",
+        "pixels": 128,
+        "color_mse": 1.5094832216770253e-06,
+        "alpha_mse": 3.5922312235925347e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_LNCA0003",
+        "pixels": 256,
+        "color_mse": 6.5562802925948444e-06,
+        "alpha_mse": 1.6901010894798674e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_LNCA0003",
+        "pixels": 128,
+        "color_mse": 1.9893108742508048e-06,
+        "alpha_mse": 5.054931534687057e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_SUBR0019",
+        "pixels": 256,
+        "color_mse": 6.053443617778005e-06,
+        "alpha_mse": 1.8788003217196092e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_SUBR0019",
+        "pixels": 128,
+        "color_mse": 1.2935433915117756e-06,
+        "alpha_mse": 3.6067308428755496e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_MINI0001",
+        "pixels": 256,
+        "color_mse": 1.3855594867588176e-05,
+        "alpha_mse": 1.6014400898711756e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_MINI0001",
+        "pixels": 128,
+        "color_mse": 4.330636253750224e-06,
+        "alpha_mse": 3.835307779809227e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_TOYT0008",
+        "pixels": 256,
+        "color_mse": 8.088312294300218e-06,
+        "alpha_mse": 2.1317418941180222e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_TOYT0008",
+        "pixels": 128,
+        "color_mse": 2.6199899897013288e-06,
+        "alpha_mse": 6.591973942704499e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_FORD0007",
+        "pixels": 256,
+        "color_mse": 1.4268535475518243e-05,
+        "alpha_mse": 1.5639847333659418e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_FORD0007",
+        "pixels": 128,
+        "color_mse": 4.16427148290192e-06,
+        "alpha_mse": 4.337331120041199e-06
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_SC430_04",
+        "pixels": 256,
+        "color_mse": 4.623401643281492e-05,
+        "alpha_mse": 2.0438001229194924e-05
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_SC430_04",
+        "pixels": 128,
+        "color_mse": 1.4590984392270911e-05,
+        "alpha_mse": 6.253271749301348e-06
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_D_H3T_05",
+        "pixels": 256,
+        "color_mse": 4.199130247191837e-05,
+        "alpha_mse": 2.0287838196964003e-05
+      },
+      {
+        "group": "development",
+        "code": "MC3_VP_D_H3T_05",
+        "pixels": 128,
+        "color_mse": 1.2649461496039294e-05,
+        "alpha_mse": 5.961660008324543e-06
+      },
+      {
+        "group": "development",
+        "code": "MCLA_VP_NSN_GTR_08",
+        "pixels": 256,
+        "color_mse": 6.084557632372404e-05,
+        "alpha_mse": 2.0203466192469932e-05
+      },
+      {
+        "group": "development",
+        "code": "MCLA_VP_NSN_GTR_08",
+        "pixels": 128,
+        "color_mse": 1.6795110544383835e-05,
+        "alpha_mse": 4.743011231767014e-06
+      },
+      {
+        "group": "development",
+        "code": "GT4_PEUG0001",
+        "pixels": 256,
+        "color_mse": 1.8642817546303075e-05,
+        "alpha_mse": 1.4635960724262986e-05
+      },
+      {
+        "group": "development",
+        "code": "GT4_PEUG0001",
+        "pixels": 128,
+        "color_mse": 6.24628592049703e-06,
+        "alpha_mse": 4.0797749534249306e-06
+      },
+      {
+        "group": "heldout",
+        "code": "POWERSTROKE",
+        "pixels": 256,
+        "color_mse": 9.580710260100508e-06,
+        "alpha_mse": 1.963334761967417e-05
+      },
+      {
+        "group": "heldout",
+        "code": "POWERSTROKE",
+        "pixels": 128,
+        "color_mse": 2.9746161847773087e-06,
+        "alpha_mse": 4.915926183457486e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MUSTANG_68",
+        "pixels": 256,
+        "color_mse": 1.0929299605777487e-05,
+        "alpha_mse": 2.149314786947798e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MUSTANG_68",
+        "pixels": 128,
+        "color_mse": 3.4165520901296986e-06,
+        "alpha_mse": 6.355346613418078e-06
+      },
+      {
+        "group": "heldout",
+        "code": "F100_1956",
+        "pixels": 256,
+        "color_mse": 1.1005133880341115e-05,
+        "alpha_mse": 2.4163453417713754e-05
+      },
+      {
+        "group": "heldout",
+        "code": "F100_1956",
+        "pixels": 128,
+        "color_mse": 3.205329676347901e-06,
+        "alpha_mse": 5.663904630637262e-06
+      },
+      {
+        "group": "heldout",
+        "code": "THUNDERBIRD",
+        "pixels": 256,
+        "color_mse": 1.4622750010554833e-05,
+        "alpha_mse": 1.5030496797407977e-05
+      },
+      {
+        "group": "heldout",
+        "code": "THUNDERBIRD",
+        "pixels": 128,
+        "color_mse": 4.409559096529847e-06,
+        "alpha_mse": 4.348282345745247e-06
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MITS0055",
+        "pixels": 256,
+        "color_mse": 1.5436870550426345e-05,
+        "alpha_mse": 1.8799126337398775e-05
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MITS0055",
+        "pixels": 128,
+        "color_mse": 5.475621795388482e-06,
+        "alpha_mse": 5.1855272431566846e-06
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_PGNI0002",
+        "pixels": 256,
+        "color_mse": 6.837897975249992e-06,
+        "alpha_mse": 1.1260596693318803e-05
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_PGNI0002",
+        "pixels": 128,
+        "color_mse": 1.9772215106665194e-06,
+        "alpha_mse": 2.9827995149389608e-06
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_NISS0116",
+        "pixels": 256,
+        "color_mse": 5.365593892747711e-06,
+        "alpha_mse": 1.617839552636724e-05
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_NISS0116",
+        "pixels": 128,
+        "color_mse": 1.6389882612581157e-06,
+        "alpha_mse": 4.974235707777552e-06
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MBNZ0009",
+        "pixels": 256,
+        "color_mse": 9.156414762401255e-06,
+        "alpha_mse": 1.6126534319482744e-05
+      },
+      {
+        "group": "heldout",
+        "code": "GT4_MBNZ0009",
+        "pixels": 128,
+        "color_mse": 2.4208286125334175e-06,
+        "alpha_mse": 4.134911705477862e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_H2_03",
+        "pixels": 256,
+        "color_mse": 7.55144016390356e-05,
+        "alpha_mse": 1.5995990906958468e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_H2_03",
+        "pixels": 128,
+        "color_mse": 2.302576164462759e-05,
+        "alpha_mse": 5.514112672244664e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_IS300_04",
+        "pixels": 256,
+        "color_mse": 5.773472609386469e-05,
+        "alpha_mse": 2.5614323021727614e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_IS300_04",
+        "pixels": 128,
+        "color_mse": 1.764551598171238e-05,
+        "alpha_mse": 7.061486940074246e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_ELISE_04",
+        "pixels": 256,
+        "color_mse": 5.8793541635774695e-05,
+        "alpha_mse": 1.5255159269145224e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_ELISE_04",
+        "pixels": 128,
+        "color_mse": 1.7281074785084154e-05,
+        "alpha_mse": 4.034652647533221e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_SALEEN_SR_00",
+        "pixels": 256,
+        "color_mse": 3.857801251191025e-05,
+        "alpha_mse": 1.7610636859899387e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MC3_VP_SALEEN_SR_00",
+        "pixels": 128,
+        "color_mse": 1.2174778021289967e-05,
+        "alpha_mse": 5.390321803133702e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VPD_LR_SPORT_08",
+        "pixels": 256,
+        "color_mse": 6.82956039478692e-05,
+        "alpha_mse": 1.9994389731436968e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VPD_LR_SPORT_08",
+        "pixels": 128,
+        "color_mse": 1.9133694877382368e-05,
+        "alpha_mse": 5.701991085516056e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_GT_06",
+        "pixels": 256,
+        "color_mse": 7.799438753863797e-05,
+        "alpha_mse": 1.7352114809909835e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_GT_06",
+        "pixels": 128,
+        "color_mse": 2.1003858516147982e-05,
+        "alpha_mse": 4.639608050638344e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_MUSTANG_06",
+        "pixels": 256,
+        "color_mse": 5.6231522952051215e-05,
+        "alpha_mse": 1.7136591850430705e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_FRD_MUSTANG_06",
+        "pixels": 128,
+        "color_mse": 1.5425756222005777e-05,
+        "alpha_mse": 5.078547474113293e-06
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_CHV_CAMARO_06",
+        "pixels": 256,
+        "color_mse": 5.5464230778549485e-05,
+        "alpha_mse": 1.6962760128080845e-05
+      },
+      {
+        "group": "heldout",
+        "code": "MCLA_VP_CHV_CAMARO_06",
+        "pixels": 128,
+        "color_mse": 1.685653417856277e-05,
+        "alpha_mse": 4.74582066090079e-06
+      }
+    ],
+    "summary": {
+      "development": {
+        "128": 1.2051887549565283e-05,
+        "256": 4.21229260313775e-05
+      },
+      "heldout": {
+        "128": 1.5549572920825483e-05,
+        "256": 5.375926019960768e-05
+      }
+    }
+  }
+}

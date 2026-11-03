@@ -37,7 +37,7 @@ body.roll_stiffness_front    = 0.500000     # (default 0.500000)
 
 # --- Mass ---
 mass.engine                  = 160.000000   # kg (default 160.000000)
-mass.engine_x                = 0.754325     # m (default 1.100000)
+mass.engine_x                = 0.754326     # m (default 1.100000)
 mass.engine_z                = 0.400000     # m (default 0.400000)
 mass.gearbox                 = 70.000000    # kg (default 70.000000)
 mass.gearbox_x               = 0.500000     # m (default 0.500000)

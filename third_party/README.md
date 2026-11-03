@@ -3,6 +3,16 @@
 Vendored, unmodified third-party sources. Nothing here is edited by this project; update by
 replacing a file wholesale and recording the provenance below.
 
+## stb/stb_image.h — stb_image v2.30
+
+- Upstream: <https://github.com/nothings/stb>
+- Pinned revision: `d14d46f6b44456eb88beac58cba833a4135d4c89`, file `stb_image.h`.
+- SHA-256: `594c2fe35d49488b4382dbfaec8f98366defca819d916ac95becf3e75f4200b3`.
+- Licence: dual public domain / MIT; full terms remain in the unmodified header.
+- `src/render/car_model.c` defines the implementation with PNG-only support and
+  internal linkage. Gameplay and headless tests decode the same lossless sprite atlas;
+  no window or raylib function is needed for decoding.
+
 ## raygui/raygui.h — raygui 5.0-dev (`RAYGUI_VERSION_MAJOR 4`, `MINOR 5`, `PATCH 0`)
 
 - Upstream: <https://github.com/raysan5/raygui>

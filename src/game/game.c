@@ -20,6 +20,8 @@
 #include "physics/physics.h"
 #include "game/profile.h"
 #include "render/render.h"
+#include "render/car_model.h"
+#include "dev/dev_params.h"
 #include "world/track.h"
 
 #if !defined(OVERSTEER_HEADLESS)
@@ -89,6 +91,7 @@ GAME_API uint32_t game_state_checksum(const Game *game)
     h = hash_f32(h, v->filteredLongAccelMps2);
     h = hash_f32(h, v->prevLongAccelMps2);
     for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (!vehicle_wheel_is_active(&game->spec, i)) continue;
         const WheelState *wheel = &v->wheels[i];
         h = hash_f32(h, wheel->localPositionM.x);
         h = hash_f32(h, wheel->localPositionM.y);
@@ -119,6 +122,24 @@ GAME_API void game_apply_spec(Game *game, const VehicleSpec *spec)
     if (game == NULL || spec == NULL) return;
     game->spec = *spec;
     vehicle_state_reset(&game->spec, &game->vehicle, &game->derived, &game->renderState);
+}
+
+GAME_API bool game_select_model(Game *game, const char *code)
+{
+    if (game == NULL || car_model_find(code) < 0) return false;
+    VehicleSpec candidate;
+    vehicle_spec_set_default(&candidate);
+    char path[160];
+    snprintf(path, sizeof(path), "data/carmodels/profiles/%s.txt", code);
+    int unknown = 0, rejected = 0;
+    if (!dev_params_load(&candidate, path, NULL, &unknown, &rejected) || unknown || rejected)
+        return false;
+    CarAppearanceSpec appearance = { 0 };
+    if (!car_model_select(&appearance, code)) return false;
+    game_apply_spec(game, &candidate);
+    game->appearance = appearance;
+    game->stateChecksum = game_state_checksum(game);
+    return true;
 }
 
 GAME_API bool game_configure_run(Game *game, const GameRunConfig *config)
@@ -178,6 +199,7 @@ GAME_API bool game_spawn_on_track_at(Game *game, int checkpointIndex)
 
 static void apply_oneshots(Game *game, const Input *input)
 {
+    if (game->dev.galleryPage > 0) return;
     if (input->pausePressed) {
         switch (game->state) {
             case STATE_MENU:
@@ -238,6 +260,8 @@ GAME_API void game_init(Game *game)
     input_zero(&game->input);
     memset(&game->sim, 0, sizeof(game->sim));
     vehicle_spec_set_default(&game->spec);
+    memset(&game->appearance, 0, sizeof(game->appearance));
+    car_model_select(&game->appearance, "FOCUS_SVT");
     game_reset_sim(game);
     game->autoTrans.enabled = true;
     game->autoTrans.forwardOnly = false;
@@ -373,6 +397,7 @@ GAME_API void game_fixed_update(Game *game, float dt)
          * per-wheel surfaceId are not overwritten. */
         if (game->track.nodes != NULL && game->track.count > 0) {
             for (int i = 0; i < WHEEL_COUNT; i++) {
+                if (!vehicle_wheel_is_active(&game->spec, i)) continue;
                 const Vector2 worldContact =
                     physics_wheel_world_position(&game->vehicle, (WheelId)i);
                 game->vehicle.wheels[i].surfaceId = Track_SurfaceAt(&game->track, worldContact);
@@ -577,6 +602,10 @@ GAME_API TelemetryRow game_telemetry_row(const Game *game, int substepCount)
                             game->derived.serviceBrakeTorqueNm[WHEEL_REAR_RIGHT];
     row.handbrakeTorqueNm = game->derived.handbrakeTorqueNm[WHEEL_REAR_LEFT] +
                             game->derived.handbrakeTorqueNm[WHEEL_REAR_RIGHT];
+    if (game->spec.frontWheelCount == 1.0f) {
+        row.frontSlipRatio *= 2.0f;
+        row.frontWheelOmegaRadS *= 2.0f;
+    }
     row.totalForceXN = game->derived.totalBodyForceN.x;
     row.totalForceYN = game->derived.totalBodyForceN.y;
     row.yawTorqueNm = game->derived.totalYawTorqueNm;
@@ -621,12 +650,12 @@ GAME_API TelemetryRow game_telemetry_row(const Game *game, int substepCount)
     row.crashLockoutS = game->crashLockoutTimerS;
     row.distanceToCenterlineM =
         track_distance_to_centerline_m(&game->track, game->vehicle.positionM, NULL);
-    row.onTrack = (game->vehicle.wheels[WHEEL_FRONT_LEFT].surfaceId == SURFACE_ASPHALT &&
-                   game->vehicle.wheels[WHEEL_FRONT_RIGHT].surfaceId == SURFACE_ASPHALT &&
-                   game->vehicle.wheels[WHEEL_REAR_LEFT].surfaceId == SURFACE_ASPHALT &&
-                   game->vehicle.wheels[WHEEL_REAR_RIGHT].surfaceId == SURFACE_ASPHALT)
-                      ? 1
-                      : 0;
+    row.onTrack = 1;
+    for (int i = 0; i < WHEEL_COUNT; i++) {
+        if (vehicle_wheel_is_active(&game->spec, i) &&
+            game->vehicle.wheels[i].surfaceId != SURFACE_ASPHALT)
+            row.onTrack = 0;
+    }
 
     /* Per-wheel slip, straight off the wheel states the tire model was evaluated at. */
     row.slipAngleFrontLeftRad = game->vehicle.wheels[WHEEL_FRONT_LEFT].slipAngleRad;

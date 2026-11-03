@@ -1,3 +1,6 @@
+> Historical design, superseded by source-mesh sprites. The procedural CarVisual
+> modules described below have been retired. See [source-model identity](CAR_APPEARANCE_IDENTITY.md).
+
 # Derived vehicle primitives
 
 Status: implemented, with one exception. The derived fields described here exist on

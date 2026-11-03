@@ -98,6 +98,8 @@ static Camera2D world_camera_for_target(Camera2D camera)
     Camera2D cam = camera;
     cam.offset =
         (Vector2){ (float)PIXEL_ART_TARGET_W * 0.5f, (float)PIXEL_ART_TARGET_H * 0.5f };
+    /* Keep the existing world framing when replacing the former 2x world upscale. */
+    cam.zoom *= 2.0f / (float)PIXEL_ART_UPSCALE;
 
     cam.offset.x = units_snap_camera_offset_axis(cam.offset.x, cam.target.x, cam.zoom);
     cam.offset.y = units_snap_camera_offset_axis(cam.offset.y, cam.target.y, cam.zoom);
@@ -144,6 +146,7 @@ void render_draw_game(struct Game *game, float interpolationAlpha)
      * It is selected through the DevState field Phase 2 reserved for it rather than a new
      * GAME_ENTRY_POINTS function, so the platform layer can ask for a page without changing
      * the module's ABI or the layout of anything persistent. */
+    if (game->state == STATE_MENU && IsKeyPressed(KEY_G)) game->dev.galleryPage = 1;
     if (game->dev.galleryPage > 0) {
         render_draw_gallery(game, game->dev.galleryPage);
         return;
