@@ -1,0 +1,9 @@
+extend = "../ruff.toml"
+
+[lint]
+# Recovery scripts retain their existing style; correctness checks cover every file.
+select = ["E9", "F63", "F7", "F82"]
+
+[format]
+# Formatting the recovery corpus is a separate, reviewed migration.
+exclude = ["*.py"]

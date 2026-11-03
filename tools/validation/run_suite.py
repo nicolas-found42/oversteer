@@ -130,7 +130,9 @@ def run_car_validation(
 
 def main(argv: List[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--exe", default="build/dev/oversteer.exe", help="path to oversteer executable")
+    parser.add_argument(
+        "--exe", default="build/dev/oversteer.exe", help="path to oversteer executable"
+    )
     parser.add_argument("--out", default="artifacts/validation", help="root output directory")
     parser.add_argument("--cars", help="comma-separated car IDs filter")
     parser.add_argument("--no-video", action="store_true", help="disable MP4 video encoding")

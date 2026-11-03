@@ -82,14 +82,14 @@ def main():
     for state, case_id, capture in [(s, c, None) for s, c in PAIRS] + UI_PAIRS:
         if state not in states or case_id not in cases:
             continue
-        if states[state]["reference_scope"] in {
-            "deferred-or-not-gameplay", "other-edition-only"
-        }:
-            unpaired.append({
-                "state": state,
-                "case": case_id,
-                "reason": states[state]["reference_scope"],
-            })
+        if states[state]["reference_scope"] in {"deferred-or-not-gameplay", "other-edition-only"}:
+            unpaired.append(
+                {
+                    "state": state,
+                    "case": case_id,
+                    "reason": states[state]["reference_scope"],
+                }
+            )
             continue
         folder, run, case = cases[case_id]
         current = folder / case_id / capture if capture else folder / case["capture"]

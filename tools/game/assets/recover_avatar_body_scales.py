@@ -16,7 +16,8 @@ with open(inv['iso'],'rb')as iso:
  for bank in ['skinned/avatar_lo','skinned/componentdefs']:
   hrow=files[bank+'.jfshdr'];iso.seek(hrow['offset']);h=iso.read(hrow['size'])
   for index in range(struct.unpack_from('>I',h)[0]):
-   key,offset,packed,size,*_=struct.unpack_from('>6I',h,4+24*index);match=next((d for d in datasets if int(d['key'],16)==key),None)
+   key,offset,packed,size,*_=struct.unpack_from('>6I',h,4+24*index)
+   match=next((d for d in datasets if int(d['key'],16)==key),None)
    if match is None:continue
    iso.seek(files[bank+'.jfs']['offset']+offset);raw=iso.read(packed);raw=raw if packed==size else zlib.decompress(raw);digest=hashlib.sha256(raw).hexdigest();assert digest==match['sha256'];mirrors.append(dict(bank=bank+'.jfs',member=index,name=match['name'],sha256=digest))
 assert len(mirrors)==6

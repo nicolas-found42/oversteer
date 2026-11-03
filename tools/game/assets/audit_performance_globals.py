@@ -8,7 +8,8 @@ for path in sorted((SOURCE/'generated/default').glob('*recomp*.cpp')):
   match=re.match(r'DEFINE_REX_FUNC\((\w+)\)',line)
   if match:name=match[1];registers={}
   if not line.strip().startswith('// '):continue
-  instruction=line.strip()[3:];match=re.fullmatch(r'(lis|li) r(\d+),(-?\d+)',instruction)
+  instruction=line.strip()[3:]
+  match=re.fullmatch(r'(lis|li) r(\d+),(-?\d+)',instruction)
   if match:
    op,reg,value=match.groups();registers[int(reg)]=(int(value)*(65536 if op=='lis'else 1))&0xffffffff;history[int(reg)]=[instruction];continue
   match=re.fullmatch(r'(addi|ori) r(\d+),r(\d+),(-?\d+)',instruction)

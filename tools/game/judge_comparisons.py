@@ -13,6 +13,7 @@ import urllib.request
 from pathlib import Path
 
 from PIL import Image, ImageOps
+
 from verify import ROOT, digest
 
 MODEL = "typesafe/jev-1.14"

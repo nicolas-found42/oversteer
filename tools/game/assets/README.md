@@ -3,9 +3,17 @@ the supplied Juiced 2 Xbox 360 ISO. The original game car bodies are never used 
 playable replacements. Source metadata distinguishes native recovery from
 adaptation; renderer parity is verified separately by native captures.
 
-Run from the repository root. Python commands requiring image/array support use
-`uv run --no-project --with numpy --with pillow python` (abbreviated `PY` below).
-This avoids modifying the root Python environment or lockfile.
+Run from the repository root using the pinned Python/NumPy/Pillow environment.
+Commands requiring image/array support use `PY` below; define it once:
+
+```sh
+PY() { uv run --frozen --group assets python "$@"; }
+```
+
+Blender workers run under Blender's own Python, with its `bpy`/`mathutils` modules;
+do not install those into the host uv environment. Source checks compile these
+workers without importing or executing them. Full recovery/rendering still requires
+the local inputs below.
 
 The root `tools/game/bootstrap.py` workflow supplies the native toolchain; media
 commands additionally require its pinned vgmstream decoder and an ffmpeg build

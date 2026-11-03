@@ -21,6 +21,8 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+from PIL import Image, ImageOps
+
 from jev_catalog import (
     CHOICE_ACCEPT,
     CHOICE_MARGIN,
@@ -31,7 +33,6 @@ from jev_catalog import (
     TAGS,
     questions,
 )
-from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parents[2]
 VAULT = ROOT / "artifacts/juiced2-vault"

@@ -21,9 +21,10 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+from PIL import Image, ImageOps
+
 import jev_catalog_v2 as catalog
 from classify_vault import distribution, noul, write_json
-from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parents[2]
 VAULT = ROOT / "artifacts/juiced2-vault"

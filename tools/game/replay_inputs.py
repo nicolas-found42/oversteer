@@ -59,8 +59,10 @@ def convert(evidence_path, output):
         for relative, expected in archived.items():
             if digest(archive_root / relative) != expected:
                 raise ValueError(f"Recorded archived source changed: {relative}")
-        if any(archived.get(path) != expected
-               for path, expected in evidence.get("source_sha256", {}).items()):
+        if any(
+            archived.get(path) != expected
+            for path, expected in evidence.get("source_sha256", {}).items()
+        ):
             raise ValueError("Recorded source identities disagree with the archive")
     control_path = ROOT / evidence["files"]["controls"]["path"]
     controls = json.loads(control_path.read_text())
@@ -108,17 +110,23 @@ def convert(evidence_path, output):
                 previous[name] = value
         handbrake = bool(desired["handbrake"])
         if previous.get("handbrake") != handbrake:
-            events.append({
-                "frame": frame,
-                "joy_button": evidence["raw_handbrake_button"],
-                "pressed": handbrake,
-            })
+            events.append(
+                {
+                    "frame": frame,
+                    "joy_button": evidence["raw_handbrake_button"],
+                    "pressed": handbrake,
+                }
+            )
             previous["handbrake"] = handbrake
         nitrous = bool(desired["nitrous"])
         if nitrous_button is not None and previous.get("nitrous") != nitrous:
-            events.append({
-                "frame": frame, "joy_button": nitrous_button, "pressed": nitrous,
-            })
+            events.append(
+                {
+                    "frame": frame,
+                    "joy_button": nitrous_button,
+                    "pressed": nitrous,
+                }
+            )
             previous["nitrous"] = nitrous
     output = output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -155,10 +163,12 @@ def convert(evidence_path, output):
         final = json.loads((ROOT / evidence["files"]["save"]["path"]).read_text())
         manifest["expected_final_cash"] = final["career"]["cash"]
         manifest["expected_new_transactions"] = final["career"]["transactions"][
-            len(initial["career"]["transactions"]):
+            len(initial["career"]["transactions"]) :
         ]
     for field in [
-        "preceding_playthrough", "fresh_profile_initial_save", "native_parity_limits",
+        "preceding_playthrough",
+        "fresh_profile_initial_save",
+        "native_parity_limits",
         "nitrous_observations",
     ]:
         if field in evidence:
@@ -166,16 +176,29 @@ def convert(evidence_path, output):
     if "grid_driver_bet" in evidence:
         bet = evidence["grid_driver_bet"]
         steps = [
-            ("nav:career", None), ("career_events", None), ("start", "grid"),
-            (f"rival:{bet['racer']}", "rival"), ("offer_cash", "counteroffer"),
-            ("offer_accept", "accepted"), ("grid_launch", "launched"),
+            ("nav:career", None),
+            ("career_events", None),
+            ("start", "grid"),
+            (f"rival:{bet['racer']}", "rival"),
+            ("offer_cash", "counteroffer"),
+            ("offer_accept", "accepted"),
+            ("grid_launch", "launched"),
         ]
         ui_plan = output.with_suffix(".ui.json")
-        ui_plan.write_text(json.dumps([
-            {"action": action, "after_frame": 30 + index * 40,
-             **({"capture": capture} if capture else {})}
-            for index, (action, capture) in enumerate(steps)
-        ], indent=2) + "\n")
+        ui_plan.write_text(
+            json.dumps(
+                [
+                    {
+                        "action": action,
+                        "after_frame": 30 + index * 40,
+                        **({"capture": capture} if capture else {}),
+                    }
+                    for index, (action, capture) in enumerate(steps)
+                ],
+                indent=2,
+            )
+            + "\n"
+        )
         manifest.update(grid_driver_bet=bet, ui_plan=str(ui_plan), ui_plan_sha256=digest(ui_plan))
     output.with_suffix(".manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     return manifest

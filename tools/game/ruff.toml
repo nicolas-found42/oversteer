@@ -1,0 +1,5 @@
+extend = "../../pyproject.toml"
+
+[lint]
+# Existing domain strings exceed the display width; zip truncation is intentional.
+ignore = ["E501", "B905"]

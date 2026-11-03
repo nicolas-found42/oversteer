@@ -14,7 +14,8 @@ for league in content['leagues']:
   if goal['qualifier']:context='ClassQual'
   elif kind in ['windriverbet','winspectatorbet']:context='Betting'
   else:context={'Circuit':'Circuit','Drift':'Drift'}.get(discipline,'Misc')
-  label='GoalIcons_'+str(prefix)+'_'+context;match=by.get(label)
+  label='GoalIcons_'+str(prefix)+'_'+context
+  match=by.get(label)
   rows.append(dict(goal_id=goal['id'],league=league['league'],kind=goal['kind'],native_label=label,texture_path=match['path']if match else None,source_consumer='82220250'))
 report=dict(source_consumer='82220250',native_goal_enum_table='824AF8EC..824AF91C',goals=rows,unresolved=[r for r in rows if r['texture_path']is None],limits=['Exact source builder string/context translation; underlying PBR/UI texture decoding remains separately verified.'])
 (SOURCE/'native-goal-icon-map.json').write_text(json.dumps(report,indent=2)+'\n');print(len(rows),'goals;',len(report['unresolved']),'unresolved')

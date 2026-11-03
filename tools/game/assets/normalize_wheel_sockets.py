@@ -28,7 +28,8 @@ for c in doc['cars']:
  else:
   groups={}
   for i,node in enumerate(nodes):
-   name=node.get('name','');match=re.search(r'@axl_(\d+)',name) if c['game']=='midnight-club-los-angeles' else re.match(r'whl_(\d+)_(rim|tire)',name)
+   name=node.get('name','')
+   match=re.search(r'@axl_(\d+)',name) if c['game']=='midnight-club-los-angeles' else re.match(r'whl_(\d+)_(rim|tire)',name)
    if match and 'mesh'in node:groups.setdefault(match[1],[]).append(i)
   for group,ids in groups.items():
    tireids=[i for i in ids if 'tire' in nodes[i].get('name','').lower()];samples=[]

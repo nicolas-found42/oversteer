@@ -1,20 +1,25 @@
-# Python tooling for the repository's standalone scripts under tools/.
-#
-# There is deliberately no [project] table: none of this is an installable package, it is a
-# set of standalone scripts invoked by path from the Makefile. Declaring a package here would
-# make `uv pip install -e .` appear to work and then discover there is nothing to import.
-#
-# Runtime dependencies live in requirements-dev.txt. Almost everything here is deliberately
-# pure-stdlib — compare_car_rgba.py ships its own PNG decoder rather than take a Pillow
-# dependency — and that property is worth keeping.
+# Standalone repository tooling; uv manages dependencies without installing a package.
+[project]
+name = "oversteer-devtools"
+version = "0.0.0"
+requires-python = ">=3.13"
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = ["ruff==0.15.20", "pre-commit==4.7.0", { include-group = "assets" }]
+assets = ["numpy==2.5.4", "Pillow==13.0.0"]
+reference = [{ include-group = "assets" }]
 
 [tool.ruff]
+force-exclude = true
 # Close to ColumnLimit 96 in .clang-format, but chosen the same way that file was: by
 # encoding the width the code is already written to rather than importing someone else's.
 # The maintained tools sit at a 99-112 max and a p99 of 106; 100 costs four reflowed lines,
 # where 96 would cost twelve for no readability gain.
 line-length = 100
-target-version = "py39"
+target-version = "py313"
 extend-exclude = [
     "third_party",
     "tools/visual/node_modules",
@@ -23,6 +28,8 @@ extend-exclude = [
 ]
 
 [tool.ruff.lint]
+# Preserve the existing truncating zip behavior when raising the Python target.
+ignore = ["B905"]
 select = [
     "E",   # pycodestyle errors
     "F",   # pyflakes: undefined names, unused imports
