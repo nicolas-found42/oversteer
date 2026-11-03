@@ -501,33 +501,52 @@ impl super::OversteerApp {
                 return;
             }
         };
-        let gender_view = self.avatar_category == "gender" || self.avatar_category == "preset";
+        let gender_view = self.avatar_category == "gender";
+        let preset_view = self.avatar_category == "preset";
         let layout = super::native_layout::NativeLayout::parse(if gender_view {
             include_str!("layouts/avatar-gender.json")
+        } else if preset_view {
+            include_str!("layouts/avatar-preset.json")
         } else {
             include_str!("layouts/avatar-categories.json")
         });
         let title = if self.avatar_category == "gender" {
             "SELECT GENDER"
-        } else if self.avatar_category == "preset" && snap.profile.gender == "F" {
-            "SELECT FEMALE CHARACTER"
-        } else if self.avatar_category == "preset" {
-            "SELECT MALE CHARACTER"
+        } else if preset_view {
+            "CHARACTER PRESETS"
         } else {
             "EDIT CHARACTER"
         };
-        if let Err(error) =
-            layout.and_then(|layout| layout.render(menu, &[("MENUTITLE", title.into())]))
-        {
+        let presets: Vec<_> = data["native_presets"]["presets"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .filter(|p| p["gender"].as_str() == Some(&snap.profile.gender))
+            .collect();
+        let selected_preset = presets
+            .iter()
+            .position(|p| p["id"].as_str() == Some(&snap.profile.preset))
+            .unwrap_or(0);
+        let mut captions = vec![("MENUTITLE", title.into())];
+        if preset_view {
+            captions.extend([
+                ("CAR_CURRENT", (selected_preset + 1).to_string()),
+                ("CAR_SLASH", "/".into()),
+                ("CAR_TOTAL", presets.len().to_string()),
+            ]);
+        }
+        if let Err(error) = layout.and_then(|layout| layout.render(menu, &captions)) {
             self.notice = error;
         }
-        let mut name = LineEdit::new_alloc();
-        name.set_text(&snap.profile.name);
-        name.set_position(Vector2::new(1420., 125.));
-        name.set_size(Vector2::new(350., 50.));
-        name.add_theme_font_size_override("font_size", 24);
-        name.connect("text_submitted", &self.base().callable("avatar_name"));
-        menu.add_child(&name);
+        if !gender_view && !preset_view {
+            let mut name = LineEdit::new_alloc();
+            name.set_text(&snap.profile.name);
+            name.set_position(Vector2::new(1420., 125.));
+            name.set_size(Vector2::new(350., 50.));
+            name.add_theme_font_size_override("font_size", 24);
+            name.connect("text_submitted", &self.base().callable("avatar_name"));
+            menu.add_child(&name);
+        }
         if gender_view {
             for (i, (label, key, hash)) in [("MALE", "M", "5abf5d6a"), ("FEMALE", "F", "70785b6a")]
                 .iter()
@@ -549,40 +568,48 @@ impl super::OversteerApp {
                     50.,
                 );
             }
-            if self.avatar_category == "preset" {
-                let presets: Vec<_> = data["native_presets"]["presets"]
-                    .as_array()
-                    .into_iter()
-                    .flatten()
-                    .filter(|p| p["gender"].as_str() == Some(&snap.profile.gender))
-                    .collect();
-                for (i, preset) in presets.iter().enumerate() {
-                    let id = preset["id"].as_str().unwrap_or("");
-                    self.button(
-                        menu,
-                        &format!(
-                            "{}{} / {}",
-                            if snap.profile.preset == id { "> " } else { "" },
-                            i + 1,
-                            presets.len()
-                        ),
-                        &format!("avatar:native:{id}"),
-                        1350.,
-                        280. + i as f32 * 65.,
-                        420.,
-                        55.,
-                    );
+            let mut help = Self::text(
+                menu,
+                if snap.profile.gender == "F" {
+                    "SELECT FEMALE CHARACTER"
+                } else {
+                    "SELECT MALE CHARACTER"
+                },
+                180.48,
+                735.48,
+                57,
+                Color::WHITE,
+            );
+            help.add_theme_font_override(
+                "font",
+                &godot::tools::load::<godot::classes::Font>(
+                    "res://assets/ui/native/fonts/HIN_Text-1080.fnt",
+                ),
+            );
+            help.set_size(Vector2::new(1566.72, 54.));
+            help.set_horizontal_alignment(godot::global::HorizontalAlignment::CENTER);
+        } else if preset_view {
+            if !presets.is_empty() {
+                // Source 7579a74d exposes a lower-left current/total selector,
+                // rather than the gender menu or a separate list of presets.
+                for (offset, x) in [(-1isize, 410.), (1, 686.)] {
+                    let index = (selected_preset as isize + offset)
+                        .rem_euclid(presets.len() as isize)
+                        as usize;
+                    let id = presets[index]["id"].as_str().unwrap_or("");
+                    self.button(menu, "", &format!("avatar:native:{id}"), x, 880., 60., 60.);
                 }
-                self.button(
-                    menu,
-                    "CUSTOMIZE",
-                    "avatar:page:face",
-                    1360.,
-                    690.,
-                    400.,
-                    60.,
-                );
             }
+            self.button(
+                menu,
+                "CUSTOMIZE",
+                "avatar:page:face",
+                1360.,
+                950.,
+                400.,
+                60.,
+            );
+            self.button(menu, "BACK", "avatar:page:gender", 130., 990., 280., 60.);
         } else {
             let caption_data: Value = serde_json::from_str(include_str!("avatar-ui-captions.json"))
                 .expect("verified native captions");

@@ -383,5 +383,59 @@
   ],
   "handling_increment": 0.02500000037252903,
   "handling_scale": 0.75,
-  "source_sha256": "6ad61d82825ac02b3d757d7b3a868a1fb7d6f1947654bfb10ef36da204ad4a9a"
+  "source_sha256": "6ad61d82825ac02b3d757d7b3a868a1fb7d6f1947654bfb10ef36da204ad4a9a",
+  "engine_endpoints": [
+    {
+      "catalog_base_offset": 368,
+      "catalog_max_offset": 372,
+      "base": 120,
+      "maximum": 480
+    },
+    {
+      "catalog_base_offset": 376,
+      "catalog_max_offset": 380,
+      "base": 3000,
+      "maximum": 4000
+    },
+    {
+      "catalog_base_offset": 384,
+      "catalog_max_offset": 388,
+      "base": 120,
+      "maximum": 800
+    },
+    {
+      "catalog_base_offset": 392,
+      "catalog_max_offset": 396,
+      "base": 5000,
+      "maximum": 6800
+    },
+    {
+      "catalog_base_offset": 400,
+      "catalog_max_offset": 404,
+      "base": 6000,
+      "maximum": 8500
+    },
+    {
+      "catalog_base_offset": 408,
+      "catalog_max_offset": 412,
+      "base": 1800,
+      "maximum": 4700
+    },
+    {
+      "catalog_base_offset": 416,
+      "catalog_max_offset": 420,
+      "base": 4.300000190734863,
+      "maximum": 3.799999952316284
+    },
+    {
+      "catalog_base_offset": 424,
+      "catalog_max_offset": 428,
+      "base": 1500,
+      "maximum": 800
+    }
+  ],
+  "human_handling_scale": 1.2999999523162842,
+  "front_tyre_scale": 1.0499999523162842,
+  "rear_tyre_scale": 0.949999988079071,
+  "suspension_gain": 0.4000000059604645
 }

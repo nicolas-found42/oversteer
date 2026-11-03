@@ -115,6 +115,73 @@ fn native_prototype_currency_migrates_only_absent_fields_without_installing_part
         0
     );
 }
+
+#[test]
+fn all_thirty_raw_endpoint_algorithms_match_independent_f32_fixtures() {
+    let read = |path: &str| std::fs::read_to_string(format!("../../{path}")).unwrap();
+    let production: GameContent = serde_json::from_str(&read("data/juiced2/content.json")).unwrap();
+    let mapping: serde_json::Value = serde_json::from_str(&read("artifacts/juiced2-build/native-performance/donor-mapping.json")).unwrap();
+    let fixture: serde_json::Value = serde_json::from_str(&read("artifacts/juiced2-build/native-performance/relative-endpoint-fixtures.json")).unwrap();
+    let catalog = NativePerformanceCatalog::default();
+    let rows = fixture["cars"].as_array().unwrap();
+    assert_eq!(rows.len(), 30);
+    for row in rows {
+        let id = row["car_id"].as_str().unwrap();
+        let baseline = &production.cars.iter().find(|car| car.id == id).unwrap().handling;
+        let raw = mapping["cars"].as_array().unwrap().iter().find(|car| car["car_id"] == id).unwrap();
+        let mut definition: NativePerformanceDefinition = serde_json::from_value(raw.clone()).unwrap();
+        // This retained RAW counterpart fixture checks instruction arithmetic only,
+        // not the separately audited ADR0007 gameplay capacity mapping.
+        definition.authoritative_base.peak_bhp = definition.native_fields.stock_power;
+        definition.authoritative_base.mass = definition.native_fields.stock_weight;
+        definition.adapted_endpoints.maximum_power = definition.native_fields.max_power;
+        definition.adapted_endpoints.minimum_mass = definition.native_fields.min_weight;
+        let league = catalog.maximum_potential_league(&definition.native_fields);
+        assert_eq!(u64::from(league), row["max_potential_league"].as_u64().unwrap());
+        let prototype = catalog.installed_package(league, 3).unwrap();
+        for case in row["cases"].as_array().unwrap() {
+            let parts = match case["case"].as_str().unwrap() {
+                "stock" => [0; 3],
+                "power_prototype" => [prototype, 0, 0],
+                "weight_prototype" => [0, 0, prototype],
+                "combined_prototype" => [prototype, 0, prototype],
+                _ => unreachable!(),
+            };
+            let tuned = catalog.apply_relative(&definition, parts, baseline, false).unwrap();
+            let expected = &case["endpoints"];
+            for (field, value) in [("peak_torque", tuned.peak_torque), ("peak_torque_rpm", tuned.peak_torque_rpm), ("peak_bhp", tuned.peak_bhp), ("peak_bhp_rpm", tuned.peak_bhp_rpm), ("redline", tuned.redline), ("mass", tuned.mass)] {
+                let wanted = expected[field]["adapted_tuned"].as_f64().unwrap() as f32;
+                assert_eq!(value.to_bits(), wanted.to_bits(), "{id} {} {field}", case["case"]);
+            }
+            assert_eq!(tuned.layout, baseline.layout);
+            assert_eq!(tuned.gears, baseline.gears);
+            assert_eq!(tuned.wheelbase, baseline.wheelbase);
+            assert_eq!(tuned.body_length, baseline.body_length);
+            assert_eq!(tuned.body_width, baseline.body_width);
+            assert_eq!(tuned.body_height, baseline.body_height);
+            assert_eq!(tuned.body_min_y, baseline.body_min_y);
+            assert_eq!(tuned.nitrous_power_factor.to_bits(), (case["power_factor"].as_f64().unwrap() as f32).to_bits());
+            if parts == [0; 3] {
+                assert_eq!(serde_json::to_value(&tuned).unwrap(), serde_json::to_value(baseline).unwrap());
+            }
+            if parts[0] == 0 && parts[2] != 0 {
+                assert_eq!(tuned.nitrous_power_factor, 1.);
+                assert!(tuned.peak_bhp > baseline.peak_bhp);
+            }
+        }
+        let handling_parts = [0, prototype, 0];
+        let circuit = catalog.apply_relative(&definition, handling_parts, baseline, false).unwrap();
+        let drift = catalog.apply_relative(&definition, handling_parts, baseline, true).unwrap();
+        assert!(circuit.footbrake_mu > baseline.footbrake_mu);
+        assert_eq!(drift.footbrake_mu, circuit.footbrake_mu);
+        assert!(circuit.damping_ratio > baseline.damping_ratio);
+        assert_eq!(drift.damping_ratio, circuit.damping_ratio);
+        assert_eq!(circuit.rear_damping_ratio, baseline.rear_damping_ratio);
+        assert_eq!(drift.tyre_mu, baseline.tyre_mu);
+        assert_eq!(drift.rear_tyre_mu, baseline.rear_tyre_mu);
+        assert!(circuit.tyre_mu > baseline.tyre_mu);
+    }
+}
 #[test]
 fn native_scheduler_strict_thresholds() {
     assert_eq!(substeps(0.05), (1, 0.05));

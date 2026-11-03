@@ -70,8 +70,25 @@ pub struct NativePackageLeague {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct NativePerformanceCatalog {
     pub packages: Vec<NativePackageLeague>,
+    pub engine_endpoints: Vec<NativePerformanceEndpoint>,
     pub handling_increment: f32,
     pub handling_scale: f32,
+    pub human_handling_scale: f32,
+    pub front_tyre_scale: f32,
+    pub rear_tyre_scale: f32,
+    pub suspension_gain: f32,
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct NativePerformanceEndpoint {
+    pub catalog_base_offset: u32,
+    pub catalog_max_offset: u32,
+    pub base: f32,
+    pub maximum: f32,
+}
+impl NativePerformanceEndpoint {
+    pub fn interpolate(&self, ratio: f32) -> f32 {
+        (1. - ratio).mul_add(self.base, self.maximum * ratio)
+    }
 }
 impl Default for NativePerformanceCatalog {
     fn default() -> Self {
@@ -97,6 +114,31 @@ pub struct NativePerformanceDefinition {
     pub binding_kind: String,
     pub rationale: String,
     pub native_fields: NativePerformanceFields,
+    pub authoritative_base: DonorPerformanceBase,
+    pub adapted_endpoints: DonorPerformanceEndpoints,
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct DonorPerformanceBase {
+    pub peak_bhp: f32,
+    pub mass: f32,
+    pub layout: crate::DriveLayout,
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct DonorPerformanceEndpoints {
+    pub maximum_power: f32,
+    pub minimum_mass: f32,
+}
+impl NativePerformanceDefinition {
+    /// ADR0007 operands: donor stock and declared adapted maximum endpoints.
+    /// Raw counterpart values remain provenance and supply the other five factors.
+    pub fn adapted_fields(&self) -> NativePerformanceFields {
+        let mut fields = self.native_fields.clone();
+        fields.stock_power = self.authoritative_base.peak_bhp;
+        fields.stock_weight = self.authoritative_base.mass;
+        fields.max_power = self.adapted_endpoints.maximum_power;
+        fields.min_weight = self.adapted_endpoints.minimum_mass;
+        fields
+    }
 }
 
 /// Original top-two-bit installation marker, signed five-bit league, low25 item.
@@ -133,6 +175,62 @@ pub fn native_package_selection_state(
 }
 
 impl NativePerformanceCatalog {
+    pub fn tuned_ratio(&self, car: &NativePerformanceFields, parts: [u32; 3]) -> Result<f32, String> {
+        let power = self.factor(car, PerformanceCategory::Power, parts[0])?;
+        let weight = self.factor(car, PerformanceCategory::Weight, parts[2])?;
+        Ok((car.stock_power * power) / (car.stock_weight / weight))
+    }
+    /// 82202B10 candidate list uses inclusive class bounds, unlike min/max lookup.
+    pub fn eligible_for_league(&self, car: &NativePerformanceFields, parts: [u32; 3], league: u8) -> Result<bool, String> {
+        let pack = self.packages.get(usize::from(league)).ok_or("Invalid race league")?;
+        let lower = if league == 0 { 0.01 } else { self.packages[league as usize - 1].threshold };
+        let ratio = self.tuned_ratio(car, parts)?;
+        Ok(ratio >= lower && ratio <= pack.threshold)
+    }
+    /// Donor-relative adapter around the original HUMAN C558 raw-P/W endpoint producer.
+    /// This preserves donor stock values; it is not an original per-donor live tune.
+    pub fn apply_relative(&self, definition: &NativePerformanceDefinition, parts: [u32; 3], baseline: &crate::Handling, drift_discipline: bool) -> Result<crate::Handling, String> {
+        let adapted = definition.adapted_fields();
+        let car = &adapted;
+        let stock_ratio = car.stock_power / car.stock_weight;
+        let tuned_ratio = self.tuned_ratio(car, parts)?;
+        let endpoint_ratio = |index: usize| -> Result<f32, String> {
+            let endpoint = self.engine_endpoints.get(index).ok_or("Missing native endpoint")?;
+            Ok(endpoint.interpolate(tuned_ratio) / endpoint.interpolate(stock_ratio))
+        };
+        let mut result = baseline.clone();
+        result.peak_torque *= endpoint_ratio(0)?;
+        result.peak_torque_rpm *= endpoint_ratio(1)?;
+        result.peak_bhp *= endpoint_ratio(2)?;
+        result.peak_bhp_rpm *= endpoint_ratio(3)?;
+        result.redline *= endpoint_ratio(4)?;
+        result.mass *= endpoint_ratio(7)?;
+        result.nitrous_power_factor = self.factor(car, PerformanceCategory::Power, parts[0])?;
+        let handling = self.factor(car, PerformanceCategory::Handling, parts[1])?;
+        if handling != 1. {
+            let stock = self.human_handling_scale;
+            let tuned = handling * stock;
+            let stock_brakes = car.brake_factor * stock;
+            let tuned_brakes = car.brake_factor * tuned;
+            result.footbrake_mu *= tuned_brakes / stock_brakes;
+            // Source rear coefficient comes from original FRONT baseline in both
+            // paths, so the normalized rear upgrade delta is zero.
+            let delta = car.suspension_factor.mul_add(tuned, -1.) * self.suspension_gain;
+            let stock_delta = car.suspension_factor.mul_add(stock, -1.) * self.suspension_gain;
+            result.damping_ratio += delta - stock_delta;
+            if !drift_discipline {
+                let gain = |value: f32| -> f32 { (value - 1.) * self.suspension_gain + 1. };
+                let stock_gain = car.tyre_factor * gain(stock);
+                let tuned_gain = car.tyre_factor * gain(tuned);
+                result.tyre_mu *= (tuned_gain * self.front_tyre_scale) / (stock_gain * self.front_tyre_scale);
+                result.rear_tyre_mu = baseline.rear_tyre_mu.map(|mu| mu * ((tuned_gain * self.rear_tyre_scale) / (stock_gain * self.rear_tyre_scale)));
+                if baseline.rear_tyre_mu.is_none() {
+                    result.rear_tyre_mu = Some(baseline.tyre_mu * ((tuned_gain * self.rear_tyre_scale) / (stock_gain * self.rear_tyre_scale)));
+                }
+            }
+        }
+        Ok(result)
+    }
     /// 8210AAA8 uses the stock ratio; its fallback differs from8210A968.
     pub fn minimum_potential_league(&self, car: &NativePerformanceFields) -> u8 {
         let ratio = car.stock_power / car.stock_weight;
