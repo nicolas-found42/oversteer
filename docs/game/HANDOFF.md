@@ -42,8 +42,7 @@ checkpoints and tooling caches must also remain available or be transferred.
 Lightweight checkpoint manifests, source-authored contracts and donor-stock audit
 summaries are versioned under `docs/game/evidence/`; their referenced raw files
 remain local. They do not make all original recovery inputs available in a clone.
-The `origin` remote is `https://github.com/nicolas-found42/oversteer.git`;
-`upstream` is the legacy `nickth3man/drift-c` repository. Use explicit
+The `origin` remote is `https://github.com/nicolas-found42/oversteer.git`. Use explicit
 `--repo nicolas-found42/oversteer` for the agreed issue tracker.
 Never expose configured API credentials.
 

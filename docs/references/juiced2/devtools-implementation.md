@@ -21,7 +21,7 @@ Gameplay development remains paused; this change establishes development checks.
 | Recovered numeric code fails generic lints | Documented allowances preserve float literals, max/min NaN behavior and intentional source-indexed operations; routine style fixes and rustfmt adopted. No clamp/equation rewrite. |
 | Python recovery corpus style debt | Strict host-tool checks/formatting; fatal correctness lint and compile checks still cover recovery workers. No bulk worker formatting or import-all execution. Four Ruff parser compatibility issues fixed with statement line breaks. |
 | Incomplete Python dependencies | Non-installable uv project (`package=false`) with dev/assets/reference groups; existing exact NumPy/Pillow pins reused. Requirements files exported for compatibility. Blender retains its own Python. |
-| C/Windows-only editor defaults | Native Rust check/dev-build tasks, rust-analyzer, CodeLLDB, Ruff, generated-tree exclusions and Godot-host LLDB configuration. Historical C tasks retained under explicit labels. |
+| Native editor defaults | Native Rust check/dev-build tasks, rust-analyzer, CodeLLDB, Ruff, generated-tree exclusions and Godot-host LLDB configuration. |
 | Release DLL copied into debug path | Explicit Cargo dev profile updates debug path only; normal release path unchanged. Build refuses an open extension before and after compilation. Export requires release profile. |
 | Missing source/runtime preflight | `doctor` checks native host/pinned source tools; `doctor --runtime` additionally verifies Godot version, architecture and prepared import metadata without rendering. |
 | No native CI | SHA-pinned Actions, explicit ARM64 macos-26 runner, same local source gate; no original-asset download or renderer/performance claim. |
@@ -45,8 +45,8 @@ Godot script LSP/DAP is not the Rust debugger.
 
 ## Verification
 
-- `dev.py check` passed in the working checkout:27 Rust library tests and36
-  Python tests (8 replay guards,7 new tooling-boundary tests,21 carmodel tests).
+- `dev.py check` passes with27 Rust library tests and35 Python tests:16 game
+  tooling tests,6 shared donor-helper tests, and13 reference-review tests.
 - Syntax checks compile206 owned Python files in memory without executing them;
   scoped Ruff checks pass and57 host files pass the formatter check.
 - The source gate also passed in an isolated source copy whose path contains
@@ -86,7 +86,7 @@ performance run is part of the default developer gate.
 ## Hosted-CI follow-up
 
 The first push exposed one repository-scope mismatch: the native gate linted
-`tools/`, while the legacy CI linted the repository root and found nine style
+`tools/`; repository-root linting found nine style
 findings in `crates/oversteer-core/tools/recover_gameplay_config.py`. The gate now
 uses `ruff check .` and `ruff format --check .`. That script was formatted and
 its imports sorted; its non-import AST was verified unchanged.
@@ -104,6 +104,4 @@ prepared116-test Rust suite. It protects existing scoring outputs and ensures
 the browser harness builds the current template in a temporary pilot. One
 browser-regression Python test is conditional on local corpus/Playwright inputs.
 Apple Silicon hosted CI passed revision5c55ae0 before this hardening follow-up;
-the new revision triggers its own hosted rerun. Linux lint/physics/sanitizer CI
-passed; the historical Windows C-format failure at src/game/profile.h:44
-predates these changes and remains outside the native tooling scope.
+the new revision triggers its own hosted rerun.

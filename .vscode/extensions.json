@@ -3,10 +3,7 @@
         "rust-lang.rust-analyzer",
         "vadimcn.vscode-lldb",
         "charliermarsh.ruff",
-        "llvm-vs-code-extensions.vscode-clangd",
-        "ms-vscode.cpptools",
         "ms-python.python",
-        "timonwong.shellcheck",
         "editorconfig.editorconfig",
         "github.vscode-github-actions"
     ],

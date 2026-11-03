@@ -33,6 +33,16 @@ class DeveloperToolsTests(unittest.TestCase):
             with self.assertRaises(SyntaxError):
                 dev.check_syntax(self.root)
 
+    def test_python_inventory_omits_deleted_tracked_files(self):
+        source = self.root / "tools/retained.py"
+        source.parent.mkdir()
+        source.write_text("value = 1\n")
+        inventory = subprocess.CompletedProcess(
+            [], 0, stdout="tools/deleted.py\ntools/retained.py\n"
+        )
+        with patch.object(dev.subprocess, "run", return_value=inventory):
+            self.assertEqual(dev.python_sources(self.root), [source])
+
     def test_reference_suite_missing_inputs_fails_before_cargo(self):
         with patch.object(dev, "ROOT", self.root), patch.object(dev, "run") as launch:
             with self.assertRaisesRegex(RuntimeError, "Reference test fixtures missing"):

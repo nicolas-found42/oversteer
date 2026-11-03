@@ -14,14 +14,9 @@ reference = [{ include-group = "assets" }]
 
 [tool.ruff]
 force-exclude = true
-# Close to ColumnLimit 96 in .clang-format, but chosen the same way that file was: by
-# encoding the width the code is already written to rather than importing someone else's.
-# The maintained tools sit at a 99-112 max and a p99 of 106; 100 costs four reflowed lines,
-# where 96 would cost twelve for no readability gain.
 line-length = 100
 target-version = "py313"
 extend-exclude = [
-    "third_party",
     "tools/visual/node_modules",
     "build",
     "artifacts",
@@ -40,21 +35,6 @@ select = [
 # UP (pyupgrade) is deliberately off. The scripts consistently use
 # `from __future__ import annotations` with typing.Dict/List/Optional; modernising that is a
 # real change to every file and belongs in its own reviewable commit, not in a lint rollout.
-
-[tool.ruff.lint.per-file-ignores]
-# tools/telemetry/* deliberately mutate sys.path before importing telemetry_common, because
-# they are run by path rather than as a package. The import genuinely cannot come first.
-"tools/telemetry/*.py" = ["E402"]
-
-# compare_runs.py reaches across to tools/telemetry for the time-series diff and mutates
-# sys.path the same way, for the same reason.
-"tools/validation/compare_runs.py" = ["E402"]
-
-# The SVG writer emits one element per f-string. Those literals are genuinely longer than
-# the limit and neither the formatter nor implicit concatenation improves them — splitting
-# `<text x=... y=... fill=... font-size=...>` across lines makes the markup harder to read,
-# not easier. Matched by basename so the ignore survives the file being moved.
-"**/record_gameplay.py" = ["E501"]
 
 [tool.ruff.format]
 quote-style = "double"

@@ -71,9 +71,9 @@ completion only when this scope and evidence are achieved.
 
 ## Evidence boundary
 
-The current [model pipeline](../../tools/carmodels/README.md) already selects 904
-vehicles from the requested collections. Gameplay uses baked PNG poses; those
-are distinct from the retained source GLBs needed for a 3D presentation.
+The [donor metadata](../../data/carmodels/README.md) records 904
+vehicles from the requested collections. The native game prepares 3D donor GLBs
+for the accepted 30-car roster.
 
 The vault mixes PC, PS3, Xbox 360, PS2, PSP, and unconfirmed captures. Its completed
 classifications do not establish exhaustive game-state coverage: 13,997 screen

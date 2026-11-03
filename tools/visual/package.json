@@ -1,12 +1,10 @@
 {
-  "name": "oversteer-visual-inspector",
+  "name": "oversteer-reference-browser-tests",
   "private": true,
   "version": "0.1.0",
-  "description": "Browser inspector and Playwright diagnostics for the Oversteer vehicle appearance grammar",
+  "description": "Playwright verification for the reference vault review pilot",
   "scripts": {
-    "serve": "node serve.js",
-    "test": "playwright test",
-    "report": "playwright show-report"
+    "test": "node ../references/test_review_pilot.cjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.0"

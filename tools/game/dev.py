@@ -29,7 +29,7 @@ def python_sources(root=ROOT):
         {
             root / path
             for path in result.stdout.splitlines()
-            if path.startswith(("tools/", "crates/"))
+            if path.startswith(("tools/", "crates/")) and (root / path).is_file()
         }
     )
 

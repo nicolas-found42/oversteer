@@ -13,7 +13,7 @@ body:
     id: scenario
     attributes:
       label: Scenario
-      description: "`oversteer_tests --list`, e.g. skidpad, handbrake, power-oversteer"
+      description: "Name the Rust test, replay input, or native scenario and donor vehicle."
     validations:
       required: true
 
@@ -57,8 +57,9 @@ body:
     attributes:
       label: Telemetry evidence
       description: |
-        Attach the comparison output (`mk regression`), the HTML report
-        (`mk report NAME=<scenario>`), and the CSVs for both runs.
+        Attach the Rust assertion or native replay results for both revisions,
+        with input, extension, and content hashes. Link the matching recovered
+        behavior or reference-vault evidence.
     validations:
       required: true
 

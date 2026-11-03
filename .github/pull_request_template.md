@@ -1,51 +1,20 @@
-## Specification phase
-
-Phase:
-
 ## Change
 
-What behaviour or infrastructure changed?
-
-## Physical invariants affected
-
-- [ ] None
-- [ ] Units
-- [ ] Coordinate/sign convention
-- [ ] Tire forces
-- [ ] Drivetrain
-- [ ] Load transfer
-- [ ] Integration
-- [ ] Collision
-- [ ] Scoring only
+Describe the observable change and link the specification or issue.
 
 ## Verification
 
-- [ ] `mk verify-fast`
-- [ ] `mk verify`
-- [ ] Relevant scenario tests (`mk scenario NAME=...`)
-- [ ] Sanitizers (`mk sanitize`)
-- [ ] Visual inspection in the running game
+- [ ] `uv run --frozen python tools/game/dev.py check`
+- [ ] Relevant source tests
+- [ ] `uv run --frozen python tools/game/dev.py reference-tests` (when local fixtures are required)
+- [ ] Native runtime or rendered scenario (when behavior or presentation changed)
 
-## Telemetry changes
+List the checks actually run and their results. Source checks alone do not establish
+visual, gameplay, performance, or release acceptance.
 
-Summarise the meaningful metric changes — 0–100 km/h, peak sideslip, peak yaw rate, steady
-radius, recovery time. `mk report NAME=<scenario>` produces them.
+## Behavior and evidence
 
-## Baselines
-
-- [ ] No baselines changed
-- [ ] Baselines changed, and the justification is below
-
-<!-- Re-recording a baseline is never a way to make a failing test green. If the numbers
-     moved, say which physical change moved them and why the new values are the correct
-     ones. -->
-
-## Hot reload
-
-- [ ] No change to the layout of `Game`
-- [ ] `Game` layout changed — the developer must restart `oversteer.exe` once
-- [ ] `main.c` / `hotreload_windows.c` changed — platform layer is not reloadable
-
-## Evidence
-
-Plots, screenshots, replay files, failure bundles, or profiler captures.
+Identify affected simulation invariants, save/replay contracts, or presentation.
+For native runs, include input, extension and content identities plus relevant
+reference-vault comparisons. Explain any changed baseline; do not regenerate one
+merely to hide a regression. Keep original disc assets and credentials local.
