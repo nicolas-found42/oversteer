@@ -113,9 +113,15 @@ impl Default for EventStage {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[repr(u8)]
+pub enum NativeDiscipline { Circuit=0, Drift=1, TestDrive=2, Solo=3 }
+impl NativeDiscipline { pub fn source_index(self)->u8 {self as u8} }
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(default)]
 pub struct EventDefinition {
+    pub native_discipline: Option<NativeDiscipline>,
     pub prototype: bool,
     pub extreme_nos: bool,
     pub car_class: String,
@@ -149,6 +155,7 @@ pub struct EventDefinition {
 impl Default for EventDefinition {
     fn default() -> Self {
         Self {
+            native_discipline: None,
             prototype: false,
             extreme_nos: false,
             car_class: String::new(),
@@ -197,6 +204,7 @@ impl EventDefinition {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(default)]
 pub struct TrackDefinition {
+    pub native_route: String,
     pub start_grid: Vec<TrackStart>,
     pub collision: Option<crate::NativeCollisionDefinition>,
     pub surface_half_widths: Vec<[f32; 2]>,
@@ -218,6 +226,7 @@ pub struct TrackStart {
 impl Default for TrackDefinition {
     fn default() -> Self {
         Self {
+            native_route: String::new(),
             start_grid: vec![],
             collision: None,
             surface_half_widths: vec![],
@@ -2003,9 +2012,13 @@ impl Game {
                                 r.eliminated = true;
                             }
                         }
-                        r.drift_state.reset_lap();
-                        r.score = 0.;
-                        r.chain_score = 0.;
+                        // Native82114840 clamps driftlap156 to the configured lap
+                        // goal, so finishing the final lap does not reset its score.
+                        if r.lap < race.event.laps {
+                            r.drift_state.reset_lap();
+                            r.score = 0.;
+                            r.chain_score = 0.;
+                        }
                     }
                 }
                 r.checkpoint = (r.checkpoint + 1) % race.track.points.len();
@@ -2839,6 +2852,7 @@ impl Game {
                     .tracks
                     .iter()
                     .map(|track| TrackDefinition {
+                        native_route: track.native_route.clone(),
                         start_grid: track.start_grid.clone(),
                         collision: None,
                         surface_half_widths: track.surface_half_widths.clone(),
@@ -3778,6 +3792,10 @@ fn goal_matches_event(
     event: &EventDefinition,
     track: &TrackDefinition,
 ) -> bool {
+    let route = if goal.route.is_empty() {
+        goal.native_rows.iter().find(|row|row.first().and_then(|v|v.as_str())==Some("Route"))
+            .and_then(|row|row.get(1)).and_then(|v|v.as_str()).unwrap_or("")
+    } else { &goal.route };
     let drift = event.stage_mode().is_drift();
     let subtype = match event.stage_mode() {
         RaceMode::Eliminator => "Eliminator",
@@ -3799,6 +3817,7 @@ fn goal_matches_event(
             && (goal.discipline == "Drift") != drift)
         || (!goal.subtype.is_empty() && goal.subtype != "Any" && goal.subtype != subtype)
         || (!goal.location.is_empty() && goal.location != "Any" && goal.location != track.location)
+        || (!route.is_empty() && route != "Any" && route != track.native_route)
         || (!goal.contest_type.is_empty()
             && goal.contest_type != "Any"
             && goal.contest_type != event.contest_type)

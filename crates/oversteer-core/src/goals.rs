@@ -11,6 +11,7 @@ pub struct GoalDefinition {
     pub discipline: String,
     pub subtype: String,
     pub location: String,
+    pub route: String,
     pub contest_type: String,
     pub car_class: String,
     pub prototype: bool,
