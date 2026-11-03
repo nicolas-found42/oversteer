@@ -1,0 +1,4172 @@
+{
+  "ramp_consumer": {
+    "address": "821A3120",
+    "active_interval": "control_start <= input <= control_finish; outside interval the channel is unchanged",
+    "arithmetic": "t=(input-start)/(finish-start); p=(1-t)*start+t*finish; native_level=ramp_start+p*(ramp_finish-ramp_start)",
+    "limits": [
+      "Partial intervals must not be silently renormalized to0..1; native arithmetic is retained.",
+      "Native callback also has component-dependent special handling for attribute26; not generalized here."
+    ]
+  },
+  "source": {
+    "bank": "scripts.jfs",
+    "filename": "AvatarMenu.txt",
+    "member": 354,
+    "key": "51de7c10",
+    "sha256": "cf82ef6d57a2bcc946ffb3d018b494c99aa302a1721f2e8f176d2907ba10c137"
+  },
+  "actions": [
+    {
+      "id": "AVATARMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCamMenu"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "PRESETMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "SelectDriver"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "FACEMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCamFace"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "MOUTHMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCamMouth"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "CLOTHMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCamCLothMenu"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "HEADMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCamShape"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "NOSEMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCamNose"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "EYECOLOURMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          8
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "CELEANIMMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "TOPSMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "CameraName",
+          "AvatarCamTopMenu"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "BOTTOMSMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCamBottomsMenu"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "HANDSELECTMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "HAIRMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCamHairMain"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "HANDMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCamHandMenu"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "EYESMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          1
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "SKINMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          1
+        ],
+        [
+          "CameraName",
+          "AvatarCamSkin"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "BROWMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          1
+        ],
+        [
+          "CameraName",
+          "AvatarCamSkin"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "FACIALHAIRMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          1
+        ],
+        [
+          "CameraName",
+          "AvatarCamSkin"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "GLOVES",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "SHOES",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "DONE",
+      "native_rows": [
+        [
+          "SELECT",
+          "SEL_DONE"
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "FACEFLATSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "FaceFlat"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -115
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          90
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "FaceFlat"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -100
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          50
+        ],
+        [
+          "CameraName",
+          "AvatarCamFace01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "FaceFlat",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -115,
+            "native_ramp_finish": 90
+          }
+        ],
+        "F": [
+          {
+            "name": "FaceFlat",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100,
+            "native_ramp_finish": 50
+          }
+        ]
+      }
+    },
+    {
+      "id": "FACEHEARTSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "FaceHeart"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -120
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          70
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "FaceHeart"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -75
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          50
+        ],
+        [
+          "CameraName",
+          "AvatarCamFace02"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "FaceHeart",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -120,
+            "native_ramp_finish": 70
+          }
+        ],
+        "F": [
+          {
+            "name": "FaceHeart",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -75,
+            "native_ramp_finish": 50
+          }
+        ]
+      }
+    },
+    {
+      "id": "FACEHEAVYSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "FaceRound"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -100
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "FaceRound"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -70
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          30
+        ],
+        [
+          "MALEMORPHNAME",
+          "FaceHeavy"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.5
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -100
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "FaceHeavy"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.5
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -70
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          30
+        ],
+        [
+          "CameraName",
+          "AvatarCamFace03"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "FaceRound",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100,
+            "native_ramp_finish": 0
+          },
+          {
+            "name": "FaceHeavy",
+            "control_start": 0.5,
+            "control_finish": 1.0,
+            "native_ramp_start": -100,
+            "native_ramp_finish": 0
+          }
+        ],
+        "F": [
+          {
+            "name": "FaceRound",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -70,
+            "native_ramp_finish": 30
+          },
+          {
+            "name": "FaceHeavy",
+            "control_start": 0.5,
+            "control_finish": 1.0,
+            "native_ramp_start": -70,
+            "native_ramp_finish": 30
+          }
+        ]
+      }
+    },
+    {
+      "id": "FACELONGSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "FaceLong"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -36
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          50
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "FaceLong"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -35
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          40
+        ],
+        [
+          "CameraName",
+          "AvatarCamFace04"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "FaceLong",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -36,
+            "native_ramp_finish": 50
+          }
+        ],
+        "F": [
+          {
+            "name": "FaceLong",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -35,
+            "native_ramp_finish": 40
+          }
+        ]
+      }
+    },
+    {
+      "id": "FACEROUNDSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "FaceRound"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -150.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          150.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "FaceRound"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -150.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          150.0
+        ],
+        [
+          "CameraName",
+          "AvatarCamFace05"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "FaceRound",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -150.0,
+            "native_ramp_finish": 150.0
+          }
+        ],
+        "F": [
+          {
+            "name": "FaceRound",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -150.0,
+            "native_ramp_finish": 150.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "FACESQUARESLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "FaceSquare"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -50
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          60
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "FaceSquare"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -50
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          50
+        ],
+        [
+          "CameraName",
+          "AvatarCamFace06"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "FaceSquare",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -50,
+            "native_ramp_finish": 60
+          }
+        ],
+        "F": [
+          {
+            "name": "FaceSquare",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -50,
+            "native_ramp_finish": 50
+          }
+        ]
+      }
+    },
+    {
+      "id": "NOSEBIGSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "NoseBig"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          60
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "NoseBig"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          40
+        ],
+        [
+          "CameraName",
+          "AvatarCamNose01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "NoseBig",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0,
+            "native_ramp_finish": 60
+          }
+        ],
+        "F": [
+          {
+            "name": "NoseBig",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0.0,
+            "native_ramp_finish": 40
+          }
+        ]
+      }
+    },
+    {
+      "id": "NOSEFLATSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "NoseFlat"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -75
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          60
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "NoseFlat"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -50
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          60
+        ],
+        [
+          "CameraName",
+          "AvatarCamNose02"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "NoseFlat",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -75,
+            "native_ramp_finish": 60
+          }
+        ],
+        "F": [
+          {
+            "name": "NoseFlat",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -50,
+            "native_ramp_finish": 60
+          }
+        ]
+      }
+    },
+    {
+      "id": "NOSERIDGESLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "NoseRidge"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          100
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "NoseRidge"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          100
+        ],
+        [
+          "CameraName",
+          "AvatarCamNose03"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "NoseRidge",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 100
+          }
+        ],
+        "F": [
+          {
+            "name": "NoseRidge",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 100
+          }
+        ]
+      }
+    },
+    {
+      "id": "NOSESLOPESLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "NoseSlope"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -50
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          110
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "NoseSlope"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -40
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          110
+        ],
+        [
+          "CameraName",
+          "AvatarCamNose04"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "NoseSlope",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -50,
+            "native_ramp_finish": 110
+          }
+        ],
+        "F": [
+          {
+            "name": "NoseSlope",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -40,
+            "native_ramp_finish": 110
+          }
+        ]
+      }
+    },
+    {
+      "id": "NOSEUPSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "NoseUp"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          45
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "NoseUp"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -80
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          50
+        ],
+        [
+          "CameraName",
+          "AvatarCamNose05"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "NoseUp",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 45
+          }
+        ],
+        "F": [
+          {
+            "name": "NoseUp",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -80,
+            "native_ramp_finish": 50
+          }
+        ]
+      }
+    },
+    {
+      "id": "NOSEWIDESLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "NoseWide"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -20
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          130
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "NoseWide"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -5
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          120
+        ],
+        [
+          "CameraName",
+          "AvatarCamNose06"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "NoseWide",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -20,
+            "native_ramp_finish": 130
+          }
+        ],
+        "F": [
+          {
+            "name": "NoseWide",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -5,
+            "native_ramp_finish": 120
+          }
+        ]
+      }
+    },
+    {
+      "id": "NOSEFLARESLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "NostrilFlare"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -70
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          125
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "NostrilFlare"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -70
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          125
+        ],
+        [
+          "CameraName",
+          "AvatarCamNose07"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "NostrilFlare",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -70,
+            "native_ramp_finish": 125
+          }
+        ],
+        "F": [
+          {
+            "name": "NostrilFlare",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -70,
+            "native_ramp_finish": 125
+          }
+        ]
+      }
+    },
+    {
+      "id": "NOSEPHILTRUMSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "NosePhiltrum"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -40
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          135
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "NosePhiltrum"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -40
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          135
+        ],
+        [
+          "CameraName",
+          "AvatarCamNose08"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "NosePhiltrum",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -40,
+            "native_ramp_finish": 135
+          }
+        ],
+        "F": [
+          {
+            "name": "NosePhiltrum",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -40,
+            "native_ramp_finish": 135
+          }
+        ]
+      }
+    },
+    {
+      "id": "NOSEBRIDGESLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "NoseBridge"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          150
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "NoseBridge"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          150
+        ],
+        [
+          "CameraName",
+          "AvatarCamNose09"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "NoseBridge",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0,
+            "native_ramp_finish": 150
+          }
+        ],
+        "F": [
+          {
+            "name": "NoseBridge",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0,
+            "native_ramp_finish": 150
+          }
+        ]
+      }
+    },
+    {
+      "id": "NOSEROUNDSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "NoseRound"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          110
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "NoseRound"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          100
+        ],
+        [
+          "CameraName",
+          "AvatarCamNose10"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "NoseRound",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0,
+            "native_ramp_finish": 110
+          }
+        ],
+        "F": [
+          {
+            "name": "NoseRound",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0,
+            "native_ramp_finish": 100
+          }
+        ]
+      }
+    },
+    {
+      "id": "EYEBIGSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "EyesBig"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -20.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          50
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "EyesBig"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          5
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          75
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "EyesBig",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -20.0,
+            "native_ramp_finish": 50
+          }
+        ],
+        "F": [
+          {
+            "name": "EyesBig",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 5,
+            "native_ramp_finish": 75
+          }
+        ]
+      }
+    },
+    {
+      "id": "EYEDEPTHSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "EyesDepth"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -100
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "EyesDepth"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -100
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye02"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "EyesDepth",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100,
+            "native_ramp_finish": 100.0
+          }
+        ],
+        "F": [
+          {
+            "name": "EyesDepth",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100,
+            "native_ramp_finish": 100.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "EYELIDSHALLOWSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "EyeShape"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          200.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "EyeShape"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          200.0
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye03"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "EyeShape",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 200.0
+          }
+        ],
+        "F": [
+          {
+            "name": "EyeShape",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 200.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "EYEPUFFYSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "EyeNarrow"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          100
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "EyeNarrow"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          100
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye04"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "EyeNarrow",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 100
+          }
+        ],
+        "F": [
+          {
+            "name": "EyeNarrow",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 100
+          }
+        ]
+      }
+    },
+    {
+      "id": "EYESIANTSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "EyesSlant"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -50
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          50
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "EyesSlant"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -50
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          85
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye05"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "EyesSlant",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -50,
+            "native_ramp_finish": 50
+          }
+        ],
+        "F": [
+          {
+            "name": "EyesSlant",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -50,
+            "native_ramp_finish": 85
+          }
+        ]
+      }
+    },
+    {
+      "id": "EYEUPSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "EyesUp"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -50
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          80
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "EyesUp"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -50
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          30
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye06"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "EyesUp",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -50,
+            "native_ramp_finish": 80
+          }
+        ],
+        "F": [
+          {
+            "name": "EyesUp",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -50,
+            "native_ramp_finish": 30
+          }
+        ]
+      }
+    },
+    {
+      "id": "EYEOUTSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "EyesOut"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          30
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          75.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "EyesOut"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          35
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          81
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye07"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "EyesOut",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 30,
+            "native_ramp_finish": 75.0
+          }
+        ],
+        "F": [
+          {
+            "name": "EyesOut",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 35,
+            "native_ramp_finish": 81
+          }
+        ]
+      }
+    },
+    {
+      "id": "BROWHEAVYSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "BrowHeavy"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -60
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "BrowHeavy"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye08"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "BrowHeavy",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -60,
+            "native_ramp_finish": 100.0
+          }
+        ],
+        "F": [
+          {
+            "name": "BrowHeavy",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 100.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "BROWANGLESLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "BrowAngle"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -75
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "BrowAngle"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye09"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "BrowAngle",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -75,
+            "native_ramp_finish": 100.0
+          }
+        ],
+        "F": [
+          {
+            "name": "BrowAngle",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 100.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "BROWDOWNSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "Browdown"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -35
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          200.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "Browdown"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          200.0
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye10"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "Browdown",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -35,
+            "native_ramp_finish": 200.0
+          }
+        ],
+        "F": [
+          {
+            "name": "Browdown",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 200.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "EYECOLOURSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_COMPONENT"
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye11"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "EYENARROWSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "EyeNarrow"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "EyeNarrow"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "CameraName",
+          "AvatarCamEye12"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "EyeNarrow",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 100.0
+          }
+        ],
+        "F": [
+          {
+            "name": "EyeNarrow",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 100.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "LIPROUNDSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "LipsRound"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "LipsRound"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "CameraName",
+          "AvatarCamMouth01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "LipsRound",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 100.0
+          }
+        ],
+        "F": [
+          {
+            "name": "LipsRound",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 100.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "LIPLOWSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "LipLowFull"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "LipLowFull"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          25
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "CameraName",
+          "AvatarCamMouth02"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "LipLowFull",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0,
+            "native_ramp_finish": 100.0
+          }
+        ],
+        "F": [
+          {
+            "name": "LipLowFull",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 25,
+            "native_ramp_finish": 100.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "LIPUPSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "LipUpFull"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "LipUpFull"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          25
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "CameraName",
+          "AvatarCamMouth03"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "LipUpFull",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0,
+            "native_ramp_finish": 100.0
+          }
+        ],
+        "F": [
+          {
+            "name": "LipUpFull",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 25,
+            "native_ramp_finish": 100.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "MOUTHWIDESLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "MouthWide"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          25
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          90
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "MouthWide"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          20
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          61
+        ],
+        [
+          "CameraName",
+          "AvatarCamMouth04"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "MouthWide",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 25,
+            "native_ramp_finish": 90
+          }
+        ],
+        "F": [
+          {
+            "name": "MouthWide",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 20,
+            "native_ramp_finish": 61
+          }
+        ]
+      }
+    },
+    {
+      "id": "MOUTHOUTSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "MouthOut"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -40
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          60
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "MouthOut"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -40
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          65
+        ],
+        [
+          "CameraName",
+          "AvatarCamMouth05"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "MouthOut",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -40,
+            "native_ramp_finish": 60
+          }
+        ],
+        "F": [
+          {
+            "name": "MouthOut",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -40,
+            "native_ramp_finish": 65
+          }
+        ]
+      }
+    },
+    {
+      "id": "MOUTHRAISESLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "MouthRaise"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -50
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          55
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "MouthRaise"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -35
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          20
+        ],
+        [
+          "CameraName",
+          "AvatarCamMouth06"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "MouthRaise",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -50,
+            "native_ramp_finish": 55
+          }
+        ],
+        "F": [
+          {
+            "name": "MouthRaise",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -35,
+            "native_ramp_finish": 20
+          }
+        ]
+      }
+    },
+    {
+      "id": "LIPUPOUTSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "TopLipOut"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -10.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          80.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "TopLipOut"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -10.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          80.0
+        ],
+        [
+          "CameraName",
+          "AvatarCamMouth07"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "TopLipOut",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -10.0,
+            "native_ramp_finish": 80.0
+          }
+        ],
+        "F": [
+          {
+            "name": "TopLipOut",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -10.0,
+            "native_ramp_finish": 80.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "LIPLOWOUTSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "BottomLipOut"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -40.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          70.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "BottomLipOut"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -30
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          50
+        ],
+        [
+          "CameraName",
+          "AvatarCamMouth08"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "BottomLipOut",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -40.0,
+            "native_ramp_finish": 70.0
+          }
+        ],
+        "F": [
+          {
+            "name": "BottomLipOut",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -30,
+            "native_ramp_finish": 50
+          }
+        ]
+      }
+    },
+    {
+      "id": "MOUTHFIXSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "MouthFix"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "MouthFix"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -100.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          100.0
+        ],
+        [
+          "CameraName",
+          "AvatarCamMouth09"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "MouthFix",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 100.0
+          }
+        ],
+        "F": [
+          {
+            "name": "MouthFix",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -100.0,
+            "native_ramp_finish": 100.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "EARSBIGSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "EarsBig"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -15
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          60
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "EarsBig"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -15
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          51
+        ],
+        [
+          "CameraName",
+          "AvatarCamShape01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "EarsBig",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -15,
+            "native_ramp_finish": 60
+          }
+        ],
+        "F": [
+          {
+            "name": "EarsBig",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -15,
+            "native_ramp_finish": 51
+          }
+        ]
+      }
+    },
+    {
+      "id": "EARSOUTSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "EarsOut"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          90
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "EarsOut"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          60
+        ],
+        [
+          "CameraName",
+          "AvatarCamShape02"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "EarsOut",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0,
+            "native_ramp_finish": 90
+          }
+        ],
+        "F": [
+          {
+            "name": "EarsOut",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0,
+            "native_ramp_finish": 60
+          }
+        ]
+      }
+    },
+    {
+      "id": "EARSLOBESBIGSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "EarsLobesBig"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          10
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          60
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "EarsLobesBig"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          10
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          50
+        ],
+        [
+          "CameraName",
+          "AvatarCamShape03"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "EarsLobesBig",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 10,
+            "native_ramp_finish": 60
+          }
+        ],
+        "F": [
+          {
+            "name": "EarsLobesBig",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 10,
+            "native_ramp_finish": 50
+          }
+        ]
+      }
+    },
+    {
+      "id": "CHEEKBONESLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "CheekBones"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -70
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          70
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "CheekBones"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -60
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          70
+        ],
+        [
+          "CameraName",
+          "AvatarCamShape04"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "CheekBones",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -70,
+            "native_ramp_finish": 70
+          }
+        ],
+        "F": [
+          {
+            "name": "CheekBones",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -60,
+            "native_ramp_finish": 70
+          }
+        ]
+      }
+    },
+    {
+      "id": "CHEEKGAUNTSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "CheekGuant"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          -65
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          25
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "CheekGuant"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          -50
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          50
+        ],
+        [
+          "CameraName",
+          "AvatarCamShape05"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "CheekGuant",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -65,
+            "native_ramp_finish": 25
+          }
+        ],
+        "F": [
+          {
+            "name": "CheekGuant",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": -50,
+            "native_ramp_finish": 50
+          }
+        ]
+      }
+    },
+    {
+      "id": "CHINSTRONGSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "ChinStrong"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          65
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "ChinStrong"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          10
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          55
+        ],
+        [
+          "CameraName",
+          "AvatarCamShape06"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "ChinStrong",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0,
+            "native_ramp_finish": 65
+          }
+        ],
+        "F": [
+          {
+            "name": "ChinStrong",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 10,
+            "native_ramp_finish": 55
+          }
+        ]
+      }
+    },
+    {
+      "id": "JAWFULLSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "JawFull"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          100
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "JawFull"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          25
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          80
+        ],
+        [
+          "CameraName",
+          "AvatarCamShape07"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "JawFull",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0,
+            "native_ramp_finish": 100
+          }
+        ],
+        "F": [
+          {
+            "name": "JawFull",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 25,
+            "native_ramp_finish": 80
+          }
+        ]
+      }
+    },
+    {
+      "id": "ETHNICSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_ETHNIC"
+        ],
+        [
+          "MALEAVDESCSOURCENAME",
+          "BLACKMALE"
+        ],
+        [
+          "MALEAVDESCDESTNAME",
+          "WHITEMALE"
+        ],
+        [
+          "MALEAVDESCSTART",
+          0.0
+        ],
+        [
+          "MALEAVDESCFINISH",
+          1.0
+        ],
+        [
+          "FEMALEAVDESCSOURCENAME",
+          "BLACKFEMALE"
+        ],
+        [
+          "FEMALEAVDESCDESTNAME",
+          "WHITEFEMALE"
+        ],
+        [
+          "FEMALEAVDESCSTART",
+          0.0
+        ],
+        [
+          "FEMALEAVDESCFINISH",
+          1.0
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "TOPCOLOURSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_NORM"
+        ],
+        [
+          "POSITION",
+          1
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "HAIRSTYLESLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SEL_SLIDER_COMPONENT"
+        ],
+        [
+          "CameraName",
+          "AvatarCamHairMain"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "HAIRCOLOURSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SEL_SLIDER_COMPONENT"
+        ],
+        [
+          "CameraName",
+          "AvatarCamHairMain"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "TALLSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "SKELETON_TALL"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "SKELETON_TALL"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          1.0
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "SKELETON_TALL",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0.0,
+            "native_ramp_finish": 1.0
+          }
+        ],
+        "F": [
+          {
+            "name": "SKELETON_TALL",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0.0,
+            "native_ramp_finish": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "FATSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "SKELETON_FAT"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "SKELETON_FAT"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          1.0
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "SKELETON_FAT",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0.0,
+            "native_ramp_finish": 1.0
+          }
+        ],
+        "F": [
+          {
+            "name": "SKELETON_FAT",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0.0,
+            "native_ramp_finish": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "STOCKYSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_OFFSET"
+        ],
+        [
+          "MALEMORPHNAME",
+          "SKELETON_STOCKY"
+        ],
+        [
+          "MALEMORPHSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "MALEMORPHRAMPSTART",
+          0.0
+        ],
+        [
+          "MALEMORPHRAMPFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHNAME",
+          "SKELETON_STOCKY"
+        ],
+        [
+          "FEMALEMORPHSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHFINISH",
+          1.0
+        ],
+        [
+          "FEMALEMORPHRAMPSTART",
+          0.0
+        ],
+        [
+          "FEMALEMORPHRAMPFINISH",
+          1.0
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [
+          {
+            "name": "SKELETON_STOCKY",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0.0,
+            "native_ramp_finish": 1.0
+          }
+        ],
+        "F": [
+          {
+            "name": "SKELETON_STOCKY",
+            "control_start": 0.0,
+            "control_finish": 1.0,
+            "native_ramp_start": 0.0,
+            "native_ramp_finish": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKINCOLOURSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_COMPONENT"
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "SCALEMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "SCALEMODEMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "reset_bone_scale",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "reset_scales",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "save_def_file",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "BONEMENU",
+      "native_rows": [
+        [
+          "SELECT",
+          "MENU_ITEM"
+        ],
+        [
+          "POSITION",
+          0
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "SCALEXSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_ETHNIC"
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "SCALEYSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_ETHNIC"
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    },
+    {
+      "id": "SCALEZSLIDER",
+      "native_rows": [
+        [
+          "SELECT",
+          "SLIDER_ETHNIC"
+        ],
+        [
+          "CameraName",
+          "AvatarCam01"
+        ]
+      ],
+      "morph_channels": {
+        "M": [],
+        "F": []
+      }
+    }
+  ],
+  "limits": [
+    "Exact original M/F control and native ramp endpoints; native ramp arithmetic is retained separately; active control visibility and component-dependent special cases remain separate.",
+    "Several controls can affect multiple attributes or partial intervals; do not replace with45 uniform sliders."
+  ]
+}

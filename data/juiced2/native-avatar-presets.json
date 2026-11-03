@@ -1,0 +1,5293 @@
+{
+  "list_source": {
+    "bank": "scripts.jfs",
+    "member": 708,
+    "key": "a3b71a33",
+    "sha256": "d2becce8d56248467eba78181712e6bd96ae998b20d5e0d7bf5ff1675564cb60",
+    "native_rows": [
+      [
+        "[BeginAvatarDesc]",
+        "MPreset2"
+      ],
+      [
+        "definition",
+        "MPreset2"
+      ],
+      [
+        "[EndAvatarDesc]"
+      ],
+      [
+        "[BeginAvatarDesc]",
+        "MPreset1"
+      ],
+      [
+        "definition",
+        "MPreset1"
+      ],
+      [
+        "[EndAvatarDesc]"
+      ],
+      [
+        "[BeginAvatarDesc]",
+        "MPreset3"
+      ],
+      [
+        "definition",
+        "MPreset3"
+      ],
+      [
+        "[EndAvatarDesc]"
+      ],
+      [
+        "[BeginAvatarDesc]",
+        "MPreset4"
+      ],
+      [
+        "definition",
+        "MPreset4"
+      ],
+      [
+        "[EndAvatarDesc]"
+      ],
+      [
+        "[BeginAvatarDesc]",
+        "MPreset5"
+      ],
+      [
+        "definition",
+        "MPreset5"
+      ],
+      [
+        "[EndAvatarDesc]"
+      ],
+      [
+        "[BeginAvatarDesc]",
+        "FMPreset3"
+      ],
+      [
+        "definition",
+        "FMPreset3"
+      ],
+      [
+        "[EndAvatarDesc]"
+      ],
+      [
+        "[BeginAvatarDesc]",
+        "FMPreset4"
+      ],
+      [
+        "definition",
+        "FMPreset4"
+      ],
+      [
+        "[EndAvatarDesc]"
+      ],
+      [
+        "[BeginAvatarDesc]",
+        "FMPreset1"
+      ],
+      [
+        "definition",
+        "FMPreset1"
+      ],
+      [
+        "[EndAvatarDesc]"
+      ],
+      [
+        "[BeginAvatarDesc]",
+        "FMPreset2"
+      ],
+      [
+        "definition",
+        "FMPreset2"
+      ],
+      [
+        "[EndAvatarDesc]"
+      ],
+      [
+        "[BeginAvatarDesc]",
+        "FMPreset5"
+      ],
+      [
+        "definition",
+        "FMPreset5"
+      ],
+      [
+        "[EndAvatarDesc]"
+      ]
+    ]
+  },
+  "presets": [
+    {
+      "id": "MPreset2",
+      "gender": "M",
+      "source_order": 0,
+      "gender_order": 0,
+      "skeleton": "basemesh",
+      "sound_bank": "CommonMale02",
+      "morph_levels": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": -23.27,
+        "FaceHeart": -81.1088,
+        "FaceHeavy": -23.8178,
+        "FaceLong": 2.40489,
+        "FaceRound": -44.6304,
+        "FaceSquare": 4.1963,
+        "NoseBig": 8.03553,
+        "NoseFlat": -100.0,
+        "NoseRidge": -20.5051,
+        "NoseSlope": -36.0865,
+        "NoseUp": -26.7407,
+        "NoseWide": -3.89899,
+        "NostrilFlare": 54.0633,
+        "EyesBig": 12.3584,
+        "EyesOut": 70.5373,
+        "EyesUp": 41.8847,
+        "EyesDepth": 48.9507,
+        "EyesSlant": -12.232,
+        "LipLowFull": 29.6819,
+        "LipUpFull": 58.3024,
+        "MouthWide": 48.4348,
+        "MouthRaise": 9.66552,
+        "EarsBig": 42.9366,
+        "EarsLobesBig": 24.2183,
+        "EarsOut": 42.2225,
+        "CheekBones": 27.8654,
+        "CheekGuant": -57.3111,
+        "ChinStrong": 50.5209,
+        "JawFull": 48.081,
+        "BrowAngle": -29.0881,
+        "BrowHeavy": 51.1104,
+        "NoseBridge": 137.042,
+        "NoseRound": 76.2666,
+        "MouthOut": 7.70703,
+        "LipsRound": -71.8009,
+        "NosePhiltrum": 147.816,
+        "Asym": 75.0,
+        "EyeShape": 100.0,
+        "EyeNarrow": -0.276421,
+        "Browdown": 90.1081,
+        "MouthFix": 7.22153,
+        "TopLipOut": -70.0,
+        "BottomLipOut": -18.3947,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 0.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "components": [
+        {
+          "category": "skin",
+          "native_component_name": "Caucasian01",
+          "component_id": "componentdefs-c96b7c1d_43"
+        },
+        {
+          "category": "top",
+          "native_component_name": "mhoodedtop01",
+          "component_id": "componentdefs-8d11c330_47"
+        },
+        {
+          "category": "hair",
+          "native_component_name": "mhair04",
+          "component_id": "componentdefs-afb74f95_46"
+        },
+        {
+          "category": "bottom",
+          "native_component_name": "mcargoshorts00",
+          "component_id": "componentdefs-81a9443b_23"
+        },
+        {
+          "category": "hand",
+          "native_component_name": "BaseHands",
+          "component_id": "componentdefs-a1a72c6d_0"
+        },
+        {
+          "category": "eye",
+          "native_component_name": "deepblue",
+          "component_id": "componentdefs-7688d74a_5"
+        },
+        {
+          "category": "accessory",
+          "native_component_name": "harness",
+          "component_id": "componentdefs-93bed842_0"
+        },
+        {
+          "category": "facialHair",
+          "native_component_name": "facialhair03",
+          "component_id": "componentdefs-8f796f0c_3"
+        },
+        {
+          "category": "lips",
+          "native_component_name": "malelips01",
+          "component_id": "componentdefs-ce84db3d_0"
+        },
+        {
+          "category": "eyebrows",
+          "native_component_name": "meyebrow05",
+          "component_id": "componentdefs-4b0e2c29_5"
+        },
+        {
+          "category": "topcolour",
+          "native_component_name": "topcolour01",
+          "component_id": "componentdefs-c6443780_0"
+        },
+        {
+          "category": "bottomcolour",
+          "native_component_name": "bcolour01",
+          "component_id": "componentdefs-239f51ec_0"
+        },
+        {
+          "category": "haircolour",
+          "native_component_name": "Black",
+          "component_id": "componentdefs-0e05265a_0"
+        },
+        {
+          "category": "facialhaircolour",
+          "native_component_name": "facehaircolour01",
+          "component_id": "componentdefs-a41e45b4_0"
+        }
+      ],
+      "native_rows": [
+        [
+          "MALE"
+        ],
+        [
+          "skeleton",
+          "basemesh"
+        ],
+        [
+          "MORPH_ATTRIBUTES",
+          "56"
+        ],
+        [
+          "Male01",
+          "0"
+        ],
+        [
+          "Male02",
+          "0"
+        ],
+        [
+          "FaceFlat",
+          "-23.27"
+        ],
+        [
+          "FaceHeart",
+          "-81.1088"
+        ],
+        [
+          "FaceHeavy",
+          "-23.8178"
+        ],
+        [
+          "FaceLong",
+          "2.40489"
+        ],
+        [
+          "FaceRound",
+          "-44.6304"
+        ],
+        [
+          "FaceSquare",
+          "4.1963"
+        ],
+        [
+          "NoseBig",
+          "8.03553"
+        ],
+        [
+          "NoseFlat",
+          "-100"
+        ],
+        [
+          "NoseRidge",
+          "-20.5051"
+        ],
+        [
+          "NoseSlope",
+          "-36.0865"
+        ],
+        [
+          "NoseUp",
+          "-26.7407"
+        ],
+        [
+          "NoseWide",
+          "-3.89899"
+        ],
+        [
+          "NostrilFlare",
+          "54.0633"
+        ],
+        [
+          "EyesBig",
+          "12.3584"
+        ],
+        [
+          "EyesOut",
+          "70.5373"
+        ],
+        [
+          "EyesUp",
+          "41.8847"
+        ],
+        [
+          "EyesDepth",
+          "48.9507"
+        ],
+        [
+          "EyesSlant",
+          "-12.232"
+        ],
+        [
+          "LipLowFull",
+          "29.6819"
+        ],
+        [
+          "LipUpFull",
+          "58.3024"
+        ],
+        [
+          "MouthWide",
+          "48.4348"
+        ],
+        [
+          "MouthRaise",
+          "9.66552"
+        ],
+        [
+          "EarsBig",
+          "42.9366"
+        ],
+        [
+          "EarsLobesBig",
+          "24.2183"
+        ],
+        [
+          "EarsOut",
+          "42.2225"
+        ],
+        [
+          "CheekBones",
+          "27.8654"
+        ],
+        [
+          "CheekGuant",
+          "-57.3111"
+        ],
+        [
+          "ChinStrong",
+          "50.5209"
+        ],
+        [
+          "JawFull",
+          "48.081"
+        ],
+        [
+          "BrowAngle",
+          "-29.0881"
+        ],
+        [
+          "BrowHeavy",
+          "51.1104"
+        ],
+        [
+          "NoseBridge",
+          "137.042"
+        ],
+        [
+          "NoseRound",
+          "76.2666"
+        ],
+        [
+          "MouthOut",
+          "7.70703"
+        ],
+        [
+          "LipsRound",
+          "-71.8009"
+        ],
+        [
+          "NosePhiltrum",
+          "147.816"
+        ],
+        [
+          "Asym",
+          "75"
+        ],
+        [
+          "EyeShape",
+          "100"
+        ],
+        [
+          "EyeNarrow",
+          "-0.276421"
+        ],
+        [
+          "Browdown",
+          "90.1081"
+        ],
+        [
+          "MouthFix",
+          "7.22153"
+        ],
+        [
+          "TopLipOut",
+          "-70"
+        ],
+        [
+          "BottomLipOut",
+          "-18.3947"
+        ],
+        [
+          "SKELETON_TALL",
+          "0"
+        ],
+        [
+          "SKELETON_FAT",
+          "0"
+        ],
+        [
+          "SKELETON_STOCKY",
+          "0"
+        ],
+        [
+          "SKIN_DARK",
+          "100"
+        ],
+        [
+          "SKIN_RED",
+          "25"
+        ],
+        [
+          "SKIN_YELLOW",
+          "25"
+        ],
+        [
+          "HAIR_BLONDE",
+          "0"
+        ],
+        [
+          "HAIR_BLACK",
+          "0"
+        ],
+        [
+          "HAIR_BROWN",
+          "0"
+        ],
+        [
+          "HAIR_RED",
+          "0"
+        ],
+        [
+          "PROFILE_NERVOUS",
+          "0"
+        ],
+        [
+          "SOUND_BANK",
+          "CommonMale02"
+        ],
+        [
+          "Components",
+          "14"
+        ],
+        [
+          "skin",
+          "Caucasian01"
+        ],
+        [
+          "top",
+          "mhoodedtop01"
+        ],
+        [
+          "hair",
+          "mhair04"
+        ],
+        [
+          "bottom",
+          "mcargoshorts00"
+        ],
+        [
+          "hand",
+          "BaseHands"
+        ],
+        [
+          "eye",
+          "deepblue"
+        ],
+        [
+          "accessory",
+          "harness"
+        ],
+        [
+          "facialHair",
+          "facialhair03"
+        ],
+        [
+          "lips",
+          "malelips01"
+        ],
+        [
+          "eyebrows",
+          "meyebrow05"
+        ],
+        [
+          "topcolour",
+          "topcolour01"
+        ],
+        [
+          "bottomcolour",
+          "bcolour01"
+        ],
+        [
+          "haircolour",
+          "Black"
+        ],
+        [
+          "facialhaircolour",
+          "facehaircolour01"
+        ]
+      ],
+      "source": {
+        "bank": "skinned/avatar_lo.jfs",
+        "filename": "MPreset2.def",
+        "key": "c12c7b79",
+        "member": 547,
+        "sha256": "3145bf493e5d9877ccd6750d1a23814f34a8edfb46829e700d198f5bb73ce1cf"
+      },
+      "native_gender": "MALE",
+      "native_attributes": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": -23.27,
+        "FaceHeart": -81.1088,
+        "FaceHeavy": -23.8178,
+        "FaceLong": 2.40489,
+        "FaceRound": -44.6304,
+        "FaceSquare": 4.1963,
+        "NoseBig": 8.03553,
+        "NoseFlat": -100.0,
+        "NoseRidge": -20.5051,
+        "NoseSlope": -36.0865,
+        "NoseUp": -26.7407,
+        "NoseWide": -3.89899,
+        "NostrilFlare": 54.0633,
+        "EyesBig": 12.3584,
+        "EyesOut": 70.5373,
+        "EyesUp": 41.8847,
+        "EyesDepth": 48.9507,
+        "EyesSlant": -12.232,
+        "LipLowFull": 29.6819,
+        "LipUpFull": 58.3024,
+        "MouthWide": 48.4348,
+        "MouthRaise": 9.66552,
+        "EarsBig": 42.9366,
+        "EarsLobesBig": 24.2183,
+        "EarsOut": 42.2225,
+        "CheekBones": 27.8654,
+        "CheekGuant": -57.3111,
+        "ChinStrong": 50.5209,
+        "JawFull": 48.081,
+        "BrowAngle": -29.0881,
+        "BrowHeavy": 51.1104,
+        "NoseBridge": 137.042,
+        "NoseRound": 76.2666,
+        "MouthOut": 7.70703,
+        "LipsRound": -71.8009,
+        "NosePhiltrum": 147.816,
+        "Asym": 75.0,
+        "EyeShape": 100.0,
+        "EyeNarrow": -0.276421,
+        "Browdown": 90.1081,
+        "MouthFix": 7.22153,
+        "TopLipOut": -70.0,
+        "BottomLipOut": -18.3947,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 0.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "native_components": {
+        "skin": "componentdefs-c96b7c1d_43",
+        "top": "componentdefs-8d11c330_47",
+        "hair": "componentdefs-afb74f95_46",
+        "bottom": "componentdefs-81a9443b_23",
+        "hand": "componentdefs-a1a72c6d_0",
+        "eye": "componentdefs-7688d74a_5",
+        "accessory": "componentdefs-93bed842_0",
+        "facialhair": "componentdefs-8f796f0c_3",
+        "lips": "componentdefs-ce84db3d_0",
+        "eyebrows": "componentdefs-4b0e2c29_5",
+        "topcolour": "componentdefs-c6443780_0",
+        "bottomcolour": "componentdefs-239f51ec_0",
+        "haircolour": "componentdefs-0e05265a_0",
+        "facialhaircolour": "componentdefs-a41e45b4_0"
+      }
+    },
+    {
+      "id": "MPreset1",
+      "gender": "M",
+      "source_order": 1,
+      "gender_order": 1,
+      "skeleton": "basemesh",
+      "sound_bank": "CommonMale01",
+      "morph_levels": {
+        "Male01": 17.0,
+        "Male02": 38.0,
+        "FaceFlat": 32.9992,
+        "FaceHeart": 42.4685,
+        "FaceHeavy": -59.3171,
+        "FaceLong": -35.6397,
+        "FaceRound": -98.0806,
+        "FaceSquare": -1.61353,
+        "NoseBig": 48.9996,
+        "NoseFlat": 20.9991,
+        "NoseRidge": -52.0003,
+        "NoseSlope": 42.9994,
+        "NoseUp": -2.00042,
+        "NoseWide": 75.9999,
+        "NostrilFlare": 72.0,
+        "EyesBig": 8.99943,
+        "EyesOut": 67.9998,
+        "EyesUp": 21.168,
+        "EyesDepth": 58.9853,
+        "EyesSlant": -15.5522,
+        "LipLowFull": 63.0699,
+        "LipUpFull": 66.6107,
+        "MouthWide": 53.3855,
+        "MouthRaise": -25.9837,
+        "EarsBig": 8.00756,
+        "EarsLobesBig": 12.1298,
+        "EarsOut": 51.5896,
+        "CheekBones": 0.512146,
+        "CheekGuant": -45.9725,
+        "ChinStrong": 32.0695,
+        "JawFull": 87.8531,
+        "BrowAngle": -6.18507,
+        "BrowHeavy": -4.27756,
+        "NoseBridge": 58.9995,
+        "NoseRound": 59.9996,
+        "MouthOut": 49.2667,
+        "LipsRound": 31.8554,
+        "NosePhiltrum": 71.0,
+        "Asym": 0.0,
+        "EyeShape": 91.0002,
+        "EyeNarrow": 61.1155,
+        "Browdown": 109.336,
+        "MouthFix": 35.2341,
+        "TopLipOut": 67.293,
+        "BottomLipOut": 43.1064,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 0.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "components": [
+        {
+          "category": "skin",
+          "native_component_name": "Black01",
+          "component_id": "componentdefs-c96b7c1d_50"
+        },
+        {
+          "category": "top",
+          "native_component_name": "mbballtop00",
+          "component_id": "componentdefs-8d11c330_42"
+        },
+        {
+          "category": "hair",
+          "native_component_name": "mhair04",
+          "component_id": "componentdefs-afb74f95_46"
+        },
+        {
+          "category": "bottom",
+          "native_component_name": "mcargoshorts01",
+          "component_id": "componentdefs-81a9443b_24"
+        },
+        {
+          "category": "hand",
+          "native_component_name": "BaseHands",
+          "component_id": "componentdefs-a1a72c6d_0"
+        },
+        {
+          "category": "eye",
+          "native_component_name": "Black",
+          "component_id": "componentdefs-7688d74a_6"
+        },
+        {
+          "category": "facialHair",
+          "native_component_name": "facialhair09",
+          "component_id": "componentdefs-8f796f0c_9"
+        },
+        {
+          "category": "lips",
+          "native_component_name": "malelips02",
+          "component_id": "componentdefs-ce84db3d_1"
+        },
+        {
+          "category": "eyebrows",
+          "native_component_name": "meyebrow03",
+          "component_id": "componentdefs-4b0e2c29_3"
+        },
+        {
+          "category": "topcolour",
+          "native_component_name": "topcolour01",
+          "component_id": "componentdefs-c6443780_0"
+        },
+        {
+          "category": "bottomcolour",
+          "native_component_name": "bcolour01",
+          "component_id": "componentdefs-239f51ec_0"
+        },
+        {
+          "category": "haircolour",
+          "native_component_name": "Black",
+          "component_id": "componentdefs-0e05265a_0"
+        },
+        {
+          "category": "facialhaircolour",
+          "native_component_name": "facehaircolour01",
+          "component_id": "componentdefs-a41e45b4_0"
+        }
+      ],
+      "native_rows": [
+        [
+          "MALE"
+        ],
+        [
+          "skeleton",
+          "basemesh"
+        ],
+        [
+          "MORPH_ATTRIBUTES",
+          "56"
+        ],
+        [
+          "Male01",
+          "17"
+        ],
+        [
+          "Male02",
+          "38"
+        ],
+        [
+          "FaceFlat",
+          "32.9992"
+        ],
+        [
+          "FaceHeart",
+          "42.4685"
+        ],
+        [
+          "FaceHeavy",
+          "-59.3171"
+        ],
+        [
+          "FaceLong",
+          "-35.6397"
+        ],
+        [
+          "FaceRound",
+          "-98.0806"
+        ],
+        [
+          "FaceSquare",
+          "-1.61353"
+        ],
+        [
+          "NoseBig",
+          "48.9996"
+        ],
+        [
+          "NoseFlat",
+          "20.9991"
+        ],
+        [
+          "NoseRidge",
+          "-52.0003"
+        ],
+        [
+          "NoseSlope",
+          "42.9994"
+        ],
+        [
+          "NoseUp",
+          "-2.00042"
+        ],
+        [
+          "NoseWide",
+          "75.9999"
+        ],
+        [
+          "NostrilFlare",
+          "72"
+        ],
+        [
+          "EyesBig",
+          "8.99943"
+        ],
+        [
+          "EyesOut",
+          "67.9998"
+        ],
+        [
+          "EyesUp",
+          "21.168"
+        ],
+        [
+          "EyesDepth",
+          "58.9853"
+        ],
+        [
+          "EyesSlant",
+          "-15.5522"
+        ],
+        [
+          "LipLowFull",
+          "63.0699"
+        ],
+        [
+          "LipUpFull",
+          "66.6107"
+        ],
+        [
+          "MouthWide",
+          "53.3855"
+        ],
+        [
+          "MouthRaise",
+          "-25.9837"
+        ],
+        [
+          "EarsBig",
+          "8.00756"
+        ],
+        [
+          "EarsLobesBig",
+          "12.1298"
+        ],
+        [
+          "EarsOut",
+          "51.5896"
+        ],
+        [
+          "CheekBones",
+          "0.512146"
+        ],
+        [
+          "CheekGuant",
+          "-45.9725"
+        ],
+        [
+          "ChinStrong",
+          "32.0695"
+        ],
+        [
+          "JawFull",
+          "87.8531"
+        ],
+        [
+          "BrowAngle",
+          "-6.18507"
+        ],
+        [
+          "BrowHeavy",
+          "-4.27756"
+        ],
+        [
+          "NoseBridge",
+          "58.9995"
+        ],
+        [
+          "NoseRound",
+          "59.9996"
+        ],
+        [
+          "MouthOut",
+          "49.2667"
+        ],
+        [
+          "LipsRound",
+          "31.8554"
+        ],
+        [
+          "NosePhiltrum",
+          "71"
+        ],
+        [
+          "Asym",
+          "0"
+        ],
+        [
+          "EyeShape",
+          "91.0002"
+        ],
+        [
+          "EyeNarrow",
+          "61.1155"
+        ],
+        [
+          "Browdown",
+          "109.336"
+        ],
+        [
+          "MouthFix",
+          "35.2341"
+        ],
+        [
+          "TopLipOut",
+          "67.293"
+        ],
+        [
+          "BottomLipOut",
+          "43.1064"
+        ],
+        [
+          "SKELETON_TALL",
+          "0"
+        ],
+        [
+          "SKELETON_FAT",
+          "0"
+        ],
+        [
+          "SKELETON_STOCKY",
+          "0"
+        ],
+        [
+          "SKIN_DARK",
+          "100"
+        ],
+        [
+          "SKIN_RED",
+          "25"
+        ],
+        [
+          "SKIN_YELLOW",
+          "25"
+        ],
+        [
+          "HAIR_BLONDE",
+          "0"
+        ],
+        [
+          "HAIR_BLACK",
+          "0"
+        ],
+        [
+          "HAIR_BROWN",
+          "0"
+        ],
+        [
+          "HAIR_RED",
+          "0"
+        ],
+        [
+          "PROFILE_NERVOUS",
+          "0"
+        ],
+        [
+          "SOUND_BANK",
+          "CommonMale01"
+        ],
+        [
+          "Components",
+          "13"
+        ],
+        [
+          "skin",
+          "Black01"
+        ],
+        [
+          "top",
+          "mbballtop00"
+        ],
+        [
+          "hair",
+          "mhair04"
+        ],
+        [
+          "bottom",
+          "mcargoshorts01"
+        ],
+        [
+          "hand",
+          "BaseHands"
+        ],
+        [
+          "eye",
+          "Black"
+        ],
+        [
+          "facialHair",
+          "facialhair09"
+        ],
+        [
+          "lips",
+          "malelips02"
+        ],
+        [
+          "eyebrows",
+          "meyebrow03"
+        ],
+        [
+          "topcolour",
+          "topcolour01"
+        ],
+        [
+          "bottomcolour",
+          "bcolour01"
+        ],
+        [
+          "haircolour",
+          "Black"
+        ],
+        [
+          "facialhaircolour",
+          "facehaircolour01"
+        ]
+      ],
+      "source": {
+        "bank": "skinned/avatar_lo.jfs",
+        "filename": "MPreset1.def",
+        "key": "c099f15b",
+        "member": 546,
+        "sha256": "1313475667ec8408cbfa592c7e9960270a2264ebfdb8b0ab760d991c6d5626e4"
+      },
+      "native_gender": "MALE",
+      "native_attributes": {
+        "Male01": 17.0,
+        "Male02": 38.0,
+        "FaceFlat": 32.9992,
+        "FaceHeart": 42.4685,
+        "FaceHeavy": -59.3171,
+        "FaceLong": -35.6397,
+        "FaceRound": -98.0806,
+        "FaceSquare": -1.61353,
+        "NoseBig": 48.9996,
+        "NoseFlat": 20.9991,
+        "NoseRidge": -52.0003,
+        "NoseSlope": 42.9994,
+        "NoseUp": -2.00042,
+        "NoseWide": 75.9999,
+        "NostrilFlare": 72.0,
+        "EyesBig": 8.99943,
+        "EyesOut": 67.9998,
+        "EyesUp": 21.168,
+        "EyesDepth": 58.9853,
+        "EyesSlant": -15.5522,
+        "LipLowFull": 63.0699,
+        "LipUpFull": 66.6107,
+        "MouthWide": 53.3855,
+        "MouthRaise": -25.9837,
+        "EarsBig": 8.00756,
+        "EarsLobesBig": 12.1298,
+        "EarsOut": 51.5896,
+        "CheekBones": 0.512146,
+        "CheekGuant": -45.9725,
+        "ChinStrong": 32.0695,
+        "JawFull": 87.8531,
+        "BrowAngle": -6.18507,
+        "BrowHeavy": -4.27756,
+        "NoseBridge": 58.9995,
+        "NoseRound": 59.9996,
+        "MouthOut": 49.2667,
+        "LipsRound": 31.8554,
+        "NosePhiltrum": 71.0,
+        "Asym": 0.0,
+        "EyeShape": 91.0002,
+        "EyeNarrow": 61.1155,
+        "Browdown": 109.336,
+        "MouthFix": 35.2341,
+        "TopLipOut": 67.293,
+        "BottomLipOut": 43.1064,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 0.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "native_components": {
+        "skin": "componentdefs-c96b7c1d_50",
+        "top": "componentdefs-8d11c330_42",
+        "hair": "componentdefs-afb74f95_46",
+        "bottom": "componentdefs-81a9443b_24",
+        "hand": "componentdefs-a1a72c6d_0",
+        "eye": "componentdefs-7688d74a_6",
+        "facialhair": "componentdefs-8f796f0c_9",
+        "lips": "componentdefs-ce84db3d_1",
+        "eyebrows": "componentdefs-4b0e2c29_3",
+        "topcolour": "componentdefs-c6443780_0",
+        "bottomcolour": "componentdefs-239f51ec_0",
+        "haircolour": "componentdefs-0e05265a_0",
+        "facialhaircolour": "componentdefs-a41e45b4_0"
+      }
+    },
+    {
+      "id": "MPreset3",
+      "gender": "M",
+      "source_order": 2,
+      "gender_order": 2,
+      "skeleton": "basemesh",
+      "sound_bank": "CommonMale03",
+      "morph_levels": {
+        "Male01": 0.0,
+        "Male02": 44.0,
+        "FaceFlat": -77.2192,
+        "FaceHeart": 26.7773,
+        "FaceHeavy": -59.5814,
+        "FaceLong": -15.6647,
+        "FaceRound": -85.5459,
+        "FaceSquare": 31.0229,
+        "NoseBig": 30.4496,
+        "NoseFlat": 55.0444,
+        "NoseRidge": 79.1309,
+        "NoseSlope": 103.902,
+        "NoseUp": -8.16113,
+        "NoseWide": 37.2157,
+        "NostrilFlare": 10.0,
+        "EyesBig": 30.4754,
+        "EyesOut": 63.6781,
+        "EyesUp": 54.2275,
+        "EyesDepth": -56.6002,
+        "EyesSlant": 26.8056,
+        "LipLowFull": 41.2781,
+        "LipUpFull": 46.4061,
+        "MouthWide": 55.322,
+        "MouthRaise": -11.8603,
+        "EarsBig": 36.829,
+        "EarsLobesBig": 28.811,
+        "EarsOut": 50.6695,
+        "CheekBones": 21.8908,
+        "CheekGuant": -20.7998,
+        "ChinStrong": 27.2606,
+        "JawFull": 66.2667,
+        "BrowAngle": -19.2477,
+        "BrowHeavy": -18.2031,
+        "NoseBridge": 65.0,
+        "NoseRound": 15.9259,
+        "MouthOut": -1.56245,
+        "LipsRound": -4.72529,
+        "NosePhiltrum": 75.1916,
+        "Asym": 30.0,
+        "EyeShape": 98.8287,
+        "EyeNarrow": 100.0,
+        "Browdown": 12.7972,
+        "MouthFix": 15.4203,
+        "TopLipOut": 37.8382,
+        "BottomLipOut": 0.114586,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 0.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "components": [
+        {
+          "category": "skin",
+          "native_component_name": "Caucasian04",
+          "component_id": "componentdefs-c96b7c1d_45"
+        },
+        {
+          "category": "top",
+          "native_component_name": "mlayeredt00",
+          "component_id": "componentdefs-8d11c330_35"
+        },
+        {
+          "category": "haircolour",
+          "native_component_name": "black",
+          "component_id": "componentdefs-0e05265a_0"
+        },
+        {
+          "category": "bottom",
+          "native_component_name": "mjeans01",
+          "component_id": "componentdefs-81a9443b_13"
+        },
+        {
+          "category": "hand",
+          "native_component_name": "BaseHands",
+          "component_id": "componentdefs-a1a72c6d_0"
+        },
+        {
+          "category": "eye",
+          "native_component_name": "Black",
+          "component_id": "componentdefs-7688d74a_6"
+        },
+        {
+          "category": "facialHair",
+          "native_component_name": "facialhair07",
+          "component_id": "componentdefs-8f796f0c_7"
+        },
+        {
+          "category": "lips",
+          "native_component_name": "malelips01",
+          "component_id": "componentdefs-ce84db3d_0"
+        },
+        {
+          "category": "eyebrows",
+          "native_component_name": "meyebrow03",
+          "component_id": "componentdefs-4b0e2c29_3"
+        },
+        {
+          "category": "topcolour",
+          "native_component_name": "topcolour01",
+          "component_id": "componentdefs-c6443780_0"
+        },
+        {
+          "category": "bottomcolour",
+          "native_component_name": "bcolour04",
+          "component_id": "componentdefs-239f51ec_3"
+        },
+        {
+          "category": "facialhaircolour",
+          "native_component_name": "facehaircolour01",
+          "component_id": "componentdefs-a41e45b4_0"
+        },
+        {
+          "category": "hat",
+          "native_component_name": "Hat07_Military01",
+          "component_id": "componentdefs-6cdc9848_13"
+        },
+        {
+          "category": "hatcolour",
+          "native_component_name": "hatcolour03",
+          "component_id": "componentdefs-9a5c4a58_2"
+        }
+      ],
+      "native_rows": [
+        [
+          "MALE"
+        ],
+        [
+          "skeleton",
+          "basemesh"
+        ],
+        [
+          "MORPH_ATTRIBUTES",
+          "56"
+        ],
+        [
+          "Male01",
+          "0"
+        ],
+        [
+          "Male02",
+          "44"
+        ],
+        [
+          "FaceFlat",
+          "-77.2192"
+        ],
+        [
+          "FaceHeart",
+          "26.7773"
+        ],
+        [
+          "FaceHeavy",
+          "-59.5814"
+        ],
+        [
+          "FaceLong",
+          "-15.6647"
+        ],
+        [
+          "FaceRound",
+          "-85.5459"
+        ],
+        [
+          "FaceSquare",
+          "31.0229"
+        ],
+        [
+          "NoseBig",
+          "30.4496"
+        ],
+        [
+          "NoseFlat",
+          "55.0444"
+        ],
+        [
+          "NoseRidge",
+          "79.1309"
+        ],
+        [
+          "NoseSlope",
+          "103.902"
+        ],
+        [
+          "NoseUp",
+          "-8.16113"
+        ],
+        [
+          "NoseWide",
+          "37.2157"
+        ],
+        [
+          "NostrilFlare",
+          "10"
+        ],
+        [
+          "EyesBig",
+          "30.4754"
+        ],
+        [
+          "EyesOut",
+          "63.6781"
+        ],
+        [
+          "EyesUp",
+          "54.2275"
+        ],
+        [
+          "EyesDepth",
+          "-56.6002"
+        ],
+        [
+          "EyesSlant",
+          "26.8056"
+        ],
+        [
+          "LipLowFull",
+          "41.2781"
+        ],
+        [
+          "LipUpFull",
+          "46.4061"
+        ],
+        [
+          "MouthWide",
+          "55.322"
+        ],
+        [
+          "MouthRaise",
+          "-11.8603"
+        ],
+        [
+          "EarsBig",
+          "36.829"
+        ],
+        [
+          "EarsLobesBig",
+          "28.811"
+        ],
+        [
+          "EarsOut",
+          "50.6695"
+        ],
+        [
+          "CheekBones",
+          "21.8908"
+        ],
+        [
+          "CheekGuant",
+          "-20.7998"
+        ],
+        [
+          "ChinStrong",
+          "27.2606"
+        ],
+        [
+          "JawFull",
+          "66.2667"
+        ],
+        [
+          "BrowAngle",
+          "-19.2477"
+        ],
+        [
+          "BrowHeavy",
+          "-18.2031"
+        ],
+        [
+          "NoseBridge",
+          "65"
+        ],
+        [
+          "NoseRound",
+          "15.9259"
+        ],
+        [
+          "MouthOut",
+          "-1.56245"
+        ],
+        [
+          "LipsRound",
+          "-4.72529"
+        ],
+        [
+          "NosePhiltrum",
+          "75.1916"
+        ],
+        [
+          "Asym",
+          "30"
+        ],
+        [
+          "EyeShape",
+          "98.8287"
+        ],
+        [
+          "EyeNarrow",
+          "100"
+        ],
+        [
+          "Browdown",
+          "12.7972"
+        ],
+        [
+          "MouthFix",
+          "15.4203"
+        ],
+        [
+          "TopLipOut",
+          "37.8382"
+        ],
+        [
+          "BottomLipOut",
+          "0.114586"
+        ],
+        [
+          "SKELETON_TALL",
+          "0"
+        ],
+        [
+          "SKELETON_FAT",
+          "0"
+        ],
+        [
+          "SKELETON_STOCKY",
+          "0"
+        ],
+        [
+          "SKIN_DARK",
+          "100"
+        ],
+        [
+          "SKIN_RED",
+          "25"
+        ],
+        [
+          "SKIN_YELLOW",
+          "25"
+        ],
+        [
+          "HAIR_BLONDE",
+          "0"
+        ],
+        [
+          "HAIR_BLACK",
+          "0"
+        ],
+        [
+          "HAIR_BROWN",
+          "0"
+        ],
+        [
+          "HAIR_RED",
+          "0"
+        ],
+        [
+          "PROFILE_NERVOUS",
+          "0"
+        ],
+        [
+          "SOUND_BANK",
+          "CommonMale03"
+        ],
+        [
+          "Components",
+          "14"
+        ],
+        [
+          "skin",
+          "Caucasian04"
+        ],
+        [
+          "top",
+          "mlayeredt00"
+        ],
+        [
+          "haircolour",
+          "black"
+        ],
+        [
+          "bottom",
+          "mjeans01"
+        ],
+        [
+          "hand",
+          "BaseHands"
+        ],
+        [
+          "eye",
+          "Black"
+        ],
+        [
+          "facialHair",
+          "facialhair07"
+        ],
+        [
+          "lips",
+          "malelips01"
+        ],
+        [
+          "eyebrows",
+          "meyebrow03"
+        ],
+        [
+          "topcolour",
+          "topcolour01"
+        ],
+        [
+          "bottomcolour",
+          "bcolour04"
+        ],
+        [
+          "facialhaircolour",
+          "facehaircolour01"
+        ],
+        [
+          "hat",
+          "Hat07_Military01"
+        ],
+        [
+          "hatcolour",
+          "hatcolour03"
+        ]
+      ],
+      "source": {
+        "bank": "skinned/avatar_lo.jfs",
+        "filename": "MPreset3.def",
+        "key": "c1c1e427",
+        "member": 548,
+        "sha256": "bc2308ca975dff492f4dd5104ccb9f711a6bb087f06237350072c1bef2968e04"
+      },
+      "native_gender": "MALE",
+      "native_attributes": {
+        "Male01": 0.0,
+        "Male02": 44.0,
+        "FaceFlat": -77.2192,
+        "FaceHeart": 26.7773,
+        "FaceHeavy": -59.5814,
+        "FaceLong": -15.6647,
+        "FaceRound": -85.5459,
+        "FaceSquare": 31.0229,
+        "NoseBig": 30.4496,
+        "NoseFlat": 55.0444,
+        "NoseRidge": 79.1309,
+        "NoseSlope": 103.902,
+        "NoseUp": -8.16113,
+        "NoseWide": 37.2157,
+        "NostrilFlare": 10.0,
+        "EyesBig": 30.4754,
+        "EyesOut": 63.6781,
+        "EyesUp": 54.2275,
+        "EyesDepth": -56.6002,
+        "EyesSlant": 26.8056,
+        "LipLowFull": 41.2781,
+        "LipUpFull": 46.4061,
+        "MouthWide": 55.322,
+        "MouthRaise": -11.8603,
+        "EarsBig": 36.829,
+        "EarsLobesBig": 28.811,
+        "EarsOut": 50.6695,
+        "CheekBones": 21.8908,
+        "CheekGuant": -20.7998,
+        "ChinStrong": 27.2606,
+        "JawFull": 66.2667,
+        "BrowAngle": -19.2477,
+        "BrowHeavy": -18.2031,
+        "NoseBridge": 65.0,
+        "NoseRound": 15.9259,
+        "MouthOut": -1.56245,
+        "LipsRound": -4.72529,
+        "NosePhiltrum": 75.1916,
+        "Asym": 30.0,
+        "EyeShape": 98.8287,
+        "EyeNarrow": 100.0,
+        "Browdown": 12.7972,
+        "MouthFix": 15.4203,
+        "TopLipOut": 37.8382,
+        "BottomLipOut": 0.114586,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 0.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "native_components": {
+        "skin": "componentdefs-c96b7c1d_45",
+        "top": "componentdefs-8d11c330_35",
+        "haircolour": "componentdefs-0e05265a_0",
+        "bottom": "componentdefs-81a9443b_13",
+        "hand": "componentdefs-a1a72c6d_0",
+        "eye": "componentdefs-7688d74a_6",
+        "facialhair": "componentdefs-8f796f0c_7",
+        "lips": "componentdefs-ce84db3d_0",
+        "eyebrows": "componentdefs-4b0e2c29_3",
+        "topcolour": "componentdefs-c6443780_0",
+        "bottomcolour": "componentdefs-239f51ec_3",
+        "facialhaircolour": "componentdefs-a41e45b4_0",
+        "hat": "componentdefs-6cdc9848_13",
+        "hatcolour": "componentdefs-9a5c4a58_2"
+      }
+    },
+    {
+      "id": "MPreset4",
+      "gender": "M",
+      "source_order": 3,
+      "gender_order": 3,
+      "skeleton": "basemesh",
+      "sound_bank": "CommonMale04",
+      "morph_levels": {
+        "Male01": 17.0,
+        "Male02": 38.0,
+        "FaceFlat": 57.3405,
+        "FaceHeart": -35.4359,
+        "FaceHeavy": 0.0,
+        "FaceLong": -14.887,
+        "FaceRound": 0.0,
+        "FaceSquare": -4.36431,
+        "NoseBig": 48.9996,
+        "NoseFlat": 3.82752,
+        "NoseRidge": 1.26159,
+        "NoseSlope": -24.4841,
+        "NoseUp": -38.2031,
+        "NoseWide": 75.9999,
+        "NostrilFlare": 16.8261,
+        "EyesBig": 8.99943,
+        "EyesOut": 62.0082,
+        "EyesUp": 35.5246,
+        "EyesDepth": 67.3076,
+        "EyesSlant": -15.5522,
+        "LipLowFull": 63.0699,
+        "LipUpFull": 66.6107,
+        "MouthWide": 53.3855,
+        "MouthRaise": -25.9837,
+        "EarsBig": 34.2216,
+        "EarsLobesBig": 48.7463,
+        "EarsOut": 62.0756,
+        "CheekBones": -18.1275,
+        "CheekGuant": 22.0039,
+        "ChinStrong": 32.0695,
+        "JawFull": 82.8597,
+        "BrowAngle": 25.8577,
+        "BrowHeavy": 18.3595,
+        "NoseBridge": 113.929,
+        "NoseRound": 93.8701,
+        "MouthOut": 49.2667,
+        "LipsRound": 31.8554,
+        "NosePhiltrum": 88.4761,
+        "Asym": 0.0,
+        "EyeShape": 91.0002,
+        "EyeNarrow": 61.1155,
+        "Browdown": 52.618,
+        "MouthFix": 35.2341,
+        "TopLipOut": 67.293,
+        "BottomLipOut": 43.1064,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 0.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "components": [
+        {
+          "category": "skin",
+          "native_component_name": "Black02",
+          "component_id": "componentdefs-c96b7c1d_51"
+        },
+        {
+          "category": "top",
+          "native_component_name": "mtshirt03",
+          "component_id": "componentdefs-8d11c330_26"
+        },
+        {
+          "category": "hair",
+          "native_component_name": "mhair08",
+          "component_id": "componentdefs-afb74f95_50"
+        },
+        {
+          "category": "bottom",
+          "native_component_name": "mjeansbaggy00",
+          "component_id": "componentdefs-81a9443b_15"
+        },
+        {
+          "category": "hand",
+          "native_component_name": "BaseHands",
+          "component_id": "componentdefs-a1a72c6d_0"
+        },
+        {
+          "category": "eye",
+          "native_component_name": "Black",
+          "component_id": "componentdefs-7688d74a_6"
+        },
+        {
+          "category": "facialHair",
+          "native_component_name": "facialhair01",
+          "component_id": "componentdefs-8f796f0c_1"
+        },
+        {
+          "category": "lips",
+          "native_component_name": "malelips02",
+          "component_id": "componentdefs-ce84db3d_1"
+        },
+        {
+          "category": "eyebrows",
+          "native_component_name": "meyebrow02",
+          "component_id": "componentdefs-4b0e2c29_2"
+        },
+        {
+          "category": "topcolour",
+          "native_component_name": "topcolour05",
+          "component_id": "componentdefs-c6443780_4"
+        },
+        {
+          "category": "bottomcolour",
+          "native_component_name": "bcolour04",
+          "component_id": "componentdefs-239f51ec_3"
+        },
+        {
+          "category": "haircolour",
+          "native_component_name": "Black",
+          "component_id": "componentdefs-0e05265a_0"
+        },
+        {
+          "category": "facialhaircolour",
+          "native_component_name": "facehaircolour01",
+          "component_id": "componentdefs-a41e45b4_0"
+        }
+      ],
+      "native_rows": [
+        [
+          "MALE"
+        ],
+        [
+          "skeleton",
+          "basemesh"
+        ],
+        [
+          "MORPH_ATTRIBUTES",
+          "56"
+        ],
+        [
+          "Male01",
+          "17"
+        ],
+        [
+          "Male02",
+          "38"
+        ],
+        [
+          "FaceFlat",
+          "57.3405"
+        ],
+        [
+          "FaceHeart",
+          "-35.4359"
+        ],
+        [
+          "FaceHeavy",
+          "0"
+        ],
+        [
+          "FaceLong",
+          "-14.887"
+        ],
+        [
+          "FaceRound",
+          "0"
+        ],
+        [
+          "FaceSquare",
+          "-4.36431"
+        ],
+        [
+          "NoseBig",
+          "48.9996"
+        ],
+        [
+          "NoseFlat",
+          "3.82752"
+        ],
+        [
+          "NoseRidge",
+          "1.26159"
+        ],
+        [
+          "NoseSlope",
+          "-24.4841"
+        ],
+        [
+          "NoseUp",
+          "-38.2031"
+        ],
+        [
+          "NoseWide",
+          "75.9999"
+        ],
+        [
+          "NostrilFlare",
+          "16.8261"
+        ],
+        [
+          "EyesBig",
+          "8.99943"
+        ],
+        [
+          "EyesOut",
+          "62.0082"
+        ],
+        [
+          "EyesUp",
+          "35.5246"
+        ],
+        [
+          "EyesDepth",
+          "67.3076"
+        ],
+        [
+          "EyesSlant",
+          "-15.5522"
+        ],
+        [
+          "LipLowFull",
+          "63.0699"
+        ],
+        [
+          "LipUpFull",
+          "66.6107"
+        ],
+        [
+          "MouthWide",
+          "53.3855"
+        ],
+        [
+          "MouthRaise",
+          "-25.9837"
+        ],
+        [
+          "EarsBig",
+          "34.2216"
+        ],
+        [
+          "EarsLobesBig",
+          "48.7463"
+        ],
+        [
+          "EarsOut",
+          "62.0756"
+        ],
+        [
+          "CheekBones",
+          "-18.1275"
+        ],
+        [
+          "CheekGuant",
+          "22.0039"
+        ],
+        [
+          "ChinStrong",
+          "32.0695"
+        ],
+        [
+          "JawFull",
+          "82.8597"
+        ],
+        [
+          "BrowAngle",
+          "25.8577"
+        ],
+        [
+          "BrowHeavy",
+          "18.3595"
+        ],
+        [
+          "NoseBridge",
+          "113.929"
+        ],
+        [
+          "NoseRound",
+          "93.8701"
+        ],
+        [
+          "MouthOut",
+          "49.2667"
+        ],
+        [
+          "LipsRound",
+          "31.8554"
+        ],
+        [
+          "NosePhiltrum",
+          "88.4761"
+        ],
+        [
+          "Asym",
+          "0"
+        ],
+        [
+          "EyeShape",
+          "91.0002"
+        ],
+        [
+          "EyeNarrow",
+          "61.1155"
+        ],
+        [
+          "Browdown",
+          "52.618"
+        ],
+        [
+          "MouthFix",
+          "35.2341"
+        ],
+        [
+          "TopLipOut",
+          "67.293"
+        ],
+        [
+          "BottomLipOut",
+          "43.1064"
+        ],
+        [
+          "SKELETON_TALL",
+          "0"
+        ],
+        [
+          "SKELETON_FAT",
+          "0"
+        ],
+        [
+          "SKELETON_STOCKY",
+          "0"
+        ],
+        [
+          "SKIN_DARK",
+          "100"
+        ],
+        [
+          "SKIN_RED",
+          "25"
+        ],
+        [
+          "SKIN_YELLOW",
+          "25"
+        ],
+        [
+          "HAIR_BLONDE",
+          "0"
+        ],
+        [
+          "HAIR_BLACK",
+          "0"
+        ],
+        [
+          "HAIR_BROWN",
+          "0"
+        ],
+        [
+          "HAIR_RED",
+          "0"
+        ],
+        [
+          "PROFILE_NERVOUS",
+          "0"
+        ],
+        [
+          "SOUND_BANK",
+          "CommonMale04"
+        ],
+        [
+          "Components",
+          "13"
+        ],
+        [
+          "skin",
+          "Black02"
+        ],
+        [
+          "top",
+          "mtshirt03"
+        ],
+        [
+          "hair",
+          "mhair08"
+        ],
+        [
+          "bottom",
+          "mjeansbaggy00"
+        ],
+        [
+          "hand",
+          "BaseHands"
+        ],
+        [
+          "eye",
+          "Black"
+        ],
+        [
+          "facialHair",
+          "facialhair01"
+        ],
+        [
+          "lips",
+          "malelips02"
+        ],
+        [
+          "eyebrows",
+          "meyebrow02"
+        ],
+        [
+          "topcolour",
+          "topcolour05"
+        ],
+        [
+          "bottomcolour",
+          "bcolour04"
+        ],
+        [
+          "haircolour",
+          "Black"
+        ],
+        [
+          "facialhaircolour",
+          "facehaircolour01"
+        ]
+      ],
+      "source": {
+        "bank": "skinned/avatar_lo.jfs",
+        "filename": "MPreset4.def",
+        "key": "c25a3111",
+        "member": 550,
+        "sha256": "11ba3259ce14b2b7ecb2f52f5bafd2764f43b186985b04365438a3cfc85f3cba"
+      },
+      "native_gender": "MALE",
+      "native_attributes": {
+        "Male01": 17.0,
+        "Male02": 38.0,
+        "FaceFlat": 57.3405,
+        "FaceHeart": -35.4359,
+        "FaceHeavy": 0.0,
+        "FaceLong": -14.887,
+        "FaceRound": 0.0,
+        "FaceSquare": -4.36431,
+        "NoseBig": 48.9996,
+        "NoseFlat": 3.82752,
+        "NoseRidge": 1.26159,
+        "NoseSlope": -24.4841,
+        "NoseUp": -38.2031,
+        "NoseWide": 75.9999,
+        "NostrilFlare": 16.8261,
+        "EyesBig": 8.99943,
+        "EyesOut": 62.0082,
+        "EyesUp": 35.5246,
+        "EyesDepth": 67.3076,
+        "EyesSlant": -15.5522,
+        "LipLowFull": 63.0699,
+        "LipUpFull": 66.6107,
+        "MouthWide": 53.3855,
+        "MouthRaise": -25.9837,
+        "EarsBig": 34.2216,
+        "EarsLobesBig": 48.7463,
+        "EarsOut": 62.0756,
+        "CheekBones": -18.1275,
+        "CheekGuant": 22.0039,
+        "ChinStrong": 32.0695,
+        "JawFull": 82.8597,
+        "BrowAngle": 25.8577,
+        "BrowHeavy": 18.3595,
+        "NoseBridge": 113.929,
+        "NoseRound": 93.8701,
+        "MouthOut": 49.2667,
+        "LipsRound": 31.8554,
+        "NosePhiltrum": 88.4761,
+        "Asym": 0.0,
+        "EyeShape": 91.0002,
+        "EyeNarrow": 61.1155,
+        "Browdown": 52.618,
+        "MouthFix": 35.2341,
+        "TopLipOut": 67.293,
+        "BottomLipOut": 43.1064,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 0.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "native_components": {
+        "skin": "componentdefs-c96b7c1d_51",
+        "top": "componentdefs-8d11c330_26",
+        "hair": "componentdefs-afb74f95_50",
+        "bottom": "componentdefs-81a9443b_15",
+        "hand": "componentdefs-a1a72c6d_0",
+        "eye": "componentdefs-7688d74a_6",
+        "facialhair": "componentdefs-8f796f0c_1",
+        "lips": "componentdefs-ce84db3d_1",
+        "eyebrows": "componentdefs-4b0e2c29_2",
+        "topcolour": "componentdefs-c6443780_4",
+        "bottomcolour": "componentdefs-239f51ec_3",
+        "haircolour": "componentdefs-0e05265a_0",
+        "facialhaircolour": "componentdefs-a41e45b4_0"
+      }
+    },
+    {
+      "id": "MPreset5",
+      "gender": "M",
+      "source_order": 4,
+      "gender_order": 4,
+      "skeleton": "basemesh",
+      "sound_bank": "CommonMale01",
+      "morph_levels": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": 12.3298,
+        "FaceHeart": -95.0929,
+        "FaceHeavy": -49.6244,
+        "FaceLong": 9.56162,
+        "FaceRound": -49.6244,
+        "FaceSquare": 6.94655,
+        "NoseBig": 8.03553,
+        "NoseFlat": -100.0,
+        "NoseRidge": -20.5051,
+        "NoseSlope": -36.0865,
+        "NoseUp": -26.7407,
+        "NoseWide": -3.89899,
+        "NostrilFlare": 54.0633,
+        "EyesBig": 27.5057,
+        "EyesOut": 58.9268,
+        "EyesUp": 32.1458,
+        "EyesDepth": 35.6322,
+        "EyesSlant": -15.5618,
+        "LipLowFull": 50.4899,
+        "LipUpFull": 62.4645,
+        "MouthWide": 57.0906,
+        "MouthRaise": 9.66552,
+        "EarsBig": 41.0645,
+        "EarsLobesBig": 44.1931,
+        "EarsOut": 0.0,
+        "CheekBones": 53.6893,
+        "CheekGuant": -25.11,
+        "ChinStrong": 43.4869,
+        "JawFull": 47.2517,
+        "BrowAngle": -29.0881,
+        "BrowHeavy": 77.7457,
+        "NoseBridge": 137.042,
+        "NoseRound": 76.2666,
+        "MouthOut": 6.99239,
+        "LipsRound": -55.164,
+        "NosePhiltrum": 147.816,
+        "Asym": 75.0,
+        "EyeShape": 100.0,
+        "EyeNarrow": -0.275764,
+        "Browdown": 101.844,
+        "MouthFix": 7.22152,
+        "TopLipOut": -39.7043,
+        "BottomLipOut": -18.3947,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 0.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "components": [
+        {
+          "category": "skin",
+          "native_component_name": "Caucasian03",
+          "component_id": "componentdefs-c96b7c1d_44"
+        },
+        {
+          "category": "top",
+          "native_component_name": "mlayeredt04",
+          "component_id": "componentdefs-8d11c330_33"
+        },
+        {
+          "category": "bottom",
+          "native_component_name": "mcombats04",
+          "component_id": "componentdefs-81a9443b_19"
+        },
+        {
+          "category": "hand",
+          "native_component_name": "BaseHands",
+          "component_id": "componentdefs-a1a72c6d_0"
+        },
+        {
+          "category": "eye",
+          "native_component_name": "grey",
+          "component_id": "componentdefs-7688d74a_3"
+        },
+        {
+          "category": "accessory",
+          "native_component_name": "harness",
+          "component_id": "componentdefs-93bed842_0"
+        },
+        {
+          "category": "facialHair",
+          "native_component_name": "facialhair02",
+          "component_id": "componentdefs-8f796f0c_2"
+        },
+        {
+          "category": "lips",
+          "native_component_name": "malelips01",
+          "component_id": "componentdefs-ce84db3d_0"
+        },
+        {
+          "category": "eyebrows",
+          "native_component_name": "meyebrow08",
+          "component_id": "componentdefs-4b0e2c29_6"
+        },
+        {
+          "category": "topcolour",
+          "native_component_name": "topcolour06",
+          "component_id": "componentdefs-c6443780_5"
+        },
+        {
+          "category": "bottomcolour",
+          "native_component_name": "bcolour06",
+          "component_id": "componentdefs-239f51ec_5"
+        },
+        {
+          "category": "haircolour",
+          "native_component_name": "LightBrown",
+          "component_id": "componentdefs-0e05265a_3"
+        },
+        {
+          "category": "facialhaircolour",
+          "native_component_name": "facehaircolour02",
+          "component_id": "componentdefs-a41e45b4_1"
+        },
+        {
+          "category": "hat",
+          "native_component_name": "Hat10_FlatcapRev",
+          "component_id": "componentdefs-6cdc9848_18"
+        },
+        {
+          "category": "hatcolour",
+          "native_component_name": "hatcolour01",
+          "component_id": "componentdefs-9a5c4a58_0"
+        }
+      ],
+      "native_rows": [
+        [
+          "MALE"
+        ],
+        [
+          "skeleton",
+          "basemesh"
+        ],
+        [
+          "MORPH_ATTRIBUTES",
+          "56"
+        ],
+        [
+          "Male01",
+          "0"
+        ],
+        [
+          "Male02",
+          "0"
+        ],
+        [
+          "FaceFlat",
+          "12.3298"
+        ],
+        [
+          "FaceHeart",
+          "-95.0929"
+        ],
+        [
+          "FaceHeavy",
+          "-49.6244"
+        ],
+        [
+          "FaceLong",
+          "9.56162"
+        ],
+        [
+          "FaceRound",
+          "-49.6244"
+        ],
+        [
+          "FaceSquare",
+          "6.94655"
+        ],
+        [
+          "NoseBig",
+          "8.03553"
+        ],
+        [
+          "NoseFlat",
+          "-100"
+        ],
+        [
+          "NoseRidge",
+          "-20.5051"
+        ],
+        [
+          "NoseSlope",
+          "-36.0865"
+        ],
+        [
+          "NoseUp",
+          "-26.7407"
+        ],
+        [
+          "NoseWide",
+          "-3.89899"
+        ],
+        [
+          "NostrilFlare",
+          "54.0633"
+        ],
+        [
+          "EyesBig",
+          "27.5057"
+        ],
+        [
+          "EyesOut",
+          "58.9268"
+        ],
+        [
+          "EyesUp",
+          "32.1458"
+        ],
+        [
+          "EyesDepth",
+          "35.6322"
+        ],
+        [
+          "EyesSlant",
+          "-15.5618"
+        ],
+        [
+          "LipLowFull",
+          "50.4899"
+        ],
+        [
+          "LipUpFull",
+          "62.4645"
+        ],
+        [
+          "MouthWide",
+          "57.0906"
+        ],
+        [
+          "MouthRaise",
+          "9.66552"
+        ],
+        [
+          "EarsBig",
+          "41.0645"
+        ],
+        [
+          "EarsLobesBig",
+          "44.1931"
+        ],
+        [
+          "EarsOut",
+          "0"
+        ],
+        [
+          "CheekBones",
+          "53.6893"
+        ],
+        [
+          "CheekGuant",
+          "-25.11"
+        ],
+        [
+          "ChinStrong",
+          "43.4869"
+        ],
+        [
+          "JawFull",
+          "47.2517"
+        ],
+        [
+          "BrowAngle",
+          "-29.0881"
+        ],
+        [
+          "BrowHeavy",
+          "77.7457"
+        ],
+        [
+          "NoseBridge",
+          "137.042"
+        ],
+        [
+          "NoseRound",
+          "76.2666"
+        ],
+        [
+          "MouthOut",
+          "6.99239"
+        ],
+        [
+          "LipsRound",
+          "-55.164"
+        ],
+        [
+          "NosePhiltrum",
+          "147.816"
+        ],
+        [
+          "Asym",
+          "75"
+        ],
+        [
+          "EyeShape",
+          "100"
+        ],
+        [
+          "EyeNarrow",
+          "-0.275764"
+        ],
+        [
+          "Browdown",
+          "101.844"
+        ],
+        [
+          "MouthFix",
+          "7.22152"
+        ],
+        [
+          "TopLipOut",
+          "-39.7043"
+        ],
+        [
+          "BottomLipOut",
+          "-18.3947"
+        ],
+        [
+          "SKELETON_TALL",
+          "0"
+        ],
+        [
+          "SKELETON_FAT",
+          "0"
+        ],
+        [
+          "SKELETON_STOCKY",
+          "0"
+        ],
+        [
+          "SKIN_DARK",
+          "100"
+        ],
+        [
+          "SKIN_RED",
+          "25"
+        ],
+        [
+          "SKIN_YELLOW",
+          "25"
+        ],
+        [
+          "HAIR_BLONDE",
+          "0"
+        ],
+        [
+          "HAIR_BLACK",
+          "0"
+        ],
+        [
+          "HAIR_BROWN",
+          "0"
+        ],
+        [
+          "HAIR_RED",
+          "0"
+        ],
+        [
+          "PROFILE_NERVOUS",
+          "0"
+        ],
+        [
+          "SOUND_BANK",
+          "CommonMale01"
+        ],
+        [
+          "Components",
+          "15"
+        ],
+        [
+          "skin",
+          "Caucasian03"
+        ],
+        [
+          "top",
+          "mlayeredt04"
+        ],
+        [
+          "bottom",
+          "mcombats04"
+        ],
+        [
+          "hand",
+          "BaseHands"
+        ],
+        [
+          "eye",
+          "grey"
+        ],
+        [
+          "accessory",
+          "harness"
+        ],
+        [
+          "facialHair",
+          "facialhair02"
+        ],
+        [
+          "lips",
+          "malelips01"
+        ],
+        [
+          "eyebrows",
+          "meyebrow08"
+        ],
+        [
+          "topcolour",
+          "topcolour06"
+        ],
+        [
+          "bottomcolour",
+          "bcolour06"
+        ],
+        [
+          "haircolour",
+          "LightBrown"
+        ],
+        [
+          "facialhaircolour",
+          "facehaircolour02"
+        ],
+        [
+          "hat",
+          "Hat10_FlatcapRev"
+        ],
+        [
+          "hatcolour",
+          "hatcolour01"
+        ]
+      ],
+      "source": {
+        "bank": "skinned/avatar_lo.jfs",
+        "filename": "MPreset5.def",
+        "key": "c2f567fb",
+        "member": 554,
+        "sha256": "565317605c7a76e332fef9020895cbdd791e547fc9830d2cdfe8f316950f8d1f"
+      },
+      "native_gender": "MALE",
+      "native_attributes": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": 12.3298,
+        "FaceHeart": -95.0929,
+        "FaceHeavy": -49.6244,
+        "FaceLong": 9.56162,
+        "FaceRound": -49.6244,
+        "FaceSquare": 6.94655,
+        "NoseBig": 8.03553,
+        "NoseFlat": -100.0,
+        "NoseRidge": -20.5051,
+        "NoseSlope": -36.0865,
+        "NoseUp": -26.7407,
+        "NoseWide": -3.89899,
+        "NostrilFlare": 54.0633,
+        "EyesBig": 27.5057,
+        "EyesOut": 58.9268,
+        "EyesUp": 32.1458,
+        "EyesDepth": 35.6322,
+        "EyesSlant": -15.5618,
+        "LipLowFull": 50.4899,
+        "LipUpFull": 62.4645,
+        "MouthWide": 57.0906,
+        "MouthRaise": 9.66552,
+        "EarsBig": 41.0645,
+        "EarsLobesBig": 44.1931,
+        "EarsOut": 0.0,
+        "CheekBones": 53.6893,
+        "CheekGuant": -25.11,
+        "ChinStrong": 43.4869,
+        "JawFull": 47.2517,
+        "BrowAngle": -29.0881,
+        "BrowHeavy": 77.7457,
+        "NoseBridge": 137.042,
+        "NoseRound": 76.2666,
+        "MouthOut": 6.99239,
+        "LipsRound": -55.164,
+        "NosePhiltrum": 147.816,
+        "Asym": 75.0,
+        "EyeShape": 100.0,
+        "EyeNarrow": -0.275764,
+        "Browdown": 101.844,
+        "MouthFix": 7.22152,
+        "TopLipOut": -39.7043,
+        "BottomLipOut": -18.3947,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 0.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "native_components": {
+        "skin": "componentdefs-c96b7c1d_44",
+        "top": "componentdefs-8d11c330_33",
+        "bottom": "componentdefs-81a9443b_19",
+        "hand": "componentdefs-a1a72c6d_0",
+        "eye": "componentdefs-7688d74a_3",
+        "accessory": "componentdefs-93bed842_0",
+        "facialhair": "componentdefs-8f796f0c_2",
+        "lips": "componentdefs-ce84db3d_0",
+        "eyebrows": "componentdefs-4b0e2c29_6",
+        "topcolour": "componentdefs-c6443780_5",
+        "bottomcolour": "componentdefs-239f51ec_5",
+        "haircolour": "componentdefs-0e05265a_3",
+        "facialhaircolour": "componentdefs-a41e45b4_1",
+        "hat": "componentdefs-6cdc9848_18",
+        "hatcolour": "componentdefs-9a5c4a58_0"
+      }
+    },
+    {
+      "id": "FMPreset3",
+      "gender": "F",
+      "source_order": 5,
+      "gender_order": 0,
+      "skeleton": "basemesh",
+      "sound_bank": "CommonFemale03",
+      "morph_levels": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": -51.0006,
+        "FaceHeart": -10.0033,
+        "FaceHeavy": -4.00272,
+        "FaceLong": 10.2749,
+        "FaceRound": -4.00272,
+        "FaceSquare": -34.3763,
+        "NoseBig": 14.9985,
+        "NoseFlat": -50.0,
+        "NoseRidge": -13.0016,
+        "NoseSlope": 37.9274,
+        "NoseUp": -20.0006,
+        "NoseWide": 35.3903,
+        "NostrilFlare": 18.0,
+        "EyesBig": 60.9949,
+        "EyesOut": 70.9972,
+        "EyesUp": -10.0041,
+        "EyesDepth": -12.0023,
+        "EyesSlant": 25.3241,
+        "LipLowFull": 50.6076,
+        "LipUpFull": 69.997,
+        "MouthWide": 50.2443,
+        "MouthRaise": -14.0041,
+        "EarsBig": 40.9992,
+        "EarsLobesBig": 37.9996,
+        "EarsOut": 0.0,
+        "CheekBones": -2.00052,
+        "CheekGuant": -15.003,
+        "ChinStrong": 44.4075,
+        "JawFull": 50.7067,
+        "BrowAngle": 10.4548,
+        "BrowHeavy": 39.9983,
+        "NoseBridge": 79.9995,
+        "NoseRound": 32.9981,
+        "MouthOut": 29.3764,
+        "LipsRound": 58.6324,
+        "NosePhiltrum": 100.0,
+        "Asym": 0.0,
+        "EyeShape": 16.0,
+        "EyeNarrow": 35.0,
+        "Browdown": 100.0,
+        "MouthFix": 32.6044,
+        "TopLipOut": 70.0,
+        "BottomLipOut": -15.734,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 100.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "components": [
+        {
+          "category": "skin",
+          "native_component_name": "FCaucasian03",
+          "component_id": "componentdefs-c96b7c1d_55"
+        },
+        {
+          "category": "top",
+          "native_component_name": "flayeredtshirt01",
+          "component_id": "componentdefs-8d11c330_90"
+        },
+        {
+          "category": "hair",
+          "native_component_name": "fhair04",
+          "component_id": "componentdefs-afb74f95_34"
+        },
+        {
+          "category": "bottom",
+          "native_component_name": "fminiskirt00",
+          "component_id": "componentdefs-81a9443b_39"
+        },
+        {
+          "category": "hand",
+          "native_component_name": "FBaseHands",
+          "component_id": "componentdefs-a1a72c6d_2"
+        },
+        {
+          "category": "eye",
+          "native_component_name": "brown",
+          "component_id": "componentdefs-7688d74a_0"
+        },
+        {
+          "category": "accessory",
+          "native_component_name": "harness",
+          "component_id": "componentdefs-93bed842_0"
+        },
+        {
+          "category": "lips",
+          "native_component_name": "femalelips01",
+          "component_id": "componentdefs-ce84db3d_3"
+        },
+        {
+          "category": "eyebrows",
+          "native_component_name": "feyebrow04",
+          "component_id": "componentdefs-4b0e2c29_10"
+        },
+        {
+          "category": "topcolour",
+          "native_component_name": "topcolour08",
+          "component_id": "componentdefs-c6443780_7"
+        },
+        {
+          "category": "bottomcolour",
+          "native_component_name": "bcolour03",
+          "component_id": "componentdefs-239f51ec_2"
+        },
+        {
+          "category": "haircolour",
+          "native_component_name": "DarkBrown",
+          "component_id": "componentdefs-0e05265a_1"
+        },
+        {
+          "category": "facialhaircolour",
+          "native_component_name": "facehaircolour03",
+          "component_id": "componentdefs-a41e45b4_2"
+        }
+      ],
+      "native_rows": [
+        [
+          "FEMALE"
+        ],
+        [
+          "skeleton",
+          "basemesh"
+        ],
+        [
+          "MORPH_ATTRIBUTES",
+          "56"
+        ],
+        [
+          "Male01",
+          "0"
+        ],
+        [
+          "Male02",
+          "0"
+        ],
+        [
+          "FaceFlat",
+          "-51.0006"
+        ],
+        [
+          "FaceHeart",
+          "-10.0033"
+        ],
+        [
+          "FaceHeavy",
+          "-4.00272"
+        ],
+        [
+          "FaceLong",
+          "10.2749"
+        ],
+        [
+          "FaceRound",
+          "-4.00272"
+        ],
+        [
+          "FaceSquare",
+          "-34.3763"
+        ],
+        [
+          "NoseBig",
+          "14.9985"
+        ],
+        [
+          "NoseFlat",
+          "-50"
+        ],
+        [
+          "NoseRidge",
+          "-13.0016"
+        ],
+        [
+          "NoseSlope",
+          "37.9274"
+        ],
+        [
+          "NoseUp",
+          "-20.0006"
+        ],
+        [
+          "NoseWide",
+          "35.3903"
+        ],
+        [
+          "NostrilFlare",
+          "18"
+        ],
+        [
+          "EyesBig",
+          "60.9949"
+        ],
+        [
+          "EyesOut",
+          "70.9972"
+        ],
+        [
+          "EyesUp",
+          "-10.0041"
+        ],
+        [
+          "EyesDepth",
+          "-12.0023"
+        ],
+        [
+          "EyesSlant",
+          "25.3241"
+        ],
+        [
+          "LipLowFull",
+          "50.6076"
+        ],
+        [
+          "LipUpFull",
+          "69.997"
+        ],
+        [
+          "MouthWide",
+          "50.2443"
+        ],
+        [
+          "MouthRaise",
+          "-14.0041"
+        ],
+        [
+          "EarsBig",
+          "40.9992"
+        ],
+        [
+          "EarsLobesBig",
+          "37.9996"
+        ],
+        [
+          "EarsOut",
+          "0"
+        ],
+        [
+          "CheekBones",
+          "-2.00052"
+        ],
+        [
+          "CheekGuant",
+          "-15.003"
+        ],
+        [
+          "ChinStrong",
+          "44.4075"
+        ],
+        [
+          "JawFull",
+          "50.7067"
+        ],
+        [
+          "BrowAngle",
+          "10.4548"
+        ],
+        [
+          "BrowHeavy",
+          "39.9983"
+        ],
+        [
+          "NoseBridge",
+          "79.9995"
+        ],
+        [
+          "NoseRound",
+          "32.9981"
+        ],
+        [
+          "MouthOut",
+          "29.3764"
+        ],
+        [
+          "LipsRound",
+          "58.6324"
+        ],
+        [
+          "NosePhiltrum",
+          "100"
+        ],
+        [
+          "Asym",
+          "0"
+        ],
+        [
+          "EyeShape",
+          "16"
+        ],
+        [
+          "EyeNarrow",
+          "35"
+        ],
+        [
+          "Browdown",
+          "100"
+        ],
+        [
+          "MouthFix",
+          "32.6044"
+        ],
+        [
+          "TopLipOut",
+          "70"
+        ],
+        [
+          "BottomLipOut",
+          "-15.734"
+        ],
+        [
+          "SKELETON_TALL",
+          "0"
+        ],
+        [
+          "SKELETON_FAT",
+          "100"
+        ],
+        [
+          "SKELETON_STOCKY",
+          "0"
+        ],
+        [
+          "SKIN_DARK",
+          "100"
+        ],
+        [
+          "SKIN_RED",
+          "25"
+        ],
+        [
+          "SKIN_YELLOW",
+          "25"
+        ],
+        [
+          "HAIR_BLONDE",
+          "0"
+        ],
+        [
+          "HAIR_BLACK",
+          "0"
+        ],
+        [
+          "HAIR_BROWN",
+          "0"
+        ],
+        [
+          "HAIR_RED",
+          "0"
+        ],
+        [
+          "PROFILE_NERVOUS",
+          "0"
+        ],
+        [
+          "SOUND_BANK",
+          "CommonFemale03"
+        ],
+        [
+          "Components",
+          "13"
+        ],
+        [
+          "skin",
+          "FCaucasian03"
+        ],
+        [
+          "top",
+          "flayeredtshirt01"
+        ],
+        [
+          "hair",
+          "fhair04"
+        ],
+        [
+          "bottom",
+          "fminiskirt00"
+        ],
+        [
+          "hand",
+          "FBaseHands"
+        ],
+        [
+          "eye",
+          "brown"
+        ],
+        [
+          "accessory",
+          "harness"
+        ],
+        [
+          "lips",
+          "femalelips01"
+        ],
+        [
+          "eyebrows",
+          "feyebrow04"
+        ],
+        [
+          "topcolour",
+          "topcolour08"
+        ],
+        [
+          "bottomcolour",
+          "bcolour03"
+        ],
+        [
+          "haircolour",
+          "DarkBrown"
+        ],
+        [
+          "facialhaircolour",
+          "facehaircolour03"
+        ]
+      ],
+      "source": {
+        "bank": "skinned/avatar_lo.jfs",
+        "filename": "FMPreset3.def",
+        "key": "e3e55fd8",
+        "member": 649,
+        "sha256": "9403a8104c36527a973cfb3ca18cfd947c2878c505866a1c0fb643742395ec4f"
+      },
+      "native_gender": "FEMALE",
+      "native_attributes": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": -51.0006,
+        "FaceHeart": -10.0033,
+        "FaceHeavy": -4.00272,
+        "FaceLong": 10.2749,
+        "FaceRound": -4.00272,
+        "FaceSquare": -34.3763,
+        "NoseBig": 14.9985,
+        "NoseFlat": -50.0,
+        "NoseRidge": -13.0016,
+        "NoseSlope": 37.9274,
+        "NoseUp": -20.0006,
+        "NoseWide": 35.3903,
+        "NostrilFlare": 18.0,
+        "EyesBig": 60.9949,
+        "EyesOut": 70.9972,
+        "EyesUp": -10.0041,
+        "EyesDepth": -12.0023,
+        "EyesSlant": 25.3241,
+        "LipLowFull": 50.6076,
+        "LipUpFull": 69.997,
+        "MouthWide": 50.2443,
+        "MouthRaise": -14.0041,
+        "EarsBig": 40.9992,
+        "EarsLobesBig": 37.9996,
+        "EarsOut": 0.0,
+        "CheekBones": -2.00052,
+        "CheekGuant": -15.003,
+        "ChinStrong": 44.4075,
+        "JawFull": 50.7067,
+        "BrowAngle": 10.4548,
+        "BrowHeavy": 39.9983,
+        "NoseBridge": 79.9995,
+        "NoseRound": 32.9981,
+        "MouthOut": 29.3764,
+        "LipsRound": 58.6324,
+        "NosePhiltrum": 100.0,
+        "Asym": 0.0,
+        "EyeShape": 16.0,
+        "EyeNarrow": 35.0,
+        "Browdown": 100.0,
+        "MouthFix": 32.6044,
+        "TopLipOut": 70.0,
+        "BottomLipOut": -15.734,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 100.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "native_components": {
+        "skin": "componentdefs-c96b7c1d_55",
+        "top": "componentdefs-8d11c330_90",
+        "hair": "componentdefs-afb74f95_34",
+        "bottom": "componentdefs-81a9443b_39",
+        "hand": "componentdefs-a1a72c6d_2",
+        "eye": "componentdefs-7688d74a_0",
+        "accessory": "componentdefs-93bed842_0",
+        "lips": "componentdefs-ce84db3d_3",
+        "eyebrows": "componentdefs-4b0e2c29_10",
+        "topcolour": "componentdefs-c6443780_7",
+        "bottomcolour": "componentdefs-239f51ec_2",
+        "haircolour": "componentdefs-0e05265a_1",
+        "facialhaircolour": "componentdefs-a41e45b4_2"
+      }
+    },
+    {
+      "id": "FMPreset4",
+      "gender": "F",
+      "source_order": 6,
+      "gender_order": 1,
+      "skeleton": "basemesh",
+      "sound_bank": "CommonFemale04",
+      "morph_levels": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": -5.00011,
+        "FaceHeart": 25.9998,
+        "FaceHeavy": 0.999771,
+        "FaceLong": 8.99966,
+        "FaceRound": -15.0003,
+        "FaceSquare": -10.0006,
+        "NoseBig": 20.9998,
+        "NoseFlat": -27.0,
+        "NoseRidge": -73.0,
+        "NoseSlope": -30.0006,
+        "NoseUp": 0.99971,
+        "NoseWide": 71.9997,
+        "NostrilFlare": 30.0,
+        "EyesBig": 48.0392,
+        "EyesOut": 81.0,
+        "EyesUp": 10.9998,
+        "EyesDepth": 30.0,
+        "EyesSlant": 29.2586,
+        "LipLowFull": 66.7898,
+        "LipUpFull": 69.4522,
+        "MouthWide": 60.291,
+        "MouthRaise": 6.17869,
+        "EarsBig": 50.9999,
+        "EarsLobesBig": 25.9999,
+        "EarsOut": 35.9999,
+        "CheekBones": 16.0,
+        "CheekGuant": -0.000305176,
+        "ChinStrong": 40.1887,
+        "JawFull": 45.9995,
+        "BrowAngle": 37.9995,
+        "BrowHeavy": 20.9997,
+        "NoseBridge": 63.0398,
+        "NoseRound": 100.0,
+        "MouthOut": 29.306,
+        "LipsRound": 21.4091,
+        "NosePhiltrum": 46.0,
+        "Asym": 35.0,
+        "EyeShape": 100.0,
+        "EyeNarrow": 56.9446,
+        "Browdown": 50.0,
+        "MouthFix": 7.8176,
+        "TopLipOut": 41.0407,
+        "BottomLipOut": 3.18774,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 100.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "components": [
+        {
+          "category": "skin",
+          "native_component_name": "FBlack01",
+          "component_id": "componentdefs-c96b7c1d_61"
+        },
+        {
+          "category": "top",
+          "native_component_name": "ftshirt00",
+          "component_id": "componentdefs-8d11c330_89"
+        },
+        {
+          "category": "hair",
+          "native_component_name": "fhair08",
+          "component_id": "componentdefs-afb74f95_38"
+        },
+        {
+          "category": "bottom",
+          "native_component_name": "fjeansbaggy00",
+          "component_id": "componentdefs-81a9443b_31"
+        },
+        {
+          "category": "hand",
+          "native_component_name": "FBaseHands",
+          "component_id": "componentdefs-a1a72c6d_2"
+        },
+        {
+          "category": "eye",
+          "native_component_name": "Black",
+          "component_id": "componentdefs-7688d74a_6"
+        },
+        {
+          "category": "accessory",
+          "native_component_name": "harness",
+          "component_id": "componentdefs-93bed842_0"
+        },
+        {
+          "category": "lips",
+          "native_component_name": "femalelips03",
+          "component_id": "componentdefs-ce84db3d_5"
+        },
+        {
+          "category": "eyebrows",
+          "native_component_name": "feyebrow01",
+          "component_id": "componentdefs-4b0e2c29_7"
+        },
+        {
+          "category": "topcolour",
+          "native_component_name": "topcolour06",
+          "component_id": "componentdefs-c6443780_5"
+        },
+        {
+          "category": "bottomcolour",
+          "native_component_name": "bcolour03",
+          "component_id": "componentdefs-239f51ec_2"
+        },
+        {
+          "category": "haircolour",
+          "native_component_name": "Black",
+          "component_id": "componentdefs-0e05265a_0"
+        },
+        {
+          "category": "facialhaircolour",
+          "native_component_name": "facehaircolour02",
+          "component_id": "componentdefs-a41e45b4_1"
+        }
+      ],
+      "native_rows": [
+        [
+          "FEMALE"
+        ],
+        [
+          "skeleton",
+          "basemesh"
+        ],
+        [
+          "MORPH_ATTRIBUTES",
+          "56"
+        ],
+        [
+          "Male01",
+          "0"
+        ],
+        [
+          "Male02",
+          "0"
+        ],
+        [
+          "FaceFlat",
+          "-5.00011"
+        ],
+        [
+          "FaceHeart",
+          "25.9998"
+        ],
+        [
+          "FaceHeavy",
+          "0.999771"
+        ],
+        [
+          "FaceLong",
+          "8.99966"
+        ],
+        [
+          "FaceRound",
+          "-15.0003"
+        ],
+        [
+          "FaceSquare",
+          "-10.0006"
+        ],
+        [
+          "NoseBig",
+          "20.9998"
+        ],
+        [
+          "NoseFlat",
+          "-27"
+        ],
+        [
+          "NoseRidge",
+          "-73"
+        ],
+        [
+          "NoseSlope",
+          "-30.0006"
+        ],
+        [
+          "NoseUp",
+          "0.99971"
+        ],
+        [
+          "NoseWide",
+          "71.9997"
+        ],
+        [
+          "NostrilFlare",
+          "30"
+        ],
+        [
+          "EyesBig",
+          "48.0392"
+        ],
+        [
+          "EyesOut",
+          "81"
+        ],
+        [
+          "EyesUp",
+          "10.9998"
+        ],
+        [
+          "EyesDepth",
+          "30"
+        ],
+        [
+          "EyesSlant",
+          "29.2586"
+        ],
+        [
+          "LipLowFull",
+          "66.7898"
+        ],
+        [
+          "LipUpFull",
+          "69.4522"
+        ],
+        [
+          "MouthWide",
+          "60.291"
+        ],
+        [
+          "MouthRaise",
+          "6.17869"
+        ],
+        [
+          "EarsBig",
+          "50.9999"
+        ],
+        [
+          "EarsLobesBig",
+          "25.9999"
+        ],
+        [
+          "EarsOut",
+          "35.9999"
+        ],
+        [
+          "CheekBones",
+          "16"
+        ],
+        [
+          "CheekGuant",
+          "-0.000305176"
+        ],
+        [
+          "ChinStrong",
+          "40.1887"
+        ],
+        [
+          "JawFull",
+          "45.9995"
+        ],
+        [
+          "BrowAngle",
+          "37.9995"
+        ],
+        [
+          "BrowHeavy",
+          "20.9997"
+        ],
+        [
+          "NoseBridge",
+          "63.0398"
+        ],
+        [
+          "NoseRound",
+          "100"
+        ],
+        [
+          "MouthOut",
+          "29.306"
+        ],
+        [
+          "LipsRound",
+          "21.4091"
+        ],
+        [
+          "NosePhiltrum",
+          "46"
+        ],
+        [
+          "Asym",
+          "35"
+        ],
+        [
+          "EyeShape",
+          "100"
+        ],
+        [
+          "EyeNarrow",
+          "56.9446"
+        ],
+        [
+          "Browdown",
+          "50"
+        ],
+        [
+          "MouthFix",
+          "7.8176"
+        ],
+        [
+          "TopLipOut",
+          "41.0407"
+        ],
+        [
+          "BottomLipOut",
+          "3.18774"
+        ],
+        [
+          "SKELETON_TALL",
+          "0"
+        ],
+        [
+          "SKELETON_FAT",
+          "100"
+        ],
+        [
+          "SKELETON_STOCKY",
+          "0"
+        ],
+        [
+          "SKIN_DARK",
+          "100"
+        ],
+        [
+          "SKIN_RED",
+          "25"
+        ],
+        [
+          "SKIN_YELLOW",
+          "25"
+        ],
+        [
+          "HAIR_BLONDE",
+          "0"
+        ],
+        [
+          "HAIR_BLACK",
+          "0"
+        ],
+        [
+          "HAIR_BROWN",
+          "0"
+        ],
+        [
+          "HAIR_RED",
+          "0"
+        ],
+        [
+          "PROFILE_NERVOUS",
+          "0"
+        ],
+        [
+          "SOUND_BANK",
+          "CommonFemale04"
+        ],
+        [
+          "Components",
+          "13"
+        ],
+        [
+          "skin",
+          "FBlack01"
+        ],
+        [
+          "top",
+          "ftshirt00"
+        ],
+        [
+          "hair",
+          "fhair08"
+        ],
+        [
+          "bottom",
+          "fjeansbaggy00"
+        ],
+        [
+          "hand",
+          "FBaseHands"
+        ],
+        [
+          "eye",
+          "Black"
+        ],
+        [
+          "accessory",
+          "harness"
+        ],
+        [
+          "lips",
+          "femalelips03"
+        ],
+        [
+          "eyebrows",
+          "feyebrow01"
+        ],
+        [
+          "topcolour",
+          "topcolour06"
+        ],
+        [
+          "bottomcolour",
+          "bcolour03"
+        ],
+        [
+          "haircolour",
+          "Black"
+        ],
+        [
+          "facialhaircolour",
+          "facehaircolour02"
+        ]
+      ],
+      "source": {
+        "bank": "skinned/avatar_lo.jfs",
+        "filename": "FMPreset4.def",
+        "key": "e48b9972",
+        "member": 651,
+        "sha256": "7e86c2e09cce7c768a8b646b4a2208c9445d38faa349482a431fb7e61d2d02a7"
+      },
+      "native_gender": "FEMALE",
+      "native_attributes": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": -5.00011,
+        "FaceHeart": 25.9998,
+        "FaceHeavy": 0.999771,
+        "FaceLong": 8.99966,
+        "FaceRound": -15.0003,
+        "FaceSquare": -10.0006,
+        "NoseBig": 20.9998,
+        "NoseFlat": -27.0,
+        "NoseRidge": -73.0,
+        "NoseSlope": -30.0006,
+        "NoseUp": 0.99971,
+        "NoseWide": 71.9997,
+        "NostrilFlare": 30.0,
+        "EyesBig": 48.0392,
+        "EyesOut": 81.0,
+        "EyesUp": 10.9998,
+        "EyesDepth": 30.0,
+        "EyesSlant": 29.2586,
+        "LipLowFull": 66.7898,
+        "LipUpFull": 69.4522,
+        "MouthWide": 60.291,
+        "MouthRaise": 6.17869,
+        "EarsBig": 50.9999,
+        "EarsLobesBig": 25.9999,
+        "EarsOut": 35.9999,
+        "CheekBones": 16.0,
+        "CheekGuant": -0.000305176,
+        "ChinStrong": 40.1887,
+        "JawFull": 45.9995,
+        "BrowAngle": 37.9995,
+        "BrowHeavy": 20.9997,
+        "NoseBridge": 63.0398,
+        "NoseRound": 100.0,
+        "MouthOut": 29.306,
+        "LipsRound": 21.4091,
+        "NosePhiltrum": 46.0,
+        "Asym": 35.0,
+        "EyeShape": 100.0,
+        "EyeNarrow": 56.9446,
+        "Browdown": 50.0,
+        "MouthFix": 7.8176,
+        "TopLipOut": 41.0407,
+        "BottomLipOut": 3.18774,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 100.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "native_components": {
+        "skin": "componentdefs-c96b7c1d_61",
+        "top": "componentdefs-8d11c330_89",
+        "hair": "componentdefs-afb74f95_38",
+        "bottom": "componentdefs-81a9443b_31",
+        "hand": "componentdefs-a1a72c6d_2",
+        "eye": "componentdefs-7688d74a_6",
+        "accessory": "componentdefs-93bed842_0",
+        "lips": "componentdefs-ce84db3d_5",
+        "eyebrows": "componentdefs-4b0e2c29_7",
+        "topcolour": "componentdefs-c6443780_5",
+        "bottomcolour": "componentdefs-239f51ec_2",
+        "haircolour": "componentdefs-0e05265a_0",
+        "facialhaircolour": "componentdefs-a41e45b4_1"
+      }
+    },
+    {
+      "id": "FMPreset1",
+      "gender": "F",
+      "source_order": 7,
+      "gender_order": 2,
+      "skeleton": "basemesh",
+      "sound_bank": "CommonFemale01",
+      "morph_levels": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": -29.6816,
+        "FaceHeart": -7.62939e-06,
+        "FaceHeavy": -7.62939e-06,
+        "FaceLong": -3.8147e-06,
+        "FaceRound": -7.62939e-06,
+        "FaceSquare": -30.3822,
+        "NoseBig": 30.0,
+        "NoseFlat": 5.0,
+        "NoseRidge": -23.3842,
+        "NoseSlope": 25.0,
+        "NoseUp": 2.24893,
+        "NoseWide": 21.8766,
+        "NostrilFlare": 19.5303,
+        "EyesBig": 64.1069,
+        "EyesOut": 58.1214,
+        "EyesUp": 24.9212,
+        "EyesDepth": 12.7419,
+        "EyesSlant": 20.0,
+        "LipLowFull": 56.4327,
+        "LipUpFull": 49.1981,
+        "MouthWide": 49.3974,
+        "MouthRaise": 7.99056,
+        "EarsBig": 39.9998,
+        "EarsLobesBig": 34.9995,
+        "EarsOut": 0.0,
+        "CheekBones": 21.411,
+        "CheekGuant": 5.99931,
+        "ChinStrong": 34.0395,
+        "JawFull": 59.6676,
+        "BrowAngle": 9.57299,
+        "BrowHeavy": 21.9091,
+        "NoseBridge": 88.1399,
+        "NoseRound": 51.7287,
+        "MouthOut": 40.5367,
+        "LipsRound": 29.9878,
+        "NosePhiltrum": 65.0,
+        "Asym": 0.0,
+        "EyeShape": 162.548,
+        "EyeNarrow": 19.1717,
+        "Browdown": 37.6795,
+        "MouthFix": 32.6044,
+        "TopLipOut": 70.0,
+        "BottomLipOut": -23.1943,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 100.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "components": [
+        {
+          "category": "skin",
+          "native_component_name": "FCaucasian04",
+          "component_id": "componentdefs-c96b7c1d_56"
+        },
+        {
+          "category": "top",
+          "native_component_name": "croptop00",
+          "component_id": "componentdefs-8d11c330_103"
+        },
+        {
+          "category": "hair",
+          "native_component_name": "fhair03",
+          "component_id": "componentdefs-afb74f95_33"
+        },
+        {
+          "category": "bottom",
+          "native_component_name": "fmcombats01",
+          "component_id": "componentdefs-81a9443b_32"
+        },
+        {
+          "category": "hand",
+          "native_component_name": "FBaseHands",
+          "component_id": "componentdefs-a1a72c6d_2"
+        },
+        {
+          "category": "eye",
+          "native_component_name": "grey",
+          "component_id": "componentdefs-7688d74a_3"
+        },
+        {
+          "category": "accessory",
+          "native_component_name": "harness",
+          "component_id": "componentdefs-93bed842_0"
+        },
+        {
+          "category": "lips",
+          "native_component_name": "femalelips06b",
+          "component_id": "componentdefs-ce84db3d_10"
+        },
+        {
+          "category": "eyebrows",
+          "native_component_name": "feyebrow01",
+          "component_id": "componentdefs-4b0e2c29_7"
+        },
+        {
+          "category": "topcolour",
+          "native_component_name": "topcolour01",
+          "component_id": "componentdefs-c6443780_0"
+        },
+        {
+          "category": "bottomcolour",
+          "native_component_name": "bcolour04",
+          "component_id": "componentdefs-239f51ec_3"
+        },
+        {
+          "category": "haircolour",
+          "native_component_name": "Black",
+          "component_id": "componentdefs-0e05265a_0"
+        },
+        {
+          "category": "facialhaircolour",
+          "native_component_name": "facehaircolour03",
+          "component_id": "componentdefs-a41e45b4_2"
+        }
+      ],
+      "native_rows": [
+        [
+          "FEMALE"
+        ],
+        [
+          "skeleton",
+          "basemesh"
+        ],
+        [
+          "MORPH_ATTRIBUTES",
+          "56"
+        ],
+        [
+          "Male01",
+          "0"
+        ],
+        [
+          "Male02",
+          "0"
+        ],
+        [
+          "FaceFlat",
+          "-29.6816"
+        ],
+        [
+          "FaceHeart",
+          "-7.62939e-006"
+        ],
+        [
+          "FaceHeavy",
+          "-7.62939e-006"
+        ],
+        [
+          "FaceLong",
+          "-3.8147e-006"
+        ],
+        [
+          "FaceRound",
+          "-7.62939e-006"
+        ],
+        [
+          "FaceSquare",
+          "-30.3822"
+        ],
+        [
+          "NoseBig",
+          "30"
+        ],
+        [
+          "NoseFlat",
+          "5"
+        ],
+        [
+          "NoseRidge",
+          "-23.3842"
+        ],
+        [
+          "NoseSlope",
+          "25"
+        ],
+        [
+          "NoseUp",
+          "2.24893"
+        ],
+        [
+          "NoseWide",
+          "21.8766"
+        ],
+        [
+          "NostrilFlare",
+          "19.5303"
+        ],
+        [
+          "EyesBig",
+          "64.1069"
+        ],
+        [
+          "EyesOut",
+          "58.1214"
+        ],
+        [
+          "EyesUp",
+          "24.9212"
+        ],
+        [
+          "EyesDepth",
+          "12.7419"
+        ],
+        [
+          "EyesSlant",
+          "20"
+        ],
+        [
+          "LipLowFull",
+          "56.4327"
+        ],
+        [
+          "LipUpFull",
+          "49.1981"
+        ],
+        [
+          "MouthWide",
+          "49.3974"
+        ],
+        [
+          "MouthRaise",
+          "7.99056"
+        ],
+        [
+          "EarsBig",
+          "39.9998"
+        ],
+        [
+          "EarsLobesBig",
+          "34.9995"
+        ],
+        [
+          "EarsOut",
+          "0"
+        ],
+        [
+          "CheekBones",
+          "21.411"
+        ],
+        [
+          "CheekGuant",
+          "5.99931"
+        ],
+        [
+          "ChinStrong",
+          "34.0395"
+        ],
+        [
+          "JawFull",
+          "59.6676"
+        ],
+        [
+          "BrowAngle",
+          "9.57299"
+        ],
+        [
+          "BrowHeavy",
+          "21.9091"
+        ],
+        [
+          "NoseBridge",
+          "88.1399"
+        ],
+        [
+          "NoseRound",
+          "51.7287"
+        ],
+        [
+          "MouthOut",
+          "40.5367"
+        ],
+        [
+          "LipsRound",
+          "29.9878"
+        ],
+        [
+          "NosePhiltrum",
+          "65"
+        ],
+        [
+          "Asym",
+          "0"
+        ],
+        [
+          "EyeShape",
+          "162.548"
+        ],
+        [
+          "EyeNarrow",
+          "19.1717"
+        ],
+        [
+          "Browdown",
+          "37.6795"
+        ],
+        [
+          "MouthFix",
+          "32.6044"
+        ],
+        [
+          "TopLipOut",
+          "70"
+        ],
+        [
+          "BottomLipOut",
+          "-23.1943"
+        ],
+        [
+          "SKELETON_TALL",
+          "0"
+        ],
+        [
+          "SKELETON_FAT",
+          "100"
+        ],
+        [
+          "SKELETON_STOCKY",
+          "0"
+        ],
+        [
+          "SKIN_DARK",
+          "100"
+        ],
+        [
+          "SKIN_RED",
+          "25"
+        ],
+        [
+          "SKIN_YELLOW",
+          "25"
+        ],
+        [
+          "HAIR_BLONDE",
+          "0"
+        ],
+        [
+          "HAIR_BLACK",
+          "0"
+        ],
+        [
+          "HAIR_BROWN",
+          "0"
+        ],
+        [
+          "HAIR_RED",
+          "0"
+        ],
+        [
+          "PROFILE_NERVOUS",
+          "0"
+        ],
+        [
+          "SOUND_BANK",
+          "CommonFemale01"
+        ],
+        [
+          "Components",
+          "13"
+        ],
+        [
+          "skin",
+          "FCaucasian04"
+        ],
+        [
+          "top",
+          "croptop00"
+        ],
+        [
+          "hair",
+          "fhair03"
+        ],
+        [
+          "bottom",
+          "fmcombats01"
+        ],
+        [
+          "hand",
+          "FBaseHands"
+        ],
+        [
+          "eye",
+          "grey"
+        ],
+        [
+          "accessory",
+          "harness"
+        ],
+        [
+          "lips",
+          "femalelips06b"
+        ],
+        [
+          "eyebrows",
+          "feyebrow01"
+        ],
+        [
+          "topcolour",
+          "topcolour01"
+        ],
+        [
+          "bottomcolour",
+          "bcolour04"
+        ],
+        [
+          "haircolour",
+          "Black"
+        ],
+        [
+          "facialhaircolour",
+          "facehaircolour03"
+        ]
+      ],
+      "source": {
+        "bank": "skinned/avatar_lo.jfs",
+        "filename": "FMPreset1.def",
+        "key": "e2a2304e",
+        "member": 644,
+        "sha256": "ff48bce7caafd47908e049868c7d9841580d6532a30f9c903b1cc3f30ba44fd7"
+      },
+      "native_gender": "FEMALE",
+      "native_attributes": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": -29.6816,
+        "FaceHeart": -7.62939e-06,
+        "FaceHeavy": -7.62939e-06,
+        "FaceLong": -3.8147e-06,
+        "FaceRound": -7.62939e-06,
+        "FaceSquare": -30.3822,
+        "NoseBig": 30.0,
+        "NoseFlat": 5.0,
+        "NoseRidge": -23.3842,
+        "NoseSlope": 25.0,
+        "NoseUp": 2.24893,
+        "NoseWide": 21.8766,
+        "NostrilFlare": 19.5303,
+        "EyesBig": 64.1069,
+        "EyesOut": 58.1214,
+        "EyesUp": 24.9212,
+        "EyesDepth": 12.7419,
+        "EyesSlant": 20.0,
+        "LipLowFull": 56.4327,
+        "LipUpFull": 49.1981,
+        "MouthWide": 49.3974,
+        "MouthRaise": 7.99056,
+        "EarsBig": 39.9998,
+        "EarsLobesBig": 34.9995,
+        "EarsOut": 0.0,
+        "CheekBones": 21.411,
+        "CheekGuant": 5.99931,
+        "ChinStrong": 34.0395,
+        "JawFull": 59.6676,
+        "BrowAngle": 9.57299,
+        "BrowHeavy": 21.9091,
+        "NoseBridge": 88.1399,
+        "NoseRound": 51.7287,
+        "MouthOut": 40.5367,
+        "LipsRound": 29.9878,
+        "NosePhiltrum": 65.0,
+        "Asym": 0.0,
+        "EyeShape": 162.548,
+        "EyeNarrow": 19.1717,
+        "Browdown": 37.6795,
+        "MouthFix": 32.6044,
+        "TopLipOut": 70.0,
+        "BottomLipOut": -23.1943,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 100.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "native_components": {
+        "skin": "componentdefs-c96b7c1d_56",
+        "top": "componentdefs-8d11c330_103",
+        "hair": "componentdefs-afb74f95_33",
+        "bottom": "componentdefs-81a9443b_32",
+        "hand": "componentdefs-a1a72c6d_2",
+        "eye": "componentdefs-7688d74a_3",
+        "accessory": "componentdefs-93bed842_0",
+        "lips": "componentdefs-ce84db3d_10",
+        "eyebrows": "componentdefs-4b0e2c29_7",
+        "topcolour": "componentdefs-c6443780_0",
+        "bottomcolour": "componentdefs-239f51ec_3",
+        "haircolour": "componentdefs-0e05265a_0",
+        "facialhaircolour": "componentdefs-a41e45b4_2"
+      }
+    },
+    {
+      "id": "FMPreset2",
+      "gender": "F",
+      "source_order": 8,
+      "gender_order": 3,
+      "skeleton": "basemesh",
+      "sound_bank": "CommonFemale02",
+      "morph_levels": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": -42.3775,
+        "FaceHeart": 32.2766,
+        "FaceHeavy": 0.139999,
+        "FaceLong": 3.4867,
+        "FaceRound": 0.139999,
+        "FaceSquare": -46.1328,
+        "NoseBig": 27.2135,
+        "NoseFlat": -3.00007,
+        "NoseRidge": -23.3842,
+        "NoseSlope": 49.088,
+        "NoseUp": 2.24892,
+        "NoseWide": 21.8766,
+        "NostrilFlare": 19.5303,
+        "EyesBig": 67.2919,
+        "EyesOut": 66.1911,
+        "EyesUp": -13.9313,
+        "EyesDepth": -16.0,
+        "EyesSlant": 25.0715,
+        "LipLowFull": 64.5857,
+        "LipUpFull": 52.7516,
+        "MouthWide": 46.926,
+        "MouthRaise": 0.208515,
+        "EarsBig": 39.9998,
+        "EarsLobesBig": 34.9995,
+        "EarsOut": 0.0,
+        "CheekBones": -11.0489,
+        "CheekGuant": -7.31905,
+        "ChinStrong": 22.4207,
+        "JawFull": 66.2144,
+        "BrowAngle": 32.8799,
+        "BrowHeavy": 36.8893,
+        "NoseBridge": 76.1869,
+        "NoseRound": 51.7287,
+        "MouthOut": 30.4449,
+        "LipsRound": 29.9878,
+        "NosePhiltrum": 65.0,
+        "Asym": 0.0,
+        "EyeShape": 200.0,
+        "EyeNarrow": 100.0,
+        "Browdown": 37.6795,
+        "MouthFix": 32.6044,
+        "TopLipOut": 100.0,
+        "BottomLipOut": -7.45681,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 100.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "components": [
+        {
+          "category": "skin",
+          "native_component_name": "FAsian03",
+          "component_id": "componentdefs-c96b7c1d_60"
+        },
+        {
+          "category": "top",
+          "native_component_name": "fvneck01",
+          "component_id": "componentdefs-8d11c330_97"
+        },
+        {
+          "category": "hair",
+          "native_component_name": "fhair07",
+          "component_id": "componentdefs-afb74f95_37"
+        },
+        {
+          "category": "bottom",
+          "native_component_name": "fmcombats03",
+          "component_id": "componentdefs-81a9443b_34"
+        },
+        {
+          "category": "hand",
+          "native_component_name": "FBaseHands",
+          "component_id": "componentdefs-a1a72c6d_2"
+        },
+        {
+          "category": "eye",
+          "native_component_name": "lightgreen",
+          "component_id": "componentdefs-7688d74a_1"
+        },
+        {
+          "category": "accessory",
+          "native_component_name": "harness",
+          "component_id": "componentdefs-93bed842_0"
+        },
+        {
+          "category": "lips",
+          "native_component_name": "femalelips06b",
+          "component_id": "componentdefs-ce84db3d_10"
+        },
+        {
+          "category": "eyebrows",
+          "native_component_name": "feyebrow01",
+          "component_id": "componentdefs-4b0e2c29_7"
+        },
+        {
+          "category": "topcolour",
+          "native_component_name": "topcolour05",
+          "component_id": "componentdefs-c6443780_4"
+        },
+        {
+          "category": "bottomcolour",
+          "native_component_name": "bcolour01",
+          "component_id": "componentdefs-239f51ec_0"
+        },
+        {
+          "category": "haircolour",
+          "native_component_name": "Black",
+          "component_id": "componentdefs-0e05265a_0"
+        },
+        {
+          "category": "facialhaircolour",
+          "native_component_name": "facehaircolour01",
+          "component_id": "componentdefs-a41e45b4_0"
+        }
+      ],
+      "native_rows": [
+        [
+          "FEMALE"
+        ],
+        [
+          "skeleton",
+          "basemesh"
+        ],
+        [
+          "MORPH_ATTRIBUTES",
+          "56"
+        ],
+        [
+          "Male01",
+          "0"
+        ],
+        [
+          "Male02",
+          "0"
+        ],
+        [
+          "FaceFlat",
+          "-42.3775"
+        ],
+        [
+          "FaceHeart",
+          "32.2766"
+        ],
+        [
+          "FaceHeavy",
+          "0.139999"
+        ],
+        [
+          "FaceLong",
+          "3.4867"
+        ],
+        [
+          "FaceRound",
+          "0.139999"
+        ],
+        [
+          "FaceSquare",
+          "-46.1328"
+        ],
+        [
+          "NoseBig",
+          "27.2135"
+        ],
+        [
+          "NoseFlat",
+          "-3.00007"
+        ],
+        [
+          "NoseRidge",
+          "-23.3842"
+        ],
+        [
+          "NoseSlope",
+          "49.088"
+        ],
+        [
+          "NoseUp",
+          "2.24892"
+        ],
+        [
+          "NoseWide",
+          "21.8766"
+        ],
+        [
+          "NostrilFlare",
+          "19.5303"
+        ],
+        [
+          "EyesBig",
+          "67.2919"
+        ],
+        [
+          "EyesOut",
+          "66.1911"
+        ],
+        [
+          "EyesUp",
+          "-13.9313"
+        ],
+        [
+          "EyesDepth",
+          "-16"
+        ],
+        [
+          "EyesSlant",
+          "25.0715"
+        ],
+        [
+          "LipLowFull",
+          "64.5857"
+        ],
+        [
+          "LipUpFull",
+          "52.7516"
+        ],
+        [
+          "MouthWide",
+          "46.926"
+        ],
+        [
+          "MouthRaise",
+          "0.208515"
+        ],
+        [
+          "EarsBig",
+          "39.9998"
+        ],
+        [
+          "EarsLobesBig",
+          "34.9995"
+        ],
+        [
+          "EarsOut",
+          "0"
+        ],
+        [
+          "CheekBones",
+          "-11.0489"
+        ],
+        [
+          "CheekGuant",
+          "-7.31905"
+        ],
+        [
+          "ChinStrong",
+          "22.4207"
+        ],
+        [
+          "JawFull",
+          "66.2144"
+        ],
+        [
+          "BrowAngle",
+          "32.8799"
+        ],
+        [
+          "BrowHeavy",
+          "36.8893"
+        ],
+        [
+          "NoseBridge",
+          "76.1869"
+        ],
+        [
+          "NoseRound",
+          "51.7287"
+        ],
+        [
+          "MouthOut",
+          "30.4449"
+        ],
+        [
+          "LipsRound",
+          "29.9878"
+        ],
+        [
+          "NosePhiltrum",
+          "65"
+        ],
+        [
+          "Asym",
+          "0"
+        ],
+        [
+          "EyeShape",
+          "200"
+        ],
+        [
+          "EyeNarrow",
+          "100"
+        ],
+        [
+          "Browdown",
+          "37.6795"
+        ],
+        [
+          "MouthFix",
+          "32.6044"
+        ],
+        [
+          "TopLipOut",
+          "100"
+        ],
+        [
+          "BottomLipOut",
+          "-7.45681"
+        ],
+        [
+          "SKELETON_TALL",
+          "0"
+        ],
+        [
+          "SKELETON_FAT",
+          "100"
+        ],
+        [
+          "SKELETON_STOCKY",
+          "0"
+        ],
+        [
+          "SKIN_DARK",
+          "100"
+        ],
+        [
+          "SKIN_RED",
+          "25"
+        ],
+        [
+          "SKIN_YELLOW",
+          "25"
+        ],
+        [
+          "HAIR_BLONDE",
+          "0"
+        ],
+        [
+          "HAIR_BLACK",
+          "0"
+        ],
+        [
+          "HAIR_BROWN",
+          "0"
+        ],
+        [
+          "HAIR_RED",
+          "0"
+        ],
+        [
+          "PROFILE_NERVOUS",
+          "0"
+        ],
+        [
+          "SOUND_BANK",
+          "CommonFemale02"
+        ],
+        [
+          "Components",
+          "13"
+        ],
+        [
+          "skin",
+          "FAsian03"
+        ],
+        [
+          "top",
+          "fvneck01"
+        ],
+        [
+          "hair",
+          "fhair07"
+        ],
+        [
+          "bottom",
+          "fmcombats03"
+        ],
+        [
+          "hand",
+          "FBaseHands"
+        ],
+        [
+          "eye",
+          "lightgreen"
+        ],
+        [
+          "accessory",
+          "harness"
+        ],
+        [
+          "lips",
+          "femalelips06b"
+        ],
+        [
+          "eyebrows",
+          "feyebrow01"
+        ],
+        [
+          "topcolour",
+          "topcolour05"
+        ],
+        [
+          "bottomcolour",
+          "bcolour01"
+        ],
+        [
+          "haircolour",
+          "Black"
+        ],
+        [
+          "facialhaircolour",
+          "facehaircolour01"
+        ]
+      ],
+      "source": {
+        "bank": "skinned/avatar_lo.jfs",
+        "filename": "FMPreset2.def",
+        "key": "e3423eb4",
+        "member": 646,
+        "sha256": "89aff792f4c5b06d50373e2553e9f30cf16449cc9ee2820137281ae6bb7263b4"
+      },
+      "native_gender": "FEMALE",
+      "native_attributes": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": -42.3775,
+        "FaceHeart": 32.2766,
+        "FaceHeavy": 0.139999,
+        "FaceLong": 3.4867,
+        "FaceRound": 0.139999,
+        "FaceSquare": -46.1328,
+        "NoseBig": 27.2135,
+        "NoseFlat": -3.00007,
+        "NoseRidge": -23.3842,
+        "NoseSlope": 49.088,
+        "NoseUp": 2.24892,
+        "NoseWide": 21.8766,
+        "NostrilFlare": 19.5303,
+        "EyesBig": 67.2919,
+        "EyesOut": 66.1911,
+        "EyesUp": -13.9313,
+        "EyesDepth": -16.0,
+        "EyesSlant": 25.0715,
+        "LipLowFull": 64.5857,
+        "LipUpFull": 52.7516,
+        "MouthWide": 46.926,
+        "MouthRaise": 0.208515,
+        "EarsBig": 39.9998,
+        "EarsLobesBig": 34.9995,
+        "EarsOut": 0.0,
+        "CheekBones": -11.0489,
+        "CheekGuant": -7.31905,
+        "ChinStrong": 22.4207,
+        "JawFull": 66.2144,
+        "BrowAngle": 32.8799,
+        "BrowHeavy": 36.8893,
+        "NoseBridge": 76.1869,
+        "NoseRound": 51.7287,
+        "MouthOut": 30.4449,
+        "LipsRound": 29.9878,
+        "NosePhiltrum": 65.0,
+        "Asym": 0.0,
+        "EyeShape": 200.0,
+        "EyeNarrow": 100.0,
+        "Browdown": 37.6795,
+        "MouthFix": 32.6044,
+        "TopLipOut": 100.0,
+        "BottomLipOut": -7.45681,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 100.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "native_components": {
+        "skin": "componentdefs-c96b7c1d_60",
+        "top": "componentdefs-8d11c330_97",
+        "hair": "componentdefs-afb74f95_37",
+        "bottom": "componentdefs-81a9443b_34",
+        "hand": "componentdefs-a1a72c6d_2",
+        "eye": "componentdefs-7688d74a_1",
+        "accessory": "componentdefs-93bed842_0",
+        "lips": "componentdefs-ce84db3d_10",
+        "eyebrows": "componentdefs-4b0e2c29_7",
+        "topcolour": "componentdefs-c6443780_4",
+        "bottomcolour": "componentdefs-239f51ec_0",
+        "haircolour": "componentdefs-0e05265a_0",
+        "facialhaircolour": "componentdefs-a41e45b4_0"
+      }
+    },
+    {
+      "id": "FMPreset5",
+      "gender": "F",
+      "source_order": 9,
+      "gender_order": 4,
+      "skeleton": "basemesh",
+      "sound_bank": "CommonFemale01",
+      "morph_levels": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": 0.999908,
+        "FaceHeart": -0.000244141,
+        "FaceHeavy": 0.999649,
+        "FaceLong": -3.8147e-05,
+        "FaceRound": -0.00038147,
+        "FaceSquare": -20.0003,
+        "NoseBig": 37.9006,
+        "NoseFlat": 0.999336,
+        "NoseRidge": -31.4942,
+        "NoseSlope": 41.117,
+        "NoseUp": -2.29605,
+        "NoseWide": 32.0029,
+        "NostrilFlare": 16.0,
+        "EyesBig": 44.0527,
+        "EyesOut": 69.0615,
+        "EyesUp": 5.97808,
+        "EyesDepth": 0.999641,
+        "EyesSlant": 24.8888,
+        "LipLowFull": 56.3377,
+        "LipUpFull": 45.0854,
+        "MouthWide": 48.2862,
+        "MouthRaise": -2.63754,
+        "EarsBig": 62.9999,
+        "EarsLobesBig": 8.99994,
+        "EarsOut": 0.0,
+        "CheekBones": -8.39233e-05,
+        "CheekGuant": 0.999542,
+        "ChinStrong": 40.9994,
+        "JawFull": 50.9995,
+        "BrowAngle": 40.9993,
+        "BrowHeavy": 8.99994,
+        "NoseBridge": 69.5238,
+        "NoseRound": 35.2425,
+        "MouthOut": 27.9575,
+        "LipsRound": -19.5718,
+        "NosePhiltrum": 67.0003,
+        "Asym": 0.0,
+        "EyeShape": 100.0,
+        "EyeNarrow": 44.9515,
+        "Browdown": 100.0,
+        "MouthFix": 32.6044,
+        "TopLipOut": 100.0,
+        "BottomLipOut": -3.37925,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 100.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "components": [
+        {
+          "category": "skin",
+          "native_component_name": "FCaucasian04",
+          "component_id": "componentdefs-c96b7c1d_56"
+        },
+        {
+          "category": "top",
+          "native_component_name": "ftracksuittop04",
+          "component_id": "componentdefs-8d11c330_71"
+        },
+        {
+          "category": "hair",
+          "native_component_name": "fhair01",
+          "component_id": "componentdefs-afb74f95_31"
+        },
+        {
+          "category": "bottom",
+          "native_component_name": "fjeansbaggy00",
+          "component_id": "componentdefs-81a9443b_31"
+        },
+        {
+          "category": "hand",
+          "native_component_name": "FBaseHands",
+          "component_id": "componentdefs-a1a72c6d_2"
+        },
+        {
+          "category": "eye",
+          "native_component_name": "green",
+          "component_id": "componentdefs-7688d74a_2"
+        },
+        {
+          "category": "accessory",
+          "native_component_name": "harness",
+          "component_id": "componentdefs-93bed842_0"
+        },
+        {
+          "category": "lips",
+          "native_component_name": "femalelips01",
+          "component_id": "componentdefs-ce84db3d_3"
+        },
+        {
+          "category": "eyebrows",
+          "native_component_name": "feyebrow04",
+          "component_id": "componentdefs-4b0e2c29_10"
+        },
+        {
+          "category": "topcolour",
+          "native_component_name": "topcolour08",
+          "component_id": "componentdefs-c6443780_7"
+        },
+        {
+          "category": "bottomcolour",
+          "native_component_name": "bcolour04",
+          "component_id": "componentdefs-239f51ec_3"
+        },
+        {
+          "category": "haircolour",
+          "native_component_name": "Redbrown",
+          "component_id": "componentdefs-0e05265a_5"
+        },
+        {
+          "category": "facialhaircolour",
+          "native_component_name": "facehaircolour04",
+          "component_id": "componentdefs-a41e45b4_3"
+        },
+        {
+          "category": "hatcolour",
+          "native_component_name": "hatcolour08",
+          "component_id": "componentdefs-9a5c4a58_7"
+        }
+      ],
+      "native_rows": [
+        [
+          "FEMALE"
+        ],
+        [
+          "skeleton",
+          "basemesh"
+        ],
+        [
+          "MORPH_ATTRIBUTES",
+          "56"
+        ],
+        [
+          "Male01",
+          "0"
+        ],
+        [
+          "Male02",
+          "0"
+        ],
+        [
+          "FaceFlat",
+          "0.999908"
+        ],
+        [
+          "FaceHeart",
+          "-0.000244141"
+        ],
+        [
+          "FaceHeavy",
+          "0.999649"
+        ],
+        [
+          "FaceLong",
+          "-3.8147e-005"
+        ],
+        [
+          "FaceRound",
+          "-0.00038147"
+        ],
+        [
+          "FaceSquare",
+          "-20.0003"
+        ],
+        [
+          "NoseBig",
+          "37.9006"
+        ],
+        [
+          "NoseFlat",
+          "0.999336"
+        ],
+        [
+          "NoseRidge",
+          "-31.4942"
+        ],
+        [
+          "NoseSlope",
+          "41.117"
+        ],
+        [
+          "NoseUp",
+          "-2.29605"
+        ],
+        [
+          "NoseWide",
+          "32.0029"
+        ],
+        [
+          "NostrilFlare",
+          "16"
+        ],
+        [
+          "EyesBig",
+          "44.0527"
+        ],
+        [
+          "EyesOut",
+          "69.0615"
+        ],
+        [
+          "EyesUp",
+          "5.97808"
+        ],
+        [
+          "EyesDepth",
+          "0.999641"
+        ],
+        [
+          "EyesSlant",
+          "24.8888"
+        ],
+        [
+          "LipLowFull",
+          "56.3377"
+        ],
+        [
+          "LipUpFull",
+          "45.0854"
+        ],
+        [
+          "MouthWide",
+          "48.2862"
+        ],
+        [
+          "MouthRaise",
+          "-2.63754"
+        ],
+        [
+          "EarsBig",
+          "62.9999"
+        ],
+        [
+          "EarsLobesBig",
+          "8.99994"
+        ],
+        [
+          "EarsOut",
+          "0"
+        ],
+        [
+          "CheekBones",
+          "-8.39233e-005"
+        ],
+        [
+          "CheekGuant",
+          "0.999542"
+        ],
+        [
+          "ChinStrong",
+          "40.9994"
+        ],
+        [
+          "JawFull",
+          "50.9995"
+        ],
+        [
+          "BrowAngle",
+          "40.9993"
+        ],
+        [
+          "BrowHeavy",
+          "8.99994"
+        ],
+        [
+          "NoseBridge",
+          "69.5238"
+        ],
+        [
+          "NoseRound",
+          "35.2425"
+        ],
+        [
+          "MouthOut",
+          "27.9575"
+        ],
+        [
+          "LipsRound",
+          "-19.5718"
+        ],
+        [
+          "NosePhiltrum",
+          "67.0003"
+        ],
+        [
+          "Asym",
+          "0"
+        ],
+        [
+          "EyeShape",
+          "100"
+        ],
+        [
+          "EyeNarrow",
+          "44.9515"
+        ],
+        [
+          "Browdown",
+          "100"
+        ],
+        [
+          "MouthFix",
+          "32.6044"
+        ],
+        [
+          "TopLipOut",
+          "100"
+        ],
+        [
+          "BottomLipOut",
+          "-3.37925"
+        ],
+        [
+          "SKELETON_TALL",
+          "0"
+        ],
+        [
+          "SKELETON_FAT",
+          "100"
+        ],
+        [
+          "SKELETON_STOCKY",
+          "0"
+        ],
+        [
+          "SKIN_DARK",
+          "100"
+        ],
+        [
+          "SKIN_RED",
+          "25"
+        ],
+        [
+          "SKIN_YELLOW",
+          "25"
+        ],
+        [
+          "HAIR_BLONDE",
+          "0"
+        ],
+        [
+          "HAIR_BLACK",
+          "0"
+        ],
+        [
+          "HAIR_BROWN",
+          "0"
+        ],
+        [
+          "HAIR_RED",
+          "0"
+        ],
+        [
+          "PROFILE_NERVOUS",
+          "0"
+        ],
+        [
+          "SOUND_BANK",
+          "CommonFemale01"
+        ],
+        [
+          "Components",
+          "14"
+        ],
+        [
+          "skin",
+          "FCaucasian04"
+        ],
+        [
+          "top",
+          "ftracksuittop04"
+        ],
+        [
+          "hair",
+          "fhair01"
+        ],
+        [
+          "bottom",
+          "fjeansbaggy00"
+        ],
+        [
+          "hand",
+          "FBaseHands"
+        ],
+        [
+          "eye",
+          "green"
+        ],
+        [
+          "accessory",
+          "harness"
+        ],
+        [
+          "lips",
+          "femalelips01"
+        ],
+        [
+          "eyebrows",
+          "feyebrow04"
+        ],
+        [
+          "topcolour",
+          "topcolour08"
+        ],
+        [
+          "bottomcolour",
+          "bcolour04"
+        ],
+        [
+          "haircolour",
+          "Redbrown"
+        ],
+        [
+          "facialhaircolour",
+          "facehaircolour04"
+        ],
+        [
+          "hatcolour",
+          "hatcolour08"
+        ]
+      ],
+      "source": {
+        "bank": "skinned/avatar_lo.jfs",
+        "filename": "FMPreset5.def",
+        "key": "e534f152",
+        "member": 655,
+        "sha256": "c793691ec93fb77d00c6b43478209cf5002e6e7291f49d858313abd82dcee65b"
+      },
+      "native_gender": "FEMALE",
+      "native_attributes": {
+        "Male01": 0.0,
+        "Male02": 0.0,
+        "FaceFlat": 0.999908,
+        "FaceHeart": -0.000244141,
+        "FaceHeavy": 0.999649,
+        "FaceLong": -3.8147e-05,
+        "FaceRound": -0.00038147,
+        "FaceSquare": -20.0003,
+        "NoseBig": 37.9006,
+        "NoseFlat": 0.999336,
+        "NoseRidge": -31.4942,
+        "NoseSlope": 41.117,
+        "NoseUp": -2.29605,
+        "NoseWide": 32.0029,
+        "NostrilFlare": 16.0,
+        "EyesBig": 44.0527,
+        "EyesOut": 69.0615,
+        "EyesUp": 5.97808,
+        "EyesDepth": 0.999641,
+        "EyesSlant": 24.8888,
+        "LipLowFull": 56.3377,
+        "LipUpFull": 45.0854,
+        "MouthWide": 48.2862,
+        "MouthRaise": -2.63754,
+        "EarsBig": 62.9999,
+        "EarsLobesBig": 8.99994,
+        "EarsOut": 0.0,
+        "CheekBones": -8.39233e-05,
+        "CheekGuant": 0.999542,
+        "ChinStrong": 40.9994,
+        "JawFull": 50.9995,
+        "BrowAngle": 40.9993,
+        "BrowHeavy": 8.99994,
+        "NoseBridge": 69.5238,
+        "NoseRound": 35.2425,
+        "MouthOut": 27.9575,
+        "LipsRound": -19.5718,
+        "NosePhiltrum": 67.0003,
+        "Asym": 0.0,
+        "EyeShape": 100.0,
+        "EyeNarrow": 44.9515,
+        "Browdown": 100.0,
+        "MouthFix": 32.6044,
+        "TopLipOut": 100.0,
+        "BottomLipOut": -3.37925,
+        "SKELETON_TALL": 0.0,
+        "SKELETON_FAT": 100.0,
+        "SKELETON_STOCKY": 0.0,
+        "SKIN_DARK": 100.0,
+        "SKIN_RED": 25.0,
+        "SKIN_YELLOW": 25.0,
+        "HAIR_BLONDE": 0.0,
+        "HAIR_BLACK": 0.0,
+        "HAIR_BROWN": 0.0,
+        "HAIR_RED": 0.0,
+        "PROFILE_NERVOUS": 0.0
+      },
+      "native_components": {
+        "skin": "componentdefs-c96b7c1d_56",
+        "top": "componentdefs-8d11c330_71",
+        "hair": "componentdefs-afb74f95_31",
+        "bottom": "componentdefs-81a9443b_31",
+        "hand": "componentdefs-a1a72c6d_2",
+        "eye": "componentdefs-7688d74a_2",
+        "accessory": "componentdefs-93bed842_0",
+        "lips": "componentdefs-ce84db3d_3",
+        "eyebrows": "componentdefs-4b0e2c29_10",
+        "topcolour": "componentdefs-c6443780_7",
+        "bottomcolour": "componentdefs-239f51ec_3",
+        "haircolour": "componentdefs-0e05265a_5",
+        "facialhaircolour": "componentdefs-a41e45b4_3",
+        "hatcolour": "componentdefs-9a5c4a58_7"
+      }
+    }
+  ],
+  "consumers": {
+    "definition_loader": "822385C8 appends .def, reads all56 raw float levels",
+    "preset_vector_writer": "821A72A8 appends712byte entry to gender vector+68 male/+84 female and copies full description",
+    "selection": "821A3678 copies gender vector[index].description at+16 into player+328",
+    "creator_branch": "821A8008 calls821A3678 index0 after selecting male gender in observed branch"
+  },
+  "limits": [
+    "Exact original preset data and gender ordering retained; complete creator lifecycle/first-ever profile default not asserted solely from this branch.",
+    "Raw native levels multiply source deltas directly (82239018\u21928223B298\u219282257450); do not divide preset levels by100 unless exported deltas are correspondingly multiplied100.",
+    "Component references are exact source strings; obsolete/unresolved references must not be silently substituted."
+  ]
+}
