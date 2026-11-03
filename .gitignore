@@ -2,6 +2,14 @@
 # configuration (dev, tests, release, sanitize, coverage, fuzz, packages), so the single
 # /build/ rule below covers all of them.
 /build/
+# Cargo defaults when invoked outside the workspace configuration.
+/target/
+# Generated Godot runtime resources are reproducible from the pinned donor
+# catalog and supplied original disc; the exported app packages these locally.
+/godot/.godot/
+/godot/bin/
+/godot/assets/
+/resources/games/
 *.o
 *.d
 *.a
@@ -99,6 +107,11 @@ opencode.json
 PowerShellEditorServices.json
 .cache/
 .claude/settings.local.json
+# Local provider credentials; examples remain versioned.
+.env
+.env.*
+!.env.example
+!.env.sample
 
 # Reference sprite packs used only for human visual comparison during the
 # vehicle-appearance work. Not game assets; issue #7 forbids redistributing them.
