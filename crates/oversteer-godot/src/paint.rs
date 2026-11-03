@@ -14,7 +14,7 @@ pub fn provenance() -> Value {
         "unbound_global_writes": "Explicit native_global expressions use retained disc snapshots as a frontend adapter, not proven initialized coefficients; offsets not written by the source path remain unchanged",
         "pearl_balance": "820F9428 default x*span+bias, with CRT82474BB0 initialized span1/bias0; later indirect writes not excluded",
         "rendering": "Godot PBR translation; original GPU BRDF not recovered",
-        "workflow": "821C5E20 ordered color/scalar stages; one final draft and whole-session cancel. Scalar widget layout remains adapted"
+        "workflow": "821C5E20 ordered color/scalar stages; one final draft; intermediate Back preserves draft and returns one stage, base Back restores original. Scalar widget layout remains adapted"
     })
 }
 
@@ -192,6 +192,13 @@ impl Session {
     pub fn stage(&self) -> Option<Stage> {
         stages(&self.family).get(self.cursor).copied()
     }
+    pub fn back(&mut self) -> bool {
+        if self.cursor == 0 {
+            return false;
+        }
+        self.cursor -= 1;
+        true
+    }
 }
 
 pub fn stages(family: &str) -> &'static [Stage] {
@@ -240,6 +247,28 @@ mod tests {
         );
         assert_eq!(stages("thinfilm"), &[Stage::Color(0), Stage::Scalar(6)]);
         assert!(stages("chrome").is_empty());
+    }
+    #[test]
+    fn source_back_returns_previous_stage_until_base_restore() {
+        for (family, expected) in [
+            ("pearl", vec![Stage::Color(1), Stage::Color(0)]),
+            (
+                "flake",
+                vec![Stage::Scalar(4), Stage::Color(3), Stage::Color(0)],
+            ),
+            ("thinfilm", vec![Stage::Color(0)]),
+        ] {
+            let mut session = Session {
+                original: Customization::default(),
+                family: family.into(),
+                cursor: stages(family).len() - 1,
+            };
+            for previous in expected {
+                assert!(session.back());
+                assert_eq!(session.stage(), Some(previous));
+            }
+            assert!(!session.back());
+        }
     }
     #[test]
     fn actual_color_paths_preserve_other_fields_and_roundtrip() {

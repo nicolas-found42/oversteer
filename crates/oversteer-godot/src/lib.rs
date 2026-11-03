@@ -1020,6 +1020,23 @@ impl OversteerApp {
         }
         self.palette_target.clear();
         self.palette_original = None;
+        if let Some(session) = self.paint_session.as_mut() {
+            if session.back() {
+                match session.stage() {
+                    Some(paint::Stage::Color(channel)) => self.palette_opened(
+                        match channel {
+                            0 => "body",
+                            1 => "secondary",
+                            _ => "fleck",
+                        }
+                        .into(),
+                    ),
+                    Some(paint::Stage::Scalar(channel)) => self.open_paint_scalar_stage(channel),
+                    None => unreachable!("verified paint stage order"),
+                }
+                return;
+            }
+        }
         if let Some(session) = self.paint_session.take() {
             self.customization = session.original;
         }
@@ -1091,7 +1108,7 @@ impl OversteerApp {
         );
         self.button(
             &mut panel,
-            "CANCEL",
+            "BACK",
             "paint_stage_cancel",
             1510.,
             954.,

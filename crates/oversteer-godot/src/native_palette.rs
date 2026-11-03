@@ -15,7 +15,6 @@ const CHART_SIZE: Vector2 = Vector2::new(630.0096, 236.25);
 #[derive(GodotClass)]
 #[class(base=Control)]
 pub struct NativePalette {
-    original: Color,
     color: Color,
     cells: Vec<Color>,
     selected: usize,
@@ -33,7 +32,6 @@ pub struct NativePalette {
 impl IControl for NativePalette {
     fn init(base: Base<Control>) -> Self {
         Self {
-            original: Color::WHITE,
             color: Color::WHITE,
             cells: vec![],
             selected: 0,
@@ -238,7 +236,6 @@ impl NativePalette {
 
     #[func]
     pub fn cancel_color(&mut self) {
-        self.preview_color(self.original);
         self.base_mut().set_visible(false);
         self.base_mut().emit_signal("cancelled", &[]);
     }
@@ -246,7 +243,7 @@ impl NativePalette {
 
 impl NativePalette {
     /// Add the returned control to the UI after connecting its three signals.
-    /// Commit a customization only on `accepted`; cancellation restores preview.
+    /// The host commits acceptance and handles stage Back or full cancellation.
     pub fn create(
         initial: Color,
         title: &str,
@@ -287,7 +284,6 @@ impl NativePalette {
             let mut state = node.bind_mut();
             state.selected = nearest(&cells, initial);
             state.cells = cells;
-            state.original = initial;
             state.color = initial;
             state.title = title.into();
             state.price = price;
