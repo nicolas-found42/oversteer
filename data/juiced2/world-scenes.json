@@ -1,0 +1,877 @@
+[
+  {
+    "id": "alps_alps_masterworld1",
+    "city_id": "alps",
+    "model_path": "res://assets/worlds/alps_alps_masterworld1.glb",
+    "source": "tracks/Alps/Alps_MasterWorld1zone0.zdf",
+    "source_offset": 5830791168,
+    "source_sha256": "21588cc0b7828bae0edca7086d36e892f31642863e151327cbd6cdeb613fbef2",
+    "instances": 6904,
+    "unique_matrices": 6397,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1299.48109375,
+      -60.3253125,
+      -750.144140625,
+      684.75109375,
+      131.61580078125,
+      1622.18015625
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "alps_alps_masterworld2",
+    "city_id": "alps",
+    "model_path": "res://assets/worlds/alps_alps_masterworld2.glb",
+    "source": "tracks/Alps/Alps_MasterWorld2zone0.zdf",
+    "source_offset": 5945726976,
+    "source_sha256": "675c5761153c45f1ed0d80664ad2f98638ed1f7fe6c29ea075245e7298b5514a",
+    "instances": 7054,
+    "unique_matrices": 6550,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1299.48109375,
+      -60.3253125,
+      -750.144140625,
+      684.75109375,
+      131.61580078125,
+      1622.18015625
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "alps_alps_masterworld3",
+    "city_id": "alps",
+    "model_path": "res://assets/worlds/alps_alps_masterworld3.glb",
+    "source": "tracks/Alps/Alps_MasterWorld3zone0.zdf",
+    "source_offset": 5891966976,
+    "source_sha256": "de627646c3921a97cbd63fde33358b5dc1a2e8e8c16b1a38731639151fd3302f",
+    "instances": 6952,
+    "unique_matrices": 6448,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1299.48109375,
+      -60.3253125,
+      -750.144140625,
+      684.75109375,
+      131.61580078125,
+      1622.18015625
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "alps_alps_masterworld4",
+    "city_id": "alps",
+    "model_path": "res://assets/worlds/alps_alps_masterworld4.glb",
+    "source": "tracks/Alps/Alps_MasterWorld4zone0.zdf",
+    "source_offset": 5849075712,
+    "source_sha256": "0c0bfe8c1b9b476923ba2aa8bdadef00ea5ee417e5fd1668f6b4d29f8f2c5cd4",
+    "instances": 6959,
+    "unique_matrices": 6448,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1299.48109375,
+      -60.3253125,
+      -750.144140625,
+      684.75109375,
+      131.61580078125,
+      1622.18015625
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "alps_alps_masterworld5",
+    "city_id": "alps",
+    "model_path": "res://assets/worlds/alps_alps_masterworld5.glb",
+    "source": "tracks/Alps/Alps_MasterWorld5zone0.zdf",
+    "source_offset": 5917255680,
+    "source_sha256": "0ad4f0d1ae3e4e65c52732dd3bc3c307ba496cdbf459842383819f1966db981d",
+    "instances": 7037,
+    "unique_matrices": 6533,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1299.48109375,
+      -60.3253125,
+      -750.144140625,
+      684.75109375,
+      131.61580078125,
+      1622.18015625
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "alps_drift1_drift1",
+    "city_id": "alps_drift1",
+    "model_path": "res://assets/worlds/alps_drift1_drift1.glb",
+    "source": "tracks/Alps_drift1/Drift1zone0.zdf",
+    "source_offset": 1211842560,
+    "source_sha256": "bd91549879005dec0e97a0fa270413c5022b7a76ab5b9899e527dddf490498b4",
+    "instances": 1605,
+    "unique_matrices": 1494,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -8.652537841796875,
+      -60.3253125,
+      -593.9990625,
+      868.222890625,
+      16.5426416015625,
+      635.514453125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "alps_drift2_drift2",
+    "city_id": "alps_drift2",
+    "model_path": "res://assets/worlds/alps_drift2_drift2.glb",
+    "source": "tracks/Alps_drift2/Drift2zone0.zdf",
+    "source_offset": 1092112384,
+    "source_sha256": "375a1244f145faddedb5dcef342602211a533e21e4b0fa000b06b905e96776db",
+    "instances": 1875,
+    "unique_matrices": 1747,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -8.652537841796875,
+      -60.3253125,
+      -587.2136328125,
+      863.2790625,
+      15.341297607421875,
+      635.514453125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "downtown_sanfrancisco_masterworld_route1",
+    "city_id": "downtown_sanfrancisco",
+    "model_path": "res://assets/worlds/downtown_sanfrancisco_masterworld_route1.glb",
+    "source": "tracks/Downtown SanFrancisco/MasterWorld_Route1zone0.zdf",
+    "source_offset": 957855744,
+    "source_sha256": "9c9c7ebdf7d3c026f37d8e8f6a717f594b9421020edb7e14f388fa269d7669f3",
+    "instances": 4927,
+    "unique_matrices": 4769,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -413.353515625,
+      -60.3253125,
+      -1377.75453125,
+      534.8458984375,
+      28.0482275390625,
+      900.52765625
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "downtown_sanfrancisco_masterworld_route2",
+    "city_id": "downtown_sanfrancisco",
+    "model_path": "res://assets/worlds/downtown_sanfrancisco_masterworld_route2.glb",
+    "source": "tracks/Downtown SanFrancisco/MasterWorld_Route2zone0.zdf",
+    "source_offset": 945303552,
+    "source_sha256": "e80611a4645dc5d2d70a7b4ed305fe70a033fea16afa6dbd70b315fadcee7c40",
+    "instances": 6347,
+    "unique_matrices": 6083,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -413.353515625,
+      -60.3253125,
+      -1377.75453125,
+      534.8458984375,
+      28.0482275390625,
+      900.52765625
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "downtown_sanfrancisco_masterworld_route3",
+    "city_id": "downtown_sanfrancisco",
+    "model_path": "res://assets/worlds/downtown_sanfrancisco_masterworld_route3.glb",
+    "source": "tracks/Downtown SanFrancisco/MasterWorld_Route3zone0.zdf",
+    "source_offset": 935952384,
+    "source_sha256": "ea0d40ac60554e6414bc848d3218a7dac72fb85e70ac28ad52668066cdf6f901",
+    "instances": 7950,
+    "unique_matrices": 7631,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -413.353515625,
+      -60.3253125,
+      -1377.75453125,
+      534.8458984375,
+      28.0482275390625,
+      900.52765625
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "downtown_sanfrancisco_masterworld_route4",
+    "city_id": "downtown_sanfrancisco",
+    "model_path": "res://assets/worlds/downtown_sanfrancisco_masterworld_route4.glb",
+    "source": "tracks/Downtown SanFrancisco/MasterWorld_Route4zone0.zdf",
+    "source_offset": 940115968,
+    "source_sha256": "3b19727e341e6b9f0185964651c303286948278dd467b511300af75d44c02641",
+    "instances": 6865,
+    "unique_matrices": 6532,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -413.353515625,
+      -60.3253125,
+      -1377.75453125,
+      534.8458984375,
+      28.0482275390625,
+      900.52765625
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "downtown_sanfrancisco_masterworld_route5",
+    "city_id": "downtown_sanfrancisco",
+    "model_path": "res://assets/worlds/downtown_sanfrancisco_masterworld_route5.glb",
+    "source": "tracks/Downtown SanFrancisco/MasterWorld_Route5zone0.zdf",
+    "source_offset": 964093952,
+    "source_sha256": "bab1b6f9ba918ed68f88de79d915d1092f7a8bbe5d40e312fd2380e1659114e5",
+    "instances": 6892,
+    "unique_matrices": 6658,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -413.353515625,
+      -60.3253125,
+      -1377.75453125,
+      534.8458984375,
+      28.0482275390625,
+      900.52765625
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "downtown_sanfrancisco_masterworld_route6",
+    "city_id": "downtown_sanfrancisco",
+    "model_path": "res://assets/worlds/downtown_sanfrancisco_masterworld_route6.glb",
+    "source": "tracks/Downtown SanFrancisco/MasterWorld_Route6zone0.zdf",
+    "source_offset": 967831552,
+    "source_sha256": "ee7dc934af3009130a89352b461dee7a952f2f90494ef2574d33515cfb2e8f79",
+    "instances": 8880,
+    "unique_matrices": 8592,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -413.353515625,
+      -60.3253125,
+      -1377.75453125,
+      534.8458984375,
+      28.0482275390625,
+      900.52765625
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "garage_garage",
+    "city_id": "garage",
+    "model_path": "res://assets/worlds/garage_garage.glb",
+    "source": "tracks/garage/Garagezone0.zdf",
+    "source_offset": 900777984,
+    "source_sha256": "c40a3df6e4c94a899206a1d9e63e0632da86c1e8830c4a0516973c30d292a162",
+    "instances": 274,
+    "unique_matrices": 259,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -20.15821044921875,
+      -0.13298248291015624,
+      -9.697384033203125,
+      20.1582080078125,
+      8.508470458984375,
+      10.31208740234375
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "london_circuit1",
+    "city_id": "london",
+    "model_path": "res://assets/worlds/london_circuit1.glb",
+    "source": "tracks/London/Circuit1zone0.zdf",
+    "source_offset": 1269444608,
+    "source_sha256": "55347a02b452c60dfd8e27bf7f99875ba0d2eda765d05dc106370d41b426d0ce",
+    "instances": 5143,
+    "unique_matrices": 4773,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1232.601171875,
+      -60.3253125,
+      -1036.798203125,
+      938.516171875,
+      19.5337841796875,
+      635.514453125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "london_circuit2",
+    "city_id": "london",
+    "model_path": "res://assets/worlds/london_circuit2.glb",
+    "source": "tracks/London/Circuit2zone0.zdf",
+    "source_offset": 1256126464,
+    "source_sha256": "c5f606e72338fb9a64b866afdc46371d692bb757d2ce0585eb7632dcb2e06530",
+    "instances": 6799,
+    "unique_matrices": 6403,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1232.601171875,
+      -60.3253125,
+      -1036.798203125,
+      938.516171875,
+      19.426160888671873,
+      635.514453125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "london_circuit3",
+    "city_id": "london",
+    "model_path": "res://assets/worlds/london_circuit3.glb",
+    "source": "tracks/London/Circuit3zone0.zdf",
+    "source_offset": 1213743104,
+    "source_sha256": "d61f41cb4d4a9e9627f79deca42c1a85d33ba493ea27fbcebbb6f9f5dd1f731b",
+    "instances": 8222,
+    "unique_matrices": 7677,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1232.601171875,
+      -60.3253125,
+      -1036.798203125,
+      938.516171875,
+      19.426160888671873,
+      635.514453125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "london_circuit4",
+    "city_id": "london",
+    "model_path": "res://assets/worlds/london_circuit4.glb",
+    "source": "tracks/London/Circuit4zone0.zdf",
+    "source_offset": 1248020480,
+    "source_sha256": "83c53d343a12fc943822eaa9a881e558c15467c613af10756d6c9122fe4b2dcc",
+    "instances": 7682,
+    "unique_matrices": 7103,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1232.601171875,
+      -60.3253125,
+      -1036.798203125,
+      938.516171875,
+      19.5337841796875,
+      635.514453125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "london_circuit5",
+    "city_id": "london",
+    "model_path": "res://assets/worlds/london_circuit5.glb",
+    "source": "tracks/London/Circuit5zone0.zdf",
+    "source_offset": 1284216832,
+    "source_sha256": "1a1ed84b3ec2a5ba81388bc97d2c364721b2e38b807710a847601997f9e22b81",
+    "instances": 8578,
+    "unique_matrices": 7993,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1232.601171875,
+      -60.3253125,
+      -1036.798203125,
+      938.516171875,
+      19.5337841796875,
+      635.514453125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "london_drift_drift1",
+    "city_id": "london_drift",
+    "model_path": "res://assets/worlds/london_drift_drift1.glb",
+    "source": "tracks/London_drift/Drift1zone0.zdf",
+    "source_offset": 1302155264,
+    "source_sha256": "6f8f243876c6e10feb7eea4160c28083629c8dedc7d9a741b4aac517cdcb6bd5",
+    "instances": 1885,
+    "unique_matrices": 1617,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -385.11484375,
+      -60.3253125,
+      -97.99845703125,
+      278.566171875,
+      15.819588623046876,
+      635.514453125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "paris_drift1",
+    "city_id": "paris",
+    "model_path": "res://assets/worlds/paris_drift1.glb",
+    "source": "tracks/Paris/Drift1zone0.zdf",
+    "source_offset": 1309620224,
+    "source_sha256": "82fddfac69594d041457c077a5c11bdbb50d93850fa4dd5fea7a9fbd66f09e9d",
+    "instances": 2498,
+    "unique_matrices": 2050,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -97.42279296875,
+      -60.3253125,
+      -109.677412109375,
+      121.221494140625,
+      17.807694091796876,
+      635.514453125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "rome_rome_masterworld_route1",
+    "city_id": "rome",
+    "model_path": "res://assets/worlds/rome_rome_masterworld_route1.glb",
+    "source": "tracks/Rome/Rome_MasterWorld_Route1zone0.zdf",
+    "source_offset": 1353439232,
+    "source_sha256": "52da2d7e24410a072838061a3b2532fc79022a473647be2fcb5ca08bbadcf57d",
+    "instances": 7172,
+    "unique_matrices": 6369,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -517.1736328125,
+      -60.3253125,
+      -752.04046875,
+      1112.581171875,
+      15.484647216796875,
+      1034.406328125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "rome_rome_masterworld_route2",
+    "city_id": "rome",
+    "model_path": "res://assets/worlds/rome_rome_masterworld_route2.glb",
+    "source": "tracks/Rome/Rome_MasterWorld_Route2zone0.zdf",
+    "source_offset": 1310038016,
+    "source_sha256": "5c2f88e4dfc3ccfa581f27d458e2ccb015659cb11d6d34d03ef192dc31c8a7ef",
+    "instances": 6488,
+    "unique_matrices": 5846,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -517.1736328125,
+      -60.3253125,
+      -752.04046875,
+      1112.581171875,
+      16.7458935546875,
+      1034.406328125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "rome_rome_masterworld_route3",
+    "city_id": "rome",
+    "model_path": "res://assets/worlds/rome_rome_masterworld_route3.glb",
+    "source": "tracks/Rome/Rome_MasterWorld_Route3zone0.zdf",
+    "source_offset": 1341149184,
+    "source_sha256": "e2b8190bbd710f87c35afcf65c35f46ac1876a8bcfa401066d42877cadbdba4e",
+    "instances": 7645,
+    "unique_matrices": 6816,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -517.1736328125,
+      -60.3253125,
+      -752.04046875,
+      1112.581171875,
+      15.484647216796875,
+      1034.406328125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "rome_rome_masterworld_route4",
+    "city_id": "rome",
+    "model_path": "res://assets/worlds/rome_rome_masterworld_route4.glb",
+    "source": "tracks/Rome/Rome_MasterWorld_Route4zone0.zdf",
+    "source_offset": 1316663296,
+    "source_sha256": "5f3101a5daa6895d058ed0860191f63633723e9c6ad5592853fc76b5bd99c3b9",
+    "instances": 8462,
+    "unique_matrices": 7516,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -517.1736328125,
+      -60.3253125,
+      -752.04046875,
+      1112.581171875,
+      15.484647216796875,
+      1034.406328125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "rome_drift_drift1",
+    "city_id": "rome_drift",
+    "model_path": "res://assets/worlds/rome_drift_drift1.glb",
+    "source": "tracks/Rome_drift/Drift1zone0.zdf",
+    "source_offset": 1378332672,
+    "source_sha256": "f067de1c6a523eda154368d4be8eb750363d2efe75fc44632d2e8c9c6fa58c1b",
+    "instances": 1277,
+    "unique_matrices": 924,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -321.6787109375,
+      -60.3253125,
+      -1472.73859375,
+      2188.8809375,
+      23.90825439453125,
+      1338.19734375
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "sydney_drift1",
+    "city_id": "sydney",
+    "model_path": "res://assets/worlds/sydney_drift1.glb",
+    "source": "tracks/Sydney/Drift1zone0.zdf",
+    "source_offset": 1384986624,
+    "source_sha256": "1d3127695cf0aed2daf27ebbdb05c221474008a7a23cc90bdd072d70a211011e",
+    "instances": 1262,
+    "unique_matrices": 933,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -293.36775390625,
+      -60.3253125,
+      -229.8611328125,
+      337.6276953125,
+      21.174794921875,
+      635.514453125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "tokyo_circuit1",
+    "city_id": "tokyo",
+    "model_path": "res://assets/worlds/tokyo_circuit1.glb",
+    "source": "tracks/Tokyo/Circuit1zone0.zdf",
+    "source_offset": 1440839680,
+    "source_sha256": "c1b73bc070ddd0ec32139d5ac8bebcd01b16eca2837c704b134f541b68ef4d05",
+    "instances": 11997,
+    "unique_matrices": 11359,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1865.24890625,
+      -60.3253125,
+      -1091.675859375,
+      1655.36359375,
+      64.6400146484375,
+      1505.6478125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "tokyo_circuit2",
+    "city_id": "tokyo",
+    "model_path": "res://assets/worlds/tokyo_circuit2.glb",
+    "source": "tracks/Tokyo/Circuit2zone0.zdf",
+    "source_offset": 1401960448,
+    "source_sha256": "b1e46df0ed715a3a0228c84de7ef052529074228a57f0bbfbe18f248ae1b4923",
+    "instances": 8659,
+    "unique_matrices": 8124,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1865.24890625,
+      -60.3253125,
+      -1091.675859375,
+      1655.36359375,
+      64.6400146484375,
+      1505.6478125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "tokyo_circuit3",
+    "city_id": "tokyo",
+    "model_path": "res://assets/worlds/tokyo_circuit3.glb",
+    "source": "tracks/Tokyo/Circuit3zone0.zdf",
+    "source_offset": 1454817280,
+    "source_sha256": "2382e7042d193314be857b7309a2b2ee873be6e07d2c76cf2a250cc9811d04e4",
+    "instances": 9382,
+    "unique_matrices": 8946,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1865.24890625,
+      -60.3253125,
+      -1091.675859375,
+      1655.36359375,
+      64.6400146484375,
+      1505.6478125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "tokyo_circuit4",
+    "city_id": "tokyo",
+    "model_path": "res://assets/worlds/tokyo_circuit4.glb",
+    "source": "tracks/Tokyo/Circuit4zone0.zdf",
+    "source_offset": 1468598272,
+    "source_sha256": "b0fd0335986b800dc05f000002df771529a7cad6613c7a584227853eb8a84657",
+    "instances": 9293,
+    "unique_matrices": 8769,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1865.24890625,
+      -60.3253125,
+      -1091.675859375,
+      1655.36359375,
+      64.6400146484375,
+      1505.6478125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "tokyo_circuit5",
+    "city_id": "tokyo",
+    "model_path": "res://assets/worlds/tokyo_circuit5.glb",
+    "source": "tracks/Tokyo/Circuit5zone0.zdf",
+    "source_offset": 1449095168,
+    "source_sha256": "f3038323a6d2d78bfba3e60695c820d8fee351fb4c19a9c929e4d14df7c60418",
+    "instances": 10120,
+    "unique_matrices": 9461,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1865.24890625,
+      -60.3253125,
+      -1091.675859375,
+      1655.36359375,
+      64.6400146484375,
+      1505.6478125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "tokyo_drift1_drift1",
+    "city_id": "tokyo_drift1",
+    "model_path": "res://assets/worlds/tokyo_drift1_drift1.glb",
+    "source": "tracks/Tokyo_drift1/Drift1zone0.zdf",
+    "source_offset": 1483735040,
+    "source_sha256": "87df39f902bf4c1cca8a4fea08702d9344bb616204b9b03338a2aedfedd2c19a",
+    "instances": 3463,
+    "unique_matrices": 3129,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1865.24890625,
+      -60.3253125,
+      -1091.675859375,
+      1655.36359375,
+      64.6400146484375,
+      1505.6478125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "tokyo_drift2_drift2",
+    "city_id": "tokyo_drift2",
+    "model_path": "res://assets/worlds/tokyo_drift2_drift2.glb",
+    "source": "tracks/Tokyo_drift2/Drift2zone0.zdf",
+    "source_offset": 1487661056,
+    "source_sha256": "f83c94d8117b5f7b304f38d25b9d3b3a3d97b960d636069cf0d0070d846612b9",
+    "instances": 3429,
+    "unique_matrices": 3062,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -1865.24890625,
+      -60.3253125,
+      -1091.675859375,
+      1655.36359375,
+      64.6400146484375,
+      1505.6478125
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  },
+  {
+    "id": "tunnel_tunnel",
+    "city_id": "tunnel",
+    "model_path": "res://assets/worlds/tunnel_tunnel.glb",
+    "source": "tracks/tunnel/tunnelzone0.zdf",
+    "source_offset": 1493262336,
+    "source_sha256": "062cc0db61cc82637be91c0381af37d6904d78bfb21c91c13353114852bc3b8f",
+    "instances": 2,
+    "unique_matrices": 2,
+    "missing_meshes": 0,
+    "source_bounds_m": [
+      -39.77182373046875,
+      -0.3401063537597656,
+      -41.186376953125,
+      -19.506494140625,
+      4.4238720703125,
+      40.00625244140625
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01
+  }
+]

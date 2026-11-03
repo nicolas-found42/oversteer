@@ -1,0 +1,362 @@
+[
+  {
+    "id": "alps",
+    "model_path": "res://assets/worlds/alps.glb",
+    "source": "tracks/Alps/AlpsGeom.bdl",
+    "source_offset": 5869701120,
+    "sha256": "abd3e96556a08c0cb67b64d3e6b1a577203757cbc9e34a524ef56a5eb878201e",
+    "native_mesh_count": 668,
+    "decoded_draws": 1304,
+    "triangles": 663927,
+    "skipped": {},
+    "sections": [
+      40960,
+      120832,
+      2226176,
+      19877888
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "alps_drift1",
+    "model_path": "res://assets/worlds/alps_drift1.glb",
+    "source": "tracks/Alps_drift1/Alps_drift1Geom.bdl",
+    "source_offset": 1196277760,
+    "sha256": "7a16857b6dbf96d64ff81c15b1fcbed72716932271c060dc8ee1541d03e326fe",
+    "native_mesh_count": 231,
+    "decoded_draws": 453,
+    "triangles": 272777,
+    "skipped": {},
+    "sections": [
+      14336,
+      43008,
+      882688,
+      8968192
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "alps_drift2",
+    "model_path": "res://assets/worlds/alps_drift2.glb",
+    "source": "tracks/Alps_drift2/Alps_drift2Geom.bdl",
+    "source_offset": 1076449280,
+    "sha256": "363075d79e0f9731babf09ed7f33623fa4ed6b9a75938f7305b5afcf342f48e5",
+    "native_mesh_count": 245,
+    "decoded_draws": 469,
+    "triangles": 344458,
+    "skipped": {},
+    "sections": [
+      16384,
+      45056,
+      1069056,
+      10000384
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "downtown_sanfrancisco",
+    "model_path": "res://assets/worlds/downtown_sanfrancisco.glb",
+    "source": "tracks/Downtown SanFrancisco/Downtown SanFranciscoGeom.bdl",
+    "source_offset": 3883071488,
+    "sha256": "f5ec29a485f9c8bb9df128626ed1c90aea2dba8538054a5dfd903e6e270ce614",
+    "native_mesh_count": 1043,
+    "decoded_draws": 1727,
+    "triangles": 973229,
+    "skipped": {},
+    "sections": [
+      63488,
+      159744,
+      2830336,
+      33255424
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "garage",
+    "model_path": "res://assets/worlds/garage.glb",
+    "source": "tracks/garage/garageGeom.bdl",
+    "source_offset": 897310720,
+    "sha256": "106c918572863cf74f55fdc40c051d5a4c5bf36b28e1325405d4b07a5489653b",
+    "native_mesh_count": 162,
+    "decoded_draws": 191,
+    "triangles": 71739,
+    "skipped": {},
+    "sections": [
+      10240,
+      18432,
+      227328,
+      2250752
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "london",
+    "model_path": "res://assets/worlds/london.glb",
+    "source": "tracks/London/LondonGeom.bdl",
+    "source_offset": 3465496576,
+    "sha256": "3f73f3e143e8ca4ca1723f2df2c9a900ffcd8b6573ed545ba70c8f5f203c9123",
+    "native_mesh_count": 1113,
+    "decoded_draws": 2057,
+    "triangles": 901306,
+    "skipped": {},
+    "sections": [
+      67584,
+      190464,
+      2934784,
+      31029248
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "london_drift",
+    "model_path": "res://assets/worlds/london_drift.glb",
+    "source": "tracks/London_drift/London_driftGeom.bdl",
+    "source_offset": 1768282112,
+    "sha256": "49c017b63a3c1e00de65bab31c66057be5a240fd2bd3e447cf3ef3948b1979c5",
+    "native_mesh_count": 400,
+    "decoded_draws": 630,
+    "triangles": 601342,
+    "skipped": {},
+    "sections": [
+      24576,
+      59392,
+      1734656,
+      18190336
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "paris",
+    "model_path": "res://assets/worlds/paris.glb",
+    "source": "tracks/Paris/ParisGeom.bdl",
+    "source_offset": 1888831488,
+    "sha256": "817ea7a3751a5f82fd021a25a3796824eba28c21b880fcac23c95283b12bb5f7",
+    "native_mesh_count": 398,
+    "decoded_draws": 571,
+    "triangles": 328020,
+    "skipped": {},
+    "sections": [
+      24576,
+      53248,
+      1050624,
+      11333632
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "rome",
+    "model_path": "res://assets/worlds/rome.glb",
+    "source": "tracks/Rome/RomeGeom.bdl",
+    "source_offset": 3095531520,
+    "sha256": "8faa952b527a1aaa47cd2aee61805d41c1d02a22874bf424983e45eeccd5ed13",
+    "native_mesh_count": 1222,
+    "decoded_draws": 2182,
+    "triangles": 925668,
+    "skipped": {},
+    "sections": [
+      73728,
+      202752,
+      3006464,
+      30425088
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "rome_drift",
+    "model_path": "res://assets/worlds/rome_drift.glb",
+    "source": "tracks/Rome_drift/Rome_driftGeom.bdl",
+    "source_offset": 1991712768,
+    "sha256": "45b0fe1a3ffd42114b84ce5cc285fa50a12561db2fbaa7bdcbc3c2d70ae9880d",
+    "native_mesh_count": 421,
+    "decoded_draws": 665,
+    "triangles": 364594,
+    "skipped": {},
+    "sections": [
+      26624,
+      61440,
+      1204224,
+      13840384
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "sydney",
+    "model_path": "res://assets/worlds/sydney.glb",
+    "source": "tracks/Sydney/SydneyGeom.bdl",
+    "source_offset": 2118846464,
+    "sha256": "2c0781be5a7bae4b424e875ef8ca85689e476853a002f9e16e108a138f3aa862",
+    "native_mesh_count": 520,
+    "decoded_draws": 1243,
+    "triangles": 472501,
+    "skipped": {},
+    "sections": [
+      32768,
+      114688,
+      1742848,
+      18302976
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "tokyo",
+    "model_path": "res://assets/worlds/tokyo.glb",
+    "source": "tracks/Tokyo/TokyoGeom.bdl",
+    "source_offset": 2771750912,
+    "sha256": "bfa03b753c4ae971d5962fa8756c4cb9cf8dadd244ea5a9154a6384c62dab492",
+    "native_mesh_count": 1117,
+    "decoded_draws": 2049,
+    "triangles": 864392,
+    "skipped": {},
+    "sections": [
+      67584,
+      190464,
+      3137536,
+      31195136
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "tokyo_drift1",
+    "model_path": "res://assets/worlds/tokyo_drift1.glb",
+    "source": "tracks/Tokyo_drift1/Tokyo_drift1Geom.bdl",
+    "source_offset": 2263586816,
+    "sha256": "c22276daf6b809eaf56eb6eeff67f385e982a5bf9b4bb3d7f9ff72e71e0281a0",
+    "native_mesh_count": 570,
+    "decoded_draws": 929,
+    "triangles": 495734,
+    "skipped": {},
+    "sections": [
+      34816,
+      86016,
+      1867776,
+      20123648
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "tokyo_drift2",
+    "model_path": "res://assets/worlds/tokyo_drift2.glb",
+    "source": "tracks/Tokyo_drift2/Tokyo_drift2Geom.bdl",
+    "source_offset": 2410721280,
+    "sha256": "fa7a0342d70501b6b559dcf636ff796313e354827ec911dec9411e003d4c09b5",
+    "native_mesh_count": 587,
+    "decoded_draws": 978,
+    "triangles": 629636,
+    "skipped": {},
+    "sections": [
+      36864,
+      90112,
+      1996800,
+      22657024
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  },
+  {
+    "id": "tunnel",
+    "model_path": "res://assets/worlds/tunnel.glb",
+    "source": "tracks/tunnel/tunnelGeom.bdl",
+    "source_offset": 1492316160,
+    "sha256": "57aafeeb62cf5de00f44a95c94958f29a1caee27cbfec612db313325897dd732",
+    "native_mesh_count": 16,
+    "decoded_draws": 19,
+    "triangles": 44693,
+    "skipped": {},
+    "sections": [
+      2048,
+      2048,
+      126976,
+      526336
+    ],
+    "coordinate_origin": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.01,
+    "material_status": "recovered native DXT top-mip albedo and halfUV; reconstructed PBR finish"
+  }
+]
