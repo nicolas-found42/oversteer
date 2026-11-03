@@ -1,0 +1,52 @@
+[
+  {
+    "action": "nav:career",
+    "after_frame": 30
+  },
+  {
+    "action": "nav:garage",
+    "after_frame": 70
+  },
+  {
+    "action": "nav:custom",
+    "after_frame": 110,
+    "capture": "initial",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "finish:metallic",
+    "after_frame": 150,
+    "capture": "opened",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "palette_cell:173",
+    "after_frame": 190,
+    "capture": "selected",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "palette_accept",
+    "after_frame": 230,
+    "capture": "accepted",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "nav:checkout",
+    "after_frame": 270,
+    "capture": "cart",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "checkout",
+    "after_frame": 310,
+    "capture": "confirmation",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "confirm_yes",
+    "after_frame": 350,
+    "capture": "purchased",
+    "capture_after_frames": 12
+  }
+]

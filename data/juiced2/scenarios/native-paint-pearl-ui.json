@@ -1,0 +1,77 @@
+[
+  {
+    "action": "nav:career",
+    "after_frame": 30
+  },
+  {
+    "action": "nav:garage",
+    "after_frame": 70
+  },
+  {
+    "action": "nav:custom",
+    "after_frame": 110,
+    "capture": "initial",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "finish:pearl",
+    "after_frame": 150,
+    "capture": "opened",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "palette_cell:173",
+    "after_frame": 190,
+    "capture": "selected",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "palette_accept",
+    "after_frame": 230,
+    "capture": "base_accepted",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "palette_cell:219",
+    "after_frame": 270,
+    "capture": "secondary_selected",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "palette_accept",
+    "after_frame": 310,
+    "capture": "secondary_accepted",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "paint:scalar:2",
+    "after_frame": 350,
+    "capture": "scalar2",
+    "capture_after_frames": 12,
+    "value": 0.625
+  },
+  {
+    "action": "paint_stage_accept",
+    "after_frame": 390,
+    "capture": "accepted",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "nav:checkout",
+    "after_frame": 430,
+    "capture": "cart",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "checkout",
+    "after_frame": 470,
+    "capture": "confirmation",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "confirm_yes",
+    "after_frame": 510,
+    "capture": "purchased",
+    "capture_after_frames": 12
+  }
+]

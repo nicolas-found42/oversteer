@@ -1,0 +1,30 @@
+[
+  {
+    "frame": 1,
+    "joy_axis": {
+      "axis": 5,
+      "value": 1.0
+    }
+  },
+  {
+    "frame": 120,
+    "joy_axis": {
+      "axis": 0,
+      "value": -1.0
+    }
+  },
+  {
+    "frame": 180,
+    "joy_axis": {
+      "axis": 0,
+      "value": 0.0
+    }
+  },
+  {
+    "frame": 240,
+    "joy_axis": {
+      "axis": 5,
+      "value": 0.0
+    }
+  }
+]

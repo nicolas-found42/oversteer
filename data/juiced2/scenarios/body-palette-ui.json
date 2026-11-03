@@ -1,0 +1,19 @@
+[
+  {
+    "action": "nav:career",
+    "after_frame": 30
+  },
+  {
+    "action": "nav:garage",
+    "after_frame": 70
+  },
+  {
+    "action": "nav:custom",
+    "after_frame": 110
+  },
+  {
+    "action": "palette:body",
+    "after_frame": 190,
+    "capture": "palette-open"
+  }
+]

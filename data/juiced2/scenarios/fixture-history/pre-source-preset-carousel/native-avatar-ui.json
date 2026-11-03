@@ -1,0 +1,102 @@
+[
+  {
+    "action": "nav:career",
+    "after_frame": 30
+  },
+  {
+    "action": "nav:avatar",
+    "after_frame": 70,
+    "capture": "gender"
+  },
+  {
+    "action": "avatar:gender:M",
+    "after_frame": 110,
+    "capture": "male-default",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "avatar:native:MPreset1",
+    "after_frame": 150,
+    "capture": "male-preset",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "avatar:page:face",
+    "after_frame": 190
+  },
+  {
+    "action": "avatar:page:nose",
+    "after_frame": 230,
+    "capture": "nose",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "avatar:edit:nose",
+    "capture": "nose-editor",
+    "capture_after_frames": 12,
+    "after_frame": 270
+  },
+  {
+    "action": "avatar_control:NOSEBIGSLIDER",
+    "value": 0.75,
+    "after_frame": 310,
+    "capture": "nose-changed",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "avatar:back",
+    "after_frame": 350
+  },
+  {
+    "action": "avatar:cursor:next",
+    "after_frame": 390
+  },
+  {
+    "action": "avatar:page:head",
+    "after_frame": 430
+  },
+  {
+    "action": "avatar:page:skin",
+    "after_frame": 470
+  },
+  {
+    "action": "avatar:page:facial",
+    "after_frame": 510
+  },
+  {
+    "action": "avatar:page:clothes",
+    "after_frame": 550
+  },
+  {
+    "action": "avatar:edit:clothes",
+    "after_frame": 590
+  },
+  {
+    "action": "avatar:page:bottom",
+    "after_frame": 630,
+    "capture": "bottoms",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "avatar:component:componentdefs-81a9443b_13",
+    "after_frame": 670,
+    "capture": "jeans",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "avatar:page:preset",
+    "after_frame": 710
+  },
+  {
+    "action": "avatar:gender:F",
+    "after_frame": 750,
+    "capture": "female-default",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "avatar:native:FMPreset1",
+    "after_frame": 790,
+    "capture": "female-preset",
+    "capture_after_frames": 12
+  }
+]

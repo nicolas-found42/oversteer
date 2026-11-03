@@ -1,0 +1,22 @@
+[
+  {
+    "frame": 1,
+    "key_code": 87,
+    "pressed": true
+  },
+  {
+    "frame": 120,
+    "key_code": 65,
+    "pressed": true
+  },
+  {
+    "frame": 180,
+    "key_code": 65,
+    "pressed": false
+  },
+  {
+    "frame": 240,
+    "key_code": 87,
+    "pressed": false
+  }
+]

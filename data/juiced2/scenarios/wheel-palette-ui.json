@@ -1,0 +1,23 @@
+[
+  {
+    "action": "nav:career",
+    "after_frame": 30
+  },
+  {
+    "action": "nav:garage",
+    "after_frame": 70
+  },
+  {
+    "action": "nav:custom",
+    "after_frame": 110
+  },
+  {
+    "action": "custom_page:wheels",
+    "after_frame": 130
+  },
+  {
+    "action": "palette:wheel",
+    "after_frame": 190,
+    "capture": "palette-open"
+  }
+]

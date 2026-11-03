@@ -1,0 +1,20 @@
+[
+  {"action":"nav:career","after_frame":30},
+  {"action":"nav:dealer","after_frame":70},
+  {"action":"car_next","after_frame":110},
+  {"action":"buy","after_frame":150},
+  {"action":"confirm_yes","after_frame":190,"capture":"spare-car-bought"},
+  {"action":"nav:main","after_frame":230},
+  {"action":"nav:career","after_frame":270},
+  {"action":"career_events","after_frame":310},
+  {"action":"start","after_frame":350,"capture":"grid"},
+  {"action":"offer_pink","after_frame":390,"capture":"pink-warning"},
+  {"action":"confirm_no","after_frame":430,"capture":"warning-cancelled"},
+  {"action":"offer_pink","after_frame":470},
+  {"action":"confirm_yes","after_frame":510,"capture":"pink-offer"},
+  {"action":"offer_decline","after_frame":550,"capture":"pink-declined"},
+  {"action":"offer_pink","after_frame":590},
+  {"action":"confirm_yes","after_frame":630},
+  {"action":"offer_accept","after_frame":670,"capture":"pink-accepted"},
+  {"action":"grid_launch","after_frame":710,"capture":"launched"}
+]

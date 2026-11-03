@@ -1,0 +1,12 @@
+[
+  {"action":"options","after_frame":30,"capture":"options"},
+  {"action":"bind:throttle","after_frame":70,"key_code":75,"capture":"keyboard-bound"},
+  {"action":"button:nitrous","after_frame":110,"joy_button":3,"capture":"button-bound"},
+  {"action":"axis:steering","after_frame":150,"joy_axis":{"axis":2,"value":0.8},"capture":"axis-bound"},
+  {"action":"difficulty","after_frame":190,"capture":"difficulty"},
+  {"action":"quality","after_frame":230,"capture":"quality"},
+  {"action":"units","after_frame":270},
+  {"action":"audio:music","after_frame":310,"capture":"music"},
+  {"action":"audio:engine","after_frame":350,"capture":"engine"},
+  {"action":"back_options","after_frame":390,"capture":"configured"}
+]

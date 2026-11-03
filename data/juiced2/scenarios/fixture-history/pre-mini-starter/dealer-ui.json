@@ -1,0 +1,16 @@
+[
+  {"action": "nav:career", "after_frame": 30},
+  {"action": "nav:dealer", "after_frame": 70, "capture": "dealer"},
+  {"action": "car_next", "after_frame": 110, "capture": "mini"},
+  {"action": "buy", "after_frame": 150, "capture": "purchase-confirm"},
+  {"action": "confirm_no", "after_frame": 190, "capture": "purchase-cancelled"},
+  {"action": "buy", "after_frame": 230},
+  {"action": "confirm_yes", "after_frame": 270, "capture": "purchased"},
+  {"action": "nav:main", "after_frame": 310},
+  {"action": "nav:career", "after_frame": 350},
+  {"action": "nav:garage", "after_frame": 390, "capture": "garage"},
+  {"action": "sell", "after_frame": 430, "capture": "sale-confirm"},
+  {"action": "confirm_no", "after_frame": 470, "capture": "sale-cancelled"},
+  {"action": "sell", "after_frame": 510},
+  {"action": "confirm_yes", "after_frame": 550, "capture": "sold"}
+]

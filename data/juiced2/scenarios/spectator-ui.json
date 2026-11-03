@@ -1,0 +1,10 @@
+[
+  {"action":"nav:career","after_frame":30},
+  {"action":"career_events","after_frame":80,"capture":"events"},
+  {"action":"spectate","after_frame":130,"capture":"spectator-selection"},
+  {"action":"rival:2","after_frame":180,"capture":"selected-rival"},
+  {"action":"spectator_bet","after_frame":230,"capture":"stake-placed"},
+  {"action":"cheer","after_frame":280,"capture":"cheered"},
+  {"action":"boo","after_frame":330,"capture":"booed"},
+  {"action":"rival:3","after_frame":380,"capture":"camera-target"}
+]

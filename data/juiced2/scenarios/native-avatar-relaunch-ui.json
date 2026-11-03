@@ -1,0 +1,4 @@
+[
+  {"after_frame": 30, "action": "nav:career"},
+  {"after_frame": 70, "action": "nav:avatar", "capture": "reloaded-female-preset"}
+]

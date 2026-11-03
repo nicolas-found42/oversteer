@@ -1,0 +1,106 @@
+[
+  {
+    "action": "nav:career",
+    "after_frame": 30
+  },
+  {
+    "action": "nav:garage",
+    "after_frame": 70
+  },
+  {
+    "action": "nav:custom",
+    "after_frame": 110,
+    "capture": "initial",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "finish:gloss",
+    "after_frame": 150
+  },
+  {
+    "action": "palette_cell:173",
+    "after_frame": 190
+  },
+  {
+    "action": "palette_accept",
+    "after_frame": 230,
+    "capture": "accepted-first",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "nav:checkout",
+    "after_frame": 270
+  },
+  {
+    "action": "checkout",
+    "after_frame": 310
+  },
+  {
+    "action": "confirm_yes",
+    "after_frame": 350,
+    "capture": "purchased-first",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "nav:custom",
+    "after_frame": 390
+  },
+  {
+    "action": "finish:matt",
+    "after_frame": 430
+  },
+  {
+    "action": "palette_cell:173",
+    "after_frame": 470
+  },
+  {
+    "action": "palette_accept",
+    "after_frame": 510,
+    "capture": "accepted-matt",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "finish:gloss",
+    "after_frame": 550
+  },
+  {
+    "action": "palette_cell:173",
+    "after_frame": 590,
+    "capture": "same-selected",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "palette_accept",
+    "after_frame": 630,
+    "capture": "accepted-same",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "finish:gloss",
+    "after_frame": 670
+  },
+  {
+    "action": "palette_accept",
+    "after_frame": 710,
+    "capture": "accepted-again",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "nav:checkout",
+    "after_frame": 750,
+    "capture": "cart",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "checkout",
+    "after_frame": 790,
+    "capture": "confirmation",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "confirm_yes",
+    "after_frame": 830,
+    "capture": "purchased-repeat",
+    "capture_after_frames": 12
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "action": "nav:career",
+    "after_frame": 30
+  },
+  {
+    "action": "nav:garage",
+    "after_frame": 70
+  },
+  {
+    "action": "nav:custom",
+    "after_frame": 110,
+    "capture": "initial",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "finish:matt",
+    "after_frame": 150
+  },
+  {
+    "action": "palette_cell:173",
+    "after_frame": 190
+  },
+  {
+    "action": "palette_accept",
+    "after_frame": 230,
+    "capture": "prior",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "finish:flake",
+    "after_frame": 270,
+    "capture": "opened",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "palette_cell:77",
+    "after_frame": 310,
+    "capture": "selected",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "palette_accept",
+    "after_frame": 350,
+    "capture": "base_accepted",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "palette_cell:219",
+    "after_frame": 390,
+    "capture": "fleck_selected",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "palette_accept",
+    "after_frame": 430,
+    "capture": "fleck_accepted",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "paint:scalar:4",
+    "after_frame": 470,
+    "capture": "scalar4",
+    "capture_after_frames": 12,
+    "value": 0.25
+  },
+  {
+    "action": "paint_stage_accept",
+    "capture": "size_accepted",
+    "capture_after_frames": 12,
+    "after_frame": 510
+  },
+  {
+    "action": "paint:scalar:5",
+    "capture": "scalar5",
+    "capture_after_frames": 12,
+    "value": 0.75,
+    "after_frame": 550
+  },
+  {
+    "action": "paint_stage_cancel",
+    "capture": "back-size",
+    "capture_after_frames": 12,
+    "after_frame": 590
+  },
+  {
+    "action": "paint_stage_cancel",
+    "capture": "back-fleck",
+    "capture_after_frames": 12,
+    "after_frame": 630
+  },
+  {
+    "action": "palette_cancel",
+    "capture": "back-base",
+    "capture_after_frames": 12,
+    "after_frame": 670
+  },
+  {
+    "action": "palette_cancel",
+    "capture": "cancelled",
+    "capture_after_frames": 12,
+    "after_frame": 710
+  },
+  {
+    "action": "nav:checkout",
+    "after_frame": 750,
+    "capture": "cart",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "checkout",
+    "after_frame": 790,
+    "capture": "confirmation",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "confirm_yes",
+    "after_frame": 830,
+    "capture": "purchased",
+    "capture_after_frames": 12
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "action": "nav:career",
+    "after_frame": 30
+  },
+  {
+    "action": "nav:garage",
+    "after_frame": 70
+  },
+  {
+    "action": "nav:custom",
+    "after_frame": 110,
+    "capture": "restored",
+    "capture_after_frames": 12
+  }
+]

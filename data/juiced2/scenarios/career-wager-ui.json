@@ -1,0 +1,14 @@
+[
+  {"action": "nav:career", "after_frame": 30, "capture": "career"},
+  {"action": "career_goals", "after_frame": 80, "capture": "goals"},
+  {"action": "goals_next", "after_frame": 100, "capture": "goals-next"},
+  {"action": "goals_prev", "after_frame": 115, "capture": "goals-previous"},
+  {"action": "goals_back", "after_frame": 130},
+  {"action": "career_events", "after_frame": 180, "capture": "event-list"},
+  {"action": "start", "after_frame": 230, "capture": "grid"},
+  {"action": "offer_cash", "after_frame": 280, "capture": "counteroffer"},
+  {"action": "offer_decline", "after_frame": 330, "capture": "declined"},
+  {"action": "offer_cash", "after_frame": 380},
+  {"action": "offer_accept", "after_frame": 430, "capture": "accepted"},
+  {"action": "grid_launch", "after_frame": 480, "capture": "launched"}
+]

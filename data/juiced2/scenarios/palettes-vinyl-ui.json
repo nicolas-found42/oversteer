@@ -1,0 +1,21 @@
+[
+  {"action":"nav:career","after_frame":30},
+  {"action":"nav:garage","after_frame":70},
+  {"action":"nav:custom","after_frame":110},
+  {"action":"palette:body","after_frame":150,"color":[0.13,0.42,0.77,1],"close_palette":true,"capture":"body-rgba"},
+  {"action":"custom_page:wheels","after_frame":175,"capture":"wheels-page"},
+  {"action":"palette:wheel","after_frame":190,"color":[0.24,0.51,0.19,1],"close_palette":true,"capture":"wheel-rgba"},
+  {"action":"custom_page:vinyl","after_frame":215,"capture":"vinyl-page"},
+  {"action":"vinyl:add","after_frame":230,"capture":"native-design"},
+  {"action":"palette:vinyl","after_frame":270,"color":[0.81,0.23,0.54,0.7],"close_palette":true,"capture":"vinyl-rgba"},
+  {"action":"vinyl:right","after_frame":310},
+  {"action":"vinyl:scale_x_up","after_frame":350},
+  {"action":"vinyl:scale_y_down","after_frame":390},
+  {"action":"vinyl:rotate","after_frame":430,"capture":"transformed"},
+  {"action":"vinyl:add","after_frame":470,"capture":"two-layers"},
+  {"action":"vinyl:back","after_frame":510,"capture":"reordered"},
+  {"action":"vinyl:remove","after_frame":550,"capture":"one-layer"},
+  {"action":"nav:checkout","after_frame":590,"capture":"cart"},
+  {"action":"checkout","after_frame":630,"capture":"purchase-confirm"},
+  {"action":"confirm_yes","after_frame":670,"capture":"purchased"}
+]

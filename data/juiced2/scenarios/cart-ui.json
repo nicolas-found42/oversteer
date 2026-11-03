@@ -1,0 +1,82 @@
+[
+  {
+    "action": "nav:career",
+    "after_frame": 30
+  },
+  {
+    "action": "nav:garage",
+    "after_frame": 70
+  },
+  {
+    "action": "nav:custom",
+    "after_frame": 110,
+    "capture": "customization"
+  },
+  {
+    "action": "palette:body",
+    "after_frame": 150,
+    "color": [
+      0.02,
+      0.22,
+      0.85,
+      1
+    ],
+    "close_palette": true,
+    "capture": "paint"
+  },
+  {
+    "action": "finish:matt",
+    "after_frame": 190,
+    "capture": "finish"
+  },
+  {
+    "action": "palette_accept",
+    "after_frame": 230,
+    "capture": "finish-accepted",
+    "capture_after_frames": 12
+  },
+  {
+    "action": "custom_page:wheels",
+    "after_frame": 255,
+    "capture": "wheels-page"
+  },
+  {
+    "action": "wheels:sport",
+    "after_frame": 270,
+    "capture": "wheels"
+  },
+  {
+    "action": "nav:checkout",
+    "after_frame": 310,
+    "capture": "cart"
+  },
+  {
+    "action": "cart_select:GT4_MINI0001:wheels",
+    "after_frame": 330,
+    "capture": "cart-selected"
+  },
+  {
+    "action": "cart_remove:GT4_MINI0001:wheels",
+    "after_frame": 350,
+    "capture": "wheel-removed"
+  },
+  {
+    "action": "checkout",
+    "after_frame": 390,
+    "capture": "checkout-confirm"
+  },
+  {
+    "action": "confirm_no",
+    "after_frame": 430,
+    "capture": "checkout-cancelled"
+  },
+  {
+    "action": "checkout",
+    "after_frame": 470
+  },
+  {
+    "action": "confirm_yes",
+    "after_frame": 510,
+    "capture": "purchased"
+  }
+]

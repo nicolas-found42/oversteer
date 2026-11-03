@@ -1,0 +1,6 @@
+[
+  {"action":"nav:career","after_frame":30},
+  {"action":"career_events","after_frame":70},
+  {"action":"start","after_frame":110,"capture":"grid"},
+  {"action":"grid_launch","after_frame":150,"capture":"launched"}
+]
