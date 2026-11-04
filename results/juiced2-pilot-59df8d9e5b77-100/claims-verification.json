@@ -1,0 +1,25 @@
+{
+  "purpose": "Verify scoring summary against computed validation/results only; no new label judgments or patch approval.",
+  "request": {
+    "claims": [
+      "The annotation export passes structural validation with 99 saved answers and 101 missing answers; example 0001 is missing.",
+      "Exact-label agreement on the reviewed leaf-labelled subset is 9/23, or 39.1%.",
+      "For 54 of 62 broad-category answers, the predicted label lies inside the chosen category (87.1%); this does not establish exact leaf-label correctness.",
+      "There are 14 other answers marking uncertainty or no fitting label, and no categories are eligible for automatic acceptance under the unchanged incomplete-pilot gate."
+    ],
+    "evidence": [
+      {
+        "id": "validated-computed-results",
+        "text": "{\n  \"validation_status\": \"valid_partial_export\",\n  \"saved_answers\": 99,\n  \"missing_annotations\": 101,\n  \"first_missing\": \"0001\",\n  \"last_missing\": \"0200\",\n  \"exact_label_agreement\": \"9/23 = 39.1%\",\n  \"broad_category_compatibility\": \"54/62 = 87.1%\",\n  \"other_answers\": 14,\n  \"unresolved_for_leaf_scoring\": 76,\n  \"eligible_categories\": 0,\n  \"automatic_acceptance_enabled\": false,\n  \"scope\": \"Unweighted comparisons within the 99 saved answers only, not corpus accuracy or full-pilot precision/recall estimates.\",\n  \"limitations\": [\n    \"Exact-label agreement uses only the 23 examples given a leaf label; specificity was selected by the reviewer.\",\n    \"Broad compatibility checks path ancestry only and does not establish the predicted leaf label.\",\n    \"The first example was skipped and only the first 100 displayed examples were visited; stopping may affect representativeness.\",\n    \"Stratification oversamples some groups. These unweighted descriptive rates are not weighted corpus estimates.\",\n    \"The scorer's full-pilot point estimates remain null; original thresholds and completion gate are unchanged.\",\n    \"Scores do not establish temporal gameplay rules, platform equivalence, or reconstruction fidelity.\"\n  ],\n  \"validation_checks\": [\n    \"JSON parses without duplicate keys\",\n    \"schema and position valid\",\n    \"frozen manifest and pilot identities match\",\n    \"all 200 image hashes verified\",\n    \"all saved review IDs and exact/parent labels valid\",\n    \"notes and timezone-aware timestamps valid\",\n    \"no duplicate selected image hashes\",\n    \"source groups do not cross tuning/heldout splits\",\n    \"official scorer output independently reconciled against saved answer counts\"\n  ]\n}\n"
+      }
+    ]
+  },
+  "verification": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"tool\": \"jev_verify\",\n  \"model\": \"typesafe/jev-1.14-20261014\",\n  \"provider\": \"openrouter\",\n  \"auto_accept\": 0.8,\n  \"subject_at\": 0.5,\n  \"summary\": {\n    \"verified\": 4,\n    \"contradicted\": 0,\n    \"unsupported\": 0,\n    \"needs_review\": 0\n  },\n  \"results\": [\n    {\n      \"id\": \"claim0\",\n      \"claim\": \"The annotation export passes structural validation with 99 saved answers and 101 missing answers; example 0001 is missing.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 0.96,\n        \"contradicts\": 0.04,\n        \"says_nothing\": 0\n      },\n      \"confidence\": 0.94,\n      \"action\": \"auto\",\n      \"supporting_evidence\": null,\n      \"same_subject\": 0.98\n    },\n    {\n      \"id\": \"claim1\",\n      \"claim\": \"Exact-label agreement on the reviewed leaf-labelled subset is 9/23, or 39.1%.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 1,\n        \"contradicts\": 0,\n        \"says_nothing\": 0\n      },\n      \"confidence\": 1,\n      \"action\": \"auto\",\n      \"supporting_evidence\": null,\n      \"same_subject\": 0.99\n    },\n    {\n      \"id\": \"claim2\",\n      \"claim\": \"For 54 of 62 broad-category answers, the predicted label lies inside the chosen category (87.1%); this does not establish exact leaf-label correctness.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 1,\n        \"contradicts\": 0,\n        \"says_nothing\": 0\n      },\n      \"confidence\": 1,\n      \"action\": \"auto\",\n      \"supporting_evidence\": null,\n      \"same_subject\": 0.99\n    },\n    {\n      \"id\": \"claim3\",\n      \"claim\": \"There are 14 other answers marking uncertainty or no fitting label, and no categories are eligible for automatic acceptance under the unchanged incomplete-pilot gate.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 0.98,\n        \"contradicts\": 0.02,\n        \"says_nothing\": 0\n      },\n      \"confidence\": 0.97,\n      \"action\": \"auto\",\n      \"supporting_evidence\": null,\n      \"same_subject\": 0.94\n    }\n  ],\n  \"usage\": {\n    \"input_tokens\": 1890,\n    \"output_tokens\": 248\n  }\n}"
+      }
+    ]
+  }
+}

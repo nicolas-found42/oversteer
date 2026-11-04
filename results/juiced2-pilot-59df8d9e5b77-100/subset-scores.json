@@ -1,0 +1,1064 @@
+{
+  "status": "descriptive_partial_pilot_scores",
+  "scope": "Unweighted comparisons within the 99 saved answers only, not corpus accuracy or full-pilot precision/recall estimates.",
+  "summary": {
+    "saved_answers": 99,
+    "outcomes": {
+      "category": 62,
+      "insufficient_context": 3,
+      "label": 23,
+      "not_in_catalog": 2,
+      "unreadable": 9
+    },
+    "exact_label_comparisons": 23,
+    "exact_label_matches": 9,
+    "exact_label_disagreements": 14,
+    "exact_label_agreement": 0.391304347826087,
+    "broad_category_comparisons": 62,
+    "broad_category_compatible": 54,
+    "broad_category_disagreements": 8,
+    "broad_category_compatibility": 0.8709677419354839,
+    "uncertainty_or_no_label": 14
+  },
+  "by_split": {
+    "tuning": {
+      "saved_answers": 46,
+      "outcomes": {
+        "category": 30,
+        "insufficient_context": 1,
+        "label": 11,
+        "not_in_catalog": 1,
+        "unreadable": 3
+      },
+      "exact_label_comparisons": 11,
+      "exact_label_matches": 4,
+      "exact_label_disagreements": 7,
+      "exact_label_agreement": 0.36363636363636365,
+      "broad_category_comparisons": 30,
+      "broad_category_compatible": 24,
+      "broad_category_disagreements": 6,
+      "broad_category_compatibility": 0.8,
+      "uncertainty_or_no_label": 5
+    },
+    "heldout": {
+      "saved_answers": 53,
+      "outcomes": {
+        "category": 32,
+        "insufficient_context": 2,
+        "label": 12,
+        "not_in_catalog": 1,
+        "unreadable": 6
+      },
+      "exact_label_comparisons": 12,
+      "exact_label_matches": 5,
+      "exact_label_disagreements": 7,
+      "exact_label_agreement": 0.4166666666666667,
+      "broad_category_comparisons": 32,
+      "broad_category_compatible": 30,
+      "broad_category_disagreements": 2,
+      "broad_category_compatibility": 0.9375,
+      "uncertainty_or_no_label": 9
+    }
+  },
+  "by_classifier_review_flag": {
+    "flagged": {
+      "saved_answers": 50,
+      "outcomes": {
+        "category": 26,
+        "insufficient_context": 2,
+        "label": 15,
+        "not_in_catalog": 2,
+        "unreadable": 5
+      },
+      "exact_label_comparisons": 15,
+      "exact_label_matches": 2,
+      "exact_label_disagreements": 13,
+      "exact_label_agreement": 0.13333333333333333,
+      "broad_category_comparisons": 26,
+      "broad_category_compatible": 20,
+      "broad_category_disagreements": 6,
+      "broad_category_compatibility": 0.7692307692307693,
+      "uncertainty_or_no_label": 9
+    },
+    "automatically_accepted": {
+      "saved_answers": 49,
+      "outcomes": {
+        "category": 36,
+        "insufficient_context": 1,
+        "label": 8,
+        "unreadable": 4
+      },
+      "exact_label_comparisons": 8,
+      "exact_label_matches": 7,
+      "exact_label_disagreements": 1,
+      "exact_label_agreement": 0.875,
+      "broad_category_comparisons": 36,
+      "broad_category_compatible": 34,
+      "broad_category_disagreements": 2,
+      "broad_category_compatibility": 0.9444444444444444,
+      "uncertainty_or_no_label": 5
+    }
+  },
+  "by_predicted_label": {
+    "betting/cash-wager/offer": {
+      "saved_answers": 1,
+      "outcomes": {
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 1,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": 1.0,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 0
+    },
+    "betting/pink-slip/warning": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 1,
+      "broad_category_compatibility": 0.0,
+      "uncertainty_or_no_label": 0
+    },
+    "career/event-details/rewards": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "career/event-list/unspecified": {
+      "saved_answers": 1,
+      "outcomes": {
+        "unreadable": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 1
+    },
+    "career/goals/detail": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 1,
+      "broad_category_compatibility": 0.0,
+      "uncertainty_or_no_label": 0
+    },
+    "career/leagues/select": {
+      "saved_answers": 5,
+      "outcomes": {
+        "category": 4,
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 1,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": 1.0,
+      "broad_category_comparisons": 4,
+      "broad_category_compatible": 4,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "career/promotion/announcement": {
+      "saved_answers": 2,
+      "outcomes": {
+        "category": 1,
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 1,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": 1.0,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "career/reward/unspecified": {
+      "saved_answers": 1,
+      "outcomes": {
+        "unreadable": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 1
+    },
+    "character/face/eyes-brows": {
+      "saved_answers": 1,
+      "outcomes": {
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 1,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": 1.0,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 0
+    },
+    "character/face/facial-hair": {
+      "saved_answers": 1,
+      "outcomes": {
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 1,
+      "exact_label_agreement": 0.0,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 0
+    },
+    "character/face/hair": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "character/identity/name": {
+      "saved_answers": 1,
+      "outcomes": {
+        "insufficient_context": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 1
+    },
+    "customization/body/body-kit/unspecified": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/body/front-bumper": {
+      "saved_answers": 2,
+      "outcomes": {
+        "category": 1,
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 1,
+      "exact_label_agreement": 0.0,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/body/headlights": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/body/roof": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/body/spoiler": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/category": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/checkout/items": {
+      "saved_answers": 1,
+      "outcomes": {
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 1,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": 1.0,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/checkout/unspecified": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/interior/seats": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/interior/steering-wheel": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/paint/body/palette": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/plate/text": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/vinyl/catalog/unspecified": {
+      "saved_answers": 2,
+      "outcomes": {
+        "category": 1,
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 1,
+      "exact_label_agreement": 0.0,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/vinyl/placement/transform": {
+      "saved_answers": 3,
+      "outcomes": {
+        "category": 3
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 3,
+      "broad_category_compatible": 3,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "customization/wheels/size/diameter": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "dealership/car-details/specifications": {
+      "saved_answers": 2,
+      "outcomes": {
+        "category": 2
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 2,
+      "broad_category_compatible": 2,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "garage/pink-slip-record/statistics": {
+      "saved_answers": 2,
+      "outcomes": {
+        "category": 1,
+        "insufficient_context": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 1,
+      "broad_category_compatibility": 0.0,
+      "uncertainty_or_no_label": 1
+    },
+    "garage/sell-confirm/offer": {
+      "saved_answers": 2,
+      "outcomes": {
+        "label": 2
+      },
+      "exact_label_comparisons": 2,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 2,
+      "exact_label_agreement": 0.0,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 0
+    },
+    "menu/profile/unspecified": {
+      "saved_answers": 1,
+      "outcomes": {
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 1,
+      "exact_label_agreement": 0.0,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 0
+    },
+    "multiplayer/lobby/player-list": {
+      "saved_answers": 3,
+      "outcomes": {
+        "unreadable": 3
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 3
+    },
+    "multiplayer/lobby/unspecified": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "options/controls/bindings": {
+      "saved_answers": 1,
+      "outcomes": {
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 1,
+      "exact_label_agreement": 0.0,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 0
+    },
+    "performance/category/tuning-pack-matrix": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "performance/unlock-challenge/locked-pack": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 1,
+      "broad_category_compatibility": 0.0,
+      "uncertainty_or_no_label": 0
+    },
+    "performance/upgrade/component-brand": {
+      "saved_answers": 2,
+      "outcomes": {
+        "category": 2
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 2,
+      "broad_category_compatible": 2,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "performance/upgrade/nitrous-pack": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "performance/upgrade/power-pack": {
+      "saved_answers": 2,
+      "outcomes": {
+        "category": 2
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 2,
+      "broad_category_compatible": 2,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "presentation/credits": {
+      "saved_answers": 2,
+      "outcomes": {
+        "not_in_catalog": 1,
+        "unreadable": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 2
+    },
+    "race/countdown/number": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 1,
+      "broad_category_compatibility": 0.0,
+      "uncertainty_or_no_label": 0
+    },
+    "race/driving/circuit/lap-race": {
+      "saved_answers": 6,
+      "outcomes": {
+        "category": 4,
+        "label": 2
+      },
+      "exact_label_comparisons": 2,
+      "exact_label_matches": 2,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": 1.0,
+      "broad_category_comparisons": 4,
+      "broad_category_compatible": 4,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "race/driving/drift/chain": {
+      "saved_answers": 2,
+      "outcomes": {
+        "category": 2
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 2,
+      "broad_category_compatible": 2,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "race/driving/drift/points": {
+      "saved_answers": 2,
+      "outcomes": {
+        "category": 2
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 2,
+      "broad_category_compatible": 2,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "race/driving/drift/unspecified": {
+      "saved_answers": 2,
+      "outcomes": {
+        "category": 1,
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 1,
+      "exact_label_agreement": 0.0,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "race/driving/other": {
+      "saved_answers": 8,
+      "outcomes": {
+        "category": 7,
+        "not_in_catalog": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 7,
+      "broad_category_compatible": 7,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 1
+    },
+    "race/driving/spectator/unspecified": {
+      "saved_answers": 1,
+      "outcomes": {
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 1,
+      "exact_label_agreement": 0.0,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 0
+    },
+    "race/driving/time-attack/target": {
+      "saved_answers": 5,
+      "outcomes": {
+        "category": 3,
+        "label": 2
+      },
+      "exact_label_comparisons": 2,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 2,
+      "exact_label_agreement": 0.0,
+      "broad_category_comparisons": 3,
+      "broad_category_compatible": 2,
+      "broad_category_disagreements": 1,
+      "broad_category_compatibility": 0.6666666666666666,
+      "uncertainty_or_no_label": 0
+    },
+    "race/finish-overlay/disqualified": {
+      "saved_answers": 1,
+      "outcomes": {
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 1,
+      "exact_label_agreement": 0.0,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 0
+    },
+    "race/intro/cinematic": {
+      "saved_answers": 1,
+      "outcomes": {
+        "insufficient_context": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 1
+    },
+    "race/intro/grid": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 1,
+      "broad_category_compatibility": 0.0,
+      "uncertainty_or_no_label": 0
+    },
+    "race/intro/venue": {
+      "saved_answers": 1,
+      "outcomes": {
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 1,
+      "exact_label_agreement": 0.0,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 0
+    },
+    "race/loading/unspecified": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "race/pause/menu": {
+      "saved_answers": 2,
+      "outcomes": {
+        "category": 1,
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 1,
+      "exact_label_agreement": 0.0,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 1,
+      "broad_category_compatibility": 0.0,
+      "uncertainty_or_no_label": 0
+    },
+    "reference/creator-overlay/emulator-controls": {
+      "saved_answers": 2,
+      "outcomes": {
+        "unreadable": 2
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 2
+    },
+    "reference/unreadable/unspecified": {
+      "saved_answers": 1,
+      "outcomes": {
+        "unreadable": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 1
+    },
+    "results/challenge/score": {
+      "saved_answers": 2,
+      "outcomes": {
+        "category": 1,
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 1,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": 1.0,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "results/challenge/unspecified": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "results/payout/race-prize": {
+      "saved_answers": 1,
+      "outcomes": {
+        "category": 1
+      },
+      "exact_label_comparisons": 0,
+      "exact_label_matches": 0,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": null,
+      "broad_category_comparisons": 1,
+      "broad_category_compatible": 1,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": 1.0,
+      "uncertainty_or_no_label": 0
+    },
+    "results/podium/celebration": {
+      "saved_answers": 1,
+      "outcomes": {
+        "label": 1
+      },
+      "exact_label_comparisons": 1,
+      "exact_label_matches": 1,
+      "exact_label_disagreements": 0,
+      "exact_label_agreement": 1.0,
+      "broad_category_comparisons": 0,
+      "broad_category_compatible": 0,
+      "broad_category_disagreements": 0,
+      "broad_category_compatibility": null,
+      "uncertainty_or_no_label": 0
+    }
+  },
+  "gate": {
+    "eligible_categories": 0,
+    "automatic_acceptance_enabled": false,
+    "reason": "The original 200-example pilot is incomplete; missing answers are not imputed.",
+    "minimum_precision": 0.95,
+    "confidence": 0.95
+  },
+  "limits": [
+    "Exact-label agreement uses only the 23 examples given a leaf label; specificity was selected by the reviewer.",
+    "Broad compatibility checks path ancestry only and does not establish the predicted leaf label.",
+    "The first example was skipped and only the first 100 displayed examples were visited; stopping may affect representativeness.",
+    "Stratification oversamples some groups. These unweighted descriptive rates are not weighted corpus estimates.",
+    "The scorer's full-pilot point estimates remain null; original thresholds and completion gate are unchanged.",
+    "Scores do not establish temporal gameplay rules, platform equivalence, or reconstruction fidelity."
+  ],
+  "disagreement_review_ids": [
+    "0002",
+    "0008",
+    "0009",
+    "0013",
+    "0016",
+    "0028",
+    "0056",
+    "0057",
+    "0060",
+    "0062",
+    "0065",
+    "0066",
+    "0068",
+    "0070",
+    "0073",
+    "0076",
+    "0081",
+    "0083",
+    "0093",
+    "0095",
+    "0098",
+    "0100"
+  ],
+  "provenance": {
+    "annotations": "/Users/nicolas/Documents/github/oversteer/results/juiced2-annotations-59df8d9e5b77.json",
+    "annotations_file_sha256": "337f5c9123d9d1b468f91b5aa050922acda2a6137a7774848fb76eae02decb7f",
+    "annotations_content_sha256": "2071dda83a276907e189b9993cfd437bd5a3c7fd361d102e509bc7739d9cacab",
+    "manifest": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/review-pilot/audit-manifest.json",
+    "manifest_file_sha256": "dd9991b28d13a8c150c864e53fb17c7398ee2ecf58cffbf29ad249443750031c",
+    "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+    "scorer_sha256": "906078f2b51c5e638c7228437bd52522a9ef4dac8054883587362047305357f2"
+  }
+}

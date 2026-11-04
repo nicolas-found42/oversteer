@@ -1,0 +1,602 @@
+{
+  "schema_version": 1,
+  "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+  "reviewer": "",
+  "answers": {
+    "0002": {
+      "outcome": "label",
+      "label": "replay/playback/camera",
+      "notes": "",
+      "updated_at": "2026-11-03T23:08:04.359Z"
+    },
+    "0003": {
+      "outcome": "insufficient_context",
+      "label": "",
+      "notes": "menu screen, most likely career, edit player button i think",
+      "updated_at": "2026-11-03T23:09:03.450Z"
+    },
+    "0004": {
+      "outcome": "label",
+      "label": "results/podium/celebration",
+      "notes": "",
+      "updated_at": "2026-11-03T23:09:32.555Z"
+    },
+    "0005": {
+      "outcome": "category",
+      "label": "race/driving",
+      "notes": "",
+      "updated_at": "2026-11-03T23:10:10.513Z"
+    },
+    "0006": {
+      "outcome": "not_in_catalog",
+      "label": "",
+      "notes": "cinematic game screenshot",
+      "updated_at": "2026-11-03T23:10:37.971Z"
+    },
+    "0007": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "default customization screen, in russian (I think)",
+      "updated_at": "2026-11-03T23:11:17.901Z"
+    },
+    "0008": {
+      "outcome": "label",
+      "label": "dealership/car-details/unspecified",
+      "notes": "",
+      "updated_at": "2026-11-03T23:11:34.583Z"
+    },
+    "0009": {
+      "outcome": "label",
+      "label": "results/standings/circuit",
+      "notes": "PSP screenshot",
+      "updated_at": "2026-11-03T23:11:56.891Z"
+    },
+    "0010": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "Top view of car in customization screen. ",
+      "updated_at": "2026-11-03T23:12:16.866Z"
+    },
+    "0011": {
+      "outcome": "category",
+      "label": "race/driving/circuit",
+      "notes": "PSP or PS2 screenshot of driving a circuit race. ",
+      "updated_at": "2026-11-03T23:13:01.016Z"
+    },
+    "0012": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "Top-down view of car in customization screen. ",
+      "updated_at": "2026-11-03T23:13:11.974Z"
+    },
+    "0013": {
+      "outcome": "category",
+      "label": "career/event-list",
+      "notes": "",
+      "updated_at": "2026-11-03T23:13:46.207Z"
+    },
+    "0014": {
+      "outcome": "category",
+      "label": "race/driving/drift",
+      "notes": "Drift mode initiating drift. ",
+      "updated_at": "2026-11-03T23:14:28.206Z"
+    },
+    "0015": {
+      "outcome": "unreadable",
+      "label": "",
+      "notes": "Low quality PSP screenshot, multiplayer. ",
+      "updated_at": "2026-11-03T23:14:55.256Z"
+    },
+    "0016": {
+      "outcome": "label",
+      "label": "replay/playback/unspecified",
+      "notes": "PS2 Replay Screenshot",
+      "updated_at": "2026-11-03T23:15:43.672Z"
+    },
+    "0017": {
+      "outcome": "category",
+      "label": "race/driving",
+      "notes": "Race side view. ",
+      "updated_at": "2026-11-03T23:16:21.788Z"
+    },
+    "0018": {
+      "outcome": "unreadable",
+      "label": "",
+      "notes": "unreadable, ignore",
+      "updated_at": "2026-11-03T23:16:43.030Z"
+    },
+    "0019": {
+      "outcome": "category",
+      "label": "customization/paint",
+      "notes": "Car in paint shop choosing base color. ",
+      "updated_at": "2026-11-03T23:17:00.513Z"
+    },
+    "0020": {
+      "outcome": "label",
+      "label": "character/face/eyes-brows",
+      "notes": "Player customization, edit eyes. ",
+      "updated_at": "2026-11-03T23:18:31.766Z"
+    },
+    "0021": {
+      "outcome": "label",
+      "label": "career/promotion/announcement",
+      "notes": "League promotion. ",
+      "updated_at": "2026-11-03T23:19:06.849Z"
+    },
+    "0022": {
+      "outcome": "category",
+      "label": "race/driving",
+      "notes": "Low quality race screenshot.",
+      "updated_at": "2026-11-03T23:20:07.482Z"
+    },
+    "0023": {
+      "outcome": "insufficient_context",
+      "label": "",
+      "notes": "Pink slip update. ",
+      "updated_at": "2026-11-03T23:20:51.707Z"
+    },
+    "0024": {
+      "outcome": "category",
+      "label": "performance",
+      "notes": "Car performance screen upgrade. ",
+      "updated_at": "2026-11-03T23:21:33.981Z"
+    },
+    "0025": {
+      "outcome": "unreadable",
+      "label": "",
+      "notes": "Low quality ignore. ",
+      "updated_at": "2026-11-03T23:21:41.973Z"
+    },
+    "0026": {
+      "outcome": "unreadable",
+      "label": "",
+      "notes": "PSP screenshot low quality ignore",
+      "updated_at": "2026-11-03T23:21:56.681Z"
+    },
+    "0027": {
+      "outcome": "category",
+      "label": "customization/interior",
+      "notes": "Car customization interior menu. ",
+      "updated_at": "2026-11-03T23:22:11.014Z"
+    },
+    "0028": {
+      "outcome": "label",
+      "label": "race/driving/circuit/lap-race",
+      "notes": "Circuit race screenshot rear view car crashing into wall. ",
+      "updated_at": "2026-11-03T23:22:39.547Z"
+    },
+    "0029": {
+      "outcome": "category",
+      "label": "results",
+      "notes": "",
+      "updated_at": "2026-11-03T23:22:51.863Z"
+    },
+    "0030": {
+      "outcome": "category",
+      "label": "career/leagues",
+      "notes": "Player in rookie league 0%",
+      "updated_at": "2026-11-03T23:23:10.122Z"
+    },
+    "0031": {
+      "outcome": "category",
+      "label": "character",
+      "notes": "Character edit hair screen. ",
+      "updated_at": "2026-11-03T23:23:23.972Z"
+    },
+    "0032": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "Car customization screen, red RX-7.",
+      "updated_at": "2026-11-03T23:23:49.917Z"
+    },
+    "0033": {
+      "outcome": "category",
+      "label": "performance",
+      "notes": "Car upgrade screen tuning pack. ",
+      "updated_at": "2026-11-03T23:24:25.351Z"
+    },
+    "0034": {
+      "outcome": "not_in_catalog",
+      "label": "",
+      "notes": "Advertisement for game, ignore. ",
+      "updated_at": "2026-11-03T23:24:36.992Z"
+    },
+    "0035": {
+      "outcome": "unreadable",
+      "label": "",
+      "notes": "Low quality PlayStation Portable Screenshot Ignore",
+      "updated_at": "2026-11-03T23:24:48.351Z"
+    },
+    "0036": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "Car customization screen, visual mods.",
+      "updated_at": "2026-11-03T23:25:13.830Z"
+    },
+    "0037": {
+      "outcome": "unreadable",
+      "label": "",
+      "notes": "Ignore. ",
+      "updated_at": "2026-11-03T23:25:40.392Z"
+    },
+    "0038": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "Car customization screen, top view. ",
+      "updated_at": "2026-11-03T23:25:51.125Z"
+    },
+    "0039": {
+      "outcome": "category",
+      "label": "multiplayer",
+      "notes": "Multiplayer waiting for players. ",
+      "updated_at": "2026-11-03T23:26:05.704Z"
+    },
+    "0040": {
+      "outcome": "category",
+      "label": "results",
+      "notes": "Drift race results. ",
+      "updated_at": "2026-11-03T23:26:32.783Z"
+    },
+    "0041": {
+      "outcome": "category",
+      "label": "race",
+      "notes": "Front view of car driving no HUD. ",
+      "updated_at": "2026-11-03T23:26:51.967Z"
+    },
+    "0042": {
+      "outcome": "category",
+      "label": "race/driving/drift",
+      "notes": "Drift mode, initiating drift.",
+      "updated_at": "2026-11-03T23:27:22.416Z"
+    },
+    "0043": {
+      "outcome": "category",
+      "label": "race/driving/drift",
+      "notes": "Low quality drift mode screenshot. ",
+      "updated_at": "2026-11-03T23:27:38.499Z"
+    },
+    "0044": {
+      "outcome": "unreadable",
+      "label": "",
+      "notes": "Multiplayer screenshot, ignore. ",
+      "updated_at": "2026-11-03T23:27:49.666Z"
+    },
+    "0045": {
+      "outcome": "category",
+      "label": "race",
+      "notes": "Rear view of two cars racing. ",
+      "updated_at": "2026-11-03T23:28:09.524Z"
+    },
+    "0046": {
+      "outcome": "category",
+      "label": "race",
+      "notes": "Front view of two cars racing. ",
+      "updated_at": "2026-11-03T23:28:19.399Z"
+    },
+    "0047": {
+      "outcome": "category",
+      "label": "race",
+      "notes": "Rear view of Honda S2000 drift race. Right angle. ",
+      "updated_at": "2026-11-03T23:28:33.090Z"
+    },
+    "0048": {
+      "outcome": "category",
+      "label": "dealership",
+      "notes": "Front view of Corolla GTS in dealership. ",
+      "updated_at": "2026-11-03T23:28:44.732Z"
+    },
+    "0049": {
+      "outcome": "label",
+      "label": "betting/cash-wager/offer",
+      "notes": "",
+      "updated_at": "2026-11-03T23:29:53.282Z"
+    },
+    "0050": {
+      "outcome": "unreadable",
+      "label": "",
+      "notes": "Multiplayer lobby ignore",
+      "updated_at": "2026-11-03T23:30:16.123Z"
+    },
+    "0051": {
+      "outcome": "label",
+      "label": "career/leagues/select",
+      "notes": "League. Rookie. 54%. One valid car. ",
+      "updated_at": "2026-11-03T23:31:00.889Z"
+    },
+    "0052": {
+      "outcome": "category",
+      "label": "race/driving/time-attack",
+      "notes": "Rear view of saline driving in Time attack. ",
+      "updated_at": "2026-11-03T23:31:31.385Z"
+    },
+    "0053": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "Car customization screen. ",
+      "updated_at": "2026-11-04T00:15:26.173Z"
+    },
+    "0054": {
+      "outcome": "category",
+      "label": "performance",
+      "notes": "Performance screen choose tire. ",
+      "updated_at": "2026-11-04T00:15:36.531Z"
+    },
+    "0055": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "Car customization screen, choose rear spoiler. ",
+      "updated_at": "2026-11-04T00:15:47.164Z"
+    },
+    "0056": {
+      "outcome": "category",
+      "label": "replay",
+      "notes": "Replay rear view. ",
+      "updated_at": "2026-11-04T00:15:57.089Z"
+    },
+    "0057": {
+      "outcome": "label",
+      "label": "menu/profile/select",
+      "notes": "Load driver menu. ",
+      "updated_at": "2026-11-04T00:16:09.947Z"
+    },
+    "0058": {
+      "outcome": "category",
+      "label": "race",
+      "notes": "race loading screen",
+      "updated_at": "2026-11-04T00:16:20.655Z"
+    },
+    "0059": {
+      "outcome": "label",
+      "label": "customization/checkout/items",
+      "notes": "Shopping cart customization screen. ",
+      "updated_at": "2026-11-04T00:16:37.164Z"
+    },
+    "0060": {
+      "outcome": "label",
+      "label": "garage/car-showcase",
+      "notes": "Showcase, side view, BMW. ",
+      "updated_at": "2026-11-04T00:16:54.355Z"
+    },
+    "0061": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "Low quality customization screen.",
+      "updated_at": "2026-11-04T00:17:32.280Z"
+    },
+    "0062": {
+      "outcome": "label",
+      "label": "race/intro/cinematic",
+      "notes": "Race cinematic ",
+      "updated_at": "2026-11-04T00:25:49.467Z"
+    },
+    "0063": {
+      "outcome": "label",
+      "label": "race/driving/circuit/lap-race",
+      "notes": "Low-quality PSP screenshot of a race chase cam ",
+      "updated_at": "2026-11-04T00:26:30.243Z"
+    },
+    "0064": {
+      "outcome": "label",
+      "label": "race/driving/circuit/lap-race",
+      "notes": "Third place, 2 out of 3 laps, circuit race, Honda S2000 ",
+      "updated_at": "2026-11-04T00:27:32.191Z"
+    },
+    "0065": {
+      "outcome": "label",
+      "label": "garage/owned-cars/details",
+      "notes": "Select car: Mitsubishi FTO. ",
+      "updated_at": "2026-11-04T00:28:12.008Z"
+    },
+    "0066": {
+      "outcome": "category",
+      "label": "race/driving/circuit",
+      "notes": "Audi TT circuit race: first place, second lap, left tail light damaged ",
+      "updated_at": "2026-11-04T00:29:07.046Z"
+    },
+    "0067": {
+      "outcome": "category",
+      "label": "race/driving/time-attack",
+      "notes": "Time attack ",
+      "updated_at": "2026-11-04T00:29:31.895Z"
+    },
+    "0068": {
+      "outcome": "category",
+      "label": "race/driving",
+      "notes": "",
+      "updated_at": "2026-11-04T00:29:44.762Z"
+    },
+    "0069": {
+      "outcome": "category",
+      "label": "dealership/car-details",
+      "notes": "Nissan 200SX dealership screen",
+      "updated_at": "2026-11-04T00:30:10.170Z"
+    },
+    "0070": {
+      "outcome": "label",
+      "label": "customization/checkout/items",
+      "notes": "Customization checkout screen in French ",
+      "updated_at": "2026-11-04T00:31:15.669Z"
+    },
+    "0071": {
+      "outcome": "category",
+      "label": "performance",
+      "notes": "Performance screen in Russian ",
+      "updated_at": "2026-11-04T00:31:53.361Z"
+    },
+    "0072": {
+      "outcome": "category",
+      "label": "career/leagues",
+      "notes": "Rookie League 1, valid car, 36%",
+      "updated_at": "2026-11-04T00:32:29.660Z"
+    },
+    "0073": {
+      "outcome": "label",
+      "label": "character/face/hair",
+      "notes": "Edit facial hair, male face. ",
+      "updated_at": "2026-11-04T00:33:02.927Z"
+    },
+    "0074": {
+      "outcome": "category",
+      "label": "race",
+      "notes": "Rear view promotional shot",
+      "updated_at": "2026-11-04T00:33:19.719Z"
+    },
+    "0075": {
+      "outcome": "unreadable",
+      "label": "",
+      "notes": "Completely unrelated. Remove.",
+      "updated_at": "2026-11-04T00:33:42.653Z"
+    },
+    "0076": {
+      "outcome": "label",
+      "label": "race/pause/menu",
+      "notes": "Pause menu keyboard controls ",
+      "updated_at": "2026-11-04T00:35:49.230Z"
+    },
+    "0077": {
+      "outcome": "category",
+      "label": "career/leagues",
+      "notes": "PS2 screenshot: league selection screen",
+      "updated_at": "2026-11-04T00:36:22.020Z"
+    },
+    "0078": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "PS2 car customization screen ",
+      "updated_at": "2026-11-04T00:40:29.470Z"
+    },
+    "0079": {
+      "outcome": "category",
+      "label": "race",
+      "notes": "Promotional game screenshot",
+      "updated_at": "2026-11-04T00:41:01.253Z"
+    },
+    "0080": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "Xbox 360 car customization screen ",
+      "updated_at": "2026-11-04T00:41:28.694Z"
+    },
+    "0081": {
+      "outcome": "category",
+      "label": "career",
+      "notes": "Pink slip confirmation screen",
+      "updated_at": "2026-11-04T00:41:57.702Z"
+    },
+    "0082": {
+      "outcome": "label",
+      "label": "results/challenge/score",
+      "notes": "Drift mode challenge results screen",
+      "updated_at": "2026-11-04T00:42:57.856Z"
+    },
+    "0083": {
+      "outcome": "category",
+      "label": "performance/category",
+      "notes": "Car performance screen tuning pack ",
+      "updated_at": "2026-11-04T00:43:31.202Z"
+    },
+    "0084": {
+      "outcome": "category",
+      "label": "career",
+      "notes": "Event selection screen ",
+      "updated_at": "2026-11-04T00:43:57.135Z"
+    },
+    "0085": {
+      "outcome": "category",
+      "label": "career",
+      "notes": "League promotion screen",
+      "updated_at": "2026-11-04T00:44:19.702Z"
+    },
+    "0086": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "Car customization screen, side view, Mustang, wheel size 21 inches ",
+      "updated_at": "2026-11-04T00:44:31.239Z"
+    },
+    "0087": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "Car customization screen in Russian ",
+      "updated_at": "2026-11-04T00:44:39.543Z"
+    },
+    "0088": {
+      "outcome": "category",
+      "label": "race/driving",
+      "notes": "PS2 or PSP race chase camera",
+      "updated_at": "2026-11-04T00:45:01.601Z"
+    },
+    "0089": {
+      "outcome": "category",
+      "label": "results",
+      "notes": "Race winnings screen, first place ",
+      "updated_at": "2026-11-04T00:45:14.385Z"
+    },
+    "0090": {
+      "outcome": "category",
+      "label": "performance",
+      "notes": "",
+      "updated_at": "2026-11-04T00:45:19.981Z"
+    },
+    "0091": {
+      "outcome": "category",
+      "label": "customization",
+      "notes": "Edit license plate. California license plate DUMM last M selected in red.",
+      "updated_at": "2026-11-04T00:45:45.606Z"
+    },
+    "0092": {
+      "outcome": "category",
+      "label": "race/driving",
+      "notes": "PS2 or PSP race in progress: 1 out of 5 laps, 6th place.  Chase camera.",
+      "updated_at": "2026-11-04T00:46:26.818Z"
+    },
+    "0093": {
+      "outcome": "category",
+      "label": "career",
+      "notes": "Pink slip screen ",
+      "updated_at": "2026-11-04T00:46:34.743Z"
+    },
+    "0094": {
+      "outcome": "category",
+      "label": "race",
+      "notes": "PSP Chase Camera Circuit Race: 4 laps, second place",
+      "updated_at": "2026-11-04T00:46:56.626Z"
+    },
+    "0095": {
+      "outcome": "category",
+      "label": "race/driving/drift",
+      "notes": "Promotional screenshot: two cars drift race ",
+      "updated_at": "2026-11-04T00:47:10.901Z"
+    },
+    "0096": {
+      "outcome": "insufficient_context",
+      "label": "",
+      "notes": "",
+      "updated_at": "2026-11-04T00:47:15.322Z"
+    },
+    "0097": {
+      "outcome": "category",
+      "label": "performance",
+      "notes": "Car customization screen in Russian, nitrous icon",
+      "updated_at": "2026-11-04T00:47:31.843Z"
+    },
+    "0098": {
+      "outcome": "label",
+      "label": "race/intro/cinematic",
+      "notes": "Cinematic race intro, PS3 ",
+      "updated_at": "2026-11-04T00:47:49.351Z"
+    },
+    "0099": {
+      "outcome": "category",
+      "label": "career/leagues",
+      "notes": "Xbox 360 screenshot: Select League screen. Rookie, League 7, and League 6 available. One valid car in League 6.",
+      "updated_at": "2026-11-04T00:48:12.751Z"
+    },
+    "0100": {
+      "outcome": "label",
+      "label": "race/driving/circuit/lap-race",
+      "notes": "Chase cam race: first place, 2 out of 2 laps. ",
+      "updated_at": "2026-11-04T00:48:37.013Z"
+    }
+  },
+  "position": 100
+}
