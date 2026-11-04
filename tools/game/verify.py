@@ -2,6 +2,7 @@
 """Run native game scenarios and retain captures, timings and exact build identity."""
 
 import argparse
+import copy
 import hashlib
 import html
 import json
@@ -15,10 +16,13 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+import background_window
+
 ROOT = Path(__file__).resolve().parents[2]
 GODOT = ROOT / "build/tools/godot-4.7.2/Godot.app/Contents/MacOS/Godot"
+MAX_SCREENSHOTS = 50
 # Recovered purchase consumers 821C48C0/821C4F00; independent of runtime pricing code.
-STARTER_CAR_ID = "GT4_MINI0001"
+STARTER_CAR_ID = "GT4_HOND0018"
 NATIVE_PAINT_PRICES = {
     "gloss": 3000,
     "metallic": 5000,
@@ -32,6 +36,29 @@ NATIVE_PAINT_PRICES = {
 def digest(path):
     with path.open("rb") as source:
         return hashlib.file_digest(source, "sha256").hexdigest()
+
+
+def restored_career_matches(saved, restored):
+    """Loading an unsettled race cancels its stake; all other state must survive."""
+    if not isinstance(saved, dict) or not isinstance(restored, dict):
+        return False
+    expected = copy.deepcopy(saved)
+    interrupted = expected.pop("interrupted_race", None)
+    if interrupted:
+        refund = interrupted["wager"] + interrupted["entrance_fee"]
+        expected["career"]["cash"] += refund
+        transactions = expected["career"]["transactions"]
+        transactions.append(
+            {
+                "sequence": len(transactions) + 1,
+                "kind": "RaceRefund",
+                "amount": refund,
+                "car_id": interrupted["car_id"],
+                "event_id": interrupted["event_id"],
+                "description": "Interrupted race cancelled; unsettled cash returned and owned car retained",
+            }
+        )
+    return expected == restored
 
 
 def car_capture_diversity_checks(folder, ids):
@@ -99,6 +126,12 @@ def ui_control_actions_match(steps, actions):
             if entry.get("via") != "visible-HSlider.value_changed":
                 return False
             if entry.get("value") != step["value"]:
+                return False
+        elif "text" in step:
+            if (
+                entry.get("via") != "visible-LineEdit.text_changed"
+                or entry.get("text") != step["text"]
+            ):
                 return False
         elif entry.get("via") != "visible-enabled-Button.pressed":
             return False
@@ -602,12 +635,125 @@ def runtime_identity(app):
 
 def scenarios(suite, content):
     plan = []
+    if suite == "wheel-audit":
+        plan.extend(
+            {
+                "id": f"wheel-audit-{car}",
+                "scenario": "driving",
+                "event": "oversteer-0-circuit",
+                "car": car,
+                "frames": 362,
+                # The faster AWD car needs a gentler turn to keep the inspection
+                # camera clear of the roadside barrier throughout the orbit.
+                "input_events": ROOT
+                / "data/oversteer/scenarios"
+                / (
+                    "wheel-audit-awd-input.json"
+                    if car == "GT4_MITS0001"
+                    else "wheel-audit-input.json"
+                ),
+                "fixed_fps": 60,
+                "wheel_audit": True,
+            }
+            for car in ["GT4_HOND0018", "GT4_MAZD0012", "GT4_MITS0001"]
+        )
+    if suite == "pivot-career":
+        plan.extend(
+            [
+                {
+                    "id": "pivot-career-menu",
+                    "scenario": "title",
+                    "frames": 330,
+                    "ui_actions": ROOT / "data/oversteer/scenarios/career-ui.json",
+                },
+                {"id": "pivot-career-relaunch", "scenario": "reload", "frames": 60},
+                {
+                    "id": "pivot-drift-course",
+                    "scenario": "drift",
+                    "frames": 600,
+                    "car": "GT4_MAZD0012",
+                    "event": "oversteer-0-drift",
+                },
+            ]
+        )
+    if suite == "pivot-wagers":
+        plan.append(
+            {
+                "id": "wager-purchase",
+                "scenario": "title",
+                "frames": 600,
+                "ui_actions": ROOT / "data/oversteer/scenarios/wager-purchase-ui.json",
+            }
+        )
+        plan.append(
+            {
+                "id": "wager-purchase-reload",
+                "scenario": "reload",
+                "frames": 60,
+                "seed_case": "wager-purchase",
+                "restore_only": True,
+            }
+        )
+        for stake in ["cash", "pink"]:
+            for outcome in ["restart", "exit", "crash"]:
+                name = f"wager-{stake}-{outcome}"
+                plan.append(
+                    {
+                        "id": name,
+                        "scenario": "reload",
+                        "frames": 600,
+                        "event": "oversteer-0-circuit",
+                        "seed_case": "wager-purchase",
+                        "ui_actions": ROOT / f"data/oversteer/scenarios/{name}-ui.json",
+                        "stake": stake,
+                        "wager_outcome": outcome,
+                        **({"crash_after_capture": "race-active"} if outcome == "crash" else {}),
+                    }
+                )
+                plan.append(
+                    {
+                        "id": name + "-reload",
+                        "scenario": "reload",
+                        "frames": 60,
+                        "seed_case": name,
+                        "restore_only": True,
+                    }
+                )
+                if outcome == "crash":
+                    plan.append(
+                        {
+                            "id": name + "-reload-again",
+                            "scenario": "reload",
+                            "frames": 60,
+                            "seed_case": name + "-reload",
+                            "restore_only": True,
+                        }
+                    )
+    if suite == "pivot-ui":
+        plan.extend(
+            [
+                {
+                    "id": "pivot-onboarding",
+                    "scenario": "title",
+                    "frames": 240,
+                    "ui_actions": ROOT / "data/oversteer/scenarios/onboarding-ui.json",
+                },
+                {"id": "pivot-onboarding-relaunch", "scenario": "reload", "frames": 60},
+                {
+                    "id": "pivot-driver-grid",
+                    "scenario": "reload",
+                    "frames": 180,
+                    "event": "oversteer-0-circuit",
+                    "ui_actions": ROOT / "data/oversteer/scenarios/driver-grid-ui.json",
+                },
+            ]
+        )
     if suite in {"input", "all"}:
         plan.extend(
             {
                 "id": f"input-{device}-{direction}",
                 "scenario": "driving",
-                "event": "native_28956449_001",
+                "event": "oversteer-0-circuit",
                 "car": "FOCUS_SVT",
                 "frames": 300,
                 "input_events": ROOT / f"data/juiced2/scenarios/{device}-{direction}-input.json",
@@ -626,7 +772,7 @@ def scenarios(suite, content):
                 "frames": 1200,
                 "ui_actions": ROOT / f"data/juiced2/scenarios/{name}-ui.json",
                 **(
-                    {"event": "native_28956449_001"}
+                    {"event": "oversteer-0-circuit"}
                     if name in {"career-wager", "pink-slip", "spectator"}
                     else {}
                 ),
@@ -699,14 +845,12 @@ def scenarios(suite, content):
             for name in [
                 "title",
                 "menu",
-                "avatar",
                 "career",
                 "quick",
                 "event",
                 "bet",
                 "garage",
                 "dealer",
-                "crew",
                 "customization",
                 "vinyl",
                 "options",
@@ -715,13 +859,9 @@ def scenarios(suite, content):
             ]
         )
     if suite in {"driving", "all"}:
-        # One normal race for each actual native mode, with its original content.
-        modes = {}
-        for event in content["events"]:
-            modes.setdefault(event["mode"], event)
         plan.extend(
-            {"id": f"mode-{mode}", "scenario": "results", "event": event["id"]}
-            for mode, event in sorted(modes.items())
+            {"id": f"mode-{mode}", "scenario": "results", "event": event}
+            for mode, event in [("Circuit", "oversteer-0-circuit"), ("Drift", "oversteer-0-drift")]
         )
         plan.append({"id": "career-race", "scenario": "career-race", "wager": 100})
     if suite in {"all30", "all"}:
@@ -729,26 +869,19 @@ def scenarios(suite, content):
             [{"id": "all30", "scenario": "all30"}, {"id": "all30-relaunch", "scenario": "reload"}]
         )
     if suite in {"performance", "all"}:
-        # Different native environments exercise city, vegetation and bridge content.
-        for track in [
-            "alps_alps_masterworld1",
-            "tokyo_circuit5",
-            "downtown_sanfrancisco_masterworld_route1",
+        for track, event in [
+            ("london_circuit1", "oversteer-0-circuit"),
+            ("london_drift_drift1", "oversteer-0-drift"),
         ]:
-            event = next(
-                (e for e in content["events"] if e["track_id"] == track and e["mode"] == "Circuit"),
-                None,
+            plan.append(
+                {
+                    "id": f"benchmark-{track}",
+                    "scenario": "benchmark",
+                    "event": event,
+                    "frames": 2100,
+                    "warmup": 300,
+                }
             )
-            if event:
-                plan.append(
-                    {
-                        "id": f"benchmark-{track}",
-                        "scenario": "benchmark",
-                        "event": event["id"],
-                        "frames": 2100,
-                        "warmup": 300,
-                    }
-                )
     if suite == "smoke":
         plan = [
             {"id": "menu", "scenario": "menu"},
@@ -841,13 +974,25 @@ def input_intent_checks(report, case):
     }
 
 
-def run_case(case, destination, app, offline=False, independent=False):
+def run_case(
+    case,
+    destination,
+    app,
+    offline=False,
+    independent=False,
+    background=True,
+    screenshot_limit=MAX_SCREENSHOTS,
+):
     folder = destination / case["id"]
     folder.mkdir(parents=True, exist_ok=False)
     command = native_command(app, offline, independent)
     if "fixed_fps" in case:
         command.extend(["--fixed-fps", str(case["fixed_fps"])])
     save_file = folder / "save.json"
+    if "seed_case" in case:
+        source = destination / case["seed_case"] / "save.json"
+        shutil.copyfile(source, folder / "initial-save.json")
+        shutil.copyfile(source, save_file)
     if "seed_save" in case:
         shutil.copyfile(case["seed_save"], folder / "initial-save.json")
         shutil.copyfile(case["seed_save"], save_file)
@@ -857,6 +1002,8 @@ def run_case(case, destination, app, offline=False, independent=False):
         "relaunch": "driving",
         "ui-options-relaunch": "ui-options",
         "ui-native-avatar-relaunch": "ui-native-avatar",
+        "pivot-onboarding-relaunch": "pivot-onboarding",
+        "pivot-career-relaunch": "pivot-career-menu",
     }.get(case["id"])
     if "paint_relaunch_family" in case:
         previous_id = f"ui-native-paint-{case['paint_relaunch_family']}"
@@ -868,6 +1015,9 @@ def run_case(case, destination, app, offline=False, independent=False):
         ["--", "--scenario", case["scenario"], "--capture", folder, "--save-file", save_file]
     )
     command.extend(["--settings-dir", settings_dir])
+    command.extend(["--screenshot-limit", str(min(screenshot_limit, MAX_SCREENSHOTS))])
+    if case.get("wheel_audit"):
+        command.append("--wheel-audit")
     ui_plan = None
     if "ui_actions" in case:
         ui_plan = folder / "ui-plan.json"
@@ -896,6 +1046,12 @@ def run_case(case, destination, app, offline=False, independent=False):
             raise ValueError("Source replay controls changed")
         if digest(input_plan) != replay_manifest["event_plan_sha256"]:
             raise ValueError("Source replay events changed")
+        if "expected_final_save" in replay_manifest:
+            expected = replay_manifest["expected_final_save"]
+            source = ROOT / expected["path"]
+            if digest(source) != expected["sha256"]:
+                raise ValueError("Recorded final save changed")
+            shutil.copyfile(source, folder / "expected-final-save.json")
         if (
             "ui_plan_sha256" in replay_manifest
             and digest(ui_plan) != replay_manifest["ui_plan_sha256"]
@@ -904,37 +1060,194 @@ def run_case(case, destination, app, offline=False, independent=False):
     for name in ["event", "car", "wager", "frames", "warmup"]:
         if name in case:
             command.extend([f"--{name}", str(case[name])])
+    environment = (
+        background_window.environment(app / "Contents/MacOS/Oversteer" if app else GODOT)
+        if background
+        else None
+    )
+    if background and (offline or independent):
+        # SIP strips DYLD variables from sandbox-exec itself. Set the guard in
+        # its child, then probe under the same restrictions before any window.
+        guard = Path(environment["DYLD_INSERT_LIBRARIES"])
+        if independent:
+            local_guard = folder / guard.name
+            shutil.copyfile(guard, local_guard)
+            guard = local_guard
+        command[3:3] = ["/usr/bin/env", f"DYLD_INSERT_LIBRARIES={guard}"]
+        probe = subprocess.run(
+            [str(x) for x in [*command[: command.index("--")], "--headless", "--version"]],
+            cwd=folder,
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
+        if probe.returncode or background_window.MARKER not in probe.stderr:
+            raise RuntimeError(f"Sandbox focus guard unavailable; launch cancelled: {probe.stderr}")
     started = time.monotonic()
+    crash_checkpoint = None
     with (folder / "runtime.log").open("w") as log:
-        process = subprocess.run(
+        with subprocess.Popen(
             [str(x) for x in command],
             cwd=folder if app else ROOT,
             stdout=log,
             stderr=subprocess.STDOUT,
-            timeout=900,
-        )
+            env=environment,
+        ) as process:
+            try:
+                if "crash_after_capture" in case:
+                    target = case["crash_after_capture"]
+                    steps = json.loads(ui_plan.read_text())
+                    target_index = next(
+                        i for i, s in enumerate(steps) if s.get("capture") == target
+                    )
+                    while process.poll() is None and time.monotonic() - started < 900:
+                        try:
+                            actions = json.loads((folder / "ui-actions.json").read_text())
+                            saved = json.loads(save_file.read_text())
+                        except (OSError, ValueError):
+                            actions, saved = [], {}
+                        if (
+                            len(actions) > target_index
+                            and (folder / f"{target}.png").exists()
+                            and saved.get("interrupted_race")
+                        ):
+                            crash_checkpoint = {
+                                "ui_actions": actions,
+                                "saved_state": saved,
+                                "pid": process.pid,
+                                "signal": "SIGKILL",
+                            }
+                            process.kill()
+                            break
+                        time.sleep(0.02)
+                process.wait(timeout=max(1, 900 - (time.monotonic() - started)))
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait()
+                raise
     text = (folder / "runtime.log").read_text(errors="replace")
     report_path = folder / "scenario.json"
     report = json.loads(report_path.read_text()) if report_path.exists() else None
+    actual_screenshots = len(list(folder.rglob("*.png")))
     errors = re.findall(r"^.*(?:ERROR:|SCRIPT ERROR:|Shader compilation failed).*$", text, re.M)
+    if "crash_after_capture" in case:
+        checkpoint_path = folder / "interruption.json"
+        checkpoint_path.write_text(json.dumps(crash_checkpoint, indent=2) + "\n")
+        actions = (crash_checkpoint or {}).get("ui_actions", [])
+        saved = (crash_checkpoint or {}).get("saved_state", {})
+        seed = json.loads((folder / "initial-save.json").read_text())
+        checks = {
+            "killed_owned_process_at_checkpoint": crash_checkpoint is not None
+            and process.returncode == -9,
+            "no_runtime_errors": not errors,
+            "all_ui_actions_completed": ui_control_actions_match(steps, actions),
+            "no_ui_action_errors": bool(actions)
+            and all(a.get("substate_after", {}).get("error") is None for a in actions),
+            "race_active_before_crash": bool(actions) and actions[-1].get("screen_after") == "Race",
+            "pending_stake_saved": bool(saved.get("interrupted_race")),
+            "no_loss_before_crash": saved.get("career", {}).get("losses")
+            == seed["career"]["losses"],
+            "owned_cars_preserved": saved.get("career", {}).get("garage")
+            == seed["career"]["garage"],
+            "screenshot_budget": actual_screenshots <= min(screenshot_limit, MAX_SCREENSHOTS),
+            "background_focus_guard": background_window.MARKER in text
+            and "BACKGROUND FOCUS VIOLATION" not in text,
+        }
+        result = {
+            "case": {k: str(v) if isinstance(v, Path) else v for k, v in case.items()},
+            "command": [str(x) for x in command],
+            "exit_code": process.returncode,
+            "duration_seconds": time.monotonic() - started,
+            "screenshots_generated": actual_screenshots,
+            "checks": checks,
+            "errors": errors,
+            "scenario_json": str(checkpoint_path.relative_to(destination)),
+            "capture": str((folder / f"{target}.png").relative_to(destination)),
+            "status": "passed" if all(checks.values()) else "failed",
+        }
+        print(
+            json.dumps(
+                {
+                    "case": case["id"],
+                    "status": result["status"],
+                    "failed": [k for k, v in checks.items() if not v],
+                }
+            ),
+            flush=True,
+        )
+        return result
     checks = {
         "process_exited": process.returncode == 0,
         "scenario_report": report is not None,
         "no_runtime_errors": not errors,
         "final_capture": (folder / "final.png").exists(),
+        "screenshot_budget": actual_screenshots <= min(screenshot_limit, MAX_SCREENSHOTS)
+        and (
+            report is None
+            or (
+                report.get("screenshot_limit") == min(screenshot_limit, MAX_SCREENSHOTS)
+                and report.get("screenshots_generated") == actual_screenshots
+            )
+        ),
     }
+    if background:
+        checks["background_focus_guard"] = (
+            background_window.MARKER in text and "BACKGROUND FOCUS VIOLATION" not in text
+        )
     if replay_manifest:
         checks.update(recorded_initial_save_identity=True, recorded_evidence_identity=True)
     input_metrics = None
     if report:
+        if case["id"] == "wager-purchase":
+            career = report["saved_state"]["career"]
+            checks["purchase_and_upgrade_charged_once"] = career["cash"] == 4500 and [
+                (t["kind"], t["amount"]) for t in career["transactions"]
+            ] == [("BuyCar", -19500), ("Customization", -1000)]
+            checks["spare_owned_and_starter_upgrade_installed"] = (
+                set(career["garage"]) == {STARTER_CAR_ID, "GT4_MINI0001"}
+                and career["garage"][STARTER_CAR_ID]["engine"] == 1
+                and career["garage"]["GT4_MINI0001"]["engine"] == 0
+                and not report["snapshot"]["cart"]
+            )
+        if case.get("restore_only"):
+            checks["restored_prior_process_save"] = report.get("load_status", {}).get(
+                "source"
+            ) == "primary" and restored_career_matches(
+                json.loads((folder / "initial-save.json").read_text()), report["saved_state"]
+            )
+        if case.get("wager_outcome") in {"restart", "exit"}:
+            seed = json.loads((folder / "initial-save.json").read_text())["career"]
+            career = report["saved_state"]["career"]
+            delta = career["transactions"][len(seed["transactions"]) :]
+            escrows = [t for t in delta if t["kind"] == "WagerEscrow"]
+            checks["one_forfeit_loss"] = career["losses"] == seed["losses"] + 1
+            checks["cash_forfeited_once"] = career["cash"] == seed["cash"] + sum(
+                t["amount"] for t in escrows
+            )
+            checks["no_pending_stake_after_forfeit"] = (
+                "interrupted_race" not in report["saved_state"]
+            )
+            expected_garage = dict(seed["garage"])
+            if case["stake"] == "pink":
+                expected_garage.pop(STARTER_CAR_ID)
+            checks["correct_car_ownership_after_forfeit"] = career["garage"] == expected_garage
+            checks["one_stake_settlement"] = [t["kind"] for t in delta] == (
+                ["WagerEscrow", "WagerSettlement"] if case["stake"] == "cash" else ["PinkSlipLoss"]
+            )
+            checks["expected_screen_after_forfeit"] = report["snapshot"]["screen"] == (
+                "Race" if case["wager_outcome"] == "restart" else "MainMenu"
+            )
         checks.update(
             {
                 "thirty_cars": report["content"]["cars"] == 30,
-                "thirty_three_routes": report["content"]["tracks"] == 33,
+                "two_selected_courses": report["content"]["tracks"] == 2,
+                "eighteen_independent_events": report["content"]["events"] == 18,
                 "native_metal": report["renderer"]["driver"] == "metal",
                 "viewport_1080p": report["renderer"]["viewport"] == [1920, 1080],
-                "save_roundtrip": report["save_reload_equal"],
-                "disk_reload": report["disk_reload_equal"],
+                "save_restore_matches_contract": restored_career_matches(
+                    report["saved_state"], report.get("reloaded_state")
+                ),
+                "disk_save_matches_memory": report.get("disk_save_matches_memory") is True,
                 "save_written": report.get("save_status", {}).get("ok") is True,
                 "isolated_save": report.get("save_status", {}).get("path") == str(save_file),
                 "isolated_options": report.get("settings_path")
@@ -958,6 +1271,27 @@ def run_case(case, destination, app, offline=False, independent=False):
                 abs(sample["delta"] - 1 / case["fixed_fps"]) < 1e-6
                 for sample in replay.get("samples", [])
             )
+            if case.get("wheel_audit"):
+                captures = sorted(folder.glob("wheel-angle-*.json"))
+                views = [json.loads(path.read_text()) for path in captures]
+                checks["six_paired_race_angles"] = {
+                    view["wheel_audit"]["angle_degrees"] for view in views
+                } == set(range(0, 360, 60))
+                checks["paired_angle_screenshots"] = len(captures) == 12 and all(
+                    path.with_suffix(".png").exists() for path in captures
+                )
+                checks["rendered_wheel_contact_measurements"] = all(
+                    len(view["wheel_audit"]["rendered_wheels"] or []) >= 4 for view in views
+                )
+                tire_clearances = [
+                    wheel["minimum_vertex_plane_clearance_m"]
+                    for view in views
+                    for wheel in (view["wheel_audit"]["rendered_wheels"] or [])
+                    if wheel["node"].startswith("tire_") and wheel["contact_active"]
+                ]
+                checks["sampled_tires_on_contact_planes"] = bool(tire_clearances) and all(
+                    value is not None and -0.001 <= value <= 0.005 for value in tire_clearances
+                )
         if replay_manifest:
             replay = report.get("native_input_replay", {})
             source = json.loads((folder / "replay-controls.json").read_text())
@@ -1004,7 +1338,7 @@ def run_case(case, destination, app, offline=False, independent=False):
                 {
                     "recorded_content_identity": report["content"]["sha256"]
                     == replay_manifest["content_sha256"],
-                    "recorded_car_selected": report["snapshot"]["selected_car"]
+                    "recorded_car_raced": report["snapshot"]["race"]["racers"][0]["car_id"]
                     == replay_manifest["car_id"],
                     "recorded_initial_save_loaded": report.get("load_status", {}).get("source")
                     == "primary",
@@ -1013,8 +1347,9 @@ def run_case(case, destination, app, offline=False, independent=False):
                     "all_replay_events_processed": replay.get("events_complete") is True,
                     "natural_terminal_replay": report.get("input_replay_terminal_success") is True
                     and report["snapshot"]["screen"] in {"Results", "Complete"},
-                    "native_event_won": result.get("event_id") == replay_manifest["event_id"]
-                    and result.get("won") is True,
+                    "recorded_event_outcome": result.get("event_id") == replay_manifest["event_id"]
+                    and result.get("won") == target["won"]
+                    and result.get("position") == target["position"],
                     "recorded_score_reproduced": result.get("score") == target["score"],
                     "recorded_time_reproduced": abs(result.get("time", -1) - target["time"]) < 1e-4,
                     "native_reward_paid": result.get("reward") == target["reward"]
@@ -1023,11 +1358,28 @@ def run_case(case, destination, app, offline=False, independent=False):
                         "expected_final_cash",
                         initial["career"]["cash"] + target["reward"] + target.get("wager", 0),
                     )
-                    and replay_manifest["event_id"]
-                    in report["saved_state"]["career"]["completed_events"],
+                    and (
+                        replay_manifest["event_id"]
+                        in report["saved_state"]["career"]["completed_events"]
+                    )
+                    == (
+                        target["won"]
+                        or replay_manifest["event_id"] in initial["career"]["completed_events"]
+                    ),
                     "recorded_net_wager_reproduced": result.get("wager") == target.get("wager", 0),
+                    "recorded_pink_slip_reproduced": result.get("pink_slip")
+                    == target.get("pink_slip"),
                 }
             )
+            if "runtime_content_sha256" in replay_manifest:
+                checks["recorded_runtime_content_identity"] = (
+                    report["content"].get("runtime_sha256")
+                    == replay_manifest["runtime_content_sha256"]
+                )
+            if "expected_final_save" in replay_manifest:
+                checks["recorded_final_save_reproduced"] = report["saved_state"] == json.loads(
+                    (folder / "expected-final-save.json").read_text()
+                )
             if "expected_new_transactions" in replay_manifest:
                 checks["recorded_new_transactions_reproduced"] = (
                     report["saved_state"]["career"]["transactions"][
@@ -1164,6 +1516,34 @@ def run_case(case, destination, app, offline=False, independent=False):
             checks["no_ui_action_errors"] = all(
                 entry.get("substate_after", {}).get("error") is None for entry in actions
             )
+            if case["id"] == "pivot-onboarding":
+                checks["onboarding_bypasses_character_creation"] = bool(actions) and all(
+                    entry.get("screen_after") != "Avatar" for entry in actions
+                )
+                checks["driver_name_saved"] = report["saved_state"]["profile"]["name"] == "Alex"
+                checks["career_reached"] = any(
+                    entry["action"] == "nav:career" and entry.get("screen_after") == "Career"
+                    for entry in actions
+                )
+                checks["source_logo_removed"] = all(
+                    row.get("asset") != "juiced2Logo"
+                    for entry in actions
+                    for row in (entry.get("capture_native_ui_bounds") or [])
+                )
+            if case["id"] == "pivot-driver-grid":
+                checks["grid_visible"] = report["snapshot"]["screen"] == "Grid"
+                checks["fixed_driver_rendered"] = (
+                    report.get("avatar_components", {}).get("customizable") is False
+                )
+                checks["driver_idle_playing"] = any(
+                    state.get("playing") and state.get("clip") == "CommonMale_CrewIdle01"
+                    for state in (report.get("avatar_animations") or [])
+                )
+                checks["betting_source_logo_removed"] = all(
+                    row.get("asset") not in {"HIN_TV_Logo", "juiced2Logo"}
+                    for entry in actions
+                    for row in (entry.get("capture_native_ui_bounds") or [])
+                )
             if case["id"] in {"ui-native-avatar", "ui-native-avatar-relaunch"}:
                 catalog = json.loads((ROOT / "godot/assets/characters/components.json").read_text())
                 checks.update(
@@ -1402,6 +1782,7 @@ def run_case(case, destination, app, offline=False, independent=False):
         "working_directory": str(folder if app else ROOT),
         "duration_seconds": time.monotonic() - started,
         "exit_code": process.returncode,
+        "screenshots_generated": actual_screenshots,
         "checks": checks,
         "errors": errors,
         "scenario_json": str(report_path.relative_to(destination)),
@@ -1448,7 +1829,7 @@ def write_gallery(destination, result):
         "figure{margin:0}figcaption{margin:8px 0}</style>",
         "<h1>Native verification</h1>",
         "<p>Executed captures and measurements. A passing technical scenario alone "
-        "does not establish visual parity.</p>",
+        "does not establish visual quality or driving feel.</p>",
         f"<p>Binary SHA256: <code>{esc(result['binary_sha256'])}</code></p>",
     ]
     for item in result["cases"]:
@@ -1460,6 +1841,18 @@ def write_gallery(destination, result):
             f"<a href='{esc(item['scenario_json'])}'>Scenario state and timings</a>"
             f"<p><img loading=lazy src='{esc(item['capture'])}'></p></article>"
         )
+        frames = sorted((destination / item["case"]["id"]).glob("*.png"))
+        if frames:
+            body.append(
+                "<details open><summary>All captured frames</summary><div class=roster-pair>"
+            )
+            for frame in frames:
+                file = str(frame.relative_to(destination))
+                body.append(
+                    f"<figure><figcaption>{esc(frame.stem)}</figcaption>"
+                    f"<a href='{esc(file)}'><img loading=lazy src='{esc(file)}'></a></figure>"
+                )
+            body.append("</div></details>")
         if item["case"]["scenario"] == "all30":
             report = json.loads((destination / item["scenario_json"]).read_text())
             for index, probe in enumerate(report.get("all30_probes", [])):
@@ -1484,6 +1877,10 @@ def main():
         "--suite",
         choices=[
             "smoke",
+            "pivot-ui",
+            "pivot-career",
+            "pivot-wagers",
+            "wheel-audit",
             "screens",
             "driving",
             "performance",
@@ -1497,6 +1894,9 @@ def main():
     )
     parser.add_argument("--app", type=Path)
     parser.add_argument(
+        "--foreground", action="store_true", help="Allow interactive windows to take focus"
+    )
+    parser.add_argument(
         "--offline",
         action="store_true",
         help="Deny network access to each game process using macOS sandbox-exec",
@@ -1509,6 +1909,7 @@ def main():
     parser.add_argument("--output", type=Path)
     parser.add_argument("--replay-manifest", type=Path)
     parser.add_argument("--case", action="append", help="Run only this named case from the suite")
+    parser.add_argument("--car", help="Override the vehicle in input/driving verification cases")
     options = parser.parse_args()
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     destination = (options.output or ROOT / f"build/verification/{stamp}-{options.suite}").resolve()
@@ -1534,9 +1935,15 @@ def main():
         "started_utc": stamp,
         "verification_tools_sha256": {
             str(path.relative_to(ROOT)): digest(path)
-            for path in [Path(__file__).resolve(), ROOT / "tools/game/replay_inputs.py"]
+            for path in [
+                Path(__file__).resolve(),
+                ROOT / "tools/game/replay_inputs.py",
+                ROOT / "tools/game/background_window.py",
+                ROOT / "tools/game/background_window.m",
+            ]
         },
         "suite": options.suite,
+        "background_window": not options.foreground,
         "app": str(app) if app else None,
         "network_denied_by_os": options.offline or options.independent,
         "checkout_reads_denied_by_os": options.independent,
@@ -1608,10 +2015,49 @@ def main():
         if unknown:
             parser.error(f"Unknown cases in {options.suite}: {sorted(unknown)}")
         plan = [case for case in plan if case["id"] in options.case]
-    for case in plan:
-        result["cases"].append(
-            run_case(case, destination, app, options.offline, options.independent)
+    if options.car:
+        if options.suite not in {"input", "driving"}:
+            parser.error("--car is supported for input and driving suites")
+        if options.car not in {car["id"] for car in content["cars"]}:
+            parser.error(f"Unknown vehicle: {options.car}")
+        for case in plan:
+            case["car"] = options.car
+    # Old full-roster/large UI matrices exceed the user's per-run ceiling.
+    minimum_images = sum(
+        121
+        if case["scenario"] == "all30"
+        else 1
+        + (12 if case.get("wheel_audit") else 0)
+        + (
+            sum("capture" in step for step in json.loads(case["ui_actions"].read_text()))
+            if "ui_actions" in case
+            else 0
         )
+        for case in plan
+    )
+    if minimum_images > MAX_SCREENSHOTS:
+        parser.error(
+            f"Selected cases require at least {minimum_images} screenshots; maximum is 50. Select only essential cases."
+        )
+    result["maximum_screenshots"] = MAX_SCREENSHOTS
+    result["screenshots_generated"] = 0
+    for case in plan:
+        remaining = MAX_SCREENSHOTS - result["screenshots_generated"]
+        if remaining <= 0:
+            result["screenshot_budget_exhausted"] = True
+            break
+        result["cases"].append(
+            run_case(
+                case,
+                destination,
+                app,
+                options.offline,
+                options.independent,
+                background=not options.foreground,
+                screenshot_limit=remaining,
+            )
+        )
+        result["screenshots_generated"] += result["cases"][-1]["screenshots_generated"]
         (destination / "verification.json").write_text(json.dumps(result, indent=2) + "\n")
         write_gallery(destination, result)
     result["inputs_unchanged"] = (
@@ -1625,6 +2071,8 @@ def main():
     )
     result["passed"] = (
         result["inputs_unchanged"]
+        and len(result["cases"]) == len(plan)
+        and result["screenshots_generated"] <= MAX_SCREENSHOTS
         and result["verification_tools_unchanged"]
         and all(x["status"] == "passed" for x in result["cases"])
     )

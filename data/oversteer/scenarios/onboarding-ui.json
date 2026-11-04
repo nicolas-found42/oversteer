@@ -1,0 +1,8 @@
+[
+  {"action":"title_start","after_frame":15,"capture":"main-menu"},
+  {"action":"options","after_frame":40,"capture":"options"},
+  {"action":"driver_name","text":"Alex","after_frame":65,"capture":"driver-name"},
+  {"action":"back_options","after_frame":90,"capture":"options-return"},
+  {"action":"nav:career","after_frame":115,"capture":"career"},
+  {"action":"nav:main","after_frame":140,"capture":"return-menu"}
+]

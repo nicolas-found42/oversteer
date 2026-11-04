@@ -5,6 +5,7 @@ Native material indices retained; current neutral PBR is an authored preview.
 """
 import json,struct,math,re,hashlib,collections,sys
 from pathlib import Path
+from world_indices import triangles as decode_triangles
 ROOT=Path(__file__).resolve().parents[3];inv=json.loads((ROOT/'artifacts/juiced2-recovery/xdvdfs-inventory.json').read_text());out=ROOT/'godot/assets/worlds';out.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(ROOT))
 from tools.game.assets.xenos_texture import decode
@@ -64,14 +65,7 @@ with open(inv['iso'],'rb') as iso:
     if not positions or any(not math.isfinite(v) or abs(v)>1e8 for p in positions for v in p):skips['invalid_position']+=1;continue
     indices=struct.unpack_from('>'+str(nindices)+'H',b,idxstart+indexoff+indexfirst*2)
     if any(v>=nverts and v!=65535 for v in indices):skips['index_bounds']+=1;continue
-    triangles=[];strip=[]
-    for index in indices:
-     if index==65535:strip=[];continue
-     strip.append(index)
-     if len(strip)>=3:
-      a,c,d=strip[-3:]
-      if len(strip)%2==0:a,c=c,a
-      if len({a,c,d})==3:triangles.extend((a,c,d))
+    triangles=decode_triangles(indices,struct.unpack_from('>I',b,at+12)[0])
     if not triangles:continue
     positions=[[v/100 for v in p] for p in positions];low=[min(p[i] for p in positions) for i in range(3)];high=[max(p[i] for p in positions) for i in range(3)]
     pv=append(b''.join(struct.pack('<3f',*p) for p in positions),34962);pa=len(doc['accessors']);doc['accessors'].append({'bufferView':pv,'componentType':5126,'count':nverts,'type':'VEC3','min':low,'max':high})

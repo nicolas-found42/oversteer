@@ -54,6 +54,54 @@ pub fn select_preset(data: &Value, profile: &mut PlayerProfile, id: &str) -> Res
     Ok(())
 }
 
+/// Original CharFile definitions are separate from player-selectable presets.
+pub fn rival_profile(data: &Value, tag: &str, name: &str) -> Result<Option<PlayerProfile>, String> {
+    let source: Value =
+        serde_json::from_str(include_str!("native-rivals.json")).map_err(|e| e.to_string())?;
+    let Some(rival) = source["rivals"]
+        .as_array()
+        .and_then(|items| items.iter().find(|r| r["tag"].as_str() == Some(tag)))
+    else {
+        return Ok(None);
+    };
+    let definition = &rival["definition"];
+    let mut profile = PlayerProfile {
+        name: name.into(),
+        preset: definition["id"].as_str().ok_or("Missing CharFile")?.into(),
+        gender: match definition["gender"].as_str() {
+            Some("MALE") => "M",
+            Some("FEMALE") => "F",
+            _ => return Err("Missing native rival gender".into()),
+        }
+        .into(),
+        native_attributes: serde_json::from_value(definition["native_attributes"].clone())
+            .map_err(|e| e.to_string())?,
+        ..PlayerProfile::default()
+    };
+    let available = data["components"].as_array().ok_or("Missing components")?;
+    for component in definition["components"]
+        .as_array()
+        .ok_or("Missing rival components")?
+    {
+        // 82239FC0 returns the first case-insensitive name match. The retained
+        // unmatched Ken accessory has no source component; do not invent one.
+        let Some(id) = component["exact_component_ids"][0].as_str() else {
+            continue;
+        };
+        if !available.iter().any(|item| item["id"].as_str() == Some(id)) {
+            return Err(format!("Missing native rival component {id}"));
+        }
+        profile.native_components.insert(
+            component["category"]
+                .as_str()
+                .ok_or("Missing category")?
+                .into(),
+            id.into(),
+        );
+    }
+    Ok(Some(profile))
+}
+
 pub fn select_component(data: &Value, profile: &mut PlayerProfile, id: &str) -> Result<(), String> {
     let component = data["components"]
         .as_array()
@@ -346,6 +394,62 @@ mod tests {
         );
         assert_eq!(profile.native_attributes["FaceFlat"], -23.27);
         assert_eq!(profile.native_attributes["SKIN_DARK"], 100.);
+    }
+    #[test]
+    fn native_rival_profiles_use_source_identity_and_first_component_match() {
+        let data = source_catalog();
+        let tyrone = rival_profile(&data, "Char01", "Tyrone Albercete")
+            .unwrap()
+            .unwrap();
+        assert_eq!(tyrone.preset, "Char01");
+        assert_eq!(tyrone.native_attributes.len(), 56);
+        assert_eq!(tyrone.native_attributes["Male01"], 30.);
+        assert_eq!(tyrone.native_components["top"], "componentdefs-8d11c330_0");
+        let keiko = rival_profile(&data, "Char04", "Keiko Miyama")
+            .unwrap()
+            .unwrap();
+        assert_eq!(keiko.gender, "F");
+        let ken = rival_profile(&data, "Char08", "Ken Tanaka")
+            .unwrap()
+            .unwrap();
+        assert_eq!(ken.native_components["hair"], "componentdefs-afb74f95_6");
+        assert!(!ken.native_components.contains_key("accessory"));
+        assert!(
+            rival_profile(&data, "unknown", "Keiko Copy")
+                .unwrap()
+                .is_none()
+        );
+    }
+    #[test]
+    fn every_native_rival_resolves_available_source_components_and_raw_attribute_count() {
+        let data = source_catalog();
+        let drivers: Value = serde_json::from_str(include_str!(
+            "../../oversteer-core/data/native-drivers.json"
+        ))
+        .unwrap();
+        let mut count = 0;
+        for driver in drivers.as_array().unwrap() {
+            let profile = rival_profile(
+                &data,
+                driver["native_tag"].as_str().unwrap(),
+                driver["name"].as_str().unwrap(),
+            )
+            .unwrap()
+            .unwrap();
+            // Stig.def contains only skeleton/components, with no morph block.
+            let expected = if driver["native_tag"] == "Stig" {
+                0
+            } else {
+                56
+            };
+            assert_eq!(profile.native_attributes.len(), expected);
+            assert!(!profile.native_components.is_empty());
+            count += 1;
+        }
+        assert_eq!(count, 19);
+        let mut incomplete = data.clone();
+        incomplete["components"] = json!([]);
+        assert!(rival_profile(&incomplete, "Char01", "Tyrone").is_err());
     }
     #[test]
     // Keep staged setup explicit so fixture overrides and input sampling order remain visible.

@@ -1,0 +1,42 @@
+[
+  {
+    "action": "nav:career",
+    "after_frame": 15
+  },
+  {
+    "action": "career_events",
+    "after_frame": 40
+  },
+  {
+    "action": "start",
+    "after_frame": 65
+  },
+  {
+    "action": "rival:2",
+    "after_frame": 90
+  },
+  {
+    "action": "offer_pink",
+    "after_frame": 115
+  },
+  {
+    "action": "confirm_yes",
+    "after_frame": 140
+  },
+  {
+    "action": "offer_accept",
+    "capture": "stake-accepted",
+    "after_frame": 165
+  },
+  {
+    "action": "grid_launch",
+    "key_code": 4194305,
+    "capture": "paused-stake",
+    "after_frame": 190
+  },
+  {
+    "action": "nav:main",
+    "capture": "forfeited",
+    "after_frame": 215
+  }
+]

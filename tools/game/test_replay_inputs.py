@@ -94,6 +94,30 @@ class ReplayIdentityTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "native-launch-boundary"):
             self.run_to_launch()
 
+    def test_runtime_content_identity_is_separate_from_source_catalog_identity(self):
+        evidence = json.loads(self.evidence.read_text())
+        evidence["runtime_content_sha256"] = "b" * 64
+        self.evidence.write_text(json.dumps(evidence))
+        manifest = replay_inputs.convert(self.evidence, self.output)
+        self.assertEqual(manifest["content_sha256"], "a" * 64)
+        self.assertEqual(manifest["runtime_content_sha256"], "b" * 64)
+
+    def test_aborted_native_run_reports_actual_images_instead_of_remaining_budget(self):
+        with (
+            patch.object(verify, "native_command", return_value=["unused"]),
+            patch.object(verify.subprocess, "Popen") as launch,
+        ):
+            launch.return_value.__enter__.return_value.returncode = 1
+            result = verify.run_case(
+                {"id": "aborted", "scenario": "reload", "frames": 60},
+                self.root / "verification",
+                None,
+                background=False,
+                screenshot_limit=42,
+            )
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["screenshots_generated"], 0)
+
     def test_seed_changed_after_conversion_is_rejected_before_launch(self):
         replay_inputs.convert(self.evidence, self.output)
         self.seed.write_text('{"career":{"cash":1}}\n')
@@ -152,6 +176,36 @@ class ReplayIdentityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "supported default binding 0"):
             replay_inputs.convert(self.evidence, self.output)
         self.assertFalse(self.output.exists())
+
+    def test_recorded_reverse_uses_press_and_release_on_default_binding(self):
+        controls = json.loads(self.controls.read_text())
+        controls[0]["input"]["reverse"] = True
+        second = json.loads(json.dumps(controls[0]))
+        second.update(tick=1, active_tick=1)
+        second["input"]["reverse"] = False
+        self.controls.write_text(json.dumps(controls + [second]))
+        self.write_evidence()
+        evidence = json.loads(self.evidence.read_text())
+        evidence.update(raw_reverse_button=3, tick_count=2, active_ticks=2)
+        self.evidence.write_text(json.dumps(evidence))
+        replay_inputs.convert(self.evidence, self.output)
+        self.assertEqual(
+            [e for e in json.loads(self.output.read_text()) if e.get("joy_button") == 3],
+            [
+                {"frame": 0, "joy_button": 3, "pressed": True},
+                {"frame": 1, "joy_button": 3, "pressed": False},
+            ],
+        )
+
+    def test_explicit_ui_plan_is_preserved_and_hashed(self):
+        plan = self.root / "ui.json"
+        plan.write_text('[{"action":"offer_pink"},{"action":"confirm_yes"}]\n')
+        evidence = json.loads(self.evidence.read_text())
+        evidence["files"]["ui-plan"] = {"path": str(plan), "sha256": replay_inputs.digest(plan)}
+        self.evidence.write_text(json.dumps(evidence))
+        manifest = replay_inputs.convert(self.evidence, self.output)
+        self.assertEqual(Path(manifest["ui_plan"]).read_bytes(), plan.read_bytes())
+        self.assertEqual(manifest["ui_plan_sha256"], replay_inputs.digest(plan))
 
     def test_negative_zero_digital_controls_are_not_reachable(self):
         for field in ["handbrake", "nitrous"]:

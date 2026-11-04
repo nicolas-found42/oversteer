@@ -81,12 +81,49 @@ impl SceneLoad {
         } else {
             total / self.paths.len() as f64
         };
-        self.samples
-            .push(json!({"seconds":self.start.elapsed().as_secs_f64(),"progress":progress}));
+        record_progress(
+            &mut self.samples,
+            progress,
+            self.start.elapsed().as_secs_f64(),
+        );
         Ok((progress, self.done.iter().all(|d| *d)))
     }
     pub fn finish(mut self) -> (Vec<Gd<Resource>>, serde_json::Value) {
         let summary = json!({"paths":self.paths,"seconds":self.start.elapsed().as_secs_f64(),"samples":self.samples});
         (std::mem::take(&mut self.resources), summary)
+    }
+}
+
+fn record_progress(samples: &mut Vec<serde_json::Value>, progress: f64, seconds: f64) {
+    if let Some(last) = samples.last_mut()
+        && last["progress"].as_f64() == Some(progress)
+    {
+        last["poll_count"] = (last["poll_count"].as_u64().unwrap_or(1) + 1).into();
+        last["stall_duration_s"] = (seconds - last["seconds"].as_f64().unwrap_or(seconds)).into();
+        last["last_seconds"] = seconds.into();
+    } else {
+        samples.push(
+            json!({"seconds":seconds,"last_seconds":seconds,"progress":progress,
+            "poll_count":1,"stall_duration_s":0.0}),
+        );
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::record_progress;
+
+    #[test]
+    fn repeated_loading_polls_keep_stall_evidence_without_duplicate_samples() {
+        let mut samples = vec![];
+        record_progress(&mut samples, 0.9375, 0.210);
+        for poll in 1..=130 {
+            record_progress(&mut samples, 0.9375, 0.210 + poll as f64 * 0.02);
+        }
+        record_progress(&mut samples, 1.0, 3.883);
+        assert_eq!(samples.len(), 2);
+        assert_eq!(samples[0]["poll_count"], 131);
+        assert!((samples[0]["stall_duration_s"].as_f64().unwrap() - 2.6).abs() < 1e-9);
+        assert_eq!(samples[1]["progress"], 1.0);
     }
 }

@@ -1,10 +1,12 @@
 # Oversteer
 
 The active rebuild is a native Apple Silicon racing game in Rust, using
-**Godot 4.7.2 + gdext 0.5.5**. It reconstructs Juiced 2's single-player
-experience from the local reference vault and recovered game data, with the
-accepted 30 donor vehicles. Implementation and acceptance work are in progress
-under [the specification](https://github.com/nicolas-found42/oversteer/issues/1).
+**Godot 4.7.2 + gdext 0.5.5**. Oversteer is an independent single-player racing
+game with the accepted 30 donor vehicles, arcade handling, car customization,
+career progression, betting and pink slips. The existing reference vault informs
+quality rather than requiring reconstruction of another game.
+Implementation and validation are in progress under the
+[accepted pivot plan](docs/design/OVERSTEER_PIVOT_INTERVIEW.md).
 
 ```sh
 uv run --frozen python tools/game/dev.py check

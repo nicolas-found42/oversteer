@@ -1354,7 +1354,7 @@
       ],
       "kits": [],
       "source_sha256": "94ba8471497da4532d9898c814d18061cc1f9610bc6cb8b586a9abb276cbaafe",
-      "prepared_sha256": "8bb85a332a6198472f265caf1de25115c7735258278fddc1a827200d63c1b133",
+      "prepared_sha256": "ff18eb9b617ccf4181d7f7ccade0f5c8a79defd4bc81322e57c1f31ceef6c7fa",
       "customization_limits": [
         "Factory variants retain recovered palette mappings.",
         "Arbitrary paint is an artistic tint of identified body materials.",
@@ -21933,7 +21933,7 @@
       ],
       "kits": [],
       "source_sha256": "72e63396900b1251747e67a5f28543855e644e228dfcc6789b656d630a0438f1",
-      "prepared_sha256": "b4b97ce38c05ce4745f823ee3ef1bf9056734cd00188df58e7fd36438b4075de",
+      "prepared_sha256": "232646acaf30948eead2cc137bff483fb6c99a2e188eb05240d88de2f15044c3",
       "customization_limits": [
         "Factory variants retain recovered palette mappings.",
         "Arbitrary paint is an artistic tint of identified body materials.",
@@ -50142,7 +50142,7 @@
         }
       ],
       "source_sha256": "235d41a6102f0ed8e7bafff7780e083d4103e3340f87e337776947adae7cfb39",
-      "prepared_sha256": "1dc95860c0b441c6a5b68ad891de1f2248462a9bac4904829d85aa47d956a9e8",
+      "prepared_sha256": "6dd65acdf42677aa4db403b52a6bbe397953b56d5c4dfa8ebc2422f265eb8a6e",
       "customization_limits": [
         "Factory variants retain recovered palette mappings.",
         "Arbitrary paint is an artistic tint of identified body materials.",

@@ -1,0 +1,68 @@
+[
+  {
+    "frame": 1,
+    "joy_axis": {
+      "axis": 5,
+      "value": 1.0
+    }
+  },
+  {
+    "frame": 90,
+    "joy_axis": {
+      "axis": 0,
+      "value": 0.18
+    }
+  },
+  {
+    "frame": 150,
+    "joy_axis": {
+      "axis": 0,
+      "value": 0.0
+    }
+  },
+  {
+    "frame": 150,
+    "joy_axis": {
+      "axis": 5,
+      "value": 0.0
+    }
+  },
+  {
+    "frame": 180,
+    "joy_axis": {
+      "axis": 4,
+      "value": 0.65
+    }
+  },
+  {
+    "frame": 210,
+    "joy_axis": {
+      "axis": 4,
+      "value": 0.0
+    }
+  },
+  {
+    "frame": 210,
+    "joy_axis": {
+      "axis": 5,
+      "value": 1.0
+    }
+  },
+  {
+    "frame": 270,
+    "joy_button": 2,
+    "pressed": true
+  },
+  {
+    "frame": 300,
+    "joy_button": 2,
+    "pressed": false
+  },
+  {
+    "frame": 330,
+    "joy_axis": {
+      "axis": 5,
+      "value": 0.0
+    }
+  }
+]

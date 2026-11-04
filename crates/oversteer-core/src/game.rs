@@ -276,6 +276,17 @@ pub struct GameContent {
     pub tracks: Vec<TrackDefinition>,
     pub events: Vec<EventDefinition>,
 }
+impl GameContent {
+    /// Independent-game corrections; recovered source catalogs remain unchanged.
+    pub fn apply_oversteer_vehicle_corrections(&mut self) {
+        if let Some(evo) = self.cars.iter_mut().find(|car| car.id == "GT4_MITS0001") {
+            // Mitsubishi's January 2003 Evolution VIII press kit, p.19: GSR 1410 kg.
+            // The secondary donor catalog incorrectly supplied 320 kg.
+            // See docs/game/PIVOT_STATUS.md for the primary document and remaining audit.
+            evo.handling.mass = 1410.;
+        }
+    }
+}
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub enum GameScreen {
     Grid,
@@ -582,6 +593,10 @@ pub enum GameCommand {
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct RacerSnapshot {
+    #[serde(default)]
+    pub applied_input: PlayerInput,
+    #[serde(default)]
+    pub clutch_engaged: bool,
     pub wheel_omega: [f32; 4],
     pub wheel_angles: [f32; 4],
     pub wheel_steer_angles: [f32; 4],
@@ -612,6 +627,8 @@ pub struct RacerSnapshot {
     pub progress: f32,
     pub drift_score: f32,
     pub spook: f32,
+    #[serde(default)]
+    pub finish_time: Option<f32>,
     pub finished: bool,
     pub eliminated: bool,
     pub customization: Customization,
@@ -621,6 +638,8 @@ pub struct RaceSnapshot {
     pub native_discipline: Option<NativeDiscipline>,
     pub bet_offer: Option<crate::DriverBetOffer>,
     pub wager: u32,
+    #[serde(default)]
+    pub pink_slip: bool,
     pub bet_racer: usize,
     pub spectating: bool,
     pub spectator_bets: Vec<crate::SpectatorBet>,
@@ -640,6 +659,9 @@ pub struct RaceSnapshot {
     pub position: u32,
     pub laps: u32,
     pub racers: Vec<RacerSnapshot>,
+    /// Racer indices in live race order, using the same rules as settlement.
+    #[serde(default)]
+    pub standings: Vec<usize>,
     pub drift_combo: f32,
     pub message: String,
 }
@@ -666,6 +688,8 @@ fn normal_difficulty() -> u8 {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct GameSave {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub interrupted_race: Option<InterruptedRace>,
     #[serde(default = "normal_difficulty")]
     pub difficulty: u8,
     #[serde(default)]
@@ -675,6 +699,19 @@ pub struct GameSave {
     pub schema_version: u32,
     pub selected_car: String,
     pub career: CareerState,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct InterruptedRace {
+    pub event_id: String,
+    pub car_id: String,
+    pub wager: u32,
+    pub entrance_fee: u32,
+}
+impl InterruptedRace {
+    pub fn refund(&self) -> i64 {
+        i64::from(self.wager) + i64::from(self.entrance_fee)
+    }
 }
 impl Racer {
     fn apply_human_motion(
@@ -755,6 +792,7 @@ struct Racer {
     car_id: String,
     name: String,
     state: VehicleState,
+    applied_input: PlayerInput,
     customization: Customization,
     dna: DriverDna,
     lap: u32,
@@ -793,6 +831,7 @@ struct Race {
     combo: f32,
 }
 pub struct Game {
+    recovered_race: Option<InterruptedRace>,
     collision_worlds: BTreeMap<String, Arc<crate::NativeCollisionWorld>>,
     pub drift_assist_globals: crate::HumanDriftGlobals,
     difficulty: u8,
@@ -840,6 +879,7 @@ impl Game {
             garage.insert(selected.clone(), Customization::default());
         }
         Self {
+            recovered_race: None,
             drift_assist_globals: crate::HumanDriftGlobals::default(),
             collision_worlds: BTreeMap::new(),
             tick_accumulator: 0.,
@@ -894,6 +934,21 @@ impl Game {
     }
     pub fn save_json(&self) -> Result<String, serde_json::Error> {
         serde_json::to_string_pretty(&GameSave {
+            interrupted_race: self
+                .race
+                .as_ref()
+                .filter(|race| {
+                    race.career
+                        && !race.spectating
+                        && !race.settled
+                        && (race.wager > 0 || race.event.entrance_fee > 0 || race.pink_slip)
+                })
+                .map(|race| InterruptedRace {
+                    event_id: race.event.id.clone(),
+                    car_id: race.racers[0].car_id.clone(),
+                    wager: race.wager,
+                    entrance_fee: race.event.entrance_fee,
+                }),
             difficulty: self.difficulty,
             profile: self.profile.clone(),
             quick_customizations: self.quick_customizations.clone(),
@@ -951,7 +1006,26 @@ impl Game {
         game.difficulty = save.difficulty.min(2);
         game.profile = save.profile;
         game.quick_customizations = save.quick_customizations;
+        if let Some(interrupted) = save.interrupted_race {
+            game.career.cash = game
+                .career
+                .cash
+                .checked_add(interrupted.refund())
+                .ok_or("Interrupted race refund exceeds the cash limit")?;
+            record_transaction(
+                &mut game.career,
+                crate::TransactionKind::RaceRefund,
+                interrupted.refund(),
+                Some(interrupted.car_id.clone()),
+                Some(interrupted.event_id.clone()),
+                "Interrupted race cancelled; unsettled cash returned and owned car retained",
+            );
+            game.recovered_race = Some(interrupted);
+        }
         Ok(game)
+    }
+    pub fn recovered_race(&self) -> Option<&InterruptedRace> {
+        self.recovered_race.as_ref()
     }
     pub fn command(&mut self, command: GameCommand) -> Result<(), String> {
         match command {
@@ -1092,6 +1166,9 @@ impl Game {
                 }
                 if racer == 0 || racer >= race.racers.len() || self.career.garage.len() < 2 {
                     return Err("Pink slips require a rival and a spare owned vehicle".into());
+                }
+                if self.career.garage.contains_key(&race.racers[racer].car_id) {
+                    return Err("Choose a rival whose car is not already in your garage".into());
                 }
                 race.bet_offer = Some(crate::DriverBetOffer {
                     racer,
@@ -1235,13 +1312,8 @@ impl Game {
                     "Spectator bet placed at displayed odds",
                 );
             }
-            GameCommand::SpectatorCheer { racer, positive } => {
-                let race = self.race.as_mut().ok_or("No race")?;
-                if !race.spectating || race.settled {
-                    return Err("No active spectator race".into());
-                }
-                let entrant = race.racers.get_mut(racer).ok_or("Unknown racer")?;
-                entrant.spook = (entrant.spook + if positive { -0.15 } else { 0.15 }).clamp(0., 1.);
+            GameCommand::SpectatorCheer { .. } => {
+                return Err("Spooking is not part of Oversteer races".into());
             }
             GameCommand::CustomizeAvatar { profile } => self.profile = profile,
             GameCommand::ShowPodium => {
@@ -1251,6 +1323,9 @@ impl Game {
                 self.screen = GameScreen::Podium;
             }
             GameCommand::Navigate { screen } => {
+                if screen == GameScreen::Crew {
+                    return Err("Crew management is deferred".into());
+                }
                 if matches!(
                     screen,
                     GameScreen::Race
@@ -1259,6 +1334,9 @@ impl Game {
                         | GameScreen::Grid
                 ) {
                     return Err("Screen requires a game transition".into());
+                }
+                if screen != GameScreen::Paused && self.race.is_some() {
+                    self.abandon_race();
                 }
                 if screen == GameScreen::QuickRace {
                     self.quick_mode = true;
@@ -1279,7 +1357,12 @@ impl Game {
                 career,
                 wager,
                 pink_slip,
-            } => self.start_race(&event_id, career, wager, pink_slip, false)?,
+            } => {
+                if self.race.as_ref().is_some_and(|race| !race.settled) {
+                    return Err("Finish, restart or leave the current race first".into());
+                }
+                self.start_race(&event_id, career, wager, pink_slip, false)?;
+            }
             GameCommand::BuyCar { car_id } => {
                 let car = self.car(&car_id)?.clone();
                 if self.career.garage.contains_key(&car_id) {
@@ -1426,23 +1509,8 @@ impl Game {
                     return Err("Purchase this vehicle to save career customization".into());
                 }
             }
-            GameCommand::Recruit { driver } => {
-                if self.career.crew.len() >= 3 {
-                    return Err("Crew is full".into());
-                }
-                if self.career.cash < 2000 {
-                    return Err("Insufficient cash".into());
-                }
-                self.career.cash -= 2000;
-                record_transaction(
-                    &mut self.career,
-                    crate::TransactionKind::RecruitDriver,
-                    -2000,
-                    None,
-                    None,
-                    &format!("Recruit {}", driver.name),
-                );
-                self.career.crew.push(driver);
+            GameCommand::Recruit { .. } => {
+                return Err("Crew management is deferred".into());
             }
             GameCommand::Pause => {
                 if self.screen == GameScreen::Race {
@@ -1461,14 +1529,20 @@ impl Game {
                 }
                 let id = race.event.id.clone();
                 let career = race.career;
-                let wager = race.wager;
-                let pink = race.pink_slip;
-                if career && !race.settled {
-                    self.career.losses += 1;
-                }
-                self.start_race(&id, career, wager, pink, false)?;
+                self.abandon_race();
+                self.screen = if career {
+                    GameScreen::Career
+                } else {
+                    GameScreen::QuickRace
+                };
+                self.start_race(&id, career, 0, false, false)?;
             }
             GameCommand::Continue => {
+                if self.race.as_ref().is_some_and(|race| !race.settled)
+                    && self.screen != GameScreen::RoundResults
+                {
+                    return Err("Finish or leave the current race before continuing".into());
+                }
                 if self.screen == GameScreen::RoundResults {
                     self.next_round()?;
                     return Ok(());
@@ -1525,6 +1599,51 @@ impl Game {
             .iter()
             .find(|c| c.id == id)
             .ok_or_else(|| format!("Unknown vehicle {id}"))
+    }
+    fn abandon_race(&mut self) {
+        let Some(race) = self.race.take() else {
+            return;
+        };
+        if race.settled || !race.career || race.spectating {
+            return;
+        }
+        self.career.losses += 1;
+        let car_id = &race.racers[0].car_id;
+        self.career
+            .vehicle_history
+            .entry(car_id.clone())
+            .or_default()
+            .losses += 1;
+        if race.wager > 0 {
+            // The original stake was already deducted at acceptance/entry.
+            record_transaction(
+                &mut self.career,
+                crate::TransactionKind::WagerSettlement,
+                0,
+                Some(car_id.clone()),
+                Some(race.event.id.clone()),
+                "Cash stake forfeited on voluntary restart or abandonment",
+            );
+        }
+        if race.pink_slip && self.career.garage.len() > 1 {
+            self.career.garage.remove(car_id);
+            self.career
+                .vehicle_history
+                .entry(car_id.clone())
+                .or_default()
+                .pink_slip_losses += 1;
+            self.pending_customizations.remove(car_id);
+            self.accepted_native_paint.remove(car_id);
+            record_transaction(
+                &mut self.career,
+                crate::TransactionKind::PinkSlipLoss,
+                0,
+                Some(car_id.clone()),
+                Some(race.event.id.clone()),
+                "Vehicle forfeited on voluntary restart or abandonment",
+            );
+            self.selected_car = self.career.garage.keys().next().unwrap().clone();
+        }
     }
     fn start_race(
         &mut self,
@@ -1593,6 +1712,7 @@ impl Game {
                 return Err("Career requires an owned vehicle".into());
             }
             if event.qualifier
+                && event.league == self.career.league
                 && self
                     .content
                     .leagues
@@ -1600,10 +1720,10 @@ impl Game {
                     .any(|l| l.league == event.league)
                 && !self.league_progress().promotion_open
             {
-                return Err("Complete the league goals to open the promotion event".into());
+                return Err("Win this tier's circuit and drift events to open promotion".into());
             }
             if event.league > self.career.league {
-                return Err("Event league is locked".into());
+                return Err("Win the previous tier's promotion race to unlock this event".into());
             }
             if self.career.cash < i64::from(wager) + i64::from(event.entrance_fee) {
                 return Err("Insufficient cash for wager".into());
@@ -1675,14 +1795,16 @@ impl Game {
                     .and_then(|e| eligible_cars.iter().copied().find(|c| c.id == e.car_id))
                     .unwrap_or(eligible_cars[(i + event.league as usize) % eligible_cars.len()])
             };
-            let custom = if career {
-                self.career.garage.get(&definition.id)
+            let custom = if i > 0 {
+                Some(rival_customization(i))
+            } else if career {
+                self.career.garage.get(&definition.id).cloned()
             } else {
                 self.quick_customizations
                     .get(&definition.id)
                     .or_else(|| self.career.garage.get(&definition.id))
+                    .cloned()
             }
-            .cloned()
             .unwrap_or_default();
             let state = grid_state(i, &track, collision_world.as_deref());
             racers.push(Racer {
@@ -1729,6 +1851,7 @@ impl Game {
                     dna.name.clone()
                 },
                 state,
+                applied_input: PlayerInput::default(),
                 customization: custom,
                 dna,
                 lap: 0,
@@ -1739,6 +1862,14 @@ impl Game {
                 finished: false,
                 eliminated: false,
             });
+        }
+        if career
+            && pink_slip
+            && racers
+                .get(1)
+                .is_none_or(|rival| self.career.garage.contains_key(&rival.car_id))
+        {
+            return Err("Pink slips require a rival car not already in your garage".into());
         }
         if career {
             self.career.cash -= i64::from(wager) + i64::from(event.entrance_fee);
@@ -1869,9 +2000,9 @@ impl Game {
             }
         }
         for i in 0..race.racers.len() {
-            if race.racers[i].eliminated
-                || (race.racers[i].finished && race.finish_observation_window == 0.)
-            {
+            // Finish times classify racers, but their cars must keep driving so
+            // they do not become immovable obstacles for the remaining field.
+            if race.racers[i].eliminated {
                 continue;
             }
             if i > 0
@@ -1920,21 +2051,6 @@ impl Game {
                 if self.difficulty == 2 {
                     u.throttle = (u.throttle * 1.15).min(1.);
                 }
-                let distance = distance_xz(race.racers[i].state.position, old_positions[0]);
-                let behind = wrap_angle(
-                    race.racers[i].state.yaw()
-                        - (old_positions[0][0] - old_positions[i][0])
-                            .atan2(old_positions[0][2] - old_positions[i][2]),
-                )
-                .abs()
-                    > 2.;
-                if distance < 15. && behind && race.racers[i].team != 0 {
-                    race.racers[i].spook =
-                        (race.racers[i].spook + h * 0.5 * race.racers[i].dna.spook_rate).min(1.);
-                } else {
-                    race.racers[i].spook = (race.racers[i].spook - h * 0.1).max(0.);
-                }
-                u.steering += (race.elapsed * 5. + i as f32).sin() * race.racers[i].spook * 0.6;
             }
             // Body SAT queries and ordered responses preserve explicit object/contact ordering.
             let car_i = self
@@ -1991,7 +2107,6 @@ impl Game {
                         r.state.velocity[2] -= normal[2] * closing * 0.8;
                         r.state.yaw_rate *= 0.8;
                     }
-                    r.spook = (r.spook + 0.1).min(1.);
                     if closing < -2. || depth > 0.2 {
                         register_collision(r, race.event.stage_mode());
                     }
@@ -2006,14 +2121,29 @@ impl Game {
                     let yaw = r.state.yaw();
                     let ahead = delta[0] * yaw.sin() + delta[1] * yaw.cos();
                     let side = delta[0] * yaw.cos() - delta[1] * yaw.sin();
-                    if ahead > 0. && ahead < 16. && side.abs() < 2.5 {
-                        u.throttle = u.throttle.min(0.2);
-                        if ahead < 7. {
-                            u.brake = u.brake.max(0.6);
+                    let lane_clearance = (car_i.map_or(1.8, |c| c.handling.body_width)
+                        + car_j.map_or(1.8, |c| c.handling.body_width))
+                        * 0.5
+                        + 0.15;
+                    if ahead > 0. && ahead < 16. && side.abs() < lane_clearance {
+                        let closing = (r.state.velocity[0] - other.state.velocity[0]) * yaw.sin()
+                            + (r.state.velocity[2] - other.state.velocity[2]) * yaw.cos();
+                        let lengths = car_i.map_or(4.5, |c| c.handling.body_length)
+                            + car_j.map_or(4.5, |c| c.handling.body_length);
+                        let gap = ahead - lengths * 0.5;
+                        // Grid rows travel together. Distance alone kept rear
+                        // rivals braking against their throttle at engine idle.
+                        if closing > 0.2 && gap < 1.5 + closing * 1.2 {
+                            u.throttle = u.throttle.min(0.2);
+                            if gap < 0.75 + closing * 0.5 {
+                                u.brake = u.brake.max((closing * 0.15).min(0.8));
+                            }
                         }
-                        let evade = if i % 2 == 0 { 1. } else { -1. };
-                        u.steering =
-                            (u.steering + evade * 0.12 * (1. - ahead / 16.)).clamp(-1., 1.);
+                        if closing > 0.2 {
+                            let evade = if side >= 0. { -1. } else { 1. };
+                            u.steering =
+                                (u.steering + evade * 0.12 * (1. - ahead / 16.)).clamp(-1., 1.);
+                        }
                     }
                 }
             }
@@ -2046,6 +2176,7 @@ impl Game {
                 r.checkpoint,
                 race.collision_world.as_deref(),
             );
+            r.applied_input = u;
             r.state.step(&handling, &self.globals, u, h);
             if i == 0 && !race.spectating && !r.state.reversing {
                 r.apply_human_motion(
@@ -2163,6 +2294,9 @@ impl Game {
                 r.checkpoint = (r.checkpoint + 1) % race.track.points.len();
             }
             let mode = race.event.stage_mode();
+            if r.finished {
+                continue; // Preserve the classified score and finish time during rollout.
+            }
             if mode.is_drift() {
                 let banked = r.drift_state.advance(
                     r.state.speed(),
@@ -2329,6 +2463,7 @@ impl Game {
             r.lives = race.event.lives.max(1);
             r.chain_score = 0.;
             r.input_clock = 0.;
+            r.applied_input = PlayerInput::default();
             r.stuck_time = 0.;
             r.reverse_recovery = 0.;
             r.lap_start = 0.;
@@ -2644,10 +2779,15 @@ impl Game {
             }
             if race.pink_slip && bet_won {
                 if let Some(opponent) = race.racers.get(race.bet_racer) {
-                    self.career
+                    let custom = self
+                        .career
                         .garage
                         .entry(opponent.car_id.clone())
                         .or_default();
+                    self.career
+                        .parts_inventory
+                        .entry(opponent.car_id.clone())
+                        .or_insert_with(|| crate::garage::owned_parts(custom));
                     pink = Some(opponent.car_id.clone());
                     let history = self
                         .career
@@ -2912,6 +3052,7 @@ impl Game {
             native_discipline: r.event.native_discipline,
             bet_offer: r.bet_offer.clone(),
             wager: r.wager,
+            pink_slip: r.pink_slip,
             bet_racer: r.bet_racer,
             spectating: r.spectating,
             spectator_bets: r.spectator_bets.clone(),
@@ -2928,18 +3069,19 @@ impl Game {
             mode: r.event.mode,
             elapsed: r.elapsed,
             countdown: r.countdown,
-            position: 1 + r
-                .racers
+            position: 1 + ranked_indices(r)
                 .iter()
-                .skip(1)
-                .filter(|other| other.progress > r.racers[0].progress)
-                .count() as u32,
+                .position(|index| *index == 0)
+                .unwrap_or(0) as u32,
+            standings: ranked_indices(r),
             laps: r.event.laps,
             racers: r
                 .racers
                 .iter()
                 .enumerate()
                 .map(|(i, v)| RacerSnapshot {
+                    applied_input: v.applied_input,
+                    clutch_engaged: v.state.clutch_engaged,
                     wheel_omega: v.state.wheel_omega,
                     wheel_angles: v.state.wheel_angles,
                     wheel_steer_angles: v.state.wheel_steer_angles,
@@ -2963,6 +3105,7 @@ impl Game {
                     car_id: v.car_id.clone(),
                     name: v.name.clone(),
                     native_tag: v.dna.native_tag.clone(),
+                    finish_time: v.finish_time,
                     position: v.state.position,
                     rotation: v.state.orientation,
                     velocity: v.state.velocity,
@@ -2991,8 +3134,6 @@ impl Game {
             drift_combo: r.combo,
             message: if r.countdown > 0. {
                 format!("{}", r.countdown.ceil())
-            } else if r.racers[0].spook > 0.6 {
-                "SPOOKED".into()
             } else {
                 String::new()
             },
@@ -3093,7 +3234,8 @@ impl Game {
                 let input = ai_input(&race.racers[0], &race.track, race.event.stage_mode(), true);
                 if matches!(
                     race.event.stage_mode(),
-                    RaceMode::SoloDrift
+                    RaceMode::Drift
+                        | RaceMode::SoloDrift
                         | RaceMode::DriftEndurance
                         | RaceMode::DriftKing
                         | RaceMode::DriftObliterator
@@ -3452,14 +3594,27 @@ fn ai_input(
             break;
         }
     }
-    let (widths, _, left) = cross_section(track, index, target);
-    let offset = if widths[0] < 2. {
+    let section = if lookahead < remaining {
+        (r.checkpoint + track.points.len() - 1) % track.points.len()
+    } else {
+        index
+    };
+    let (widths, _, left) = cross_section(track, section, target);
+    let mut offset = if widths[0] < 2. {
         widths[0] - 2.
     } else if widths[1] < 2. {
         2. - widths[1]
     } else {
         0.
     };
+    if !mode.is_drift() && r.input_clock < 5. && widths[0] >= 2. && widths[1] >= 2. {
+        // Keep each grid lane while launching, then blend onto the racing line.
+        // Immediate pursuit of the same centerline point crowds adjacent rows.
+        let lateral = (r.state.position[0] - projection[0]) * left[0]
+            + (r.state.position[2] - projection[2]) * left[1];
+        offset +=
+            lateral.clamp(-(widths[1] - 2.), widths[0] - 2.) * (5. - r.input_clock).clamp(0., 1.);
+    }
     target[0] += left[0] * offset;
     target[2] += left[1] * offset;
     let desired = (target[0] - r.state.position[0]).atan2(target[2] - r.state.position[2]);
@@ -3500,7 +3655,11 @@ fn ai_input(
     } else {
         // Reconstructed RWD input policy: brake before a curved route, not only
         // after the heading error is large. This does not alter vehicle forces.
-        let lateral_error = distance_xz(r.state.position, projection);
+        // Grid rows can be behind the first segment. Their longitudinal
+        // distance to its endpoint is not a lateral departure from the road.
+        let lateral_error = ((r.state.position[0] - projection[0]) * left[0]
+            + (r.state.position[2] - projection[2]) * left[1])
+            .abs();
         let mut limit = desired_speed / (1. + lateral_error * 0.15);
         let mut distance = distance_xz(r.state.position, checkpoint);
         for ahead in 0..12.min(track.points.len()) {
@@ -3808,6 +3967,24 @@ fn contact_segments(track: &TrackDefinition, checkpoint: usize) -> impl Iterator
         (checkpoint + n - count / 2) % n
     };
     (0..count).map(move |offset| (start + offset) % n)
+}
+
+fn rival_customization(index: usize) -> Customization {
+    let colors = [
+        [0.12, 0.22, 0.52, 1.],
+        [0.72, 0.72, 0.68, 1.],
+        [0.07, 0.09, 0.11, 1.],
+        [0.73, 0.45, 0.08, 1.],
+        [0.16, 0.38, 0.22, 1.],
+        [0.46, 0.12, 0.09, 1.],
+        [0.35, 0.22, 0.45, 1.],
+        [0.1, 0.38, 0.4, 1.],
+    ];
+    Customization {
+        paint: colors[(index - 1) % colors.len()],
+        plate_text: format!("RIVAL{index:02}"),
+        ..Default::default()
+    }
 }
 
 fn grid_state(
@@ -4207,4 +4384,44 @@ fn drift_target_speed(r: &Racer, track: &TrackDefinition) -> f32 {
         distance += distance_xz(b, c);
     }
     allowed
+}
+
+#[cfg(test)]
+mod standings_tests {
+    use super::*;
+
+    #[test]
+    fn live_drift_position_uses_score_instead_of_track_distance() {
+        let content = GameContent {
+            cars: vec![CarDefinition::default()],
+            tracks: vec![TrackDefinition::default()],
+            events: vec![EventDefinition {
+                mode: RaceMode::DriftKing,
+                opponents: 1,
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let mut game = Game::new(content);
+        game.command(GameCommand::StartRace {
+            event_id: "harbor-circuit".into(),
+            career: false,
+            wager: 0,
+            pink_slip: false,
+        })
+        .unwrap();
+        let race = game.race.as_mut().unwrap();
+        race.racers[0].progress = 10.;
+        race.racers[0].score = 100.;
+        race.racers[1].progress = 5.;
+        race.racers[1].score = 500.;
+        let snapshot = game.frame_snapshot().race.unwrap();
+        assert_eq!(snapshot.position, 2);
+        assert_eq!(snapshot.standings, vec![1, 0]);
+        // An eliminated high-scoring driver belongs below an active driver.
+        game.race.as_mut().unwrap().racers[1].eliminated = true;
+        let snapshot = game.frame_snapshot().race.unwrap();
+        assert_eq!(snapshot.position, 1);
+        assert_eq!(snapshot.standings, vec![0, 1]);
+    }
 }

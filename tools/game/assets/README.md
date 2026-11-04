@@ -56,6 +56,8 @@ PY tools/game/assets/stage_fr2_stock_rims.py --publish
 PY tools/game/assets/stage_gt4_window_geometry.py
 # Review staged window-only proof before publication.
 python3 tools/game/assets/publish_gt4_window_geometry.py
+# Bake mirrored wheel geometry, outward winding/normals and opaque tire alpha.
+PY tools/game/assets/bake_inspection_wheels.py --car GT4_HOND0018 --car GT4_MAZD0012 --car GT4_MITS0001
 
 python3 tools/game/assets/recover_courses.py
 PY tools/game/assets/recover_world_geometry.py
@@ -72,6 +74,11 @@ python3 tools/game/assets/bind_native_collision.py --publish
 python3 tools/game/assets/bind_native_physics.py
 python3 tools/game/assets/recover_presentation.py
 python3 tools/game/assets/stage_world_vertex_uvs.py --publish
+# Existing prepared worlds from before the topology fix can be repaired without
+# rerunning the material pipeline (repeat --world for each retained track).
+python3 tools/game/assets/repair_world_indices.py --world london_circuit1
+# Preserve front lettering and give double-sided London signs readable back UVs.
+PY tools/game/assets/repair_london_sign_faces.py
 PY tools/game/assets/recover_vehicle_kits.py
 PY tools/game/assets/recover_plate_sockets.py
 PY tools/game/assets/audit_body_geometry.py
@@ -96,6 +103,9 @@ python3 tools/game/assets/recover_character_anm.py
 python3 tools/game/assets/bind_character_animations.py
 PY tools/game/assets/stage_character_idle.py --publish
 PY tools/game/assets/stage_character_actions.py --publish
+# Fixed Oversteer outfit; preserves the prepared rig/motions, corrects bare-arm
+# material assignment and binds denim/trainers. Run after character recovery.
+python3 tools/game/assets/prepare_fixed_driver.py
 python3 tools/game/assets/inventory_avatar_components.py
 python3 tools/game/assets/inventory_character_material_slots.py
 PY tools/game/assets/recover_avatar_materials.py
@@ -261,3 +271,10 @@ material transparency or execution of the eight legacy avatar attributes.
 Original performance recovery is source-only: `python3 tools/game/assets/recover_native_performance.py` retains the ten league package rows, 89 native car performance ranges, twelve supplier categories, active race flag copy chain and prototype package/unlock consumers in `artifacts/juiced2-build/native-performance/catalog.json`. It does not map ambiguous original variants to donors or replace the current runtime upgrade tree.
 
 For the source normal repair, run `PY tools/game/assets/audit_native_character_normals.py`, stage components, then run `PY tools/game/assets/check_character_normal_stage.py` and both Blender component/head probes. `publish_character_normals.py` preserves the previous bundle and patches only the reviewed GLBs plus their current manifest hashes. Original hard edges and sparse normal deltas are retained; no seam welding is used.
+
+The reviewed London banner repair is `PY tools/game/assets/repair_london_sign_faces.py`.
+It preserves the front atlas UVs and adds separately culled, readable back faces
+only for the two lettering regions in texture 266. Run it after world UV/topology
+preparation. Both repair tools are idempotent; reimport before rendering.
+`build.py` explicitly enables mipmaps for road shader texture imports, including
+markings that Godot does not detect as 3D usage automatically.
