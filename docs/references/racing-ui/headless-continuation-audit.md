@@ -1,0 +1,31 @@
+# Read-only continuation audit under the headless constraint
+
+2026-11-04. Scope: full improvement brief and visual direction, focusing current menus, loading, customization and results. No runtime, GUI, audio, image generation, production edits or shared checklist edits. Newer user orange/cream menu direction and code-only HUD instruction supersede conflicting historical colour/layout prescriptions; functional requirements remain.
+
+## Firm implementation gap
+
+**P2 — Results omit career promotion context (V095 / visual direction §3.8).** The explicit breakdown asks for Career Promotion credit. The complete Results branch renders outcome, event/course/mode, event purse, wallet, cash/pink settlement, four-driver classification and actions, but never renders goal progress, promotion availability/completion, or the newly advanced tier. Source: `crates/oversteer-godot/src/lib.rs:5679–5877`. This is a source-established missing requested behavior, not a screenshot judgment.
+
+The canonical finish path updates goals, completed events and can advance `career.league` (`crates/oversteer-core/src/game.rs:2648–2770`). Career overview already renders canonical progress (`lib.rs:6367–6448`). The Results page therefore omits a real consequence that the rest of the game knows. A minimal correction should report the supported post-race progress/qualification/tier status, with accurate before/after credit only where recorded; do not invent XP, monetary promotion rewards or claim that every win advanced a tier. A focused source/logic assertion can check Quick Race has no career credit, an ordinary career result reports actual progress, and promotion completion reports the actual tier. Visual wrapping remains separately unverified under the current constraint.
+
+**Related narrower hierarchy omission:** Drift Results hero text is only `points / target`; finishing position appears in the classification table, rather than the explicit finishing-placement hero requested by visual direction §3.8. This is a literal later-spec gap, not a claim that drift rank is absent everywhere. Preserve score/target and authoritative competitive outcome; do not replace them with a target-only victory rule.
+
+## Implemented behavior that stale pending labels must not erase
+
+| Family | Current source evidence | Existing receipt / limitation |
+|---|---|---|
+| Main/career | Focused activity context and primary/utility composition; actual car/tier/cash, goal count and next available event in `reference_main` / `reference_home` (`lib.rs:6281–6448`). | Existing navigation/finance captures are evidence for exercised states. Remaining career progression fixture images are verification gaps, not proof the summary is unimplemented. |
+| Event setup | Page-reachable event list with mode/status badges, actual route, target, eligibility/reward and mode-specific wager/progression wording; adjacent vehicle arrows (`lib.rs:4898–5185`, `6621`). | Existing dossier/navigation receipts; do not infer all promoted/locked visual states from one event. |
+| Garage/dealer | Roster-normalized real power/torque/grip bars, actual price/value/sale labels, installed stage summary, row price/tier/owned/unaffordable state (`lib.rs:6471–6720`). | `reference-finance/verification.json`: passed, exit0,13 screenshots. Previously inspected original finance images support arithmetic/ownership/history/long-name states. |
+| Editors | Shared shell; installed/preview/cart states; quotes from authoritative customization logic; real wheel thumbnails; vinyl stack/graphic/transform grid and actual colour chip; upgrades/setup separation and focused effect footer; catalogue-driven parts empty state and actual seat inset (`lib.rs:7031–7650`). | `reference-ticket-editors/verification.json`: passed, exit0,21 customization+4 parts captures. `reference-seat-preview/verification.json`: passed, exit0,4 captures. The historical seat-invisibility finding was repaired by the actual inset; do not re-report it as current. |
+| Cart | Item-associated Remove, right-aligned price, three arithmetic totals, insufficient-funds/empty disabling and live preview (`lib.rs:6732–6910`). | Last source row geometry changed after older overlap captures. A pending current pixel check is not proof Remove still overlaps. |
+| Loading | Destination/course/mode/selected car/stake derive from queued race; route from actual track; reset and progress bind to SceneLoad (`lib.rs:2510–2648`, `3650–3710`). | Historical circuit/drift briefing captures; no fabricated progress/delay. Missing new captures do not establish a loading defect. |
+| Risk/pause/results | Shared concrete confirmation copy and safe focus; contextual stake pause guard; actual result/classification/settlement. | `final-wagers/verification.json`: `passed:true`,33 captures. Receipt does not prove final layout everywhere. Old `reference-circuit` alleged results are rejected stale pixels and are not result evidence. |
+
+## Boundaries and judgment trace
+
+The inspected implementation does not justify reopening already repaired help, seat, right-price alignment, category grouping or event-arrow issues. Vinyl camera is a hypothesis awaiting its bounded surface experiment, not an unimplemented firm Side/Top/Hood/Rear feature. No extra wheel style, invented mode, physics change or new transaction state is required by erroneous example counts/costs.
+
+Visual contrast, supported-window clipping, final editor framing, live focus/cadence, and current complete results/podium rendering remain acceptance work. They cannot be certified through source or headless logic alone. Existing receipt success does not constitute whole-goal completion.
+
+Discovery began with explicit-root Jevgrep (8,000 requests/concurrency20); the results query ended `End context.` but reported byte truncation, so complete focused Results and related helper branches were read directly. Full brief/visual-direction sections were read in bounded chunks. Jev/TypeSafe verified the promotion omission against the complete branch and core consequence evidence (confidence .97), and verified that missing new screenshots do not establish missing implementations (.97). These judgments evaluate supplied text/source evidence; they do not inspect pixels. No claim of exhaustive absence of other defects is made.
