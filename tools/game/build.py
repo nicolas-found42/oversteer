@@ -9,6 +9,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
+import background_window
 from bootstrap import prepare_template
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -33,7 +34,38 @@ def validate_imports():
         raise RuntimeError(f"Runtime scenes have invalid or missing Godot imports:\n{names}")
 
 
+def configure_road_mipmaps(root=ROOT):
+    """Custom shader samplers are not covered by Godot's automatic 3D detection."""
+    contract_path = root / "godot/assets/worlds/render-contract.json"
+    if not contract_path.exists():
+        return 0
+    contract = json.loads(contract_path.read_text())
+    paths = set()
+    for catalog, definition in contract.get("catalogs", {}).items():
+        for layer in definition.get("tarmac", []):
+            paths.update(layer.get(key) for key in ("base_texture_path", "markings_texture_path"))
+        materials_path = definition.get("materials_path", "")
+        if materials_path:
+            materials = root / "godot" / materials_path.removeprefix("res://")
+            for material in json.loads(materials.read_text()):
+                texture = material.get("nativeTextureBindings", {}).get("baseTexture")
+                if material.get("nativeShader") == "tarmac" and texture is not None:
+                    paths.add(f"res://assets/worlds/textures/{catalog}/{texture}.png")
+    changed = 0
+    for path in sorted(p for p in paths if p):
+        imported = root / "godot" / (path.removeprefix("res://") + ".import")
+        if not imported.exists():
+            continue  # First import creates the settings; the post-import pass handles these.
+        before = imported.read_text()
+        after = before.replace("mipmaps/generate=false", "mipmaps/generate=true")
+        if after != before:
+            imported.write_text(after)
+            changed += 1
+    return changed
+
+
 def import_assets(headless=False):
+    configure_road_mipmaps()
     # Godot can retain a failed import even after its source has been repaired.
     # Remove only generated failure metadata so the editor retries that resource.
     for path in (ROOT / "godot/assets").rglob("*.import"):
@@ -50,13 +82,18 @@ def import_assets(headless=False):
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
+        env=None if headless else background_window.environment(GODOT),
     )
     print(process.stdout, end="", flush=True)
     if process.returncode:
         raise subprocess.CalledProcessError(process.returncode, arguments)
     if re.search(r"^ERROR:|^SCRIPT ERROR:", process.stdout, re.M):
         raise RuntimeError("Godot asset import emitted errors despite a successful process exit")
+    if "BACKGROUND FOCUS VIOLATION" in process.stdout:
+        raise RuntimeError("Asset import activated its app; background focus verification failed")
     validate_imports()
+    if configure_road_mipmaps():
+        import_assets(headless=headless)
 
 
 def require_runtime_inputs():

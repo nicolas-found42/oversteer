@@ -1,14 +1,63 @@
-# Paused implementation handoff
+# Active implementation handoff
 
-Updated 2026-11-03 through pushed source/tooling baseline
-`ada2864be4a2225a580ead13ae081c970f88d74f` on `main`. Gameplay implementation is
-PAUSED at the user's request, not complete. Resume implementation only when the
-user requests it; do not restart the interview. Subsequent cleanup, tooling,
-reference-review UI and documentation work do not resume gameplay.
+## Current direction: independent Oversteer
 
-The implementation agents were interrupted at the original pause; no Cargo/game
-scenario process was then running. Current source checks and hosted CI passed,
-but no new native gameplay or release qualification was performed.
+The user has authorized the entire [pivot plan](../design/OVERSTEER_PIVOT_INTERVIEW.md).
+It supersedes reconstruction requirements in the historical handoff below.
+Use [the pivot implementation log](PIVOT_STATUS.md) for current work and evidence.
+Do not resume original-rule recovery or demand visual parity solely because the
+older record below lists it as unfinished. Preserve that record as provenance.
+
+## Historical reconstruction handoff
+
+Gameplay implementation explicitly resumed by the user on 2026-11-03 (local time).
+Scope, stack and all six release evidence groups remain unchanged. The resume
+checkout is `4eb83bbb56ee4584e519c762b7e13ab9f354bff9`, with pre-existing camera
+verification documentation and unfinished NPC-profile tests. Initial diff,
+input inventory, and copies of both historical `16a65` deployments are retained in
+`artifacts/juiced2-build/resume-20261104T021055Z/` (UTC directory names).
+
+Source/runtime doctors passed; all 30 source GLBs match accepted SHA256 values.
+The initial source gate failed on formatting, and the frontend test compile exposed
+missing `rival_profile` implementation in the unfinished tests. These are being
+resolved without discarding the tests. Historical DLL avatar/relaunch runs in
+`build/verification/resume-20261104-avatar/` passed 63 technical checks. Captured
+creator bodies are visible; this does not resolve material or reference parity.
+Camera/NPC implementation and fresh compiled-runtime verification are in progress.
+
+The historical paused baseline and retained evidence follow. Later evidence must
+be attributed to the exact DLL/content pair executed, not to a source test pass.
+
+## Creator camera verification after the bounded resume
+
+On 2026-11-03 the user requested the creator camera fix, a fresh full-roster
+capture run, retained evidence and remaining visibility failures. Inspection found
+the correction already in source and deployed in `16a65`: explicit inspection
+rotation retains the paint-booth camera, with an inside-booth eye and a
+donor-bounds-fitted FOV. No additional camera source change or rebuild was needed.
+
+Fresh execution: `build/verification/creator-camera-20261104-all30/`.
+Both all30 and save/relaunch passed all 42 technical checks, including both
+capture-diversity guards, on DLL `16a65c105f` / content `d5f6fabc4a`.
+The 150 roster PNGs contain 120 distinct stock/modified front/rear views and
+30 intentional modified-rear aliases. The historical wall-only rejection remains
+valid for `168892b6`; it does not describe this newer run.
+
+Retained evidence: `artifacts/juiced2-build/creator-camera-20261104/`, including
+the complete run, deployed library, relevant source/tool/content inputs,
+`baseline.json`, `review.json`, six contact sheets, `gallery.html`, and all 120
+typed visibility requests/responses. `manifest.json` inventories retained hashes.
+The game-tool unit suite also passed all 16 tests.
+
+Visibility is **not a full-roster pass**: `LIGHTNING_SVT` remains repair-required
+because the right booth wall overlaps the nose/tail in all four views. Jev marked
+113 views visible and seven for explicit review. Besides the four Lightning views,
+the unresolved views are `GT4_HOND0030` stock rear (unobstructed probability .79),
+`MCLA_VP_LAM_GALLARDO_06` modified front (.78), and `F100_1956` modified rear (.78).
+Host inspection found their bodies framed, but the typed flags remain unresolved.
+Per-car disposition is 26 visible, three review-required, one repair-required.
+This evidence concerns camera/body visibility only; material/reference parity,
+broader gameplay implementation and release qualification remain open.
 
 ## Read first
 
@@ -279,7 +328,8 @@ Compile result:94 core/22 frontend checks passed; release compilation exit0.
 This narrow build adds creator gender/preset phase layout corrections and the
 paint-booth inspection camera fix, plus pure performance helpers. It DOES NOT
 include numeric entry/package integration, a MINI starter or new stock data.
-**No native GPU/scenario run of this DLL has been performed yet.**
+The later all30 camera run above and resume avatar run executed this DLL; their
+visibility/state results do not establish release acceptance.
 
 Current content still starts with the historical Civic and contains the known
 Evo320kg input defect. Do not treat that as corrected or final legal career data.

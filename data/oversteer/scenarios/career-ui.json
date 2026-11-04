@@ -1,0 +1,14 @@
+[
+  {"action":"title_start","after_frame":15},
+  {"action":"nav:career","after_frame":35,"capture":"career-home"},
+  {"action":"career_goals","after_frame":65,"capture":"progression"},
+  {"action":"goal_icon:1","after_frame":95},
+  {"action":"goals_select","after_frame":115,"capture":"drift-event"},
+  {"action":"nav:main","after_frame":145},
+  {"action":"nav:career","after_frame":165},
+  {"action":"career_goals","after_frame":185},
+  {"action":"goal_icon:2","after_frame":205},
+  {"action":"goals_select","after_frame":225,"capture":"promotion-locked"},
+  {"action":"goals_back","after_frame":250},
+  {"action":"nav:dealer","after_frame":275,"capture":"dealership"}
+]

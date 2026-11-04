@@ -46,10 +46,25 @@ fn walk(
             if let Ok(base) = base.try_cast::<StandardMaterial3D>() {
                 let c = base.get_albedo();
                 row["factory_state"] = json!({"rgba":[c.r,c.g,c.b,c.a],"roughness":base.get_roughness(),"metallic":base.get_metallic(),"transparency":base.get_transparency().ord()});
+                row["factory_state"]["texture_repeat"] = base
+                    .get_flag(godot::classes::base_material_3d::Flags::USE_TEXTURE_REPEAT)
+                    .into();
+                row["factory_state"]["texture_filter"] = base.get_texture_filter().ord().into();
             }
             if let Ok(standard) = active.clone().try_cast::<StandardMaterial3D>() {
                 let color = standard.get_albedo();
                 row["runtime_standard_rgba"] = json!([color.r, color.g, color.b, color.a]);
+                let texture =
+                    standard.get_texture(godot::classes::base_material_3d::TextureParam::ALBEDO);
+                row["runtime_standard_state"] = json!({
+                    "texture_repeat":standard.get_flag(godot::classes::base_material_3d::Flags::USE_TEXTURE_REPEAT),
+                    "texture_filter":standard.get_texture_filter().ord(),
+                    "transparency":standard.get_transparency().ord(),
+                    "depth_draw_mode":standard.get_depth_draw_mode().ord(),
+                    "cull_mode":standard.get_cull_mode().ord(),
+                    "roughness":standard.get_roughness(),"metallic":standard.get_metallic(),
+                    "albedo_texture":texture.map(|t| json!({"path":t.get_path().to_string(),"width":t.get_width(),"height":t.get_height()}))
+                });
             }
             if let Ok(shader) = active.try_cast::<ShaderMaterial>() {
                 let paint = shader
@@ -67,6 +82,27 @@ fn walk(
                     .map(|shader| shader.get_code().to_string())
                     .unwrap_or_default();
                 row["runtime_render_state"] = json!({"alpha_scissor":code.contains("ALPHA_SCISSOR_THRESHOLD"),"cull_front":code.contains("cull_front"),"cull_disabled":code.contains("cull_disabled"),"factory_luma_linear":shader.get_shader_parameter("factory_luma").try_to::<f32>().ok(),"use_vertex_color":shader.get_shader_parameter("use_vertex_color").try_to::<bool>().ok()});
+                for (field, expression) in [
+                    ("paint_roughness", "ROUGHNESS=mix(original_roughness,"),
+                    ("paint_metallic", "METALLIC=mix(original_metallic,"),
+                ] {
+                    row["runtime_render_state"][field] = code
+                        .split(expression)
+                        .nth(1)
+                        .and_then(|tail| tail.split(',').next())
+                        .and_then(|value| value.parse::<f64>().ok())
+                        .into();
+                }
+                row["runtime_render_state"]["paint_clearcoat"] =
+                    code.contains("CLEARCOAT=0.7*coverage").into();
+                for name in ["base_texture", "paint_mask"] {
+                    row["runtime_render_state"][format!("{name}_sampler")] = code
+                        .split(&format!("uniform sampler2D {name}"))
+                        .nth(1)
+                        .and_then(|tail| tail.split(';').next())
+                        .map(str::to_owned)
+                        .into();
+                }
                 row["native_decal_textures"] = json!(
                     (0..16)
                         .filter_map(|index| shader

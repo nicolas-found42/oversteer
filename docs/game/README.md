@@ -1,5 +1,62 @@
 # Native Rust game
 
+Current product scope is the [accepted independent-game pivot](../design/OVERSTEER_PIVOT_INTERVIEW.md).
+Use [PIVOT_STATUS.md](PIVOT_STATUS.md) for current implementation evidence and
+remaining work. Historical reconstruction checks below describe the retained
+foundation, not a requirement to match Juiced 2.
+
+`tools/game/verify.py --suite pivot-ui` exercises
+the new onboarding, driver-name persistence and fixed-driver betting screen.
+Visual scenarios retain selected action checkpoints, with no periodic captures.
+Every whole run is capped at 50 PNGs, including incidental images. Galleries
+include every retained PNG for manual inspection.
+
+The current runtime selects six Oversteer tiers and 18 circuit/drift/promotion
+events on London Circuit and London Drift. The 30-car foundation remains; the
+other 31 recovered courses and all 463 source contests are deferred/replaced,
+as listed in [the content inventory](../../data/oversteer/content-selection.json).
+Recovered catalogs remain unchanged. Tier names, prices and rewards are current
+development tuning, not final economy acceptance.
+
+`uv run --frozen python tools/game/verify.py --suite pivot-career` checks the
+career/progression/event screens, separate-process save reload and the second
+course, using eight screenshots. `cargo test -p oversteer-core --test pivot_career`
+includes an actual-input first-tier playthrough on Easy with earned circuit,
+drift and promotion wins and save/reload between races. This does not substitute
+for rendered full-career, wager or human handling acceptance.
+
+`uv run --frozen python tools/game/verify.py --suite pivot-wagers --output build/verification/wagers`
+checks purchase/upgrade, cash and pink-slip restart/menu forfeiture, forced-crash
+recovery and repeated relaunch in 16 cases with 33 screenshots. It terminates only
+its own verification processes after the recorded crash checkpoints. Use a new
+output directory. Race-finish wager outcomes are a separate acceptance check.
+
+`uv run --frozen python tools/game/verify.py --suite wheel-audit` captures the
+Civic (FWD), MX-5 (RWD) and Evo (AWD) during controller-driven racing, at six
+60-degree camera intervals with two adjacent ticks per angle (36 angle PNGs plus
+three final checkpoints: 39 total). Each
+image has a JSON sidecar with actual spin, steering and contact telemetry, plus
+rendered wheel vertices’ minimum clearance from their contact plane. The camera
+is inspection-only; the normal simulation and input path remain active. These
+short runs cover launch, steering, coasting, braking and handbrake, not all tracks
+or airborne/body-collision acceptance. The faster Evo uses gentler steering to
+keep roadside barriers out of the inspection camera's orbit. The reviewed
+three-car gallery is `build/verification/pivot-wheel-review/index.html`, with
+adjacent-tick toggles and links to each image's telemetry.
+
+Automated verification and asset imports protect desktop focus by default while
+retaining the actual Metal renderer. A development-only AppKit guard is
+preflighted headlessly; an unavailable guard cancels the launch. Use
+`verify.py --foreground` only for intentionally interactive testing. The guard
+does not ship in the game. Background automated input is not a substitute for
+the final keyboard/controller and foreground performance checks.
+
+The cartoon Kenney driver was rejected by the user. Character acceptance now
+requires realistic adult proportions and streetwear/racing-game presentation.
+The fixed existing streetwear asset is being evaluated without reintroducing
+character customization; the rejected candidate and its tooling are retained
+only under `artifacts/oversteer-pivot/driver/rejected-kenney/`.
+
 The current target is Apple Silicon macOS, using Godot **4.7.2** and the Rust
 `godot` crate **0.5.5** (`api-4-7`). The workspace pins Rust **1.99.0**;
 gdext itself declares a lower minimum, which is not this project's tested toolchain.

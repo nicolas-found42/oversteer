@@ -1,0 +1,27 @@
+[
+  {
+    "file": "london-evo.png",
+    "source": "build/verification/pivot-pipeline-revalidated/GT4_MITS0001/view-000-race-az045-el+10-roll+00.png",
+    "sha256": "4b05b24158af631dbc18c3133345ab8bb620ad9098e88ab9b071985f37f3d9a3"
+  },
+  {
+    "file": "garage-menu.png",
+    "source": "build/verification/pivot-pr-after/menu/final.png",
+    "sha256": "563a0ba7d13add4c81ea6f3e777f43f8bbd4a47adb1e5352eab2758166aae28c"
+  },
+  {
+    "file": "pink-slip-win.png",
+    "source": "build/verification/pivot-pink-finishes-accepted/pink-finish-win/final.png",
+    "sha256": "f7f5421382aa07ca156ec2d63121b344a3e5840227730a73ce88a3e03c99019f"
+  },
+  {
+    "file": "london-race.png",
+    "source": "build/verification/readme-rivals/race-0960.png",
+    "sha256": "29284c90d1c33531a60312c33296d60b4c5d64a1c35f3585ea46d153f5a54589"
+  },
+  {
+    "file": "pink-slip-stake.png",
+    "source": "build/verification/readme-gameplay/accepted-stake.png",
+    "sha256": "0141f86d075457819fc810d0fbe188300075882f59bf6e2303fc8cd464ec0b2f"
+  }
+]

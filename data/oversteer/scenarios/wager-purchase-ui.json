@@ -1,0 +1,73 @@
+[
+  {
+    "action": "title_start",
+    "after_frame": 15
+  },
+  {
+    "action": "nav:career",
+    "after_frame": 40
+  },
+  {
+    "action": "nav:dealer",
+    "after_frame": 65
+  },
+  {
+    "action": "car:GT4_MINI0001",
+    "after_frame": 90
+  },
+  {
+    "action": "buy",
+    "after_frame": 115
+  },
+  {
+    "action": "confirm_yes",
+    "capture": "spare-purchased",
+    "after_frame": 140
+  },
+  {
+    "action": "nav:main",
+    "after_frame": 165
+  },
+  {
+    "action": "nav:career",
+    "after_frame": 190
+  },
+  {
+    "action": "nav:garage",
+    "after_frame": 215
+  },
+  {
+    "action": "car:GT4_HOND0018",
+    "after_frame": 240
+  },
+  {
+    "action": "nav:custom",
+    "after_frame": 265
+  },
+  {
+    "action": "custom_page:performance",
+    "after_frame": 290
+  },
+  {
+    "action": "upgrade:engine",
+    "after_frame": 315
+  },
+  {
+    "action": "nav:checkout",
+    "capture": "upgrade-quote",
+    "after_frame": 340
+  },
+  {
+    "action": "checkout",
+    "after_frame": 365
+  },
+  {
+    "action": "confirm_yes",
+    "capture": "upgrade-purchased",
+    "after_frame": 390
+  },
+  {
+    "action": "nav:main",
+    "after_frame": 415
+  }
+]

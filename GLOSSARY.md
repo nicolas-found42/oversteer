@@ -1,14 +1,15 @@
 # Oversteer
 
-Oversteer reconstructs the observable Juiced 2 driving and career experience using
-vehicles from the agreed source collections.
+Oversteer is an independent racing game being refined from its current playable
+foundation, using vehicles from the agreed source collections.
 
 ## Language
 
 **Reference game**:
-Juiced 2 on PS3 and Xbox 360, treated as a shared behavioral reference by project
-direction.
-_Avoid_: A blend of every Juiced 2 edition
+A mature racing game used to inform quality and design judgment. Juiced 2 and
+its retained reference material serve this role without defining Oversteer's
+identity or requiring matching presentation and behavior.
+_Avoid_: Reconstruction target, parity requirement
 
 **Vehicle model**:
 A vehicle identity and its visual representation from the GT4, MC3, MCLA, or
@@ -27,3 +28,21 @@ ownership, and customization toward game completion.
 **Quick race**:
 A standalone race selected directly rather than reached through career
 progression.
+
+**Career tier**:
+A stage of career competition with visible requirements for unlocking access
+and entering its events.
+
+**Owned car**:
+A vehicle in the player's career garage, available for eligible events,
+customization and pink-slip stakes.
+_Avoid_: Vehicle model (when referring to an owned vehicle)
+
+**Cash bet**:
+A cash stake on beating a chosen rival in a race, settled independently of
+overall race victory.
+
+**Pink-slip race**:
+A race in which the player stakes their selected owned car against a rival's
+car. Winning awards the rival's car; losing forfeits the player's staked car.
+The player's last owned car cannot be staked.

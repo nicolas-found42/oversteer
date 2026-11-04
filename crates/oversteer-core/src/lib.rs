@@ -1,4 +1,5 @@
 //! Engine-independent simulation and single-player state. See PROVENANCE.md for evidence limits.
+mod career;
 mod game;
 mod physics;
 pub use game::*;

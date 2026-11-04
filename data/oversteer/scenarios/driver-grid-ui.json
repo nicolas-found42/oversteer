@@ -1,0 +1,7 @@
+[
+  {"action":"nav:career","after_frame":15,"capture":"career"},
+  {"action":"career_events","after_frame":40,"capture":"event-list"},
+  {"action":"start","after_frame":65,"capture":"driver-grid"},
+  {"action":"offer_cash","after_frame":100,"capture":"bet-offer"},
+  {"action":"offer_decline","after_frame":135,"capture":"bet-declined"}
+]

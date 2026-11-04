@@ -37,6 +37,9 @@ def convert(evidence_path, output):
     if not isinstance(content_sha256, str) or len(content_sha256) != 64:
         raise ValueError("Replay evidence must identify the actual content SHA256")
     nitrous_button = evidence.get("raw_nitrous_button")
+    reverse_button = evidence.get("raw_reverse_button")
+    if reverse_button is not None and (type(reverse_button) is not int or reverse_button != 3):
+        raise ValueError("Recorded reverse button must use the supported default binding 3")
     if nitrous_button is not None and (type(nitrous_button) is not int or nitrous_button != 0):
         raise ValueError("Recorded nitrous button must use the supported default binding 0")
     for record in evidence["files"].values():
@@ -99,7 +102,7 @@ def convert(evidence_path, output):
             raise ValueError("Recorded nitrous is not reachable through the digital binding")
         if desired["nitrous"] != 0 and nitrous_button is None:
             raise ValueError("Nitrous replay requires an explicit recorded raw_nitrous_button")
-        if desired["reverse"] or desired["shift"] != 0:
+        if (desired["reverse"] and reverse_button is None) or desired["shift"] != 0:
             raise ValueError("This recorded replay requires an unsupported additional binding")
         for name, axis in [("steering_0", 0), ("throttle_5", 5), ("brake_4", 4)]:
             value = raw[name]
@@ -128,10 +131,14 @@ def convert(evidence_path, output):
                 }
             )
             previous["nitrous"] = nitrous
+        reverse = bool(desired["reverse"])
+        if reverse_button is not None and previous.get("reverse") != reverse:
+            events.append({"frame": frame, "joy_button": reverse_button, "pressed": reverse})
+            previous["reverse"] = reverse
     output = output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
     outputs = [output, output.with_suffix(".manifest.json")]
-    if "grid_driver_bet" in evidence:
+    if "grid_driver_bet" in evidence or "ui-plan" in evidence["files"]:
         outputs.append(output.with_suffix(".ui.json"))
     if any(path.exists() for path in outputs):
         raise FileExistsError("Replay output already exists; retain the earlier recording")
@@ -165,15 +172,23 @@ def convert(evidence_path, output):
         manifest["expected_new_transactions"] = final["career"]["transactions"][
             len(initial["career"]["transactions"]) :
         ]
+        manifest["expected_final_save"] = evidence["files"]["save"]
     for field in [
         "preceding_playthrough",
         "fresh_profile_initial_save",
         "native_parity_limits",
         "nitrous_observations",
+        "runtime_content_sha256",
     ]:
         if field in evidence:
             manifest[field] = evidence[field]
-    if "grid_driver_bet" in evidence:
+    if "ui-plan" in evidence["files"]:
+        ui_plan = output.with_suffix(".ui.json")
+        ui_plan.write_bytes((ROOT / evidence["files"]["ui-plan"]["path"]).read_bytes())
+        manifest.update(ui_plan=str(ui_plan), ui_plan_sha256=digest(ui_plan))
+        if "grid_driver_bet" in evidence:
+            manifest["grid_driver_bet"] = evidence["grid_driver_bet"]
+    elif "grid_driver_bet" in evidence:
         bet = evidence["grid_driver_bet"]
         steps = [
             ("nav:career", None),

@@ -31,6 +31,7 @@ pub enum TransactionKind {
     WagerEscrow,
     WagerSettlement,
     RaceReward,
+    RaceRefund,
     PinkSlipWin,
     PinkSlipLoss,
     RecruitDriver,

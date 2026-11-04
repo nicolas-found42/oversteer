@@ -37,9 +37,11 @@ pub struct RenderedLayout {
     pub texts: BTreeMap<String, Gd<Label>>,
 }
 impl NativeLayout {
+    #[cfg(test)]
     pub fn cart() -> Self {
         Self::parse(include_str!("layouts/cart.json")).expect("verified native cart rows")
     }
+    #[cfg(test)]
     pub fn credits() -> Self {
         Self::parse(include_str!("layouts/credits.json")).expect("verified native credit rows")
     }
