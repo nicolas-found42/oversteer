@@ -635,6 +635,8 @@ pub struct RacerSnapshot {
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct RaceSnapshot {
+    #[serde(default)]
+    pub career: bool,
     pub native_discipline: Option<NativeDiscipline>,
     pub bet_offer: Option<crate::DriverBetOffer>,
     pub wager: u32,
@@ -3049,6 +3051,7 @@ impl Game {
     }
     fn snapshot_content(&self, include_content: bool) -> GameSnapshot {
         let race = self.race.as_ref().map(|r| RaceSnapshot {
+            career: r.career,
             native_discipline: r.event.native_discipline,
             bet_offer: r.bet_offer.clone(),
             wager: r.wager,

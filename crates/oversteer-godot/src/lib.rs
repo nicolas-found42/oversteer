@@ -1,10 +1,12 @@
 mod audio;
 mod effects;
+mod hud_art;
 mod loading;
-mod native_layout;
 mod native_palette;
 mod paint;
 mod persistence;
+mod split_times;
+mod ui;
 mod verification;
 use godot::classes::{
     BoxMesh, Button, Camera3D, CanvasLayer, ColorRect, Control, DirectionalLight3D, Environment,
@@ -17,6 +19,7 @@ use godot::prelude::*;
 use oversteer_core::*;
 use std::cell::Cell;
 use std::collections::BTreeMap;
+use ui::{grouped_integer, map_heading, money, vehicle_name};
 
 struct OversteerExtension;
 #[gdextension]
@@ -31,6 +34,8 @@ pub struct OversteerApp {
     camera: Option<Gd<Camera3D>>,
     sun: Option<Gd<DirectionalLight3D>>,
     environment: Option<Gd<Environment>>,
+    race_sky: Option<Gd<godot::classes::Sky>>,
+    studio_sky: Option<Gd<godot::classes::Sky>>,
     audio: Option<audio::RuntimeAudio>,
     scene: Option<Gd<Node3D>>,
     loading: Option<loading::SceneLoad>,
@@ -63,9 +68,14 @@ pub struct OversteerApp {
     avatar_key: String,
     avatar_report: serde_json::Value,
     menu: Option<Gd<Control>>,
+    menu_tween: Option<Gd<godot::classes::Tween>>,
+    hud_tweens: BTreeMap<String, Gd<godot::classes::Tween>>,
     hud: Option<Gd<Control>>,
-    rpm_bar: Option<Gd<ColorRect>>,
+    rpm_gauge: Option<Gd<godot::classes::ShaderMaterial>>,
+    speed_gauge: Option<Gd<godot::classes::ShaderMaterial>>,
     nitrous_bar: Option<Gd<ColorRect>>,
+    drift_progress: Option<Gd<ColorRect>>,
+    split_times: split_times::SplitTimes,
     speed_mph: bool,
     labels: BTreeMap<String, Gd<Label>>,
     previous_screen: String,
@@ -164,6 +174,8 @@ impl INode3D for OversteerApp {
             camera: None,
             sun: None,
             environment: None,
+            race_sky: None,
+            studio_sky: None,
             audio: None,
             scene: None,
             loading: None,
@@ -196,9 +208,14 @@ impl INode3D for OversteerApp {
             avatar_key: String::new(),
             avatar_report: serde_json::Value::Null,
             menu: None,
+            menu_tween: None,
+            hud_tweens: BTreeMap::new(),
             hud: None,
-            rpm_bar: None,
+            rpm_gauge: None,
+            speed_gauge: None,
             nitrous_bar: None,
+            drift_progress: None,
+            split_times: split_times::SplitTimes::default(),
             speed_mph: true,
             labels: BTreeMap::new(),
             previous_screen: String::new(),
@@ -281,25 +298,9 @@ impl INode3D for OversteerApp {
             cart_selected: String::new(),
             vinyl_layer: 0,
             rebind: None,
-            bindings: BTreeMap::from([
-                ("throttle".into(), Key::W),
-                ("brake".into(), Key::S),
-                ("left".into(), Key::A),
-                ("right".into(), Key::D),
-                ("handbrake".into(), Key::SPACE),
-                ("nitrous".into(), Key::SHIFT),
-                ("reverse".into(), Key::Q),
-            ]),
-            joy_axes: BTreeMap::from([
-                ("throttle".into(), 5),
-                ("brake".into(), 4),
-                ("steering".into(), 0),
-            ]),
-            joy_buttons: BTreeMap::from([
-                ("nitrous".into(), 0),
-                ("handbrake".into(), 2),
-                ("reverse".into(), 3),
-            ]),
+            bindings: default_key_bindings(),
+            joy_axes: default_joy_axes(),
+            joy_buttons: default_joy_buttons(),
             content_json: String::new(),
         }
     }
@@ -387,6 +388,13 @@ impl INode3D for OversteerApp {
                     .min(50);
             }
         }
+        if !self.save_override.is_empty()
+            && !std::path::Path::new(&self.save_override).is_absolute()
+        {
+            godot_error!("--save-file must be absolute");
+            self.base().get_tree().quit_ex().exit_code(1).done();
+            return;
+        }
         self.content_json =
             FileAccess::get_file_as_string("res://assets/game-content.json").to_string();
         self.content = match serde_json::from_str(&self.content_json) {
@@ -450,13 +458,6 @@ impl INode3D for OversteerApp {
                 self.base().get_tree().quit_ex().exit_code(1).done();
                 return;
             }
-        }
-        if !self.save_override.is_empty()
-            && !std::path::Path::new(&self.save_override).is_absolute()
-        {
-            godot_error!("--save-file must be absolute");
-            self.base().get_tree().quit_ex().exit_code(1).done();
-            return;
         }
         if FileAccess::file_exists("res://assets/decals/catalog.json") {
             match serde_json::from_str(
@@ -719,6 +720,44 @@ impl INode3D for OversteerApp {
         if self.loading.is_some() {
             return;
         }
+        if self.confirmation.is_some() {
+            let controller_cancel = event
+                .clone()
+                .try_cast::<godot::classes::InputEventJoypadButton>()
+                .is_ok_and(|button| {
+                    button.is_pressed() && button.get_button_index() == godot::global::JoyButton::B
+                });
+            if event.is_action_pressed("ui_cancel") || controller_cancel {
+                self.confirmation = None;
+                self.rebuild_menu();
+                if let Some(mut viewport) = self.base().get_viewport() {
+                    viewport.set_input_as_handled();
+                }
+            }
+            let controller_accept = event
+                .clone()
+                .try_cast::<godot::classes::InputEventJoypadButton>()
+                .is_ok_and(|button| {
+                    button.is_pressed() && button.get_button_index() == godot::global::JoyButton::A
+                });
+            if controller_accept && self.confirmation.is_some() {
+                let action = self
+                    .base()
+                    .get_viewport()
+                    .and_then(|viewport| viewport.gui_get_focus_owner())
+                    .filter(|owner| owner.has_meta("ui_action"))
+                    .map(|owner| owner.get_meta("ui_action").to::<String>());
+                if let Some(action) =
+                    action.filter(|action| matches!(action.as_str(), "confirm_no" | "confirm_yes"))
+                {
+                    self.action(action.as_str().into());
+                }
+                if let Some(mut viewport) = self.base().get_viewport() {
+                    viewport.set_input_as_handled();
+                }
+            }
+            return;
+        }
         if self.paint_scalar_panel.is_some() {
             let cancel = event
                 .clone()
@@ -755,6 +794,15 @@ impl INode3D for OversteerApp {
         if self.palette_control.is_some() {
             return;
         }
+        if self.rebind.is_some() && event.is_action_pressed("ui_cancel") {
+            self.rebind = None;
+            self.notice.clear();
+            self.rebuild_menu();
+            if let Some(mut viewport) = self.base().get_viewport() {
+                viewport.set_input_as_handled();
+            }
+            return;
+        }
         if let Ok(motion) = event
             .clone()
             .try_cast::<godot::classes::InputEventJoypadMotion>()
@@ -766,6 +814,7 @@ impl INode3D for OversteerApp {
         {
             swap_binding(&mut self.joy_axes, action, motion.get_axis().ord());
             self.rebind = None;
+            self.notice.clear();
             if let Some(mut viewport) = self.base().get_viewport() {
                 viewport.set_input_as_handled();
             }
@@ -786,7 +835,7 @@ impl INode3D for OversteerApp {
             {
                 if let Some(game) = &mut self.game {
                     let paused = game.frame_snapshot().screen == GameScreen::Paused;
-                    let _ = game.command(if paused {
+                    self.send(if paused {
                         GameCommand::Resume
                     } else {
                         GameCommand::Pause
@@ -805,6 +854,7 @@ impl INode3D for OversteerApp {
                     button.get_button_index().ord(),
                 );
                 self.rebind = None;
+                self.notice.clear();
                 if let Some(mut viewport) = self.base().get_viewport() {
                     viewport.set_input_as_handled();
                 }
@@ -836,11 +886,19 @@ impl INode3D for OversteerApp {
                     self.bindings.insert(conflict, old_key);
                 }
                 self.bindings.insert(action, new_key);
+                self.notice.clear();
                 self.save_settings();
                 self.rebuild_menu();
                 return;
             }
             if key.get_keycode() == Key::ESCAPE {
+                if self.credits {
+                    self.action("credits_back".into());
+                    if let Some(mut viewport) = self.base().get_viewport() {
+                        viewport.set_input_as_handled();
+                    }
+                    return;
+                }
                 if self.confirmation.take().is_some() {
                     self.rebuild_menu();
                     return;
@@ -862,7 +920,7 @@ impl INode3D for OversteerApp {
                 }
                 if let Some(game) = &mut self.game {
                     let paused = game.snapshot().screen == GameScreen::Paused;
-                    let _ = game.command(if paused {
+                    self.send(if paused {
                         GameCommand::Resume
                     } else {
                         GameCommand::Pause
@@ -939,6 +997,15 @@ impl OversteerApp {
             != Some(paint::Stage::Scalar(channel as u32))
         {
             return;
+        }
+        if let Some(panel) = &self.paint_scalar_panel {
+            for child in panel.get_children().iter_shared() {
+                if child.get_name() == "MaterialValue"
+                    && let Ok(mut label) = child.try_cast::<Label>()
+                {
+                    label.set_text(&format!("{:.1}%", value * 100.));
+                }
+            }
         }
         let mut record = paint::donor_seed(&self.customization);
         match paint::scalar(&mut record, channel as u32, value as f32) {
@@ -1091,7 +1158,7 @@ impl OversteerApp {
     fn open_paint_scalar_stage(&mut self, channel: u32) {
         let record = paint::donor_seed(&self.customization);
         let (title, value) = match channel {
-            2 => ("SELECT PEARLESCENT BALANCE", record.two_tone_exp),
+            2 => ("PEARLESCENT BALANCE", record.two_tone_exp),
             4 => ("SET FLAKE SIZE", (record.flakie - 0.3) / 0.7),
             5 => ("SET FLAKE FOCUS", (record.fleck_power - 100.) / 48.),
             _ => ("SET FILM DEPTH", (record.film_thickness - 0.0055) / 0.02),
@@ -1099,23 +1166,11 @@ impl OversteerApp {
         let mut panel = Control::new_alloc();
         panel.set_size(Vector2::new(1920., 1080.));
         panel.set_z_index(90);
+        panel.set_theme(&menu_theme());
         panel.set_mouse_filter(godot::classes::control::MouseFilter::STOP);
         let price = self.preview_quote_cost("paint");
-        let cash = self.game.as_ref().unwrap().frame_snapshot().career.cash;
-        let layout =
-            native_layout::NativeLayout::parse(include_str!("layouts/palette-chrome.json"))
-                .expect("verified native paint chrome");
-        if let Err(error) = layout.render(
-            &mut panel,
-            &[
-                ("MENUTITLE", "PAINT COLOR".into()),
-                ("TITLE", title.into()),
-                ("PRICE", format!("Price: ${price}")),
-                ("CASH", format!("${cash}")),
-            ],
-        ) {
-            self.error_dialog = Some(error);
-        }
+        Self::paint_stage_chrome(&mut panel, title, price);
+        self.paint_context(&mut panel);
         // Scalar widget coordinates are a presentation adapter; the channel,
         // order and conversion are retained from the original source consumer.
         let mut slider = godot::classes::HSlider::new_alloc();
@@ -1123,8 +1178,8 @@ impl OversteerApp {
         slider.set_max(1.);
         slider.set_step(0.001);
         slider.set_value(value.clamp(0., 1.) as f64);
-        slider.set_position(Vector2::new(174., 760.));
-        slider.set_size(Vector2::new(630., 54.));
+        slider.set_position(Vector2::new(72., 416.));
+        slider.set_size(Vector2::new(392., 54.));
         slider.set_meta("ui_action", &format!("paint:scalar:{channel}").to_variant());
         slider.connect(
             "value_changed",
@@ -1134,22 +1189,83 @@ impl OversteerApp {
                 .bind(&[(channel as i64).to_variant()]),
         );
         panel.add_child(&slider);
+        let mut value_label = Self::text(
+            &mut panel,
+            &format!("{:.1}%", value.clamp(0., 1.) * 100.),
+            72.,
+            344.,
+            32,
+            Color::WHITE,
+        );
+        value_label.set_name("MaterialValue");
+        Self::text(
+            &mut panel,
+            match channel {
+                2 => "BASE TINT 0%       FULL PEARL 100%",
+                4 => "FINE 0%                 LARGE 100%",
+                5 => "SOFT 0%              FOCUSED 100%",
+                _ => "THIN 0%                 DEEP 100%",
+            },
+            72.,
+            484.,
+            16,
+            Color::WHITE,
+        );
+        for (label, rgb, x) in [
+            ("BASE", record.base_rgb, 72.),
+            (
+                if channel == 2 { "PEARL" } else { "SECONDARY" },
+                if channel == 2 {
+                    record.secondary_rgb
+                } else {
+                    record.fleck_rgb
+                },
+                280.,
+            ),
+        ] {
+            Self::rect(
+                &mut panel,
+                Vector2::new(x, 540.),
+                Vector2::new(184., 40.),
+                Color::from_rgb(rgb[0], rgb[1], rgb[2]),
+            );
+            Self::text(&mut panel, label, x, 592., 13, Color::WHITE);
+        }
+        let effect = match channel {
+            2 => "Changes the balance between the base and secondary pearlescent colours.",
+            4 => "Changes the size of metallic flakes.",
+            5 => "Changes the focus of the flake highlights.",
+            _ => "Changes the thin-film depth and colour response.",
+        };
+        let mut help = Self::text(
+            &mut panel,
+            "",
+            72.,
+            648.,
+            20,
+            Color::from_rgb(0.67, 0.74, 0.77),
+        );
+        help.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+        help.set_size(Vector2::new(392., 220.));
+        help.set_text(&format!(
+            "{effect}\n\nIncluded in selection total.\n\nAccept continues. Back returns one step."
+        ));
         self.button(
             &mut panel,
             "ACCEPT",
             "paint_stage_accept",
-            1240.,
-            954.,
-            230.,
+            272.,
+            1000.,
+            216.,
             60.,
         );
         self.button(
             &mut panel,
             "BACK",
             "paint_stage_cancel",
-            1510.,
-            954.,
-            230.,
+            48.,
+            1000.,
+            200.,
             60.,
         );
         if let Some(menu) = &mut self.menu {
@@ -1224,13 +1340,12 @@ impl OversteerApp {
             Color::from_rgba(color[0], color[1], color[2], color[3]),
             match target.as_str() {
                 "body" => "SELECT BASE COLOUR",
-                "secondary" => "SELECT PEARLESCENT COLOR",
-                "fleck" => "SET FLAKE COLOR",
+                "secondary" => "PEARLESCENT COLOUR",
+                "fleck" => "FLAKE COLOUR",
                 "wheel" => "SELECT WHEEL COLOUR",
                 _ => "SELECT VINYL COLOUR",
             },
             price,
-            self.game.as_ref().unwrap().frame_snapshot().career.cash,
             matches!(target.as_str(), "wheel" | "vinyl"),
         ) {
             Ok(mut palette) => {
@@ -1251,6 +1366,7 @@ impl OversteerApp {
                     }
                     menu.add_child(&palette);
                 }
+                self.paint_context(&mut palette.clone().upcast());
                 self.palette_original = Some(self.customization.clone());
                 self.palette_target = target;
                 self.palette_control = Some(palette);
@@ -1407,6 +1523,25 @@ impl OversteerApp {
         self.apply_custom();
     }
     #[func]
+    fn activity_context(&mut self, key: GString) {
+        let text = match key.to_string().as_str() {
+            "nav:career" => "Earn cars and advance through the career tiers.",
+            "nav:quick" => "Choose any car for a standalone circuit or drift event.",
+            "options" => "Adjust driving, controls, audio, display and your profile.",
+            "credits" => "About Oversteer and its asset provenance.",
+            _ => "Save your career and close the game.",
+        };
+        if let Some(menu) = &self.menu {
+            for child in menu.get_children().iter_shared() {
+                if child.get_name() == "ActivityContext"
+                    && let Ok(mut label) = child.try_cast::<Label>()
+                {
+                    label.set_text(text);
+                }
+            }
+        }
+    }
+    #[func]
     fn driver_name(&mut self, name: GString) {
         let mut profile = self.game.as_ref().unwrap().frame_snapshot().profile;
         profile.name = name.to_string();
@@ -1414,13 +1549,77 @@ impl OversteerApp {
         self.persist();
     }
     #[func]
+    fn setting_context(&mut self, key: GString) {
+        let key = key.to_string();
+        let help = match key.as_str() {
+            "difficulty" => {
+                "Difficulty changes opponent pace. Select to cycle Easy, Normal and Hard."
+            }
+            "units" => {
+                "Choose MPH or KPH for the speed display. Vehicle speed and handling are unchanged."
+            }
+            "quality" => {
+                "Low, Balanced and High adjust antialiasing, shadows and ambient occlusion."
+            }
+            _ if key.starts_with("audio:") => {
+                "Select to cycle this audio channel’s volume. The bar shows its current level."
+            }
+            _ if key.starts_with("axis:") => {
+                "Select, then move the desired controller axis. Conflicting assignments swap; Escape cancels."
+            }
+            _ if key.starts_with("button:") => {
+                "Select, then press a controller button. Conflicting assignments swap; Escape cancels."
+            }
+            _ => "Select, then press a key. Conflicting assignments swap; Escape cancels.",
+        };
+        if let Some(menu) = &self.menu
+            && let Some(node) = menu.find_child_ex("SettingHelp").owned(false).done()
+            && let Ok(mut label) = node.try_cast::<Label>()
+        {
+            label.set_text(help);
+        }
+    }
+    #[func]
+    fn tuning_context(&mut self, key: GString) {
+        let key = key.to_string();
+        let index = key
+            .rsplit(':')
+            .next()
+            .and_then(|value| value.parse::<usize>().ok())
+            .unwrap_or(0);
+        let effect = [
+            "Steering: adjusts maximum wheel angle ±10%. More lock gives a tighter available turn; zero keeps the standard angle.",
+            "Gearing: final drive ±15%. Shorter gearing increases wheel torque and engine revs at the same road speed.",
+            "Tyre grip: grip scale ±5%. More grip increases available tyre force; less grip lets tyres slide more readily.",
+            "Weight balance: moves front weight by ±0.03, within existing limits. Rearward shifts load rearward; frontward shifts it forward.",
+        ][index.min(3)];
+        if let Some(menu) = &self.menu
+            && let Some(node) = menu.find_child_ex("TuningHelp").owned(false).done()
+            && let Ok(mut label) = node.try_cast::<Label>()
+        {
+            label.set_text(effect);
+        }
+    }
+    #[func]
     // Keep staged setup explicit so fixture overrides and input sampling order remain visible.
     #[allow(clippy::field_reassign_with_default)]
     fn action(&mut self, key: GString) {
         let key = key.to_string();
+        if self.confirmation.is_some() && !key.starts_with("confirm_") {
+            return;
+        }
         self.notice.clear();
         if let Some(audio) = &mut self.audio {
             audio.effect("select");
+        }
+        if key == "reset_bindings" {
+            self.bindings = default_key_bindings();
+            self.joy_axes = default_joy_axes();
+            self.joy_buttons = default_joy_buttons();
+            self.rebind = None;
+            self.save_settings();
+            self.rebuild_menu();
+            return;
         }
         if let Some(kind) = key.strip_prefix("audio:") {
             if let Some(audio) = &mut self.audio {
@@ -1468,6 +1667,14 @@ impl OversteerApp {
         }
         if key == "extras_back" {
             self.extras = false;
+            self.rebuild_menu();
+            return;
+        }
+        if key == "title_quick" {
+            self.title = false;
+            self.send(GameCommand::Navigate {
+                screen: GameScreen::QuickRace,
+            });
             self.rebuild_menu();
             return;
         }
@@ -1553,6 +1760,10 @@ impl OversteerApp {
                     self.send(GameCommand::Checkout);
                     self.previous_car.clear();
                 }
+                "forfeit_restart" => self.send(GameCommand::Restart),
+                "forfeit_exit" => self.send(GameCommand::Navigate {
+                    screen: GameScreen::MainMenu,
+                }),
                 "pink_offer" => self.send(GameCommand::OfferPinkSlip {
                     racer: self.selected_rival,
                 }),
@@ -1660,6 +1871,25 @@ impl OversteerApp {
             self.rebuild_menu();
             return;
         }
+        if matches!(key.as_str(), "restart" | "nav:main") {
+            let snap = self.game.as_ref().unwrap().frame_snapshot();
+            if snap.screen == GameScreen::Paused
+                && snap
+                    .race
+                    .is_some_and(|race| race.wager > 0 || race.pink_slip)
+            {
+                self.confirmation = Some(
+                    if key == "restart" {
+                        "forfeit_restart"
+                    } else {
+                        "forfeit_exit"
+                    }
+                    .into(),
+                );
+                self.rebuild_menu();
+                return;
+            }
+        }
         if let Some(screen) = key.strip_prefix("nav:") {
             let screen = match screen {
                 "career" => GameScreen::Career,
@@ -1719,7 +1949,10 @@ impl OversteerApp {
             }
             return;
         }
-        if key == "event_next" || key == "event_prev" {
+        if matches!(
+            key.as_str(),
+            "event_next" | "event_prev" | "event_page_next" | "event_page_prev"
+        ) {
             let snap = self.game.as_ref().unwrap().frame_snapshot();
             let goal_events = self
                 .game
@@ -1743,7 +1976,16 @@ impl OversteerApp {
                     .iter()
                     .position(|i| *i == self.selected_event)
                     .unwrap_or(0);
-                self.selected_event = eligible[if key == "event_next" {
+                self.selected_event = eligible[if key.starts_with("event_page_") {
+                    let pages = eligible.len().div_ceil(8);
+                    let page = index / 8;
+                    let next = if key == "event_page_next" {
+                        (page + 1) % pages
+                    } else {
+                        (page + pages - 1) % pages
+                    };
+                    next * 8
+                } else if key == "event_next" {
                     (index + 1) % eligible.len()
                 } else {
                     (index + eligible.len() - 1) % eligible.len()
@@ -1892,6 +2134,16 @@ impl OversteerApp {
         }
         if let Some(index) = key.strip_prefix("rival:") {
             self.selected_rival = index.parse().unwrap_or(1);
+            if self
+                .game
+                .as_ref()
+                .unwrap()
+                .frame_snapshot()
+                .race
+                .is_some_and(|race| race.spectating)
+            {
+                self.build_hud();
+            }
             self.rebuild_menu();
             return;
         }
@@ -2066,6 +2318,19 @@ impl OversteerApp {
             self.apply_custom();
         }
         if let Some(index) = key
+            .strip_prefix("tune_down:")
+            .and_then(|value| value.parse::<usize>().ok())
+            .filter(|index| *index < 4)
+        {
+            self.customization.tuning[index] = if self.customization.tuning[index] <= -0.99 {
+                1.
+            } else {
+                (self.customization.tuning[index] - 0.2).max(-1.)
+            };
+            self.apply_custom();
+            return;
+        }
+        if let Some(index) = key
             .strip_prefix("tune:")
             .and_then(|index| index.parse::<usize>().ok())
             .filter(|index| *index < 4)
@@ -2217,11 +2482,120 @@ impl OversteerApp {
         }
     }
     fn begin_loading(&mut self, paths: Vec<String>, target: String) {
+        self.split_times.reset();
         match loading::SceneLoad::new(paths) {
             Ok(job) => {
                 self.loading = Some(job);
                 self.load_target = target;
+                if let Some(label) = &mut self.loading_label {
+                    label.set_text("Loading… 0%");
+                }
                 if let Some(panel) = &mut self.loading_layer {
+                    let race = self
+                        .game
+                        .as_ref()
+                        .and_then(|game| game.frame_snapshot().race);
+                    let event = race.as_ref().and_then(|race| {
+                        self.content
+                            .events
+                            .iter()
+                            .find(|event| event.id == race.event_id)
+                    });
+                    let track = event.and_then(|event| {
+                        self.content
+                            .tracks
+                            .iter()
+                            .find(|track| track.id == event.track_id)
+                    });
+                    for child in panel.get_children().iter_shared() {
+                        if child.get_name() == "LoadProgress" {
+                            child
+                                .clone()
+                                .cast::<Control>()
+                                .set_size(Vector2::new(0., 8.));
+                        }
+                        if child.get_name() == "LoadingRoute" {
+                            let mut child = child;
+                            child.queue_free();
+                            continue;
+                        }
+                        if let Ok(mut label) = child.try_cast::<Label>() {
+                            if label.get_name() == "Destination" {
+                                label.set_text(
+                                    &event
+                                        .map(|event| event.name.clone())
+                                        .unwrap_or_else(|| "Preparing your garage".into()),
+                                );
+                            }
+                            if label.get_name() == "LoadingMode" {
+                                label.set_text(event.map_or("WORKSHOP", |event| {
+                                    if event.mode.is_drift() {
+                                        "DRIFT / EVENT BRIEFING"
+                                    } else {
+                                        "CIRCUIT / EVENT BRIEFING"
+                                    }
+                                }));
+                            }
+                            if label.get_name() == "LoadingCourse" {
+                                label.set_text(
+                                    track.map_or("Find your line.", |track| track.name.as_str()),
+                                );
+                            }
+                            if label.get_name() == "LoadingMark" {
+                                label.set_visible(track.is_none());
+                            }
+                            if label.get_name() == "LoadingTip" {
+                                let rules = event
+                                    .map(|event| {
+                                        if event.mode.is_drift() {
+                                            format!(
+                                                "Highest score wins · Target {} points",
+                                                grouped_integer(event.target.round() as u64)
+                                            )
+                                        } else {
+                                            format!(
+                                                "{} {} · Finish first",
+                                                event.laps,
+                                                if event.laps == 1 { "lap" } else { "laps" }
+                                            )
+                                        }
+                                    })
+                                    .unwrap_or_else(|| "Find your line.".into());
+                                let car = race
+                                    .as_ref()
+                                    .and_then(|r| r.racers.first())
+                                    .and_then(|r| {
+                                        self.content.cars.iter().find(|c| c.id == r.car_id)
+                                    })
+                                    .map(|c| vehicle_name(&c.name));
+                                let stake = race.as_ref().map(|r| {
+                                    if r.pink_slip {
+                                        "ACTIVE STAKE · Your car (pink slip)".into()
+                                    } else if r.wager > 0 {
+                                        format!("ACTIVE STAKE · {} cash", money(i64::from(r.wager)))
+                                    } else {
+                                        "NO ACTIVE WAGER".into()
+                                    }
+                                });
+                                label.set_text(&if let Some(car) = car {
+                                    format!("{rules}\n{car}\n{}", stake.unwrap_or_default())
+                                } else {
+                                    rules
+                                });
+                            }
+                        }
+                    }
+                    if let Some(track) = track {
+                        Self::course_outline(
+                            panel,
+                            track,
+                            Rect2::new(Vector2::new(1120., 320.), Vector2::new(640., 320.)),
+                        );
+                        if let Some(mut route) = panel.get_child(panel.get_child_count() - 1) {
+                            route.set_name("LoadingRoute");
+                            route.cast::<godot::classes::Line2D>().set_width(5.);
+                        }
+                    }
                     panel.set_visible(true);
                 }
             }
@@ -2243,7 +2617,16 @@ impl OversteerApp {
         match status {
             Ok((progress, false)) => {
                 if let Some(label) = &mut self.loading_label {
-                    label.set_text(&format!("LOADING... {:.0}%", progress * 100.));
+                    label.set_text(&format!("Loading… {:.0}%", progress * 100.));
+                }
+                if let Some(panel) = &self.loading_layer {
+                    for child in panel.get_children().iter_shared() {
+                        if child.get_name() == "LoadProgress"
+                            && let Ok(mut bar) = child.try_cast::<Control>()
+                        {
+                            bar.set_size(Vector2::new(1728. * progress as f32, 8.));
+                        }
+                    }
                 }
                 if self.scenario == "loading"
                     && progress > 0.2
@@ -2868,6 +3251,15 @@ impl OversteerApp {
         let mut sky = godot::classes::Sky::new_gd();
         sky.set_material(&sky_material);
         env.set_sky(&sky);
+        self.race_sky = Some(sky);
+        let mut studio_material = godot::classes::PanoramaSkyMaterial::new_gd();
+        studio_material.set_panorama(&godot::tools::load::<godot::classes::Texture2D>(
+            "res://ui/environment/studio_small_08_1k.exr",
+        ));
+        studio_material.set_energy_multiplier(0.4);
+        let mut studio_sky = godot::classes::Sky::new_gd();
+        studio_sky.set_material(&studio_material);
+        self.studio_sky = Some(studio_sky);
         env.set_reflection_source(godot::classes::environment::ReflectionSource::SKY);
         env.set_background(godot::classes::environment::BgMode::SKY);
         env.set_bg_color(Color::from_rgb(0.015, 0.018, 0.035));
@@ -2886,20 +3278,25 @@ impl OversteerApp {
         let mut stage = Node3D::new_alloc();
         stage.set_name("Showroom");
         self.base_mut().add_child(&stage);
-        Self::box_mesh(
+        let mut floor = Self::box_mesh(
             &mut stage,
             "Concrete floor",
             Vector3::new(0., -0.1, 0.),
             Vector3::new(30., 0.2, 30.),
-            Color::from_rgb(0.16, 0.18, 0.20),
+            Color::from_rgb(0.035, 0.031, 0.028),
         );
+        let mut floor_shader = godot::classes::Shader::new_gd();
+        floor_shader.set_code(ui::WORKSHOP_FLOOR_SHADER);
+        let mut floor_material = godot::classes::ShaderMaterial::new_gd();
+        floor_material.set_shader(&floor_shader);
+        floor.set_material_override(&floor_material);
         for z in [-12., 12.] {
             Self::box_mesh(
                 &mut stage,
                 "Workshop wall",
                 Vector3::new(0., 5., z),
                 Vector3::new(40., 10., 0.2),
-                Color::from_rgb(0.22, 0.25, 0.28),
+                Color::from_rgb(0.042, 0.038, 0.034),
             );
             for x in [-6., 0., 6.] {
                 Self::box_mesh(
@@ -2915,21 +3312,56 @@ impl OversteerApp {
                         "Roller door slat",
                         Vector3::new(x, 0.3 + row as f32 * 0.48, z - z.signum() * 0.24),
                         Vector3::new(4.6, 0.44, 0.08),
-                        Color::from_rgb(0.19, 0.22, 0.24),
+                        Color::from_rgb(0.065, 0.061, 0.056),
                     );
                 }
             }
         }
 
+        // Painted bay lines and practical lights belong to the menu stage only.
+        // They give the car a physical inspection area without adding UI over it.
+        for x in [-2.8, 2.8] {
+            Self::box_mesh(
+                &mut stage,
+                "Inspection bay line",
+                Vector3::new(x, 0.006, 0.),
+                Vector3::new(0.055, 0.008, 7.),
+                ui_paper(),
+            );
+            for z in [-3.5, 3.5] {
+                Self::box_mesh(
+                    &mut stage,
+                    "Bay corner",
+                    Vector3::new(x - x.signum() * 0.35, 0.008, z),
+                    Vector3::new(0.75, 0.008, 0.08),
+                    ui_accent(),
+                );
+            }
+        }
+        for x in [-8.8, -3., 3., 8.8] {
+            let mut strip = Self::box_mesh(
+                &mut stage,
+                "Workshop light strip",
+                Vector3::new(x, 2.8, -11.7),
+                Vector3::new(0.045, 4.8, 0.06),
+                ui_paper(),
+            );
+            let mut material = StandardMaterial3D::new_gd();
+            material.set_albedo(ui_paper());
+            material.set_feature(godot::classes::base_material_3d::Feature::EMISSION, true);
+            material.set_emission(ui_paper());
+            material.set_emission_energy_multiplier(1.5);
+            strip.set_material_override(&material);
+        }
         for (x, z, color) in [
-            (-4., -3., Color::from_rgb(0.86, 0.93, 1.)),
+            (-4., -3., Color::from_rgb(0.62, 0.82, 1.)),
             (4., 3., Color::from_rgb(1., 0.94, 0.86)),
         ] {
             let mut light = godot::classes::OmniLight3D::new_alloc();
             light.set_position(Vector3::new(x, 4.5, z));
             light.set_shadow(true);
             light.set_color(color);
-            light.set_param(godot::classes::light_3d::Param::ENERGY, 5.);
+            light.set_param(godot::classes::light_3d::Param::ENERGY, 2.5);
             light.set_param(godot::classes::light_3d::Param::RANGE, 15.);
             stage.add_child(&light);
         }
@@ -3124,6 +3556,7 @@ impl OversteerApp {
         self.base_mut().add_child(&canvas);
         let mut menu = Control::new_alloc();
         menu.set_name("Menus");
+        menu.set_theme(&menu_theme());
         menu.set_size(Vector2::new(1920., 1080.));
         canvas.add_child(&menu);
         self.menu = Some(menu);
@@ -3141,26 +3574,87 @@ impl OversteerApp {
             Vector2::new(1920., 1080.),
             Color::from_rgb(0.01, 0.015, 0.025),
         );
-        Self::chrome(
+        Self::text(&mut loading, "OVERSTEER", 96., 64., 56, ui_paper());
+        Self::text(
             &mut loading,
-            Vector2::new(0., 430.),
-            Vector2::new(1920., 160.),
+            "LONDON / STREET & CIRCUIT",
+            1390.,
+            88.,
+            18,
+            ui_paper(),
         );
-        let label = Self::text(&mut loading, "LOADING...", 720., 470., 56, Color::WHITE);
-        let mut tip = Self::text(
+        Self::racing_plate(
             &mut loading,
-            &native_loading_tip(),
-            560.,
-            850.,
-            28,
-            Color::WHITE,
+            Vector2::new(0., 184.),
+            Vector2::new(928., 56.),
+            ui_accent(),
         );
-        tip.set_size(Vector2::new(1120., 180.));
+        let mut mode = Self::text(&mut loading, "WORKSHOP", 96., 198., 24, Color::BLACK);
+        mode.set_name("LoadingMode");
+        let mut destination = Self::text(&mut loading, "", 96., 280., 88, ui_paper());
+        destination.set_name("Destination");
+        destination.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+        destination.set_size(Vector2::new(880., 224.));
+        destination.set_text("Preparing your garage");
+        let mut course = Self::text(&mut loading, "Find your line.", 96., 536., 32, ui_paper());
+        course.set_name("LoadingCourse");
+        Self::rect(
+            &mut loading,
+            Vector2::new(1040., 184.),
+            Vector2::new(784., 600.),
+            Color::from_rgb(0.055, 0.052, 0.047),
+        );
+        for row in 0..9 {
+            Self::rect(
+                &mut loading,
+                Vector2::new(1072., 224. + row as f32 * 64.),
+                Vector2::new(720., 1.),
+                Color::from_rgba(0.965, 0.922, 0.808, 0.055),
+            );
+        }
+        for column in 0..12 {
+            Self::rect(
+                &mut loading,
+                Vector2::new(1072. + column as f32 * 64., 224.),
+                Vector2::new(1., 512.),
+                Color::from_rgba(0.965, 0.922, 0.808, 0.055),
+            );
+        }
+        Self::text(
+            &mut loading,
+            "OVERSTEER / ROUTE STUDY",
+            1072.,
+            748.,
+            16,
+            ui_paper(),
+        );
+        let mut mark = Self::text(&mut loading, "OVERSTEER", 1120., 432., 100, ui_paper());
+        mark.set_name("LoadingMark");
+        let mut tip = Self::text(&mut loading, "", 96., 624., 24, ui_paper());
         tip.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+        tip.set_size(Vector2::new(880., 160.));
+        tip.add_theme_constant_override("line_spacing", 12);
+        tip.set_name("LoadingTip");
+        tip.set_text("Find your line.");
+        let label = Self::text(&mut loading, "Loading… 0%", 96., 872., 32, ui_paper());
+        Self::text(&mut loading, "GET READY", 1640., 872., 28, ui_accent());
+        Self::rect(
+            &mut loading,
+            Vector2::new(96., 936.),
+            Vector2::new(1728., 8.),
+            Color::from_rgba(0.965, 0.922, 0.808, 0.15),
+        );
+        let mut progress = ColorRect::new_alloc();
+        progress.set_name("LoadProgress");
+        progress.set_position(Vector2::new(96., 936.));
+        progress.set_size(Vector2::new(0., 8.));
+        progress.set_color(ui_accent());
+        loading.add_child(&progress);
         loading.set_visible(false);
         self.loading_layer = Some(loading);
         self.loading_label = Some(label);
         let mut panel = Control::new_alloc();
+        panel.set_theme(&menu_theme());
         panel.set_size(Vector2::new(1920., 1080.));
         canvas.add_child(&panel);
         Self::rect(
@@ -3196,7 +3690,8 @@ impl OversteerApp {
         color: Color,
     ) -> Gd<Label> {
         let mut label = Label::new_alloc();
-        label.add_theme_font_override("font", &native_font());
+        label.add_theme_font_override("font", &display_font(size >= 28));
+        label.set_mouse_filter(godot::classes::control::MouseFilter::IGNORE);
         label.set_text(value);
         label.set_position(Vector2::new(x, y));
         label.add_theme_font_size_override("font_size", size);
@@ -3211,7 +3706,7 @@ impl OversteerApp {
         parent: &mut Gd<Control>,
         label: &str,
         target: &str,
-        _color: [f32; 4],
+        color: [f32; 4],
         x: f32,
         y: f32,
         width: f32,
@@ -3219,7 +3714,11 @@ impl OversteerApp {
         let mut button = Button::new_alloc();
         button.set_text(label);
         button.set_position(Vector2::new(x, y));
-        button.set_size(Vector2::new(width, 48.));
+        button.set_size(Vector2::new(
+            width,
+            if target == "vinyl" { 48. } else { 62. },
+        ));
+        button.set_clip_text(true);
         button.add_theme_font_override("font", &native_font());
         button.add_theme_font_size_override("font_size", 22);
         button.set_meta("ui_action", &format!("palette:{target}").to_variant());
@@ -3231,6 +3730,32 @@ impl OversteerApp {
                 .bind(&[target.to_variant()]),
         );
         parent.add_child(&button);
+        if target == "vinyl" {
+            // The checker backing keeps transparent tints distinguishable from black.
+            for row in 0..2 {
+                for column in 0..2 {
+                    Self::rect(
+                        parent,
+                        Vector2::new(
+                            x + width - 42. + column as f32 * 14.,
+                            y + 10. + row as f32 * 14.,
+                        ),
+                        Vector2::new(14., 14.),
+                        if (row + column) % 2 == 0 {
+                            ui_paper()
+                        } else {
+                            Color::from_rgb(0.3, 0.3, 0.3)
+                        },
+                    );
+                }
+            }
+            Self::rect(
+                parent,
+                Vector2::new(x + width - 42., y + 10.),
+                Vector2::new(28., 28.),
+                Color::from_rgba(color[0], color[1], color[2], color[3]),
+            );
+        }
     }
     // Keep the existing presentation helper interface during tooling-only adoption.
     #[allow(clippy::too_many_arguments)]
@@ -3247,16 +3772,264 @@ impl OversteerApp {
         let mut button = Button::new_alloc();
         button.add_theme_font_override("font", &native_font());
         button.set_text(label);
+        let accessible = if label.is_empty() {
+            if let Some(id) = key.strip_prefix("car:") {
+                self.content
+                    .cars
+                    .iter()
+                    .find(|car| car.id == id)
+                    .map(|car| vehicle_name(&car.name))
+                    .unwrap_or_default()
+            } else if let Some(style) = key.strip_prefix("wheels:") {
+                format!("{} wheels", readable_name(style))
+            } else if let Some(id) = key.strip_prefix("cart_select:") {
+                self.game
+                    .as_ref()
+                    .unwrap()
+                    .snapshot()
+                    .cart
+                    .iter()
+                    .find(|item| item.id == id)
+                    .map(|item| self.cart_item_name(item))
+                    .unwrap_or_default()
+            } else {
+                label.into()
+            }
+        } else {
+            label.into()
+        };
+        button.set_accessibility_name(&accessible);
         button.set_meta("ui_action", &key.to_variant());
         if self.confirmation.is_some() && !key.starts_with("confirm_") {
             button.set_disabled(true);
+            button.set_focus_mode(godot::classes::control::FocusMode::NONE);
+        }
+        if key == "offer_pink" {
+            let snap = self.game.as_ref().unwrap().frame_snapshot();
+            let owned_rival = snap
+                .race
+                .as_ref()
+                .and_then(|race| race.racers.get(self.selected_rival))
+                .is_some_and(|rival| snap.career.garage.contains_key(&rival.car_id));
+            if snap.career.garage.len() <= 1 || owned_rival {
+                button.set_disabled(true);
+                button.set_tooltip_text(if owned_rival {
+                    "You already own this rival’s model. Choose another rival for pink slips."
+                } else {
+                    "Keep at least one car: a pink-slip offer requires two owned cars."
+                });
+            }
+        }
+        if matches!(key, "buy" | "sell" | "car_prev" | "car_next") {
+            let snap = self.game.as_ref().unwrap().frame_snapshot();
+            let disabled = match key {
+                "buy" => {
+                    snap.career.garage.contains_key(&snap.selected_car)
+                        || self
+                            .content
+                            .cars
+                            .iter()
+                            .find(|car| car.id == snap.selected_car)
+                            .is_some_and(|car| i64::from(car.price) > snap.career.cash)
+                }
+                "sell" => snap.career.garage.len() <= 1,
+                _ => {
+                    matches!(snap.screen, GameScreen::Garage | GameScreen::Career)
+                        && snap.career.garage.len() <= 1
+                }
+            };
+            let disabled = button.is_disabled() || disabled;
+            button.set_disabled(disabled);
+            if disabled {
+                button.set_tooltip_text(match key {
+                    "sell" => "Keep at least one owned car.",
+                    "buy" => "Already owned or insufficient funds.",
+                    _ => "Only one owned car.",
+                });
+            }
         }
         button.set_position(Vector2::new(x, y));
         button.set_size(Vector2::new(w, h));
         button.add_theme_font_size_override("font_size", 23);
-        button.set_flat(true);
+        button.set_clip_text(true);
+        button
+            .set_text_overrun_behavior(godot::classes::text_server::OverrunBehavior::TRIM_ELLIPSIS);
+        let primary = matches!(
+            key,
+            "title_start"
+                | "nav:career"
+                | "career_events"
+                | "start"
+                | "grid_launch"
+                | "checkout"
+                | "buy"
+                | "continue"
+                | "resume"
+                | "confirm_yes"
+                | "paint_stage_accept"
+                | "nav:checkout"
+        ) || (key == "custom_done" && label == "Done")
+            || (key == "nav:custom"
+                && self
+                    .game
+                    .as_ref()
+                    .is_some_and(|game| game.frame_snapshot().screen == GameScreen::Garage));
+        let destructive = matches!(key, "sell" | "discard_cart" | "offer_pink")
+            || key.starts_with("cart_remove:")
+            || key == "vinyl:remove"
+            || (key == "confirm_yes"
+                && self.confirmation.as_deref().is_some_and(|action| {
+                    matches!(
+                        action,
+                        "sell" | "discard" | "pink_offer" | "forfeit_restart" | "forfeit_exit"
+                    )
+                }))
+            || (matches!(key, "restart" | "nav:main")
+                && self.game.as_ref().is_some_and(|game| {
+                    let snap = game.frame_snapshot();
+                    snap.screen == GameScreen::Paused
+                        && snap
+                            .race
+                            .is_some_and(|race| race.wager > 0 || race.pink_slip)
+                }));
+        let primary = primary && !destructive;
+        if primary || destructive {
+            button.add_theme_font_override("font", &display_font(true));
+            let mut style = godot::classes::StyleBoxFlat::new_gd();
+            style.set_bg_color(if primary {
+                ui_accent()
+            } else {
+                Color::from_rgb(0.16, 0.10, 0.11)
+            });
+            style.set_content_margin_all(8.);
+            style.set_content_margin(godot::builtin::Side::LEFT, 16.);
+            style.set_content_margin(godot::builtin::Side::RIGHT, 16.);
+            style.set_skew(Vector2::new(-0.12, 0.));
+            button.add_theme_stylebox_override("normal", &style);
+            if primary {
+                button.add_theme_color_override(
+                    "font_focus_color",
+                    Color::from_rgb(0.043, 0.063, 0.078),
+                );
+            }
+            button.add_theme_color_override(
+                "font_color",
+                if primary {
+                    Color::from_rgb(0.043, 0.063, 0.078)
+                } else {
+                    Color::from_rgb(0.94, 0.71, 0.69)
+                },
+            );
+        }
+        if destructive {
+            for state in ["hover", "pressed", "focus"] {
+                let mut style = godot::classes::StyleBoxFlat::new_gd();
+                style.set_bg_color(if state == "focus" {
+                    Color::TRANSPARENT_BLACK
+                } else {
+                    Color::from_rgb(0.973, 0.443, 0.443)
+                });
+                style.set_border_color(Color::from_rgb(0.973, 0.443, 0.443));
+                style.set_border_width_all(if state == "focus" { 2 } else { 1 });
+                style.set_content_margin_all(8.);
+                button.add_theme_stylebox_override(state, &style);
+            }
+            button
+                .add_theme_color_override("font_hover_color", Color::from_rgb(0.055, 0.071, 0.094));
+        }
+        if h <= 36. && label != "+" && label != "−" {
+            button.add_theme_font_size_override("font_size", 16);
+            for state in ["normal", "hover", "pressed"] {
+                let mut style = godot::classes::StyleBoxFlat::new_gd();
+                style.set_content_margin_all(4.);
+                style.set_bg_color(if destructive {
+                    Color::from_rgb(0.18, 0.10, 0.11)
+                } else {
+                    Color::from_rgb(0.086, 0.110, 0.149)
+                });
+                button.add_theme_stylebox_override(state, &style);
+            }
+        }
+        if key.starts_with("car:")
+            || key.starts_with("event:")
+            || key.starts_with("cart_select:")
+            || matches!(
+                key,
+                "nav:career"
+                    | "nav:quick"
+                    | "options"
+                    | "credits"
+                    | "quit"
+                    | "career_events"
+                    | "career_goals"
+                    | "nav:garage"
+                    | "nav:dealer"
+                    | "nav:main"
+            )
+        {
+            button.set_text_alignment(godot::global::HorizontalAlignment::LEFT);
+        }
+        if label == "+" || label == "−" {
+            for state in ["normal", "hover", "pressed"] {
+                let mut style = godot::classes::StyleBoxFlat::new_gd();
+                style.set_bg_color(Color::from_rgb(0.08, 0.11, 0.13));
+                style.set_border_width_all(1);
+                style.set_border_color(Color::from_rgb(0.25, 0.32, 0.35));
+                style.set_content_margin_all(2.);
+                button.add_theme_stylebox_override(state, &style);
+            }
+        }
         let callable = self.base().callable("action").bind(&[key.to_variant()]);
         button.connect("pressed", &callable);
+        if matches!(
+            key,
+            "nav:career" | "nav:quick" | "options" | "credits" | "quit"
+        ) {
+            button.connect_flags(
+                "focus_entered",
+                &self
+                    .base()
+                    .callable("activity_context")
+                    .bind(&[key.to_variant()]),
+                godot::classes::object::ConnectFlags::DEFERRED,
+            );
+        }
+        if self.options
+            && (matches!(key, "difficulty" | "quality" | "units")
+                || key.starts_with("audio:")
+                || key.starts_with("bind:")
+                || key.starts_with("axis:")
+                || key.starts_with("button:"))
+        {
+            button.connect_flags(
+                "focus_entered",
+                &self
+                    .base()
+                    .callable("setting_context")
+                    .bind(&[key.to_variant()]),
+                godot::classes::object::ConnectFlags::DEFERRED,
+            );
+            if key.starts_with("bind:") || key.starts_with("button:") || key.starts_with("axis:") {
+                let mut style = godot::classes::StyleBoxFlat::new_gd();
+                style.set_bg_color(Color::from_rgb(0.086, 0.110, 0.149));
+                style.set_border_color(Color::from_rgb(0.25, 0.32, 0.40));
+                style.set_border_width_all(1);
+                style.set_corner_radius_all(6);
+                style.set_content_margin_all(4.);
+                button.add_theme_stylebox_override("normal", &style);
+                button.add_theme_font_size_override("font_size", 18);
+            }
+        }
+        if key.starts_with("tune:") || key.starts_with("tune_down:") {
+            button.connect_flags(
+                "focus_entered",
+                &self
+                    .base()
+                    .callable("tuning_context")
+                    .bind(&[key.to_variant()]),
+                godot::classes::object::ConnectFlags::DEFERRED,
+            );
+        }
         let first = parent
             .get_children()
             .iter_shared()
@@ -3271,6 +4044,110 @@ impl OversteerApp {
         }
     }
     fn rebuild_menu(&mut self) {
+        let Some(game) = &self.game else { return };
+        let context = format!(
+            "{:?}:{}:{}:{}:{}:{}:{}:{}:{}",
+            game.frame_snapshot().screen,
+            self.title,
+            self.options,
+            self.credits,
+            self.show_stats,
+            self.show_goals,
+            self.event_picker,
+            self.custom_page,
+            self.confirmation.is_some() || self.error_dialog.is_some()
+        );
+        let modal = self.confirmation.is_some();
+        let animate = !modal
+            && self.error_dialog.is_none()
+            && !matches!(
+                game.frame_snapshot().screen,
+                GameScreen::Race | GameScreen::Paused | GameScreen::Results | GameScreen::Grid
+            )
+            && self.menu.as_ref().is_some_and(|menu| {
+                !menu.has_meta("focus_context")
+                    || menu.get_meta("focus_context").to::<String>() != context
+            });
+        if let Some(menu) = &mut self.menu {
+            let was_modal = menu.has_meta("modal_open") && menu.get_meta("modal_open").to::<bool>();
+            if modal
+                && !was_modal
+                && let Some(owner) = menu
+                    .get_viewport()
+                    .and_then(|viewport| viewport.gui_get_focus_owner())
+                && owner.has_meta("ui_action")
+            {
+                menu.set_meta("return_focus", &owner.get_meta("ui_action"));
+            }
+        }
+        let focus = self.menu.as_ref().and_then(|menu| {
+            if !modal
+                && menu.has_meta("modal_open")
+                && menu.get_meta("modal_open").to::<bool>()
+                && menu.has_meta("return_focus")
+            {
+                return Some(menu.get_meta("return_focus").to::<String>());
+            }
+            if !menu.has_meta("focus_context")
+                || menu.get_meta("focus_context").to::<String>() != context
+            {
+                return None;
+            }
+            menu.get_viewport()
+                .and_then(|viewport| viewport.gui_get_focus_owner())
+                .filter(|control| control.has_meta("ui_action"))
+                .map(|control| control.get_meta("ui_action").to::<String>())
+        });
+        if let Some(mut tween) = self.menu_tween.take() {
+            tween.kill();
+        }
+        self.rebuild_menu_contents();
+        if let Some(menu) = &mut self.menu {
+            menu.set_position(Vector2::ZERO);
+            menu.set_modulate(Color::WHITE);
+            if animate {
+                menu.set_position(Vector2::new(24., 0.));
+                menu.set_modulate(Color::from_rgba(1., 1., 1., 0.8));
+                let mut tween = menu.create_tween();
+                tween.set_parallel();
+                tween.set_trans(godot::classes::tween::TransitionType::CUBIC);
+                tween.set_ease(godot::classes::tween::EaseType::OUT);
+                tween.tween_property(
+                    &menu.clone().upcast::<godot::classes::Object>(),
+                    "position",
+                    &Vector2::ZERO.to_variant(),
+                    0.20,
+                );
+                tween.tween_property(
+                    &menu.clone().upcast::<godot::classes::Object>(),
+                    "modulate",
+                    &Color::WHITE.to_variant(),
+                    0.20,
+                );
+                self.menu_tween = Some(tween);
+            }
+        }
+        if let Some(menu) = &mut self.menu {
+            menu.set_meta("focus_context", &context.to_variant());
+            menu.set_meta("modal_open", &modal.to_variant());
+            if let Some(focus) = focus
+                && self.error_dialog.is_none()
+            {
+                for child in menu.get_children().iter_shared() {
+                    if !child.is_queued_for_deletion()
+                        && child.has_meta("ui_action")
+                        && child.get_meta("ui_action").to::<String>() == focus
+                        && let Ok(mut control) = child.try_cast::<Control>()
+                        && control.is_visible_in_tree()
+                    {
+                        control.grab_focus();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    fn rebuild_menu_contents(&mut self) {
         let Some(game) = &self.game else { return };
         let snap = game.snapshot();
         let screen = snap.screen;
@@ -3316,37 +4193,53 @@ impl OversteerApp {
         }
         if self.title {
             menu.set_visible(true);
-            Self::rect(
+            Self::fade(
                 &mut menu,
                 Vector2::ZERO,
-                Vector2::new(720., 1080.),
-                Color::from_rgba(0.035, 0.045, 0.055, 0.94),
+                Vector2::new(960., 1080.),
+                false,
+                0.95,
             );
-            Self::text(&mut menu, "OVERSTEER", 80., 170., 72, Color::WHITE);
+            Self::racing_plate(
+                &mut menu,
+                Vector2::new(0., 80.),
+                Vector2::new(670., 58.),
+                ui_accent(),
+            );
             Self::text(
                 &mut menu,
-                "Find your line.",
-                85.,
-                275.,
-                28,
-                Color::from_rgb(0.67, 0.74, 0.77),
+                "LONDON  /  STREET & CIRCUIT",
+                80.,
+                92.,
+                24,
+                Color::from_rgb(0.08, 0.065, 0.055),
             );
+            Self::text(&mut menu, "OVERSTEER", 68., 158., 132, ui_paper());
+            Self::text(&mut menu, "Find your line.", 85., 322., 32, ui_paper());
             self.button(
                 &mut menu,
                 "START DRIVING",
                 "title_start",
                 80.,
-                680.,
-                540.,
-                76.,
+                458.,
+                500.,
+                72.,
             );
+            self.button(&mut menu, "QUICK RACE", "title_quick", 80., 554., 300., 52.);
+            Self::racing_marks(&mut menu, 80., 948., ui_paper());
             Self::text(
                 &mut menu,
-                "CAREER  /  QUICK RACE",
-                85.,
-                790.,
-                19,
-                Color::from_rgb(0.52, 0.78, 0.76),
+                "CIRCUIT  /  DRIFT  /  BUILT BY YOU",
+                200.,
+                950.,
+                18,
+                ui_paper(),
+            );
+            Self::rect(
+                &mut menu,
+                Vector2::new(0., 1016.),
+                Vector2::new(1920., 8.),
+                ui_accent(),
             );
             self.menu = Some(menu);
             return;
@@ -3362,20 +4255,24 @@ impl OversteerApp {
             Self::text(&mut menu, "OVERSTEER", 100., 100., 56, Color::WHITE);
             Self::text(
                 &mut menu,
-                "An independent racing game",
+                "Credits / About",
                 100.,
                 185.,
                 28,
                 Color::from_rgb(0.67, 0.74, 0.77),
             );
-            Self::text(
-                &mut menu,
-                "Built with Godot and Rust.\n\nCharacter, vehicle and environment assets retain their original provenance.\nSource collections and adaptations are documented with the project.",
-                100.,
-                350.,
-                27,
-                Color::WHITE,
-            );
+            for (heading, body, y) in [
+                ("PROJECT", "Oversteer · Find your line.", 290.),
+                ("ENGINE & ARCHITECTURE", "Built with Godot and Rust.", 440.),
+                (
+                    "ASSET PROVENANCE & DOCUMENTATION",
+                    "Character, vehicle and environment assets retain their original provenance.\nSource collections and adaptations are documented with the project.",
+                    590.,
+                ),
+            ] {
+                Self::text(&mut menu, heading, 100., y, 20, ui_accent());
+                Self::text(&mut menu, body, 100., y + 46., 26, Color::WHITE);
+            }
             self.button(&mut menu, "BACK", "credits_back", 100., 850., 420., 65.);
             self.menu = Some(menu);
             return;
@@ -3409,14 +4306,14 @@ impl OversteerApp {
                 Self::text(
                     &mut menu,
                     &format!(
-                        "DISTANCE {:.1} KM\nWINS {}    LOSSES {}\nPINK SLIP WINS {}    LOSSES {}\nPURCHASE PRICE ${}\nTOTAL SPENT ${}\nACQUIRED BY {}",
+                        "DISTANCE {:.1} KM\nWINS {}    LOSSES {}\nPINK SLIP WINS {}    LOSSES {}\nPURCHASE PRICE {}\nTOTAL SPENT {}\nACQUIRED BY {}",
                         history.mileage_m / 1000.,
                         history.wins,
                         history.losses,
                         history.pink_slip_wins,
                         history.pink_slip_losses,
-                        history.purchase_price,
-                        history.total_spent,
+                        money(i64::from(history.purchase_price)),
+                        money(history.total_spent as i64),
                         history.acquired_by
                     ),
                     120.,
@@ -3450,7 +4347,7 @@ impl OversteerApp {
             self.goal_page = self.goal_page.min(progress.goals.len().saturating_sub(1));
             let white = Color::WHITE;
             let muted = Color::from_rgb(0.67, 0.74, 0.77);
-            let accent = Color::from_rgb(0.52, 0.78, 0.76);
+            let accent = ui_accent();
             Self::text(&mut menu, "CAREER PROGRESSION", 70., 65., 48, white);
             Self::text(
                 &mut menu,
@@ -3550,8 +4447,8 @@ impl OversteerApp {
             if let Some(race) = &snap.race {
                 Self::rect(
                     &mut menu,
-                    Vector2::new(30., 180.),
-                    Vector2::new(480., 720.),
+                    Vector2::new(30., 332.),
+                    Vector2::new(480., 308.),
                     Color::from_rgba(0., 0., 0., 0.65),
                 );
                 for (index, racer) in race.racers.iter().enumerate() {
@@ -3568,30 +4465,30 @@ impl OversteerApp {
                         ),
                         &format!("rival:{index}"),
                         45.,
-                        200. + index as f32 * 58.,
+                        344. + index as f32 * 48.,
                         440.,
-                        52.,
+                        42.,
                     );
                 }
                 self.button(
                     &mut menu,
-                    &format!("STAKE ${}", self.wager.max(1000)),
+                    &format!("Stake {}", money(i64::from(self.wager.max(1000)))),
                     "wager",
                     45.,
-                    780.,
+                    544.,
                     220.,
-                    50.,
+                    40.,
                 );
                 self.button(
                     &mut menu,
                     "PLACE BET",
                     "spectator_bet",
                     270.,
-                    780.,
+                    544.,
                     220.,
-                    50.,
+                    40.,
                 );
-                let odds = Self::text(&mut menu, "", 45., 920., 28, Color::WHITE);
+                let odds = Self::text(&mut menu, "", 45., 596., 22, Color::WHITE);
                 self.labels.insert("spectator_odds".into(), odds);
             }
             self.menu = Some(menu);
@@ -3602,7 +4499,7 @@ impl OversteerApp {
             return;
         }
         let white = Color::from_rgb(0.96, 0.96, 0.93);
-        let red = Color::from_rgb(0.52, 0.78, 0.76);
+        let red = ui_accent();
         let muted = Color::from_rgb(0.63, 0.67, 0.73);
         if !matches!(
             screen,
@@ -3611,136 +4508,235 @@ impl OversteerApp {
                 | GameScreen::Checkout
                 | GameScreen::Avatar
         ) {
-            Self::rect(
+            let title = if self.options {
+                "SETTINGS"
+            } else {
+                match screen {
+                    GameScreen::Career => "RACE EVENTS",
+                    GameScreen::QuickRace => "QUICK RACE",
+                    GameScreen::Garage => "GARAGE",
+                    GameScreen::Dealership => "DEALERSHIP",
+                    GameScreen::Crew => "CREW DNA",
+                    GameScreen::Paused => "PAUSED",
+                    GameScreen::Results => "RACE RESULTS",
+                    GameScreen::Complete => "CAREER COMPLETE",
+                    GameScreen::Podium => "PODIUM",
+                    GameScreen::RoundResults => "ROUND RESULTS",
+                    _ => "OVERSTEER",
+                }
+            };
+            self.status_header(&mut menu, &snap, title);
+            Self::fade(
                 &mut menu,
-                Vector2::ZERO,
-                Vector2::new(1920., 120.),
-                Color::from_rgba(0.025, 0.025, 0.035, 0.96),
+                Vector2::new(32., 128.),
+                Vector2::new(508., 878.),
+                false,
+                0.90,
             );
-            Self::text(&mut menu, "OVERSTEER", 60., 24., 46, white);
-            Self::text(&mut menu, "BUILT TO DRIVE", 64., 78., 15, muted);
             Self::text(
                 &mut menu,
-                &format!(
-                    "{}     ${}     {} WINS",
-                    self.league_label(snap.career.league),
-                    snap.career.cash,
-                    snap.career.wins
-                ),
-                1260.,
-                53.,
+                if matches!(screen, GameScreen::Garage | GameScreen::Dealership) {
+                    "SELECT VEHICLE"
+                } else if matches!(screen, GameScreen::Career | GameScreen::QuickRace) {
+                    "SELECT EVENT"
+                } else {
+                    title
+                },
+                60.,
+                170.,
                 22,
                 white,
             );
             Self::rect(
                 &mut menu,
-                Vector2::new(0., 120.),
-                Vector2::new(540., 890.),
-                Color::from_rgba(0.025, 0.025, 0.045, 0.91),
-            );
-            Self::rect(
-                &mut menu,
-                Vector2::new(0., 1006.),
-                Vector2::new(1920., 74.),
-                Color::from_rgba(0.025, 0.025, 0.035, 0.94),
-            );
-            Self::text(
-                &mut menu,
-                if self.options {
-                    "OPTIONS"
-                } else {
-                    match screen {
-                        GameScreen::Career => "CAREER",
-                        GameScreen::QuickRace => "QUICK RACE",
-                        GameScreen::Garage => "GARAGE",
-                        GameScreen::Dealership => "DEALERSHIP",
-                        GameScreen::Customization => "CUSTOMIZE",
-                        GameScreen::Crew => "CREW DNA",
-                        GameScreen::Paused => "PAUSED",
-                        GameScreen::Results => "RACE RESULTS",
-                        GameScreen::Complete => "CAREER COMPLETE",
-                        GameScreen::Checkout => "SHOPPING CART",
-                        GameScreen::Avatar => "DRIVER PROFILE",
-                        GameScreen::Podium => "PODIUM",
-                        GameScreen::RoundResults => "ROUND RESULTS",
-                        _ => "MAIN MENU",
-                    }
-                },
-                58.,
-                150.,
-                38,
-                white,
-            );
-            Self::rect(
-                &mut menu,
                 Vector2::new(60., 210.),
-                Vector2::new(90., 5.),
+                Vector2::new(36., 2.),
                 red,
             );
-            Self::text(&mut menu, &self.notice, 580., 1025., 22, red);
-            if screen != GameScreen::Avatar {
-                Self::text(
-                    &mut menu,
-                    "W/S ACCELERATE / BRAKE    A/D STEER    SHIFT NITROUS    SPACE HANDBRAKE    ESC PAUSE",
-                    60.,
-                    1028.,
-                    19,
-                    muted,
-                );
-            }
+            Self::fade(
+                &mut menu,
+                Vector2::new(32., 1006.),
+                Vector2::new(1856., 42.),
+                false,
+                0.8,
+            );
+            Self::input_badge(&mut menu, "ENTER", "Select", 60., 1018.);
+            Self::input_badge(&mut menu, "ESC", "Back", 236., 1018.);
+            Self::input_badge(&mut menu, "TAB", "Navigate", 380., 1018.);
+            let mut notice = Self::text(&mut menu, &self.notice, 620., 1027., 21, red);
+            notice.set_size(Vector2::new(1240., 34.));
+            notice.set_clip_text(true);
+            notice.set_text_overrun_behavior(
+                godot::classes::text_server::OverrunBehavior::TRIM_ELLIPSIS,
+            );
         }
         if self.options {
             Self::rect(
                 &mut menu,
-                Vector2::new(540., 120.),
-                Vector2::new(1380., 886.),
-                Color::from_rgba(0.035, 0.045, 0.055, 0.96),
+                Vector2::new(0., 120.),
+                Vector2::new(1920., 886.),
+                Color::from_rgb(0.043, 0.063, 0.078),
             );
-            Self::text(&mut menu, "DRIVER NAME", 620., 580., 22, muted);
-            let mut name = godot::classes::LineEdit::new_alloc();
-            name.set_text(&snap.profile.name);
-            name.set_position(Vector2::new(620., 630.));
-            name.set_size(Vector2::new(400., 58.));
-            name.set_max_length(24);
-            name.set_meta("ui_action", &"driver_name".to_variant());
-            name.add_theme_font_override("font", &native_font());
-            name.add_theme_font_size_override("font_size", 24);
-            name.connect("text_changed", &self.base().callable("driver_name"));
-            menu.add_child(&name);
-            for (i, (action, key)) in self.bindings.iter().enumerate() {
-                self.button(
-                    &mut menu,
-                    &format!("{}   {:?}", action.to_uppercase(), key),
-                    &format!("bind:{action}"),
-                    60.,
-                    250. + i as f32 * 65.,
-                    420.,
-                    54.,
-                );
+            Self::text(&mut menu, "DRIVING, DISPLAY & CONTROLS", 72., 174., 18, red);
+            for (heading, x, y) in [
+                ("DRIVING", 72., 244.),
+                ("DISPLAY", 72., 466.),
+                ("PROFILE", 72., 628.),
+                ("CONTROLS", 560., 244.),
+                ("AUDIO", 560., 820.),
+            ] {
+                Self::text(&mut menu, heading, x, y, 28, white);
             }
             self.button(
                 &mut menu,
                 &format!(
-                    "DIFFICULTY {}",
-                    ["EASY", "NORMAL", "HARD"][snap.difficulty as usize]
+                    "Difficulty   ‹ {} ›",
+                    ["Easy", "Normal", "Hard"][snap.difficulty as usize]
                 ),
                 "difficulty",
-                620.,
-                280.,
-                400.,
-                58.,
+                72.,
+                300.,
+                392.,
+                56.,
+            );
+            self.button(
+                &mut menu,
+                if self.speed_mph {
+                    "Speed units   ‹ MPH ›"
+                } else {
+                    "Speed units   ‹ KPH ›"
+                },
+                "units",
+                72.,
+                372.,
+                392.,
+                56.,
             );
             self.button(
                 &mut menu,
                 &format!(
-                    "QUALITY {}",
-                    ["LOW", "BALANCED", "HIGH"][self.render_quality as usize]
+                    "Quality   ‹ {} ›",
+                    ["Low", "Balanced", "High"][self.render_quality as usize]
                 ),
                 "quality",
-                620.,
-                365.,
-                400.,
-                58.,
+                72.,
+                520.,
+                392.,
+                56.,
+            );
+            Self::text(&mut menu, "Driver name", 72., 680., 22, muted);
+            let mut name = godot::classes::LineEdit::new_alloc();
+            name.set_text(&snap.profile.name);
+            name.set_position(Vector2::new(72., 724.));
+            name.set_size(Vector2::new(392., 56.));
+            name.set_max_length(24);
+            name.set_meta("ui_action", &"driver_name".to_variant());
+            name.connect("text_changed", &self.base().callable("driver_name"));
+            menu.add_child(&name);
+            Self::text(&mut menu, "KEYBOARD", 560., 300., 20, muted);
+            for (i, action) in [
+                "throttle",
+                "brake",
+                "left",
+                "right",
+                "handbrake",
+                "nitrous",
+                "reverse",
+            ]
+            .iter()
+            .enumerate()
+            {
+                if let Some(key) = self.bindings.get(*action) {
+                    let y = 344. + i as f32 * 56.;
+                    Self::text(&mut menu, &readable_name(action), 560., y + 12., 22, white);
+                    self.button(
+                        &mut menu,
+                        &if self.rebind.as_deref() == Some(action) {
+                            "Press a key…".into()
+                        } else {
+                            format!("{key:?}")
+                        },
+                        &format!("bind:{action}"),
+                        760.,
+                        y,
+                        272.,
+                        44.,
+                    );
+                }
+            }
+            Self::text(&mut menu, "GAMEPAD", 1096., 300., 20, muted);
+            for (i, (action, axis)) in self.joy_axes.iter().enumerate() {
+                let y = 344. + i as f32 * 56.;
+                Self::text(&mut menu, &readable_name(action), 1096., y + 12., 22, white);
+                let key = format!("axis:{action}");
+                self.button(
+                    &mut menu,
+                    &if self.rebind.as_deref() == Some(&key) {
+                        "Move an axis…".into()
+                    } else {
+                        format!("Axis {axis}")
+                    },
+                    &key,
+                    1336.,
+                    y,
+                    480.,
+                    44.,
+                );
+            }
+            for (i, (action, button)) in self.joy_buttons.iter().enumerate() {
+                let y = 512. + i as f32 * 56.;
+                Self::text(&mut menu, &readable_name(action), 1096., y + 12., 22, white);
+                let key = format!("button:{action}");
+                self.button(
+                    &mut menu,
+                    &if self.rebind.as_deref() == Some(&key) {
+                        "Press a button…".into()
+                    } else {
+                        format!("Button {button}")
+                    },
+                    &key,
+                    1336.,
+                    y,
+                    480.,
+                    44.,
+                );
+            }
+            Self::text(
+                &mut menu,
+                "STEERING DEADZONE · 12% (FIXED)",
+                1096.,
+                698.,
+                16,
+                muted,
+            );
+            Self::rect(
+                &mut menu,
+                Vector2::new(1096., 730.),
+                Vector2::new(440., 4.),
+                Color::from_rgb(0.18, 0.22, 0.25),
+            );
+            Self::rect(
+                &mut menu,
+                Vector2::new(1096., 730.),
+                Vector2::new(440. * 0.12, 4.),
+                red,
+            );
+            self.button(
+                &mut menu,
+                "Reset bindings",
+                "reset_bindings",
+                1584.,
+                696.,
+                232.,
+                40.,
+            );
+            Self::text(
+                &mut menu,
+                "Select a binding, then press its new key, button or axis. Existing conflicts swap bindings.",
+                560.,
+                760.,
+                21,
+                muted,
             );
             if let Some(audio) = &self.audio {
                 for (i, (kind, gain)) in [
@@ -3752,64 +4748,42 @@ impl OversteerApp {
                 .iter()
                 .enumerate()
                 {
+                    let x = 560. + i as f32 * 320.;
                     self.button(
                         &mut menu,
-                        &format!("{} {:.0}%", kind.to_uppercase(), gain * 100.),
+                        &format!("{} · {:.0}%", readable_name(kind), gain * 100.),
                         &format!("audio:{kind}"),
-                        1050. + (i % 2) as f32 * 310.,
-                        230. + (i / 2) as f32 * 65.,
-                        300.,
-                        58.,
+                        x,
+                        872.,
+                        296.,
+                        52.,
+                    );
+                    Self::rect(
+                        &mut menu,
+                        Vector2::new(x, 936.),
+                        Vector2::new(296., 6.),
+                        Color::from_rgb(0.18, 0.22, 0.25),
+                    );
+                    Self::rect(
+                        &mut menu,
+                        Vector2::new(x, 936.),
+                        Vector2::new(296. * gain, 6.),
+                        red,
                     );
                 }
             }
-            for (i, (action, axis)) in self.joy_axes.iter().enumerate() {
-                self.button(
-                    &mut menu,
-                    &format!("{}   AXIS {}", action.to_uppercase(), axis),
-                    &format!("axis:{action}"),
-                    1090.,
-                    400. + i as f32 * 65.,
-                    600.,
-                    55.,
-                );
-            }
-            for (i, (action, button)) in self.joy_buttons.iter().enumerate() {
-                self.button(
-                    &mut menu,
-                    &format!("{}   BUTTON {}", action.to_uppercase(), button),
-                    &format!("button:{action}"),
-                    1090.,
-                    620. + i as f32 * 65.,
-                    600.,
-                    55.,
-                );
-            }
-            self.button(
-                &mut menu,
-                if self.speed_mph {
-                    "SPEED UNITS: MPH"
-                } else {
-                    "SPEED UNITS: KPH"
-                },
-                "units",
-                620.,
-                450.,
-                400.,
-                55.,
-            );
-            self.button(&mut menu, "BACK", "back_options", 60., 780., 420., 58.);
-            Self::text(&mut menu, "DRIVING", 620., 220., 32, white);
+            self.button(&mut menu, "Back", "back_options", 72., 920., 392., 56.);
             let mut help = Self::text(
                 &mut menu,
-                "Select a binding, then press its new key or controller input.\n\nGamepad: left stick and triggers.",
-                620.,
-                740.,
-                22,
+                "Select an option to adjust it. Settings are saved automatically.",
+                560.,
+                966.,
+                18,
                 muted,
             );
+            help.set_name("SettingHelp");
+            help.set_size(Vector2::new(1256., 44.));
             help.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
-            help.set_size(Vector2::new(400., 200.));
             self.menu = Some(menu);
             return;
         }
@@ -3852,140 +4826,344 @@ impl OversteerApp {
                                 && (self.selected_goal.is_empty() || goal_events.contains(&e.id)))
                     })
                     .collect();
-                for (row, (index, event)) in events
+                let page = events
                     .iter()
-                    .skip(
-                        events
-                            .iter()
-                            .position(|(i, _)| *i == self.selected_event)
-                            .unwrap_or(0)
-                            / 8
-                            * 8,
-                    )
-                    .take(8)
-                    .enumerate()
-                {
+                    .position(|(i, _)| *i == self.selected_event)
+                    .unwrap_or(0)
+                    / 8;
+                let quick = screen == GameScreen::QuickRace;
+                for (row, (index, event)) in events.iter().skip(page * 8).take(8).enumerate() {
+                    let y = 240. + row as f32 * 65.;
+                    let locked = !quick
+                        && event.qualifier
+                        && event.league == snap.career.league
+                        && !snap.league_progress.promotion_open;
+                    let completed = !quick && snap.career.completed_events.contains(&event.id);
                     self.button(
                         &mut menu,
-                        &format!(
-                            "{} {}",
-                            if *index == self.selected_event {
-                                "▶"
-                            } else {
-                                " "
-                            },
-                            event.name
-                        ),
+                        &event.name,
                         &format!("event:{index}"),
-                        50.,
-                        240. + row as f32 * 65.,
-                        450.,
+                        48.,
+                        y,
+                        400.,
                         56.,
+                    );
+                    if let Some(mut button) = menu
+                        .get_child(menu.get_child_count() - 1)
+                        .and_then(|n| n.try_cast::<Button>().ok())
+                    {
+                        button.set_accessibility_name(&format!(
+                            "{} · {}",
+                            event.name,
+                            if locked {
+                                "Locked"
+                            } else if completed {
+                                "Won"
+                            } else if event.mode.is_drift() {
+                                "Drift"
+                            } else {
+                                "Circuit"
+                            }
+                        ));
+                        button.add_theme_font_size_override("font_size", 18);
+                        button.set_text("");
+                    }
+                    let mut title = Self::text(
+                        &mut menu,
+                        &event.name,
+                        64.,
+                        y + 4.,
+                        18,
+                        if *index == self.selected_event {
+                            red
+                        } else {
+                            white
+                        },
+                    );
+                    title.set_size(Vector2::new(368., 26.));
+                    title.set_clip_text(true);
+                    Self::text(
+                        &mut menu,
+                        &format!(
+                            "{}  ·  {}",
+                            if event.qualifier {
+                                "PRM"
+                            } else if event.mode.is_drift() {
+                                "DRF"
+                            } else {
+                                "CIR"
+                            },
+                            if locked {
+                                "LOCKED"
+                            } else if completed {
+                                "WON"
+                            } else if quick {
+                                "EXHIBITION"
+                            } else {
+                                "AVAILABLE"
+                            }
+                        ),
+                        64.,
+                        y + 33.,
+                        12,
+                        if locked {
+                            Color::from_rgb(0.973, 0.443, 0.443)
+                        } else {
+                            muted
+                        },
+                    );
+                }
+                if events.len() > 8 {
+                    self.button(&mut menu, "◀ PAGE", "event_page_prev", 48., 782., 132., 36.);
+                    Self::text(
+                        &mut menu,
+                        &format!("{} / {}", page + 1, events.len().div_ceil(8)),
+                        224.,
+                        790.,
+                        16,
+                        muted,
+                    );
+                    self.button(
+                        &mut menu,
+                        "PAGE ▶",
+                        "event_page_next",
+                        316.,
+                        782.,
+                        132.,
+                        36.,
                     );
                 }
                 Self::rect(
                     &mut menu,
-                    Vector2::new(1420., 200.),
-                    Vector2::new(460., 650.),
-                    Color::from_rgba(0.035, 0.045, 0.055, 0.96),
+                    Vector2::new(1412., 160.),
+                    Vector2::new(460., 736.),
+                    ui_paper(),
+                );
+                Self::rect(
+                    &mut menu,
+                    Vector2::new(1412., 160.),
+                    Vector2::new(460., 8.),
+                    ui_accent(),
+                );
+                Self::rect(
+                    &mut menu,
+                    Vector2::new(1412., 302.),
+                    Vector2::new(460., 144.),
+                    Color::from_rgb(0.055, 0.065, 0.075),
                 );
                 if let Some(event) = snap.events.get(self.selected_event) {
-                    let mut title = Self::text(&mut menu, "", 1445., 225., 28, white);
-                    title.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
-                    title.set_size(Vector2::new(410., 80.));
-                    title.set_text(&event.name.to_uppercase());
-                    let detail_text = format!(
-                        "{}  ·  {} {}\nWIN ${}  ·  2ND ${}\n\n{}\n\n{}\n\n{}",
-                        if event.mode.is_drift() {
-                            format!("DRIFT / {:.0} MIN", event.time_limit / 60.)
-                        } else {
-                            "CIRCUIT".into()
-                        },
-                        event.laps,
-                        if event.laps == 1 { "LAP" } else { "LAPS" },
-                        event.reward,
-                        event.prizes.get(1).copied().unwrap_or(0),
-                        if event.mode.is_drift() {
-                            format!(
-                                "Win with the highest score, at least {:.0} points.",
-                                event.target
-                            )
-                        } else {
-                            "Finish first to win.".into()
-                        },
-                        if event.qualifier
-                            && event.league == snap.career.league
-                            && !snap.league_progress.promotion_open
-                        {
-                            "Locked: win this tier's circuit and drift events."
-                        } else if screen == GameScreen::QuickRace {
-                            "Free entry. All cars available."
-                        } else {
-                            "Free entry. Any owned car."
-                        },
-                        if event.qualifier {
-                            if event.league == 5 {
-                                "Win to complete the career."
-                            } else {
-                                "Win to unlock the next tier."
-                            }
-                        } else {
-                            "A win counts toward tier promotion."
-                        }
+                    let ink = Color::from_rgb(0.08, 0.065, 0.055);
+                    let secondary_ink = Color::from_rgb(0.34, 0.30, 0.25);
+                    let track = snap.tracks.iter().find(|track| track.id == event.track_id);
+                    let discipline = if event.qualifier {
+                        "PROMOTION"
+                    } else if event.mode.is_drift() {
+                        "DRIFT"
+                    } else {
+                        "CIRCUIT"
+                    };
+                    Self::text(
+                        &mut menu,
+                        &format!("LONDON / EVENT {:02}", self.selected_event + 1),
+                        578.,
+                        150.,
+                        16,
+                        ui_accent(),
                     );
-                    let mut detail = Self::text(&mut menu, "", 1445., 310., 22, white);
-                    detail.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
-                    detail.set_size(Vector2::new(410., 330.));
-                    detail.set_text(&detail_text);
+                    Self::text(&mut menu, discipline, 564., 172., 112, ui_paper());
+                    Self::racing_marks(&mut menu, 580., 316., ui_accent());
+                    let locked = !quick
+                        && event.qualifier
+                        && event.league == snap.career.league
+                        && !snap.league_progress.promotion_open;
+                    Self::text(
+                        &mut menu,
+                        if event.qualifier {
+                            "PROMOTION"
+                        } else if event.mode.is_drift() {
+                            "DRIFT"
+                        } else {
+                            "CIRCUIT"
+                        },
+                        1436.,
+                        184.,
+                        16,
+                        secondary_ink,
+                    );
+                    Self::text(
+                        &mut menu,
+                        &format!("{:02}", self.selected_event + 1),
+                        1760.,
+                        180.,
+                        76,
+                        Color::from_rgb(0.68, 0.60, 0.45),
+                    );
+                    let mut title =
+                        Self::text(&mut menu, &event.name.to_uppercase(), 1436., 218., 36, ink);
+                    title.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+                    title.set_size(Vector2::new(308., 80.));
+                    if let Some(track) = track {
+                        Self::course_outline(
+                            &mut menu,
+                            track,
+                            Rect2::new(Vector2::new(1460., 314.), Vector2::new(364., 116.)),
+                        );
+                    }
+                    let target = if event.mode.is_drift() {
+                        format!(
+                            "{} PTS · {:.0} MIN",
+                            grouped_integer(event.target.round() as u64),
+                            event.time_limit / 60.
+                        )
+                    } else {
+                        format!(
+                            "{} {}",
+                            event.laps,
+                            if event.laps == 1 { "LAP" } else { "LAPS" }
+                        )
+                    };
+                    for (row, (label, value)) in [
+                        (
+                            "COURSE",
+                            track
+                                .map_or(event.track_id.as_str(), |t| t.name.as_str())
+                                .to_owned(),
+                        ),
+                        ("TARGET", target),
+                        (
+                            "ELIGIBILITY",
+                            if quick {
+                                "All cars · Free entry".into()
+                            } else if locked {
+                                "Win this tier’s circuit and drift".into()
+                            } else {
+                                format!("{} · Owned cars", self.league_label(event.league))
+                            },
+                        ),
+                        (
+                            "REWARD",
+                            if quick {
+                                "$0 · Exhibition".into()
+                            } else {
+                                format!(
+                                    "1ST {} · 2ND {}",
+                                    money(i64::from(event.reward)),
+                                    money(i64::from(event.prizes.get(1).copied().unwrap_or(0)))
+                                )
+                            },
+                        ),
+                    ]
+                    .into_iter()
+                    .enumerate()
+                    {
+                        Self::text(
+                            &mut menu,
+                            label,
+                            1436.,
+                            462. + row as f32 * 62.,
+                            14,
+                            secondary_ink,
+                        );
+                        Self::text(
+                            &mut menu,
+                            &value,
+                            1436.,
+                            481. + row as f32 * 62.,
+                            20,
+                            if label == "REWARD" {
+                                Color::from_rgb(0.06, 0.32, 0.24)
+                            } else {
+                                ink
+                            },
+                        );
+                    }
+                    let mut note = Self::text(
+                        &mut menu,
+                        if quick {
+                            "Practice freely. No career progression or wagers."
+                        } else if locked {
+                            "Promotion locked. Complete the two event goals first."
+                        } else if event.qualifier {
+                            "Win for promotion. Optional wagers on the next screen."
+                        } else {
+                            "Win toward promotion. Optional cash / pink-slip wagers on the next screen."
+                        },
+                        1436.,
+                        718.,
+                        16,
+                        secondary_ink,
+                    );
+                    note.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+                    note.set_size(Vector2::new(412., 72.));
                 }
-                let mut bets = Self::text(&mut menu, "", 1445., 670., 20, muted);
-                bets.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
-                bets.set_size(Vector2::new(410., 70.));
-                bets.set_text("Optional cash bets and pink slips are offered on the career grid.");
-                self.button(&mut menu, "START RACE", "start", 1445., 760., 410., 65.);
-                self.car_picker(&mut menu, &snap, 240., screen == GameScreen::Career);
-                self.button(&mut menu, "◀ EVENT", "event_prev", 60., 770., 200., 50.);
-                self.button(&mut menu, "EVENT ▶", "event_next", 280., 770., 200., 50.);
                 self.button(
                     &mut menu,
-                    "CUSTOMIZE CAR",
+                    if quick {
+                        "START RACE"
+                    } else {
+                        "CONTINUE TO GRID"
+                    },
+                    "start",
+                    1436.,
+                    816.,
+                    412.,
+                    52.,
+                );
+                self.car_picker(&mut menu, &snap, 240., !quick);
+                self.button(
+                    &mut menu,
+                    "CUSTOMISE CAR",
                     "nav:custom",
-                    60.,
-                    830.,
-                    420.,
-                    55.,
+                    1080.,
+                    936.,
+                    300.,
+                    56.,
                 );
                 self.button(&mut menu, "BACK", "nav:main", 60., 900., 420., 60.);
             }
             GameScreen::Garage | GameScreen::Dealership => {
                 self.car_picker(&mut menu, &snap, 240., screen == GameScreen::Garage);
-                self.button(&mut menu, "CUSTOMIZE", "nav:custom", 1090., 850., 300., 65.);
+                let garage = screen == GameScreen::Garage;
                 self.button(
                     &mut menu,
-                    if screen == GameScreen::Garage {
-                        "SELL CAR"
+                    if garage {
+                        "CUSTOMISE CAR"
                     } else {
-                        "BUY CAR"
+                        "PREVIEW MODIFICATIONS"
                     },
-                    if screen == GameScreen::Garage {
-                        "sell"
-                    } else {
-                        "buy"
-                    },
-                    1410.,
-                    850.,
-                    300.,
-                    65.,
+                    "nav:custom",
+                    1436.,
+                    if garage { 760. } else { 832. },
+                    412.,
+                    52.,
                 );
-                if screen == GameScreen::Garage {
+                let price = snap
+                    .cars
+                    .iter()
+                    .find(|car| car.id == snap.selected_car)
+                    .map_or(0, |car| car.price);
+                self.button(
+                    &mut menu,
+                    &if garage {
+                        "SELL CAR".into()
+                    } else {
+                        format!("BUY CAR · {}", money(i64::from(price)))
+                    },
+                    if garage { "sell" } else { "buy" },
+                    1436.,
+                    if garage { 912. } else { 760. },
+                    412.,
+                    52.,
+                );
+                if garage {
                     self.button(
                         &mut menu,
                         "VEHICLE HISTORY",
                         "vehicle_stats",
-                        1090.,
-                        925.,
-                        620.,
-                        55.,
+                        1436.,
+                        832.,
+                        412.,
+                        52.,
                     );
                 }
                 self.button(&mut menu, "BACK", "nav:main", 60., 910., 420., 60.);
@@ -4088,22 +5266,40 @@ impl OversteerApp {
                 Self::chrome(
                     &mut menu,
                     Vector2::new(580., 280.),
-                    Vector2::new(1120., 160.),
+                    Vector2::new(1050., 144.),
                 );
                 let mut warning = Self::text(&mut menu, "", 610., 300., 28, white);
                 warning.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
                 warning.set_size(Vector2::new(1060., 120.));
-                warning.set_text("Restarting or leaving forfeits your accepted cash or vehicle stake.\nA restarted race begins without a new bet.");
+                let consequence = snap.race.as_ref().map(|race| {
+                    if race.pink_slip {
+                        let name = race.racers.first().and_then(|r| snap.cars.iter().find(|c| c.id == r.car_id)).map(|c| vehicle_name(&c.name)).unwrap_or_default();
+                        format!("Vehicle stake: {name}\nRestarting or leaving forfeits this car. Restart begins without a new wager.")
+                    } else if race.wager > 0 {
+                        format!("Cash stake: {}\nRestarting or leaving forfeits this stake. Restart begins without a new wager.", money(i64::from(race.wager)))
+                    } else {
+                        "No wager in this race.\nRestart begins a new attempt; leaving ends this race.".into()
+                    }
+                }).unwrap_or_default();
+                warning.set_text(&consequence);
                 for (i, (label, key)) in [
                     ("RESUME", "resume"),
-                    ("RESTART RACE", "restart"),
                     ("OPTIONS", "options"),
+                    ("RESTART RACE", "restart"),
                     ("QUIT TO MENU", "nav:main"),
                 ]
                 .iter()
                 .enumerate()
                 {
-                    self.button(&mut menu, label, key, 60., 270. + i as f32 * 85., 420., 65.);
+                    self.button(
+                        &mut menu,
+                        label,
+                        key,
+                        60.,
+                        [270., 355., 480., 565.][i],
+                        420.,
+                        65.,
+                    );
                 }
             }
             GameScreen::Checkout => {
@@ -4131,7 +5327,7 @@ impl OversteerApp {
                     );
                     Self::text(
                         &mut menu,
-                        &format!("PRIZE ${}", result.reward),
+                        &format!("Reward {}", money(result.reward)),
                         800.,
                         795.,
                         38,
@@ -4147,60 +5343,106 @@ impl OversteerApp {
                     Vector2::new(1920., 1080.),
                     Color::from_rgba(0., 0., 0., 0.12),
                 );
-                Self::rect(
-                    &mut menu,
-                    Vector2::new(40., 40.),
-                    Vector2::new(1840., 130.),
-                    Color::from_rgba(0.035, 0.045, 0.055, 0.95),
-                );
-                Self::text(&mut menu, "RACE NIGHT", 70., 65., 42, white);
+                self.status_header(&mut menu, &snap, "RACE NIGHT");
+                Self::text(&mut menu, "SELECT RIVAL", 48., 220., 28, white);
                 Self::text(
                     &mut menu,
                     "Choose a rival. Betting is optional.",
-                    70.,
-                    120.,
-                    24,
-                    white,
+                    48.,
+                    270.,
+                    18,
+                    muted,
                 );
-                Self::chrome(&mut menu, Vector2::new(40., 205.), Vector2::new(500., 65.));
-                Self::text(
-                    &mut menu,
-                    &format!("CASH  ${}", snap.career.cash),
-                    70.,
-                    212.,
-                    31,
-                    white,
-                );
-                Self::text(&mut menu, "SELECT RIVAL", 70., 285., 36, white);
                 Self::rect(
                     &mut menu,
-                    Vector2::new(1260., 205.),
-                    Vector2::new(620., 700.),
+                    Vector2::new(1412., 205.),
+                    Vector2::new(460., 700.),
                     Color::from_rgba(0., 0., 0., 0.67),
                 );
                 if let Some(race) = &snap.race {
                     for (index, racer) in
                         race.racers.iter().enumerate().filter(|(_, r)| !r.is_player)
                     {
+                        let y = 330. + (index - 1) as f32 * 88.;
+                        let model = snap
+                            .cars
+                            .iter()
+                            .find(|car| car.id == racer.car_id)
+                            .map(|car| vehicle_name(&car.name))
+                            .unwrap_or_default();
                         self.button(
                             &mut menu,
-                            &format!(
-                                "{} {}",
-                                if index == self.selected_rival {
-                                    ">"
-                                } else {
-                                    " "
-                                },
-                                racer.name
-                            ),
+                            &format!("{} · {model}", racer.name),
                             &format!("rival:{index}"),
-                            65.,
-                            330. + index as f32 * 62.,
-                            460.,
-                            55.,
+                            48.,
+                            y,
+                            400.,
+                            76.,
+                        );
+                        if let Some(mut button) = menu
+                            .get_child(menu.get_child_count() - 1)
+                            .and_then(|n| n.try_cast::<Button>().ok())
+                        {
+                            button.set_text("");
+                        }
+                        Self::text(
+                            &mut menu,
+                            &racer.name,
+                            64.,
+                            y + 9.,
+                            22,
+                            if index == self.selected_rival {
+                                red
+                            } else {
+                                white
+                            },
+                        );
+                        let mut car_label = Self::text(&mut menu, &model, 64., y + 43., 14, muted);
+                        car_label.set_size(Vector2::new(368., 24.));
+                        car_label.set_clip_text(true);
+                        car_label.set_text_overrun_behavior(
+                            godot::classes::text_server::OverrunBehavior::TRIM_ELLIPSIS,
                         );
                     }
-                    Self::text(&mut menu, "DRIVER BET", 1300., 235., 38, white);
+                    if let Some(rival) = race.racers.get(self.selected_rival) {
+                        let car = snap
+                            .cars
+                            .iter()
+                            .find(|car| car.id == rival.car_id)
+                            .map(|car| vehicle_name(&car.name))
+                            .unwrap_or_default();
+                        let mut identity = Self::text(
+                            &mut menu,
+                            &format!("{}\n{}", rival.name, car),
+                            552.,
+                            800.,
+                            26,
+                            white,
+                        );
+                        identity.set_size(Vector2::new(645., 112.));
+                        identity.set_autowrap_mode(
+                            godot::classes::text_server::AutowrapMode::WORD_SMART,
+                        );
+                    }
+                    Self::text(&mut menu, "OPTIONAL WAGER", 1436., 235., 26, white);
+                    Self::text(
+                        &mut menu,
+                        if race.pink_slip {
+                            "ACTIVE STAKE · PINK SLIP"
+                        } else if race.wager > 0 {
+                            "ACTIVE STAKE · CASH"
+                        } else {
+                            "CURRENT WAGER · NONE ($0)"
+                        },
+                        1436.,
+                        278.,
+                        16,
+                        if race.pink_slip || race.wager > 0 {
+                            Color::from_rgb(0.984, 0.749, 0.141)
+                        } else {
+                            muted
+                        },
+                    );
                     let accepted = race
                         .bet_offer
                         .as_ref()
@@ -4208,9 +5450,9 @@ impl OversteerApp {
                     if !accepted {
                         self.button(
                             &mut menu,
-                            &format!("OFFER ${}", self.wager.max(1000)),
+                            &format!("Amount: {}  +", money(i64::from(self.wager.max(1000)))),
                             "wager",
-                            1300.,
+                            1436.,
                             310.,
                             330.,
                             60.,
@@ -4219,19 +5461,38 @@ impl OversteerApp {
                             &mut menu,
                             "MAKE CASH OFFER",
                             "offer_cash",
-                            1300.,
+                            1436.,
                             385.,
-                            540.,
+                            412.,
                             60.,
                         );
                         self.button(
                             &mut menu,
                             "PINK SLIP OFFER",
                             "offer_pink",
-                            1300.,
+                            1436.,
                             460.,
-                            540.,
+                            412.,
                             60.,
+                        );
+                    }
+                    if !accepted
+                        && (snap.career.garage.len() <= 1
+                            || race.racers.get(self.selected_rival).is_some_and(|rival| {
+                                snap.career.garage.contains_key(&rival.car_id)
+                            }))
+                    {
+                        Self::text(
+                            &mut menu,
+                            if snap.career.garage.len() <= 1 {
+                                "Pink slips require two owned cars."
+                            } else {
+                                "You already own this rival’s model."
+                            },
+                            1436.,
+                            524.,
+                            18,
+                            muted,
                         );
                     }
                     if let Some(offer) = &race.bet_offer {
@@ -4239,8 +5500,9 @@ impl OversteerApp {
                             let rival = &race.racers[offer.racer];
                             if offer.kind == BetKind::Cash {
                                 format!(
-                                    "CASH BET ACCEPTED\n${} against {}.\n\nBeat this rival to win the bet. Leaving or restarting forfeits the stake.",
-                                    offer.counter_amount, rival.name
+                                    "CASH BET ACCEPTED\n{} against {}.\n\nBeat this rival to win the bet. Leaving or restarting forfeits the stake.",
+                                    money(i64::from(offer.counter_amount)),
+                                    rival.name
                                 )
                             } else {
                                 let name = |id: &str| {
@@ -4259,20 +5521,33 @@ impl OversteerApp {
                                 )
                             }
                         } else {
-                            format!("{:?} offer\n{}", offer.kind, offer.reason)
+                            if offer.kind == BetKind::Cash
+                                && matches!(
+                                    offer.status,
+                                    BetOfferStatus::Offered | BetOfferStatus::Countered
+                                )
+                            {
+                                format!(
+                                    "CASH OFFER · {:?}\n{}",
+                                    offer.status,
+                                    money(i64::from(offer.counter_amount))
+                                )
+                            } else {
+                                format!("{:?} offer\n{}", offer.kind, offer.reason)
+                            }
                         };
                         let mut offer_text = Self::text(
                             &mut menu,
                             "",
-                            1300.,
+                            1436.,
                             if accepted { 330. } else { 545. },
-                            25,
+                            20,
                             white,
                         );
                         offer_text.set_autowrap_mode(
                             godot::classes::text_server::AutowrapMode::WORD_SMART,
                         );
-                        offer_text.set_size(Vector2::new(540., if accepted { 350. } else { 115. }));
+                        offer_text.set_size(Vector2::new(412., if accepted { 350. } else { 115. }));
                         offer_text.set_text(&text);
                         if matches!(
                             offer.status,
@@ -4282,31 +5557,39 @@ impl OversteerApp {
                                 &mut menu,
                                 "ACCEPT",
                                 "offer_accept",
-                                1300.,
+                                1436.,
                                 670.,
-                                250.,
+                                192.,
                                 60.,
                             );
                             self.button(
                                 &mut menu,
                                 "DECLINE",
                                 "offer_decline",
-                                1590.,
+                                1656.,
                                 670.,
-                                250.,
+                                192.,
                                 60.,
                             );
                         }
                     }
                 }
+                let staked = snap
+                    .race
+                    .as_ref()
+                    .is_some_and(|race| race.wager > 0 || race.pink_slip);
                 self.button(
                     &mut menu,
-                    "START RACE",
+                    if staked {
+                        "START RACE WITH BET"
+                    } else {
+                        "START RACE · NO BET"
+                    },
                     "grid_launch",
-                    1300.,
+                    1436.,
                     790.,
-                    540.,
-                    75.,
+                    412.,
+                    52.,
                 );
             }
             GameScreen::RoundResults => {
@@ -4331,81 +5614,203 @@ impl OversteerApp {
                 self.button(&mut menu, "BACK TO MENU", "nav:main", 60., 400., 420., 65.);
             }
             GameScreen::Results => {
-                if let Some(result) = snap.result {
+                if let Some(result) = &snap.result {
                     Self::rect(
                         &mut menu,
                         Vector2::new(620., 210.),
-                        Vector2::new(1180., 475.),
+                        Vector2::new(
+                            1180.,
+                            if snap
+                                .race
+                                .as_ref()
+                                .is_some_and(|race| race.wager > 0 || race.pink_slip)
+                            {
+                                760.
+                            } else {
+                                640.
+                            },
+                        ),
                         Color::from_rgba(0.025, 0.032, 0.04, 0.93),
                     );
-                    Self::text(
-                        &mut menu,
-                        if result.won {
-                            "YOU WIN"
-                        } else {
-                            "RACE COMPLETE"
-                        },
-                        660.,
-                        240.,
-                        50,
-                        white,
-                    );
+                    let event = snap.events.iter().find(|e| e.id == result.event_id);
+                    let course = event
+                        .and_then(|e| snap.tracks.iter().find(|t| t.id == e.track_id))
+                        .map_or("", |t| t.name.as_str());
+                    let career = snap.race.as_ref().is_some_and(|race| race.career);
+                    let outcome = if event.is_some_and(|e| e.mode.is_drift()) {
+                        format!(
+                            "{} points / {} target",
+                            grouped_integer(result.score.round() as u64),
+                            grouped_integer(event.map_or(0., |e| e.target).round() as u64)
+                        )
+                    } else {
+                        format!(
+                            "{} / {}",
+                            ordinal(result.position),
+                            snap.race.as_ref().map_or(4, |race| race.racers.len())
+                        )
+                    };
+                    Self::text(&mut menu, &outcome, 660., 240., 48, white);
                     let mut details = format!(
-                        "POSITION {}    ·    TIME {:02}:{:05.2}\nRACE REWARD +${}",
-                        result.position,
+                        "{}    ·    {:02}:{:05.2}\n{} · {course} · {}\n{}\nWallet balance {}",
+                        if result.won {
+                            "You win"
+                        } else {
+                            "Race complete"
+                        },
                         (result.time / 60.) as u32,
                         result.time % 60.,
-                        result.reward
+                        event.map_or("Race", |e| e.name.as_str()),
+                        if event.is_some_and(|e| e.mode.is_drift()) {
+                            "Drift"
+                        } else {
+                            "Circuit"
+                        },
+                        if career {
+                            format!("Event reward +{}", money(result.reward))
+                        } else {
+                            "Quick Race · No career payout or progression".into()
+                        },
+                        money(snap.career.cash)
                     );
-                    if let Some(race) = &snap.race {
-                        if race.mode.is_drift() {
-                            details.push_str(&format!("\nDRIFT SCORE {:.0}", result.score));
-                        }
-                        if let Some(rival) = race.racers.get(race.bet_racer) {
-                            if let Some(car_id) = &result.pink_slip {
-                                let name = self
-                                    .content
-                                    .cars
-                                    .iter()
-                                    .find(|c| &c.id == car_id)
-                                    .map(|c| c.name.as_str())
-                                    .unwrap_or(car_id);
-                                if race.racers.first().is_some_and(|r| &r.car_id == car_id) {
-                                    details.push_str(&format!(
-                                        "\n\nPINK SLIP LOST\nYour {name} was transferred to {}.",
-                                        rival.name
+                    if let Some(race) = &snap.race
+                        && let Some(rival) = race.racers.get(race.bet_racer)
+                    {
+                        if let Some(car_id) = &result.pink_slip {
+                            let name = self
+                                .content
+                                .cars
+                                .iter()
+                                .find(|c| &c.id == car_id)
+                                .map(|c| c.name.as_str())
+                                .unwrap_or(car_id);
+                            if race.racers.first().is_some_and(|r| &r.car_id == car_id) {
+                                details.push_str(&format!(
+                                    "\n\nPINK SLIP LOST\nYour {name} was transferred to {}.",
+                                    rival.name
+                                ));
+                            } else {
+                                details.push_str(&format!(
+                                    "\n\nPINK SLIP WON\n{}'s {name} is now in your garage.",
+                                    rival.name
+                                ));
+                            }
+                        } else if race.wager > 0 {
+                            if result.wager > 0 {
+                                details.push_str(&format!(
+                                        "\n\nBET WON · +{} NET\nYou beat {}. Your {} stake was also returned.",
+                                        money(result.wager), rival.name, money(i64::from(race.wager))
                                     ));
-                                } else {
-                                    details.push_str(&format!(
-                                        "\n\nPINK SLIP WON\n{}'s {name} is now in your garage.",
-                                        rival.name
+                            } else {
+                                details.push_str(&format!(
+                                        "\n\nBET LOST · -{}\n{} finished ahead. Your stake was forfeited.",
+                                        money(i64::from(race.wager)), rival.name
                                     ));
-                                }
-                            } else if race.wager > 0 {
-                                if result.wager > 0 {
-                                    details.push_str(&format!(
-                                        "\n\nBET WON · +${} NET\nYou beat {}. Your ${} stake was also returned.",
-                                        result.wager, rival.name, race.wager
-                                    ));
-                                } else {
-                                    details.push_str(&format!(
-                                        "\n\nBET LOST · -${}\n{} finished ahead. Your stake was forfeited.",
-                                        race.wager, rival.name
-                                    ));
-                                }
                             }
                         }
                     }
-                    let mut detail_label = Self::text(&mut menu, "", 660., 335., 28, white);
+                    let mut detail_label = Self::text(&mut menu, "", 660., 335., 23, white);
                     detail_label
                         .set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
                     detail_label.set_size(Vector2::new(1100., 320.));
                     detail_label.set_text(&details);
+                    if let Some(race) = &snap.race {
+                        let y = if race.wager > 0 || race.pink_slip {
+                            714.
+                        } else {
+                            580.
+                        };
+                        Self::text(&mut menu, "CLASSIFICATION", 660., y - 64., 18, red);
+                        for (label, x) in [
+                            ("POS", 660.),
+                            ("DRIVER", 724.),
+                            ("CAR", 1004.),
+                            (
+                                if race.mode.is_drift() {
+                                    "SCORE"
+                                } else {
+                                    "TIME"
+                                },
+                                1648.,
+                            ),
+                        ] {
+                            Self::text(&mut menu, label, x, y - 24., 12, muted);
+                        }
+                        for (row, index) in race.standings.iter().enumerate() {
+                            let Some(racer) = race.racers.get(*index) else {
+                                continue;
+                            };
+                            let row_y = y + row as f32 * 52.;
+                            if racer.is_player {
+                                Self::rect(
+                                    &mut menu,
+                                    Vector2::new(644., row_y),
+                                    Vector2::new(1132., 44.),
+                                    Color::from_rgba(0.22, 0.74, 0.97, 0.12),
+                                );
+                                Self::rect(
+                                    &mut menu,
+                                    Vector2::new(644., row_y),
+                                    Vector2::new(3., 44.),
+                                    red,
+                                );
+                            }
+                            Self::text(
+                                &mut menu,
+                                &format!("{:02}", row + 1),
+                                660.,
+                                row_y + 6.,
+                                24,
+                                white,
+                            );
+                            let mut driver = Self::text(
+                                &mut menu,
+                                &format!(
+                                    "{}{}",
+                                    if racer.is_player { "YOU · " } else { "" },
+                                    racer.name
+                                ),
+                                724.,
+                                row_y + 9.,
+                                20,
+                                white,
+                            );
+                            driver.set_size(Vector2::new(260., 30.));
+                            driver.set_clip_text(true);
+                            let car = snap
+                                .cars
+                                .iter()
+                                .find(|car| car.id == racer.car_id)
+                                .map(|car| vehicle_name(&car.name))
+                                .unwrap_or_default();
+                            let mut model =
+                                Self::text(&mut menu, &car, 1004., row_y + 9., 20, muted);
+                            model.set_size(Vector2::new(530., 30.));
+                            model.set_clip_text(true);
+                            model.set_text_overrun_behavior(
+                                godot::classes::text_server::OverrunBehavior::TRIM_ELLIPSIS,
+                            );
+                            let value = if race.mode.is_drift() {
+                                format!("{} pts", grouped_integer(racer.drift_score.round() as u64))
+                            } else if let Some(time) = racer.finish_time {
+                                format!("{:02}:{:05.2}", (time / 60.) as u32, time % 60.)
+                            } else {
+                                "Not finished".into()
+                            };
+                            let mut time =
+                                Self::text(&mut menu, &value, 1544., row_y + 9., 20, white);
+                            time.set_size(Vector2::new(212., 30.));
+                            time.set_horizontal_alignment(
+                                godot::global::HorizontalAlignment::RIGHT,
+                            );
+                        }
+                    }
                 }
                 self.button(&mut menu, "CONTINUE", "continue", 60., 300., 420., 65.);
-                self.button(&mut menu, "PODIUM", "podium", 60., 570., 420., 65.);
+                self.button(&mut menu, "PODIUM", "podium", 60., 480., 420., 65.);
                 self.button(&mut menu, "WATCH REPLAY", "replay", 60., 390., 420., 65.);
-                self.button(&mut menu, "RESTART RACE", "restart", 60., 480., 420., 65.);
+                self.button(&mut menu, "RESTART RACE", "restart", 60., 615., 420., 65.);
+                self.button(&mut menu, "MAIN MENU", "nav:main", 60., 760., 420., 52.);
             }
             _ => {}
         }
@@ -4423,16 +5828,52 @@ impl OversteerApp {
                 )
             })
         {
-            Self::text(&mut menu, &car.name.to_uppercase(), 620., 890., 36, white);
-            Self::text(
-                &mut menu,
-                &format!("${}    {}", car.price, self.league_label(car.league)),
-                625.,
-                943.,
-                22,
-                muted,
-            );
+            let event_screen = matches!(screen, GameScreen::QuickRace | GameScreen::Career);
+            let (x, y, w) = if event_screen {
+                (636., 824., 660.)
+            } else {
+                (1436., 200., 412.)
+            };
+            if event_screen {
+                Self::chrome(
+                    &mut menu,
+                    Vector2::new(x, y),
+                    Vector2::new(w, if event_screen { 104. } else { 136. }),
+                );
+                let mut name = Self::text(&mut menu, "", x + 24., y + 16., 28, white);
+                name.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+                name.set_size(Vector2::new(w - 48., 70.));
+                name.set_text(&vehicle_name(&car.name));
+                Self::text(
+                    &mut menu,
+                    &if event_screen {
+                        format!(
+                            "{} · {}",
+                            self.league_label(car.league),
+                            if screen == GameScreen::QuickRace {
+                                "Available for Quick Race"
+                            } else {
+                                "Owned · Eligible car"
+                            }
+                        )
+                    } else {
+                        format!(
+                            "{} · Base mass {:.0} kg",
+                            self.league_label(car.league),
+                            car.handling.mass
+                        )
+                    },
+                    x + 24.,
+                    y + if event_screen { 64. } else { 96. },
+                    22,
+                    muted,
+                );
+            }
+            if !event_screen {
+                self.vehicle_dossier(&mut menu, &snap, car);
+            }
         }
+
         if self.confirmation.is_some() || self.error_dialog.is_some() {
             Self::rect(
                 &mut menu,
@@ -4440,12 +5881,11 @@ impl OversteerApp {
                 Vector2::new(1920., 1080.),
                 Color::from_rgba(0., 0., 0., 0.7),
             );
-            Self::native_texture(
+            Self::rect(
                 &mut menu,
-                "MessageBoxFrame",
-                Vector2::new(430., 300.),
-                Vector2::new(1060., 450.),
-                true,
+                Vector2::new(430., 280.),
+                Vector2::new(1060., 520.),
+                Color::from_rgb(0.035, 0.045, 0.065),
             );
             if let Some(error) = &self.error_dialog {
                 Self::text(&mut menu, "NOTICE", 650., 315., 40, white);
@@ -4456,18 +5896,31 @@ impl OversteerApp {
                     "buy" => "PURCHASE VEHICLE?",
                     "sell" => "SELL VEHICLE?",
                     "checkout" => "PURCHASE SELECTED MODIFICATIONS?",
-                    "pink_offer" => "RISK YOUR VEHICLE IN A PINK SLIP BET?",
+                    "pink_offer" => "PINK SLIP · RISK YOUR CAR?",
+                    "forfeit_restart" => "FORFEIT STAKE & RESTART?",
+                    "forfeit_exit" => "FORFEIT STAKE & LEAVE?",
                     _ => "DISCARD ALL CHANGES?",
                 };
-                Self::text(&mut menu, title, 650., 315., 40, white);
+                let mut heading = Self::text(&mut menu, "", 490., 320., 36, white);
+                heading.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+                heading.set_size(Vector2::new(940., 100.));
+                heading.set_text(title);
                 if let Some(car) = snap.cars.iter().find(|c| c.id == snap.selected_car) {
-                    Self::text(&mut menu, &car.name, 530., 435., 34, white);
+                    let mut name = Self::text(&mut menu, "", 490., 440., 30, white);
+                    name.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+                    name.set_size(Vector2::new(940., 60.));
+                    name.set_text(&vehicle_name(&car.name));
                     if action == "buy" {
                         Self::text(
                             &mut menu,
-                            &format!("PRICE ${}   CASH ${}", car.price, snap.career.cash),
-                            530.,
-                            495.,
+                            &format!(
+                                "Price {}    Balance {}\nAfter purchase {}",
+                                money(i64::from(car.price)),
+                                money(snap.career.cash),
+                                money(snap.career.cash - i64::from(car.price))
+                            ),
+                            490.,
+                            525.,
                             30,
                             white,
                         );
@@ -4477,85 +5930,312 @@ impl OversteerApp {
                     Self::text(
                         &mut menu,
                         &format!(
-                            "{} ITEMS    TOTAL ${}    CASH ${}",
+                            "{} items · Total {}\nAfter purchase {}",
                             snap.cart.len(),
-                            snap.cart.iter().map(|item| item.cost).sum::<u32>(),
-                            snap.career.cash
+                            money(i64::from(
+                                snap.cart.iter().map(|item| item.cost).sum::<u32>()
+                            )),
+                            money(
+                                snap.career.cash
+                                    - i64::from(
+                                        snap.cart.iter().map(|item| item.cost).sum::<u32>()
+                                    )
+                            )
                         ),
-                        530.,
-                        510.,
+                        490.,
+                        525.,
                         30,
                         white,
                     );
                 }
-                self.button(&mut menu, "YES", "confirm_yes", 810., 610., 300., 50.);
-                self.button(&mut menu, "NO", "confirm_no", 810., 665., 300., 50.);
+                let commit = match action.as_str() {
+                    "buy" => snap
+                        .cars
+                        .iter()
+                        .find(|c| c.id == snap.selected_car)
+                        .map(|car| format!("Buy vehicle — {}", money(i64::from(car.price))))
+                        .unwrap_or_default(),
+                    "sell" => "Sell vehicle".into(),
+                    "checkout" => format!(
+                        "Purchase — {}",
+                        money(i64::from(
+                            snap.cart.iter().map(|item| item.cost).sum::<u32>()
+                        ))
+                    ),
+                    "pink_offer" => "Offer my car · Pink slip".into(),
+                    "forfeit_restart" => "Forfeit & restart".into(),
+                    "forfeit_exit" => "Forfeit & leave".into(),
+                    _ => "Discard all changes".into(),
+                };
+                if action.starts_with("forfeit_")
+                    && let Some(race) = &snap.race
+                {
+                    let stake = if race.pink_slip {
+                        snap.cars
+                            .iter()
+                            .find(|car| car.id == snap.selected_car)
+                            .map(|car| vehicle_name(&car.name))
+                            .unwrap_or_default()
+                    } else {
+                        money(i64::from(race.wager))
+                    };
+                    let mut warning = Self::text(
+                        &mut menu,
+                        &format!(
+                            "You will forfeit {stake}.\n{}",
+                            if action == "forfeit_restart" {
+                                "The restarted race begins without a new wager."
+                            } else {
+                                "This race ends when you leave."
+                            }
+                        ),
+                        490.,
+                        520.,
+                        26,
+                        Color::from_rgb(0.973, 0.443, 0.443),
+                    );
+                    warning
+                        .set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+                    warning.set_size(Vector2::new(940., 124.));
+                }
+                if action == "pink_offer" {
+                    let rival = snap
+                        .race
+                        .as_ref()
+                        .and_then(|race| race.racers.get(self.selected_rival));
+                    let name = snap
+                        .cars
+                        .iter()
+                        .find(|car| car.id == snap.selected_car)
+                        .map(|car| vehicle_name(&car.name))
+                        .unwrap_or_default();
+                    let mut consequence = Self::text(
+                        &mut menu,
+                        &format!(
+                            "IF ACCEPTED · Beat {} to claim {}.\nLose to this rival: permanently forfeit your {}. Leaving or restarting also forfeits it.",
+                            rival.map_or("this rival", |r| r.name.as_str()),
+                            rival
+                                .and_then(|r| snap.cars.iter().find(|c| c.id == r.car_id))
+                                .map(|c| vehicle_name(&c.name))
+                                .unwrap_or_else(|| "their car".into()),
+                            name
+                        ),
+                        490.,
+                        520.,
+                        24,
+                        Color::from_rgb(0.94, 0.76, 0.52),
+                    );
+                    consequence
+                        .set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+                    consequence.set_size(Vector2::new(940., 125.));
+                }
+                self.button(&mut menu, "Cancel", "confirm_no", 490., 680., 280., 64.);
+                self.button(&mut menu, &commit, "confirm_yes", 802., 680., 628., 64.);
             }
         }
         self.menu = Some(menu);
     }
-    fn native_texture(
-        parent: &mut Gd<Control>,
-        asset: &str,
-        position: Vector2,
-        size: Vector2,
-        stretch: bool,
-    ) -> bool {
-        let named = format!("res://assets/ui/native/named/{asset}.png");
-        let path = if ResourceLoader::singleton().exists(&named) {
-            named
-        } else {
-            format!("res://assets/ui/native/aliases/{asset}.png")
-        };
-        let Some(texture) = ResourceLoader::singleton()
-            .load(&path)
-            .and_then(|r| r.try_cast::<godot::classes::Texture2D>().ok())
-        else {
-            return false;
-        };
-        let mut node = godot::classes::TextureRect::new_alloc();
-        node.set_name(&format!("Native_{asset}"));
-        node.set_meta("native_asset", &asset.to_variant());
-        node.set_expand_mode(godot::classes::texture_rect::ExpandMode::IGNORE_SIZE);
-        node.set_stretch_mode(if stretch {
-            godot::classes::texture_rect::StretchMode::SCALE
-        } else {
-            godot::classes::texture_rect::StretchMode::KEEP_ASPECT_CENTERED
-        });
-        node.set_mouse_filter(godot::classes::control::MouseFilter::IGNORE);
-        node.set_texture(&texture);
-        parent.add_child(&node);
-        node.set_position(position);
-        node.set_size(size);
-        true
-    }
     fn chrome(parent: &mut Gd<Control>, position: Vector2, size: Vector2) {
-        Self::rect(
+        Self::racing_plate(
             parent,
             position,
             size,
-            Color::from_rgba(0.06, 0.08, 0.10, 0.96),
+            Color::from_rgba(0.065, 0.058, 0.055, 0.94),
         );
-        Self::rect(
-            parent,
-            position,
-            Vector2::new(3., size.y),
-            Color::from_rgb(0.52, 0.78, 0.76),
-        );
+        Self::rect(parent, position, Vector2::new(64., 4.), ui_accent());
     }
-    fn reference_main(&mut self, menu: &mut Gd<Control>) {
+    fn racing_plate(parent: &mut Gd<Control>, position: Vector2, size: Vector2, color: Color) {
+        let cut = 24_f32.min(size.y * 0.4);
+        let mut plate = godot::classes::Polygon2D::new_alloc();
+        plate.set_polygon(&PackedVector2Array::from(&[
+            position,
+            position + Vector2::new(size.x, 0.),
+            position + Vector2::new(size.x - cut, size.y),
+            position + Vector2::new(0., size.y),
+        ]));
+        plate.set_color(color);
+        parent.add_child(&plate);
+    }
+    fn racing_marks(parent: &mut Gd<Control>, x: f32, y: f32, color: Color) {
+        for column in 0..8 {
+            for row in 0..2 {
+                if (column + row) % 2 == 0 {
+                    Self::rect(
+                        parent,
+                        Vector2::new(x + column as f32 * 12., y + row as f32 * 12.),
+                        Vector2::new(12., 12.),
+                        color,
+                    );
+                }
+            }
+        }
+    }
+    fn fade(parent: &mut Gd<Control>, position: Vector2, size: Vector2, right: bool, opacity: f32) {
+        let mut gradient = godot::classes::Gradient::new_gd();
+        gradient.set_offsets(&PackedFloat32Array::from(&[0., 0.65, 1.]));
+        gradient.set_colors(&PackedColorArray::from(&[
+            Color::from_rgba(0.039, 0.051, 0.071, opacity),
+            Color::from_rgba(0.039, 0.051, 0.071, opacity * 0.85),
+            Color::from_rgba(0.039, 0.051, 0.071, 0.),
+        ]));
+        let mut texture = godot::classes::GradientTexture2D::new_gd();
+        texture.set_gradient(&gradient);
+        texture.set_fill_from(Vector2::new(if right { 1. } else { 0. }, 0.5));
+        texture.set_fill_to(Vector2::new(if right { 0. } else { 1. }, 0.5));
+        let mut plate = godot::classes::TextureRect::new_alloc();
+        plate.set_texture(&texture);
+        plate.set_expand_mode(godot::classes::texture_rect::ExpandMode::IGNORE_SIZE);
+        plate.set_position(position);
+        plate.set_size(size);
+        plate.set_mouse_filter(godot::classes::control::MouseFilter::IGNORE);
+        parent.add_child(&plate);
+    }
+    fn input_badge(menu: &mut Gd<Control>, key: &str, label: &str, x: f32, y: f32) {
         Self::rect(
             menu,
-            Vector2::ZERO,
-            Vector2::new(720., 1080.),
-            Color::from_rgba(0.035, 0.045, 0.055, 0.94),
+            Vector2::new(x, y),
+            Vector2::new(58., 26.),
+            Color::from_rgba(0.58, 0.64, 0.72, 0.16),
         );
-        Self::text(menu, "OVERSTEER", 80., 110., 64, Color::WHITE);
+        let mut cap = Self::text(menu, key, x, y + 3., 13, Color::WHITE);
+        cap.set_size(Vector2::new(58., 20.));
+        cap.set_horizontal_alignment(godot::global::HorizontalAlignment::CENTER);
+        Self::text(
+            menu,
+            label,
+            x + 68.,
+            y + 3.,
+            14,
+            Color::from_rgb(0.58, 0.64, 0.72),
+        );
+    }
+    fn status_header(&self, menu: &mut Gd<Control>, snap: &GameSnapshot, title: &str) {
+        Self::racing_plate(
+            menu,
+            Vector2::new(48., 36.),
+            Vector2::new(1824., 56.),
+            Color::from_rgba(0.055, 0.047, 0.043, 0.94),
+        );
+        Self::racing_plate(
+            menu,
+            Vector2::new(48., 36.),
+            Vector2::new(390., 56.),
+            ui_paper(),
+        );
+        Self::text(
+            menu,
+            title,
+            70.,
+            40.,
+            36,
+            Color::from_rgb(0.08, 0.065, 0.055),
+        );
+        Self::text(
+            menu,
+            "OVERSTEER // LONDON",
+            450.,
+            57.,
+            13,
+            Color::from_rgb(0.58, 0.64, 0.72),
+        );
+        for (value, x, width, color) in [
+            (
+                self.league_label(snap.career.league).to_uppercase(),
+                1060.,
+                250.,
+                Color::from_rgb(0.58, 0.64, 0.72),
+            ),
+            (
+                format!("{} WINS", snap.career.wins),
+                1326.,
+                128.,
+                Color::WHITE,
+            ),
+            (
+                money(snap.career.cash),
+                1470.,
+                176.,
+                Color::from_rgb(0.204, 0.827, 0.600),
+            ),
+            (
+                format!(
+                    "CART {} · {}",
+                    snap.cart.len(),
+                    money(i64::from(
+                        snap.cart.iter().map(|item| item.cost).sum::<u32>()
+                    ))
+                ),
+                1662.,
+                190.,
+                Color::WHITE,
+            ),
+        ] {
+            Self::rect(
+                menu,
+                Vector2::new(x, 46.),
+                Vector2::new(width, 36.),
+                Color::from_rgba(1., 0.85, 0.65, 0.035),
+            );
+            let mut pill = Self::text(menu, &value, x, 54., 16, color);
+            pill.set_size(Vector2::new(width, 24.));
+            pill.set_horizontal_alignment(godot::global::HorizontalAlignment::CENTER);
+        }
+    }
+    fn paint_context(&self, parent: &mut Gd<Control>) {
+        let snap = self.game.as_ref().unwrap().frame_snapshot();
+        self.status_header(parent, &snap, "PAINT STUDIO");
+        let name = self
+            .content
+            .cars
+            .iter()
+            .find(|car| car.id == snap.selected_car)
+            .map(|car| vehicle_name(&car.name))
+            .unwrap_or_default();
+        Self::text(
+            parent,
+            &name,
+            72.,
+            100.,
+            22,
+            Color::from_rgb(0.67, 0.74, 0.77),
+        );
+    }
+    fn paint_stage_chrome(parent: &mut Gd<Control>, title: &str, price: u32) -> Gd<Label> {
+        Self::chrome(parent, Vector2::new(48., 224.), Vector2::new(420., 752.));
+        let mut heading = Self::text(parent, title, 72., 244., 24, Color::WHITE);
+        heading.set_size(Vector2::new(392., 72.));
+        heading.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+        Self::text(
+            parent,
+            &format!("Selection total: {}", money(i64::from(price))),
+            72.,
+            916.,
+            22,
+            Color::from_rgb(0.67, 0.74, 0.77),
+        )
+    }
+    fn reference_main(&mut self, menu: &mut Gd<Control>) {
+        Self::fade(menu, Vector2::ZERO, Vector2::new(960., 1080.), false, 0.95);
+        Self::racing_plate(
+            menu,
+            Vector2::new(0., 60.),
+            Vector2::new(680., 44.),
+            ui_accent(),
+        );
+        Self::text(
+            menu,
+            "LONDON // STREET & CIRCUIT",
+            84.,
+            72.,
+            18,
+            Color::from_rgb(0.08, 0.065, 0.055),
+        );
+        Self::text(menu, "OVERSTEER", 72., 120., 92, ui_paper());
         Self::text(
             menu,
             "Find your line.",
             85.,
-            205.,
+            238.,
             26,
             Color::from_rgb(0.67, 0.74, 0.77),
         );
@@ -4569,24 +6249,60 @@ impl OversteerApp {
         .iter()
         .enumerate()
         {
-            self.button(menu, label, key, 80., 380. + i as f32 * 96., 540., 72.);
+            self.button(
+                menu,
+                label,
+                key,
+                if i < 2 { 80. } else { 112. },
+                [352., 458., 640., 708., 828.][i],
+                if i < 2 { 560. } else { 420. },
+                if i < 2 { 88. } else { 48. },
+            );
+            if let Some(mut button) = menu
+                .get_child(menu.get_child_count() - 1)
+                .and_then(|node| node.try_cast::<Button>().ok())
+            {
+                button.add_theme_font_override("font", &display_font(true));
+                button.add_theme_font_size_override("font_size", if i < 2 { 48 } else { 28 });
+                button.add_theme_color_override("font_color", ui_paper());
+                for state in ["normal", "hover", "pressed", "focus"] {
+                    let mut normal = godot::classes::StyleBoxFlat::new_gd();
+                    normal.set_bg_color(if state == "normal" {
+                        Color::TRANSPARENT_BLACK
+                    } else {
+                        ui_accent()
+                    });
+                    normal.set_content_margin(godot::builtin::Side::LEFT, 16.);
+                    normal.set_skew(Vector2::new(-0.12, 0.));
+                    button.add_theme_stylebox_override(state, &normal);
+                }
+                for state in ["font_focus_color", "font_hover_color", "font_pressed_color"] {
+                    button.add_theme_color_override(state, Color::from_rgb(0.043, 0.063, 0.078));
+                }
+            }
         }
+        let mut context = Self::text(
+            menu,
+            "Earn cars and advance through the career tiers.",
+            80.,
+            904.,
+            22,
+            Color::from_rgb(0.67, 0.74, 0.77),
+        );
+        context.set_name("ActivityContext");
+        context.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+        context.set_size(Vector2::new(540., 64.));
         Self::text(
             menu,
             "CIRCUIT  /  DRIFT  /  YOUR GARAGE",
             85.,
             975.,
             18,
-            Color::from_rgb(0.52, 0.78, 0.76),
+            ui_accent(),
         );
     }
     fn reference_home(&self, menu: &mut Gd<Control>, snap: &GameSnapshot) {
-        Self::rect(
-            menu,
-            Vector2::ZERO,
-            Vector2::new(650., 1080.),
-            Color::from_rgba(0.035, 0.045, 0.055, 0.94),
-        );
+        Self::fade(menu, Vector2::ZERO, Vector2::new(850., 1080.), false, 0.95);
         Self::text(menu, "CAREER", 70., 80., 54, Color::WHITE);
         Self::text(
             menu,
@@ -4599,15 +6315,59 @@ impl OversteerApp {
         Self::text(
             menu,
             &format!(
-                "{}   /   ${}",
+                "{}   /   {}",
                 self.league_label(snap.career.league),
-                snap.career.cash
+                money(snap.career.cash)
             ),
             74.,
             220.,
             26,
-            Color::from_rgb(0.52, 0.78, 0.76),
+            ui_accent(),
         );
+        let car = snap
+            .cars
+            .iter()
+            .find(|car| car.id == snap.selected_car)
+            .map(|car| vehicle_name(&car.name))
+            .unwrap_or_default();
+        let progress = &snap.league_progress;
+        let complete = progress
+            .goals
+            .iter()
+            .filter(|g| g.goal.qualifier)
+            .any(|g| g.progress.complete);
+        let next = snap
+            .events
+            .iter()
+            .find(|e| {
+                e.league == snap.career.league
+                    && !snap.career.completed_events.contains(&e.id)
+                    && (!e.qualifier || progress.promotion_open)
+            })
+            .map(|e| e.name.as_str())
+            .unwrap_or("All tier events won");
+        let summary = format!(
+            "{car}\n{} / {} event goals complete\nNext: {next}\n{}",
+            progress.optional_completed,
+            progress.optional_required,
+            if complete {
+                "Promotion complete. Events remain available."
+            } else if progress.promotion_open {
+                "Promotion race available in Race Events."
+            } else {
+                "Win circuit and drift to open promotion."
+            }
+        );
+        let mut summary = Self::text(
+            menu,
+            &summary,
+            74.,
+            276.,
+            22,
+            Color::from_rgb(0.67, 0.74, 0.77),
+        );
+        summary.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+        summary.set_size(Vector2::new(510., 144.));
         for (i, (label, key)) in [
             ("RACE EVENTS", "career_events"),
             ("PROGRESSION", "career_goals"),
@@ -4619,7 +6379,180 @@ impl OversteerApp {
         .iter()
         .enumerate()
         {
-            self.button(menu, label, key, 70., 345. + i as f32 * 91., 510., 70.);
+            self.button(menu, label, key, 70., 456. + i as f32 * 80., 510., 60.);
+        }
+    }
+    fn course_outline(menu: &mut Gd<Control>, track: &TrackDefinition, area: Rect2) {
+        let (center, _) = map_transform(&track.points);
+        let mut extent = Vector2::ZERO;
+        for point in &track.points {
+            extent.x = extent.x.max((point[0] - center.x).abs());
+            extent.y = extent.y.max((point[2] - center.y).abs());
+        }
+        let scale =
+            (area.size.x / (extent.x * 2.).max(1.)).min(area.size.y / (extent.y * 2.).max(1.));
+        let mut points: Vec<_> = track
+            .points
+            .iter()
+            .map(|p| area.center() + (Vector2::new(p[0], p[2]) - center) * scale)
+            .collect();
+        if let Some(first) = points.first().copied() {
+            points.push(first);
+        }
+        let mut line = godot::classes::Line2D::new_alloc();
+        line.set_points(&PackedVector2Array::from(points));
+        line.set_width(3.);
+        line.set_default_color(ui_accent());
+        menu.add_child(&line);
+    }
+    fn vehicle_dossier(&self, menu: &mut Gd<Control>, snap: &GameSnapshot, car: &CarDefinition) {
+        let muted = Color::from_rgb(0.58, 0.64, 0.72);
+        Self::chrome(menu, Vector2::new(1412., 160.), Vector2::new(460., 560.));
+        Self::text(menu, "VEHICLE DOSSIER", 1436., 182., 18, ui_accent());
+        let mut name = Self::text(
+            menu,
+            &vehicle_name(&car.name),
+            1436.,
+            220.,
+            30,
+            Color::WHITE,
+        );
+        name.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+        name.set_size(Vector2::new(412., 90.));
+        Self::text(menu, &self.league_label(car.league), 1436., 316., 20, muted);
+        Self::text(
+            menu,
+            &format!("{:.0} kg  ·  {:?}", car.handling.mass, car.handling.layout),
+            1436.,
+            350.,
+            20,
+            Color::WHITE,
+        );
+        Self::text(
+            menu,
+            "BASE SPECIFICATIONS / ROSTER SCALE",
+            1436.,
+            400.,
+            15,
+            muted,
+        );
+        for (row, (label, value, maximum, unit)) in [
+            (
+                "POWER",
+                car.handling.peak_bhp,
+                snap.cars
+                    .iter()
+                    .map(|c| c.handling.peak_bhp)
+                    .fold(1., f32::max),
+                "bhp",
+            ),
+            (
+                "TORQUE",
+                car.handling.peak_torque,
+                snap.cars
+                    .iter()
+                    .map(|c| c.handling.peak_torque)
+                    .fold(1., f32::max),
+                "Nm",
+            ),
+            (
+                "TYRE GRIP",
+                car.handling.tyre_mu,
+                snap.cars
+                    .iter()
+                    .map(|c| c.handling.tyre_mu)
+                    .fold(1., f32::max),
+                "μ",
+            ),
+        ]
+        .iter()
+        .enumerate()
+        {
+            let y = 440. + row as f32 * 60.;
+            Self::text(menu, label, 1436., y, 16, muted);
+            let mut number = Self::text(
+                menu,
+                &if *unit == "μ" {
+                    format!("{value:.2} {unit}")
+                } else {
+                    format!("{value:.0} {unit}")
+                },
+                1696.,
+                y - 3.,
+                20,
+                Color::WHITE,
+            );
+            number.set_size(Vector2::new(152., 28.));
+            number.set_horizontal_alignment(godot::global::HorizontalAlignment::RIGHT);
+            Self::rect(
+                menu,
+                Vector2::new(1436., y + 30.),
+                Vector2::new(412., 4.),
+                Color::from_rgba(1., 1., 1., 0.12),
+            );
+            Self::rect(
+                menu,
+                Vector2::new(1436., y + 30.),
+                Vector2::new(412. * value / maximum, 4.),
+                ui_accent(),
+            );
+        }
+        let owned = snap.career.garage.get(&car.id);
+        let status = if owned.is_some() {
+            "OWNED"
+        } else if i64::from(car.price) > snap.career.cash {
+            "INSUFFICIENT FUNDS"
+        } else {
+            "AVAILABLE"
+        };
+        Self::text(
+            menu,
+            status,
+            1436.,
+            636.,
+            16,
+            if status == "INSUFFICIENT FUNDS" {
+                Color::from_rgb(0.973, 0.443, 0.443)
+            } else {
+                Color::from_rgb(0.204, 0.827, 0.600)
+            },
+        );
+        Self::text(
+            menu,
+            &format!(
+                "{}  {}",
+                if snap.screen == GameScreen::Garage {
+                    "Base value"
+                } else {
+                    "Purchase"
+                },
+                money(i64::from(car.price))
+            ),
+            1436.,
+            665.,
+            26,
+            Color::WHITE,
+        );
+        if let Some(custom) = owned.filter(|_| snap.screen == GameScreen::Garage) {
+            Self::text(
+                menu,
+                &format!(
+                    "Installed E{} / T{} / S{} / TY{}",
+                    custom.engine, custom.transmission, custom.suspension, custom.tyres
+                ),
+                540.,
+                944.,
+                20,
+                muted,
+            );
+            Self::text(
+                menu,
+                &format!("Sale proceeds {}", money(i64::from(car.price / 2))),
+                1436.,
+                978.,
+                18,
+                muted,
+            );
         }
     }
     fn car_picker(&self, menu: &mut Gd<Control>, snap: &GameSnapshot, y: f32, owned: bool) {
@@ -4629,8 +6562,16 @@ impl OversteerApp {
             .filter(|c| !owned || snap.career.garage.contains_key(&c.id))
             .collect();
         if matches!(snap.screen, GameScreen::QuickRace | GameScreen::Career) {
-            self.button(menu, "◀ CAR", "car_prev", 1060., 865., 210., 55.);
-            self.button(menu, "CAR ▶", "car_next", 1550., 865., 210., 55.);
+            Self::text(
+                menu,
+                "VEHICLE",
+                636.,
+                792.,
+                20,
+                Color::from_rgb(0.67, 0.74, 0.77),
+            );
+            self.button(menu, "◀", "car_prev", 548., 824., 64., 104.);
+            self.button(menu, "▶", "car_next", 1320., 824., 64., 104.);
             return;
         }
         let selected = cars
@@ -4639,49 +6580,98 @@ impl OversteerApp {
             .unwrap_or(0);
         let page = selected / 10;
         for (row, car) in cars.iter().skip(page * 10).take(10).enumerate() {
-            self.button(
+            let row_y = y + row as f32 * 54.;
+            self.button(menu, "", &format!("car:{}", car.id), 50., row_y, 430., 49.);
+            let mut name = Self::text(
                 menu,
-                &format!(
-                    "{} {}",
-                    if car.id == snap.selected_car {
-                        "▶"
-                    } else {
-                        " "
-                    },
-                    car.name
-                ),
-                &format!("car:{}", car.id),
-                50.,
-                y + row as f32 * 54.,
-                450.,
-                49.,
+                &vehicle_name(&car.name),
+                66.,
+                row_y + 3.,
+                18,
+                if car.id == snap.selected_car {
+                    ui_accent()
+                } else {
+                    Color::WHITE
+                },
             );
+            name.set_size(Vector2::new(398., 24.));
+            name.set_clip_text(true);
+            name.set_text_overrun_behavior(
+                godot::classes::text_server::OverrunBehavior::TRIM_ELLIPSIS,
+            );
+            Self::text(
+                menu,
+                &format!("TIER {}", car.league + 1),
+                66.,
+                row_y + 28.,
+                13,
+                Color::from_rgb(0.58, 0.64, 0.72),
+            );
+            let owned = snap.career.garage.contains_key(&car.id);
+            let mut price = Self::text(
+                menu,
+                &if owned {
+                    "OWNED".into()
+                } else {
+                    money(i64::from(car.price))
+                },
+                300.,
+                row_y + 26.,
+                15,
+                if !owned && i64::from(car.price) > snap.career.cash {
+                    Color::from_rgb(0.973, 0.443, 0.443)
+                } else {
+                    Color::from_rgb(0.58, 0.64, 0.72)
+                },
+            );
+            price.set_size(Vector2::new(164., 22.));
+            price.set_horizontal_alignment(godot::global::HorizontalAlignment::RIGHT);
         }
+        Self::text(
+            menu,
+            &format!("{} of {}", selected + 1, cars.len()),
+            60.,
+            784.,
+            20,
+            Color::from_rgb(0.67, 0.74, 0.77),
+        );
         self.button(menu, "◀ PREV", "car_prev", 60., 820., 200., 54.);
         self.button(menu, "NEXT ▶", "car_next", 280., 820., 200., 54.);
     }
+    fn cart_item_name(&self, item: &CartItem) -> String {
+        let custom = self
+            .game
+            .as_ref()
+            .unwrap()
+            .snapshot()
+            .selected_customization;
+        if item.car_id != self.game.as_ref().unwrap().frame_snapshot().selected_car {
+            return item.label.clone();
+        }
+        match item.field.as_str() {
+            "wheels" => format!("{} wheels", custom.wheels),
+            "paint" => format!("{} body paint", custom.finish),
+            "engine" => format!("Engine · Stage {}", custom.engine),
+            "transmission" => format!("Transmission · Stage {}", custom.transmission),
+            "suspension" => format!("Suspension · Stage {}", custom.suspension),
+            "tyres" => format!("Tyres · Stage {}", custom.tyres),
+            field if field.starts_with("part:") => format!(
+                "{} · {}",
+                item.label,
+                custom
+                    .parts
+                    .get(&field[5..])
+                    .map_or("stock", String::as_str)
+            ),
+            _ => item.label.clone(),
+        }
+    }
     fn checkout_menu(&self, menu: &mut Gd<Control>, snap: &GameSnapshot) {
-        let white = Color::WHITE;
-        let muted = Color::from_rgb(0.67, 0.74, 0.77);
-        let accent = Color::from_rgb(0.52, 0.78, 0.76);
+        let muted = Color::from_rgb(0.58, 0.64, 0.72);
         let total = snap.cart.iter().map(|item| item.cost).sum::<u32>();
-        Self::rect(
-            menu,
-            Vector2::ZERO,
-            Vector2::new(1920., 1080.),
-            Color::from_rgba(0.035, 0.045, 0.055, 0.98),
-        );
-        Self::text(menu, "MODIFICATIONS", 80., 65., 48, white);
-        Self::text(
-            menu,
-            "Review your parts before purchasing.",
-            84.,
-            135.,
-            24,
-            muted,
-        );
-        Self::text(menu, "ITEM", 90., 210., 20, muted);
-        Self::text(menu, "PRICE", 1040., 210., 20, muted);
+        self.status_header(menu, snap, "MODIFICATIONS");
+        Self::chrome(menu, Vector2::new(48., 160.), Vector2::new(400., 788.));
+        Self::text(menu, "SELECTED ITEMS", 72., 182., 18, ui_accent());
         let pages = snap.cart.len().div_ceil(8).max(1);
         let page = self.cart_page.min(pages - 1);
         let selected = snap
@@ -4690,53 +6680,140 @@ impl OversteerApp {
             .find(|item| item.id == self.cart_selected)
             .or_else(|| snap.cart.get(page * 8));
         for (index, item) in snap.cart.iter().skip(page * 8).take(8).enumerate() {
-            let y = 250. + index as f32 * 70.;
-            if selected.is_some_and(|selected| selected.id == item.id) {
-                Self::chrome(menu, Vector2::new(80., y), Vector2::new(1130., 64.));
-            }
-            let car = self
-                .content
+            let y = 226. + index as f32 * 80.;
+            let active = selected.is_some_and(|selected| selected.id == item.id);
+            self.button(
+                menu,
+                "",
+                &format!("cart_select:{}", item.id),
+                64.,
+                y,
+                368.,
+                76.,
+            );
+            let mut name = Self::text(
+                menu,
+                &self.cart_item_name(item),
+                80.,
+                y + 5.,
+                19,
+                if active { ui_accent() } else { Color::WHITE },
+            );
+            name.set_size(Vector2::new(336., 24.));
+            name.set_clip_text(true);
+            name.set_text_overrun_behavior(
+                godot::classes::text_server::OverrunBehavior::TRIM_ELLIPSIS,
+            );
+            let car = snap
                 .cars
                 .iter()
                 .find(|car| car.id == item.car_id)
-                .map(|car| car.name.as_str())
-                .unwrap_or(&item.car_id);
-            self.button(
-                menu,
-                &format!("{} — {}", item.label, car),
-                &format!("cart_select:{}", item.id),
-                90.,
-                y,
-                900.,
-                64.,
+                .map(|car| vehicle_name(&car.name))
+                .unwrap_or_else(|| item.car_id.clone());
+            let mut car_label = Self::text(menu, &car, 80., y + 29., 12, muted);
+            car_label.set_size(Vector2::new(336., 18.));
+            car_label.set_clip_text(true);
+            car_label.set_text_overrun_behavior(
+                godot::classes::text_server::OverrunBehavior::TRIM_ELLIPSIS,
             );
-            Self::text(menu, &format!("${}", item.cost), 1040., y + 17., 26, white);
+            let mut price =
+                Self::text(menu, &money(i64::from(item.cost)), 280., y + 49., 16, muted);
+            price.set_size(Vector2::new(136., 22.));
+            price.set_horizontal_alignment(godot::global::HorizontalAlignment::RIGHT);
+            if active {
+                self.button(
+                    menu,
+                    "REMOVE",
+                    &format!("cart_remove:{}", item.id),
+                    80.,
+                    y + 48.,
+                    132.,
+                    28.,
+                );
+            }
         }
         if snap.cart.is_empty() {
-            Self::text(menu, "No modifications selected.", 90., 280., 28, muted);
+            Self::text(
+                menu,
+                "No modifications selected.",
+                72.,
+                238.,
+                22,
+                Color::WHITE,
+            );
+            Self::text(
+                menu,
+                "Keep customising to build your car.",
+                72.,
+                284.,
+                18,
+                muted,
+            );
         }
-        Self::chrome(menu, Vector2::new(1280., 210.), Vector2::new(560., 420.));
-        Self::text(menu, "BALANCE", 1320., 245., 20, muted);
-        Self::text(
+        if pages > 1 {
+            self.button(menu, "PREV", "cart_prev", 72., 884., 112., 40.);
+            Self::text(
+                menu,
+                &format!("{} / {}", page + 1, pages),
+                216.,
+                891.,
+                20,
+                muted,
+            );
+            self.button(menu, "NEXT", "cart_next", 312., 884., 112., 40.);
+        }
+        Self::chrome(menu, Vector2::new(1412., 160.), Vector2::new(460., 500.));
+        Self::text(menu, "PURCHASE SUMMARY", 1436., 182., 18, ui_accent());
+        for (row, (label, value)) in [
+            ("CURRENT CASH", snap.career.cash),
+            ("CART TOTAL", i64::from(total)),
+            ("AFTER PURCHASE", snap.career.cash - i64::from(total)),
+        ]
+        .iter()
+        .enumerate()
+        {
+            let y = 242. + row as f32 * 128.;
+            Self::text(menu, label, 1436., y, 16, muted);
+            Self::text(
+                menu,
+                &money(*value),
+                1436.,
+                y + 30.,
+                40,
+                if *value < 0 {
+                    Color::from_rgb(0.973, 0.443, 0.443)
+                } else if row == 1 {
+                    ui_accent()
+                } else {
+                    Color::WHITE
+                },
+            );
+            Self::rect(
+                menu,
+                Vector2::new(1436., y + 102.),
+                Vector2::new(412., 1.),
+                Color::from_rgba(1., 1., 1., 0.1),
+            );
+        }
+        if i64::from(total) > snap.career.cash {
+            Self::text(
+                menu,
+                "Insufficient funds",
+                1436.,
+                678.,
+                22,
+                Color::from_rgb(0.973, 0.443, 0.443),
+            );
+        }
+        self.button(
             menu,
-            &format!("${}", snap.career.cash),
-            1320.,
-            280.,
-            34,
-            white,
+            &format!("PURCHASE · {}", money(i64::from(total))),
+            "checkout",
+            1436.,
+            740.,
+            412.,
+            52.,
         );
-        Self::text(menu, "TOTAL", 1320., 355., 20, muted);
-        Self::text(menu, &format!("${total}"), 1320., 390., 40, accent);
-        Self::text(menu, "AFTER PURCHASE", 1320., 475., 20, muted);
-        Self::text(
-            menu,
-            &format!("${}", snap.career.cash - i64::from(total)),
-            1320.,
-            510.,
-            34,
-            white,
-        );
-        self.button(menu, "PURCHASE", "checkout", 80., 960., 400., 58.);
         if let Some(child) = menu.get_child(menu.get_child_count() - 1)
             && let Ok(mut button) = child.try_cast::<Button>()
         {
@@ -4744,124 +6821,330 @@ impl OversteerApp {
         }
         self.button(
             menu,
-            "KEEP CUSTOMIZING",
+            "KEEP CUSTOMISING",
             "nav:custom",
-            510.,
-            960.,
-            440.,
-            58.,
+            1436.,
+            812.,
+            412.,
+            52.,
         );
-        if let Some(item) = selected {
-            self.button(
-                menu,
-                "REMOVE ITEM",
-                &format!("cart_remove:{}", item.id),
-                990.,
-                960.,
-                400.,
-                58.,
-            );
+        self.button(menu, "DISCARD ALL", "discard_cart", 1436., 912., 412., 48.);
+    }
+    fn wheel_thumbnail(
+        &self,
+        menu: &mut Gd<Control>,
+        car: &CarDefinition,
+        style: &str,
+        position: Vector2,
+    ) {
+        let mut wheel = if style == "stock" {
+            let donor = Self::load_scene(&car.model_path);
+            let copy = donor
+                .find_child_ex("wheel_front_left")
+                .owned(false)
+                .done()
+                .map(|node| node.duplicate_node())
+                .and_then(|node| node.try_cast::<Node3D>().ok());
+            donor.free();
+            let Some(copy) = copy else { return };
+            copy
+        } else {
+            Self::load_scene(&format!("res://assets/wheels/{style}.glb"))
+        };
+        wheel.set_transform(Transform3D::IDENTITY);
+        let mut viewport = godot::classes::SubViewport::new_alloc();
+        viewport.set_size(Vector2i::new(128, 128));
+        viewport.set_use_own_world_3d(true);
+        viewport.set_transparent_background(true);
+        viewport.set_update_mode(godot::classes::sub_viewport::UpdateMode::ONCE);
+        menu.add_child(&viewport);
+        viewport.add_child(&wheel);
+        if let Some(bounds) = world_mesh_bounds(&wheel) {
+            let center = (bounds[0] + bounds[1]) * 0.5;
+            let extent = bounds[1] - bounds[0];
+            let diameter = extent.y.max(extent.z).max(0.1);
+            let mut camera = Camera3D::new_alloc();
+            camera.set_projection(godot::classes::camera_3d::ProjectionType::ORTHOGONAL);
+            camera.set_size(diameter * 1.2);
+            camera.set_position(center + Vector3::new(-diameter * 3., 0., 0.));
+            viewport.add_child(&camera);
+            camera.look_at(center);
+            camera.make_current();
+            let mut light = DirectionalLight3D::new_alloc();
+            light.set_rotation_degrees(Vector3::new(-25., -75., 0.));
+            light.set_param(godot::classes::light_3d::Param::ENERGY, 2.);
+            viewport.add_child(&light);
+            let mut environment = Environment::new_gd();
+            environment.set_ambient_source(godot::classes::environment::AmbientSource::COLOR);
+            environment.set_ambient_light_color(Color::WHITE);
+            environment.set_ambient_light_energy(0.8);
+            let mut world = WorldEnvironment::new_alloc();
+            world.set_environment(&environment);
+            viewport.add_child(&world);
         }
-        self.button(menu, "DISCARD ALL", "discard_cart", 1430., 960., 400., 58.);
-        if pages > 1 {
-            self.button(menu, "PREVIOUS", "cart_prev", 80., 850., 260., 50.);
-            Self::text(
-                menu,
-                &format!("{} / {}", page + 1, pages),
-                580.,
-                860.,
-                24,
-                muted,
-            );
-            self.button(menu, "NEXT", "cart_next", 950., 850., 260., 50.);
-        }
+        let mut image = godot::classes::TextureRect::new_alloc();
+        image.set_texture(&viewport.get_texture().unwrap());
+        image.set_expand_mode(godot::classes::texture_rect::ExpandMode::IGNORE_SIZE);
+        image.set_position(position);
+        image.set_size(Vector2::new(64., 64.));
+        image.set_mouse_filter(godot::classes::control::MouseFilter::IGNORE);
+        menu.add_child(&image);
+    }
+    fn interior_part_preview(&self, menu: &mut Gd<Control>, car: &CarDefinition) {
+        let catalog: serde_json::Value = serde_json::from_str(
+            &FileAccess::get_file_as_string("res://assets/kits.json").to_string(),
+        )
+        .unwrap_or_default();
+        let Some(kit) = catalog["kits"].as_array().and_then(|kits| {
+            kits.iter().find(|kit| {
+                kit["kind"].as_str() == Some("interior")
+                    && kit["compatible_cars"].as_array().is_some_and(|cars| {
+                        cars.iter().any(|id| id.as_str() == Some(car.id.as_str()))
+                    })
+                    && car.parts.iter().any(|(slot, options)| {
+                        self.customization.parts.get(slot).is_some_and(|selected| {
+                            options.contains(selected)
+                                && kit["id"].as_str() == Some(selected.as_str())
+                        })
+                    })
+            })
+        }) else {
+            return;
+        };
+        let Some(path) = kit["model_path"].as_str() else {
+            return;
+        };
+        let part = Self::load_scene(path);
+        let mut viewport = godot::classes::SubViewport::new_alloc();
+        viewport.set_size(Vector2i::new(256, 256));
+        viewport.set_use_own_world_3d(true);
+        viewport.set_transparent_background(true);
+        viewport.set_update_mode(godot::classes::sub_viewport::UpdateMode::ONCE);
+        menu.add_child(&viewport);
+        viewport.add_child(&part);
+        let Some(bounds) = world_mesh_bounds(&part) else {
+            viewport.queue_free();
+            return;
+        };
+        let center = (bounds[0] + bounds[1]) * 0.5;
+        let diameter = (bounds[1] - bounds[0]).length().max(0.1);
+        let mut camera = Camera3D::new_alloc();
+        camera.set_projection(godot::classes::camera_3d::ProjectionType::ORTHOGONAL);
+        camera.set_size(diameter * 1.1);
+        camera.set_position(center + Vector3::new(1., 0.5, -1.5).normalized() * diameter * 3.);
+        viewport.add_child(&camera);
+        camera.look_at(center);
+        camera.make_current();
+        let mut light = DirectionalLight3D::new_alloc();
+        light.set_rotation_degrees(Vector3::new(-35., -140., 0.));
+        light.set_param(godot::classes::light_3d::Param::ENERGY, 2.);
+        viewport.add_child(&light);
+        let mut environment = Environment::new_gd();
+        environment.set_ambient_source(godot::classes::environment::AmbientSource::COLOR);
+        environment.set_ambient_light_color(Color::WHITE);
+        environment.set_ambient_light_energy(0.8);
+        let mut world = WorldEnvironment::new_alloc();
+        world.set_environment(&environment);
+        viewport.add_child(&world);
+        Self::chrome(menu, Vector2::new(520., 224.), Vector2::new(480., 220.));
+        Self::text(menu, "PART PREVIEW", 544., 244., 24, ui_paper());
+        Self::text(
+            menu,
+            &readable_name(kit["category"].as_str().unwrap_or("interior")),
+            544.,
+            288.,
+            20,
+            ui_accent(),
+        );
+        Self::text(menu, "Selected interior", 544., 396., 16, ui_paper());
+        let mut image = godot::classes::TextureRect::new_alloc();
+        image.set_texture(&viewport.get_texture().unwrap());
+        image.set_expand_mode(godot::classes::texture_rect::ExpandMode::IGNORE_SIZE);
+        image.set_position(Vector2::new(768., 232.));
+        image.set_size(Vector2::new(208., 208.));
+        image.set_mouse_filter(godot::classes::control::MouseFilter::IGNORE);
+        menu.add_child(&image);
     }
     fn custom_menu(&self, menu: &mut Gd<Control>, snap: &GameSnapshot) {
-        let white = Color::WHITE;
+        let white = Color::from_rgb(0.953, 0.961, 0.957);
+        let muted = Color::from_rgb(0.667, 0.722, 0.753);
+        let accent = ui_accent();
+        let car = snap.cars.iter().find(|car| car.id == snap.selected_car);
+        let installed = snap.career.garage.get(&snap.selected_car);
+        self.status_header(
+            menu,
+            snap,
+            match self.custom_page.as_str() {
+                "wheels" => "WHEELS",
+                "vinyl" => "VINYL STUDIO",
+                "performance" => "PERFORMANCE",
+                "parts" => "BODY PARTS",
+                _ => "PAINT STYLE",
+            },
+        );
+        Self::text(
+            menu,
+            &car.map(|car| vehicle_name(&car.name)).unwrap_or_default(),
+            72.,
+            106.,
+            20,
+            muted,
+        );
+        for (index, (title, page)) in [
+            ("Paint", "paint"),
+            ("Wheels", "wheels"),
+            ("Vinyls", "vinyl"),
+            ("Performance", "performance"),
+            ("Body parts", "parts"),
+        ]
+        .iter()
+        .enumerate()
+        {
+            let x = 48. + index as f32 * 368.;
+            self.button(
+                menu,
+                title,
+                &format!("custom_page:{page}"),
+                x,
+                144.,
+                352.,
+                56.,
+            );
+            if self.custom_page == *page {
+                Self::rect(menu, Vector2::new(x, 198.), Vector2::new(352., 4.), accent);
+            }
+        }
+        Self::chrome(menu, Vector2::new(48., 224.), Vector2::new(420., 752.));
         let title = match self.custom_page.as_str() {
-            "wheels" => "ALLOY WHEELS",
-            "vinyl" => "VINYLS",
-            "performance" => "TUNING PACK",
-            "parts" => "MOD BODY PARTS",
-            _ => "PAINT STYLE",
+            "wheels" => "WHEEL DESIGN",
+            "vinyl" => "LAYER",
+            "performance" => "UPGRADES",
+            "parts" => "BODY PARTS",
+            _ => "COLOUR & FINISH",
         };
-        Self::chrome(menu, Vector2::new(0., 85.), Vector2::new(1000., 90.));
-        Self::text(menu, title, 155., 95., 43, white);
-        Self::chrome(menu, Vector2::new(120., 175.), Vector2::new(450., 55.));
-        Self::text(
-            menu,
-            &format!("$ {}", snap.career.cash),
-            180.,
-            180.,
-            29,
-            white,
-        );
-        Self::chrome(menu, Vector2::new(1360., 85.), Vector2::new(560., 95.));
-        Self::text(
-            menu,
-            &format!(
-                "ITEMS: {}    ${}",
-                snap.cart.len(),
-                snap.cart.iter().map(|item| item.cost).sum::<u32>()
-            ),
-            1410.,
-            110.,
-            28,
-            white,
-        );
-        Self::rect(
-            menu,
-            Vector2::new(0., 755.),
-            Vector2::new(1920., 325.),
-            Color::from_rgba(0.035, 0.045, 0.055, 0.96),
-        );
+        Self::text(menu, title, 72., 244., 28, white);
+        let status = |field: &str, selected: bool, is_installed: bool| {
+            if is_installed {
+                "Installed"
+            } else if selected
+                && snap
+                    .cart
+                    .iter()
+                    .any(|item| item.car_id == snap.selected_car && item.field == field)
+            {
+                "In cart"
+            } else if selected {
+                "Preview"
+            } else {
+                ""
+            }
+        };
+        let quote = |custom: &Customization, field: &str| {
+            self.game
+                .as_ref()
+                .unwrap()
+                .quote_customization(custom)
+                .iter()
+                .filter(|item| item.field == field)
+                .map(|item| item.cost)
+                .sum::<u32>()
+        };
         match self.custom_page.as_str() {
             "paint" => {
                 self.palette(
                     menu,
-                    "PAINT COLOR",
+                    "Colour…",
                     "body",
                     self.customization.paint,
-                    70.,
-                    815.,
-                    300.,
+                    72.,
+                    304.,
+                    392.,
                 );
+                Self::text(menu, "FINISH", 72., 392., 20, muted);
                 for (index, finish) in ["gloss", "metallic", "matt", "pearl", "flake", "thinfilm"]
                     .iter()
                     .enumerate()
                 {
+                    let mut record = paint::donor_seed(&self.customization);
+                    let rgb = self.customization.paint;
+                    let cost =
+                        if paint::color(&mut record, finish, 0, [rgb[0], rgb[1], rgb[2]]).is_ok() {
+                            self.game
+                                .as_ref()
+                                .unwrap()
+                                .quote_native_paint(&record)
+                                .map_or(0, |item| item.cost)
+                        } else {
+                            0
+                        };
                     self.button(
                         menu,
-                        &finish.to_uppercase(),
+                        &format!("{}  ·  {}", finish_name(finish), money(i64::from(cost))),
                         &format!("finish:{finish}"),
-                        400. + index as f32 * 230.,
-                        815.,
-                        220.,
-                        62.,
+                        72.,
+                        424. + index as f32 * 72.,
+                        392.,
+                        44.,
+                    );
+                    Self::text(
+                        menu,
+                        status(
+                            "paint",
+                            self.customization.finish == *finish,
+                            installed.is_some_and(|c| c.finish == *finish),
+                        ),
+                        80.,
+                        470. + index as f32 * 72.,
+                        18,
+                        accent,
                     );
                 }
-                Self::text(menu, "Choose paint color and finish", 80., 725., 27, white);
+                Self::text(
+                    menu,
+                    "Preview colours, then accept to stage.\nReview purchases in your cart.",
+                    72.,
+                    878.,
+                    20,
+                    muted,
+                );
             }
             "wheels" => {
                 for (index, style) in ["stock", "sport", "mesh", "deep-dish"].iter().enumerate() {
-                    self.button(
+                    let y = 304. + index as f32 * 88.;
+                    let mut candidate = self.customization.clone();
+                    candidate.wheels = (*style).into();
+                    self.button(menu, "", &format!("wheels:{style}"), 72., y, 392., 76.);
+                    if let Some(car) = car {
+                        self.wheel_thumbnail(menu, car, style, Vector2::new(80., y + 6.));
+                    }
+                    Self::text(menu, &readable_name(style), 160., y + 8., 22, white);
+                    let state = status(
+                        "wheels",
+                        self.customization.wheels == *style,
+                        installed.is_some_and(|c| c.wheels == *style),
+                    );
+                    Self::text(
                         menu,
-                        &style.to_uppercase(),
-                        &format!("wheels:{style}"),
-                        400. + index as f32 * 340.,
-                        815.,
-                        320.,
-                        62.,
+                        &format!(
+                            "{}  {}",
+                            money(i64::from(quote(&candidate, "wheels"))),
+                            state
+                        ),
+                        160.,
+                        y + 42.,
+                        18,
+                        if state.is_empty() { muted } else { accent },
                     );
                 }
+                Self::text(menu, "COLOUR", 72., 676., 20, muted);
                 self.palette(
                     menu,
-                    "WHEEL COLOR",
+                    "Wheel colour…",
                     "wheel",
                     self.customization.wheel_paint,
-                    70.,
-                    815.,
-                    300.,
+                    72.,
+                    712.,
+                    392.,
                 );
                 let metadata: serde_json::Value = serde_json::from_str(
                     &FileAccess::get_file_as_string("res://assets/cars.json").to_string(),
@@ -4873,51 +7156,73 @@ impl OversteerApp {
                             && car["plate_socket"].is_object()
                     })
                 }) {
-                    self.button(menu, "PLATE STYLE", "plate_style", 70., 655., 300., 50.);
+                    self.button(menu, "Plate style", "plate_style", 72., 808., 392., 48.);
                     let mut text = godot::classes::LineEdit::new_alloc();
                     text.set_text(&self.customization.plate_text);
-                    text.set_position(Vector2::new(70., 715.));
-                    text.set_size(Vector2::new(300., 45.));
+                    text.set_position(Vector2::new(72., 872.));
+                    text.set_size(Vector2::new(392., 48.));
                     text.connect("text_submitted", &self.base().callable("plate_name"));
                     menu.add_child(&text);
                 }
             }
             "vinyl" => {
-                Self::rect(
-                    menu,
-                    Vector2::new(45., 265.),
-                    Vector2::new(440., 620.),
-                    Color::from_rgba(0.015, 0.02, 0.04, 0.88),
-                );
+                for (y, height) in [(276., 116.), (400., 200.), (604., 292.)] {
+                    Self::rect(
+                        menu,
+                        Vector2::new(64., y),
+                        Vector2::new(408., height),
+                        Color::from_rgba(0.086, 0.11, 0.149, 0.94),
+                    );
+                    Self::rect(
+                        menu,
+                        Vector2::new(64., y),
+                        Vector2::new(2., height),
+                        ui_accent(),
+                    );
+                }
                 let mut layers = godot::classes::OptionButton::new_alloc();
                 for (index, layer) in self.customization.vinyls.iter().enumerate() {
                     layers.add_item(&format!(
-                        "LAYER {}: {}",
+                        "{} / {} · {}",
                         index + 1,
-                        if layer.design_id.is_empty() {
-                            layer.shape.as_str()
-                        } else {
-                            layer.design_id.as_str()
-                        }
+                        self.customization.vinyls.len(),
+                        self.graphic_name(layer)
                     ));
                 }
                 if !self.customization.vinyls.is_empty() {
                     layers.select(self.vinyl_layer as i32);
                 }
-                layers.set_position(Vector2::new(65., 280.));
-                layers.set_size(Vector2::new(400., 44.));
+                layers.set_position(Vector2::new(72., 284.));
+                layers.set_size(Vector2::new(392., 44.));
                 layers.connect("item_selected", &self.base().callable("vinyl_selected"));
                 menu.add_child(&layers);
+                for (index, (label, key)) in
+                    [("Add", "add"), ("Back", "back"), ("Forward", "front")]
+                        .iter()
+                        .enumerate()
+                {
+                    self.button(
+                        menu,
+                        label,
+                        &format!("vinyl:{key}"),
+                        72. + index as f32 * 132.,
+                        344.,
+                        128.,
+                        44.,
+                    );
+                }
+                Self::text(menu, "GRAPHIC & COLOUR", 72., 404., 18, muted);
                 if let Some(categories) = self.decal_catalog["categories"].as_array() {
                     let mut category = godot::classes::OptionButton::new_alloc();
                     for item in categories {
-                        category.add_item(item["name"].as_str().unwrap_or("DECALS"));
+                        category
+                            .add_item(&readable_name(item["name"].as_str().unwrap_or("Graphics")));
                     }
                     if !categories.is_empty() {
                         category.select(self.decal_category.min(categories.len() - 1) as i32);
                     }
-                    category.set_position(Vector2::new(65., 335.));
-                    category.set_size(Vector2::new(400., 44.));
+                    category.set_position(Vector2::new(72., 436.));
+                    category.set_size(Vector2::new(392., 44.));
                     category.connect(
                         "item_selected",
                         &self.base().callable("decal_category_selected"),
@@ -4935,19 +7240,19 @@ impl OversteerApp {
                                     .and_then(|designs| {
                                         designs.iter().find(|design| design["id"] == *id)
                                     });
-                            design.add_item(
+                            design.add_item(&readable_name(
                                 entry
                                     .and_then(|design| design["native_label"].as_str())
-                                    .unwrap_or("DECAL"),
-                            );
+                                    .unwrap_or("Graphic"),
+                            ));
                         }
+                        let selected = self
+                            .customization
+                            .vinyls
+                            .get(self.vinyl_layer)
+                            .map(|layer| layer.design_id.as_str())
+                            .unwrap_or("");
                         if !ids.is_empty() {
-                            let selected = self
-                                .customization
-                                .vinyls
-                                .get(self.vinyl_layer)
-                                .map(|layer| layer.design_id.as_str())
-                                .unwrap_or("");
                             design.select(
                                 ids.iter()
                                     .position(|id| id.as_str() == Some(selected))
@@ -4955,8 +7260,8 @@ impl OversteerApp {
                             );
                         }
                     }
-                    design.set_position(Vector2::new(65., 390.));
-                    design.set_size(Vector2::new(400., 44.));
+                    design.set_position(Vector2::new(72., 492.));
+                    design.set_size(Vector2::new(392., 44.));
                     design.connect(
                         "item_selected",
                         &self.base().callable("decal_design_selected"),
@@ -4964,285 +7269,612 @@ impl OversteerApp {
                     menu.add_child(&design);
                 }
                 if let Some(layer) = self.customization.vinyls.get(self.vinyl_layer) {
-                    self.palette(menu, "VINYL COLOR", "vinyl", layer.color, 65., 445., 400.);
-                }
-                for (index, (label, key)) in [
-                    ("+ LAYER", "add"),
-                    ("DELETE", "remove"),
-                    ("TO FRONT", "front"),
-                    ("TO BACK", "back"),
-                    ("X -", "left"),
-                    ("X +", "right"),
-                    ("Y -", "up"),
-                    ("Y +", "down"),
-                    ("ROTATE +", "rotate"),
-                    ("ROTATE -", "rotate_back"),
-                    ("WIDTH +", "scale_x_up"),
-                    ("WIDTH -", "scale_x_down"),
-                    ("HEIGHT +", "scale_y_up"),
-                    ("HEIGHT -", "scale_y_down"),
-                ]
-                .iter()
-                .enumerate()
-                {
-                    self.button(
-                        menu,
-                        label,
-                        &format!("vinyl:{key}"),
-                        65. + (index % 2) as f32 * 205.,
-                        510. + (index / 2) as f32 * 50.,
-                        195.,
-                        44.,
-                    );
-                }
-                if let Some(layer) = self.customization.vinyls.get(self.vinyl_layer) {
+                    if let Some(path) = self.decal_catalog["designs"]
+                        .as_array()
+                        .and_then(|designs| {
+                            designs
+                                .iter()
+                                .find(|design| design["id"].as_str() == Some(&layer.design_id))
+                        })
+                        .and_then(|design| design["texture_path"].as_str())
+                        && ResourceLoader::singleton().exists(path)
+                    {
+                        let texture = godot::tools::load::<godot::classes::Texture2D>(path);
+                        Self::rect(
+                            menu,
+                            Vector2::new(552., 240.),
+                            Vector2::new(128., 128.),
+                            Color::from_rgb(0.67, 0.72, 0.75),
+                        );
+                        let mut thumbnail = godot::classes::TextureRect::new_alloc();
+                        thumbnail.set_texture(&texture);
+                        thumbnail
+                            .set_expand_mode(godot::classes::texture_rect::ExpandMode::IGNORE_SIZE);
+                        thumbnail.set_stretch_mode(
+                            godot::classes::texture_rect::StretchMode::KEEP_ASPECT_CENTERED,
+                        );
+                        thumbnail.set_position(Vector2::new(560., 248.));
+                        thumbnail.set_size(Vector2::new(112., 112.));
+                        thumbnail.set_mouse_filter(godot::classes::control::MouseFilter::IGNORE);
+                        menu.add_child(&thumbnail);
+                    }
+                    self.palette(menu, "Vinyl colour…", "vinyl", layer.color, 72., 548., 392.);
+                    Self::text(menu, "TRANSFORM", 72., 612., 20, muted);
+                    for (index, (label, minus, value, plus)) in [
+                        ("X", "left", format!("{:.2}", layer.position[0]), "right"),
+                        ("Y", "up", format!("{:.2}", layer.position[1]), "down"),
+                        (
+                            "Angle",
+                            "rotate_back",
+                            format!("{:.1}°", layer.rotation.to_degrees()),
+                            "rotate",
+                        ),
+                        (
+                            "Width",
+                            "scale_x_down",
+                            format!("{:.2}×", layer.scale[0]),
+                            "scale_x_up",
+                        ),
+                        (
+                            "Height",
+                            "scale_y_down",
+                            format!("{:.2}×", layer.scale[1]),
+                            "scale_y_up",
+                        ),
+                    ]
+                    .iter()
+                    .enumerate()
+                    {
+                        let y = 648. + index as f32 * 48.;
+                        Self::text(menu, label, 72., y + 6., 20, white);
+                        self.button(menu, "−", &format!("vinyl:{minus}"), 184., y, 48., 40.);
+                        let mut current = Self::text(menu, value, 240., y + 6., 20, white);
+                        current.set_size(Vector2::new(160., 32.));
+                        current
+                            .set_horizontal_alignment(godot::global::HorizontalAlignment::CENTER);
+                        self.button(menu, "+", &format!("vinyl:{plus}"), 416., y, 48., 40.);
+                    }
+                    self.button(menu, "Delete layer", "vinyl:remove", 72., 912., 392., 44.);
+                } else {
                     Self::text(
                         menu,
-                        &format!(
-                            "X {:.2}   Y {:.2}   ROT {:.1}deg\nWIDTH {:.2}   HEIGHT {:.2}",
-                            layer.position[0],
-                            layer.position[1],
-                            layer.rotation.to_degrees(),
-                            layer.scale[0],
-                            layer.scale[1]
-                        ),
-                        600.,
-                        810.,
-                        28,
-                        white,
+                        "No layers. Add a layer to begin.",
+                        72.,
+                        612.,
+                        20,
+                        muted,
                     );
                 }
             }
             "performance" => {
-                for (index, (name, stage)) in [
-                    ("engine", self.customization.engine),
-                    ("transmission", self.customization.transmission),
-                    ("suspension", self.customization.suspension),
-                    ("tyres", self.customization.tyres),
+                for (index, (name, stage, benefit)) in [
+                    ("engine", self.customization.engine, "Power +12% / stage"),
+                    (
+                        "transmission",
+                        self.customization.transmission,
+                        "Shift time −15% / stage",
+                    ),
+                    (
+                        "suspension",
+                        self.customization.suspension,
+                        "Spring rate +12% / stage",
+                    ),
+                    ("tyres", self.customization.tyres, "Grip +6% / stage"),
                 ]
                 .iter()
                 .enumerate()
                 {
+                    let y = 296. + index as f32 * 64.;
+                    let mut next = self.customization.clone();
+                    let next_stage = (stage + 1) % 4;
+                    match *name {
+                        "engine" => next.engine = next_stage,
+                        "transmission" => next.transmission = next_stage,
+                        "suspension" => next.suspension = next_stage,
+                        _ => next.tyres = next_stage,
+                    }
                     self.button(
                         menu,
-                        &format!("{}  STAGE {}", name.to_uppercase(), stage),
+                        &format!("{}  {stage}/3", readable_name(name)),
                         &format!("upgrade:{name}"),
-                        65. + index as f32 * 370.,
-                        810.,
-                        350.,
-                        60.,
+                        72.,
+                        y,
+                        260.,
+                        36.,
                     );
-                }
-                for (index, name) in ["STEERING", "GEARING", "TYRE GRIP", "WEIGHT BALANCE"]
-                    .iter()
-                    .enumerate()
-                {
-                    self.button(
+                    let installed_stage = installed
+                        .map(|custom| match *name {
+                            "engine" => custom.engine,
+                            "transmission" => custom.transmission,
+                            "suspension" => custom.suspension,
+                            _ => custom.tyres,
+                        })
+                        .unwrap_or(0);
+                    Self::text(
                         menu,
-                        &format!("{} {:.0}%", name, self.customization.tuning[index] * 100.),
-                        &format!("tune:{index}"),
-                        65. + index as f32 * 450.,
-                        725.,
-                        430.,
-                        50.,
+                        &format!("INSTALLED {installed_stage}"),
+                        348.,
+                        y - 3.,
+                        12,
+                        muted,
+                    );
+                    for pip in 0..3 {
+                        Self::rect(
+                            menu,
+                            Vector2::new(348. + pip as f32 * 38., y + 22.),
+                            Vector2::new(28., 8.),
+                            if pip < i32::from(*stage) {
+                                accent
+                            } else {
+                                Color::from_rgb(0.20, 0.24, 0.28)
+                            },
+                        );
+                    }
+                    Self::text(
+                        menu,
+                        &format!("Next {} · {benefit}", money(i64::from(quote(&next, name)))),
+                        80.,
+                        y + 39.,
+                        15,
+                        muted,
                     );
                 }
+                Self::rect(
+                    menu,
+                    Vector2::new(72., 564.),
+                    Vector2::new(392., 1.),
+                    Color::from_rgba(1., 1., 1., 0.15),
+                );
+                Self::text(menu, "HANDLING & SETUP", 72., 578., 24, white);
+                for (index, (name, low, high)) in [
+                    ("Steering", "LESS LOCK", "MORE LOCK"),
+                    ("Gearing", "TALLER", "SHORTER"),
+                    ("Tyre grip", "LOOSER", "MORE GRIP"),
+                    ("Weight balance", "REAR", "FRONT"),
+                ]
+                .iter()
+                .enumerate()
+                {
+                    let y = 616. + index as f32 * 72.;
+                    let value = self.customization.tuning[index];
+                    Self::text(menu, name, 72., y, 20, white);
+                    self.button(menu, "−", &format!("tune_down:{index}"), 224., y, 44., 36.);
+                    Self::text(
+                        menu,
+                        &format!("{:+.0}%", value * 100.),
+                        292.,
+                        y + 4.,
+                        18,
+                        accent,
+                    );
+                    self.button(menu, "+", &format!("tune:{index}"), 420., y, 44., 36.);
+                    Self::rect(
+                        menu,
+                        Vector2::new(72., y + 44.),
+                        Vector2::new(392., 4.),
+                        Color::from_rgb(0.20, 0.24, 0.28),
+                    );
+                    Self::rect(
+                        menu,
+                        Vector2::new(268. + value.min(0.) * 196., y + 44.),
+                        Vector2::new(value.abs() * 196., 4.),
+                        accent,
+                    );
+                    Self::rect(
+                        menu,
+                        Vector2::new(267., y + 40.),
+                        Vector2::new(2., 12.),
+                        Color::WHITE,
+                    );
+                    Self::text(menu, low, 72., y + 53., 13, muted);
+                    let mut end = Self::text(menu, high, 320., y + 53., 13, muted);
+                    end.set_size(Vector2::new(144., 20.));
+                    end.set_horizontal_alignment(godot::global::HorizontalAlignment::RIGHT);
+                }
+                let mut help = Self::text(menu, "", 72., 912., 16, muted);
+                help.set_name("TuningHelp");
+                help.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+                help.set_size(Vector2::new(392., 64.));
+                help.set_text(
+                    "Select an adjustment to see its effect. Zero is the standard setup.",
+                );
             }
             "parts" => {
-                if let Some(car) = snap.cars.iter().find(|car| car.id == snap.selected_car) {
+                if let Some(car) = car {
+                    self.interior_part_preview(menu, car);
                     let mut row = 0;
                     for (slot, parts) in &car.parts {
+                        Self::text(
+                            menu,
+                            &readable_name(slot),
+                            72.,
+                            304. + row as f32 * 72.,
+                            22,
+                            muted,
+                        );
+                        row += 1;
                         for id in std::iter::once("stock").chain(parts.iter().map(String::as_str)) {
+                            let mut candidate = self.customization.clone();
+                            candidate.parts.insert(slot.clone(), id.into());
                             self.button(
                                 menu,
-                                &format!("{}: {}", slot.to_uppercase(), id),
+                                &format!(
+                                    "{} · {}",
+                                    readable_name(id),
+                                    money(i64::from(quote(&candidate, &format!("part:{slot}"))))
+                                ),
                                 &format!("part:{slot}:{id}"),
-                                70. + (row % 4) as f32 * 450.,
-                                775. + (row / 4) as f32 * 60.,
-                                430.,
-                                52.,
+                                72.,
+                                304. + row as f32 * 72.,
+                                392.,
+                                44.,
+                            );
+                            Self::text(
+                                menu,
+                                status(
+                                    &format!("part:{slot}"),
+                                    self.customization
+                                        .parts
+                                        .get(slot)
+                                        .map_or("stock", String::as_str)
+                                        == id,
+                                    installed.is_some_and(|c| {
+                                        c.parts.get(slot).map_or("stock", String::as_str) == id
+                                    }),
+                                ),
+                                80.,
+                                350. + row as f32 * 72.,
+                                18,
+                                accent,
                             );
                             row += 1;
                         }
                     }
                     if row == 0 {
-                        Self::text(
-                            menu,
-                            "No compatible body or interior parts available",
-                            130.,
-                            815.,
-                            30,
-                            white,
+                        let mut empty = Self::text(menu, "", 72., 312., 24, muted);
+                        empty.set_autowrap_mode(
+                            godot::classes::text_server::AutowrapMode::WORD_SMART,
                         );
+                        empty.set_size(Vector2::new(392., 240.));
+                        empty.set_text(&format!(
+                            "STOCK BODY ONLY\n\nNo aftermarket body or interior kits are available for {}.",
+                            vehicle_name(&car.name)
+                        ));
+                        for (row, (label, page)) in [
+                            ("PAINT", "paint"),
+                            ("WHEELS", "wheels"),
+                            ("VINYLS", "vinyl"),
+                        ]
+                        .into_iter()
+                        .enumerate()
+                        {
+                            self.button(
+                                menu,
+                                label,
+                                &format!("custom_page:{page}"),
+                                72.,
+                                600. + row as f32 * 64.,
+                                392.,
+                                48.,
+                            );
+                        }
                     }
                 }
             }
             _ => {}
         }
-        for (index, (title, page)) in [
-            ("PAINT", "paint"),
-            ("WHEELS", "wheels"),
-            ("VINYLS", "vinyl"),
-            ("PERFORMANCE", "performance"),
-            ("BODY PARTS", "parts"),
-        ]
-        .iter()
-        .enumerate()
-        {
-            self.button(
-                menu,
-                title,
-                &format!("custom_page:{page}"),
-                370. + index as f32 * 300.,
-                940.,
-                285.,
-                58.,
-            );
-        }
+        self.button(menu, "Back", "custom_done", 48., 1000., 200., 48.);
         self.button(
             menu,
             if self.custom_return == GameScreen::QuickRace {
-                "DONE"
+                "Done"
             } else {
-                "SHOPPING CART"
+                "Review modifications"
             },
             if self.custom_return == GameScreen::QuickRace {
                 "custom_done"
             } else {
                 "nav:checkout"
             },
-            65.,
-            940.,
-            280.,
-            58.,
+            272.,
+            1000.,
+            360.,
+            48.,
         );
     }
+    fn graphic_name(&self, layer: &Vinyl) -> String {
+        let label = self.decal_catalog["designs"]
+            .as_array()
+            .and_then(|designs| {
+                designs
+                    .iter()
+                    .find(|design| design["id"].as_str() == Some(&layer.design_id))
+            })
+            .and_then(|design| design["name"].as_str())
+            .unwrap_or(&layer.shape);
+        readable_name(label)
+    }
     fn build_hud(&mut self) {
+        for (_, mut tween) in std::mem::take(&mut self.hud_tweens) {
+            if tween.is_instance_valid() {
+                tween.kill();
+            }
+        }
         let mut hud = self.hud.take().unwrap();
         for mut child in hud.get_children().iter_shared() {
+            hud.remove_child(&child);
             child.queue_free();
         }
         self.labels.clear();
-        self.rpm_bar = None;
+        self.rpm_gauge = None;
+        self.speed_gauge = None;
         self.nitrous_bar = None;
-        let white = Color::WHITE;
-        Self::rect(
+        self.drift_progress = None;
+        let race = self.game.as_ref().unwrap().frame_snapshot().race;
+        let drift_mode = race.as_ref().is_some_and(|race| race.mode.is_drift());
+        let cyan = Color::from_rgb(0., 0.86, 0.91);
+        let font = hud_art::font();
+        let hud_text =
+            |parent: &mut Gd<Control>, value: &str, x: f32, y: f32, size: i32, color: Color| {
+                let mut label = Self::text(parent, value, x, y, size, color);
+                label.add_theme_font_override("font", &font);
+                label.add_theme_color_override(
+                    "font_outline_color",
+                    Color::from_rgb(0.015, 0.02, 0.025),
+                );
+                label.add_theme_constant_override("outline_size", if size >= 36 { 6 } else { 3 });
+                label.add_theme_color_override("font_shadow_color", Color::BLACK);
+                label.add_theme_constant_override("shadow_offset_x", 2);
+                label.add_theme_constant_override("shadow_offset_y", 3);
+                label
+            };
+        hud_art::bezel(&mut hud, Vector2::new(242., 842.), 182., false, true);
+        hud_art::bezel(&mut hud, Vector2::new(1488., 683.), 118., false, false);
+        hud_art::bezel(&mut hud, Vector2::new(1670., 838.), 190., true, false);
+        hud_art::bezel(&mut hud, Vector2::new(1792., 652.), 68., false, false);
+        hud_art::plaque(
             &mut hud,
-            Vector2::new(40., 40.),
-            Vector2::new(350., 125.),
-            Color::from_rgba(0.035, 0.045, 0.055, 0.85),
+            Rect2::new(Vector2::new(1562., 906.), Vector2::new(214., 52.)),
         );
-        Self::text(&mut hud, "OVERSTEER", 65., 55., 27, white);
-        for (id, x, y, size, color) in [
-            ("lap", 120., 965., 25, white),
-            ("position", 1540., 55., 30, white),
-            ("time", 65., 105., 25, white),
-            ("opponents", 1540., 115., 20, white),
-            ("speed", 1525., 850., 68, white),
-            ("gear", 1790., 873., 46, white),
-            ("rpm", 1525., 945., 20, white),
-            ("nitrous", 1570., 625., 22, Color::from_rgb(0.25, 0.65, 1.)),
-            ("drift", 830., 260., 54, white),
-            ("family", 650., 95., 27, white),
-            ("message", 560., 440., 120, white),
-            ("minimap", 107., 1004., 18, white),
+        hud_art::plaque(
+            &mut hud,
+            Rect2::new(Vector2::new(1426., 976.), Vector2::new(430., 54.)),
+        );
+        let redline = race
+            .as_ref()
+            .and_then(|race| {
+                race.racers.get(if race.spectating {
+                    self.selected_rival.min(race.racers.len().saturating_sub(1))
+                } else {
+                    0
+                })
+            })
+            .and_then(|r| self.content.cars.iter().find(|car| car.id == r.car_id))
+            .map_or(7000., |car| car.handling.redline);
+        for (center, radius, maximum, interval, size, ink) in [
+            (
+                Vector2::new(1670., 838.),
+                176.,
+                240.,
+                40.,
+                24,
+                Color::from_rgb(0.04, 0.03, 0.02),
+            ),
+            (
+                Vector2::new(1488., 683.),
+                102.,
+                redline / 1000.,
+                2.,
+                18,
+                Color::WHITE,
+            ),
         ] {
-            let mut label = Self::text(&mut hud, "", x, y, size, color);
+            for tick in 0..=(maximum / interval) as u32 {
+                let value = tick as f32 * interval;
+                let (start, sweep) = if maximum == 240. {
+                    (165., 210.)
+                } else {
+                    (hud_art::START_DEGREES, hud_art::SWEEP_DEGREES)
+                };
+                let angle = (start + sweep * value / maximum).to_radians();
+                let point = center + Vector2::new(angle.cos(), angle.sin()) * radius * 0.70;
+                if maximum != 240. && point.distance_to(Vector2::new(1670., 838.)) < 218. {
+                    continue;
+                }
+                let mut number = hud_text(
+                    &mut hud,
+                    &format!("{value:.0}"),
+                    point.x - 28.,
+                    point.y - 16.,
+                    size,
+                    ink,
+                );
+                number.set_size(Vector2::new(56., 32.));
+                number.set_horizontal_alignment(godot::global::HorizontalAlignment::CENTER);
+                if ink == Color::from_rgb(0.04, 0.03, 0.02) {
+                    number.add_theme_constant_override("outline_size", 0);
+                    number.add_theme_constant_override("shadow_offset_x", 0);
+                    number.add_theme_constant_override("shadow_offset_y", 0);
+                }
+            }
+        }
+        self.rpm_gauge = Some(hud_art::dial(
+            &mut hud,
+            Vector2::new(1488., 683.),
+            102.,
+            redline / 1000.,
+            false,
+        ));
+        if let Some(tach) = &mut self.rpm_gauge {
+            tach.set_shader_parameter(
+                "cover_center",
+                &((Vector2::new(1670., 838.) - Vector2::new(1488., 683.)) / 102.).to_variant(),
+            );
+            tach.set_shader_parameter("cover_radius", &(190. / 102.).to_variant());
+        }
+        self.speed_gauge = Some(hud_art::dial(
+            &mut hud,
+            Vector2::new(1670., 838.),
+            176.,
+            12.,
+            true,
+        ));
+        if let Some(speed) = &mut self.speed_gauge {
+            speed.set_shader_parameter("start_angle", &165_f32.to_radians().to_variant());
+            speed.set_shader_parameter("sweep_angle", &210_f32.to_radians().to_variant());
+            speed.set_shader_parameter(
+                "cover_center",
+                &((Vector2::new(1792., 652.) - Vector2::new(1670., 838.)) / 176.).to_variant(),
+            );
+            speed.set_shader_parameter("cover_radius", &(68. / 176.).to_variant());
+        }
+        hud_text(&mut hud, "RPM", 1466., 715., 16, Color::WHITE);
+        hud_text(&mut hud, "×1000", 1462., 736., 12, Color::WHITE);
+        hud_text(&mut hud, "GEAR", 1765., 678., 16, Color::WHITE);
+        hud_text(
+            &mut hud,
+            if drift_mode {
+                "RIVALS / SCORE"
+            } else {
+                "POSITION"
+            },
+            1576.,
+            36.,
+            30,
+            Color::WHITE,
+        );
+        hud_text(&mut hud, "N", 230., 656., 24, Color::WHITE);
+        for (id, x, y, size, color) in [
+            ("time", 80., 32., 64, cyan),
+            ("lap", 88., 108., 36, Color::WHITE),
+            ("position", 1594., 64., 100, cyan),
+            ("field", 1734., 111., 40, Color::WHITE),
+            ("speed", 1564., 893., 46, cyan),
+            ("rpm", 1715., 924., 18, cyan),
+            ("gear", 1755., 606., 54, cyan),
+            ("nitrous", 1300., 938., 14, Color::WHITE),
+            ("drift", 690., 170., 20, Color::WHITE),
+            ("family", 690., 118., 22, Color::WHITE),
+            ("objective_score", 690., 44., 60, cyan),
+            ("message", 560., 440., 120, cyan),
+        ] {
+            let mut label = hud_text(&mut hud, "", x, y, size, color);
+            label.set_name(&format!("Hud_{id}"));
+            if drift_mode && matches!(id, "lap" | "position" | "field") {
+                label.set_visible(false);
+            }
+            if id == "speed" {
+                label.set_size(Vector2::new(142., 64.));
+                label.set_horizontal_alignment(godot::global::HorizontalAlignment::RIGHT);
+            }
+            if id == "gear" {
+                label.set_size(Vector2::new(76., 70.));
+                label.set_horizontal_alignment(godot::global::HorizontalAlignment::CENTER);
+            }
+            if id == "nitrous" {
+                label.set_size(Vector2::new(156., 48.));
+                label.set_autowrap_mode(godot::classes::text_server::AutowrapMode::WORD_SMART);
+            }
             if id == "message" {
                 label.set_size(Vector2::new(800., 200.));
                 label.set_horizontal_alignment(godot::global::HorizontalAlignment::CENTER);
                 label.set_vertical_alignment(godot::global::VerticalAlignment::CENTER);
-                label.add_theme_color_override("font_shadow_color", Color::BLACK);
-                label.add_theme_constant_override("shadow_offset_x", 3);
-                label.add_theme_constant_override("shadow_offset_y", 3);
-            }
-            if id == "position" || id == "opponents" {
-                label.add_theme_color_override("font_shadow_color", Color::BLACK);
-                label.add_theme_constant_override("shadow_offset_x", 2);
-                label.add_theme_constant_override("shadow_offset_y", 2);
             }
             self.labels.insert(id.into(), label);
         }
-        // Independent instruments keep the road visible and use no source UI art.
-        let panel = Color::from_rgba(0.035, 0.045, 0.055, 0.85);
-        Self::rect(
-            &mut hud,
-            Vector2::new(1500., 795.),
-            Vector2::new(380., 245.),
-            panel,
-        );
-        Self::rect(
-            &mut hud,
-            Vector2::new(90., 720.),
-            Vector2::new(260., 295.),
-            panel,
-        );
-        Self::rect(
-            &mut hud,
-            Vector2::new(1510., 40.),
-            Vector2::new(370., 330.),
-            panel,
-        );
-        Self::text(&mut hud, "GEAR", 1780., 844., 18, white);
-        Self::text(&mut hud, "NITROUS", 1525., 995., 17, white);
-        for (position, width, color, rpm) in [
-            (
-                Vector2::new(1525., 822.),
-                330.,
-                Color::from_rgb(0.55, 0.82, 0.8),
-                true,
-            ),
-            (
-                Vector2::new(1625., 1005.),
-                230.,
-                Color::from_rgb(0.55, 0.72, 0.9),
-                false,
-            ),
-        ] {
-            Self::rect(
-                &mut hud,
-                position,
-                Vector2::new(width, 8.),
-                Color::from_rgb(0.18, 0.22, 0.25),
+        // A compact live standings list retains the brief's timing context.
+        for row in 0..4 {
+            let x = if drift_mode { 1540. } else { 80. };
+            let y = if drift_mode { 184. } else { 190. } + row as f32 * 30.;
+            let mut label = hud_text(&mut hud, "", x, y, 18, Color::WHITE);
+            label.set_size(Vector2::new(if drift_mode { 320. } else { 248. }, 30.));
+            label.set_clip_text(true);
+            label.set_text_overrun_behavior(
+                godot::classes::text_server::OverrunBehavior::TRIM_ELLIPSIS,
             );
-            let mut fill = ColorRect::new_alloc();
-            fill.set_position(position);
-            fill.set_size(Vector2::new(width, 8.));
-            fill.set_color(color);
-            fill.set_mouse_filter(godot::classes::control::MouseFilter::IGNORE);
-            hud.add_child(&fill);
-            if rpm {
-                self.rpm_bar = Some(fill);
-            } else {
-                self.nitrous_bar = Some(fill);
+            self.labels.insert(format!("standing_{row}"), label);
+            if !drift_mode {
+                let mut split = hud_text(&mut hud, "", 334., y + 3., 14, Color::WHITE);
+                split.set_size(Vector2::new(90., 24.));
+                split.set_horizontal_alignment(godot::global::HorizontalAlignment::RIGHT);
+                split.set_name(&format!("Hud_split_{row}"));
+                self.labels.insert(format!("split_{row}"), split);
+                let marker = hud_text(&mut hud, "", 64., y, 20, cyan);
+                self.labels.insert(format!("standing_marker_{row}"), marker);
             }
         }
-        if let Some(race) = self.game.as_ref().unwrap().frame_snapshot().race
-            && let Some(track) = self.content.tracks.iter().find(|t| t.id == race.track_id)
+        if drift_mode {
+            hud_text(&mut hud, "DRIFT SCORE", 690., 28., 16, Color::WHITE);
+            Self::rect(
+                &mut hud,
+                Vector2::new(690., 158.),
+                Vector2::new(450., 5.),
+                Color::from_rgba(0., 0., 0., 0.7),
+            );
+            let mut fill = ColorRect::new_alloc();
+            fill.set_position(Vector2::new(690., 158.));
+            fill.set_mouse_filter(godot::classes::control::MouseFilter::IGNORE);
+            hud.add_child(&fill);
+            self.drift_progress = Some(fill);
+        } else {
+            hud_text(&mut hud, "LAST SPLIT", 334., 171., 12, Color::WHITE);
+        }
+        Self::rect(
+            &mut hud,
+            Vector2::new(1304., 925.),
+            Vector2::new(140., 6.),
+            Color::from_rgba(0., 0., 0., 0.7),
+        );
+        let mut nitrous = ColorRect::new_alloc();
+        nitrous.set_position(Vector2::new(1304., 925.));
+        nitrous.set_mouse_filter(godot::classes::control::MouseFilter::IGNORE);
+        hud.add_child(&nitrous);
+        self.nitrous_bar = Some(nitrous);
+        if let Some(race) = race
+            && let Some(track) = self
+                .content
+                .tracks
+                .iter()
+                .find(|track| track.id == race.track_id)
         {
-            let (center, scale) = map_transform(&track.points);
-            let mut line = godot::classes::Line2D::new_alloc();
-            let mut points: Vec<Vector2> = track
+            let mut title = hud_text(
+                &mut hud,
+                &track.name.to_uppercase(),
+                1445.,
+                974.,
+                28,
+                Color::WHITE,
+            );
+            title.set_size(Vector2::new(390., 44.));
+            title.set_horizontal_alignment(godot::global::HorizontalAlignment::CENTER);
+            title.set_clip_text(true);
+            let (center, scale) = hud_map_transform(&track.points);
+            let mut points: Vec<_> = track
                 .points
                 .iter()
-                .map(|p| Vector2::new(219.5, 839.5) + (Vector2::new(p[0], p[2]) - center) * scale)
+                .map(|p| Vector2::new(242., 842.) + (Vector2::new(p[0], p[2]) - center) * scale)
                 .collect();
             if let Some(first) = points.first().copied() {
                 points.push(first);
             }
-            line.set_points(&PackedVector2Array::from(points));
-            line.set_default_color(Color::from_rgb(0.5, 0.7, 1.));
-            line.set_width(3.);
-            hud.add_child(&line);
-            let dot = Self::text(
-                &mut hud,
-                "●",
-                170.,
-                910.,
-                18,
-                Color::from_rgb(1., 0.2, 0.15),
-            );
+            for (width, color) in [
+                (9., Color::from_rgba(0., 0., 0., 0.8)),
+                (4., Color::from_rgb(1., 0.87, 0.05)),
+            ] {
+                let mut line = godot::classes::Line2D::new_alloc();
+                line.set_points(&PackedVector2Array::from(points.clone()));
+                line.set_width(width);
+                line.set_default_color(color);
+                hud.add_child(&line);
+            }
+            let mut dot = hud_text(&mut hud, "▲", 0., 0., 26, cyan);
+            dot.set_name("Hud_map_player");
             self.labels.insert("map_player".into(), dot);
+            for index in 0..race.racers.len() {
+                let mut dot = hud_text(&mut hud, "●", 0., 0., 14, Color::WHITE);
+                dot.set_name(&format!("Hud_map_rival_{index}"));
+                self.labels.insert(format!("map_rival_{index}"), dot);
+            }
         }
         for label in self.labels.values_mut() {
             label.move_to_front();
@@ -5280,6 +7912,10 @@ impl OversteerApp {
     // Keep the existing explicit presentation branches during tooling-only adoption.
     #[allow(clippy::if_same_then_else)]
     fn refresh(&mut self) {
+        if let Some(camera) = &mut self.camera {
+            camera.set_h_offset(0.);
+            camera.set_v_offset(0.);
+        }
         let mut snap = self.game.as_ref().unwrap().frame_snapshot();
         if self.replay {
             if !self.replay_frames.is_empty() {
@@ -5301,6 +7937,17 @@ impl OversteerApp {
             if self.replay_frames.len() < 12000 {
                 self.replay_frames.push(race.clone());
             }
+        }
+        if let Some(race) = &snap.race {
+            let checkpoint_count = self
+                .content
+                .tracks
+                .iter()
+                .find(|track| track.id == race.track_id)
+                .map_or(0, |track| track.points.len());
+            self.split_times.update(race, checkpoint_count);
+        } else {
+            self.split_times.reset();
         }
         let presentation_role = if snap.screen == GameScreen::Avatar {
             "CreateCharacter"
@@ -5344,6 +7991,13 @@ impl OversteerApp {
             sun.set_visible(!showroom && !tunnel_presentation);
         }
         if let Some(environment) = &mut self.environment {
+            if screen_changed || presentation_changed {
+                environment.set_sky(if showroom {
+                    self.studio_sky.as_ref().unwrap()
+                } else {
+                    self.race_sky.as_ref().unwrap()
+                });
+            }
             environment.set_background(if showroom {
                 godot::classes::environment::BgMode::COLOR
             } else {
@@ -5357,7 +8011,7 @@ impl OversteerApp {
             } else {
                 Color::from_rgb(0.45, 0.53, 0.7)
             });
-            environment.set_ambient_light_energy(if showroom { 0.55 } else { 0.8 });
+            environment.set_ambient_light_energy(if showroom { 0.38 } else { 0.8 });
         }
         if let Some(main) = &mut self.main_stage {
             main.set_visible(tunnel_presentation);
@@ -5541,13 +8195,18 @@ impl OversteerApp {
                         .get(self.selected_rival)
                         .copied()
                         .unwrap_or(0.);
-                    label.set_text(&format!("ODDS {:.2}:1    CASH ${}", odds, snap.career.cash));
+                    label.set_text(&format!(
+                        "Odds {:.2}:1    Balance {}",
+                        odds,
+                        money(snap.career.cash)
+                    ));
                 }
-                if let Some(player) = race.racers.get(if race.spectating {
+                let displayed_racer = if race.spectating {
                     self.selected_rival.min(race.racers.len().saturating_sub(1))
                 } else {
                     0
-                }) {
+                };
+                if let Some(player) = race.racers.get(displayed_racer) {
                     let pos = v3(player.position);
                     let q = Quaternion::new(
                         player.rotation[0],
@@ -5602,31 +8261,99 @@ impl OversteerApp {
                     }
                     if let Some(track) = self.content.tracks.iter().find(|t| t.id == race.track_id)
                     {
-                        let (center, scale) = map_transform(&track.points);
+                        let (center, scale) = hud_map_transform(&track.points);
+                        for (index, rival) in race.racers.iter().enumerate() {
+                            if let Some(dot) = self.labels.get_mut(&format!("map_rival_{index}")) {
+                                dot.set_visible(index != displayed_racer);
+                                dot.set_position(
+                                    Vector2::new(237., 831.)
+                                        + (Vector2::new(rival.position[0], rival.position[2])
+                                            - center)
+                                            * scale,
+                                );
+                            }
+                        }
                         if let Some(dot) = self.labels.get_mut("map_player") {
+                            dot.set_pivot_offset(Vector2::new(12., 16.));
+                            dot.set_rotation(map_heading(forward.x, forward.z));
                             dot.set_position(
-                                Vector2::new(214.5, 828.5)
+                                Vector2::new(230., 826.)
                                     + (Vector2::new(pos.x, pos.z) - center) * scale,
                             );
                         }
                     }
-                    if let Some(bar) = &mut self.rpm_bar {
+                    if let Some(bar) = &mut self.drift_progress {
+                        let ratio = (player.drift_score / race.target.max(1.)).clamp(0., 1.);
+                        bar.set_size(Vector2::new(450. * ratio, 5.));
+                        bar.set_color(if player.drift_score >= race.target {
+                            Color::from_rgb(0.204, 0.827, 0.600)
+                        } else {
+                            Color::from_rgb(0., 0.86, 0.91)
+                        });
+                    }
+                    if let Some(gauge) = &mut self.rpm_gauge {
                         let redline = self
                             .content
                             .cars
                             .iter()
                             .find(|car| car.id == player.car_id)
                             .map_or(7000., |car| car.handling.redline);
-                        let fraction = (player.rpm / redline).clamp(0., 1.);
-                        bar.set_size(Vector2::new(330. * fraction, 8.));
-                        bar.set_color(if fraction > 0.9 {
-                            Color::from_rgb(1., 0.35, 0.25)
+                        gauge.set_shader_parameter(
+                            "value",
+                            &((player.rpm / redline).clamp(0., 1.)).to_variant(),
+                        );
+                    }
+                    if let Some(gauge) = &mut self.speed_gauge {
+                        let speed = player.speed_kph * if self.speed_mph { 0.621371 } else { 1. };
+                        gauge.set_shader_parameter(
+                            "value",
+                            &(speed / 240.).clamp(0., 1.).to_variant(),
+                        );
+                    }
+                    let nitrous_available = matches!(
+                        race.native_discipline,
+                        Some(
+                            NativeDiscipline::Circuit
+                                | NativeDiscipline::TestDrive
+                                | NativeDiscipline::Solo
+                        )
+                    );
+                    if let Some(bar) = &mut self.nitrous_bar {
+                        bar.set_size(Vector2::new(140. * player.nitrous.clamp(0., 1.), 6.));
+                        bar.set_color(if nitrous_available {
+                            Color::from_rgb(0.984, 0.749, 0.141)
                         } else {
-                            Color::from_rgb(0.55, 0.82, 0.8)
+                            Color::from_rgba(1., 1., 1., 0.18)
                         });
                     }
-                    if let Some(bar) = &mut self.nitrous_bar {
-                        bar.set_size(Vector2::new(230. * player.nitrous.clamp(0., 1.), 8.));
+                    if !race.mode.is_drift() {
+                        let player_index = Some(displayed_racer);
+                        let order = if race.standings.is_empty() {
+                            (0..race.racers.len()).collect::<Vec<_>>()
+                        } else {
+                            race.standings.clone()
+                        };
+                        for (row, index) in order.iter().enumerate() {
+                            if let Some(label) = self.labels.get_mut(&format!("split_{row}")) {
+                                let split = player_index.and_then(|player| {
+                                    self.split_times.relative_to(player, *index)
+                                });
+                                label.set_text(
+                                    &split
+                                        .filter(|split| split.uncertainty <= 0.25)
+                                        .map_or_else(|| "—".into(), |split| split.label()),
+                                );
+                            }
+                            if let Some(label) =
+                                self.labels.get_mut(&format!("standing_marker_{row}"))
+                            {
+                                label.set_text(if Some(*index) == player_index {
+                                    "▎"
+                                } else {
+                                    ""
+                                });
+                            }
+                        }
                     }
                     let values = [
                         (
@@ -5650,7 +8377,15 @@ impl OversteerApp {
                                         player.chain_score, race.target
                                     )
                                 } else if race.mode == RaceMode::Drift {
-                                    format!("SCORE {:.0} / {:.0}", player.drift_score, race.target)
+                                    format!(
+                                        "Target {}{}",
+                                        money(race.target.round() as i64).trim_start_matches('$'),
+                                        if player.drift_score >= race.target {
+                                            " · Target reached"
+                                        } else {
+                                            ""
+                                        }
+                                    )
                                 } else if race.mode.is_drift() {
                                     format!(
                                         "SCORE {:.0} / {:.0}   ATTEMPTS {}",
@@ -5696,15 +8431,34 @@ impl OversteerApp {
                                 }
                             ),
                         ),
+                        (
+                            "objective_score",
+                            if race.mode.is_drift() {
+                                grouped_integer(player.drift_score.round() as u64)
+                            } else {
+                                String::new()
+                            },
+                        ),
+                        ("field", format!("/ {}", race.racers.len())),
                         ("lap", format!("LAP {} / {}", player.lap.max(1), race.laps)),
                         (
                             "position",
-                            format!("POSITION  {} / {}", race.position, race.racers.len()),
+                            if race.spectating {
+                                race.standings
+                                    .iter()
+                                    .position(|index| *index == displayed_racer)
+                                    .map_or_else(
+                                        || "—".into(),
+                                        |position| (position + 1).to_string(),
+                                    )
+                            } else {
+                                race.position.to_string()
+                            },
                         ),
                         (
                             "time",
                             format!(
-                                "TIME  {:02}:{:05.2}",
+                                "{:02}:{:05.2}",
                                 (race.elapsed / 60.) as u32,
                                 race.elapsed % 60.
                             ),
@@ -5712,7 +8466,7 @@ impl OversteerApp {
                         (
                             "speed",
                             format!(
-                                "{:03}",
+                                "{}",
                                 (player.speed_kph * if self.speed_mph { 0.621371 } else { 1. })
                                     as u32
                             ),
@@ -5735,11 +8489,26 @@ impl OversteerApp {
                                 "KPH".into()
                             },
                         ),
-                        ("nitrous", String::new()),
+                        (
+                            "nitrous",
+                            if nitrous_available {
+                                "BOOST".into()
+                            } else {
+                                "BOOST UNAVAILABLE".into()
+                            },
+                        ),
                         (
                             "drift",
-                            if race.drift_combo > 1. {
-                                format!("{:.0}  x{:.1}", player.drift_score, race.drift_combo)
+                            if race.mode.is_drift() {
+                                format!(
+                                    "Banked {} · Chain +{} · ×{:.1}",
+                                    grouped_integer(
+                                        (player.drift_score - player.chain_score).max(0.).round()
+                                            as u64
+                                    ),
+                                    grouped_integer(player.chain_score.round() as u64),
+                                    race.drift_combo
+                                )
                             } else {
                                 String::new()
                             },
@@ -5764,14 +8533,74 @@ impl OversteerApp {
                             .iter()
                             .filter_map(|index| race.racers.get(*index))
                             .enumerate()
-                            .map(|(i, racer)| format!("{}  {}", i + 1, racer.name))
+                            .map(|(i, racer)| {
+                                if race.mode.is_drift() {
+                                    format!(
+                                        "{}  {} · {}",
+                                        i + 1,
+                                        if racer.is_player {
+                                            "YOU"
+                                        } else {
+                                            racer.name.as_str()
+                                        },
+                                        grouped_integer(racer.drift_score.round() as u64)
+                                    )
+                                } else {
+                                    format!(
+                                        "{}  {}{}",
+                                        i + 1,
+                                        if racer.is_player { "YOU · " } else { "" },
+                                        racer.name
+                                    )
+                                }
+                            })
                             .collect::<Vec<_>>()
                             .join("\n"),
                         ),
                         ("minimap", String::new()),
                     ];
                     for (id, text) in values {
+                        if id == "opponents" {
+                            for (row, line) in text.lines().enumerate() {
+                                if let Some(label) = self.labels.get_mut(&format!("standing_{row}"))
+                                {
+                                    label.set_text(line);
+                                    label.add_theme_color_override(
+                                        "font_color",
+                                        if line.contains("YOU") {
+                                            Color::from_rgb(0., 0.86, 0.91)
+                                        } else {
+                                            Color::WHITE
+                                        },
+                                    );
+                                }
+                            }
+                            continue;
+                        }
                         if let Some(label) = self.labels.get_mut(id) {
+                            if matches!(id, "gear" | "position")
+                                && !label.get_text().is_empty()
+                                && label.get_text().to_string() != text
+                            {
+                                if let Some(mut tween) = self.hud_tweens.remove(id)
+                                    && tween.is_instance_valid()
+                                {
+                                    tween.kill();
+                                }
+                                let pivot = label.get_size() * 0.5;
+                                label.set_pivot_offset(pivot);
+                                label.set_scale(Vector2::new(1.16, 1.16));
+                                let mut tween = label.create_tween();
+                                tween.set_trans(godot::classes::tween::TransitionType::CUBIC);
+                                tween.set_ease(godot::classes::tween::EaseType::OUT);
+                                tween.tween_property(
+                                    &label.clone().upcast::<godot::classes::Object>(),
+                                    "scale",
+                                    &Vector2::ONE.to_variant(),
+                                    0.18,
+                                );
+                                self.hud_tweens.insert(id.into(), tween);
+                            }
                             if id == "message" {
                                 label.add_theme_font_size_override(
                                     "font_size",
@@ -5862,56 +8691,58 @@ impl OversteerApp {
                         if snap.screen == GameScreen::Checkout {
                             -std::f32::consts::FRAC_PI_2
                         } else {
-                            self.preview_angle.unwrap_or(self.clock as f32 * 0.10)
+                            self.preview_angle.unwrap_or(0.35)
                         },
                         0.,
                     ));
                 }
             }
             if let Some(cam) = &mut self.camera {
-                if paint_presentation {
-                    let chassis = self
-                        .preview
-                        .as_ref()
-                        .and_then(world_mesh_bounds)
-                        .map(|b| (b[0] + b[1]) * 0.5)
-                        .unwrap_or(Vector3::new(0., 0.7, 0.));
-                    // Exact Paintshop end offsets in the recovered pose's local basis;
-                    // donor body center replaces unavailable DRIVER_CHASS. Component
-                    // matrix conventions remain an explicit renderer adapter.
-                    let offset = Basis::from_axis_angle(Vector3::UP, 1.570000052)
-                        * Vector3::new(-3., 1., 0.);
-                    if self.preview_angle.is_some() {
-                        // Inspection rotates the donor inside the booth. Keep the eye
-                        // inside too, then fit its actual bounds above the lower UI.
-                        let booth_basis =
-                            Basis::from_axis_angle(Vector3::UP, 1.570000052 + std::f32::consts::PI);
-                        cam.set_position(chassis + booth_basis * Vector3::new(-2.8, 1.1, 2.8));
-                        cam.look_at(chassis - Vector3::new(0., 0.2, 0.));
-                        let fov = self
-                            .preview
-                            .as_ref()
-                            .and_then(world_mesh_bounds)
-                            .map(|bounds| {
-                                inspection_camera_fov(
-                                    bounds,
-                                    cam.get_global_transform(),
-                                    1920. / 1080.,
-                                )
-                            })
-                            .unwrap_or(script_camera_fov(120.));
-                        cam.set_fov(fov);
-                    } else {
-                        cam.set_position(chassis + offset);
-                        cam.look_at(chassis);
-                        cam.set_fov(script_camera_fov(120.));
+                if snap.screen == GameScreen::Customization {
+                    if let Some(bounds) = self.preview.as_ref().and_then(world_mesh_bounds) {
+                        let center = (bounds[0] + bounds[1]) * 0.5;
+                        let offset = if paint_presentation {
+                            Vector3::new(0., 1., 2.8)
+                        } else if self.custom_page == "wheels" {
+                            Vector3::new(5.5, 0.8, -2.)
+                        } else {
+                            Vector3::new(5.0, 1.1, 2.2)
+                        };
+                        cam.set_position(center + offset);
+                        fit_preview(
+                            cam,
+                            self.preview.as_ref().unwrap(),
+                            bounds,
+                            Rect2::new(Vector2::new(536., 224.), Vector2::new(1336., 752.)),
+                        );
                     }
                     return;
                 }
-                if main_presentation {
+                if main_presentation || (snap.screen == GameScreen::Career && !self.event_picker) {
                     cam.set_position(Vector3::new(5.5, 2.4, 6.8));
-                    cam.look_at(Vector3::new(-1.8, 0.7, 0.));
-                    cam.set_fov(45.);
+                    if let Some(bounds) = self.preview.as_ref().and_then(world_mesh_bounds) {
+                        fit_preview(
+                            cam,
+                            self.preview.as_ref().unwrap(),
+                            bounds,
+                            Rect2::new(Vector2::new(760., 160.), Vector2::new(1112., 816.)),
+                        );
+                    }
+                    return;
+                }
+                if matches!(
+                    snap.screen,
+                    GameScreen::Garage | GameScreen::Dealership | GameScreen::Checkout
+                ) {
+                    cam.set_position(Vector3::new(5.5, 1.4, 2.0));
+                    if let Some(bounds) = self.preview.as_ref().and_then(world_mesh_bounds) {
+                        fit_preview(
+                            cam,
+                            self.preview.as_ref().unwrap(),
+                            bounds,
+                            Rect2::new(Vector2::new(500., 160.), Vector2::new(888., 760.)),
+                        );
+                    }
                     return;
                 }
                 cam.set_position(Vector3::new(4.4, 2.2, 5.6));
@@ -6763,7 +9594,7 @@ impl OversteerApp {
                 .get_viewport()
                 .map(|v| v.get_visible_rect().size)
                 .unwrap_or(Vector2::ZERO);
-            let mut report = serde_json::json!({"scenario":self.scenario,"native_ui_bounds":self.menu.as_ref().map(control_bounds),"presentation":{"menu_scene":"Independent workshop with neutral lighting and restrained Oversteer panels; material refinement remains in progress","bet_scene":"Fixed adult streetwear driver and selected rival car; stable camera and optional cash/pink-slip controls","profile_scene":"Character editor removed; driver-name entry retained in Options","avatar":self.avatar.as_ref().map(spatial_diagnostic),"paint_scene":"Original PaintBox subset/pose XZ/render-floor; donor ground-reference adaptation. Paintshop end FOV/offset values use donor body-center CHASS and source-pose-rotated component-offset adapter; original DLT lighting and camera parent basis remain unresolved. Explicit inspection rotation retains the source booth yaw for donor length alignment, with a corresponding inside-booth eye and donor-bounds-fitted FOV above lower UI; original interactive Paintshop end camera is retained.","paintbooth":self.paint_stage.as_ref().map(spatial_diagnostic),"avatar_anchor":self.avatar.as_ref().map(|avatar| { let v = avatar.get_global_position(); [v.x,v.y,v.z] }),"camera":self.camera.as_ref().map(|node|spatial_diagnostic(&node.clone().upcast::<Node3D>())),"preview":self.preview.as_ref().map(spatial_diagnostic)},"customization_catalog":{"native_decals":self.decal_catalog["designs"].as_array().map(Vec::len).unwrap_or(0),"native_categories":self.decal_catalog["categories"].as_array().map(Vec::len).unwrap_or(0),"alpha_mask_designs":self.decal_catalog["designs"].as_array().map(|designs|designs.iter().filter(|design|design["color_mode"].as_str()==Some("alpha_mask")).count()).unwrap_or(0),"colorization":"Exact constant black/white source artwork uses source alpha with chosen tint; varied RGB artwork retains source RGB multiplied by tint. Explicit renderer adaptation; native compositor unresolved.","layer_limit":16,"mapping":"Recovered source RGBA artwork on donor UV with isolated body paint masks; original decal projection consumer not recovered"},"ui_actions":self.ui_action_log,"ui_actions_complete":self.ui_step==self.ui_steps.len(),"simulation_speed":if long&&self.input_event_path.is_empty(){6}else{1},"frames":frame,"sampled_frames":self.frame_times.len(),"sample_first":self.sample_first,"sample_last":self.sample_last,"all30_probes":self.all30_probes,"load_status":self.load_status,"save_status":self.save_status,"content":{"cars":self.content.cars.len(),"tracks":self.content.tracks.len(),"events":self.content.events.len(),"event_families":families,"sha256":GString::from(self.content_json.as_str()).sha256_text().to_string()},"renderer":{"method":server.get_current_rendering_method().to_string(),"driver":server.get_current_rendering_driver_name().to_string(),"viewport":[viewport.x,viewport.y],"draw_calls":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_DRAW_CALLS_IN_FRAME),"primitives":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_PRIMITIVES_IN_FRAME),"video_memory_bytes":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::VIDEO_MEM_USED)},"frame_clock":"Rust monotonic Instant at process entry (includes render/vsync/host work between entries)","frame_times_ms":self.frame_times,"engine_delta_times_ms":self.engine_frame_times,"viewport_gpu_timing_available":self.gpu_times.iter().any(|v|*v>0.),"viewport_cpu_timing_available":self.cpu_times.iter().any(|v|*v>0.),"viewport_gpu_times_ms":self.gpu_times,"viewport_cpu_times_ms":self.cpu_times,"viewport_timing_note":"Godot measured viewport render times, read at following process entry","warmup_frames":warmup,"measured_frames":measured.len(),"measured_frame_ms_mean":if measured.is_empty(){0.}else{measured.iter().sum::<f64>()/measured.len() as f64},"measured_frame_ms_p95":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.95) as usize]},"measured_frame_ms_p99":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.99) as usize]},"measured_frame_ms_max":measured_sorted.last(),"measured_over_16_67_ms":measured.iter().filter(|t|**t>16.67).count(),"frame_ms_mean":times.iter().sum::<f64>()/times.len() as f64,"frame_ms_p95":times[(times.len() as f32*0.95) as usize],"save_reload_equal":save_reload_equal,"disk_reload_equal":disk_reload_equal,"audio":self.audio.as_ref().map(audio::RuntimeAudio::summary),"loading":self.loading_reports,"effects":self.car_effects.iter().map(effects::CarEffects::summary).collect::<Vec<_>>(),"saved_state":serde_json::from_str::<serde_json::Value>(&saved).unwrap(),"snapshot":self.game.as_ref().unwrap().frame_snapshot()});
+            let mut report = serde_json::json!({"scenario":self.scenario,"native_ui_bounds":self.menu.as_ref().map(control_bounds),"presentation":{"menu_scene":"Independent workshop with neutral lighting and restrained Oversteer panels; material refinement remains in progress","bet_scene":"Fixed adult streetwear driver and selected rival car; stable camera and optional cash/pink-slip controls","profile_scene":"Character editor removed; driver-name entry retained in Options","avatar":self.avatar.as_ref().map(spatial_diagnostic),"paint_scene":"Retained paint booth and lighting; stable preview framed from visible model bounds inside the side-inspector stage. Gameplay camera unchanged.","paintbooth":self.paint_stage.as_ref().map(spatial_diagnostic),"avatar_anchor":self.avatar.as_ref().map(|avatar| { let v = avatar.get_global_position(); [v.x,v.y,v.z] }),"camera":self.camera.as_ref().map(|node|spatial_diagnostic(&node.clone().upcast::<Node3D>())),"preview":self.preview.as_ref().map(spatial_diagnostic)},"customization_catalog":{"native_decals":self.decal_catalog["designs"].as_array().map(Vec::len).unwrap_or(0),"native_categories":self.decal_catalog["categories"].as_array().map(Vec::len).unwrap_or(0),"alpha_mask_designs":self.decal_catalog["designs"].as_array().map(|designs|designs.iter().filter(|design|design["color_mode"].as_str()==Some("alpha_mask")).count()).unwrap_or(0),"colorization":"Exact constant black/white source artwork uses source alpha with chosen tint; varied RGB artwork retains source RGB multiplied by tint. Explicit renderer adaptation; native compositor unresolved.","layer_limit":16,"mapping":"Recovered source RGBA artwork on donor UV with isolated body paint masks; original decal projection consumer not recovered"},"ui_actions":self.ui_action_log,"ui_actions_complete":self.ui_step==self.ui_steps.len(),"simulation_speed":if long&&self.input_event_path.is_empty(){6}else{1},"frames":frame,"sampled_frames":self.frame_times.len(),"sample_first":self.sample_first,"sample_last":self.sample_last,"all30_probes":self.all30_probes,"load_status":self.load_status,"save_status":self.save_status,"content":{"cars":self.content.cars.len(),"tracks":self.content.tracks.len(),"events":self.content.events.len(),"event_families":families,"sha256":GString::from(self.content_json.as_str()).sha256_text().to_string()},"renderer":{"method":server.get_current_rendering_method().to_string(),"driver":server.get_current_rendering_driver_name().to_string(),"viewport":[viewport.x,viewport.y],"draw_calls":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_DRAW_CALLS_IN_FRAME),"primitives":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_PRIMITIVES_IN_FRAME),"video_memory_bytes":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::VIDEO_MEM_USED)},"frame_clock":"Rust monotonic Instant at process entry (includes render/vsync/host work between entries)","frame_times_ms":self.frame_times,"engine_delta_times_ms":self.engine_frame_times,"viewport_gpu_timing_available":self.gpu_times.iter().any(|v|*v>0.),"viewport_cpu_timing_available":self.cpu_times.iter().any(|v|*v>0.),"viewport_gpu_times_ms":self.gpu_times,"viewport_cpu_times_ms":self.cpu_times,"viewport_timing_note":"Godot measured viewport render times, read at following process entry","warmup_frames":warmup,"measured_frames":measured.len(),"measured_frame_ms_mean":if measured.is_empty(){0.}else{measured.iter().sum::<f64>()/measured.len() as f64},"measured_frame_ms_p95":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.95) as usize]},"measured_frame_ms_p99":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.99) as usize]},"measured_frame_ms_max":measured_sorted.last(),"measured_over_16_67_ms":measured.iter().filter(|t|**t>16.67).count(),"frame_ms_mean":times.iter().sum::<f64>()/times.len() as f64,"frame_ms_p95":times[(times.len() as f32*0.95) as usize],"save_reload_equal":save_reload_equal,"disk_reload_equal":disk_reload_equal,"audio":self.audio.as_ref().map(audio::RuntimeAudio::summary),"loading":self.loading_reports,"effects":self.car_effects.iter().map(effects::CarEffects::summary).collect::<Vec<_>>(),"saved_state":serde_json::from_str::<serde_json::Value>(&saved).unwrap(),"snapshot":self.game.as_ref().unwrap().frame_snapshot()});
             report["rendered_race_car_ids"] = serde_json::json!(
                 self.cars
                     .iter()
@@ -7042,29 +9873,10 @@ fn animation_states(node: &Gd<godot::classes::Node>) -> Vec<serde_json::Value> {
 }
 
 // Inspection framing is a donor/UI adapter, independent of original script FOVs.
-fn inspection_camera_fov(bounds: [Vector3; 2], camera: Transform3D, aspect: f32) -> f32 {
-    let inverse = camera.affine_inverse();
-    let mut tangent = (60_f32.to_radians() * 0.5).tan();
-    for corner in 0..8 {
-        let point = inverse
-            * (bounds[0]
-                + (bounds[1] - bounds[0])
-                    * Vector3::new(
-                        (corner & 1) as f32,
-                        ((corner >> 1) & 1) as f32,
-                        ((corner >> 2) & 1) as f32,
-                    ));
-        if point.z >= -0.05 {
-            continue;
-        }
-        tangent = tangent.max(point.x.abs() / -point.z / aspect / 0.85);
-        tangent = tangent.max(point.y / -point.z / 0.6);
-        tangent = tangent.max(-point.y / -point.z / 0.4);
-    }
-    (2. * tangent.atan()).to_degrees().min(169.)
-}
-
 fn world_mesh_bounds(node: &Gd<Node3D>) -> Option<[Vector3; 2]> {
+    if !node.is_visible_in_tree() {
+        return None;
+    }
     let mut bounds: Option<[Vector3; 2]> = None;
     if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>()
         && mesh.get_mesh().is_some()
@@ -7149,28 +9961,44 @@ fn world_layer_states(node: &Gd<Node3D>) -> Vec<serde_json::Value> {
     states
 }
 
+fn preview_mesh_points(node: &Gd<Node3D>, points: &mut Vec<Vector3>) {
+    if !node.is_visible_in_tree() {
+        return;
+    }
+    if let Ok(mesh) = node.clone().try_cast::<MeshInstance3D>()
+        && mesh.get_mesh().is_some()
+    {
+        let aabb = mesh.get_aabb();
+        let transform = mesh.get_global_transform();
+        for corner in 0..8 {
+            points.push(
+                transform
+                    * (aabb.position
+                        + aabb.size
+                            * Vector3::new(
+                                (corner & 1) as f32,
+                                ((corner >> 1) & 1) as f32,
+                                ((corner >> 2) & 1) as f32,
+                            )),
+            );
+        }
+    }
+    for child in node.get_children().iter_shared() {
+        if let Ok(child) = child.try_cast::<Node3D>() {
+            preview_mesh_points(&child, points);
+        }
+    }
+}
+
 fn projected_bounds(camera: &Gd<Camera3D>, node: &Gd<Node3D>) -> Option<[[f32; 2]; 2]> {
-    let bounds = world_mesh_bounds(node)?;
+    let mut points = Vec::new();
+    preview_mesh_points(node, &mut points);
+    if points.is_empty() {
+        return None;
+    }
     let mut min = Vector2::new(f32::MAX, f32::MAX);
     let mut max = Vector2::new(f32::MIN, f32::MIN);
-    for corner in 0..8 {
-        let point = Vector3::new(
-            if corner & 1 == 0 {
-                bounds[0].x
-            } else {
-                bounds[1].x
-            },
-            if corner & 2 == 0 {
-                bounds[0].y
-            } else {
-                bounds[1].y
-            },
-            if corner & 4 == 0 {
-                bounds[0].z
-            } else {
-                bounds[1].z
-            },
-        );
+    for point in points {
         let projected = camera.unproject_position(point);
         min = Vector2::new(min.x.min(projected.x), min.y.min(projected.y));
         max = Vector2::new(max.x.max(projected.x), max.y.max(projected.y));
@@ -7248,12 +10076,6 @@ fn matrix_transform(value: &serde_json::Value) -> Option<Transform3D> {
     ))
 }
 
-fn script_camera_fov(value: f32) -> f32 {
-    // 820869D8..DC uses this recovered multiplier before renderer mode 2
-    // (vertical FOV). Keep its f32 rounding rather than approximating value / 2.
-    (value * 0.008726389147341251_f32).to_degrees()
-}
-
 fn host_steering(left: f32, right: f32, axis: f32) -> f32 {
     // Explicit host adaptation: reflect stick sign and normalize its usable range after deadzone.
     if axis.abs() > 0.12 {
@@ -7313,16 +10135,6 @@ mod binding_tests {
 
     use super::swap_binding;
     use std::collections::BTreeMap;
-    #[test]
-    fn script_camera_units_match_native_vertical_projection() {
-        let vertical = super::script_camera_fov(80.);
-        assert!((vertical - 39.99882).abs() < 0.00001);
-        // Native projection mode 2 keeps M11 and divides M00 by viewport aspect.
-        let m11 = 1. / (vertical.to_radians() * 0.5).tan();
-        let native_m11 = 1. / (80_f32 * 0.008726389147341251 * 0.5).tan();
-        assert!((m11 - native_m11).abs() < 0.000001);
-        assert!((m11 / (16. / 9.) - 1.54554).abs() < 0.0001);
-    }
     #[test]
     fn stick_deadzone_is_continuous_and_legal_inputs_roundtrip() {
         let epsilon = 0.00001;
@@ -7574,6 +10386,15 @@ fn animate_wheel_rotations(
     }
 }
 
+fn hud_map_transform(points: &[[f32; 3]]) -> (Vector2, f32) {
+    let (center, _) = map_transform(points);
+    let radius = points
+        .iter()
+        .map(|point| (Vector2::new(point[0], point[2]) - center).length())
+        .fold(1., f32::max);
+    (center, 148. / radius)
+}
+
 fn map_transform(points: &[[f32; 3]]) -> (Vector2, f32) {
     let mut min = Vector2::new(f32::MAX, f32::MAX);
     let mut max = Vector2::new(f32::MIN, f32::MIN);
@@ -7598,10 +10419,83 @@ fn hide_geometry(node: &mut Gd<Node3D>) {
     }
 }
 
+fn menu_theme() -> Gd<godot::classes::Theme> {
+    let mut theme = godot::classes::Theme::new_gd();
+    let accent = ui_accent();
+    for kind in ["Button", "OptionButton", "LineEdit"] {
+        theme.set_font("font", kind, &native_font());
+        theme.set_font_size("font_size", kind, 23);
+        for (name, background, border) in [
+            (
+                "normal",
+                Color::from_rgba(0.095, 0.079, 0.066, 0.76),
+                Color::from_rgba(0.94, 0.88, 0.76, 0.14),
+            ),
+            ("hover", Color::from_rgb(0.28, 0.15, 0.08), accent),
+            ("pressed", accent, accent),
+            (
+                "disabled",
+                Color::from_rgb(0.055, 0.065, 0.075),
+                Color::from_rgb(0.12, 0.15, 0.17),
+            ),
+            ("focus", Color::from_rgba(1., 0.39, 0.14, 0.16), accent),
+        ] {
+            let mut style = godot::classes::StyleBoxFlat::new_gd();
+            style.set_bg_color(background);
+            style.set_border_color(border);
+            style.set_border_width_all(1);
+            if matches!(name, "focus" | "hover") {
+                style.set_border_width(godot::builtin::Side::LEFT, 4);
+            }
+            style.set_corner_radius_all(0);
+            if kind == "Button" {
+                style.set_skew(Vector2::new(-0.10, 0.));
+            }
+            style.set_content_margin_all(4.);
+            style.set_content_margin(godot::builtin::Side::LEFT, 16.);
+            style.set_content_margin(godot::builtin::Side::RIGHT, 16.);
+            theme.set_stylebox(name, kind, &style);
+        }
+        for (name, color) in [
+            ("font_color", ui_paper()),
+            ("font_hover_color", Color::WHITE),
+            ("font_focus_color", Color::WHITE),
+            ("font_pressed_color", Color::from_rgb(0.025, 0.045, 0.05)),
+            ("font_disabled_color", Color::from_rgb(0.67, 0.72, 0.75)),
+        ] {
+            theme.set_color(name, kind, color);
+        }
+    }
+    theme
+}
+
+fn ui_accent() -> Color {
+    Color::from_rgb(1., 0.361, 0.149)
+}
+
+fn ui_paper() -> Color {
+    Color::from_rgb(0.965, 0.922, 0.808)
+}
+
 fn native_font() -> Gd<godot::classes::Font> {
-    godot::classes::ThemeDb::singleton()
-        .get_fallback_font()
-        .expect("Godot default font")
+    display_font(false)
+}
+
+fn display_font(bold: bool) -> Gd<godot::classes::Font> {
+    let base = if bold {
+        godot::tools::load::<godot::classes::FontFile>(
+            "res://ui/fonts/BarlowCondensed-ExtraBoldItalic.ttf",
+        )
+        .upcast::<godot::classes::Font>()
+    } else {
+        godot::classes::ThemeDb::singleton()
+            .get_fallback_font()
+            .expect("Godot default font")
+    };
+    let mut font = godot::classes::FontVariation::new_gd();
+    font.set_base_font(&base);
+    font.set_opentype_features(&vdict! { "tnum" => 1 }.upcast_any_dictionary());
+    font.upcast()
 }
 
 fn paint_stock_rims(
@@ -7727,21 +10621,6 @@ fn color_meshes(node: &mut Gd<Node3D>, color: [f32; 4]) {
             color_meshes(&mut child, color);
         }
     }
-}
-
-fn native_loading_tip() -> String {
-    let path = "res://assets/ui/native/loading-tips.json";
-    if !FileAccess::file_exists(path) {
-        return String::new();
-    }
-    let data: serde_json::Value =
-        serde_json::from_str(&FileAccess::get_file_as_string(path).to_string()).unwrap_or_default();
-    data["tips"]
-        .as_array()
-        .and_then(|tips| tips.first())
-        .and_then(|s| s.as_str())
-        .unwrap_or("")
-        .to_owned()
 }
 
 fn prepare_layered_world(node: &mut Gd<Node3D>, path: &str) {
@@ -8109,4 +10988,102 @@ fn set_creator_tunnel_culling(node: &mut Gd<Node3D>, creator: bool) {
             set_creator_tunnel_culling(&mut child, creator);
         }
     }
+}
+
+fn ordinal(position: u32) -> String {
+    let suffix = if (11..=13).contains(&(position % 100)) {
+        "th"
+    } else {
+        match position % 10 {
+            1 => "st",
+            2 => "nd",
+            3 => "rd",
+            _ => "th",
+        }
+    };
+    format!("{position}{suffix}")
+}
+
+fn readable_name(value: &str) -> String {
+    value
+        .replace(['_', '-'], " ")
+        .split_whitespace()
+        .map(|word| {
+            let mut chars = word.chars();
+            chars
+                .next()
+                .map(|first| format!("{}{}", first.to_uppercase(), chars.as_str().to_lowercase()))
+                .unwrap_or_default()
+        })
+        .collect::<Vec<_>>()
+        .join(" ")
+}
+fn finish_name(value: &str) -> &str {
+    match value {
+        "gloss" => "Gloss",
+        "metallic" => "Metallic",
+        "matt" => "Matt",
+        "pearl" => "Pearlescent",
+        "flake" => "Metal flake",
+        "thinfilm" => "Thin film",
+        _ => value,
+    }
+}
+
+/// Fit actual model bounds inside the allocated menu stage without moving the driving camera.
+fn fit_preview(
+    camera: &mut Gd<Camera3D>,
+    preview: &Gd<Node3D>,
+    bounds: [Vector3; 2],
+    stage: Rect2,
+) {
+    let center = (bounds[0] + bounds[1]) * 0.5;
+    camera.set_h_offset(0.);
+    camera.set_v_offset(0.);
+    camera.look_at(center);
+    let distance = camera.get_position().distance_to(center);
+    let mut points = Vec::new();
+    preview_mesh_points(preview, &mut points);
+    for step in 0..60 {
+        let fov = 16. + step as f32 * 2.;
+        let height = 2. * distance * (fov.to_radians() * 0.5).tan();
+        camera.set_fov(fov);
+        camera.set_h_offset((960. - stage.center().x) / 1080. * height);
+        camera.set_v_offset((stage.center().y - 540.) / 1080. * height);
+        if points.iter().all(|point| {
+            stage
+                .grow(-48.)
+                .contains_point(camera.unproject_position(*point))
+        }) {
+            break;
+        }
+    }
+}
+
+fn default_key_bindings() -> BTreeMap<String, Key> {
+    BTreeMap::from([
+        ("throttle".into(), Key::W),
+        ("brake".into(), Key::S),
+        ("left".into(), Key::A),
+        ("right".into(), Key::D),
+        ("handbrake".into(), Key::SPACE),
+        ("nitrous".into(), Key::SHIFT),
+        ("reverse".into(), Key::Q),
+    ])
+}
+
+fn default_joy_axes() -> BTreeMap<String, i32> {
+    BTreeMap::from([
+        ("throttle".into(), 5),
+        ("brake".into(), 4),
+        ("steering".into(), 0),
+    ])
+}
+
+fn default_joy_buttons() -> BTreeMap<String, i32> {
+    BTreeMap::from([
+        ("nitrous".into(), 0),
+        ("handbrake".into(), 2),
+        ("reverse".into(), 3),
+    ])
 }
