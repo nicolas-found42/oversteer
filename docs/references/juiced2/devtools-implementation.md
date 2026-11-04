@@ -43,13 +43,13 @@ or1080p60 benchmark. The debugger launches the Godot host, following
 [gdext's debugging guidance](https://godot-rust.github.io/book/toolchain/debugging.html);
 Godot script LSP/DAP is not the Rust debugger.
 
-## Verification
+## Verified baseline after cleanup and review updates
 
-- `dev.py check` passes with27 Rust library tests and35 Python tests:16 game
-  tooling tests,6 shared donor-helper tests, and13 reference-review tests.
-- Syntax checks compile206 owned Python files in memory without executing them;
-  scoped Ruff checks pass and57 host files pass the formatter check.
-- The source gate also passed in an isolated source copy whose path contains
+- At pushed revision `ada2864be4a2225a580ead13ae081c970f88d74f`, `dev.py check`
+  passed 27 Rust library tests and 36 Python tests: 16 game-tool, 6 donor-helper and 14
+  reference-review tests. Syntax checks compiled 173 owned Python files without
+  executing them; root Ruff and all 26 supported host-file format checks passed.
+- Earlier tooling adoption also passed in an isolated source copy whose path contains
   spaces, without `godot/assets` or `artifacts`. Initial validation shared the
   public dependency compile cache; a separate cold-output run also passed with
   its own fresh Cargo build directory and no shared compiled workspace outputs.
@@ -61,16 +61,20 @@ Godot script LSP/DAP is not the Rust debugger.
   integration,22 frontend unit), with zero failures/ignored tests.
 - Source doctor and prepared-runtime doctor passed. The latter only queried
   Godot's version and read architecture/import metadata; it did not run the game.
-- Hooks configuration, YAML/editor task structure, lock consistency and whitespace
-  checks passed. Actual hosted CI execution and interactive LLDB breakpoints have
-  not been exercised.
+- All hooks, configuration, lock consistency and whitespace checks passed.
+  [Hosted ARM64 source CI passed `ada2864`](https://github.com/nicolas-found42/oversteer/actions/runs/41736476548).
+  Interactive LLDB breakpoints remain unverified.
 - Cargo.lock, runtime content and both deployed16a65 DLLs remain byte-identical.
-  Current source formatting/lint changes require a new build boundary before
+  Current source formatting/lint and newline-only embedded-JSON changes require a new build boundary before
   generating new game acceptance evidence.
 
-Logs are local under `/tmp/oversteer-{dev-check,fresh-source-check,fresh-cold-source-check,reference-tests}.log`;
+Earlier adoption logs are local under
+`/tmp/oversteer-{dev-check,fresh-source-check,fresh-cold-source-check,reference-tests}.log`;
 negative probes are recorded in `/tmp/oversteer-devtools-negative-checks.json`.
-These are implementation checks, not permanent gameplay evidence.
+The final `ada2864` local checks used `/tmp/oversteer-push-*-final.log`.
+These temporary logs are not portable or permanent gameplay evidence; the linked
+hosted run provides the durable source-CI result. See `docs/game/HANDOFF.md` for
+the paused runtime boundary and the exact local evidence paths.
 
 ## Deliberately separate work
 
@@ -83,7 +87,7 @@ No blanket type-check exclusion, paid classification, extraction, publication,
 asset regeneration, native scenario, debugger entitlement change or release
 performance run is part of the default developer gate.
 
-## Hosted-CI follow-up
+## Adoption history and reference-review follow-up
 
 The first push exposed one repository-scope mismatch: the native gate linted
 `tools/`; repository-root linting found nine style
@@ -91,17 +95,30 @@ findings in `crates/oversteer-core/tools/recover_gameplay_config.py`. The gate n
 uses `ruff check .` and `ruff format --check .`. That script was formatted and
 its imports sorted; its non-import AST was verified unchanged.
 
-The concurrently added blind-review pilot was included after its ten Python
+The initially added blind-review pilot was included after its ten Python
 tests and prepared Playwright UI test passed. Its Python tests now participate
-in the shared gate, bringing the current Python total to46. The browser test
-remains opt-in because it needs the local prepared pilot and Playwright install.
+in the shared gate, bringing the Python total at that revision to46. Dedicated
+browser verification needs the local corpus and Playwright install.
 It passed blind-payload checks, image loading, validation, persistence, annotation
 export/import, wrong-pilot rejection and desktop/mobile layout without browser
 errors. No gold human judgments or classification acceptance are inferred.
 
-The subsequent pilot-hardening validation passed49 local Python tests and the
+The subsequent pilot-hardening revision passed49 local Python tests and the
 prepared116-test Rust suite. It protects existing scoring outputs and ensures
 the browser harness builds the current template in a temporary pilot. One
 browser-regression Python test is conditional on local corpus/Playwright inputs.
-Apple Silicon hosted CI passed revision5c55ae0 before this hardening follow-up;
-the new revision triggers its own hosted rerun.
+Apple Silicon hosted CI also passed revisions5c55ae0 and1c73755.
+
+Repository cleanup then removed the superseded application and its dedicated
+sprite/build/test tooling, retaining shared donor helpers and provenance used by
+the native pipeline. The two native JSON catalogs received final newlines without
+changing their parsed values. Reference review no longer asks for a reviewer name;
+its backup schema remains compatible. Hierarchical category buttons and broader
+category answers are covered by Python/browser tests. Broader answers remain
+unresolved for exact-label precision and do not enable automatic acceptance.
+The current browser harness builds the tracked template in a temporary pilot;
+it does not update an existing human pilot or create human gold judgments. One
+generic Python browser regression is conditional on local corpus/Playwright inputs;
+its dedicated prepared run passed at `ada2864`, including hierarchical navigation,
+persistence, broad-category and older exact-label import/export, search,
+uncertainty, wrong-pilot rejection and desktop/mobile layout.

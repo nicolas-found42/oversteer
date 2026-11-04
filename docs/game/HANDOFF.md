@@ -1,16 +1,22 @@
 # Paused implementation handoff
 
-Recorded 2026-11-03 after the user explicitly paused work. The goal is PAUSED,
-not complete. Resume implementation only when the user requests it. The three
-implementation agents were interrupted; no Cargo/game scenario process was found
-running at the pause check. The previously started compilation had already ended.
+Updated 2026-11-03 through pushed source/tooling baseline
+`ada2864be4a2225a580ead13ae081c970f88d74f` on `main`. Gameplay implementation is
+PAUSED at the user's request, not complete. Resume implementation only when the
+user requests it; do not restart the interview. Subsequent cleanup, tooling,
+reference-review UI and documentation work do not resume gameplay.
+
+The implementation agents were interrupted at the original pause; no Cargo/game
+scenario process was then running. Current source checks and hosted CI passed,
+but no new native gameplay or release qualification was performed.
 
 ## Read first
 
 1. Root `AGENTS.md`, `docs/agents/domain.md`, `GLOSSARY.md`, and `docs/adr/`.
 2. Canonical specification: https://github.com/nicolas-found42/oversteer/issues/1.
-   Versioned matching body: `docs/game/SPEC.md`. The original local mirror remains
-   `artifacts/juiced2-build/spec-issue.md` (verified at pause).
+   Tracked matching body: `docs/game/SPEC.md`. The ignored
+   `artifacts/juiced2-build/spec-issue.md` is the historical pause snapshot;
+   use the GitHub issue and tracked specification for current instructions.
 3. `docs/design/JUICED2_REBUILD_INTERVIEW.md`, `docs/game/README.md`,
    `docs/references/juiced2/README.md`, and `tools/game/assets/README.md`.
 4. This handoff and the exact checkpoint manifests below. The specification gives
@@ -22,6 +28,27 @@ Rust core owns simulation/game state; Godot Metal4/Forward+ owns presentation.
 Full singleplayer, 30 accepted donors, 33 courses, 403 career +60 sponsor contests,
 10 leagues/261 goals. Multiplayer and wheel force feedback are deferred. The six
 release evidence groups in issue1 remain open; technical passes are not completion.
+
+## Resume order after the user requests gameplay work
+
+1. Read the specification and this handoff, inspect `git status`, and run source
+   preflight. Inventory the local inputs below before attempting runtime work.
+2. Preserve the deployed `16a65` DLL/content identities. Diagnose the inspection
+   camera and avatar fixes with the bounded all30/avatar suites below; review
+   distinct visible-car captures, save/relaunch and the original comparison frames.
+3. Before building current sources, archive their exact Cargo/Rust/embedded-data
+   inputs into a new compile boundary. Keep the earlier deployments/checkpoints
+   available and qualify only the new DLL/content pair actually executed.
+4. Complete the source-backed performance/license/prototype/league-selection
+   rules and primary donor stock audit together. Validate all 30 ranges and all 463
+   event reachability before publishing corrected content; choose the eligible
+   starter from those results and update verifier expectations consistently.
+5. Run a fresh legal full career, complete outstanding reference/material/NPC/UI
+   repairs and human evidence review, then repeat all30 customization/persistence,
+   independent exported-app recovery and 1080p60 release evidence.
+
+The detailed failure evidence and unfinished rule bindings later in this document
+are part of that plan. Green source CI does not close any release evidence group.
 
 ## Workspace and portability
 
@@ -37,8 +64,9 @@ Do not discard the ignored local asset/evidence directories.
 A fresh agent IN THIS WORKSPACE can continue after reading these records and
 checking the code. A fresh clone now contains the implementation source, but cannot
 reproduce the complete runnable state from Git alone.
-The ignored local vault, original-image/recompiled-source intake, converted assets,
-checkpoints and tooling caches must also remain available or be transferred.
+Preserve or transfer the ignored local vault, original-image/recompiled-source
+intake, converted assets, staged corrections and checkpoints. Public tool and
+dependency caches can be rebuilt from pins; they do not replace unique local evidence.
 Lightweight checkpoint manifests, source-authored contracts and donor-stock audit
 summaries are versioned under `docs/game/evidence/`; their referenced raw files
 remain local. They do not make all original recovery inputs available in a clone.
@@ -46,16 +74,138 @@ The `origin` remote is `https://github.com/nicolas-found42/oversteer.git`. Use e
 `--repo nicolas-found42/oversteer` for the agreed issue tracker.
 Never expose configured API credentials.
 
+| Local path | Required for |
+| --- | --- |
+| `resources/games/juiced-2/juiced-2-hot-import-nights.iso` | Original non-car recovery; user-supplied, absent from a clone. |
+| `artifacts/carmodels-research/models/` | Accepted pinned donor GLBs; source IDs/hashes are tracked in `data/juiced2/accepted-roster.json`. |
+| `artifacts/juiced2-recovery/` | Original-code/artifact intake and recovery evidence. |
+| `artifacts/juiced2-build/` | Reference-test fixtures, compile/runtime checkpoints and staged donor corrections. |
+| `artifacts/juiced2-vault/` | Original videos/images, classifications and retained human-review pilot. |
+| `godot/assets/`, `godot/bin/`, `godot/.godot/` | Prepared runtime resources, deployed extensions and import cache. |
+| `build/tools/`, `build/verification/`, `build/packages/` | Pinned applications, historical captures/comparisons and older exported apps. |
+
+Use `tools/game/assets/README.md` for recovery prerequisites and production steps.
+Its commands can write runtime assets and tracked content; source validation does
+not run them. Preserve the current staged stock corrections and known-failure
+captures before rebuilding. A fresh clone can check sources immediately after
+installing source tools, but cannot reproduce the retained runnable/evidence state alone.
+
 ## Developer tooling update after the pause
 
-Source-only developer tooling and configuration were updated after this gameplay
-checkpoint: a pinned Rust/Python source gate, ARM64 CI, editor tasks, and a dev
-extension build option. This does not resume gameplay implementation or validate
-the runtime. The DLL `16a65` and its historical results below remain the recorded
-checkpoint; current tooling/source changes are not a new compiled/rendered
-checkpoint. No native scenario was run as part of the tooling update. Use
-`uv run --frozen python tools/game/dev.py check` for source checks; retain the
-explicit resume and native evidence requirements below.
+The Rust/Godot workspace is the maintained game path. Cleanup removed the
+superseded application's sources/tests, build wrappers, vendor headers, scenario
+baselines, appearance inspector and 2D sprite generation/atlases, plus their
+workflows and documentation. Root onboarding, VS Code tasks/debugger settings,
+hooks and CI now describe the native project. Required shared donor inputs remain:
+
+- `tools/carmodels/assets.py`: hash checks, selected-scene GLB decoding and node transforms.
+- `tools/carmodels/preview_materials.mjs` and `tools/carmodels/source_viewer/gt4-materials.mjs`: pinned material translation.
+- `data/carmodels/profiles/` and source metadata: donor input provenance; numeric estimates and known defects still require review.
+- `tools/visual/package*.json`: Playwright dependency for reference-review browser tests.
+
+Published maintenance changes through `ada2864` are:
+
+| Commit | Result |
+| --- | --- |
+| `36b9ab4` | Repository cleanup and Python source inventory that excludes deleted files. |
+| `1ab4f1a` | Final newlines in `crates/oversteer-core/data/native-drivers.json` and `data/juiced2/wheels.json`; JSON values unchanged. |
+| `48e6440` | Reviewer-name entry removed from the reference review page; backup schema remains compatible. |
+| `ada2864` | Hierarchical reference labels and broad-category answers, with scoring, browser tests and documentation. |
+
+These follow the developer-tooling adoption recorded in
+`docs/references/juiced2/devtools-implementation.md`. `COMMIT_HISTORY.md` records
+the earlier retrospective implementation series, not these later maintenance commits.
+
+### Start with source checks
+
+Run from the repository root on Apple Silicon, after installing rustup, uv and
+Apple command-line developer tools:
+
+```sh
+git status --short
+uv run --frozen python tools/game/dev.py doctor
+uv run --frozen python tools/game/dev.py check
+uv run --frozen pre-commit run --all-files
+```
+
+`rust-toolchain.toml` pins Rust 1.99.0, rustfmt/Clippy and the ARM64 target;
+`.python-version` pins Python 3.13.16. `pyproject.toml`/`uv.lock` own dependencies:
+Ruff 0.15.20, pre-commit 4.7.0, NumPy 2.5.4 and Pillow 13.0.0. CI pins uv 0.13.6.
+Compatibility requirements exports are not a second dependency authority.
+
+`dev.py check` checks formatting, compiles Python in memory without importing
+recovery workers, runs strict all-target Clippy and root Ruff, then Rust library
+and Python unit suites. `format` explicitly rewrites supported formatting;
+`lint` and `test` are narrower commands. Recovery workers retain a documented
+advisory style audit; the mandatory correctness/syntax gate covers them.
+Hooks may rewrite Python/whitespace, while the Rust hook checks only. Hook
+installation is explicit per clone: `uv run --frozen pre-commit install`.
+Retained checkpoint evidence is excluded from whitespace rewriting.
+
+No original media, prepared assets or Godot install is required for the source
+gate. An optional Python browser regression skips when its local corpus or
+Playwright inputs are absent; it is not evidence of a fresh clone's browser coverage.
+
+For this prepared workspace, the additional checks are:
+
+```sh
+uv run --frozen python tools/game/dev.py reference-tests
+uv run --frozen python tools/game/dev.py doctor --runtime
+npm test --prefix tools/visual
+```
+
+`reference-tests` requires retained local recovery fixtures and fails explicitly
+when they are missing. It runs all workspace Rust tests; `build.py test` also runs
+the full workspace suite and is not the source-only default. Runtime doctor queries
+the pinned Godot version, checks ARM64 binaries and import metadata without rendering.
+Browser setup, when needed, is `npm ci --prefix tools/visual` followed by
+`npm exec --prefix tools/visual -- playwright install chromium`; the local vault
+is also required. The browser harness builds the current template in a temporary
+pilot and uses synthetic answers without changing the human pilot.
+
+At `ada2864`, validation passed 27 Rust library tests and 36 Python tests
+(16 game-tool, 6 donor-helper, 14 reference-review), plus the prepared 116-test Rust
+suite (the same 27 library tests +89 core integration tests), all hooks,
+lock/configuration checks, browser verification and runtime preflight.
+[Hosted ARM64 source CI passed that exact revision](https://github.com/nicolas-found42/oversteer/actions/runs/41736476548).
+That job runs the same source gate on `macos-26`; it does not prepare original
+assets, run native scenarios or qualify M5 Pro rendering/performance.
+
+### Builds and editor behavior
+
+`uv run --frozen python tools/game/build.py build --profile dev --skip-import`
+builds/copies only the debug-path extension without preparing/importing assets.
+It replaces the historical debug deployment, so archive its identity first when
+preserving a diagnosis target. Normal `build` defaults to release, updates both
+debug/release deployment paths and performs a native-renderer import; export
+requires release. Close Godot before rebuilding: loaded-library guards run before
+and after compilation. Imports reject logged errors even after a successful exit.
+
+VS Code defaults to native check/dev-build tasks, rust-analyzer, CodeLLDB and Ruff.
+The LLDB profile launches the pinned Godot host with the dev extension and requires
+prepared assets; actual breakpoint behavior remains unverified. No debugger
+entitlements or host signing were changed. See `docs/game/README.md` for commands.
+
+### Reference review status
+
+The blind 200-example pilot hides model predictions, confidence and split
+assignments. The UI supports category buttons, breadcrumbs, search, exact labels,
+broader categories and explicit uncertainty, with browser persistence and backup
+import/export. Broad categories retain their chosen path but count as unresolved
+for exact-label precision. Scoring reports eligibility and never changes
+automatic-acceptance flags. No synthetic test answers are human gold judgments.
+
+`artifacts/juiced2-vault/review-pilot/` is the retained local pilot. Its generated
+page need not match the latest tracked template. Build a separate pilot with
+`uv run --frozen python tools/references/review_pilot.py build --output /absolute/new-pilot-directory`;
+the output must not exist. Preserve existing reviews and exported answers. When
+scoring a separately built pilot, pass its `--manifest` explicitly and choose a
+new report filename. See `docs/references/juiced2/README.md` for the sampling and
+scoring contract. Human adjudication and release screen/state acceptance remain open.
+
+The DLL `16a65` and runtime hashes below are still historical deployments. Tooling,
+style and newline-only embedded-JSON changes are later source inputs, not a newly
+qualified runtime. Archive a new exact compile boundary before new gameplay evidence.
 
 ## Historical compiled source/runtime boundary
 
@@ -69,7 +219,10 @@ Avatar components SHA256:
 Before-compiler source snapshot:
 `artifacts/juiced2-build/checkpoints/precompile-20261103T214358Z/`.
 Its exact70 inputs, archived copies AND live source rehashed unchanged at pause.
-Manifest SHA256: `7243dc20330dc9d9745d754ed0048fcb528d22c87e02f1a53e3de5fd4383d892`.
+Input manifest: `compile-inputs-before.json`, SHA256
+`7243dc20330dc9d9745d754ed0048fcb528d22c87e02f1a53e3de5fd4383d892`.
+`compile-result.json` records the result and identities; this directory does not
+use the `manifest.json` filename of the earlier runtime checkpoints.
 Compile result:94 core/22 frontend checks passed; release compilation exit0.
 This narrow build adds creator gender/preset phase layout corrections and the
 paint-booth inspection camera fix, plus pure performance helpers. It DOES NOT
@@ -127,11 +280,17 @@ tooling/style changes; record a new exact compile boundary before producing
 evidence for a new runtime. To exercise the retained16a65 deployment first:
 
 ```sh
-python3 tools/game/verify.py --suite all30 --output build/verification/checkpoint-16a65-all30
-python3 tools/game/verify.py --suite ui --case ui-native-avatar --case ui-native-avatar-relaunch --output build/verification/checkpoint-16a65-avatar
+uv run --frozen python tools/game/verify.py --suite all30 \
+  --output build/verification/resume-16a65-all30
+uv run --frozen python tools/game/verify.py --suite ui \
+  --case ui-native-avatar --case ui-native-avatar-relaunch \
+  --output build/verification/resume-16a65-avatar
 ```
 
-The current parser uses `--case` with `action="append"`; both avatar cases run
+Choose unused output paths; preserve all previous evidence. Confirm the deployed
+hashes still match this handoff before using the16a65 examples. Source tests and
+runtime doctor are safe preflight; running these rendered suites requires the
+explicit gameplay resume. The current parser uses `--case` with `action="append"`; both avatar cases run
 in suite order and the relaunch case shares the first process's saved profile.
 
 Review the resulting120 distinct stock/modified front/rear views manually.

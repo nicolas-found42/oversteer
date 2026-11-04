@@ -1,6 +1,27 @@
 # Godot/Rust Juiced 2 reconstruction
 
-Implementation is authorized by the user's active goal: build the entire agreed game without further consultation. This is the living specification, not a claim of completed game or native parity.
+The user approved the agreed implementation scope without another interview. Gameplay implementation is **paused at the user's request**; resume only on an explicit request to continue it. Documentation, repository cleanup and developer-tooling maintenance since the pause do not resume gameplay. This is the living specification, not a claim of completed game or native parity.
+
+## Source and tooling baseline — 2026-11-03
+
+The verified, pushed source baseline is `ada2864be4a2225a580ead13ae081c970f88d74f` on `main`. Read [the handoff](https://github.com/nicolas-found42/oversteer/blob/main/docs/game/HANDOFF.md) for local input requirements, exact deployed runtime identities, known failures and the ordered resume plan. The tracked copy of this specification is `docs/game/SPEC.md`; GitHub issue 1 is the canonical specification. The ignored `artifacts/juiced2-build/spec-issue.md` is a historical pause snapshot.
+
+The Rust/Godot workspace is the game implementation: `crates/oversteer-core`, `crates/oversteer-godot`, `godot/`, `data/juiced2/` and `tools/game/`. Repository cleanup removed the superseded application, its build wrappers, platform workflows, vendor headers, scenario baselines, appearance inspector and 2D sprite pipeline/atlases. Shared `tools/carmodels` GLB decoding/material helpers and tracked donor profiles remain required native preparation inputs. Their 904-profile source inventory does not expand the accepted 30-car roster.
+
+Development pins are Godot **4.7.2**, gdext **0.5.5** / `api-4-7`, Rust **1.99.0**, Python **3.13.16**, Ruff **0.15.20** and pre-commit **4.7.0**, with frozen uv dependencies. CI pins uv **0.13.6** and uses an ARM64 `macos-26` runner. The authoritative source commands are:
+
+```sh
+uv run --frozen python tools/game/dev.py doctor
+uv run --frozen python tools/game/dev.py check
+```
+
+`check` runs Rust/Python format checks, Python compilation without executing recovery scripts, strict all-target Clippy, repository-wide Ruff and source unit suites. Prepared recovery fixtures are checked separately by `dev.py reference-tests`; runtime metadata by `dev.py doctor --runtime`. Native imports, builds, rendering, recovery and release scenarios are separate operations. [The native workflow](https://github.com/nicolas-found42/oversteer/blob/main/docs/game/README.md) documents them.
+
+At `ada2864`, local validation passed **27 Rust library tests**, **36 Python tests** (16 game-tool, 6 shared donor-helper, 14 reference-review), all hooks, lock/configuration checks, reference browser tests and runtime preflight. The prepared full Rust suite passed **116 tests** (the same 27 library tests plus 89 core integration cases). [Hosted native source CI passed that exact revision](https://github.com/nicolas-found42/oversteer/actions/runs/41736476548). The browser regression is conditional on local corpus/Playwright inputs in the generic Python suite; its dedicated prepared run also passed locally. These results establish source/tooling behavior, not a new native gameplay or release checkpoint.
+
+The reference vault now has a blind human-review pilot with hierarchical category buttons, exact-label and broad-category answers, persistence and compatible backup import/export. Broad-category answers remain unresolved for exact-label precision; scoring never enables automatic acceptance. Synthetic browser answers are test data. Human adjudication and reference-linked screen/state acceptance remain open; see [the review workflow](https://github.com/nicolas-found42/oversteer/blob/main/docs/references/juiced2/README.md#blind-human-review-pilot).
+
+The deployed debug/release DLL remains `16a65c105ffbff23ded469d7f53dce7c0c8a5df2b8b5077c496ce880a6c175cf`, with **no native GPU/scenario run of that DLL yet**. The last executed checkpoint remains `168892b6` below. Tooling/style edits and the newline-only native JSON changes are later source inputs; create a new exact compile boundary before qualifying a new runtime. The six release evidence groups remain open.
 
 ## Current implementation evidence (work in progress)
 
