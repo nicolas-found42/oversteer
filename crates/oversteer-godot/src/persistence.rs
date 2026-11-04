@@ -1,5 +1,7 @@
 //! Checked atomic save I/O, preserving an invalid primary before backup recovery.
+use crate::diagnostics;
 use oversteer_core::{Game, GameContent};
+use serde_json::json;
 use std::{
     fs,
     io::Write,
@@ -13,15 +15,27 @@ pub struct Loaded {
 fn side(path: &Path, suffix: &str) -> PathBuf {
     PathBuf::from(format!("{}{suffix}", path.display()))
 }
+fn io<T>(stage: &str, result: std::io::Result<T>) -> std::io::Result<T> {
+    diagnostics::event(
+        "storage.step",
+        json!({"stage":stage,"outcome":if result.is_ok(){"ok"}else{"error"},"category":result.as_ref().err().map(|e|format!("{:?}", e.kind())).unwrap_or_else(||"none".into())}),
+    );
+    result
+}
 fn atomic(path: &Path, data: &str) -> Result<(), String> {
+    diagnostics::event(
+        "storage.write",
+        json!({"target":if path.extension().is_some_and(|e| e == "backup"){"backup"}else{"primary"}}),
+    );
     let parent = path.parent().ok_or("Save path has no parent")?;
-    fs::create_dir_all(parent).map_err(|e| format!("Create save directory: {e}"))?;
+    io("create_directory", fs::create_dir_all(parent))
+        .map_err(|e| format!("Create save directory: {e}"))?;
     let temp = side(path, &format!(".tmp-{}", std::process::id()));
-    let mut file = fs::File::create(&temp).map_err(|e| format!("Create temporary save: {e}"))?;
-    file.write_all(data.as_bytes())
-        .map_err(|e| format!("Write save: {e}"))?;
-    file.sync_all().map_err(|e| format!("Sync save: {e}"))?;
-    fs::rename(temp, path).map_err(|e| format!("Replace save: {e}"))?;
+    let mut file = io("create_temporary", fs::File::create(&temp))
+        .map_err(|e| format!("Create temporary save: {e}"))?;
+    io("write", file.write_all(data.as_bytes())).map_err(|e| format!("Write save: {e}"))?;
+    io("sync", file.sync_all()).map_err(|e| format!("Sync save: {e}"))?;
+    io("replace", fs::rename(temp, path)).map_err(|e| format!("Replace save: {e}"))?;
     Ok(())
 }
 pub fn preserve(path: &Path) -> Result<Option<PathBuf>, String> {
@@ -33,11 +47,14 @@ pub fn preserve(path: &Path) -> Result<Option<PathBuf>, String> {
         .map_err(|e| e.to_string())?
         .as_nanos();
     let retained = side(path, &format!(".corrupt-{stamp}"));
-    fs::copy(path, &retained).map_err(|e| format!("Preserve damaged save: {e}"))?;
+    io("preserve", fs::copy(path, &retained)).map_err(|e| format!("Preserve damaged save: {e}"))?;
     Ok(Some(retained))
 }
 pub fn load(content: GameContent, path: &Path) -> Result<Loaded, String> {
-    let primary = fs::read_to_string(path);
+    diagnostics::operation("career.load", |_| load_inner(content, path))
+}
+fn load_inner(content: GameContent, path: &Path) -> Result<Loaded, String> {
+    let primary = io("read_primary", fs::read_to_string(path));
     let backup_path = side(path, ".backup");
     if matches!(&primary,Err(e)if e.kind()==std::io::ErrorKind::NotFound) && !backup_path.exists() {
         return Ok(Loaded {
@@ -55,11 +72,18 @@ pub fn load(content: GameContent, path: &Path) -> Result<Loaded, String> {
                     preserved: None,
                 });
             }
-            Err(e) => e,
+            Err(e) => {
+                diagnostics::event(
+                    "storage.invalid",
+                    json!({"target":"primary","category":"invalid_save"}),
+                );
+                e
+            }
         },
         Err(e) => e.to_string(),
     };
-    let backup = fs::read_to_string(&backup_path)
+    diagnostics::event("storage.fallback", json!({"target":"backup"}));
+    let backup = io("read_backup", fs::read_to_string(&backup_path))
         .map_err(|e| format!("Career cannot be loaded ({problem}); backup unavailable: {e}"))?;
     let game = Game::load_json(content, &backup)
         .map_err(|e| format!("Career cannot be loaded ({problem}); backup invalid: {e}"))?;
@@ -72,12 +96,15 @@ pub fn load(content: GameContent, path: &Path) -> Result<Loaded, String> {
     })
 }
 pub fn save(game: &Game, path: &Path) -> Result<(), String> {
+    diagnostics::operation("career.save", |_| save_inner(game, path))
+}
+fn save_inner(game: &Game, path: &Path) -> Result<(), String> {
     let data = game
         .save_json()
         .map_err(|e| format!("Serialize career: {e}"))?;
     if path.exists() {
-        let previous =
-            fs::read_to_string(path).map_err(|e| format!("Read previous career: {e}"))?;
+        let previous = io("read_previous", fs::read_to_string(path))
+            .map_err(|e| format!("Read previous career: {e}"))?;
         if Game::load_json(game.content.clone(), &previous).is_ok() {
             atomic(&side(path, ".backup"), &previous)?;
         } else {
@@ -88,7 +115,10 @@ pub fn save(game: &Game, path: &Path) -> Result<(), String> {
 }
 
 pub fn load_preferences(path: &Path) -> Result<Option<serde_json::Value>, String> {
-    let primary = fs::read_to_string(path);
+    diagnostics::operation("options.load", |_| load_preferences_inner(path))
+}
+fn load_preferences_inner(path: &Path) -> Result<Option<serde_json::Value>, String> {
+    let primary = io("read_primary", fs::read_to_string(path));
     let backup_path = side(path, ".backup");
     if matches!(&primary,Err(error) if error.kind()==std::io::ErrorKind::NotFound)
         && !backup_path.exists()
@@ -98,11 +128,18 @@ pub fn load_preferences(path: &Path) -> Result<Option<serde_json::Value>, String
     let problem = match primary {
         Ok(text) => match serde_json::from_str::<serde_json::Value>(&text) {
             Ok(value) => return Ok(Some(value)),
-            Err(error) => error.to_string(),
+            Err(error) => {
+                diagnostics::event(
+                    "storage.invalid",
+                    json!({"target":"primary","category":"invalid_json"}),
+                );
+                error.to_string()
+            }
         },
         Err(error) => error.to_string(),
     };
-    let backup = fs::read_to_string(&backup_path)
+    diagnostics::event("storage.fallback", json!({"target":"backup"}));
+    let backup = io("read_backup", fs::read_to_string(&backup_path))
         .map_err(|error| format!("Options unavailable ({problem}); backup: {error}"))?;
     let value = serde_json::from_str(&backup)
         .map_err(|error| format!("Options backup invalid: {error}"))?;
@@ -111,9 +148,12 @@ pub fn load_preferences(path: &Path) -> Result<Option<serde_json::Value>, String
     Ok(Some(value))
 }
 pub fn save_preferences(path: &Path, value: &serde_json::Value) -> Result<(), String> {
+    diagnostics::operation("options.save", |_| save_preferences_inner(path, value))
+}
+fn save_preferences_inner(path: &Path, value: &serde_json::Value) -> Result<(), String> {
     if path.exists() {
-        let previous =
-            fs::read_to_string(path).map_err(|error| format!("Read previous options: {error}"))?;
+        let previous = io("read_previous", fs::read_to_string(path))
+            .map_err(|error| format!("Read previous options: {error}"))?;
         if serde_json::from_str::<serde_json::Value>(&previous).is_ok() {
             atomic(&side(path, ".backup"), &previous)?;
         } else {

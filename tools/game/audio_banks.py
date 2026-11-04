@@ -9,6 +9,7 @@ import subprocess
 import zlib
 from concurrent.futures import ThreadPoolExecutor
 
+import diagnostics
 from media import DECODER, OUTPUT, ROOT, WORK, encode, source_file
 
 
@@ -104,7 +105,7 @@ def main():
         source, target, record = job
         wav = source.with_suffix(".wav")
         if not target.exists():
-            subprocess.run(
+            diagnostics.recorded_run(
                 [str(DECODER), "-i", "-o", str(wav), str(source)],
                 check=True,
                 stdout=subprocess.DEVNULL,

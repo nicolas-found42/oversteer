@@ -1,4 +1,5 @@
 mod audio;
+mod diagnostics;
 mod effects;
 mod hud_art;
 mod loading;
@@ -45,6 +46,7 @@ pub struct OversteerApp {
     loaded_race: String,
     preload_resources: Vec<Gd<godot::classes::Resource>>,
     loading_reports: Vec<serde_json::Value>,
+    loading_reports_dropped: u64,
     title: bool,
     credits: bool,
     stage: Option<Gd<Node3D>>,
@@ -185,6 +187,7 @@ impl INode3D for OversteerApp {
             loaded_race: String::new(),
             preload_resources: vec![],
             loading_reports: vec![],
+            loading_reports_dropped: 0,
             title: false,
             credits: false,
             stage: None,
@@ -395,18 +398,35 @@ impl INode3D for OversteerApp {
             self.base().get_tree().quit_ex().exit_code(1).done();
             return;
         }
+        let diagnostic_dir = std::path::PathBuf::from(self.save_path())
+            .parent()
+            .unwrap()
+            .join("diagnostics");
+        diagnostics::initialize(&diagnostic_dir);
         self.content_json =
             FileAccess::get_file_as_string("res://assets/game-content.json").to_string();
         self.content = match serde_json::from_str(&self.content_json) {
             Ok(content) => content,
             Err(error) => {
+                diagnostics::event(
+                    "startup.error",
+                    serde_json::json!({"stage":"content","category":"invalid_json"}),
+                );
                 godot_error!("Invalid bundled game-content.json: {}", error);
                 self.base().get_tree().quit_ex().exit_code(1).done();
                 return;
             }
         };
+        diagnostics::event(
+            "content.loaded",
+            serde_json::json!({"content_id":GString::from(self.content_json.as_str()).sha256_text().to_string(),"mode":if self.scenario.is_empty(){"interactive"}else{"scenario"}}),
+        );
         self.content.apply_oversteer_vehicle_corrections();
         if let Err(error) = self.content.apply_oversteer_career() {
+            diagnostics::event(
+                "startup.error",
+                serde_json::json!({"stage":"career_content","category":"invalid_content"}),
+            );
             godot_error!("Invalid Oversteer career: {}", error);
             self.base().get_tree().quit_ex().exit_code(1).done();
             return;
@@ -521,6 +541,10 @@ impl INode3D for OversteerApp {
             self.viewport_rid = Some(rid);
         }
         let server = RenderingServer::singleton();
+        diagnostics::event(
+            "runtime.ready",
+            serde_json::json!({"mode":server.get_current_rendering_driver_name().to_string()}),
+        );
         godot_print!(
             "OVERSTEER backend={} driver={} viewport=1920x1080",
             server.get_current_rendering_method(),
@@ -698,6 +722,7 @@ impl INode3D for OversteerApp {
             video.set_stream(None::<&Gd<godot::classes::VideoStream>>);
         }
         self.persist();
+        diagnostics::event("session.end", serde_json::json!({}));
     }
     fn input(&mut self, event: Gd<InputEvent>) {
         if self.video_active {
@@ -987,7 +1012,7 @@ impl OversteerApp {
             "recent_commands":self.command_history,
             "recent_input_samples":&self.input_samples[self.input_samples.len().saturating_sub(120)..],
             "timing":{"physics_cpu_ms":self.physics_cpu_ms,"physics_advance_calls":self.physics_advance_calls,"scene_sync_cpu_ms":self.scene_sync_cpu_ms,"scene_sync_max_ms":self.scene_sync_max_ms},
-            "loading":self.loading_reports,"save_status":self.save_status,"load_status":self.load_status
+            "loading":self.loading_reports,"loading_reports_dropped":self.loading_reports_dropped,"save_status":self.save_status,"load_status":self.load_status
         }).to_string())
     }
 
@@ -2640,6 +2665,10 @@ impl OversteerApp {
             Ok((_, true)) => {
                 let (resources, report) = self.loading.take().unwrap().finish();
                 self.preload_resources = resources;
+                if self.loading_reports.len() == 32 {
+                    self.loading_reports.remove(0);
+                    self.loading_reports_dropped += 1;
+                }
                 self.loading_reports.push(report);
                 let target = std::mem::take(&mut self.load_target);
                 if target == "showroom" {
@@ -2697,6 +2726,10 @@ impl OversteerApp {
                 self.save_blocked = false;
                 self.io_retry.clear();
                 self.load_status = serde_json::json!({"ok":true,"source":loaded.source,"preserved":loaded.preserved.as_ref().map(|p|p.display().to_string()),"path":path,"recovered_race":loaded.game.recovered_race()});
+                diagnostics::event(
+                    "career.loaded",
+                    serde_json::json!({"source":loaded.source,"recovered_race":loaded.game.recovered_race().is_some(),"preserved":loaded.preserved.is_some()}),
+                );
                 self.game = Some(loaded.game);
                 if loaded.source == "backup" {
                     self.error_dialog = Some(
@@ -2718,6 +2751,10 @@ impl OversteerApp {
     }
     fn persist(&mut self) -> bool {
         if self.save_blocked {
+            diagnostics::event(
+                "career.save_blocked",
+                serde_json::json!({"category":"unrecovered_save"}),
+            );
             self.save_status = serde_json::json!({"ok":false,"error":"Unrecovered career is protected","path":self.save_path()});
             return false;
         }
@@ -2844,6 +2881,10 @@ impl OversteerApp {
                 serde_json::json!({"schema":1,"keyboard":read("settings.json")?,"controller":read("controller.json")?,"presentation":read("presentation.json")?,"audio":read("audio.json")?}),
             )
         })();
+        diagnostics::event(
+            "options.loaded",
+            serde_json::json!({"outcome":if result.is_ok(){"ok"}else{"error"}}),
+        );
         match result {
             Ok(value) => {
                 if let Ok(bindings) =
@@ -2877,6 +2918,10 @@ impl OversteerApp {
                         level: level.min(2) as u8,
                     });
                 }
+                diagnostics::event(
+                    "options.applied",
+                    serde_json::json!({"quality":self.render_quality,"difficulty":value["presentation"]["difficulty"]}),
+                );
                 self.audio_options = value["audio"].clone();
                 if let Some(audio) = &mut self.audio {
                     audio.apply_options(&self.audio_options);
@@ -3195,6 +3240,20 @@ impl OversteerApp {
     }
     fn send(&mut self, command: GameCommand) {
         if let Some(game) = &mut self.game {
+            let started = std::time::Instant::now();
+            let command_value = serde_json::to_value(&command).unwrap_or_default();
+            let command_name = command_value
+                .as_str()
+                .or_else(|| {
+                    command_value
+                        .as_object()
+                        .and_then(|o| o.keys().next().map(String::as_str))
+                })
+                .unwrap_or("unknown");
+            let operation = diagnostics::event(
+                "command.start",
+                serde_json::json!({"command":command_name,"frame":self.scenario_frame,"car_id":command_value[command_name]["car_id"],"event_id":command_value[command_name]["event_id"]}),
+            );
             let before = game.frame_snapshot();
             let mut record = serde_json::json!({"frame":self.scenario_frame,"input_frame":self.input_frame,
                 "command":command,"screen_before":before.screen,"cash_before":before.career.cash});
@@ -3203,6 +3262,10 @@ impl OversteerApp {
             record["screen_after"] = serde_json::json!(after.screen);
             record["cash_after"] = serde_json::json!(after.career.cash);
             record["error"] = serde_json::json!(result.as_ref().err());
+            diagnostics::event(
+                "command.end",
+                serde_json::json!({"operation":operation,"command":command_name,"screen_before":before.screen,"screen_after":after.screen,"cash_before":before.career.cash,"cash_after":after.career.cash,"transactions":after.career.transactions.len(),"duration_ms":started.elapsed().as_millis(),"outcome":if result.is_ok(){"ok"}else{"rejected"},"category":diagnostics::rejection(result.as_ref().err().map(String::as_str))}),
+            );
             self.command_history.push_back(record);
             if self.command_history.len() > 128 {
                 self.command_history.pop_front();
@@ -7969,6 +8032,12 @@ impl OversteerApp {
         let screen = format!("{:?}", snap.screen);
         let screen_changed = screen != self.previous_screen;
         let car_changed = snap.selected_car != self.previous_car;
+        if screen_changed {
+            diagnostics::event(
+                "screen.changed",
+                serde_json::json!({"screen_before":self.previous_screen,"screen_after":screen,"frame":self.scenario_frame,"transactions":snap.career.transactions.len()}),
+            );
+        }
         if screen_changed || car_changed {
             self.customization = snap.selected_customization.clone();
             self.rebuild_menu();
@@ -9594,7 +9663,7 @@ impl OversteerApp {
                 .get_viewport()
                 .map(|v| v.get_visible_rect().size)
                 .unwrap_or(Vector2::ZERO);
-            let mut report = serde_json::json!({"scenario":self.scenario,"native_ui_bounds":self.menu.as_ref().map(control_bounds),"presentation":{"menu_scene":"Independent workshop with neutral lighting and restrained Oversteer panels; material refinement remains in progress","bet_scene":"Fixed adult streetwear driver and selected rival car; stable camera and optional cash/pink-slip controls","profile_scene":"Character editor removed; driver-name entry retained in Options","avatar":self.avatar.as_ref().map(spatial_diagnostic),"paint_scene":"Retained paint booth and lighting; stable preview framed from visible model bounds inside the side-inspector stage. Gameplay camera unchanged.","paintbooth":self.paint_stage.as_ref().map(spatial_diagnostic),"avatar_anchor":self.avatar.as_ref().map(|avatar| { let v = avatar.get_global_position(); [v.x,v.y,v.z] }),"camera":self.camera.as_ref().map(|node|spatial_diagnostic(&node.clone().upcast::<Node3D>())),"preview":self.preview.as_ref().map(spatial_diagnostic)},"customization_catalog":{"native_decals":self.decal_catalog["designs"].as_array().map(Vec::len).unwrap_or(0),"native_categories":self.decal_catalog["categories"].as_array().map(Vec::len).unwrap_or(0),"alpha_mask_designs":self.decal_catalog["designs"].as_array().map(|designs|designs.iter().filter(|design|design["color_mode"].as_str()==Some("alpha_mask")).count()).unwrap_or(0),"colorization":"Exact constant black/white source artwork uses source alpha with chosen tint; varied RGB artwork retains source RGB multiplied by tint. Explicit renderer adaptation; native compositor unresolved.","layer_limit":16,"mapping":"Recovered source RGBA artwork on donor UV with isolated body paint masks; original decal projection consumer not recovered"},"ui_actions":self.ui_action_log,"ui_actions_complete":self.ui_step==self.ui_steps.len(),"simulation_speed":if long&&self.input_event_path.is_empty(){6}else{1},"frames":frame,"sampled_frames":self.frame_times.len(),"sample_first":self.sample_first,"sample_last":self.sample_last,"all30_probes":self.all30_probes,"load_status":self.load_status,"save_status":self.save_status,"content":{"cars":self.content.cars.len(),"tracks":self.content.tracks.len(),"events":self.content.events.len(),"event_families":families,"sha256":GString::from(self.content_json.as_str()).sha256_text().to_string()},"renderer":{"method":server.get_current_rendering_method().to_string(),"driver":server.get_current_rendering_driver_name().to_string(),"viewport":[viewport.x,viewport.y],"draw_calls":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_DRAW_CALLS_IN_FRAME),"primitives":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_PRIMITIVES_IN_FRAME),"video_memory_bytes":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::VIDEO_MEM_USED)},"frame_clock":"Rust monotonic Instant at process entry (includes render/vsync/host work between entries)","frame_times_ms":self.frame_times,"engine_delta_times_ms":self.engine_frame_times,"viewport_gpu_timing_available":self.gpu_times.iter().any(|v|*v>0.),"viewport_cpu_timing_available":self.cpu_times.iter().any(|v|*v>0.),"viewport_gpu_times_ms":self.gpu_times,"viewport_cpu_times_ms":self.cpu_times,"viewport_timing_note":"Godot measured viewport render times, read at following process entry","warmup_frames":warmup,"measured_frames":measured.len(),"measured_frame_ms_mean":if measured.is_empty(){0.}else{measured.iter().sum::<f64>()/measured.len() as f64},"measured_frame_ms_p95":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.95) as usize]},"measured_frame_ms_p99":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.99) as usize]},"measured_frame_ms_max":measured_sorted.last(),"measured_over_16_67_ms":measured.iter().filter(|t|**t>16.67).count(),"frame_ms_mean":times.iter().sum::<f64>()/times.len() as f64,"frame_ms_p95":times[(times.len() as f32*0.95) as usize],"save_reload_equal":save_reload_equal,"disk_reload_equal":disk_reload_equal,"audio":self.audio.as_ref().map(audio::RuntimeAudio::summary),"loading":self.loading_reports,"effects":self.car_effects.iter().map(effects::CarEffects::summary).collect::<Vec<_>>(),"saved_state":serde_json::from_str::<serde_json::Value>(&saved).unwrap(),"snapshot":self.game.as_ref().unwrap().frame_snapshot()});
+            let mut report = serde_json::json!({"scenario":self.scenario,"native_ui_bounds":self.menu.as_ref().map(control_bounds),"presentation":{"menu_scene":"Independent workshop with neutral lighting and restrained Oversteer panels; material refinement remains in progress","bet_scene":"Fixed adult streetwear driver and selected rival car; stable camera and optional cash/pink-slip controls","profile_scene":"Character editor removed; driver-name entry retained in Options","avatar":self.avatar.as_ref().map(spatial_diagnostic),"paint_scene":"Retained paint booth and lighting; stable preview framed from visible model bounds inside the side-inspector stage. Gameplay camera unchanged.","paintbooth":self.paint_stage.as_ref().map(spatial_diagnostic),"avatar_anchor":self.avatar.as_ref().map(|avatar| { let v = avatar.get_global_position(); [v.x,v.y,v.z] }),"camera":self.camera.as_ref().map(|node|spatial_diagnostic(&node.clone().upcast::<Node3D>())),"preview":self.preview.as_ref().map(spatial_diagnostic)},"customization_catalog":{"native_decals":self.decal_catalog["designs"].as_array().map(Vec::len).unwrap_or(0),"native_categories":self.decal_catalog["categories"].as_array().map(Vec::len).unwrap_or(0),"alpha_mask_designs":self.decal_catalog["designs"].as_array().map(|designs|designs.iter().filter(|design|design["color_mode"].as_str()==Some("alpha_mask")).count()).unwrap_or(0),"colorization":"Exact constant black/white source artwork uses source alpha with chosen tint; varied RGB artwork retains source RGB multiplied by tint. Explicit renderer adaptation; native compositor unresolved.","layer_limit":16,"mapping":"Recovered source RGBA artwork on donor UV with isolated body paint masks; original decal projection consumer not recovered"},"ui_actions":self.ui_action_log,"ui_actions_complete":self.ui_step==self.ui_steps.len(),"simulation_speed":if long&&self.input_event_path.is_empty(){6}else{1},"frames":frame,"sampled_frames":self.frame_times.len(),"sample_first":self.sample_first,"sample_last":self.sample_last,"all30_probes":self.all30_probes,"load_status":self.load_status,"save_status":self.save_status,"content":{"cars":self.content.cars.len(),"tracks":self.content.tracks.len(),"events":self.content.events.len(),"event_families":families,"sha256":GString::from(self.content_json.as_str()).sha256_text().to_string()},"renderer":{"method":server.get_current_rendering_method().to_string(),"driver":server.get_current_rendering_driver_name().to_string(),"viewport":[viewport.x,viewport.y],"draw_calls":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_DRAW_CALLS_IN_FRAME),"primitives":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::TOTAL_PRIMITIVES_IN_FRAME),"video_memory_bytes":server.get_rendering_info(godot::classes::rendering_server::RenderingInfo::VIDEO_MEM_USED)},"frame_clock":"Rust monotonic Instant at process entry (includes render/vsync/host work between entries)","frame_times_ms":self.frame_times,"engine_delta_times_ms":self.engine_frame_times,"viewport_gpu_timing_available":self.gpu_times.iter().any(|v|*v>0.),"viewport_cpu_timing_available":self.cpu_times.iter().any(|v|*v>0.),"viewport_gpu_times_ms":self.gpu_times,"viewport_cpu_times_ms":self.cpu_times,"viewport_timing_note":"Godot measured viewport render times, read at following process entry","warmup_frames":warmup,"measured_frames":measured.len(),"measured_frame_ms_mean":if measured.is_empty(){0.}else{measured.iter().sum::<f64>()/measured.len() as f64},"measured_frame_ms_p95":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.95) as usize]},"measured_frame_ms_p99":if measured_sorted.is_empty(){0.}else{measured_sorted[(measured_sorted.len() as f32*0.99) as usize]},"measured_frame_ms_max":measured_sorted.last(),"measured_over_16_67_ms":measured.iter().filter(|t|**t>16.67).count(),"frame_ms_mean":times.iter().sum::<f64>()/times.len() as f64,"frame_ms_p95":times[(times.len() as f32*0.95) as usize],"save_reload_equal":save_reload_equal,"disk_reload_equal":disk_reload_equal,"audio":self.audio.as_ref().map(audio::RuntimeAudio::summary),"loading":self.loading_reports,"loading_reports_dropped":self.loading_reports_dropped,"effects":self.car_effects.iter().map(effects::CarEffects::summary).collect::<Vec<_>>(),"saved_state":serde_json::from_str::<serde_json::Value>(&saved).unwrap(),"snapshot":self.game.as_ref().unwrap().frame_snapshot()});
             report["rendered_race_car_ids"] = serde_json::json!(
                 self.cars
                     .iter()

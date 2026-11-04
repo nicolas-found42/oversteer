@@ -1,0 +1,8 @@
+{
+  "session": "1a1a5f4e1d1-49384-27a67b70",
+  "operation": 31,
+  "backup_selected": true,
+  "replacement_type_conflict": true,
+  "write_and_sync_succeeded": true,
+  "limits": "Does not establish who created the directory. No match cannot prove absence. This is a storage failure reconstruction, not a fix to application save semantics."
+}

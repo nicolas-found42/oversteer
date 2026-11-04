@@ -9,12 +9,14 @@ import sys
 import tomllib
 from pathlib import Path
 
+import diagnostics
+
 ROOT = Path(__file__).resolve().parents[2]
 
 
 def run(arguments):
     print("+ " + " ".join(map(str, arguments)), flush=True)
-    subprocess.run([str(value) for value in arguments], cwd=ROOT, check=True)
+    diagnostics.recorded_run([str(value) for value in arguments], cwd=ROOT, check=True)
 
 
 def python_sources(root=ROOT):

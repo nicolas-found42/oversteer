@@ -1124,7 +1124,20 @@ def run_case(
             except subprocess.TimeoutExpired:
                 process.kill()
                 process.wait()
-                raise
+                result = {
+                    "case": {k: str(v) if isinstance(v, Path) else v for k, v in case.items()},
+                    "status": "failed",
+                    "category": "timeout",
+                    "exit_code": process.returncode,
+                    "duration_seconds": time.monotonic() - started,
+                    "screenshots_generated": len(list(folder.rglob("*.png"))),
+                    "checks": {"completed_before_deadline": False},
+                    "runtime_log": "runtime.log",
+                    "diagnostics": "diagnostics",
+                    "evidence_limit": "Process killed at deadline; missing scenario output is not evidence of an application cause.",
+                }
+                (folder / "timeout.json").write_text(json.dumps(result, indent=2) + "\n")
+                return result
     text = (folder / "runtime.log").read_text(errors="replace")
     report_path = folder / "scenario.json"
     report = json.loads(report_path.read_text()) if report_path.exists() else None
@@ -1841,6 +1854,14 @@ def write_gallery(destination, result):
         failures = [key for key, passed in item["checks"].items() if not passed]
         if failures:
             body.append(f"<p class=failed>{esc(', '.join(failures))}</p>")
+        if item.get("category") == "timeout":
+            prefix = esc(item["case"]["id"])
+            body.append(
+                f"<p>Process exceeded its deadline. Partial evidence is retained.</p>"
+                f"<a href='{prefix}/timeout.json'>Timeout details</a> · "
+                f"<a href='{prefix}/runtime.log'>Runtime log</a></article>"
+            )
+            continue
         body.append(
             f"<a href='{esc(item['scenario_json'])}'>Scenario state and timings</a>"
             f"<p><img loading=lazy src='{esc(item['capture'])}'></p></article>"

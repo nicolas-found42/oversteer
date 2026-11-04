@@ -9,6 +9,8 @@ import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+import diagnostics
+
 ROOT = Path(__file__).resolve().parents[2]
 WORK = ROOT / "artifacts/juiced2-build/media"
 OUTPUT = ROOT / "godot/assets/audio"
@@ -31,7 +33,7 @@ def source_file(entry, iso):
 def encode(source, destination):
     destination.parent.mkdir(parents=True, exist_ok=True)
     if not destination.exists() or destination.stat().st_size == 0:
-        subprocess.run(
+        diagnostics.recorded_run(
             [
                 "ffmpeg",
                 "-nostdin",
@@ -50,7 +52,7 @@ def encode(source, destination):
             ],
             check=True,
         )
-    result = subprocess.run(
+    result = diagnostics.recorded_run(
         [
             "ffprobe",
             "-v",
@@ -86,7 +88,7 @@ def music(entry, iso):
 
 def speech(entry, iso, limit):
     source = source_file(entry, iso)
-    metadata = subprocess.run(
+    metadata = diagnostics.recorded_run(
         [str(DECODER), "-m", str(source)], capture_output=True, text=True, check=True
     ).stdout
     match = re.search(r"stream count:\s*(\d+)", metadata)
@@ -98,14 +100,14 @@ def speech(entry, iso, limit):
         wav.parent.mkdir(parents=True, exist_ok=True)
         destination = OUTPUT / "speech" / name / f"{index:04}.mp3"
         if not destination.exists():
-            subprocess.run(
+            diagnostics.recorded_run(
                 [str(DECODER), "-i", "-s", str(index), "-o", str(wav), str(source)],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.PIPE,
                 check=True,
             )
         record = encode(wav, destination)
-        info = subprocess.run(
+        info = diagnostics.recorded_run(
             [str(DECODER), "-m", "-s", str(index), str(source)],
             capture_output=True,
             text=True,

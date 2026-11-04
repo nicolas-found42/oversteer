@@ -4,10 +4,10 @@
 import argparse
 import hashlib
 import json
-import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+import diagnostics
 from media import ROOT, source_file
 
 OUTPUT = ROOT / "godot/assets/video"
@@ -43,13 +43,13 @@ def transcode(entry, iso, ffmpeg):
         str(destination),
     ]
     if not destination.exists():
-        subprocess.run(command, check=True)
+        diagnostics.recorded_run(command, check=True)
     # Decode the entire resulting stream, rather than trusting its container header.
-    subprocess.run(
+    diagnostics.recorded_run(
         [str(ffmpeg), "-nostdin", "-v", "error", "-i", str(destination), "-f", "null", "-"],
         check=True,
     )
-    result = subprocess.run(
+    result = diagnostics.recorded_run(
         [
             str(ffmpeg.with_name("ffprobe")),
             "-v",
@@ -97,7 +97,7 @@ def main():
         records = list(
             executor.map(lambda entry: transcode(entry, options.iso, options.ffmpeg), movies)
         )
-    version = subprocess.run(
+    version = diagnostics.recorded_run(
         [str(options.ffmpeg), "-version"], capture_output=True, text=True, check=True
     ).stdout.splitlines()[0]
     (OUTPUT / "manifest.json").write_text(

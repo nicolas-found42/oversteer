@@ -1,4 +1,5 @@
 //! Native source audio presentation. Family proxies are declared in audio/runtime.json.
+use crate::diagnostics;
 use godot::classes::{
     AudioStream, AudioStreamMp3, AudioStreamPlayer, AudioStreamPlayer3D, FileAccess, Node3D,
     ResourceLoader,
@@ -31,10 +32,9 @@ pub struct RuntimeAudio {
 }
 impl RuntimeAudio {
     pub fn new(mut root: Gd<Node3D>) -> Self {
-        let data = serde_json::from_str(
+        let data = parse_config(
             &FileAccess::get_file_as_string("res://assets/audio/runtime.json").to_string(),
-        )
-        .unwrap_or(Value::Null);
+        );
         let mut music = AudioStreamPlayer::new_alloc();
         let speech = AudioStreamPlayer::new_alloc();
         let sfx = AudioStreamPlayer::new_alloc();
@@ -332,5 +332,36 @@ fn play_2d(player: &mut Gd<AudioStreamPlayer>, path: &str, gain: f32, looping: b
         player.set_stream(&stream);
         player.set_volume_db(db(gain));
         player.play();
+    }
+}
+
+fn parse_config(text: &str) -> Value {
+    let result = serde_json::from_str(text);
+    diagnostics::event(
+        "audio.config",
+        json!({"outcome":if result.is_ok(){"ok"}else{"error"},"category":if result.is_ok(){"none"}else{"invalid_json"}}),
+    );
+    result.unwrap_or(Value::Null)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn invalid_audio_config_is_visible_without_recording_contents() {
+        let dir = std::env::temp_dir().join(format!(
+            "oversteer-audio-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        diagnostics::initialize(&dir);
+        assert_eq!(parse_config("PRIVATE_INPUT"), Value::Null);
+        let text = std::fs::read_to_string(dir.join("journal.jsonl")).unwrap();
+        assert!(text.contains("invalid_json"));
+        assert!(!text.contains("PRIVATE_INPUT"));
+        std::fs::remove_dir_all(dir).unwrap();
     }
 }
