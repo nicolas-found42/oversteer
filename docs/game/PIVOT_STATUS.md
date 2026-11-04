@@ -588,6 +588,27 @@ focus guard; the earlier long import is not a focus pass.
   paths. Reports retain the raw catalog hash and separately record the refined
   runtime-content hash and applied mass correction.
 
+## PR #2 pink-slip restart review fix — 2026-11-04
+
+- Acceptance: after forfeiting a pink-slip stake through Restart, rendered race
+  car identities must match the replacement race's car identities; cash restarts
+  must still render the retained car. Preserve settlement and save behavior.
+- Verification budget: 20 native screenshots total (8 before, 12 after), including
+  purchase setup and final captures. Use the background focus guard.
+- Reproduced with `verify.py --suite pivot-wagers --case wager-purchase --case
+  wager-pink-restart --output build/verification/pr2-restart-before`: only the new
+  `rendered_cars_match_restarted_race` assertion failed. Physics used the Mini;
+  the rendered node and inspected final capture still showed the Civic.
+- Clear the loaded race key, car effects and rendered cars when the selected car
+  changes during a race. The existing loader then preloads and rebuilds the cars.
+- The same cases plus `--case wager-cash-restart` passed in
+  `build/verification/pr2-restart-after`. Inspected final captures show the Mini
+  after pink-slip forfeiture and the Civic after cash forfeiture. All rendered
+  car identities match the race snapshots. Settlement, save and focus checks pass.
+- Used exactly 20 screenshots (8 before, 12 after). `dev.py check` passed formatting,
+  strict Clippy, 28 Rust library tests and 66 Python tests; the focused
+  `pivot_wagers` and `pivot_race_start` suites passed all 13 tests.
+
 ## Remaining acceptance work
 
 - Finish restrained presentation across every retained menu, HUD and transition;

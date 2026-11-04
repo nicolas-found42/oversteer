@@ -1237,6 +1237,10 @@ def run_case(
             checks["expected_screen_after_forfeit"] = report["snapshot"]["screen"] == (
                 "Race" if case["wager_outcome"] == "restart" else "MainMenu"
             )
+            if case["wager_outcome"] == "restart":
+                checks["rendered_cars_match_restarted_race"] = report.get(
+                    "rendered_race_car_ids"
+                ) == [racer["car_id"] for racer in report["snapshot"]["race"]["racers"]]
         checks.update(
             {
                 "thirty_cars": report["content"]["cars"] == 30,
