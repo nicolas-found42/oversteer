@@ -1,0 +1,12 @@
+[
+  {"frame":1,"joy_axis":{"axis":5,"value":1.0}},
+  {"frame":1,"joy_button":0,"pressed":true},
+  {"frame":900,"joy_button":0,"pressed":false},
+  {"frame":900,"joy_axis":{"axis":5,"value":0.0}},
+  {"frame":900,"joy_axis":{"axis":4,"value":1.0}},
+  {"frame":1100,"joy_axis":{"axis":4,"value":0.0}},
+  {"frame":1100,"joy_button":3,"pressed":true},
+  {"frame":1100,"joy_axis":{"axis":5,"value":1.0}},
+  {"frame":1400,"joy_axis":{"axis":5,"value":0.0}},
+  {"frame":1400,"joy_button":3,"pressed":false}
+]

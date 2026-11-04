@@ -1,0 +1,296 @@
+{
+  "checks": [
+    {
+      "check": "headless display and Dummy audio required",
+      "passed": true
+    },
+    {
+      "check": "control title_start",
+      "passed": true
+    },
+    {
+      "check": "control nav:career",
+      "passed": true
+    },
+    {
+      "check": "control career_events",
+      "passed": true
+    },
+    {
+      "check": "existing spectate action entered spectator race",
+      "passed": true
+    },
+    {
+      "check": "canonical spectator observations after countdown",
+      "passed": true
+    },
+    {
+      "check": "control rival:0",
+      "passed": true
+    },
+    {
+      "check": "actual selected rival marker 0",
+      "passed": true
+    },
+    {
+      "check": "actual tach and speed materials 0",
+      "passed": true
+    },
+    {
+      "check": "tach steps match selected rival 0",
+      "passed": true
+    },
+    {
+      "check": "speed scale remains twelve intervals",
+      "passed": true
+    },
+    {
+      "check": "tach needle matches actual selected rival snapshot",
+      "passed": true
+    },
+    {
+      "check": "position follows selected rival canonical standing",
+      "passed": true
+    },
+    {
+      "check": "one map marker per rival 0",
+      "passed": true
+    },
+    {
+      "check": "one map marker per rival 1",
+      "passed": true
+    },
+    {
+      "check": "one map marker per rival 2",
+      "passed": true
+    },
+    {
+      "check": "one map marker per rival 3",
+      "passed": true
+    },
+    {
+      "check": "spectator control clear of map and standings rival:0",
+      "passed": true
+    },
+    {
+      "check": "spectator control clear of map and standings rival:1",
+      "passed": true
+    },
+    {
+      "check": "spectator control clear of map and standings rival:2",
+      "passed": true
+    },
+    {
+      "check": "spectator control clear of map and standings rival:3",
+      "passed": true
+    },
+    {
+      "check": "spectator control clear of map and standings wager",
+      "passed": true
+    },
+    {
+      "check": "spectator control clear of map and standings spectator_bet",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "control rival:2",
+      "passed": true
+    },
+    {
+      "check": "actual selected rival marker 2",
+      "passed": true
+    },
+    {
+      "check": "actual tach and speed materials 2",
+      "passed": true
+    },
+    {
+      "check": "tach steps match selected rival 2",
+      "passed": true
+    },
+    {
+      "check": "speed scale remains twelve intervals",
+      "passed": true
+    },
+    {
+      "check": "tach needle matches actual selected rival snapshot",
+      "passed": true
+    },
+    {
+      "check": "position follows selected rival canonical standing",
+      "passed": true
+    },
+    {
+      "check": "one map marker per rival 0",
+      "passed": true
+    },
+    {
+      "check": "one map marker per rival 1",
+      "passed": true
+    },
+    {
+      "check": "one map marker per rival 2",
+      "passed": true
+    },
+    {
+      "check": "one map marker per rival 3",
+      "passed": true
+    },
+    {
+      "check": "spectator control clear of map and standings rival:0",
+      "passed": true
+    },
+    {
+      "check": "spectator control clear of map and standings rival:1",
+      "passed": true
+    },
+    {
+      "check": "spectator control clear of map and standings rival:2",
+      "passed": true
+    },
+    {
+      "check": "spectator control clear of map and standings rival:3",
+      "passed": true
+    },
+    {
+      "check": "spectator control clear of map and standings wager",
+      "passed": true
+    },
+    {
+      "check": "spectator control clear of map and standings spectator_bet",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "tach redline geometry clear of front gauge",
+      "passed": true
+    },
+    {
+      "check": "spectator selection preserves wallet and garage",
+      "passed": true
+    }
+  ],
+  "drivers": {
+    "audio": "Dummy",
+    "display": "headless"
+  },
+  "entry": "existing app.action(spectate), not a current entry Button",
+  "logic_only": true,
+  "observations": [
+    {
+      "car_id": "GT4_HOND0018",
+      "catalog_redline": 8140.0,
+      "position": "1",
+      "race_elapsed": 0.383333444595337,
+      "rival_index": 0,
+      "rpm": 2063.45971679688,
+      "selected_button": "> Tyrone Albercete",
+      "standings": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "tach_geometry": {
+        "cover_center": [
+          1.78431367874146,
+          1.51960790157318
+        ],
+        "cover_radius": 1.86274509803922,
+        "start_angle": 2.4434609413147,
+        "sweep_angle": 3.3161256313324
+      },
+      "tach_steps": 8.14000034332275,
+      "tach_value": 0.253496289253235,
+      "ticks_usec": 6607702
+    },
+    {
+      "car_id": "GT4_MAZD0012",
+      "catalog_redline": 6600.0,
+      "position": "3",
+      "race_elapsed": 0.76666659116745,
+      "rival_index": 2,
+      "rpm": 1895.37646484375,
+      "selected_button": "> Bobby Sawyer",
+      "standings": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "tach_geometry": {
+        "cover_center": [
+          1.78431367874146,
+          1.51960790157318
+        ],
+        "cover_radius": 1.86274509803922,
+        "start_angle": 2.4434609413147,
+        "sweep_angle": 3.3161256313324
+      },
+      "tach_steps": 6.59999990463257,
+      "tach_value": 0.287178248167038,
+      "ticks_usec": 6985608
+    }
+  ],
+  "rendered": false,
+  "status": "passed"
+}

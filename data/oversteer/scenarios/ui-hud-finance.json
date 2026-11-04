@@ -1,0 +1,135 @@
+[
+  {
+    "action": "title_start",
+    "after_frame": 20
+  },
+  {
+    "action": "nav:career",
+    "after_frame": 44
+  },
+  {
+    "action": "nav:dealer",
+    "after_frame": 68,
+    "capture": "dealer-owned"
+  },
+  {
+    "action": "car:GT4_MINI0001",
+    "after_frame": 92,
+    "capture": "dealer-affordable"
+  },
+  {
+    "action": "buy",
+    "after_frame": 116,
+    "capture": "buy-confirmation"
+  },
+  {
+    "action": "confirm_no",
+    "after_frame": 140,
+    "capture": "buy-cancelled"
+  },
+  {
+    "action": "buy",
+    "after_frame": 164
+  },
+  {
+    "action": "confirm_yes",
+    "after_frame": 188,
+    "capture": "buy-complete"
+  },
+  {
+    "action": "car:GT4_HOND0030",
+    "after_frame": 212,
+    "capture": "dealer-unaffordable"
+  },
+  {
+    "action": "nav:main",
+    "after_frame": 236
+  },
+  {
+    "action": "nav:career",
+    "after_frame": 260
+  },
+  {
+    "action": "nav:garage",
+    "after_frame": 284
+  },
+  {
+    "action": "car:GT4_MINI0001",
+    "after_frame": 308,
+    "capture": "garage-multiple"
+  },
+  {
+    "action": "vehicle_stats",
+    "after_frame": 332,
+    "capture": "history"
+  },
+  {
+    "action": "stats_back",
+    "after_frame": 356
+  },
+  {
+    "action": "sell",
+    "after_frame": 380,
+    "capture": "sell-confirmation"
+  },
+  {
+    "action": "confirm_no",
+    "after_frame": 404
+  },
+  {
+    "action": "nav:main",
+    "after_frame": 428
+  },
+  {
+    "action": "options",
+    "after_frame": 452,
+    "capture": "settings"
+  },
+  {
+    "action": "driver_name",
+    "after_frame": 476,
+    "capture": "long-name",
+    "text": "Alexandra Montgomery-Kim"
+  },
+  {
+    "action": "units",
+    "after_frame": 500
+  },
+  {
+    "action": "units",
+    "after_frame": 524
+  },
+  {
+    "action": "quality",
+    "after_frame": 548
+  },
+  {
+    "action": "quality",
+    "after_frame": 572
+  },
+  {
+    "action": "difficulty",
+    "after_frame": 596
+  },
+  {
+    "action": "audio:music",
+    "after_frame": 620
+  },
+  {
+    "action": "audio:engine",
+    "after_frame": 644
+  },
+  {
+    "action": "audio:speech",
+    "after_frame": 668
+  },
+  {
+    "action": "audio:sfx",
+    "after_frame": 692,
+    "capture": "settings-changed"
+  },
+  {
+    "action": "back_options",
+    "after_frame": 716
+  }
+]

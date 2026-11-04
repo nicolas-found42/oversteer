@@ -109,24 +109,19 @@ Translate requests into observable acceptance criteria:
 - **Refactor:** Confirm tests pass before the change, preserve behavior, and confirm the same tests pass afterward.
 - **Performance work:** Record a baseline, define the target metric, change one relevant factor at a time, and measure again.
 
-For multi-step work, state a brief plan with a verification check for every step:
+For implementation requests, own delivery of the accepted outcome, including integration and verification. Keep intermediate changes independently verifiable; a milestone is progress, not completion of the task.
 
-```text
-1. [Action] -> verify: [observable check]
-2. [Action] -> verify: [observable check]
-3. [Action] -> verify: [observable check]
-```
-
-Prefer incremental steps that are independently testable and deployable. Do not combine infrastructure, abstraction, configuration, and product behavior into one large change when each can be verified separately.
+For multi-step work, maintain acceptance criteria, evidence and remaining work in the existing task plan or status artifact. Continue authorized work until the outcome is met, the user pauses it, or a specific blocker or unresolved user decision prevents progress. Honor review-only and proposal-only requests without applying changes.
 
 ### Verification rules
 
 - Reproduce before fixing whenever practical.
 - Confirm a new test fails for the intended reason before relying on it.
-- Run the narrowest relevant tests first, then broader regression checks when available.
-- Check edge cases tied to the reported behavior, not every imaginable case.
-- Do not claim success for checks you did not run.
-- If verification is blocked, state exactly what was not verified and why.
+- Run the narrowest relevant tests first, then required regression checks. Expand checks or tooling when a failure or unresolved acceptance criterion justifies it.
+- For visual or interactive changes, inspect actual rendered output and exercise the affected user flow; passing tests alone do not establish visual or gameplay quality.
+- Choose representative evidence for the stated risks. Record run budgets in the task plan and count incidental captures against them; do not multiply captures merely to demonstrate coverage.
+- Automated GUI verification must preserve desktop focus and the rendering, simulation and input behavior being tested.
+- Do not claim success for checks you did not run. If verification is blocked, name the unverified acceptance criterion and the specific blocker.
 
 Strong success criteria allow independent iteration. Weak criteria such as "make it work" invite scope drift and repeated clarification.
 

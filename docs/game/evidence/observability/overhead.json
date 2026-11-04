@@ -1,0 +1,10 @@
+{
+  "scope": "50 serial Python journal appends on local filesystem, under the 64/s cap; no fsync; includes first directory/file creation",
+  "events": 50,
+  "median_us": 51.375,
+  "max_us": 890.875,
+  "total_ms": 4.161335,
+  "bytes": 13781,
+  "dropped": 0,
+  "limits": "Not a frame-rate benchmark, slow filesystem bound, power-loss test, or worst-case contention test."
+}

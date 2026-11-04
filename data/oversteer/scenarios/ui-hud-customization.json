@@ -1,0 +1,198 @@
+[
+  {
+    "action": "title_start",
+    "after_frame": 20
+  },
+  {
+    "action": "nav:career",
+    "after_frame": 44
+  },
+  {
+    "action": "nav:garage",
+    "after_frame": 68
+  },
+  {
+    "action": "nav:custom",
+    "after_frame": 92,
+    "capture": "finish-installed"
+  },
+  {
+    "action": "custom_page:wheels",
+    "after_frame": 116,
+    "capture": "wheels-stock"
+  },
+  {
+    "action": "wheels:sport",
+    "after_frame": 140,
+    "capture": "wheels-sport"
+  },
+  {
+    "action": "wheels:mesh",
+    "after_frame": 164,
+    "capture": "wheels-mesh"
+  },
+  {
+    "action": "wheels:deep-dish",
+    "after_frame": 188,
+    "capture": "wheels-deep-dish"
+  },
+  {
+    "action": "custom_page:vinyl",
+    "after_frame": 212,
+    "capture": "vinyl-empty"
+  },
+  {
+    "action": "vinyl:add",
+    "after_frame": 236,
+    "capture": "vinyl-single"
+  },
+  {
+    "action": "vinyl:add",
+    "after_frame": 260,
+    "capture": "vinyl-multiple"
+  },
+  {
+    "action": "vinyl:left",
+    "after_frame": 284
+  },
+  {
+    "action": "vinyl:right",
+    "after_frame": 308
+  },
+  {
+    "action": "vinyl:up",
+    "after_frame": 332
+  },
+  {
+    "action": "vinyl:down",
+    "after_frame": 356
+  },
+  {
+    "action": "vinyl:rotate",
+    "after_frame": 380
+  },
+  {
+    "action": "vinyl:rotate_back",
+    "after_frame": 404
+  },
+  {
+    "action": "vinyl:scale_x_up",
+    "after_frame": 428
+  },
+  {
+    "action": "vinyl:scale_x_down",
+    "after_frame": 452
+  },
+  {
+    "action": "vinyl:scale_y_up",
+    "after_frame": 476
+  },
+  {
+    "action": "vinyl:scale_y_down",
+    "after_frame": 500,
+    "capture": "transforms"
+  },
+  {
+    "action": "vinyl:back",
+    "after_frame": 524
+  },
+  {
+    "action": "vinyl:front",
+    "after_frame": 548,
+    "capture": "layer-order"
+  },
+  {
+    "action": "vinyl:remove",
+    "after_frame": 572,
+    "capture": "layer-deleted"
+  },
+  {
+    "action": "custom_page:performance",
+    "after_frame": 596,
+    "capture": "performance-default"
+  },
+  {
+    "action": "upgrade:engine",
+    "after_frame": 620
+  },
+  {
+    "action": "upgrade:transmission",
+    "after_frame": 644
+  },
+  {
+    "action": "upgrade:suspension",
+    "after_frame": 668
+  },
+  {
+    "action": "upgrade:tyres",
+    "after_frame": 692,
+    "capture": "performance-upgraded"
+  },
+  {
+    "action": "tune:0",
+    "after_frame": 716
+  },
+  {
+    "action": "tune:0",
+    "after_frame": 740
+  },
+  {
+    "action": "tune:0",
+    "after_frame": 764
+  },
+  {
+    "action": "tune:0",
+    "after_frame": 788
+  },
+  {
+    "action": "tune:0",
+    "after_frame": 812
+  },
+  {
+    "action": "tune:1",
+    "after_frame": 836
+  },
+  {
+    "action": "tune:2",
+    "after_frame": 860
+  },
+  {
+    "action": "tune:3",
+    "after_frame": 884,
+    "capture": "tuning-positive"
+  },
+  {
+    "action": "tune:0",
+    "after_frame": 908,
+    "capture": "tuning-negative"
+  },
+  {
+    "action": "custom_page:parts",
+    "after_frame": 932,
+    "capture": "parts-empty"
+  },
+  {
+    "action": "nav:checkout",
+    "after_frame": 956,
+    "capture": "cart-multiple"
+  },
+  {
+    "action": "checkout",
+    "after_frame": 980,
+    "capture": "cart-confirmation"
+  },
+  {
+    "action": "confirm_no",
+    "after_frame": 1004,
+    "capture": "cart-cancelled"
+  },
+  {
+    "action": "discard_cart",
+    "after_frame": 1028
+  },
+  {
+    "action": "confirm_yes",
+    "after_frame": 1052,
+    "capture": "cart-empty"
+  }
+]

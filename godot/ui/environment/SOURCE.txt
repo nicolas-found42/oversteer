@@ -1,0 +1,6 @@
+Studio Small 08 — Sergej Majboroda / Poly Haven
+https://polyhaven.com/a/studio_small_08
+License: CC0 https://polyhaven.com/license
+Original 1K EXR: https://dl.polyhaven.org/file/ph-assets/HDRIs/exr/1k/studio_small_08_1k.exr
+SHA1: 6665c249380b45052e7ae2453aaf3f455537e7f4
+Used only for menu/showroom reflections; racing retains its original procedural sky.

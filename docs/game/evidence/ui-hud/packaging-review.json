@@ -1,0 +1,22 @@
+{
+  "source_check_exit_code": 0,
+  "rust_suites": [
+    6,
+    31
+  ],
+  "rust_total": 37,
+  "python_suites": [
+    50,
+    6,
+    20
+  ],
+  "python_total": 76,
+  "jev_gate": {
+    "action": "escalate",
+    "safe_to_apply": 0.11,
+    "test_claim_verdict": "contradicted",
+    "test_claim_confidence": 0.44,
+    "unfinished_disclosure_verified": 0.98
+  },
+  "resolution": "No whole-change approval claimed. Direct log parsing confirms suite totals; the aborted-case JSON and diagnostic warnings are intentional negative tests inside passing suites. Missing final rendered acceptance and broad scope remain open; publish only as a draft checkpoint."
+}

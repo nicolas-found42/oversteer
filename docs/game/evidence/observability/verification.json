@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "native_normal_exit_on_handled_failure": true,
+    "reconstructed_backup_type_conflict": true,
+    "primary_unchanged_after_failed_backup": true,
+    "new_process_recovered_backup": true,
+    "corrupt_bytes_preserved": true,
+    "crash_prefix_survives_without_invented_terminal": true,
+    "telemetry_failure_preserves_game_save": true,
+    "query_failure_explicit": true,
+    "queries_complete_within_retained_files": true
+  },
+  "passed": true,
+  "native_launches": 4,
+  "screenshots": 0,
+  "scope": "headless storage/lifecycle, not rendering/audio/performance acceptance",
+  "library_sha256": "ee34b1c524761765b33f7aee91ec96e9f4cdb47acc96f68c62cb120b1f89ce74"
+}

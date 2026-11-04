@@ -12,13 +12,16 @@ import math
 import os
 import re
 import shutil
-import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "tools/game"))
+import diagnostics  # noqa: E402
+
 DEFAULT_VAULT = ROOT / "artifacts/juiced2-vault"
 SHOWINFO = re.compile(r"\bn:\s*\d+\s+pts:\s*-?\d+\s+pts_time:([\d.eE+-]+)")
 
@@ -54,7 +57,7 @@ def classification_status(row):
 
 
 def run(command):
-    result = subprocess.run(command, capture_output=True, text=True, check=False)
+    result = diagnostics.recorded_run(command, capture_output=True, text=True, check=False)
     if result.returncode:
         raise RuntimeError(f"{command[0]} failed: {result.stderr[-3000:]}")
     return result

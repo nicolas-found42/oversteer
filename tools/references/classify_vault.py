@@ -15,10 +15,12 @@ import hashlib
 import io
 import json
 import os
+import sys
 import threading
 import time
 import urllib.error
 import urllib.request
+import uuid
 from pathlib import Path
 
 from PIL import Image, ImageOps
@@ -35,8 +37,12 @@ from jev_catalog import (
 )
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "tools/game"))
+import diagnostics  # noqa: E402
+
 VAULT = ROOT / "artifacts/juiced2-vault"
 MODEL = "typesafe/jev-1.14"
+SOURCE_ID = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 ENDPOINT = "https://openrouter.ai/api/alpha/decisions"
 CATALOG = questions()
 CATALOG_HASH = hashlib.sha256(json.dumps(CATALOG, sort_keys=True).encode()).hexdigest()
@@ -136,9 +142,15 @@ def classify(asset, key, cost_cap):
                 "TypeSafe-Danger-Zone-Images": "true",
             },
         )
+        operation = uuid.uuid4().hex
         for attempt in range(3):
             try:
-                with urllib.request.urlopen(request, timeout=90) as stream:
+                with (
+                    diagnostics.attempt(
+                        operation, attempt + 1, "classify_v1", CATALOG_HASH, SOURCE_ID
+                    ),
+                    urllib.request.urlopen(request, timeout=90) as stream,
+                ):
                     response = json.load(stream)
                 break
             except urllib.error.HTTPError as error:

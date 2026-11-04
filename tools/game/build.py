@@ -10,6 +10,7 @@ import subprocess
 from pathlib import Path
 
 import background_window
+import diagnostics
 from bootstrap import prepare_template
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -17,7 +18,7 @@ GODOT = ROOT / "build/tools/godot-4.7.2/Godot.app/Contents/MacOS/Godot"
 
 
 def run(arguments):
-    subprocess.run([str(value) for value in arguments], cwd=ROOT, check=True)
+    diagnostics.recorded_run([str(value) for value in arguments], cwd=ROOT, check=True)
 
 
 def validate_imports():
@@ -76,7 +77,7 @@ def import_assets(headless=False):
     arguments = [GODOT, "--path", ROOT / "godot", "--editor", "--import"]
     if headless:
         arguments.insert(1, "--headless")
-    process = subprocess.run(
+    process = diagnostics.recorded_run(
         [str(value) for value in arguments],
         cwd=ROOT,
         stdout=subprocess.PIPE,

@@ -21,3 +21,10 @@
 *.mp3 binary
 *.zip binary
 *.iso binary
+
+# UI reference pack and licensed presentation resources.
+*.pdf binary
+*.jpg binary
+*.gif binary
+*.ttf binary
+*.exr binary

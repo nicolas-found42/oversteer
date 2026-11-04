@@ -1,0 +1,73 @@
+[
+  {
+    "action": "title_start",
+    "after_frame": 20
+  },
+  {
+    "action": "nav:quick",
+    "after_frame": 44
+  },
+  {
+    "action": "car_next",
+    "after_frame": 68
+  },
+  {
+    "action": "car_next",
+    "after_frame": 92
+  },
+  {
+    "action": "car_next",
+    "after_frame": 116
+  },
+  {
+    "action": "car_next",
+    "after_frame": 140
+  },
+  {
+    "action": "car_next",
+    "after_frame": 164
+  },
+  {
+    "action": "car_next",
+    "after_frame": 188
+  },
+  {
+    "action": "car_next",
+    "after_frame": 212
+  },
+  {
+    "action": "car_next",
+    "after_frame": 236
+  },
+  {
+    "action": "car_next",
+    "after_frame": 260
+  },
+  {
+    "action": "car_next",
+    "after_frame": 284
+  },
+  {
+    "action": "car_next",
+    "after_frame": 308
+  },
+  {
+    "action": "nav:custom",
+    "after_frame": 332
+  },
+  {
+    "action": "custom_page:parts",
+    "after_frame": 356,
+    "capture": "parts-populated"
+  },
+  {
+    "action": "part:spoiler:350z-varis-wing",
+    "capture": "parts-wing",
+    "after_frame": 380
+  },
+  {
+    "action": "part:seats:350z-native-seats",
+    "capture": "parts-seats",
+    "after_frame": 404
+  }
+]

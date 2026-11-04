@@ -1,0 +1,5 @@
++ cargo fmt --all -- --check
++ /Users/nicolas/Documents/github/oversteer/.venv/bin/python -m ruff format --check .
+Would reformat: tools/game/verify_ui_hud_forfeit_headless.py
+1 file would be reformatted, 51 files already formatted
+Command '['/Users/nicolas/Documents/github/oversteer/.venv/bin/python', '-m', 'ruff', 'format', '--check', '.']' returned non-zero exit status 1.

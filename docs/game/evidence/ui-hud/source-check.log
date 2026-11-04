@@ -1,0 +1,94 @@
++ cargo fmt --all -- --check
++ /Users/nicolas/Documents/github/oversteer/.venv/bin/python -m ruff format --check .
+52 files already formatted
+Python syntax: 204 owned files compiled without execution
++ cargo clippy --workspace --all-targets --locked -- -D warnings
+   Compiling oversteer-godot v0.1.0 (/Users/nicolas/Documents/github/oversteer/crates/oversteer-godot)
+    Finished `dev` profile [optimized + debuginfo] target(s) in 0.49s
++ /Users/nicolas/Documents/github/oversteer/.venv/bin/python -m ruff check .
+All checks passed!
++ cargo test --workspace --lib --locked
+   Compiling oversteer-godot v0.1.0 (/Users/nicolas/Documents/github/oversteer/crates/oversteer-godot)
+    Finished `test` profile [optimized + debuginfo] target(s) in 3.48s
+     Running unittests src/lib.rs (build/rust/debug/deps/oversteer_core-daa9cd80ce88f8c3)
+
+running 6 tests
+test performance::tests::source_scan_preserves_negative_first_step_and_handling_operand_order ... ok
+test performance::tests::source_packed_prototype_is_max_potential_and_any_category ... ok
+test physics::contact_frame_regressions::bank_normal_contributes_all_three_suspension_force_components ... ok
+test physics::contact_frame_regressions::low_speed_contact_force_rotates_with_full_body_and_plane_frame ... ok
+test game::standings_tests::live_drift_position_uses_score_instead_of_track_distance ... ok
+test physics::angular_momentum_regressions::torque_free_anisotropic_body_preserves_world_momentum_and_precesses ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (build/rust/debug/deps/oversteer_godot-cb5de9d892f28ea7)
+
+running 31 tests
+test binding_tests::wheel_travel_resolves_contact_along_the_suspension_axis ... ok
+test binding_tests::stick_deadzone_is_continuous_and_legal_inputs_roundtrip ... ok
+test binding_tests::donor_sockets_map_to_physics_sides_after_the_body_half_turn ... ok
+test paint::tests::source_back_returns_previous_stage_until_base_restore ... ok
+test paint::tests::workflow_retains_all_required_accept_stages ... ok
+test binding_tests::assigning_steering_to_brake_axis_preserves_both_controls ... ok
+test paint::tests::source_hsv_shift_and_scalar_boundaries_have_expected_values ... ok
+test binding_tests::assigning_nitrous_to_reverse_button_swaps_previous_button ... ok
+test split_times::tests::lap_wrap_has_distinct_monotonic_checkpoint_identity ... ok
+test loading::tests::repeated_loading_polls_keep_stall_evidence_without_duplicate_samples ... ok
+test split_times::tests::skipping_crossings_does_not_fill_unobserved_checkpoints ... ok
+test split_times::tests::elapsed_rollback_or_checkpoint_regression_discards_history ... ok
+test split_times::tests::no_grid_or_unshared_crossing_is_invented ... ok
+test split_times::tests::paused_time_creates_no_crossings_and_same_time_teleport_clears_history ... ok
+test binding_tests::right_keyboard_and_stick_turn_toward_rh_chase_camera_right ... ok
+test ui::tests::minimap_chevron_follows_projected_world_forward ... ok
+test split_times::tests::same_checkpoint_uses_elapsed_intervals_and_signed_delta ... ok
+test ui::tests::purchase_balance_is_explicit_and_grouped ... ok
+test ui::tests::vehicle_display_removes_only_duplicate_manufacturer ... ok
+test verification::observer_tests::nitrous_counts_post_tick_state_including_first_delta ... ok
+test split_times::tests::actual_snapshot_update_tracks_lap_wrap_and_rejects_invalid_inputs ... ok
+test loading::tests::changing_progress_is_bounded_and_reports_loss ... ok
+test split_times::tests::actual_snapshot_update_resets_event_track_round_roster_and_count ... ok
+test paint::tests::actual_color_paths_preserve_other_fields_and_roundtrip ... ok
+test persistence::tests::two_damaged_copies_are_never_overwritten_by_load ... ok
+test audio::tests::invalid_audio_config_is_visible_without_recording_contents ... ok
+test persistence::tests::preferences_backup_failure_protects_existing_options ... ok
+test persistence::tests::preferences_recover_backup_and_keep_damaged_bytes ... ok
+test persistence::tests::damaged_primary_is_retained_before_backup_recovery ... ok
+test persistence::tests::failed_backup_replace_prevents_primary_overwrite ... ok
+Oversteer diagnostics incomplete: write, contention, size or rate limit
+test diagnostics::tests::bounds_redaction_rotation_and_failure ... ok
+
+test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
++ /Users/nicolas/Documents/github/oversteer/.venv/bin/python -B -m unittest discover -s tools/game -p test_*.py
+.........Python syntax: 1 owned files compiled without execution
+.....Oversteer diagnostics incomplete: write, contention, size or rate limit
+....Oversteer diagnostics incomplete: write, contention, size or rate limit
+...............{"case": "aborted", "status": "failed", "failed": ["process_exited", "scenario_report", "final_capture"]}
+.................
+----------------------------------------------------------------------
+Ran 50 tests in 0.155s
+
+OK
++ /Users/nicolas/Documents/github/oversteer/.venv/bin/python -B -m unittest discover -s tools/carmodels -p test_*.py
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.006s
+
+OK
++ /Users/nicolas/Documents/github/oversteer/.venv/bin/python -B -m unittest discover -s tools/references -p test_*.py
+....................
+----------------------------------------------------------------------
+Ran 20 tests in 2.509s
+
+OK
+{
+  "classified_state_groups": 3,
+  "reference_samples": 8,
+  "single_player_candidates": 3,
+  "canonical_reference_gaps": [
+    "race/pause/menu"
+  ]
+}
+{"states": 3, "scopes": {"console-reference": 2, "reference-gap": 1}}
+{"pairs": 0, "gallery": "/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/tmpr56jfla8/comparison/index.html"}

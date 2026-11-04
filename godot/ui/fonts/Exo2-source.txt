@@ -1,0 +1,18 @@
+Exo 2 Italic variable font
+Designer: Natanael Gama / The Exo 2 Project Authors
+Downloaded: 2026-11-04
+Official source: https://github.com/google/fonts/tree/main/ofl/exo2
+Font URL: https://raw.githubusercontent.com/google/fonts/main/ofl/exo2/Exo2-Italic%5Bwght%5D.ttf
+License URL: https://raw.githubusercontent.com/google/fonts/main/ofl/exo2/OFL.txt
+Metadata: https://raw.githubusercontent.com/google/fonts/main/ofl/exo2/METADATA.pb
+Upstream project: https://github.com/googlefonts/Exo-2.0
+Downloaded font SHA-256: bad568cea9ed23d6ae4aea41ad3f7747752952aabdd85d7f01474af392a21b32
+Downloaded font bytes: 302556
+Bundled filename: Exo2-Italic-Variable.ttf (original font bytes, renamed file only)
+License: SIL Open Font License 1.1, retained in Exo2-OFL.txt
+
+Recommended HUD use: FontVariation with OpenType wght=800.
+The font's default variable weight is 400; loading it without a weight override
+will not reproduce the reviewed heavy numeral specimen. Existing menu typography
+remains Barlow Condensed. This is a visual approximation of the supplied HUD PNG,
+not an identification of the reference image's original font.

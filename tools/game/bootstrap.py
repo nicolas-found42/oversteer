@@ -3,9 +3,10 @@
 
 import hashlib
 import json
-import subprocess
 import zipfile
 from pathlib import Path
+
+import diagnostics
 
 ROOT = Path(__file__).resolve().parents[2]
 DESTINATION = ROOT / "build/tools/godot-4.7.2"
@@ -43,7 +44,7 @@ def prepare_template():
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(data)
                 thin = path.with_suffix(".arm64")
-                subprocess.run(
+                diagnostics.recorded_run(
                     ["lipo", str(path), "-thin", "arm64", "-output", str(thin)], check=True
                 )
                 data = thin.read_bytes()
@@ -72,7 +73,7 @@ def main():
     DESTINATION.mkdir(parents=True, exist_ok=True)
     checksums = DESTINATION / "SHA512-SUMS.txt"
     if not checksums.exists():
-        subprocess.run(
+        diagnostics.recorded_run(
             [
                 "gh",
                 "release",
@@ -90,7 +91,7 @@ def main():
     verified = []
     for name in [f"Godot_v{TAG}_macos.universal.zip", f"Godot_v{TAG}_export_templates.tpz"]:
         if not (DESTINATION / name).exists():
-            subprocess.run(
+            diagnostics.recorded_run(
                 [
                     "gh",
                     "release",
@@ -119,7 +120,7 @@ def main():
     )
     binary = DESTINATION / "Godot.app/Contents/MacOS/Godot"
     if not binary.exists():
-        subprocess.run(
+        diagnostics.recorded_run(
             [
                 "ditto",
                 "-x",
@@ -136,7 +137,7 @@ def main():
             for name in ["templates/macos.zip", "templates/version.txt"]:
                 archive.extract(name, DESTINATION)
     prepare_template()
-    subprocess.run([str(binary), "--version"], check=True)
+    diagnostics.recorded_run([str(binary), "--version"], check=True)
 
 
 if __name__ == "__main__":

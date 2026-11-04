@@ -19,17 +19,19 @@ import threading
 import time
 import urllib.error
 import urllib.request
+import uuid
 from pathlib import Path
 
 from PIL import Image, ImageOps
 
 import jev_catalog_v2 as catalog
-from classify_vault import distribution, noul, write_json
+from classify_vault import diagnostics, distribution, noul, write_json
 
 ROOT = Path(__file__).resolve().parents[2]
 VAULT = ROOT / "artifacts/juiced2-vault"
 WORK = VAULT / "judgments/v2"
 MODEL = "typesafe/jev-1.14"
+SOURCE_ID = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 ENDPOINT = "https://openrouter.ai/api/alpha/decisions"
 LOCK = threading.Lock()
 SPENT = 0.0
@@ -159,9 +161,13 @@ def ask(asset, stage, questions, key, cap, previous=None):
                 "TypeSafe-Danger-Zone-Images": "true",
             },
         )
+        operation = uuid.uuid4().hex
         for attempt in range(4):
             try:
-                with urllib.request.urlopen(request, timeout=120) as stream:
+                with (
+                    diagnostics.attempt(operation, attempt + 1, stage, stamp, SOURCE_ID),
+                    urllib.request.urlopen(request, timeout=120) as stream,
+                ):
                     response = json.load(stream)
                 break
             except urllib.error.HTTPError as error:
