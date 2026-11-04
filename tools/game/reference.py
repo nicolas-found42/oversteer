@@ -3,12 +3,15 @@
 
 import argparse
 import json
-import re
-from collections import Counter
+import sys
+from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 VAULT = ROOT / "artifacts/juiced2-vault"
+sys.path.insert(0, str(ROOT / "tools/references"))
+from jev_catalog_v2 import SCREEN_STATES  # noqa: E402
+from reference_reviews import apply_reviews, lead_order, review_fields  # noqa: E402
 
 
 def platform_rank(platform):
@@ -24,56 +27,44 @@ def platform_rank(platform):
 
 def build():
     assets = {item["id"]: item for item in json.loads((VAULT / "assets.json").read_text())}
-    reviews = json.loads((ROOT / "data/juiced2/reference-reviews.json").read_text())["reviews"]
-    rejected = {}
-    for review in reviews:
-        if assets[review["asset_id"]]["sha256"] != review["source_sha256"]:
-            raise ValueError("Reviewed reference image identity changed")
-        if review["action"] != "exclude-from-state-leads":
-            raise ValueError("Unknown reference review action")
-        rejected[(review["state"], review["asset_id"])] = review
-    rows = []
-    for path in sorted((VAULT / "categories").rglob("index.md")):
-        lines = path.read_text().splitlines()
-        state = path.parent.relative_to(VAULT / "categories").as_posix()
-        if state == ".":
-            continue
-        candidates = []
-        rejected_leads = []
-        for line in lines:
-            match = re.search(r"p=([0-9.]+).*?\[([^\]]+)\]\(([^)]+)\)", line)
-            if not match or match.group(2) not in assets:
-                continue
-            asset = assets[match.group(2)]
-            if review := rejected.get((state, asset["id"])):
-                rejected_leads.append(review)
-                continue
-            rank = platform_rank(asset.get("platform_declared", ""))
-            candidates.append(
-                {
-                    "asset_id": asset["id"],
-                    "path": str(VAULT / asset["path"]),
-                    "source_url": asset["source_url"],
-                    "timestamp_seconds": asset.get("timestamp_seconds"),
-                    "platform": asset.get("platform_declared"),
-                    "edition_rank": rank,
-                    "probability": float(match.group(1)),
-                    "requires_review": "PROPOSED" in line,
-                }
-            )
-        if not candidates:
-            continue
-        candidates.sort(
-            key=lambda item: (item["edition_rank"], item["requires_review"], -item["probability"])
+    reviews = json.loads((ROOT / "data/juiced2/reference-reviews.json").read_text())
+    classifications = json.loads((VAULT / "judgments/classifications.json").read_text())
+    resolved = apply_reviews(assets, classifications, reviews)
+    groups = defaultdict(list)
+    for judgment in resolved["rows"]:
+        state = judgment["screen_state"]
+        asset = assets[judgment["id"]]
+        groups[state].append(
+            {
+                "asset_id": asset["id"],
+                "path": str(VAULT / asset["path"]),
+                "source_url": asset["source_url"],
+                "timestamp_seconds": asset.get("timestamp_seconds"),
+                "platform": asset["platform_declared"],
+                "edition_rank": platform_rank(asset["platform_declared"]),
+                "probability": judgment.get("screen_distribution", {}).get(state),
+                "requires_review": judgment.get("screen_review", True),
+                **review_fields(judgment),
+            }
         )
+    states = {row["screen_state"] for row in classifications if row.get("status") == "complete"}
+    rows = []
+    for state in sorted(states | set(groups)):
+        candidates = sorted(groups[state], key=lambda lead: lead_order(lead["edition_rank"], lead))
+        eligible = [lead for lead in candidates if lead["edition_rank"] != 3]
+        rejected_leads = [
+            review for (label, _), review in resolved["rejected"].items() if label == state
+        ]
         excluded = (
             state.startswith(("multiplayer/", "reference/"))
             or state == "career/dna-opponents/download"
         )
-        rank = candidates[0]["edition_rank"]
+        rank = candidates[0]["edition_rank"] if candidates else None
         scope = (
             "deferred-or-not-gameplay"
             if excluded
+            else "reference-gap"
+            if rank is None
             else "console-reference"
             if rank == 0
             else "pc-supplement"
@@ -85,13 +76,14 @@ def build():
         rows.append(
             {
                 "state": state,
-                "description": lines[2] if len(lines) > 2 else "",
+                "description": SCREEN_STATES.get(state, ""),
                 "reference_scope": scope,
                 "candidate_count": len(candidates),
+                "eligible_reference_count": len(eligible),
                 "reviewed_rejections": rejected_leads,
-                "reference_leads": candidates[:4],
+                "reference_leads": eligible[:4],
                 "reference_validation": (
-                    "model label is a lead, not independently verified behavior"
+                    "human screen reviews and machine leads are distinct; no temporal behavior or fidelity pass"
                 ),
                 "implementation_validation": "pending executed scenario and visual comparison",
             }
@@ -99,12 +91,15 @@ def build():
     result = {
         "schema_version": 1,
         "states": rows,
+        "human_review_summary": resolved["summary"],
+        "reviewed_parent_categories": resolved["parent_categories"],
         "scope_counts": dict(Counter(row["reference_scope"] for row in rows)),
         "rules": [
             "Prefer PS3/Xbox360 over PC, unknown platforms, PS2 and PSP.",
             "Multiplayer, online downloads and creator/emulator overlays are outside "
             "the accepted offline scope.",
             "A parent-screen screenshot does not by itself prove every granular child interaction.",
+            "PS2/PSP cannot supply reference leads; empty reviewed states remain explicit gaps.",
             "No implementation or visual comparison is marked passed "
             "by this reference-index builder.",
         ],

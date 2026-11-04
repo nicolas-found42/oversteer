@@ -1,4 +1,4 @@
-"""Build a frozen, blind human audit from cached Juiced 2 classifications. No API calls."""
+"""Build, score and integrate a frozen blind audit of cached Juiced 2 labels. No API calls."""
 
 from __future__ import annotations
 
@@ -405,7 +405,7 @@ def evidence_ledger(coverage, pilot_id):
         "state_candidates": [
             {
                 "state": row["state"],
-                "status": "classifier-lead-only",
+                "status": "screen-reference-candidate",
                 "leads": row["reference_leads"],
                 "verified_evidence": [],
                 "transition_inventory_status": "not-audited",
@@ -439,9 +439,48 @@ def main():
     score.add_argument("annotations", type=Path)
     score.add_argument("--manifest", type=Path, default=DEFAULT_OUTPUT / "audit-manifest.json")
     score.add_argument("--output", type=Path, required=True)
+    integrate = commands.add_parser("import-reviews")
+    integrate.add_argument("annotations", type=Path)
+    integrate.add_argument("--manifest", type=Path, default=DEFAULT_OUTPUT / "audit-manifest.json")
+    integrate.add_argument("--vault", type=Path, default=DEFAULT_VAULT)
+    integrate.add_argument(
+        "--reviews", type=Path, default=ROOT / "data/juiced2/reference-reviews.json"
+    )
     args = parser.parse_args()
     if args.command == "build":
         result = build(args.vault, args.output, args.size, args.seed)
+    elif args.command == "import-reviews":
+        from reference_reviews import apply_reviews, import_annotations
+
+        pilot = json.loads(args.manifest.read_text())
+        annotations = json.loads(args.annotations.read_text())
+        verify_images(pilot, args.manifest.parent)
+        report = evaluate(pilot, annotations)
+        existing = json.loads(args.reviews.read_text())
+        updated = import_annotations(
+            pilot,
+            annotations,
+            existing,
+            {
+                "annotations_path": str(args.annotations),
+                "annotations_content_sha256": report["annotation_sha256"],
+                "annotations_file_sha256": file_hash(args.annotations),
+                "manifest_path": str(args.manifest),
+                "manifest_sha256": file_hash(args.manifest),
+            },
+        )
+        assets = {x["id"]: x for x in json.loads((args.vault / "assets.json").read_text())}
+        rows = json.loads((args.vault / "judgments/classifications.json").read_text())
+        resolved = apply_reviews(assets, rows, updated)
+        for review in updated["reviews"]:
+            source = args.vault / assets[review["asset_id"]]["path"]
+            if file_hash(source) != review["source_sha256"]:
+                raise ValueError("Original reviewed reference image changed: " + review["asset_id"])
+        if updated != existing:
+            temporary = args.reviews.with_suffix(".json.tmp")
+            write_json(temporary, updated)
+            temporary.replace(args.reviews)
+        result = resolved["summary"]
     else:
         pilot = json.loads(args.manifest.read_text())
         verify_images(pilot, args.manifest.parent)

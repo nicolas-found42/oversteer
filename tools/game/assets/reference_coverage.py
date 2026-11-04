@@ -2,10 +2,13 @@
 
 import collections
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 VAULT = ROOT / "artifacts/juiced2-vault"
+sys.path.insert(0, str(ROOT / "tools/references"))
+from reference_reviews import apply_reviews, lead_order, review_fields  # noqa: E402
 CANONICAL_PLATFORMS = {"PS3", "Xbox 360"}
 PRESS_PLATFORMS = {"Xbox 360 / PS3 press batch", "Xbox 360 press batch"}
 EXCLUDED_PLATFORMS = {"PS2", "PSP", "PS2 press batch"}
@@ -29,15 +32,10 @@ def source_role(platform):
 
 def main():
     assets = {asset["id"]: asset for asset in json.loads((VAULT / "assets.json").read_text())}
-    reviews = json.loads((ROOT / "data/juiced2/reference-reviews.json").read_text())["reviews"]
-    rejected = {}
-    for review in reviews:
-        if assets[review["asset_id"]]["sha256"] != review["source_sha256"]:
-            raise ValueError("Reviewed reference image identity changed")
-        if review["action"] != "exclude-from-state-leads":
-            raise ValueError("Unknown reference review action")
-        rejected[(review["state"], review["asset_id"])] = review
+    reviews = json.loads((ROOT / "data/juiced2/reference-reviews.json").read_text())
     rows = json.loads((VAULT / "judgments/classifications.json").read_text())
+    resolved = apply_reviews(assets, rows, reviews)
+    rejected = resolved["rejected"]
     groups = collections.defaultdict(list)
     for row in rows:
         if row.get("status") != "complete" or row["id"] not in assets:
@@ -59,15 +57,24 @@ def main():
                 "source_priority": priority,
             }
         )
+    effective = collections.defaultdict(list)
+    for row in resolved["rows"]:
+        state = row["screen_state"]
+        asset = assets[row["id"]]
+        role, priority = source_role(asset["platform_declared"])
+        effective[state].append({
+            "asset_id": row["id"], "frame_path": str(VAULT / asset["path"]),
+            "source_url": asset.get("source_url"), "timestamp_seconds": asset.get("timestamp_seconds"),
+            "platform": asset["platform_declared"],
+            "probability": row.get("screen_distribution", {}).get(state),
+            "requires_review": row.get("screen_review", True), "tags": row.get("tags", []),
+            "source_role": role, "source_priority": priority, **review_fields(row),
+        })
     coverage = []
-    for state, leads in sorted(groups.items()):
-        leads.sort(
-            key=lambda lead: (
-                lead["source_priority"], lead["requires_review"], -lead["probability"]
-            )
-        )
+    for state in sorted(set(groups) | set(effective)):
+        leads = groups.get(state, [])
         canonical_count = sum(lead["platform"] in CANONICAL_PLATFORMS for lead in leads)
-        eligible = [lead for lead in leads if (state, lead["asset_id"]) not in rejected]
+        eligible = sorted(effective.get(state, []), key=lambda lead: lead_order(lead["source_priority"], lead))
         eligible_canonical_count = sum(
             lead["platform"] in CANONICAL_PLATFORMS for lead in eligible
         )
@@ -80,6 +87,7 @@ def main():
             {
                 "state": state,
                 "classifier_sample_count": len(leads),
+                "effective_sample_count": len(eligible),
                 "platform_counts": dict(collections.Counter(lead["platform"] for lead in leads)),
                 "canonical_platform_sample_count": canonical_count,
                 "eligible_canonical_platform_sample_count": eligible_canonical_count,
@@ -105,14 +113,18 @@ def main():
         )
     result = {
         "schema_version": 2,
-        "source": "existing vault classifications, not newly observed guarantees",
+        "source": "machine classifications with hash-bound human screen reviews; no gameplay fidelity guarantee",
         "states": coverage,
+        "human_review_summary": resolved["summary"],
+        "reviewed_parent_categories": resolved["parent_categories"],
         "limits": [
             "State taxonomy candidates are not guaranteed observed states.",
             "Declared platforms are retained source metadata, not new platform verification.",
             "PS3/Xbox 360 retail leads precede press, PC, unverified and prerelease leads.",
             "PS2/PSP samples remain counted but cannot supply acceptance reference leads.",
             "Highest-scoring exemplars may still need review; probabilities are retained.",
+            "Human exact labels rank within their platform tier; model probabilities are never invented for corrected labels.",
+            "Parent-only reviews never verify descendants; uncertainty reviews withhold precise state leads.",
             "No matched application capture or fidelity pass is claimed.",
         ],
     }

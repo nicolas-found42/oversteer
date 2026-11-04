@@ -1,16 +1,17 @@
 {
   "schema_version": 2,
-  "source": "existing vault classifications, not newly observed guarantees",
+  "source": "machine classifications with hash-bound human screen reviews; no gameplay fidelity guarantee",
   "states": [
     {
       "state": "betting/cash-wager/accepted",
       "classifier_sample_count": 63,
+      "effective_sample_count": 63,
       "platform_counts": {
-        "Xbox 360": 6,
-        "PS3": 11,
-        "PC": 7,
-        "Unspecified by title": 30,
         "PS2": 7,
+        "Unspecified by title": 30,
+        "Xbox 360": 6,
+        "PC": 7,
+        "PS3": 11,
         "PSP": 2
       },
       "canonical_platform_sample_count": 17,
@@ -89,11 +90,12 @@
     {
       "state": "betting/cash-wager/counteroffer",
       "classifier_sample_count": 17,
+      "effective_sample_count": 17,
       "platform_counts": {
-        "PS3": 6,
-        "Xbox 360": 6,
+        "PS2": 3,
         "Unspecified by title": 2,
-        "PS2": 3
+        "PS3": 6,
+        "Xbox 360": 6
       },
       "canonical_platform_sample_count": 12,
       "eligible_canonical_platform_sample_count": 12,
@@ -170,12 +172,13 @@
     {
       "state": "betting/cash-wager/offer",
       "classifier_sample_count": 81,
+      "effective_sample_count": 81,
       "platform_counts": {
-        "Xbox 360": 14,
         "PS3": 16,
         "PC": 11,
-        "Unspecified by title": 27,
         "PS2": 11,
+        "Unspecified by title": 27,
+        "Xbox 360": 14,
         "PSP": 2
       },
       "canonical_platform_sample_count": 30,
@@ -185,6 +188,33 @@
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
       "reference_leads": [
+        {
+          "asset_id": "SSCgI4rqzlw-000270000000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/SSCgI4rqzlw/000270000000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=SSCgI4rqzlw",
+          "timestamp_seconds": 270.0,
+          "platform": "Xbox 360",
+          "probability": 0.96,
+          "requires_review": false,
+          "tags": [
+            "menu/controller-glyphs",
+            "menu/timer-bar",
+            "economy/wager-amount",
+            "economy/offer-list"
+          ],
+          "source_role": "canonical-platform-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0049",
+            "outcome": "label",
+            "label": "betting/cash-wager/offer",
+            "notes": "",
+            "updated_at": "2026-11-03T23:29:53.282Z"
+          },
+          "machine_screen_state": "betting/cash-wager/offer",
+          "machine_screen_review": false,
+          "machine_probability": 0.96
+        },
         {
           "asset_id": "SSCgI4rqzlw-000270500000",
           "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/SSCgI4rqzlw/000270500000.jpg",
@@ -243,25 +273,6 @@
             "economy/offer-selected"
           ],
           "source_role": "canonical-platform-lead"
-        },
-        {
-          "asset_id": "-GCF8J-tVyQ-000100000000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/-GCF8J-tVyQ/000100000000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=-GCF8J-tVyQ",
-          "timestamp_seconds": 100.0,
-          "platform": "PS3",
-          "probability": 0.96,
-          "requires_review": false,
-          "tags": [
-            "menu/selected-row",
-            "menu/cash-balance",
-            "menu/controller-glyphs",
-            "menu/timer-bar",
-            "economy/wager-amount",
-            "economy/offer-list",
-            "economy/offer-selected"
-          ],
-          "source_role": "canonical-platform-lead"
         }
       ],
       "implementation_status": "not independently compared",
@@ -270,12 +281,13 @@
     {
       "state": "betting/cash-wager/unspecified",
       "classifier_sample_count": 81,
+      "effective_sample_count": 81,
       "platform_counts": {
-        "Xbox 360": 11,
         "PS3": 14,
         "PC": 11,
-        "Unspecified by title": 31,
         "PS2": 13,
+        "Unspecified by title": 31,
+        "Xbox 360": 11,
         "PSP": 1
       },
       "canonical_platform_sample_count": 25,
@@ -353,12 +365,13 @@
     {
       "state": "betting/opponent-list/driver",
       "classifier_sample_count": 304,
+      "effective_sample_count": 304,
       "platform_counts": {
-        "Xbox 360": 67,
         "PS3": 163,
+        "PS2": 18,
         "PC": 5,
         "Unspecified by title": 49,
-        "PS2": 18,
+        "Xbox 360": 67,
         "PSP": 2
       },
       "canonical_platform_sample_count": 230,
@@ -448,12 +461,13 @@
     {
       "state": "betting/opponent-list/unspecified",
       "classifier_sample_count": 73,
+      "effective_sample_count": 73,
       "platform_counts": {
         "PS3": 38,
-        "Xbox 360": 16,
         "PC": 7,
+        "PS2": 2,
         "Unspecified by title": 10,
-        "PS2": 2
+        "Xbox 360": 16
       },
       "canonical_platform_sample_count": 54,
       "eligible_canonical_platform_sample_count": 54,
@@ -556,10 +570,11 @@
     {
       "state": "betting/pink-slip/opponent",
       "classifier_sample_count": 15,
+      "effective_sample_count": 15,
       "platform_counts": {
-        "PS3": 7,
+        "Unspecified by title": 7,
         "PC": 1,
-        "Unspecified by title": 7
+        "PS3": 7
       },
       "canonical_platform_sample_count": 7,
       "eligible_canonical_platform_sample_count": 7,
@@ -635,10 +650,11 @@
     {
       "state": "betting/pink-slip/unspecified",
       "classifier_sample_count": 29,
+      "effective_sample_count": 29,
       "platform_counts": {
-        "Xbox 360": 3,
-        "PS3": 9,
         "Unspecified by title": 16,
+        "PS3": 9,
+        "Xbox 360": 3,
         "PS2": 1
       },
       "canonical_platform_sample_count": 12,
@@ -738,13 +754,30 @@
     {
       "state": "betting/pink-slip/warning",
       "classifier_sample_count": 8,
+      "effective_sample_count": 7,
       "platform_counts": {
         "Xbox 360": 4,
         "PS3": 4
       },
       "canonical_platform_sample_count": 8,
-      "eligible_canonical_platform_sample_count": 8,
-      "reviewed_rejections": [],
+      "eligible_canonical_platform_sample_count": 7,
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "SSCgI4rqzlw-000639000000",
+          "source_sha256": "a077c9a0fb3c405d0b43c926723b3c5966cb7945fa99881461b65e7615f876c0",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0081",
+          "outcome": "category",
+          "label": "career",
+          "notes": "Pink slip confirmation screen",
+          "updated_at": "2026-11-04T00:41:57.702Z",
+          "original_machine_state": "betting/pink-slip/warning",
+          "state": "betting/pink-slip/warning",
+          "review_action": "annotate-screen",
+          "reason": "Machine screen is outside the human-reviewed parent category"
+        }
+      ],
       "excluded_platform_sample_count": 0,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -754,27 +787,6 @@
           "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/SSCgI4rqzlw/000636000000.jpg",
           "source_url": "https://www.youtube.com/watch?v=SSCgI4rqzlw",
           "timestamp_seconds": 636.0,
-          "platform": "Xbox 360",
-          "probability": 1,
-          "requires_review": false,
-          "tags": [
-            "menu/selected-row",
-            "menu/confirm-dialog",
-            "menu/yes-no",
-            "menu/controller-glyphs",
-            "menu/inset-preview",
-            "menu/radio-toggle",
-            "economy/wager-accept-reject",
-            "economy/pink-slip-explicit",
-            "economy/car-loss-warning"
-          ],
-          "source_role": "canonical-platform-lead"
-        },
-        {
-          "asset_id": "SSCgI4rqzlw-000639000000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/SSCgI4rqzlw/000639000000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=SSCgI4rqzlw",
-          "timestamp_seconds": 639.0,
           "platform": "Xbox 360",
           "probability": 1,
           "requires_review": false,
@@ -833,6 +845,26 @@
             "economy/car-loss-warning"
           ],
           "source_role": "canonical-platform-lead"
+        },
+        {
+          "asset_id": "j0NHGEvzzg8-000075075000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/j0NHGEvzzg8/000075075000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=j0NHGEvzzg8",
+          "timestamp_seconds": 75.075,
+          "platform": "PS3",
+          "probability": 1,
+          "requires_review": false,
+          "tags": [
+            "menu/selected-row",
+            "menu/confirm-dialog",
+            "menu/yes-no",
+            "menu/radio-toggle",
+            "economy/wager-accept-reject",
+            "economy/pink-slip-explicit",
+            "economy/bet-rejected",
+            "economy/car-loss-warning"
+          ],
+          "source_role": "canonical-platform-lead"
         }
       ],
       "implementation_status": "not independently compared",
@@ -841,9 +873,10 @@
     {
       "state": "betting/spectator/selection",
       "classifier_sample_count": 3,
+      "effective_sample_count": 3,
       "platform_counts": {
-        "PS3": 1,
-        "Unspecified by title": 2
+        "Unspecified by title": 2,
+        "PS3": 1
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
@@ -915,6 +948,7 @@
     {
       "state": "betting/spectator/unspecified",
       "classifier_sample_count": 2,
+      "effective_sample_count": 2,
       "platform_counts": {
         "PS3": 1,
         "PC": 1
@@ -968,6 +1002,7 @@
     {
       "state": "boot/controller-prompt",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "PC": 1
       },
@@ -998,12 +1033,13 @@
     {
       "state": "boot/title",
       "classifier_sample_count": 65,
+      "effective_sample_count": 65,
       "platform_counts": {
-        "Xbox 360": 24,
-        "PS3": 20,
         "PC": 2,
+        "PS2": 5,
         "Unspecified by title": 14,
-        "PS2": 5
+        "PS3": 20,
+        "Xbox 360": 24
       },
       "canonical_platform_sample_count": 44,
       "eligible_canonical_platform_sample_count": 44,
@@ -1063,11 +1099,12 @@
     {
       "state": "career/dna-challenges",
       "classifier_sample_count": 24,
+      "effective_sample_count": 24,
       "platform_counts": {
-        "PS3": 17,
-        "Xbox 360": 2,
         "Unspecified by title": 4,
-        "PS2": 1
+        "PS2": 1,
+        "PS3": 17,
+        "Xbox 360": 2
       },
       "canonical_platform_sample_count": 19,
       "eligible_canonical_platform_sample_count": 19,
@@ -1154,9 +1191,10 @@
     {
       "state": "career/dna-opponents/challenge",
       "classifier_sample_count": 7,
+      "effective_sample_count": 7,
       "platform_counts": {
-        "Xbox 360": 6,
-        "PS3": 1
+        "PS3": 1,
+        "Xbox 360": 6
       },
       "canonical_platform_sample_count": 7,
       "eligible_canonical_platform_sample_count": 7,
@@ -1242,6 +1280,7 @@
     {
       "state": "career/dna-opponents/download",
       "classifier_sample_count": 13,
+      "effective_sample_count": 13,
       "platform_counts": {
         "Xbox 360": 13
       },
@@ -1327,6 +1366,7 @@
     {
       "state": "career/dna-opponents/unspecified",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "Xbox 360": 1
       },
@@ -1364,10 +1404,11 @@
     {
       "state": "career/dna-profile/helix",
       "classifier_sample_count": 48,
+      "effective_sample_count": 48,
       "platform_counts": {
         "PS3": 36,
-        "Xbox 360": 11,
-        "PC": 1
+        "PC": 1,
+        "Xbox 360": 11
       },
       "canonical_platform_sample_count": 47,
       "eligible_canonical_platform_sample_count": 47,
@@ -1441,10 +1482,11 @@
     {
       "state": "career/dna-profile/unspecified",
       "classifier_sample_count": 16,
+      "effective_sample_count": 16,
       "platform_counts": {
         "PS3": 10,
-        "Xbox 360": 1,
-        "PC": 5
+        "PC": 5,
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 11,
       "eligible_canonical_platform_sample_count": 11,
@@ -1515,6 +1557,7 @@
     {
       "state": "career/event-details/rewards",
       "classifier_sample_count": 14,
+      "effective_sample_count": 14,
       "platform_counts": {
         "Xbox 360": 13,
         "PC": 1
@@ -1563,7 +1606,18 @@
             "economy/wager-amount",
             "economy/event-prize"
           ],
-          "source_role": "canonical-platform-lead"
+          "source_role": "canonical-platform-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0084",
+            "outcome": "category",
+            "label": "career",
+            "notes": "Event selection screen ",
+            "updated_at": "2026-11-04T00:43:57.135Z"
+          },
+          "machine_screen_state": "career/event-details/rewards",
+          "machine_screen_review": true,
+          "machine_probability": 0.39
         },
         {
           "asset_id": "SSCgI4rqzlw-000182000000",
@@ -1609,6 +1663,7 @@
     {
       "state": "career/event-details/track",
       "classifier_sample_count": 8,
+      "effective_sample_count": 8,
       "platform_counts": {
         "Unspecified by title": 8
       },
@@ -1702,6 +1757,7 @@
     {
       "state": "career/event-details/unspecified",
       "classifier_sample_count": 7,
+      "effective_sample_count": 7,
       "platform_counts": {
         "PS3": 6,
         "Xbox 360": 1
@@ -1780,9 +1836,10 @@
     {
       "state": "career/event-list/circuit",
       "classifier_sample_count": 113,
+      "effective_sample_count": 113,
       "platform_counts": {
-        "Xbox 360": 71,
         "PS3": 24,
+        "Xbox 360": 71,
         "PC": 10,
         "Unspecified by title": 8
       },
@@ -1859,11 +1916,12 @@
     {
       "state": "career/event-list/drift",
       "classifier_sample_count": 36,
+      "effective_sample_count": 36,
       "platform_counts": {
-        "Xbox 360": 18,
         "PS3": 10,
-        "PC": 2,
-        "Unspecified by title": 6
+        "Unspecified by title": 6,
+        "Xbox 360": 18,
+        "PC": 2
       },
       "canonical_platform_sample_count": 28,
       "eligible_canonical_platform_sample_count": 28,
@@ -1951,6 +2009,7 @@
     {
       "state": "career/event-list/tournament",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "Xbox 360": 1
       },
@@ -1987,16 +2046,33 @@
     {
       "state": "career/event-list/unspecified",
       "classifier_sample_count": 13,
+      "effective_sample_count": 12,
       "platform_counts": {
+        "PS2": 3,
         "Xbox 360": 5,
-        "PS3": 1,
         "PC": 3,
         "PSP": 1,
-        "PS2": 3
+        "PS3": 1
       },
       "canonical_platform_sample_count": 6,
       "eligible_canonical_platform_sample_count": 6,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "g6gL9df3fuw-000006095733",
+          "source_sha256": "048972a01d7667596f7c9296757b8aeb22664bddd2f95b14c5bde66b81d7e2d1",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0035",
+          "outcome": "unreadable",
+          "label": "",
+          "notes": "Low quality PlayStation Portable Screenshot Ignore",
+          "updated_at": "2026-11-03T23:24:48.351Z",
+          "original_machine_state": "career/event-list/unspecified",
+          "state": "career/event-list/unspecified",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        }
+      ],
       "excluded_platform_sample_count": 4,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -2080,9 +2156,10 @@
     {
       "state": "career/goals/checklist",
       "classifier_sample_count": 8,
+      "effective_sample_count": 8,
       "platform_counts": {
-        "Xbox 360": 6,
-        "PS3": 2
+        "PS3": 2,
+        "Xbox 360": 6
       },
       "canonical_platform_sample_count": 8,
       "eligible_canonical_platform_sample_count": 8,
@@ -2177,16 +2254,33 @@
     {
       "state": "career/goals/detail",
       "classifier_sample_count": 98,
+      "effective_sample_count": 97,
       "platform_counts": {
-        "Xbox 360": 37,
         "PS3": 18,
-        "PC": 8,
+        "PS2": 25,
         "Unspecified by title": 10,
-        "PS2": 25
+        "Xbox 360": 37,
+        "PC": 8
       },
       "canonical_platform_sample_count": 55,
-      "eligible_canonical_platform_sample_count": 55,
-      "reviewed_rejections": [],
+      "eligible_canonical_platform_sample_count": 54,
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "SSCgI4rqzlw-000117000000",
+          "source_sha256": "a1c83f3445af1c2464204a3cc742282b86f229a958fa6ac25d98bd63a1af5dc8",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0013",
+          "outcome": "category",
+          "label": "career/event-list",
+          "notes": "",
+          "updated_at": "2026-11-03T23:13:46.207Z",
+          "original_machine_state": "career/goals/detail",
+          "state": "career/goals/detail",
+          "review_action": "annotate-screen",
+          "reason": "Machine screen is outside the human-reviewed parent category"
+        }
+      ],
       "excluded_platform_sample_count": 25,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -2252,12 +2346,13 @@
     {
       "state": "career/goals/unspecified",
       "classifier_sample_count": 37,
+      "effective_sample_count": 37,
       "platform_counts": {
-        "Xbox 360": 11,
         "PS3": 5,
+        "Xbox 360": 11,
         "PC": 5,
-        "Unspecified by title": 7,
         "PS2": 8,
+        "Unspecified by title": 7,
         "PSP": 1
       },
       "canonical_platform_sample_count": 16,
@@ -2341,12 +2436,13 @@
     {
       "state": "career/hub",
       "classifier_sample_count": 88,
+      "effective_sample_count": 88,
       "platform_counts": {
-        "Xbox 360": 31,
         "PS3": 26,
-        "PC": 2,
         "Unspecified by title": 7,
         "PS2": 19,
+        "PC": 2,
+        "Xbox 360": 31,
         "PSP": 3
       },
       "canonical_platform_sample_count": 57,
@@ -2454,12 +2550,13 @@
     {
       "state": "career/leagues/select",
       "classifier_sample_count": 22,
+      "effective_sample_count": 22,
       "platform_counts": {
-        "Xbox 360": 11,
         "PS3": 3,
+        "PS2": 5,
+        "Xbox 360": 11,
         "PC": 2,
-        "Unspecified by title": 1,
-        "PS2": 5
+        "Unspecified by title": 1
       },
       "canonical_platform_sample_count": 14,
       "eligible_canonical_platform_sample_count": 14,
@@ -2468,6 +2565,37 @@
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
       "reference_leads": [
+        {
+          "asset_id": "xiaQpIdUPnk-001494000000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/xiaQpIdUPnk/001494000000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=xiaQpIdUPnk",
+          "timestamp_seconds": 1494.0,
+          "platform": "Xbox 360",
+          "probability": 0.96,
+          "requires_review": false,
+          "tags": [
+            "menu/selected-row",
+            "menu/locked-item",
+            "menu/cash-balance",
+            "menu/car-class",
+            "menu/item-index",
+            "menu/back-prompt",
+            "menu/controller-glyphs",
+            "career/league-number"
+          ],
+          "source_role": "canonical-platform-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0051",
+            "outcome": "label",
+            "label": "career/leagues/select",
+            "notes": "League. Rookie. 54%. One valid car. ",
+            "updated_at": "2026-11-03T23:31:00.889Z"
+          },
+          "machine_screen_state": "career/leagues/select",
+          "machine_screen_review": false,
+          "machine_probability": 0.96
+        },
         {
           "asset_id": "xiaQpIdUPnk-001047000000",
           "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/xiaQpIdUPnk/001047000000.jpg",
@@ -2526,24 +2654,6 @@
             "career/league-number"
           ],
           "source_role": "canonical-platform-lead"
-        },
-        {
-          "asset_id": "SSCgI4rqzlw-000081000000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/SSCgI4rqzlw/000081000000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=SSCgI4rqzlw",
-          "timestamp_seconds": 81.0,
-          "platform": "Xbox 360",
-          "probability": 0.96,
-          "requires_review": false,
-          "tags": [
-            "menu/locked-item",
-            "menu/cash-balance",
-            "menu/car-class",
-            "menu/back-prompt",
-            "menu/controller-glyphs",
-            "career/league-number"
-          ],
-          "source_role": "canonical-platform-lead"
         }
       ],
       "implementation_status": "not independently compared",
@@ -2552,10 +2662,11 @@
     {
       "state": "career/promotion/announcement",
       "classifier_sample_count": 19,
+      "effective_sample_count": 19,
       "platform_counts": {
-        "Xbox 360": 8,
         "Unspecified by title": 8,
-        "PS2": 3
+        "PS2": 3,
+        "Xbox 360": 8
       },
       "canonical_platform_sample_count": 8,
       "eligible_canonical_platform_sample_count": 8,
@@ -2564,6 +2675,35 @@
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
       "reference_leads": [
+        {
+          "asset_id": "xiaQpIdUPnk-002004000000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/xiaQpIdUPnk/002004000000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=xiaQpIdUPnk",
+          "timestamp_seconds": 2004.0,
+          "platform": "Xbox 360",
+          "probability": 0.93,
+          "requires_review": false,
+          "tags": [
+            "menu/selected-row",
+            "menu/tabs",
+            "menu/purchase-prompt",
+            "menu/controller-glyphs",
+            "career/promotion-requirement",
+            "career/promotion-announcement"
+          ],
+          "source_role": "canonical-platform-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0021",
+            "outcome": "label",
+            "label": "career/promotion/announcement",
+            "notes": "League promotion. ",
+            "updated_at": "2026-11-03T23:19:06.849Z"
+          },
+          "machine_screen_state": "career/promotion/announcement",
+          "machine_screen_review": false,
+          "machine_probability": 0.93
+        },
         {
           "asset_id": "xiaQpIdUPnk-001977000000",
           "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/xiaQpIdUPnk/001977000000.jpg",
@@ -2615,24 +2755,6 @@
             "career/promotion-announcement"
           ],
           "source_role": "canonical-platform-lead"
-        },
-        {
-          "asset_id": "xiaQpIdUPnk-002004000000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/xiaQpIdUPnk/002004000000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=xiaQpIdUPnk",
-          "timestamp_seconds": 2004.0,
-          "platform": "Xbox 360",
-          "probability": 0.93,
-          "requires_review": false,
-          "tags": [
-            "menu/selected-row",
-            "menu/tabs",
-            "menu/purchase-prompt",
-            "menu/controller-glyphs",
-            "career/promotion-requirement",
-            "career/promotion-announcement"
-          ],
-          "source_role": "canonical-platform-lead"
         }
       ],
       "implementation_status": "not independently compared",
@@ -2641,6 +2763,7 @@
     {
       "state": "career/promotion/unspecified",
       "classifier_sample_count": 2,
+      "effective_sample_count": 2,
       "platform_counts": {
         "Xbox 360": 2
       },
@@ -2687,16 +2810,33 @@
     {
       "state": "career/reward/unspecified",
       "classifier_sample_count": 19,
+      "effective_sample_count": 18,
       "platform_counts": {
         "PS3": 6,
-        "Xbox 360": 6,
         "PC": 3,
         "Unspecified by title": 3,
-        "PS2": 1
+        "PS2": 1,
+        "Xbox 360": 6
       },
       "canonical_platform_sample_count": 12,
       "eligible_canonical_platform_sample_count": 12,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "z4yIMh40fEI-000421189000",
+          "source_sha256": "166e5d098e93b87afd8656d7b7ee0a8bd39ea4c7fd1ebef80cf461214c4cecab",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0018",
+          "outcome": "unreadable",
+          "label": "",
+          "notes": "unreadable, ignore",
+          "updated_at": "2026-11-03T23:16:43.030Z",
+          "original_machine_state": "career/reward/unspecified",
+          "state": "career/reward/unspecified",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        }
+      ],
       "excluded_platform_sample_count": 1,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -2777,6 +2917,7 @@
     {
       "state": "character/clothing/bottom",
       "classifier_sample_count": 9,
+      "effective_sample_count": 9,
       "platform_counts": {
         "PC": 9
       },
@@ -2866,6 +3007,7 @@
     {
       "state": "character/clothing/color",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "PC": 1
       },
@@ -2901,6 +3043,7 @@
     {
       "state": "character/clothing/headwear",
       "classifier_sample_count": 12,
+      "effective_sample_count": 12,
       "platform_counts": {
         "PC": 12
       },
@@ -2987,6 +3130,7 @@
     {
       "state": "character/clothing/top",
       "classifier_sample_count": 14,
+      "effective_sample_count": 14,
       "platform_counts": {
         "PC": 14
       },
@@ -3071,6 +3215,7 @@
     {
       "state": "character/clothing/unspecified",
       "classifier_sample_count": 3,
+      "effective_sample_count": 3,
       "platform_counts": {
         "PC": 3
       },
@@ -3144,6 +3289,7 @@
     {
       "state": "character/face/eyes-brows",
       "classifier_sample_count": 15,
+      "effective_sample_count": 15,
       "platform_counts": {
         "PC": 15
       },
@@ -3154,6 +3300,33 @@
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": true,
       "reference_leads": [
+        {
+          "asset_id": "41hcfe7apig-000192000000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/41hcfe7apig/000192000000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=41hcfe7apig",
+          "timestamp_seconds": 192.0,
+          "platform": "PC",
+          "probability": 1,
+          "requires_review": false,
+          "tags": [
+            "menu/color-swatches",
+            "presentation/avatar",
+            "menu/back-prompt",
+            "menu/controller-glyphs"
+          ],
+          "source_role": "supplemental-pc-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0020",
+            "outcome": "label",
+            "label": "character/face/eyes-brows",
+            "notes": "Player customization, edit eyes. ",
+            "updated_at": "2026-11-03T23:18:31.766Z"
+          },
+          "machine_screen_state": "character/face/eyes-brows",
+          "machine_screen_review": true,
+          "machine_probability": 1
+        },
         {
           "asset_id": "41hcfe7apig-000174000000",
           "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/41hcfe7apig/000174000000.jpg",
@@ -3210,25 +3383,6 @@
             "menu/controller-glyphs"
           ],
           "source_role": "supplemental-pc-lead"
-        },
-        {
-          "asset_id": "41hcfe7apig-000207000000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/41hcfe7apig/000207000000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=41hcfe7apig",
-          "timestamp_seconds": 207.0,
-          "platform": "PC",
-          "probability": 1,
-          "requires_review": false,
-          "tags": [
-            "menu/selected-row",
-            "menu/color-swatches",
-            "presentation/avatar",
-            "menu/left-right-carousel",
-            "menu/category-icons",
-            "menu/back-prompt",
-            "menu/controller-glyphs"
-          ],
-          "source_role": "supplemental-pc-lead"
         }
       ],
       "implementation_status": "not independently compared",
@@ -3237,12 +3391,29 @@
     {
       "state": "character/face/facial-hair",
       "classifier_sample_count": 21,
+      "effective_sample_count": 20,
       "platform_counts": {
         "PC": 21
       },
       "canonical_platform_sample_count": 0,
       "eligible_canonical_platform_sample_count": 0,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "41hcfe7apig-000339000000",
+          "source_sha256": "fd0098a352dd4a79e21709c42cc3e43e2c122e003938dab95e60ed4fb6e64edc",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0073",
+          "outcome": "label",
+          "label": "character/face/hair",
+          "notes": "Edit facial hair, male face. ",
+          "updated_at": "2026-11-04T00:33:02.927Z",
+          "original_machine_state": "character/face/facial-hair",
+          "state": "character/face/facial-hair",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        }
+      ],
       "excluded_platform_sample_count": 0,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": true,
@@ -3325,6 +3496,7 @@
     {
       "state": "character/face/hair",
       "classifier_sample_count": 18,
+      "effective_sample_count": 19,
       "platform_counts": {
         "PC": 18
       },
@@ -3335,6 +3507,35 @@
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": true,
       "reference_leads": [
+        {
+          "asset_id": "41hcfe7apig-000339000000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/41hcfe7apig/000339000000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=41hcfe7apig",
+          "timestamp_seconds": 339.0,
+          "platform": "PC",
+          "probability": 0,
+          "requires_review": false,
+          "tags": [
+            "menu/selected-row",
+            "menu/color-swatches",
+            "presentation/avatar",
+            "menu/left-right-carousel",
+            "menu/category-icons",
+            "menu/item-index"
+          ],
+          "source_role": "supplemental-pc-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0073",
+            "outcome": "label",
+            "label": "character/face/hair",
+            "notes": "Edit facial hair, male face. ",
+            "updated_at": "2026-11-04T00:33:02.927Z"
+          },
+          "machine_screen_state": "character/face/facial-hair",
+          "machine_screen_review": false,
+          "machine_probability": 1
+        },
         {
           "asset_id": "41hcfe7apig-000234000000",
           "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/41hcfe7apig/000234000000.jpg",
@@ -3387,23 +3588,6 @@
             "menu/item-index"
           ],
           "source_role": "supplemental-pc-lead"
-        },
-        {
-          "asset_id": "41hcfe7apig-000243000000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/41hcfe7apig/000243000000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=41hcfe7apig",
-          "timestamp_seconds": 243.0,
-          "platform": "PC",
-          "probability": 1,
-          "requires_review": false,
-          "tags": [
-            "menu/color-swatches",
-            "presentation/avatar",
-            "menu/left-right-carousel",
-            "menu/category-icons",
-            "menu/item-index"
-          ],
-          "source_role": "supplemental-pc-lead"
         }
       ],
       "implementation_status": "not independently compared",
@@ -3412,6 +3596,7 @@
     {
       "state": "character/face/head-shape",
       "classifier_sample_count": 9,
+      "effective_sample_count": 9,
       "platform_counts": {
         "PC": 9
       },
@@ -3489,6 +3674,7 @@
     {
       "state": "character/face/mouth-jaw",
       "classifier_sample_count": 2,
+      "effective_sample_count": 2,
       "platform_counts": {
         "PC": 2
       },
@@ -3540,6 +3726,7 @@
     {
       "state": "character/face/nose",
       "classifier_sample_count": 7,
+      "effective_sample_count": 7,
       "platform_counts": {
         "PC": 7
       },
@@ -3622,6 +3809,7 @@
     {
       "state": "character/face/skin",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "PC": 1
       },
@@ -3658,6 +3846,7 @@
     {
       "state": "character/face/unspecified",
       "classifier_sample_count": 12,
+      "effective_sample_count": 12,
       "platform_counts": {
         "PC": 12
       },
@@ -3737,14 +3926,31 @@
     {
       "state": "character/identity/name",
       "classifier_sample_count": 33,
+      "effective_sample_count": 32,
       "platform_counts": {
         "PC": 20,
-        "Unspecified by title": 6,
-        "PS2": 7
+        "PS2": 7,
+        "Unspecified by title": 6
       },
       "canonical_platform_sample_count": 0,
       "eligible_canonical_platform_sample_count": 0,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "Vo0cO3AQjyQ-000034034000",
+          "source_sha256": "00d1490e524cab5a5cd85e2e717bcf983057b384fb562d125ea23de6af2851c1",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0003",
+          "outcome": "insufficient_context",
+          "label": "",
+          "notes": "menu screen, most likely career, edit player button i think",
+          "updated_at": "2026-11-03T23:09:03.450Z",
+          "original_machine_state": "character/identity/name",
+          "state": "character/identity/name",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        }
+      ],
       "excluded_platform_sample_count": 7,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": true,
@@ -3821,6 +4027,7 @@
     {
       "state": "character/identity/unspecified",
       "classifier_sample_count": 4,
+      "effective_sample_count": 4,
       "platform_counts": {
         "PS3": 1,
         "PC": 3
@@ -3910,6 +4117,7 @@
     {
       "state": "character/preset",
       "classifier_sample_count": 23,
+      "effective_sample_count": 22,
       "platform_counts": {
         "PS3": 1,
         "PC": 19,
@@ -4007,6 +4215,7 @@
     {
       "state": "crew/management/unspecified",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "PS2": 1
       },
@@ -4023,6 +4232,7 @@
     {
       "state": "crew/selection/dna",
       "classifier_sample_count": 16,
+      "effective_sample_count": 16,
       "platform_counts": {
         "PS3": 8,
         "Xbox 360": 8
@@ -4128,6 +4338,7 @@
     {
       "state": "crew/selection/hire",
       "classifier_sample_count": 66,
+      "effective_sample_count": 66,
       "platform_counts": {
         "PS3": 66
       },
@@ -4230,11 +4441,12 @@
     {
       "state": "crew/selection/roster",
       "classifier_sample_count": 30,
+      "effective_sample_count": 30,
       "platform_counts": {
-        "PS3": 23,
-        "Xbox 360": 3,
+        "PS2": 1,
         "Unspecified by title": 3,
-        "PS2": 1
+        "PS3": 23,
+        "Xbox 360": 3
       },
       "canonical_platform_sample_count": 26,
       "eligible_canonical_platform_sample_count": 26,
@@ -4324,6 +4536,7 @@
     {
       "state": "crew/selection/unspecified",
       "classifier_sample_count": 6,
+      "effective_sample_count": 6,
       "platform_counts": {
         "PS3": 5,
         "Xbox 360": 1
@@ -4396,6 +4609,7 @@
     {
       "state": "customization/body/body-kit/standard",
       "classifier_sample_count": 2,
+      "effective_sample_count": 2,
       "platform_counts": {
         "Unspecified by title": 2
       },
@@ -4457,9 +4671,10 @@
     {
       "state": "customization/body/body-kit/unspecified",
       "classifier_sample_count": 8,
+      "effective_sample_count": 8,
       "platform_counts": {
-        "PC": 1,
-        "Unspecified by title": 7
+        "Unspecified by title": 7,
+        "PC": 1
       },
       "canonical_platform_sample_count": 0,
       "eligible_canonical_platform_sample_count": 0,
@@ -4489,7 +4704,18 @@
             "vehicle/license-text",
             "body/wheel-brand"
           ],
-          "source_role": "supplemental-pc-lead"
+          "source_role": "supplemental-pc-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0080",
+            "outcome": "category",
+            "label": "customization",
+            "notes": "Xbox 360 car customization screen ",
+            "updated_at": "2026-11-04T00:41:28.694Z"
+          },
+          "machine_screen_state": "customization/body/body-kit/unspecified",
+          "machine_screen_review": true,
+          "machine_probability": 0.4
         },
         {
           "asset_id": "aX3ctI6PTYQ-000024000000",
@@ -4567,6 +4793,7 @@
     {
       "state": "customization/body/body-kit/wide",
       "classifier_sample_count": 10,
+      "effective_sample_count": 10,
       "platform_counts": {
         "PS3": 5,
         "Unspecified by title": 5
@@ -4672,11 +4899,12 @@
     {
       "state": "customization/body/exhaust/tip",
       "classifier_sample_count": 23,
+      "effective_sample_count": 23,
       "platform_counts": {
-        "Xbox 360": 1,
-        "PS3": 3,
+        "Unspecified by title": 17,
         "PC": 2,
-        "Unspecified by title": 17
+        "PS3": 3,
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 4,
       "eligible_canonical_platform_sample_count": 4,
@@ -4757,10 +4985,11 @@
     {
       "state": "customization/body/exhaust/unspecified",
       "classifier_sample_count": 10,
+      "effective_sample_count": 10,
       "platform_counts": {
-        "PS3": 1,
+        "Unspecified by title": 8,
         "PC": 1,
-        "Unspecified by title": 8
+        "PS3": 1
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
@@ -4837,16 +5066,33 @@
     {
       "state": "customization/body/front-bumper",
       "classifier_sample_count": 47,
+      "effective_sample_count": 46,
       "platform_counts": {
         "PS3": 6,
-        "Xbox 360": 2,
-        "PC": 2,
         "Unspecified by title": 35,
-        "PS2": 2
+        "PC": 2,
+        "PS2": 2,
+        "Xbox 360": 2
       },
       "canonical_platform_sample_count": 8,
       "eligible_canonical_platform_sample_count": 8,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "gXcdo7u0fVU-000341841000",
+          "source_sha256": "3d1c3d933dd14062d3bdf35f47c6efc8fcbc40ca36ce42eb9260f6de130813b4",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0070",
+          "outcome": "label",
+          "label": "customization/checkout/items",
+          "notes": "Customization checkout screen in French ",
+          "updated_at": "2026-11-04T00:31:15.669Z",
+          "original_machine_state": "customization/body/front-bumper",
+          "state": "customization/body/front-bumper",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        }
+      ],
       "excluded_platform_sample_count": 2,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -4949,11 +5195,12 @@
     {
       "state": "customization/body/headlights",
       "classifier_sample_count": 8,
+      "effective_sample_count": 8,
       "platform_counts": {
-        "Xbox 360": 2,
-        "PS3": 1,
+        "Unspecified by title": 4,
         "PC": 1,
-        "Unspecified by title": 4
+        "PS3": 1,
+        "Xbox 360": 2
       },
       "canonical_platform_sample_count": 3,
       "eligible_canonical_platform_sample_count": 3,
@@ -5060,12 +5307,13 @@
     {
       "state": "customization/body/hood",
       "classifier_sample_count": 57,
+      "effective_sample_count": 57,
       "platform_counts": {
         "PS3": 10,
-        "Xbox 360": 1,
-        "PC": 1,
         "Unspecified by title": 43,
-        "PS2": 2
+        "PC": 1,
+        "PS2": 2,
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 11,
       "eligible_canonical_platform_sample_count": 11,
@@ -5174,6 +5422,7 @@
     {
       "state": "customization/body/mirrors",
       "classifier_sample_count": 10,
+      "effective_sample_count": 10,
       "platform_counts": {
         "PS3": 2,
         "PC": 1,
@@ -5292,10 +5541,11 @@
     {
       "state": "customization/body/rear-bumper",
       "classifier_sample_count": 11,
+      "effective_sample_count": 11,
       "platform_counts": {
         "PS3": 1,
-        "PC": 2,
-        "Unspecified by title": 8
+        "Unspecified by title": 8,
+        "PC": 2
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
@@ -5413,6 +5663,7 @@
     {
       "state": "customization/body/roof",
       "classifier_sample_count": 11,
+      "effective_sample_count": 11,
       "platform_counts": {
         "PS3": 3,
         "Xbox 360": 1,
@@ -5527,10 +5778,11 @@
     {
       "state": "customization/body/side-skirts",
       "classifier_sample_count": 16,
+      "effective_sample_count": 16,
       "platform_counts": {
         "PS3": 2,
-        "PC": 1,
-        "Unspecified by title": 13
+        "Unspecified by title": 13,
+        "PC": 1
       },
       "canonical_platform_sample_count": 2,
       "eligible_canonical_platform_sample_count": 2,
@@ -5633,12 +5885,13 @@
     {
       "state": "customization/body/spoiler",
       "classifier_sample_count": 92,
+      "effective_sample_count": 92,
       "platform_counts": {
-        "PS3": 13,
-        "Xbox 360": 1,
-        "PC": 22,
         "Unspecified by title": 51,
-        "PS2": 5
+        "PC": 22,
+        "PS2": 5,
+        "PS3": 13,
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 14,
       "eligible_canonical_platform_sample_count": 14,
@@ -5743,10 +5996,11 @@
     {
       "state": "customization/body/taillights",
       "classifier_sample_count": 8,
+      "effective_sample_count": 8,
       "platform_counts": {
-        "PS3": 3,
         "PC": 2,
-        "Unspecified by title": 3
+        "Unspecified by title": 3,
+        "PS3": 3
       },
       "canonical_platform_sample_count": 3,
       "eligible_canonical_platform_sample_count": 3,
@@ -5870,11 +6124,12 @@
     {
       "state": "customization/category",
       "classifier_sample_count": 258,
+      "effective_sample_count": 258,
       "platform_counts": {
         "PS3": 28,
+        "Unspecified by title": 154,
         "Xbox 360": 26,
         "PC": 25,
-        "Unspecified by title": 154,
         "PS2": 25
       },
       "canonical_platform_sample_count": 54,
@@ -5926,26 +6181,6 @@
           "source_role": "canonical-platform-lead"
         },
         {
-          "asset_id": "SSCgI4rqzlw-001176000000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/SSCgI4rqzlw/001176000000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=SSCgI4rqzlw",
-          "timestamp_seconds": 1176.0,
-          "platform": "Xbox 360",
-          "probability": 0.99,
-          "requires_review": false,
-          "tags": [
-            "menu/selected-row",
-            "menu/cash-balance",
-            "menu/left-right-carousel",
-            "menu/category-icons",
-            "menu/tabs",
-            "menu/back-prompt",
-            "menu/controller-glyphs",
-            "vehicle/license-text"
-          ],
-          "source_role": "canonical-platform-lead"
-        },
-        {
           "asset_id": "SSCgI4rqzlw-001161000000",
           "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/SSCgI4rqzlw/001161000000.jpg",
           "source_url": "https://www.youtube.com/watch?v=SSCgI4rqzlw",
@@ -5964,6 +6199,26 @@
             "vehicle/license-text"
           ],
           "source_role": "canonical-platform-lead"
+        },
+        {
+          "asset_id": "-GCF8J-tVyQ-000468000000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/-GCF8J-tVyQ/000468000000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=-GCF8J-tVyQ",
+          "timestamp_seconds": 468.0,
+          "platform": "PS3",
+          "probability": 0.88,
+          "requires_review": false,
+          "tags": [
+            "menu/price",
+            "menu/cash-balance",
+            "menu/left-right-carousel",
+            "menu/purchase-prompt",
+            "menu/back-prompt",
+            "menu/controller-glyphs",
+            "vehicle/transparent-window",
+            "vehicle/license-text"
+          ],
+          "source_role": "canonical-platform-lead"
         }
       ],
       "implementation_status": "not independently compared",
@@ -5972,10 +6227,11 @@
     {
       "state": "customization/checkout/confirm",
       "classifier_sample_count": 6,
+      "effective_sample_count": 6,
       "platform_counts": {
-        "PS3": 1,
         "Unspecified by title": 4,
-        "PS2": 1
+        "PS2": 1,
+        "PS3": 1
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
@@ -6071,6 +6327,7 @@
     {
       "state": "customization/checkout/items",
       "classifier_sample_count": 11,
+      "effective_sample_count": 12,
       "platform_counts": {
         "PS3": 2,
         "Xbox 360": 2,
@@ -6173,10 +6430,11 @@
     {
       "state": "customization/checkout/unspecified",
       "classifier_sample_count": 23,
+      "effective_sample_count": 23,
       "platform_counts": {
+        "Unspecified by title": 18,
         "PS3": 4,
-        "Xbox 360": 1,
-        "Unspecified by title": 18
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 5,
       "eligible_canonical_platform_sample_count": 5,
@@ -6255,9 +6513,10 @@
     {
       "state": "customization/interior/seats",
       "classifier_sample_count": 21,
+      "effective_sample_count": 21,
       "platform_counts": {
-        "PS3": 1,
-        "Unspecified by title": 20
+        "Unspecified by title": 20,
+        "PS3": 1
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
@@ -6373,6 +6632,7 @@
     {
       "state": "customization/interior/steering-wheel",
       "classifier_sample_count": 24,
+      "effective_sample_count": 24,
       "platform_counts": {
         "PS3": 1,
         "Unspecified by title": 23
@@ -6488,10 +6748,11 @@
     {
       "state": "customization/interior/unspecified",
       "classifier_sample_count": 20,
+      "effective_sample_count": 20,
       "platform_counts": {
         "PS3": 3,
-        "PC": 1,
-        "Unspecified by title": 16
+        "Unspecified by title": 16,
+        "PC": 1
       },
       "canonical_platform_sample_count": 3,
       "eligible_canonical_platform_sample_count": 3,
@@ -6580,11 +6841,12 @@
     {
       "state": "customization/paint/body/palette",
       "classifier_sample_count": 95,
+      "effective_sample_count": 95,
       "platform_counts": {
         "PS3": 9,
+        "Unspecified by title": 46,
         "Xbox 360": 4,
         "PC": 8,
-        "Unspecified by title": 46,
         "PS2": 28
       },
       "canonical_platform_sample_count": 13,
@@ -6687,13 +6949,14 @@
     {
       "state": "customization/paint/body/unspecified",
       "classifier_sample_count": 56,
+      "effective_sample_count": 56,
       "platform_counts": {
         "PS3": 13,
-        "Xbox 360": 13,
-        "Xbox 360 / PS3 press batch": 1,
-        "PC": 4,
         "Unspecified by title": 22,
-        "PS2": 3
+        "Xbox 360": 13,
+        "PC": 4,
+        "PS2": 3,
+        "Xbox 360 / PS3 press batch": 1
       },
       "canonical_platform_sample_count": 26,
       "eligible_canonical_platform_sample_count": 26,
@@ -6791,12 +7054,13 @@
     {
       "state": "customization/paint/finish/type",
       "classifier_sample_count": 21,
+      "effective_sample_count": 21,
       "platform_counts": {
-        "PS3": 4,
+        "Unspecified by title": 9,
         "Xbox 360": 2,
         "PC": 4,
-        "Unspecified by title": 9,
-        "PS2": 2
+        "PS2": 2,
+        "PS3": 4
       },
       "canonical_platform_sample_count": 6,
       "eligible_canonical_platform_sample_count": 6,
@@ -6899,6 +7163,7 @@
     {
       "state": "customization/paint/part/unspecified",
       "classifier_sample_count": 2,
+      "effective_sample_count": 2,
       "platform_counts": {
         "Unspecified by title": 2
       },
@@ -6955,6 +7220,7 @@
     {
       "state": "customization/plate/style",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "Unspecified by title": 1
       },
@@ -6994,10 +7260,11 @@
     {
       "state": "customization/plate/text",
       "classifier_sample_count": 124,
+      "effective_sample_count": 124,
       "platform_counts": {
+        "Unspecified by title": 104,
         "PS3": 17,
-        "PC": 3,
-        "Unspecified by title": 104
+        "PC": 3
       },
       "canonical_platform_sample_count": 17,
       "eligible_canonical_platform_sample_count": 17,
@@ -7089,10 +7356,11 @@
     {
       "state": "customization/plate/unspecified",
       "classifier_sample_count": 13,
+      "effective_sample_count": 13,
       "platform_counts": {
-        "PS3": 1,
         "PC": 2,
-        "Unspecified by title": 10
+        "Unspecified by title": 10,
+        "PS3": 1
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
@@ -7203,10 +7471,11 @@
     {
       "state": "customization/vinyl/catalog/category",
       "classifier_sample_count": 44,
+      "effective_sample_count": 44,
       "platform_counts": {
-        "Xbox 360": 29,
+        "Unspecified by title": 14,
         "PS3": 1,
-        "Unspecified by title": 14
+        "Xbox 360": 29
       },
       "canonical_platform_sample_count": 30,
       "eligible_canonical_platform_sample_count": 30,
@@ -7295,10 +7564,11 @@
     {
       "state": "customization/vinyl/catalog/design",
       "classifier_sample_count": 243,
+      "effective_sample_count": 243,
       "platform_counts": {
-        "Xbox 360": 172,
         "PS3": 12,
-        "Unspecified by title": 59
+        "Unspecified by title": 59,
+        "Xbox 360": 172
       },
       "canonical_platform_sample_count": 184,
       "eligible_canonical_platform_sample_count": 184,
@@ -7389,14 +7659,31 @@
     {
       "state": "customization/vinyl/catalog/unspecified",
       "classifier_sample_count": 15,
+      "effective_sample_count": 14,
       "platform_counts": {
-        "Xbox 360": 9,
+        "Unspecified by title": 5,
         "Xbox 360 / PS3 press batch": 1,
-        "Unspecified by title": 5
+        "Xbox 360": 9
       },
       "canonical_platform_sample_count": 9,
       "eligible_canonical_platform_sample_count": 9,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "gamersyde-6243-0003",
+          "source_sha256": "d3e79faf54c4a4c1bb8941311c0e8aa0fa0abd4f965624a85d2fadd91c23a4b5",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0060",
+          "outcome": "label",
+          "label": "garage/car-showcase",
+          "notes": "Showcase, side view, BMW. ",
+          "updated_at": "2026-11-04T00:16:54.355Z",
+          "original_machine_state": "customization/vinyl/catalog/unspecified",
+          "state": "customization/vinyl/catalog/unspecified",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        }
+      ],
       "excluded_platform_sample_count": 0,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -7484,9 +7771,10 @@
     {
       "state": "customization/vinyl/color/palette",
       "classifier_sample_count": 4,
+      "effective_sample_count": 4,
       "platform_counts": {
-        "Xbox 360": 1,
-        "Unspecified by title": 3
+        "Unspecified by title": 3,
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
@@ -7589,9 +7877,10 @@
     {
       "state": "customization/vinyl/layers/list",
       "classifier_sample_count": 25,
+      "effective_sample_count": 25,
       "platform_counts": {
-        "Xbox 360": 12,
-        "Unspecified by title": 13
+        "Unspecified by title": 13,
+        "Xbox 360": 12
       },
       "canonical_platform_sample_count": 12,
       "eligible_canonical_platform_sample_count": 12,
@@ -7686,9 +7975,10 @@
     {
       "state": "customization/vinyl/layers/options",
       "classifier_sample_count": 5,
+      "effective_sample_count": 5,
       "platform_counts": {
-        "Xbox 360": 1,
-        "Unspecified by title": 4
+        "Unspecified by title": 4,
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
@@ -7773,9 +8063,10 @@
     {
       "state": "customization/vinyl/placement/panel",
       "classifier_sample_count": 5,
+      "effective_sample_count": 5,
       "platform_counts": {
-        "Xbox 360": 3,
-        "Unspecified by title": 2
+        "Unspecified by title": 2,
+        "Xbox 360": 3
       },
       "canonical_platform_sample_count": 3,
       "eligible_canonical_platform_sample_count": 3,
@@ -7871,10 +8162,11 @@
     {
       "state": "customization/vinyl/placement/transform",
       "classifier_sample_count": 207,
+      "effective_sample_count": 207,
       "platform_counts": {
-        "Xbox 360": 88,
+        "Unspecified by title": 118,
         "PC": 1,
-        "Unspecified by title": 118
+        "Xbox 360": 88
       },
       "canonical_platform_sample_count": 88,
       "eligible_canonical_platform_sample_count": 88,
@@ -7977,10 +8269,11 @@
     {
       "state": "customization/vinyl/placement/unspecified",
       "classifier_sample_count": 98,
+      "effective_sample_count": 98,
       "platform_counts": {
-        "Xbox 360": 38,
-        "PC": 1,
         "Unspecified by title": 58,
+        "PC": 1,
+        "Xbox 360": 38,
         "Xbox 360 / PS3 press batch (prerelease)": 1
       },
       "canonical_platform_sample_count": 38,
@@ -8050,6 +8343,7 @@
     {
       "state": "customization/wheels/color/palette",
       "classifier_sample_count": 3,
+      "effective_sample_count": 3,
       "platform_counts": {
         "Unspecified by title": 3
       },
@@ -8134,6 +8428,7 @@
     {
       "state": "customization/wheels/color/unspecified",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "Unspecified by title": 1
       },
@@ -8167,11 +8462,12 @@
     {
       "state": "customization/wheels/rims/brand",
       "classifier_sample_count": 58,
+      "effective_sample_count": 58,
       "platform_counts": {
-        "PS3": 15,
-        "PC": 8,
         "Unspecified by title": 27,
-        "PS2": 8
+        "PC": 8,
+        "PS2": 8,
+        "PS3": 15
       },
       "canonical_platform_sample_count": 15,
       "eligible_canonical_platform_sample_count": 15,
@@ -8272,11 +8568,12 @@
     {
       "state": "customization/wheels/rims/design",
       "classifier_sample_count": 78,
+      "effective_sample_count": 78,
       "platform_counts": {
-        "PS3": 22,
-        "PC": 8,
         "Unspecified by title": 25,
-        "PS2": 23
+        "PC": 8,
+        "PS2": 23,
+        "PS3": 22
       },
       "canonical_platform_sample_count": 22,
       "eligible_canonical_platform_sample_count": 22,
@@ -8393,12 +8690,13 @@
     {
       "state": "customization/wheels/rims/unspecified",
       "classifier_sample_count": 26,
+      "effective_sample_count": 26,
       "platform_counts": {
-        "Xbox 360": 3,
+        "Unspecified by title": 18,
         "PS3": 3,
         "PC": 1,
-        "Unspecified by title": 18,
-        "PS2": 1
+        "PS2": 1,
+        "Xbox 360": 3
       },
       "canonical_platform_sample_count": 6,
       "eligible_canonical_platform_sample_count": 6,
@@ -8487,11 +8785,12 @@
     {
       "state": "customization/wheels/size/diameter",
       "classifier_sample_count": 20,
+      "effective_sample_count": 20,
       "platform_counts": {
-        "PS3": 3,
-        "PC": 2,
         "Unspecified by title": 13,
-        "PS2": 2
+        "PC": 2,
+        "PS2": 2,
+        "PS3": 3
       },
       "canonical_platform_sample_count": 3,
       "eligible_canonical_platform_sample_count": 3,
@@ -8557,7 +8856,7 @@
           "timestamp_seconds": 345.345,
           "platform": "PS3",
           "probability": 0.96,
-          "requires_review": false,
+          "requires_review": true,
           "tags": [
             "menu/cash-balance",
             "menu/car-specifications",
@@ -8574,7 +8873,18 @@
             "vehicle/transparent-window",
             "body/wheel-size"
           ],
-          "source_role": "canonical-platform-lead"
+          "source_role": "canonical-platform-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0086",
+            "outcome": "category",
+            "label": "customization",
+            "notes": "Car customization screen, side view, Mustang, wheel size 21 inches ",
+            "updated_at": "2026-11-04T00:44:31.239Z"
+          },
+          "machine_screen_state": "customization/wheels/size/diameter",
+          "machine_screen_review": false,
+          "machine_probability": 0.96
         },
         {
           "asset_id": "SWlw_U56KEQ-000477000000",
@@ -8608,10 +8918,11 @@
     {
       "state": "customization/wheels/size/unspecified",
       "classifier_sample_count": 11,
+      "effective_sample_count": 11,
       "platform_counts": {
-        "PS3": 1,
         "Unspecified by title": 6,
-        "PS2": 4
+        "PS2": 4,
+        "PS3": 1
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
@@ -8715,12 +9026,13 @@
     {
       "state": "dealership/car-details/specifications",
       "classifier_sample_count": 95,
+      "effective_sample_count": 95,
       "platform_counts": {
-        "Xbox 360": 28,
         "PS3": 13,
         "PC": 38,
+        "PS2": 15,
         "Unspecified by title": 1,
-        "PS2": 15
+        "Xbox 360": 28
       },
       "canonical_platform_sample_count": 41,
       "eligible_canonical_platform_sample_count": 41,
@@ -8850,20 +9162,57 @@
     {
       "state": "dealership/car-details/unspecified",
       "classifier_sample_count": 10,
+      "effective_sample_count": 11,
       "platform_counts": {
         "PS3": 2,
-        "Xbox 360": 1,
         "PC": 2,
+        "PS2": 1,
         "Unspecified by title": 4,
-        "PS2": 1
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 3,
-      "eligible_canonical_platform_sample_count": 3,
+      "eligible_canonical_platform_sample_count": 4,
       "reviewed_rejections": [],
       "excluded_platform_sample_count": 1,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
       "reference_leads": [
+        {
+          "asset_id": "SSCgI4rqzlw-000016000000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/SSCgI4rqzlw/000016000000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=SSCgI4rqzlw",
+          "timestamp_seconds": 16.0,
+          "platform": "Xbox 360",
+          "probability": null,
+          "requires_review": false,
+          "tags": [
+            "menu/price",
+            "menu/cash-balance",
+            "menu/performance-bars",
+            "menu/car-specifications",
+            "menu/car-name",
+            "menu/left-right-carousel",
+            "menu/item-index",
+            "menu/back-prompt",
+            "menu/controller-glyphs",
+            "menu/keyboard-glyphs",
+            "menu/manufacturer-logo",
+            "menu/drivetrain",
+            "menu/performance-range"
+          ],
+          "source_role": "canonical-platform-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0008",
+            "outcome": "label",
+            "label": "dealership/car-details/unspecified",
+            "notes": "",
+            "updated_at": "2026-11-03T23:11:34.583Z"
+          },
+          "machine_screen_state": "garage/sell-confirm/offer",
+          "machine_screen_review": true,
+          "machine_probability": 0.64
+        },
         {
           "asset_id": "vQh2hq6hCHU-000126126000",
           "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/vQh2hq6hCHU/000126126000.jpg",
@@ -8921,26 +9270,6 @@
             "economy/event-prize"
           ],
           "source_role": "canonical-platform-lead"
-        },
-        {
-          "asset_id": "SWlw_U56KEQ-000354000000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/SWlw_U56KEQ/000354000000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=SWlw_U56KEQ",
-          "timestamp_seconds": 354.0,
-          "platform": "PC",
-          "probability": 0.48,
-          "requires_review": true,
-          "tags": [
-            "reference/uploader-overlay",
-            "menu/left-right-carousel",
-            "menu/purchase-prompt",
-            "menu/back-prompt",
-            "menu/controller-glyphs",
-            "menu/manufacturer-logo",
-            "vehicle/transparent-window",
-            "vehicle/license-text"
-          ],
-          "source_role": "supplemental-pc-lead"
         }
       ],
       "implementation_status": "not independently compared",
@@ -8949,12 +9278,13 @@
     {
       "state": "dealership/car-list/manufacturer",
       "classifier_sample_count": 30,
+      "effective_sample_count": 30,
       "platform_counts": {
         "PS3": 4,
-        "Xbox 360": 10,
-        "PC": 11,
         "Unspecified by title": 2,
-        "PS2": 3
+        "PC": 11,
+        "PS2": 3,
+        "Xbox 360": 10
       },
       "canonical_platform_sample_count": 14,
       "eligible_canonical_platform_sample_count": 14,
@@ -9040,6 +9370,7 @@
     {
       "state": "dealership/car-list/model",
       "classifier_sample_count": 7,
+      "effective_sample_count": 7,
       "platform_counts": {
         "PS3": 3,
         "Xbox 360": 4
@@ -9163,11 +9494,12 @@
     {
       "state": "dealership/car-list/unspecified",
       "classifier_sample_count": 19,
+      "effective_sample_count": 19,
       "platform_counts": {
         "PS3": 2,
-        "Xbox 360": 7,
+        "Unspecified by title": 1,
         "PC": 9,
-        "Unspecified by title": 1
+        "Xbox 360": 7
       },
       "canonical_platform_sample_count": 9,
       "eligible_canonical_platform_sample_count": 9,
@@ -9259,10 +9591,11 @@
     {
       "state": "dealership/purchase-confirm/dialog",
       "classifier_sample_count": 4,
+      "effective_sample_count": 4,
       "platform_counts": {
         "PS3": 1,
-        "Xbox 360": 2,
-        "PC": 1
+        "PC": 1,
+        "Xbox 360": 2
       },
       "canonical_platform_sample_count": 3,
       "eligible_canonical_platform_sample_count": 3,
@@ -9399,11 +9732,12 @@
     {
       "state": "garage/car-showcase",
       "classifier_sample_count": 182,
+      "effective_sample_count": 183,
       "platform_counts": {
-        "Xbox 360": 34,
         "PS3": 54,
-        "PC": 26,
         "Unspecified by title": 61,
+        "PC": 26,
+        "Xbox 360": 34,
         "PS2": 7
       },
       "canonical_platform_sample_count": 88,
@@ -9476,11 +9810,12 @@
     {
       "state": "garage/overview/modification-navigation",
       "classifier_sample_count": 43,
+      "effective_sample_count": 43,
       "platform_counts": {
+        "Unspecified by title": 7,
+        "PC": 3,
         "PS3": 9,
         "Xbox 360": 22,
-        "PC": 3,
-        "Unspecified by title": 7,
         "PS2": 2
       },
       "canonical_platform_sample_count": 31,
@@ -9585,11 +9920,12 @@
     {
       "state": "garage/overview/unspecified",
       "classifier_sample_count": 19,
+      "effective_sample_count": 19,
       "platform_counts": {
         "PS3": 8,
         "Xbox 360": 2,
-        "Unspecified by title": 8,
-        "Xbox 360 / PS3 press batch (prerelease)": 1
+        "Xbox 360 / PS3 press batch (prerelease)": 1,
+        "Unspecified by title": 8
       },
       "canonical_platform_sample_count": 10,
       "eligible_canonical_platform_sample_count": 10,
@@ -9685,12 +10021,65 @@
       "claim": "classification lead; observed behavior and full state coverage require visual review"
     },
     {
+      "state": "garage/owned-cars/details",
+      "classifier_sample_count": 0,
+      "effective_sample_count": 1,
+      "platform_counts": {},
+      "canonical_platform_sample_count": 0,
+      "eligible_canonical_platform_sample_count": 1,
+      "reviewed_rejections": [],
+      "excluded_platform_sample_count": 0,
+      "scope": "single-player-review-candidate",
+      "canonical_reference_gap": false,
+      "reference_leads": [
+        {
+          "asset_id": "xiaQpIdUPnk-004890000000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/xiaQpIdUPnk/004890000000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=xiaQpIdUPnk",
+          "timestamp_seconds": 4890.0,
+          "platform": "Xbox 360",
+          "probability": 0.05,
+          "requires_review": false,
+          "tags": [
+            "menu/price",
+            "menu/cash-balance",
+            "menu/performance-bars",
+            "menu/car-specifications",
+            "menu/car-name",
+            "menu/left-right-carousel",
+            "menu/item-index",
+            "menu/back-prompt",
+            "menu/controller-glyphs",
+            "menu/manufacturer-logo",
+            "menu/performance-range",
+            "vehicle/car-livery",
+            "vehicle/license-text"
+          ],
+          "source_role": "canonical-platform-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0065",
+            "outcome": "label",
+            "label": "garage/owned-cars/details",
+            "notes": "Select car: Mitsubishi FTO. ",
+            "updated_at": "2026-11-04T00:28:12.008Z"
+          },
+          "machine_screen_state": "garage/sell-confirm/offer",
+          "machine_screen_review": true,
+          "machine_probability": 0.57
+        }
+      ],
+      "implementation_status": "not independently compared",
+      "claim": "classification lead; observed behavior and full state coverage require visual review"
+    },
+    {
       "state": "garage/owned-cars/list",
       "classifier_sample_count": 91,
+      "effective_sample_count": 91,
       "platform_counts": {
+        "Unspecified by title": 51,
         "PS3": 37,
-        "Xbox 360": 3,
-        "Unspecified by title": 51
+        "Xbox 360": 3
       },
       "canonical_platform_sample_count": 40,
       "eligible_canonical_platform_sample_count": 40,
@@ -9792,6 +10181,7 @@
     {
       "state": "garage/owned-cars/unspecified",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "Xbox 360": 1
       },
@@ -9826,16 +10216,48 @@
     {
       "state": "garage/pink-slip-record/statistics",
       "classifier_sample_count": 114,
+      "effective_sample_count": 112,
       "platform_counts": {
         "PS3": 46,
-        "Xbox 360": 28,
         "PC": 29,
         "Unspecified by title": 4,
+        "Xbox 360": 28,
         "PS2": 7
       },
       "canonical_platform_sample_count": 74,
-      "eligible_canonical_platform_sample_count": 74,
-      "reviewed_rejections": [],
+      "eligible_canonical_platform_sample_count": 73,
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "SWlw_U56KEQ-001629000000",
+          "source_sha256": "8c0cf50e0dd5dcf20ca9cd637db096adaf5a38be4b93f396217f208822315e51",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0023",
+          "outcome": "insufficient_context",
+          "label": "",
+          "notes": "Pink slip update. ",
+          "updated_at": "2026-11-03T23:20:51.707Z",
+          "original_machine_state": "garage/pink-slip-record/statistics",
+          "state": "garage/pink-slip-record/statistics",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        },
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "j0NHGEvzzg8-000498498000",
+          "source_sha256": "6a963c76a1fdd38b443635c328759aaecb2fc8c3f5ea8197dcf6b5ac9b7b8b47",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0093",
+          "outcome": "category",
+          "label": "career",
+          "notes": "Pink slip screen ",
+          "updated_at": "2026-11-04T00:46:34.743Z",
+          "original_machine_state": "garage/pink-slip-record/statistics",
+          "state": "garage/pink-slip-record/statistics",
+          "review_action": "annotate-screen",
+          "reason": "Machine screen is outside the human-reviewed parent category"
+        }
+      ],
       "excluded_platform_sample_count": 7,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -9903,19 +10325,19 @@
           "source_role": "canonical-platform-lead"
         },
         {
-          "asset_id": "j0NHGEvzzg8-000498498000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/j0NHGEvzzg8/000498498000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=j0NHGEvzzg8",
-          "timestamp_seconds": 498.498,
-          "platform": "PS3",
+          "asset_id": "xiaQpIdUPnk-001452933000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/xiaQpIdUPnk/001452933000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=xiaQpIdUPnk",
+          "timestamp_seconds": 1452.933,
+          "platform": "Xbox 360",
           "probability": 0.95,
           "requires_review": false,
           "tags": [
             "menu/price",
+            "menu/car-specifications",
             "menu/car-name",
-            "menu/controller-glyphs",
             "menu/currency-change",
-            "menu/ownership-document",
+            "menu/owner-count",
             "menu/vehicle-history",
             "menu/registered-date",
             "vehicle/car-livery",
@@ -9930,15 +10352,47 @@
     {
       "state": "garage/sell-confirm/offer",
       "classifier_sample_count": 119,
+      "effective_sample_count": 117,
       "platform_counts": {
-        "Xbox 360": 42,
         "PS3": 63,
         "PC": 3,
+        "Xbox 360": 42,
         "Unspecified by title": 11
       },
       "canonical_platform_sample_count": 105,
-      "eligible_canonical_platform_sample_count": 105,
-      "reviewed_rejections": [],
+      "eligible_canonical_platform_sample_count": 103,
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "SSCgI4rqzlw-000016000000",
+          "source_sha256": "5f771b0ec7f947e35c38a87a6d4854f6f1c81e323eb50e04dec04c42d5f59671",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0008",
+          "outcome": "label",
+          "label": "dealership/car-details/unspecified",
+          "notes": "",
+          "updated_at": "2026-11-03T23:11:34.583Z",
+          "original_machine_state": "garage/sell-confirm/offer",
+          "state": "garage/sell-confirm/offer",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        },
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "xiaQpIdUPnk-004890000000",
+          "source_sha256": "7c703029bf06028eb8bb107175819a68dfeb06a6d1e20cfa6021929020cf2e7b",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0065",
+          "outcome": "label",
+          "label": "garage/owned-cars/details",
+          "notes": "Select car: Mitsubishi FTO. ",
+          "updated_at": "2026-11-04T00:28:12.008Z",
+          "original_machine_state": "garage/sell-confirm/offer",
+          "state": "garage/sell-confirm/offer",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        }
+      ],
       "excluded_platform_sample_count": 0,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -10060,6 +10514,7 @@
     {
       "state": "garage/sell-confirm/unspecified",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "PS3": 1
       },
@@ -10101,12 +10556,13 @@
     {
       "state": "menu/main",
       "classifier_sample_count": 50,
+      "effective_sample_count": 50,
       "platform_counts": {
-        "Xbox 360": 7,
-        "PS3": 2,
         "PC": 9,
+        "PS2": 6,
         "Unspecified by title": 26,
-        "PS2": 6
+        "PS3": 2,
+        "Xbox 360": 7
       },
       "canonical_platform_sample_count": 9,
       "eligible_canonical_platform_sample_count": 9,
@@ -10187,6 +10643,7 @@
     {
       "state": "menu/profile/create",
       "classifier_sample_count": 6,
+      "effective_sample_count": 6,
       "platform_counts": {
         "PS2": 6
       },
@@ -10203,12 +10660,13 @@
     {
       "state": "menu/profile/save",
       "classifier_sample_count": 185,
+      "effective_sample_count": 185,
       "platform_counts": {
         "PS3": 121,
-        "Xbox 360": 31,
-        "PC": 9,
+        "PS2": 2,
         "Unspecified by title": 22,
-        "PS2": 2
+        "Xbox 360": 31,
+        "PC": 9
       },
       "canonical_platform_sample_count": 152,
       "eligible_canonical_platform_sample_count": 152,
@@ -10277,10 +10735,11 @@
     {
       "state": "menu/profile/select",
       "classifier_sample_count": 5,
+      "effective_sample_count": 6,
       "platform_counts": {
-        "Xbox 360": 2,
+        "PS2": 2,
         "Unspecified by title": 1,
-        "PS2": 2
+        "Xbox 360": 2
       },
       "canonical_platform_sample_count": 2,
       "eligible_canonical_platform_sample_count": 2,
@@ -10344,16 +10803,33 @@
     {
       "state": "menu/profile/unspecified",
       "classifier_sample_count": 18,
+      "effective_sample_count": 17,
       "platform_counts": {
-        "Xbox 360": 3,
-        "PS3": 4,
         "PC": 3,
+        "PS2": 7,
+        "PS3": 4,
         "Unspecified by title": 1,
-        "PS2": 7
+        "Xbox 360": 3
       },
       "canonical_platform_sample_count": 7,
       "eligible_canonical_platform_sample_count": 7,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "7zE8jjVJBrU-000003000000",
+          "source_sha256": "2415190ca8e52d61fd13642cd624160cf101f0d00b71a9ee31878268857a5ff7",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0057",
+          "outcome": "label",
+          "label": "menu/profile/select",
+          "notes": "Load driver menu. ",
+          "updated_at": "2026-11-04T00:16:09.947Z",
+          "original_machine_state": "menu/profile/unspecified",
+          "state": "menu/profile/unspecified",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        }
+      ],
       "excluded_platform_sample_count": 7,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -10433,12 +10909,13 @@
     {
       "state": "menu/transition/unspecified",
       "classifier_sample_count": 8,
+      "effective_sample_count": 8,
       "platform_counts": {
         "PS3": 4,
-        "Xbox 360": 1,
         "PC": 1,
+        "PS2": 1,
         "Unspecified by title": 1,
-        "PS2": 1
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 5,
       "eligible_canonical_platform_sample_count": 5,
@@ -10510,6 +10987,7 @@
     {
       "state": "multiplayer/lobby/browser",
       "classifier_sample_count": 4,
+      "effective_sample_count": 4,
       "platform_counts": {
         "PS3": 4
       },
@@ -10585,6 +11063,7 @@
     {
       "state": "multiplayer/lobby/connection",
       "classifier_sample_count": 2,
+      "effective_sample_count": 2,
       "platform_counts": {
         "PS3": 2
       },
@@ -10624,6 +11103,7 @@
     {
       "state": "multiplayer/lobby/create",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "PS3": 1
       },
@@ -10657,13 +11137,60 @@
     {
       "state": "multiplayer/lobby/player-list",
       "classifier_sample_count": 48,
+      "effective_sample_count": 45,
       "platform_counts": {
         "PS3": 38,
         "PSP": 10
       },
       "canonical_platform_sample_count": 38,
       "eligible_canonical_platform_sample_count": 38,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "VXmZai6UsEc-000771771000",
+          "source_sha256": "20239284d54533bc8ec0dced938ae30eb3319236819034cd19eae6153ad05dbb",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0050",
+          "outcome": "unreadable",
+          "label": "",
+          "notes": "Multiplayer lobby ignore",
+          "updated_at": "2026-11-03T23:30:16.123Z",
+          "original_machine_state": "multiplayer/lobby/player-list",
+          "state": "multiplayer/lobby/player-list",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        },
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "VXmZai6UsEc-000772772000",
+          "source_sha256": "b804b259e5da57c6418d43d3252d82e9fd5cfb8239f45700a3835bb755f50e58",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0044",
+          "outcome": "unreadable",
+          "label": "",
+          "notes": "Multiplayer screenshot, ignore. ",
+          "updated_at": "2026-11-03T23:27:49.666Z",
+          "original_machine_state": "multiplayer/lobby/player-list",
+          "state": "multiplayer/lobby/player-list",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        },
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "VXmZai6UsEc-000774774000",
+          "source_sha256": "de4fa0b1501a4c2fdc3c393a9efa6acc95cd0a751083329d638b5a9e8c3a56e6",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0015",
+          "outcome": "unreadable",
+          "label": "",
+          "notes": "Low quality PSP screenshot, multiplayer. ",
+          "updated_at": "2026-11-03T23:14:55.256Z",
+          "original_machine_state": "multiplayer/lobby/player-list",
+          "state": "multiplayer/lobby/player-list",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        }
+      ],
       "excluded_platform_sample_count": 10,
       "scope": "outside-accepted-game-scope",
       "canonical_reference_gap": false,
@@ -10752,10 +11279,11 @@
     {
       "state": "multiplayer/lobby/unspecified",
       "classifier_sample_count": 48,
+      "effective_sample_count": 48,
       "platform_counts": {
         "PS3": 25,
-        "Unspecified by title": 11,
-        "PSP": 12
+        "PSP": 12,
+        "Unspecified by title": 11
       },
       "canonical_platform_sample_count": 25,
       "eligible_canonical_platform_sample_count": 25,
@@ -10833,6 +11361,7 @@
     {
       "state": "multiplayer/split-screen/driving",
       "classifier_sample_count": 59,
+      "effective_sample_count": 59,
       "platform_counts": {
         "Unspecified by title": 59
       },
@@ -10962,9 +11491,10 @@
     {
       "state": "multiplayer/split-screen/unspecified",
       "classifier_sample_count": 4,
+      "effective_sample_count": 4,
       "platform_counts": {
-        "Xbox 360": 1,
-        "Unspecified by title": 3
+        "Unspecified by title": 3,
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
@@ -11046,6 +11576,7 @@
     {
       "state": "options/audio/unspecified",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "PC": 1
       },
@@ -11080,6 +11611,7 @@
     {
       "state": "options/audio/volumes",
       "classifier_sample_count": 4,
+      "effective_sample_count": 4,
       "platform_counts": {
         "PC": 4
       },
@@ -11161,12 +11693,29 @@
     {
       "state": "options/controls/bindings",
       "classifier_sample_count": 38,
+      "effective_sample_count": 37,
       "platform_counts": {
         "PC": 38
       },
       "canonical_platform_sample_count": 0,
       "eligible_canonical_platform_sample_count": 0,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "41hcfe7apig-000708000000",
+          "source_sha256": "6893ffc6dd2d2459b3652845179f46af38d5d390e445fdc3a38bf4baf2b752bf",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0076",
+          "outcome": "label",
+          "label": "race/pause/menu",
+          "notes": "Pause menu keyboard controls ",
+          "updated_at": "2026-11-04T00:35:49.230Z",
+          "original_machine_state": "options/controls/bindings",
+          "state": "options/controls/bindings",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        }
+      ],
       "excluded_platform_sample_count": 0,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": true,
@@ -11236,6 +11785,7 @@
     {
       "state": "options/gameplay/difficulty",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "Unspecified by title": 1
       },
@@ -11269,9 +11819,10 @@
     {
       "state": "options/other/unspecified",
       "classifier_sample_count": 2,
+      "effective_sample_count": 2,
       "platform_counts": {
-        "Xbox 360": 1,
-        "PS2": 1
+        "PS2": 1,
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
@@ -11302,6 +11853,7 @@
     {
       "state": "options/video/quality",
       "classifier_sample_count": 3,
+      "effective_sample_count": 3,
       "platform_counts": {
         "PC": 3
       },
@@ -11365,10 +11917,11 @@
     {
       "state": "performance/category/component",
       "classifier_sample_count": 27,
+      "effective_sample_count": 27,
       "platform_counts": {
+        "Unspecified by title": 25,
         "PS3": 1,
-        "Xbox 360": 1,
-        "Unspecified by title": 25
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 2,
       "eligible_canonical_platform_sample_count": 2,
@@ -11452,10 +12005,11 @@
     {
       "state": "performance/category/tuning-pack-matrix",
       "classifier_sample_count": 44,
+      "effective_sample_count": 44,
       "platform_counts": {
+        "Unspecified by title": 14,
         "PS3": 22,
         "Xbox 360": 3,
-        "Unspecified by title": 14,
         "PS2": 5
       },
       "canonical_platform_sample_count": 25,
@@ -11581,11 +12135,12 @@
     {
       "state": "performance/category/unspecified",
       "classifier_sample_count": 65,
+      "effective_sample_count": 65,
       "platform_counts": {
         "PS3": 37,
+        "Unspecified by title": 21,
         "Xbox 360": 6,
-        "PC": 1,
-        "Unspecified by title": 21
+        "PC": 1
       },
       "canonical_platform_sample_count": 43,
       "eligible_canonical_platform_sample_count": 43,
@@ -11679,6 +12234,7 @@
     {
       "state": "performance/tuning/handling",
       "classifier_sample_count": 6,
+      "effective_sample_count": 6,
       "platform_counts": {
         "Unspecified by title": 6
       },
@@ -11751,6 +12307,7 @@
     {
       "state": "performance/tuning/power",
       "classifier_sample_count": 4,
+      "effective_sample_count": 4,
       "platform_counts": {
         "Unspecified by title": 4
       },
@@ -11845,9 +12402,10 @@
     {
       "state": "performance/tuning/unspecified",
       "classifier_sample_count": 15,
+      "effective_sample_count": 15,
       "platform_counts": {
-        "Unspecified by title": 14,
-        "PS2": 1
+        "PS2": 1,
+        "Unspecified by title": 14
       },
       "canonical_platform_sample_count": 0,
       "eligible_canonical_platform_sample_count": 0,
@@ -11922,10 +12480,11 @@
     {
       "state": "performance/tuning/weight",
       "classifier_sample_count": 27,
+      "effective_sample_count": 27,
       "platform_counts": {
-        "Xbox 360": 2,
+        "Unspecified by title": 19,
         "PS3": 6,
-        "Unspecified by title": 19
+        "Xbox 360": 2
       },
       "canonical_platform_sample_count": 8,
       "eligible_canonical_platform_sample_count": 8,
@@ -12009,9 +12568,10 @@
     {
       "state": "performance/unlock-challenge/event-details",
       "classifier_sample_count": 4,
+      "effective_sample_count": 4,
       "platform_counts": {
-        "PS3": 3,
-        "Unspecified by title": 1
+        "Unspecified by title": 1,
+        "PS3": 3
       },
       "canonical_platform_sample_count": 3,
       "eligible_canonical_platform_sample_count": 3,
@@ -12100,16 +12660,33 @@
     {
       "state": "performance/unlock-challenge/locked-pack",
       "classifier_sample_count": 46,
+      "effective_sample_count": 45,
       "platform_counts": {
         "PS3": 29,
         "Xbox 360": 4,
         "PC": 1,
-        "Unspecified by title": 1,
-        "PS2": 11
+        "PS2": 11,
+        "Unspecified by title": 1
       },
       "canonical_platform_sample_count": 33,
       "eligible_canonical_platform_sample_count": 33,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "Vo0cO3AQjyQ-000534534000",
+          "source_sha256": "193bb2b326a65780457f146f417f5f28cf8f3d28750e6d3e2f4c452cad09f636",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0083",
+          "outcome": "category",
+          "label": "performance/category",
+          "notes": "Car performance screen tuning pack ",
+          "updated_at": "2026-11-04T00:43:31.202Z",
+          "original_machine_state": "performance/unlock-challenge/locked-pack",
+          "state": "performance/unlock-challenge/locked-pack",
+          "review_action": "annotate-screen",
+          "reason": "Machine screen is outside the human-reviewed parent category"
+        }
+      ],
       "excluded_platform_sample_count": 11,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -12246,6 +12823,7 @@
     {
       "state": "performance/unlock-challenge/unspecified",
       "classifier_sample_count": 6,
+      "effective_sample_count": 6,
       "platform_counts": {
         "PS3": 6
       },
@@ -12323,6 +12901,7 @@
     {
       "state": "performance/upgrade/component-brand",
       "classifier_sample_count": 127,
+      "effective_sample_count": 127,
       "platform_counts": {
         "PS3": 45,
         "Unspecified by title": 60,
@@ -12422,6 +13001,7 @@
     {
       "state": "performance/upgrade/handling-pack",
       "classifier_sample_count": 11,
+      "effective_sample_count": 11,
       "platform_counts": {
         "PS3": 7,
         "Unspecified by title": 4
@@ -12556,6 +13136,7 @@
     {
       "state": "performance/upgrade/nitrous-pack",
       "classifier_sample_count": 11,
+      "effective_sample_count": 11,
       "platform_counts": {
         "PS3": 3,
         "Unspecified by title": 8
@@ -12648,7 +13229,18 @@
             "menu/performance-range",
             "performance/component-brand"
           ],
-          "source_role": "unverified-platform-lead"
+          "source_role": "unverified-platform-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0097",
+            "outcome": "category",
+            "label": "performance",
+            "notes": "Car customization screen in Russian, nitrous icon",
+            "updated_at": "2026-11-04T00:47:31.843Z"
+          },
+          "machine_screen_state": "performance/upgrade/nitrous-pack",
+          "machine_screen_review": true,
+          "machine_probability": 0.84
         }
       ],
       "implementation_status": "not independently compared",
@@ -12657,11 +13249,12 @@
     {
       "state": "performance/upgrade/power-pack",
       "classifier_sample_count": 82,
+      "effective_sample_count": 82,
       "platform_counts": {
         "PS3": 43,
+        "Unspecified by title": 24,
         "Xbox 360": 3,
         "PC": 6,
-        "Unspecified by title": 24,
         "PS2": 6
       },
       "canonical_platform_sample_count": 46,
@@ -12764,6 +13357,7 @@
     {
       "state": "performance/upgrade/purchase-confirm",
       "classifier_sample_count": 11,
+      "effective_sample_count": 11,
       "platform_counts": {
         "PS3": 4,
         "Unspecified by title": 7
@@ -12889,9 +13483,10 @@
     {
       "state": "performance/upgrade/unspecified",
       "classifier_sample_count": 2,
+      "effective_sample_count": 2,
       "platform_counts": {
-        "Xbox 360": 1,
-        "Unspecified by title": 1
+        "Unspecified by title": 1,
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
@@ -12939,6 +13534,7 @@
     {
       "state": "performance/upgrade/weight-pack",
       "classifier_sample_count": 12,
+      "effective_sample_count": 12,
       "platform_counts": {
         "PS3": 9,
         "Xbox 360": 1,
@@ -13066,15 +13662,47 @@
     {
       "state": "presentation/credits",
       "classifier_sample_count": 22,
+      "effective_sample_count": 20,
       "platform_counts": {
+        "PS2": 1,
         "PS3": 7,
-        "Xbox 360": 8,
         "Unspecified by title": 6,
-        "PS2": 1
+        "Xbox 360": 8
       },
       "canonical_platform_sample_count": 15,
-      "eligible_canonical_platform_sample_count": 15,
-      "reviewed_rejections": [],
+      "eligible_canonical_platform_sample_count": 13,
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "vQh2hq6hCHU-001900899000",
+          "source_sha256": "1086f4a558cdd4828bae155ff3530b013e627df15f52186c81d35259eff9b7ea",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0037",
+          "outcome": "unreadable",
+          "label": "",
+          "notes": "Ignore. ",
+          "updated_at": "2026-11-03T23:25:40.392Z",
+          "original_machine_state": "presentation/credits",
+          "state": "presentation/credits",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        },
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "xiaQpIdUPnk-000048000000",
+          "source_sha256": "3daf79f5cfb205847d8425b78025d06e049cd983bca8fc02ed95c8464926ea90",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0034",
+          "outcome": "not_in_catalog",
+          "label": "",
+          "notes": "Advertisement for game, ignore. ",
+          "updated_at": "2026-11-03T23:24:36.992Z",
+          "original_machine_state": "presentation/credits",
+          "state": "presentation/credits",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        }
+      ],
       "excluded_platform_sample_count": 1,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -13086,17 +13714,6 @@
           "timestamp_seconds": 1897.896,
           "platform": "PS3",
           "probability": 0.87,
-          "requires_review": true,
-          "tags": [],
-          "source_role": "canonical-platform-lead"
-        },
-        {
-          "asset_id": "vQh2hq6hCHU-001900899000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/vQh2hq6hCHU/001900899000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=vQh2hq6hCHU",
-          "timestamp_seconds": 1900.899,
-          "platform": "PS3",
-          "probability": 0.82,
           "requires_review": true,
           "tags": [],
           "source_role": "canonical-platform-lead"
@@ -13122,6 +13739,23 @@
           "requires_review": true,
           "tags": [],
           "source_role": "canonical-platform-lead"
+        },
+        {
+          "asset_id": "xiaQpIdUPnk-000045000000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/xiaQpIdUPnk/000045000000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=xiaQpIdUPnk",
+          "timestamp_seconds": 45.0,
+          "platform": "Xbox 360",
+          "probability": 0.76,
+          "requires_review": true,
+          "tags": [
+            "menu/tabs",
+            "menu/back-prompt",
+            "menu/controller-glyphs",
+            "menu/drivetrain",
+            "vehicle/sliding"
+          ],
+          "source_role": "canonical-platform-lead"
         }
       ],
       "implementation_status": "not independently compared",
@@ -13130,6 +13764,7 @@
     {
       "state": "presentation/cutscene/car",
       "classifier_sample_count": 6,
+      "effective_sample_count": 6,
       "platform_counts": {
         "PS3": 1,
         "PC": 1,
@@ -13204,12 +13839,13 @@
     {
       "state": "presentation/cutscene/driver",
       "classifier_sample_count": 83,
+      "effective_sample_count": 83,
       "platform_counts": {
         "PS3": 25,
-        "Xbox 360": 18,
         "PC": 21,
         "Unspecified by title": 14,
-        "PS2": 5
+        "PS2": 5,
+        "Xbox 360": 18
       },
       "canonical_platform_sample_count": 43,
       "eligible_canonical_platform_sample_count": 43,
@@ -13308,13 +13944,14 @@
     {
       "state": "presentation/cutscene/host",
       "classifier_sample_count": 9,
+      "effective_sample_count": 9,
       "platform_counts": {
-        "PS3": 2,
-        "Xbox 360": 1,
         "PC": 2,
-        "Unspecified by title": 1,
+        "Xbox 360": 1,
+        "PS2": 2,
+        "PS3": 2,
         "PSP": 1,
-        "PS2": 2
+        "Unspecified by title": 1
       },
       "canonical_platform_sample_count": 3,
       "eligible_canonical_platform_sample_count": 3,
@@ -13401,14 +14038,15 @@
     {
       "state": "presentation/cutscene/unspecified",
       "classifier_sample_count": 242,
+      "effective_sample_count": 242,
       "platform_counts": {
         "PS3": 86,
-        "Xbox 360": 34,
+        "PS2": 34,
         "PC": 22,
         "Unspecified by title": 48,
-        "Xbox 360 / PS3 press batch (prerelease)": 2,
-        "PS2": 34,
-        "PSP": 16
+        "Xbox 360": 34,
+        "PSP": 16,
+        "Xbox 360 / PS3 press batch (prerelease)": 2
       },
       "canonical_platform_sample_count": 120,
       "eligible_canonical_platform_sample_count": 120,
@@ -13477,12 +14115,13 @@
     {
       "state": "race/countdown/go",
       "classifier_sample_count": 57,
+      "effective_sample_count": 57,
       "platform_counts": {
         "PS3": 18,
+        "PS2": 6,
+        "Unspecified by title": 23,
         "Xbox 360": 5,
         "PC": 2,
-        "Unspecified by title": 23,
-        "PS2": 6,
         "PSP": 3
       },
       "canonical_platform_sample_count": 23,
@@ -13620,17 +14259,34 @@
     {
       "state": "race/countdown/number",
       "classifier_sample_count": 112,
+      "effective_sample_count": 111,
       "platform_counts": {
-        "Xbox 360": 8,
         "PS3": 42,
-        "PC": 1,
+        "PS2": 14,
         "Unspecified by title": 37,
-        "PSP": 10,
-        "PS2": 14
+        "Xbox 360": 8,
+        "PC": 1,
+        "PSP": 10
       },
       "canonical_platform_sample_count": 50,
       "eligible_canonical_platform_sample_count": 50,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "Vo0cO3AQjyQ-001853852000",
+          "source_sha256": "030ea2872b1cd717ec876970a8410f59c1153b844d61ba59210397d461890a7e",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0068",
+          "outcome": "category",
+          "label": "race/driving",
+          "notes": "",
+          "updated_at": "2026-11-04T00:29:44.762Z",
+          "original_machine_state": "race/countdown/number",
+          "state": "race/countdown/number",
+          "review_action": "annotate-screen",
+          "reason": "Machine screen is outside the human-reviewed parent category"
+        }
+      ],
       "excluded_platform_sample_count": 24,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -13710,11 +14366,12 @@
     {
       "state": "race/countdown/unspecified",
       "classifier_sample_count": 17,
+      "effective_sample_count": 17,
       "platform_counts": {
-        "PS3": 4,
+        "Unspecified by title": 6,
         "Xbox 360": 5,
         "PC": 1,
-        "Unspecified by title": 6,
+        "PS3": 4,
         "PSP": 1
       },
       "canonical_platform_sample_count": 9,
@@ -13818,23 +14475,70 @@
     {
       "state": "race/driving/circuit/lap-race",
       "classifier_sample_count": 1150,
+      "effective_sample_count": 1152,
       "platform_counts": {
         "PS3": 241,
-        "Xbox 360": 10,
-        "PC": 16,
-        "Unspecified by title": 65,
-        "Xbox 360 / PS3 press batch (prerelease)": 2,
-        "PSP": 428,
         "PS2": 384,
-        "PS2 press batch": 4
+        "Unspecified by title": 65,
+        "PC": 16,
+        "PSP": 428,
+        "Xbox 360 / PS3 press batch (prerelease)": 2,
+        "PS2 press batch": 4,
+        "Xbox 360": 10
       },
       "canonical_platform_sample_count": 251,
-      "eligible_canonical_platform_sample_count": 251,
+      "eligible_canonical_platform_sample_count": 252,
       "reviewed_rejections": [],
       "excluded_platform_sample_count": 816,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
       "reference_leads": [
+        {
+          "asset_id": "SSCgI4rqzlw-000891000000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/SSCgI4rqzlw/000891000000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=SSCgI4rqzlw",
+          "timestamp_seconds": 891.0,
+          "platform": "Xbox 360",
+          "probability": 0.15,
+          "requires_review": false,
+          "tags": [
+            "menu/car-specifications",
+            "menu/before-after-stats",
+            "menu/item-index",
+            "hud/speed",
+            "hud/gear",
+            "hud/tachometer",
+            "hud/minimap",
+            "hud/position",
+            "hud/lap-counter",
+            "hud/race-time",
+            "hud/lap-time",
+            "hud/opponent-name",
+            "hud/nitrous-meter",
+            "race/spectator-crowd",
+            "race/road-reflection",
+            "race/motion-blur",
+            "hud/speed-unit-kph",
+            "hud/minimap-player",
+            "hud/minimap-heading",
+            "hud/best-time",
+            "vehicle/convertible",
+            "race/apex-curb",
+            "race/street-lighting"
+          ],
+          "source_role": "canonical-platform-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0100",
+            "outcome": "label",
+            "label": "race/driving/circuit/lap-race",
+            "notes": "Chase cam race: first place, 2 out of 2 laps. ",
+            "updated_at": "2026-11-04T00:48:37.013Z"
+          },
+          "machine_screen_state": "race/driving/time-attack/target",
+          "machine_screen_review": true,
+          "machine_probability": 0.48
+        },
         {
           "asset_id": "Zx1zPLhhsXg-000612612000",
           "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/Zx1zPLhhsXg/000612612000.jpg",
@@ -13944,38 +14648,6 @@
             "race/track-fence"
           ],
           "source_role": "canonical-platform-lead"
-        },
-        {
-          "asset_id": "Sf88iOoR4H4-000660660000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/Sf88iOoR4H4/000660660000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=Sf88iOoR4H4",
-          "timestamp_seconds": 660.66,
-          "platform": "PS3",
-          "probability": 0.54,
-          "requires_review": true,
-          "tags": [
-            "menu/car-specifications",
-            "menu/item-index",
-            "hud/speed",
-            "hud/gear",
-            "hud/tachometer",
-            "hud/minimap",
-            "hud/position",
-            "hud/lap-counter",
-            "hud/race-time",
-            "hud/lap-time",
-            "hud/nitrous-meter",
-            "race/direction-arrows",
-            "hud/speed-unit-mph",
-            "hud/minimap-player",
-            "hud/minimap-heading",
-            "vehicle/transparent-window",
-            "vehicle/driver-model",
-            "vehicle/license-text",
-            "race/yellow-arrow",
-            "race/red-arrow"
-          ],
-          "source_role": "canonical-platform-lead"
         }
       ],
       "implementation_status": "not independently compared",
@@ -13984,13 +14656,14 @@
     {
       "state": "race/driving/circuit/unspecified",
       "classifier_sample_count": 83,
+      "effective_sample_count": 83,
       "platform_counts": {
         "PS3": 43,
-        "Xbox 360": 2,
         "PC": 3,
-        "Unspecified by title": 29,
         "PS2": 5,
-        "PSP": 1
+        "Unspecified by title": 29,
+        "PSP": 1,
+        "Xbox 360": 2
       },
       "canonical_platform_sample_count": 45,
       "eligible_canonical_platform_sample_count": 45,
@@ -14119,12 +14792,13 @@
     {
       "state": "race/driving/drift/chain",
       "classifier_sample_count": 132,
+      "effective_sample_count": 132,
       "platform_counts": {
         "PS3": 59,
-        "Xbox 360": 17,
         "PC": 7,
+        "PS2": 9,
         "Unspecified by title": 40,
-        "PS2": 9
+        "Xbox 360": 17
       },
       "canonical_platform_sample_count": 76,
       "eligible_canonical_platform_sample_count": 76,
@@ -14263,6 +14937,7 @@
     {
       "state": "race/driving/drift/endurance",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "PS3": 1
       },
@@ -14296,13 +14971,14 @@
     {
       "state": "race/driving/drift/king",
       "classifier_sample_count": 64,
+      "effective_sample_count": 64,
       "platform_counts": {
-        "PS3": 24,
-        "Xbox 360": 1,
-        "PC": 2,
         "Unspecified by title": 33,
+        "PS2": 2,
+        "PC": 2,
+        "PS3": 24,
         "PSP": 2,
-        "PS2": 2
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 25,
       "eligible_canonical_platform_sample_count": 25,
@@ -14388,12 +15064,13 @@
     {
       "state": "race/driving/drift/points",
       "classifier_sample_count": 716,
+      "effective_sample_count": 716,
       "platform_counts": {
         "PS3": 213,
-        "Xbox 360": 152,
         "PC": 83,
+        "PS2": 48,
         "Unspecified by title": 220,
-        "PS2": 48
+        "Xbox 360": 152
       },
       "canonical_platform_sample_count": 365,
       "eligible_canonical_platform_sample_count": 365,
@@ -14519,18 +15196,35 @@
     {
       "state": "race/driving/drift/unspecified",
       "classifier_sample_count": 884,
+      "effective_sample_count": 883,
       "platform_counts": {
         "PS3": 345,
-        "Xbox 360": 31,
+        "PS2": 32,
         "PC": 56,
         "Unspecified by title": 391,
-        "PS2": 32,
+        "Xbox 360": 31,
         "PSP": 25,
         "PS2 press batch": 4
       },
       "canonical_platform_sample_count": 376,
-      "eligible_canonical_platform_sample_count": 376,
-      "reviewed_rejections": [],
+      "eligible_canonical_platform_sample_count": 375,
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "QfGtp3ZXBkU-002272804000",
+          "source_sha256": "efefc3c8c80790c02943fb5d9df64294aac8082a00ef7e4db1c7427b0d61e2d7",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0098",
+          "outcome": "label",
+          "label": "race/intro/cinematic",
+          "notes": "Cinematic race intro, PS3 ",
+          "updated_at": "2026-11-04T00:47:49.351Z",
+          "original_machine_state": "race/driving/drift/unspecified",
+          "state": "race/driving/drift/unspecified",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        }
+      ],
       "excluded_platform_sample_count": 61,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -14646,6 +15340,7 @@
     {
       "state": "race/driving/elimination/unspecified",
       "classifier_sample_count": 7,
+      "effective_sample_count": 7,
       "platform_counts": {
         "PS3": 3,
         "PS2": 1,
@@ -14726,6 +15421,7 @@
     {
       "state": "race/driving/elimination/warning",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "PS3": 1
       },
@@ -14777,21 +15473,38 @@
     {
       "state": "race/driving/other",
       "classifier_sample_count": 327,
+      "effective_sample_count": 326,
       "platform_counts": {
         "PS3": 118,
-        "Xbox 360": 32,
-        "Xbox 360 press batch": 3,
-        "Xbox 360 / PS3 press batch": 4,
+        "PS2": 36,
         "PC": 18,
         "Unspecified by title": 63,
-        "Xbox 360 / PS3 press batch (prerelease)": 39,
-        "PS2": 36,
+        "Xbox 360": 32,
         "PSP": 12,
-        "PS2 press batch": 2
+        "Xbox 360 / PS3 press batch (prerelease)": 39,
+        "Xbox 360 / PS3 press batch": 4,
+        "PS2 press batch": 2,
+        "Xbox 360 press batch": 3
       },
       "canonical_platform_sample_count": 150,
       "eligible_canonical_platform_sample_count": 150,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "gamersyde-4994-0003",
+          "source_sha256": "5f1a0e9b86fabe1eace22be406a02485193823be724c33e0fb68e8599f54f762",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0006",
+          "outcome": "not_in_catalog",
+          "label": "",
+          "notes": "cinematic game screenshot",
+          "updated_at": "2026-11-03T23:10:37.971Z",
+          "original_machine_state": "race/driving/other",
+          "state": "race/driving/other",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        }
+      ],
       "excluded_platform_sample_count": 50,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -14866,6 +15579,7 @@
     {
       "state": "race/driving/spectator/competitor",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "PS2": 1
       },
@@ -14882,14 +15596,31 @@
     {
       "state": "race/driving/spectator/unspecified",
       "classifier_sample_count": 48,
+      "effective_sample_count": 47,
       "platform_counts": {
+        "PS2": 8,
         "PS3": 39,
-        "Xbox 360": 1,
-        "PS2": 8
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 40,
-      "eligible_canonical_platform_sample_count": 40,
-      "reviewed_rejections": [],
+      "eligible_canonical_platform_sample_count": 39,
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "j0NHGEvzzg8-000447447000",
+          "source_sha256": "a536aa12c09eb14e953aa2b4bebd0abe7b73eaaa5af42e1c009e86262e4270cf",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0002",
+          "outcome": "label",
+          "label": "replay/playback/camera",
+          "notes": "",
+          "updated_at": "2026-11-03T23:08:04.359Z",
+          "original_machine_state": "race/driving/spectator/unspecified",
+          "state": "race/driving/spectator/unspecified",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        }
+      ],
       "excluded_platform_sample_count": 8,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -14933,25 +15664,6 @@
           "source_role": "canonical-platform-lead"
         },
         {
-          "asset_id": "j0NHGEvzzg8-000447447000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/j0NHGEvzzg8/000447447000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=j0NHGEvzzg8",
-          "timestamp_seconds": 447.447,
-          "platform": "PS3",
-          "probability": 0.62,
-          "requires_review": true,
-          "tags": [
-            "presentation/replay-controls",
-            "reference/letterbox",
-            "menu/inspect-prompt",
-            "menu/controller-glyphs",
-            "hud/input-prompt",
-            "race/barriers",
-            "race/tunnel"
-          ],
-          "source_role": "canonical-platform-lead"
-        },
-        {
           "asset_id": "j0NHGEvzzg8-000357357000",
           "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/j0NHGEvzzg8/000357357000.jpg",
           "source_url": "https://www.youtube.com/watch?v=j0NHGEvzzg8",
@@ -14968,6 +15680,28 @@
             "vehicle/headlights"
           ],
           "source_role": "canonical-platform-lead"
+        },
+        {
+          "asset_id": "j0NHGEvzzg8-000405405000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/j0NHGEvzzg8/000405405000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=j0NHGEvzzg8",
+          "timestamp_seconds": 405.405,
+          "platform": "PS3",
+          "probability": 0.59,
+          "requires_review": true,
+          "tags": [
+            "reference/letterbox",
+            "menu/inspect-prompt",
+            "menu/controller-glyphs",
+            "hud/input-prompt",
+            "race/multiple-opponents",
+            "race/barriers",
+            "race/road-reflection",
+            "race/motion-blur",
+            "vehicle/headlights",
+            "race/tunnel"
+          ],
+          "source_role": "canonical-platform-lead"
         }
       ],
       "implementation_status": "not independently compared",
@@ -14976,17 +15710,64 @@
     {
       "state": "race/driving/time-attack/target",
       "classifier_sample_count": 3261,
+      "effective_sample_count": 3258,
       "platform_counts": {
         "PS3": 1375,
-        "Xbox 360": 468,
         "PC": 173,
         "Unspecified by title": 1231,
-        "Xbox 360 / PS3 press batch (prerelease)": 1,
-        "PS2": 13
+        "Xbox 360": 468,
+        "PS2": 13,
+        "Xbox 360 / PS3 press batch (prerelease)": 1
       },
       "canonical_platform_sample_count": 1843,
-      "eligible_canonical_platform_sample_count": 1843,
-      "reviewed_rejections": [],
+      "eligible_canonical_platform_sample_count": 1841,
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "SSCgI4rqzlw-000891000000",
+          "source_sha256": "9e13ed50162da3ea8742771d0a17dabc11cf7b5a2bde350ef113a130d411c3d8",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0100",
+          "outcome": "label",
+          "label": "race/driving/circuit/lap-race",
+          "notes": "Chase cam race: first place, 2 out of 2 laps. ",
+          "updated_at": "2026-11-04T00:48:37.013Z",
+          "original_machine_state": "race/driving/time-attack/target",
+          "state": "race/driving/time-attack/target",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        },
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "SWlw_U56KEQ-001890000000",
+          "source_sha256": "394b6b277ac7cfc1933a8f655267b9620687fbf6a0e4735d4a597e9fc85f1ca6",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0028",
+          "outcome": "label",
+          "label": "race/driving/circuit/lap-race",
+          "notes": "Circuit race screenshot rear view car crashing into wall. ",
+          "updated_at": "2026-11-03T23:22:39.547Z",
+          "original_machine_state": "race/driving/time-attack/target",
+          "state": "race/driving/time-attack/target",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        },
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "Sf88iOoR4H4-000333333000",
+          "source_sha256": "b23fec5b8ad42756f1f57a6b38f514418b4d9b8dc39d615aa941fac39ba21293",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0066",
+          "outcome": "category",
+          "label": "race/driving/circuit",
+          "notes": "Audi TT circuit race: first place, second lap, left tail light damaged ",
+          "updated_at": "2026-11-04T00:29:07.046Z",
+          "original_machine_state": "race/driving/time-attack/target",
+          "state": "race/driving/time-attack/target",
+          "review_action": "annotate-screen",
+          "reason": "Machine screen is outside the human-reviewed parent category"
+        }
+      ],
       "excluded_platform_sample_count": 13,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -15118,11 +15899,12 @@
     {
       "state": "race/driving/time-attack/unspecified",
       "classifier_sample_count": 990,
+      "effective_sample_count": 990,
       "platform_counts": {
-        "Xbox 360": 176,
         "PS3": 397,
         "PC": 42,
-        "Unspecified by title": 375
+        "Unspecified by title": 375,
+        "Xbox 360": 176
       },
       "canonical_platform_sample_count": 573,
       "eligible_canonical_platform_sample_count": 573,
@@ -15258,13 +16040,30 @@
     {
       "state": "race/finish-overlay/disqualified",
       "classifier_sample_count": 2,
+      "effective_sample_count": 1,
       "platform_counts": {
-        "Xbox 360": 1,
-        "PSP": 1
+        "PSP": 1,
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 1,
       "eligible_canonical_platform_sample_count": 1,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "VXmZai6UsEc-001399398000",
+          "source_sha256": "75f4236cb8d5ed5cf798caed81ecb2bccd2bed8ee76999ca0087223c0852c024",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0009",
+          "outcome": "label",
+          "label": "results/standings/circuit",
+          "notes": "PSP screenshot",
+          "updated_at": "2026-11-03T23:11:56.891Z",
+          "original_machine_state": "race/finish-overlay/disqualified",
+          "state": "race/finish-overlay/disqualified",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        }
+      ],
       "excluded_platform_sample_count": 1,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -15293,13 +16092,14 @@
     {
       "state": "race/finish-overlay/unspecified",
       "classifier_sample_count": 175,
+      "effective_sample_count": 175,
       "platform_counts": {
         "PS3": 100,
+        "PS2": 10,
+        "Unspecified by title": 29,
         "Xbox 360": 28,
         "PC": 2,
-        "Unspecified by title": 29,
-        "PSP": 6,
-        "PS2": 10
+        "PSP": 6
       },
       "canonical_platform_sample_count": 128,
       "eligible_canonical_platform_sample_count": 128,
@@ -15385,13 +16185,14 @@
     {
       "state": "race/finish-overlay/victory",
       "classifier_sample_count": 72,
+      "effective_sample_count": 72,
       "platform_counts": {
         "PS3": 30,
-        "Xbox 360": 4,
-        "PC": 1,
-        "Unspecified by title": 21,
         "PS2": 10,
-        "PSP": 6
+        "Unspecified by title": 21,
+        "PC": 1,
+        "PSP": 6,
+        "Xbox 360": 4
       },
       "canonical_platform_sample_count": 34,
       "eligible_canonical_platform_sample_count": 34,
@@ -15488,21 +16289,66 @@
     {
       "state": "race/intro/cinematic",
       "classifier_sample_count": 75,
+      "effective_sample_count": 76,
       "platform_counts": {
         "PS3": 41,
-        "Xbox 360": 5,
         "PC": 13,
-        "Unspecified by title": 11,
         "PS2": 4,
-        "PSP": 1
+        "Unspecified by title": 11,
+        "PSP": 1,
+        "Xbox 360": 5
       },
       "canonical_platform_sample_count": 46,
-      "eligible_canonical_platform_sample_count": 46,
-      "reviewed_rejections": [],
+      "eligible_canonical_platform_sample_count": 47,
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "41hcfe7apig-000459000000",
+          "source_sha256": "27fe77847f699229b329e0b4f6fdea5288785eb345bbb8f24995345707d4bd8c",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0096",
+          "outcome": "insufficient_context",
+          "label": "",
+          "notes": "",
+          "updated_at": "2026-11-04T00:47:15.322Z",
+          "original_machine_state": "race/intro/cinematic",
+          "state": "race/intro/cinematic",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        }
+      ],
       "excluded_platform_sample_count": 5,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
       "reference_leads": [
+        {
+          "asset_id": "QfGtp3ZXBkU-002272804000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/QfGtp3ZXBkU/002272804000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=QfGtp3ZXBkU",
+          "timestamp_seconds": 2272.804,
+          "platform": "PS3",
+          "probability": 0.01,
+          "requires_review": false,
+          "tags": [
+            "menu/controller-glyphs",
+            "hud/speed",
+            "hud/input-prompt",
+            "race/direction-arrows",
+            "race/blue-arrow"
+          ],
+          "source_role": "canonical-platform-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0098",
+            "outcome": "label",
+            "label": "race/intro/cinematic",
+            "notes": "Cinematic race intro, PS3 ",
+            "updated_at": "2026-11-04T00:47:49.351Z"
+          },
+          "machine_screen_state": "race/driving/drift/unspecified",
+          "machine_screen_review": true,
+          "machine_probability": 0.28
+        },
         {
           "asset_id": "QfGtp3ZXBkU-000021021000",
           "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/QfGtp3ZXBkU/000021021000.jpg",
@@ -15535,17 +16381,6 @@
           "requires_review": true,
           "tags": [],
           "source_role": "canonical-platform-lead"
-        },
-        {
-          "asset_id": "vQh2hq6hCHU-000021021000",
-          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/vQh2hq6hCHU/000021021000.jpg",
-          "source_url": "https://www.youtube.com/watch?v=vQh2hq6hCHU",
-          "timestamp_seconds": 21.021,
-          "platform": "PS3",
-          "probability": 0.87,
-          "requires_review": true,
-          "tags": [],
-          "source_role": "canonical-platform-lead"
         }
       ],
       "implementation_status": "not independently compared",
@@ -15554,12 +16389,13 @@
     {
       "state": "race/intro/driver-lineup",
       "classifier_sample_count": 71,
+      "effective_sample_count": 71,
       "platform_counts": {
         "PS3": 11,
-        "Xbox 360": 8,
-        "PC": 1,
+        "PS2": 25,
         "Unspecified by title": 26,
-        "PS2": 25
+        "PC": 1,
+        "Xbox 360": 8
       },
       "canonical_platform_sample_count": 19,
       "eligible_canonical_platform_sample_count": 19,
@@ -15657,17 +16493,34 @@
     {
       "state": "race/intro/grid",
       "classifier_sample_count": 109,
+      "effective_sample_count": 108,
       "platform_counts": {
         "PS3": 47,
-        "Xbox 360": 15,
         "PC": 9,
+        "PS2": 5,
         "Unspecified by title": 32,
-        "Xbox 360 / PS3 press batch (prerelease)": 1,
-        "PS2": 5
+        "Xbox 360": 15,
+        "Xbox 360 / PS3 press batch (prerelease)": 1
       },
       "canonical_platform_sample_count": 62,
       "eligible_canonical_platform_sample_count": 62,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "gamersyde-5571-0006",
+          "source_sha256": "0a7048e1d0ad654129d18db3a92939762d32668cf2aa355e55e1497c0152cb64",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0095",
+          "outcome": "category",
+          "label": "race/driving/drift",
+          "notes": "Promotional screenshot: two cars drift race ",
+          "updated_at": "2026-11-04T00:47:10.901Z",
+          "original_machine_state": "race/intro/grid",
+          "state": "race/intro/grid",
+          "review_action": "annotate-screen",
+          "reason": "Machine screen is outside the human-reviewed parent category"
+        }
+      ],
       "excluded_platform_sample_count": 5,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -15761,12 +16614,13 @@
     {
       "state": "race/intro/grid-cars",
       "classifier_sample_count": 9,
+      "effective_sample_count": 9,
       "platform_counts": {
-        "PS3": 4,
-        "Xbox 360 press batch": 1,
-        "PC": 2,
         "Unspecified by title": 1,
-        "PS2": 1
+        "PS3": 4,
+        "PC": 2,
+        "PS2": 1,
+        "Xbox 360 press batch": 1
       },
       "canonical_platform_sample_count": 4,
       "eligible_canonical_platform_sample_count": 4,
@@ -15862,18 +16716,35 @@
     {
       "state": "race/intro/venue",
       "classifier_sample_count": 267,
+      "effective_sample_count": 266,
       "platform_counts": {
         "PS3": 109,
-        "Xbox 360": 30,
-        "PC": 41,
         "Unspecified by title": 36,
-        "Xbox 360 / PS3 press batch (prerelease)": 4,
         "PS2": 43,
-        "PSP": 4
+        "PC": 41,
+        "Xbox 360": 30,
+        "PSP": 4,
+        "Xbox 360 / PS3 press batch (prerelease)": 4
       },
       "canonical_platform_sample_count": 139,
       "eligible_canonical_platform_sample_count": 139,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "Vo0cO3AQjyQ-001150149000",
+          "source_sha256": "45156875c2d0e82c482c979bc6e9dae60de2d782029476dd80ea39fe01a00251",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0062",
+          "outcome": "label",
+          "label": "race/intro/cinematic",
+          "notes": "Race cinematic ",
+          "updated_at": "2026-11-04T00:25:49.467Z",
+          "original_machine_state": "race/intro/venue",
+          "state": "race/intro/venue",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        }
+      ],
       "excluded_platform_sample_count": 47,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -15952,12 +16823,13 @@
     {
       "state": "race/intro/venue-name",
       "classifier_sample_count": 155,
+      "effective_sample_count": 155,
       "platform_counts": {
         "PS3": 64,
-        "Xbox 360": 12,
+        "PS2": 9,
         "PC": 7,
         "Unspecified by title": 55,
-        "PS2": 9,
+        "Xbox 360": 12,
         "PSP": 8
       },
       "canonical_platform_sample_count": 76,
@@ -16052,12 +16924,13 @@
     {
       "state": "race/loading/unspecified",
       "classifier_sample_count": 1019,
+      "effective_sample_count": 1019,
       "platform_counts": {
         "PS3": 520,
-        "Xbox 360": 179,
+        "PS2": 33,
         "PC": 104,
         "Unspecified by title": 160,
-        "PS2": 33,
+        "Xbox 360": 179,
         "PSP": 23
       },
       "canonical_platform_sample_count": 699,
@@ -16133,6 +17006,7 @@
     {
       "state": "race/pause/controller-disconnected",
       "classifier_sample_count": 3,
+      "effective_sample_count": 3,
       "platform_counts": {
         "Unspecified by title": 3
       },
@@ -16233,17 +17107,49 @@
     {
       "state": "race/pause/menu",
       "classifier_sample_count": 107,
+      "effective_sample_count": 106,
       "platform_counts": {
-        "Xbox 360": 5,
-        "PS3": 58,
+        "PS2": 35,
         "PC": 2,
         "Unspecified by title": 5,
-        "PS2": 35,
-        "PS2 press batch": 2
+        "PS3": 58,
+        "PS2 press batch": 2,
+        "Xbox 360": 5
       },
       "canonical_platform_sample_count": 63,
-      "eligible_canonical_platform_sample_count": 63,
-      "reviewed_rejections": [],
+      "eligible_canonical_platform_sample_count": 62,
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "RIs7CuFeJYU-000645645000",
+          "source_sha256": "30959de86aed2ec77d0848b2b73b819b7f534ffd14a0165d1818a2858383f050",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0056",
+          "outcome": "category",
+          "label": "replay",
+          "notes": "Replay rear view. ",
+          "updated_at": "2026-11-04T00:15:57.089Z",
+          "original_machine_state": "race/pause/menu",
+          "state": "race/pause/menu",
+          "review_action": "annotate-screen",
+          "reason": "Machine screen is outside the human-reviewed parent category"
+        },
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "gamersyde-6244-0010",
+          "source_sha256": "c5fd484c4c43b090072a42d93fc740331612bbacf5d8b465f1ec77cc92d87531",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0016",
+          "outcome": "label",
+          "label": "replay/playback/unspecified",
+          "notes": "PS2 Replay Screenshot",
+          "updated_at": "2026-11-03T23:15:43.672Z",
+          "original_machine_state": "race/pause/menu",
+          "state": "race/pause/menu",
+          "review_action": "annotate-screen",
+          "reason": "Human exact label replaces the machine screen assignment"
+        }
+      ],
       "excluded_platform_sample_count": 37,
       "scope": "single-player-review-candidate",
       "canonical_reference_gap": false,
@@ -16331,6 +17237,7 @@
     {
       "state": "race/pause/quit-confirm",
       "classifier_sample_count": 1,
+      "effective_sample_count": 1,
       "platform_counts": {
         "PS3": 1
       },
@@ -16372,6 +17279,7 @@
     {
       "state": "race/pause/restart-confirm",
       "classifier_sample_count": 2,
+      "effective_sample_count": 2,
       "platform_counts": {
         "Xbox 360": 2
       },
@@ -16432,13 +17340,14 @@
     {
       "state": "race/pause/unspecified",
       "classifier_sample_count": 100,
+      "effective_sample_count": 100,
       "platform_counts": {
-        "PS3": 61,
-        "Xbox 360": 3,
-        "PC": 1,
         "Unspecified by title": 5,
         "PS2": 29,
-        "PS2 press batch": 1
+        "PS3": 61,
+        "PC": 1,
+        "PS2 press batch": 1,
+        "Xbox 360": 3
       },
       "canonical_platform_sample_count": 64,
       "eligible_canonical_platform_sample_count": 64,
@@ -16528,17 +17437,49 @@
     {
       "state": "reference/creator-overlay/emulator-controls",
       "classifier_sample_count": 18,
+      "effective_sample_count": 16,
       "platform_counts": {
-        "Xbox 360": 1,
-        "PS3": 1,
-        "PC": 1,
-        "Unspecified by title": 2,
         "PS2": 1,
-        "PSP": 12
+        "PC": 1,
+        "PS3": 1,
+        "PSP": 12,
+        "Unspecified by title": 2,
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 2,
       "eligible_canonical_platform_sample_count": 2,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "3H1LPQzVzNk-000049500000",
+          "source_sha256": "4f6bba973f5ad6f1996fa2bf0faf13564a7543c4e9790b6e9514bf9d2f6c5089",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0025",
+          "outcome": "unreadable",
+          "label": "",
+          "notes": "Low quality ignore. ",
+          "updated_at": "2026-11-03T23:21:41.973Z",
+          "original_machine_state": "reference/creator-overlay/emulator-controls",
+          "state": "reference/creator-overlay/emulator-controls",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        },
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "g6gL9df3fuw-000017537724",
+          "source_sha256": "33f66d11bfbd67a380b26f8087f963ba4573634eb3e4c496a6e5d6221915e1ed",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0026",
+          "outcome": "unreadable",
+          "label": "",
+          "notes": "PSP screenshot low quality ignore",
+          "updated_at": "2026-11-03T23:21:56.681Z",
+          "original_machine_state": "reference/creator-overlay/emulator-controls",
+          "state": "reference/creator-overlay/emulator-controls",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        }
+      ],
       "excluded_platform_sample_count": 13,
       "scope": "outside-accepted-game-scope",
       "canonical_reference_gap": false,
@@ -16607,10 +17548,11 @@
     {
       "state": "reference/creator-overlay/title-card",
       "classifier_sample_count": 38,
+      "effective_sample_count": 38,
       "platform_counts": {
-        "PS3": 34,
+        "PS2": 1,
         "Unspecified by title": 3,
-        "PS2": 1
+        "PS3": 34
       },
       "canonical_platform_sample_count": 34,
       "eligible_canonical_platform_sample_count": 34,
@@ -16678,10 +17620,11 @@
     {
       "state": "reference/creator-overlay/unspecified",
       "classifier_sample_count": 3,
+      "effective_sample_count": 3,
       "platform_counts": {
+        "PS2": 1,
         "PC": 1,
-        "Unspecified by title": 1,
-        "PS2": 1
+        "Unspecified by title": 1
       },
       "canonical_platform_sample_count": 0,
       "eligible_canonical_platform_sample_count": 0,
@@ -16723,13 +17666,14 @@
     {
       "state": "reference/unreadable/black",
       "classifier_sample_count": 87,
+      "effective_sample_count": 87,
       "platform_counts": {
         "PS3": 35,
-        "Xbox 360": 10,
-        "PC": 9,
         "Unspecified by title": 21,
-        "PSP": 4,
-        "PS2": 8
+        "PS2": 8,
+        "PC": 9,
+        "Xbox 360": 10,
+        "PSP": 4
       },
       "canonical_platform_sample_count": 45,
       "eligible_canonical_platform_sample_count": 45,
@@ -16797,16 +17741,33 @@
     {
       "state": "reference/unreadable/unspecified",
       "classifier_sample_count": 33,
+      "effective_sample_count": 32,
       "platform_counts": {
+        "PS2": 3,
+        "Unspecified by title": 11,
         "PS3": 10,
         "Xbox 360": 8,
-        "PC": 1,
-        "Unspecified by title": 11,
-        "PS2": 3
+        "PC": 1
       },
       "canonical_platform_sample_count": 18,
       "eligible_canonical_platform_sample_count": 18,
-      "reviewed_rejections": [],
+      "reviewed_rejections": [
+        {
+          "action": "exclude-from-state-leads",
+          "asset_id": "3H1LPQzVzNk-000297266667",
+          "source_sha256": "0fb00c3ee8a7ca71349d6d14bf43f6b3d8a20a4f5c50567a4dfe21c99f762a8f",
+          "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+          "review_id": "0075",
+          "outcome": "unreadable",
+          "label": "",
+          "notes": "Completely unrelated. Remove.",
+          "updated_at": "2026-11-04T00:33:42.653Z",
+          "original_machine_state": "reference/unreadable/unspecified",
+          "state": "reference/unreadable/unspecified",
+          "review_action": "annotate-screen",
+          "reason": "Human could not establish a precise catalog screen from this frame"
+        }
+      ],
       "excluded_platform_sample_count": 3,
       "scope": "outside-accepted-game-scope",
       "canonical_reference_gap": false,
@@ -16860,12 +17821,59 @@
       "claim": "classification lead; observed behavior and full state coverage require visual review"
     },
     {
+      "state": "replay/playback/camera",
+      "classifier_sample_count": 0,
+      "effective_sample_count": 1,
+      "platform_counts": {},
+      "canonical_platform_sample_count": 0,
+      "eligible_canonical_platform_sample_count": 1,
+      "reviewed_rejections": [],
+      "excluded_platform_sample_count": 0,
+      "scope": "single-player-review-candidate",
+      "canonical_reference_gap": false,
+      "reference_leads": [
+        {
+          "asset_id": "j0NHGEvzzg8-000447447000",
+          "frame_path": "/Users/nicolas/Documents/github/oversteer/artifacts/juiced2-vault/frames/j0NHGEvzzg8/000447447000.jpg",
+          "source_url": "https://www.youtube.com/watch?v=j0NHGEvzzg8",
+          "timestamp_seconds": 447.447,
+          "platform": "PS3",
+          "probability": null,
+          "requires_review": false,
+          "tags": [
+            "presentation/replay-controls",
+            "reference/letterbox",
+            "menu/inspect-prompt",
+            "menu/controller-glyphs",
+            "hud/input-prompt",
+            "race/barriers",
+            "race/tunnel"
+          ],
+          "source_role": "canonical-platform-lead",
+          "human_review": {
+            "pilot_id": "59df8d9e5b772ae645344ee5f6e0f1f073ff330fdea2641f9fa6f39acf66b8ed",
+            "review_id": "0002",
+            "outcome": "label",
+            "label": "replay/playback/camera",
+            "notes": "",
+            "updated_at": "2026-11-03T23:08:04.359Z"
+          },
+          "machine_screen_state": "race/driving/spectator/unspecified",
+          "machine_screen_review": true,
+          "machine_probability": 0.62
+        }
+      ],
+      "implementation_status": "not independently compared",
+      "claim": "classification lead; observed behavior and full state coverage require visual review"
+    },
+    {
       "state": "replay/playback/controls",
       "classifier_sample_count": 4,
+      "effective_sample_count": 4,
       "platform_counts": {
+        "PS2": 2,
         "PS3": 1,
-        "Xbox 360": 1,
-        "PS2": 2
+        "Xbox 360": 1
       },
       "canonical_platform_sample_count": 2,
       "eligible_canonical_platform_sample_count": 2,
@@ -16916,6 +17924,7 @@
     {
       "state": "replay/playback/unspecified",
       "classifier_sample_count": 1,
+      "effective_sample_count": 2,
       "platform_counts": {
         "PS2": 1
       },
@@ -16932,12 +17941,13 @@
     {
       "state": "results/challenge/score",
       "classifier_sample_count": 30,
+      "effective_sample_count": 30,
       "platform_counts": {
         "PS3": 5,
-        "Xbox 360": 6,
         "PC": 6,
+        "PS2": 4,
         "Unspecified by title": 9,
-        "PS2": 4
+        "Xbox 360": 6
       },
       "canonical_platform_sample_count": 11,
       "eligible_canonical_platform_sample_count": 11,
@@ -17032,9 +18042,10 @@
     {
       "state": "results/challenge/time",
       "classifier_sample_count": 16,
+      "effective_sample_count": 16,
       "platform_counts": {
-        "Xbox 360": 2,
         "PS3": 12,
+        "Xbox 360": 2,
         "PS2": 2
       },
       "canonical_platform_sample_count": 14,
@@ -17134,11 +18145,12 @@
     {
       "state": "results/challenge/unspecified",
       "classifier_sample_count": 49,
+      "effective_sample_count": 49,
       "platform_counts": {
+        "Unspecified by title": 13,
         "PS3": 24,
         "Xbox 360": 3,
         "PC": 3,
-        "Unspecified by title": 13,
         "PS2": 6
       },
       "canonical_platform_sample_count": 27,
@@ -17220,12 +18232,13 @@
     {
       "state": "results/payout/cash-bet",
       "classifier_sample_count": 79,
+      "effective_sample_count": 79,
       "platform_counts": {
-        "Xbox 360": 7,
-        "PS3": 25,
-        "PC": 6,
+        "PS2": 10,
         "Unspecified by title": 31,
-        "PS2": 10
+        "Xbox 360": 7,
+        "PC": 6,
+        "PS3": 25
       },
       "canonical_platform_sample_count": 32,
       "eligible_canonical_platform_sample_count": 32,
@@ -17311,6 +18324,7 @@
     {
       "state": "results/payout/pink-slip-won",
       "classifier_sample_count": 15,
+      "effective_sample_count": 15,
       "platform_counts": {
         "Xbox 360": 4,
         "PS3": 11
@@ -17422,12 +18436,13 @@
     {
       "state": "results/payout/race-prize",
       "classifier_sample_count": 98,
+      "effective_sample_count": 98,
       "platform_counts": {
         "PS3": 31,
-        "Xbox 360": 14,
+        "PS2": 8,
         "PC": 13,
         "Unspecified by title": 32,
-        "PS2": 8
+        "Xbox 360": 14
       },
       "canonical_platform_sample_count": 45,
       "eligible_canonical_platform_sample_count": 45,
@@ -17520,11 +18535,12 @@
     {
       "state": "results/podium/celebration",
       "classifier_sample_count": 172,
+      "effective_sample_count": 172,
       "platform_counts": {
         "PS3": 66,
-        "Xbox 360": 21,
         "PC": 13,
         "Unspecified by title": 71,
+        "Xbox 360": 21,
         "Xbox 360 / PS3 press batch (prerelease)": 1
       },
       "canonical_platform_sample_count": 87,
@@ -17613,10 +18629,11 @@
     {
       "state": "results/podium/unspecified",
       "classifier_sample_count": 32,
+      "effective_sample_count": 32,
       "platform_counts": {
         "PS3": 13,
-        "Xbox 360": 5,
-        "Unspecified by title": 14
+        "Unspecified by title": 14,
+        "Xbox 360": 5
       },
       "canonical_platform_sample_count": 18,
       "eligible_canonical_platform_sample_count": 18,
@@ -17686,12 +18703,13 @@
     {
       "state": "results/standings/circuit",
       "classifier_sample_count": 136,
+      "effective_sample_count": 137,
       "platform_counts": {
         "PS3": 90,
-        "Xbox 360": 20,
         "PC": 2,
-        "Unspecified by title": 15,
         "PS2": 4,
+        "Unspecified by title": 15,
+        "Xbox 360": 20,
         "PSP": 5
       },
       "canonical_platform_sample_count": 110,
@@ -17797,11 +18815,12 @@
     {
       "state": "results/standings/drift",
       "classifier_sample_count": 19,
+      "effective_sample_count": 19,
       "platform_counts": {
-        "PS3": 4,
+        "PS2": 2,
         "Unspecified by title": 11,
         "PSP": 2,
-        "PS2": 2
+        "PS3": 4
       },
       "canonical_platform_sample_count": 4,
       "eligible_canonical_platform_sample_count": 4,
@@ -17901,9 +18920,10 @@
     {
       "state": "results/standings/tournament",
       "classifier_sample_count": 5,
+      "effective_sample_count": 5,
       "platform_counts": {
-        "PS3": 2,
-        "Unspecified by title": 3
+        "Unspecified by title": 3,
+        "PS3": 2
       },
       "canonical_platform_sample_count": 2,
       "eligible_canonical_platform_sample_count": 2,
@@ -17988,13 +19008,14 @@
     {
       "state": "results/standings/unspecified",
       "classifier_sample_count": 32,
+      "effective_sample_count": 32,
       "platform_counts": {
         "PS3": 17,
-        "Xbox 360": 4,
         "PC": 2,
         "Unspecified by title": 5,
+        "PSP": 2,
         "PS2": 2,
-        "PSP": 2
+        "Xbox 360": 4
       },
       "canonical_platform_sample_count": 21,
       "eligible_canonical_platform_sample_count": 21,
@@ -18088,12 +19109,225 @@
       "claim": "classification lead; observed behavior and full state coverage require visual review"
     }
   ],
+  "human_review_summary": {
+    "human_screen_reviews": 99,
+    "outcomes": {
+      "category": 62,
+      "insufficient_context": 3,
+      "label": 23,
+      "not_in_catalog": 2,
+      "unreadable": 9
+    },
+    "corrected_exact_labels": 14,
+    "incompatible_parent_labels": 8,
+    "uncertain_screen_assignments_withheld": 14,
+    "rejected_machine_state_pairs": 37
+  },
+  "reviewed_parent_categories": [
+    {
+      "category": "career",
+      "asset_ids": [
+        "SSCgI4rqzlw-000131500000",
+        "SSCgI4rqzlw-000639000000",
+        "Vo0cO3AQjyQ-002105103000",
+        "j0NHGEvzzg8-000498498000"
+      ],
+      "sample_count": 4,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "career/event-list",
+      "asset_ids": [
+        "SSCgI4rqzlw-000117000000"
+      ],
+      "sample_count": 1,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "career/leagues",
+      "asset_ids": [
+        "-GCF8J-tVyQ-000663000000",
+        "3H1LPQzVzNk-000000000000",
+        "SSCgI4rqzlw-000557000000",
+        "xiaQpIdUPnk-001046966000"
+      ],
+      "sample_count": 4,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "character",
+      "asset_ids": [
+        "41hcfe7apig-000246000000"
+      ],
+      "sample_count": 1,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "customization",
+      "asset_ids": [
+        "1Zi2W9P0p04-000174000000",
+        "SSCgI4rqzlw-001176000000",
+        "SWlw_U56KEQ-000363000000",
+        "Vo0cO3AQjyQ-000630630000",
+        "aX3ctI6PTYQ-000054000000",
+        "cKk8o6mhR5w-000084000000",
+        "gXcdo7u0fVU-000333333000",
+        "t6VdBXGB4TY-000015000000",
+        "t6VdBXGB4TY-000331500000",
+        "vQh2hq6hCHU-000345345000",
+        "xiaQpIdUPnk-002136500000",
+        "xiaQpIdUPnk-002286000000",
+        "xiaQpIdUPnk-002304000000",
+        "xiaQpIdUPnk-002376000000"
+      ],
+      "sample_count": 14,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "customization/interior",
+      "asset_ids": [
+        "gXcdo7u0fVU-000099099000"
+      ],
+      "sample_count": 1,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "customization/paint",
+      "asset_ids": [
+        "cKk8o6mhR5w-000168000000"
+      ],
+      "sample_count": 1,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "dealership",
+      "asset_ids": [
+        "41hcfe7apig-001100000000"
+      ],
+      "sample_count": 1,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "dealership/car-details",
+      "asset_ids": [
+        "41hcfe7apig-001137000000"
+      ],
+      "sample_count": 1,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "multiplayer",
+      "asset_ids": [
+        "VXmZai6UsEc-001198697500"
+      ],
+      "sample_count": 1,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "performance",
+      "asset_ids": [
+        "6-fRYhbQmmU-000000000000",
+        "cKk8o6mhR5w-000183000000",
+        "cKk8o6mhR5w-000220500000",
+        "gXcdo7u0fVU-000500083000",
+        "t6VdBXGB4TY-000267000000",
+        "t6VdBXGB4TY-000321000000"
+      ],
+      "sample_count": 6,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "performance/category",
+      "asset_ids": [
+        "Vo0cO3AQjyQ-000534534000"
+      ],
+      "sample_count": 1,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "race",
+      "asset_ids": [
+        "SSCgI4rqzlw-000396000000",
+        "VXmZai6UsEc-001375374000",
+        "gamersyde-4994-0038",
+        "gamersyde-6243-0004",
+        "gamersyde-6244-0005",
+        "gamersyde-6543-0002",
+        "gamersyde-6543-0004",
+        "xiaQpIdUPnk-004287000000"
+      ],
+      "sample_count": 8,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "race/driving",
+      "asset_ids": [
+        "3H1LPQzVzNk-000153000000",
+        "3H1LPQzVzNk-000216000000",
+        "Vo0cO3AQjyQ-001853852000",
+        "gamersyde-6243-0002",
+        "gamersyde-6243-0005",
+        "gamersyde-6244-0013"
+      ],
+      "sample_count": 6,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "race/driving/circuit",
+      "asset_ids": [
+        "3H1LPQzVzNk-000086500000",
+        "Sf88iOoR4H4-000333333000"
+      ],
+      "sample_count": 2,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "race/driving/drift",
+      "asset_ids": [
+        "SWlw_U56KEQ-000140000000",
+        "SWlw_U56KEQ-000765000000",
+        "gamersyde-5571-0006",
+        "xiaQpIdUPnk-002884500000"
+      ],
+      "sample_count": 4,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "race/driving/time-attack",
+      "asset_ids": [
+        "SSCgI4rqzlw-001086000000",
+        "vQh2hq6hCHU-000726726000"
+      ],
+      "sample_count": 2,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "replay",
+      "asset_ids": [
+        "RIs7CuFeJYU-000645645000"
+      ],
+      "sample_count": 1,
+      "exact_label_evidence": false
+    },
+    {
+      "category": "results",
+      "asset_ids": [
+        "3H1LPQzVzNk-000255000000",
+        "SWlw_U56KEQ-001340000000",
+        "Vo0cO3AQjyQ-001006005000"
+      ],
+      "sample_count": 3,
+      "exact_label_evidence": false
+    }
+  ],
   "limits": [
     "State taxonomy candidates are not guaranteed observed states.",
     "Declared platforms are retained source metadata, not new platform verification.",
     "PS3/Xbox 360 retail leads precede press, PC, unverified and prerelease leads.",
     "PS2/PSP samples remain counted but cannot supply acceptance reference leads.",
     "Highest-scoring exemplars may still need review; probabilities are retained.",
+    "Human exact labels rank within their platform tier; model probabilities are never invented for corrected labels.",
+    "Parent-only reviews never verify descendants; uncertainty reviews withhold precise state leads.",
     "No matched application capture or fidelity pass is claimed."
   ]
 }

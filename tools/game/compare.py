@@ -82,7 +82,10 @@ def main():
     for state, case_id, capture in [(s, c, None) for s, c in PAIRS] + UI_PAIRS:
         if state not in states or case_id not in cases:
             continue
-        if states[state]["reference_scope"] in {"deferred-or-not-gameplay", "other-edition-only"}:
+        if not states[state]["reference_leads"] or states[state]["reference_scope"] in {
+            "deferred-or-not-gameplay",
+            "other-edition-only",
+        }:
             unpaired.append(
                 {
                     "state": state,
