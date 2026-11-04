@@ -255,3 +255,37 @@ builds the current source into a temporary pilot and uses isolated browser conte
 it does not rely on or change the human pilot. Preview screenshots go into
 `artifacts/juiced2-vault/review-pilot-tests/`. Its synthetic answers are never human
 gold labels and are not saved into the human pilot.
+
+### Applying reviewed answers to development references
+
+The user's partial pilot (99 answers, examples 2–100) is imported into
+`data/juiced2/reference-reviews.json` alongside the earlier manual exclusion. Every
+answer retains its pilot/review ID, source image hash, notes, timestamp and original
+machine assignment. Export and frozen-manifest hashes are retained at import level.
+The machine ledger, request/response files, gallery and machine category pages are
+preserved. The development indexes apply the review layer independently of that
+historical machine presentation:
+
+```sh
+uv run --frozen python tools/references/review_pilot.py import-reviews \
+  results/juiced2-annotations-59df8d9e5b77.json
+uv run --frozen python tools/game/assets/reference_coverage.py
+uv run --frozen python tools/game/reference.py
+```
+
+Import validates the frozen pilot, annotations and both copied/original image bytes
+before replacing the review file. Reimporting the same content is a no-op; a changed
+export for the same pilot is rejected for explicit reconciliation.
+
+`tools/references/reference_reviews.py` supplies both index builders. Exact labels
+correct the assigned screen without inventing a new model probability. Compatible
+parent answers retain machine child leads as proposed; incompatible children and
+uncertainty/no-fitting-label assignments are withheld. The separately indexed
+`reviewed_parent_categories` never certify descendants. Earlier manual exclusions
+remain effective. Human exact leads rank within their platform tier, and portable
+editions remain excluded from reference leads. Raw classifier counts are retained
+alongside effective counts; exhausted states remain explicit gaps, which comparison
+generation records as unpaired instead of treating them as validated or crashing.
+
+The run changes metadata evidence, not gameplay or release acceptance. It leaves
+the full-pilot completion gate and 95% precision/95% confidence criteria unchanged.

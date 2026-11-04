@@ -201,7 +201,59 @@ page need not match the latest tracked template. Build a separate pilot with
 the output must not exist. Preserve existing reviews and exported answers. When
 scoring a separately built pilot, pass its `--manifest` explicitly and choose a
 new report filename. See `docs/references/juiced2/README.md` for the sampling and
-scoring contract. Human adjudication and release screen/state acceptance remain open.
+scoring contract. The partial human pilot below is integrated; release screen/state
+acceptance and the full-pilot statistical gate remain open.
+
+### Partial human pilot integration after the source baseline
+
+The user's export `results/juiced2-annotations-59df8d9e5b77.json` contains 99 saved
+answers (2–100; example 1 was skipped): 23 exact labels, 62 broader categories and
+14 uncertainty/no-fitting-label answers. The tracked review overlay in
+`data/juiced2/reference-reviews.json` retains every answer, image hash, note,
+timestamp and pilot ID, plus export/manifest hashes and the earlier manual
+exclusion. It can rebuild the corrected indexes without rewriting the machine
+classification ledger or original request/response files. The original gallery
+and category pages continue to describe machine judgments.
+
+Both index builders use `tools/references/reference_reviews.py`: exact answers
+replace the assigned screen, parent-compatible machine children remain proposed,
+and parent-incompatible/uncertain assignments cannot supply precise state leads.
+The 62 parent answers are indexed separately under 19 reviewed categories and
+never become descendant proof. Human exact labels rank within their declared
+platform tier; PC/unknown provenance does not displace console references, and
+PS2/PSP cannot supply reference leads. Empty reviewed states remain explicit gaps.
+Missing model probabilities for corrected labels stay null, rather than becoming
+fabricated confidence values.
+
+Reproduction, using the retained original pilot manifest and local vault:
+
+```sh
+uv run --frozen python tools/references/review_pilot.py import-reviews \
+  results/juiced2-annotations-59df8d9e5b77.json
+uv run --frozen python tools/game/assets/reference_coverage.py
+uv run --frozen python tools/game/reference.py
+```
+
+Import is idempotent for this exact export. A different export for the same pilot
+requires explicit reconciliation; it cannot silently replace earlier annotations.
+All 14 exact-label disagreements and 8 incompatible-parent assignments are
+removed from their incorrect states; the 14 uncertain assignments are also
+withheld. The previous manual rejection remains. Both indexes now have 207
+candidate states, up from 205: `garage/owned-cars/details` and
+`replay/playback/camera` gained explicit human leads. The canonical-gap inventory
+remains 36. Coverage lead lists changed for 15 states; runtime lead lists changed
+for 25, including removal of portable-edition fallback leads. These counts describe
+reference metadata, not implemented game features.
+
+Before claiming a new visual comparison, regenerate source/current pairs against
+the reviewed runtime index: first-lead assignments changed for 10 coverage states
+(including the two additions). Historical comparison bundles remain evidence of
+their original source selections and are not retroactively relabelled or passed.
+The 99 answers remain a partial pilot: exact agreement was 9/23; 54/62 predictions
+fell inside the selected parent category. These are descriptive subset results,
+not corpus accuracy or a 95%/95% acceptance pass. Detailed integration audit and
+before/after evidence are retained in `artifacts/juiced2-vault/pilot-integration/`.
+This reference maintenance does not resume gameplay or qualify a new DLL.
 
 The DLL `16a65` and runtime hashes below are still historical deployments. Tooling,
 style and newline-only embedded-JSON changes are later source inputs, not a newly
