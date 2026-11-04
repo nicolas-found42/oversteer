@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "command": [
+    "/Users/nicolas/Documents/github/oversteer/build/tools/godot-4.7.2/Godot.app/Contents/MacOS/Godot",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--path",
+    "/Users/nicolas/Documents/github/oversteer/godot",
+    "--script",
+    "/Users/nicolas/Documents/github/oversteer/tools/game/ui_hud_navigation_headless.gd",
+    "--",
+    "/Users/nicolas/Documents/github/oversteer/build/verification/ui-hud/headless-navigation-teardown",
+    "--save-file",
+    "/Users/nicolas/Documents/github/oversteer/build/verification/ui-hud/headless-navigation-teardown/save.json",
+    "--settings-dir",
+    "/Users/nicolas/Documents/github/oversteer/build/verification/ui-hud/headless-navigation-teardown/settings"
+  ],
+  "exit_code": 0,
+  "checks": 97,
+  "observations": [
+    "title",
+    "quick-dossier",
+    "quick-last-page",
+    "credits",
+    "utility-focus",
+    "rebind-keyboard",
+    "rebind-gamepad",
+    "settings-rebound"
+  ],
+  "logic_only": true,
+  "rendered": false,
+  "png_count": 0
+}

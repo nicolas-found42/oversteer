@@ -1,0 +1,26 @@
+{
+  "recorded": "2026-11-04",
+  "source_check_commit": "c987b6cf0300ba51205a927561e5e9f0b12bc826",
+  "source_check_exit_code": 0,
+  "native_evidence": "Historical uncommitted implementation runs; not rerun at this commit.",
+  "captures": [
+    {
+      "local_path": "build/verification/ui-hud/before-screens/title/final.png",
+      "sha256": "84fdb0c733ed2be2281df4ff6747818f5fb05507041f37b2fc1f92a55dcd37f1",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "revision": "e657d2f plus uncommitted work at capture; exact final-commit rendering unavailable"
+    },
+    {
+      "local_path": "build/verification/ui-hud/reference-ticket-navigation/title.png",
+      "sha256": "5ac14f64c37c1c1f2808a600661120153af8fd27f780b90e69ec6a3432f6f53b",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "revision": "e657d2f plus uncommitted work at capture; exact final-commit rendering unavailable"
+    }
+  ]
+}
